@@ -1,0 +1,180 @@
+{
+  "items": [
+    {
+      "id": 12928,
+      "title": "SIMAI: Бекап файлов",
+      "code": "simai.filebackup",
+      "version": {
+        "type": "success",
+        "text": "Success"
+      },
+      "status": 40,
+      "author": {
+        "title": "Александр",
+        "ariaLabel": "Егор",
+        "imageUrl": "https://randomuser.me/api/portraits/men/15.jpg"
+      },
+      "createdAt": "15.03.2025",
+      "updatedAt": "15.03.2025"
+    },
+    {
+      "id": 12929,
+      "title": "SIMAI: Платежи",
+      "code": "simai.payments",
+      "version": {
+        "type": "success",
+        "text": "Success"
+      },
+      "status": 40,
+      "author": {
+        "title": "Александр",
+        "ariaLabel": "Егор",
+        "imageUrl": "https://randomuser.me/api/portraits/men/14.jpg"
+      },
+      "createdAt": "15.03.2025",
+      "updatedAt": "15.03.2025"
+    },
+    {
+      "id": 12930,
+      "title": "SIMAI: Хранилище данных",
+      "code": "simai.storage",
+      "version": {
+        "type": "success",
+        "text": "Success"
+      },
+      "status": 40,
+      "author": {
+        "title": "Александр",
+        "ariaLabel": "Егор",
+        "imageUrl": "https://randomuser.me/api/portraits/women/75.jpg"
+      },
+      "createdAt": "15.03.2025",
+      "updatedAt": "15.03.2025"
+    },
+    {
+      "id": 12931,
+      "title": "SIMAI: Редактор контента",
+      "titleIcon": false,
+      "code": "simai.content",
+      "version": {
+        "type": "success",
+        "text": "Success"
+      },
+      "status": 40,
+      "author": {
+        "title": "Александр",
+        "ariaLabel": "Егор",
+        "imageUrl": "https://randomuser.me/api/portraits/women/12.jpg"
+      },
+      "createdAt": "15.03.2025",
+      "updatedAt": "15.03.2025"
+    },
+    {
+      "id": 12932,
+      "title": "SIMAI: Управление пользователями",
+      "code": "simai.users",
+      "version": {
+        "type": "success",
+        "text": "Success"
+      },
+      "status": 55,
+      "author": {
+        "title": "Александр",
+        "ariaLabel": "Егор",
+        "imageUrl": "https://randomuser.me/api/portraits/women/34.jpg"
+      },
+      "createdAt": "16.03.2025",
+      "updatedAt": "17.03.2025"
+    },
+    {
+      "id": 12933,
+      "title": "SIMAI: Аналитика",
+      "code": "simai.analytics",
+      "version": {
+        "type": "warning",
+        "text": "Review"
+      },
+      "status": 70,
+      "author": {
+        "title": "Мария",
+        "ariaLabel": "Мария",
+        "imageUrl": "https://randomuser.me/api/portraits/women/44.jpg"
+      },
+      "createdAt": "17.03.2025",
+      "updatedAt": "18.03.2025"
+    },
+    {
+      "id": 12934,
+      "title": "SIMAI: Интеграции",
+      "code": "simai.integrations",
+      "version": {
+        "type": "success",
+        "text": "Success"
+      },
+      "status": 35,
+      "author": {
+        "title": "Иван",
+        "ariaLabel": "Иван",
+        "imageUrl": "https://randomuser.me/api/portraits/men/32.jpg"
+      },
+      "createdAt": "18.03.2025",
+      "updatedAt": "20.03.2025"
+    },
+    {
+      "id": 12935,
+      "title": "SIMAI: Документы",
+      "code": "simai.documents",
+      "version": {
+        "type": "success",
+        "text": "Success"
+      },
+      "status": 90,
+      "author": {
+        "title": "Елена",
+        "ariaLabel": "Елена",
+        "imageUrl": "https://randomuser.me/api/portraits/women/68.jpg"
+      },
+      "createdAt": "19.03.2025",
+      "updatedAt": "21.03.2025"
+    },
+    {
+      "id": 12936,
+      "title": "SIMAI: Уведомления",
+      "code": "simai.notifications",
+      "version": {
+        "type": "error",
+        "text": "Error"
+      },
+      "status": 20,
+      "author": {
+        "title": "Олег",
+        "ariaLabel": "Олег",
+        "imageUrl": "https://randomuser.me/api/portraits/men/11.jpg"
+      },
+      "createdAt": "20.03.2025",
+      "updatedAt": "21.03.2025"
+    },
+    {
+      "id": 12937,
+      "title": "SIMAI: Каталог",
+      "code": "simai.catalog",
+      "version": {
+        "type": "success",
+        "text": "Success"
+      },
+      "status": 64,
+      "author": {
+        "title": "Анна",
+        "ariaLabel": "Анна",
+        "imageUrl": "https://randomuser.me/api/portraits/women/12.jpg"
+      },
+      "createdAt": "21.03.2025",
+      "updatedAt": "22.03.2025"
+    }
+  ],
+  "pagination": {
+    "current": 2,
+    "total": 10,
+    "pageSize": 10
+  }
+}

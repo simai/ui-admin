@@ -172,6 +172,34 @@ export type AdminTaskFieldsSavePayload = {
   fields?: Array<Record<string, unknown>>;
 };
 
+const apiConfig = {
+  tasksListPath:
+    import.meta.env.VITE_ADMIN_TABLE_LIST_PATH || '/api/tasks',
+  taskDetailPath:
+    import.meta.env.VITE_ADMIN_TABLE_DETAIL_PATH || '/api/tasks/{id}',
+  settingsPath:
+    import.meta.env.VITE_ADMIN_TABLE_SETTINGS_PATH || '/api/settings/get',
+  templateSavePath:
+    import.meta.env.VITE_ADMIN_TEMPLATE_SAVE_PATH || '/api/template/save',
+  viewSettingsPath:
+    import.meta.env.VITE_ADMIN_VIEW_SETTINGS_PATH ||
+    '/api/view-settings/{tableId}',
+  taskSavePath:
+    import.meta.env.VITE_ADMIN_TASK_SAVE_PATH || '/api/tasks/{id}',
+};
+
+function buildApiUrl(
+  pathTemplate: string,
+  params: Record<string, string | number> = {},
+) {
+  let path = pathTemplate;
+  Object.entries(params).forEach(([key, value]) => {
+    path = path.replace(`{${key}}`, encodeURIComponent(String(value)));
+  });
+
+  return new URL(path, window.location.origin);
+}
+
 export const adminTableColumns: AdminTableColumn[] = [
   { key: 'select', label: '', type: 'select' },
   { key: 'handle', label: '', type: 'handle' },
@@ -206,10 +234,8 @@ export const initialAdminTableRows: AdminTableRow[] = [
 ];
 
 export async function fetchTemplate(key: string) {
-  const url = new URL(
-    `/api/settings/get?tableId=${key}`,
-    window.location.origin,
-  );
+  const url = buildApiUrl(apiConfig.settingsPath);
+  url.searchParams.set('tableId', key);
   const response = await fetch(url.toString(), {
     method: 'GET',
     headers: {
@@ -225,7 +251,7 @@ export async function fetchTemplate(key: string) {
 export async function saveTemplate(
   data: Record<string, unknown> | Record<string, unknown>[],
 ) {
-  const url = new URL('/api/template/save', window.location.origin);
+  const url = buildApiUrl(apiConfig.templateSavePath);
   const response = await fetch(url.toString(), {
     method: 'POST',
     headers: {
@@ -243,7 +269,7 @@ export async function saveViewSettings(
   tableId: string,
   data: AdminViewSettings,
 ) {
-  const url = new URL(`/api/view-settings/${tableId}`, window.location.origin);
+  const url = buildApiUrl(apiConfig.viewSettingsPath, { tableId });
   const response = await fetch(url.toString(), {
     method: 'POST',
     headers: {
@@ -263,7 +289,7 @@ export async function fetchTaskDetail(
   taskId: number | string,
   tableId = 'admin_table',
 ): Promise<AdminTaskDetailResponse> {
-  const url = new URL(`/api/tasks/${taskId}`, window.location.origin);
+  const url = buildApiUrl(apiConfig.taskDetailPath, { id: taskId });
   url.searchParams.set('tableId', tableId);
 
   const response = await fetch(url.toString());
@@ -279,7 +305,7 @@ export async function saveTaskFields(
   taskId: number | string,
   data: AdminTaskFieldsSavePayload,
 ): Promise<AdminTaskDetailResponse> {
-  const url = new URL(`/api/tasks/${taskId}`, window.location.origin);
+  const url = buildApiUrl(apiConfig.taskSavePath, { id: taskId });
 
   const response = await fetch(url.toString(), {
     method: 'PATCH',
@@ -316,7 +342,7 @@ export async function fetchMockSolutions({
   meta?: AdminTableMockResponse['meta'];
   users: { count: number };
 }> {
-  const url = new URL('/api/tasks', window.location.origin);
+  const url = buildApiUrl(apiConfig.tasksListPath);
   url.searchParams.set('page', String(page));
   url.searchParams.set('limit', String(limit));
   url.searchParams.set('tableId', tableId);

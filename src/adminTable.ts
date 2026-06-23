@@ -188,6 +188,21 @@ const apiConfig = {
     import.meta.env.VITE_ADMIN_TASK_SAVE_PATH || '/api/tasks/{id}',
 };
 
+function apiHeaders(includeJson = false): HeadersInit {
+  const headers: Record<string, string> = {};
+  const testActor = import.meta.env.VITE_LARENA_TEST_ACTOR;
+
+  if (includeJson) {
+    headers['Content-Type'] = 'application/json';
+  }
+
+  if (testActor) {
+    headers['X-Larena-Test-Actor'] = testActor;
+  }
+
+  return headers;
+}
+
 function buildApiUrl(
   pathTemplate: string,
   params: Record<string, string | number> = {},
@@ -238,9 +253,7 @@ export async function fetchTemplate(key: string) {
   url.searchParams.set('tableId', key);
   const response = await fetch(url.toString(), {
     method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: apiHeaders(),
   });
   if (!response.ok) {
     throw new Error('Failed to fetch template');
@@ -254,9 +267,7 @@ export async function saveTemplate(
   const url = buildApiUrl(apiConfig.templateSavePath);
   const response = await fetch(url.toString(), {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: apiHeaders(true),
     body: JSON.stringify(data),
   });
 
@@ -272,9 +283,7 @@ export async function saveViewSettings(
   const url = buildApiUrl(apiConfig.viewSettingsPath, { tableId });
   const response = await fetch(url.toString(), {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: apiHeaders(true),
     body: JSON.stringify(data),
   });
 
@@ -292,7 +301,9 @@ export async function fetchTaskDetail(
   const url = buildApiUrl(apiConfig.taskDetailPath, { id: taskId });
   url.searchParams.set('tableId', tableId);
 
-  const response = await fetch(url.toString());
+  const response = await fetch(url.toString(), {
+    headers: apiHeaders(),
+  });
 
   if (!response.ok) {
     throw new Error(`Failed to load task detail ${taskId}`);
@@ -309,9 +320,7 @@ export async function saveTaskFields(
 
   const response = await fetch(url.toString(), {
     method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: apiHeaders(true),
     body: JSON.stringify(data),
   });
 
@@ -353,7 +362,9 @@ export async function fetchMockSolutions({
     url.searchParams.set('filters', JSON.stringify(filters.filters));
   }
 
-  const response = await fetch(url.toString());
+  const response = await fetch(url.toString(), {
+    headers: apiHeaders(),
+  });
 
   if (!response.ok) {
     throw new Error(`Failed to load mock solutions page ${page}`);

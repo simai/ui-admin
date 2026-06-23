@@ -21,6 +21,8 @@ VITE_API_PROXY_TARGET=http://127.0.0.1:8000 \
 VITE_ADMIN_TABLE_LIST_PATH=/api/larena/cms/admin-table \
 VITE_ADMIN_TABLE_DETAIL_PATH=/api/larena/cms/admin-table/{id} \
 VITE_ADMIN_TABLE_SETTINGS_PATH=/api/larena/cms/admin-table-settings \
+VITE_LARENA_TEST_ACTOR=allowed \
+VITE_LARENA_SMOKE_SMART_ADAPTER=1 \
 npm run dev
 ```
 
@@ -33,6 +35,15 @@ npm run dev
 
 Такой smoke не делает frontend runtime частью root `simai/larena` и не копирует
 `dist/`, `distr/`, `smart/` или `node_modules` в Larena.
+
+`VITE_LARENA_TEST_ACTOR` нужен только для локального smoke Larena protected
+read-only API и прокидывается как `X-Larena-Test-Actor`. Это не production auth
+contract и не должен использоваться как модель доступа в реальной админке.
+
+`VITE_LARENA_SMOKE_SMART_ADAPTER=1` включает локальный read-only adapter для
+browser smoke, когда опубликованные smart components недоступны или CDN
+нестабилен. Adapter проверяет связку UI -> Larena read-only API, но не является
+заменой production smart components artifact.
 
 ## Mock API
 

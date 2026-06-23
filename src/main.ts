@@ -13,6 +13,7 @@ import {
   saveTemplate,
   saveViewSettings,
 } from './adminTable';
+import './larenaSmokeSmartAdapter';
 
 class AdminManager {
   themeButton: HTMLSfToggleElement | null;

@@ -38,6 +38,12 @@ class LarenaSmokeElement extends HTMLElement {
   connectedCallback() {
     this.dataset.larenaSmokeSmartAdapter = '1';
   }
+
+  setState(state: Record<string, unknown>) {
+    Object.entries(state).forEach(([key, value]) => {
+      this.dataset[key] = String(value ?? '');
+    });
+  }
 }
 
 class LarenaSmokeToggle extends LarenaSmokeElement {
@@ -97,6 +103,7 @@ class LarenaSmokePagination extends LarenaSmokeElement {
 
 class LarenaSmokeTable extends LarenaSmokeElement {
   private rows: TableRow[] = [];
+  private columns: Array<Record<string, unknown>> = [];
   private settings: TableSettings = { key: 'admin_table' };
   private rendered = false;
 
@@ -142,6 +149,11 @@ class LarenaSmokeTable extends LarenaSmokeElement {
 
   setTableSettings(settings: TableSettings) {
     this.settings = { ...this.settings, ...settings };
+  }
+
+  setColumns(columns: Array<Record<string, unknown>>) {
+    this.columns = [...columns];
+    this.dataset.columnCount = String(this.columns.length);
   }
 
   setRows(rows: TableRow[]) {
@@ -194,6 +206,19 @@ class LarenaSmokeTable extends LarenaSmokeElement {
 }
 
 if (enabled) {
+  const whenDefined = async (names: string | string[]) => {
+    const list = Array.isArray(names) ? names : [names];
+    await Promise.all(list.map((name) => customElements.whenDefined(name)));
+
+    return list;
+  };
+
+  window.SF = {
+    ...(window.SF ?? {}),
+    whenDefine: whenDefined,
+    whenDefined,
+  };
+
   defineElement('sf-admin-menu', LarenaSmokeElement);
   defineElement('sf-admin-menu-item', LarenaSmokeElement);
   defineElement('sf-breadcrumbs', LarenaSmokeElement);

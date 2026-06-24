@@ -172,6 +172,25 @@ export type AdminTaskFieldsSavePayload = {
   fields?: Array<Record<string, unknown>>;
 };
 
+type AdminTableSettingsResponse = {
+  templates?: Array<Record<string, any>>;
+  columnSettings?: Record<string, Record<string, unknown>>;
+  tableSettings?: AdminTableMockResponse['tableSettings'];
+  viewSettings?: AdminViewSettings;
+  fields?: AdminTableFilterField[];
+  users?: { count: number };
+};
+
+type LarenaReadOnlyRuntimeResponse = {
+  data?: {
+    read_model?: Partial<AdminTableMockResponse> & {
+      diagnostics?: Record<string, unknown>;
+      safe_trace?: Record<string, unknown>;
+    };
+  };
+  meta?: Record<string, unknown>;
+};
+
 const apiConfig = {
   tasksListPath:
     import.meta.env.VITE_ADMIN_TABLE_LIST_PATH || '/api/tasks',
@@ -248,7 +267,7 @@ export const initialAdminTableRows: AdminTableRow[] = [
   createAdminRow(12937, 'SIMAI: Каталог', 'simai.catalog'),
 ];
 
-export async function fetchTemplate(key: string) {
+export async function fetchTemplate(key: string): Promise<AdminTableSettingsResponse> {
   const url = buildApiUrl(apiConfig.settingsPath);
   url.searchParams.set('tableId', key);
   const response = await fetch(url.toString(), {
@@ -258,7 +277,7 @@ export async function fetchTemplate(key: string) {
   if (!response.ok) {
     throw new Error('Failed to fetch template');
   }
-  return await response.json();
+  return normalizeAdminTableSettingsResponse(await response.json());
 }
 
 export async function saveTemplate(
@@ -309,7 +328,7 @@ export async function fetchTaskDetail(
     throw new Error(`Failed to load task detail ${taskId}`);
   }
 
-  return (await response.json()) as AdminTaskDetailResponse;
+  return normalizeAdminTaskDetailResponse(await response.json());
 }
 
 export async function saveTaskFields(
@@ -370,7 +389,7 @@ export async function fetchMockSolutions({
     throw new Error(`Failed to load mock solutions page ${page}`);
   }
 
-  const data = (await response.json()) as AdminTableMockResponse;
+  const data = normalizeAdminTableResponse(await response.json());
 
   return {
     columns: data.columns,
@@ -382,6 +401,69 @@ export async function fetchMockSolutions({
       actions: normalizeTableActions(item.actions || defaultActions),
     })),
     meta: data.meta,
+  };
+}
+
+function normalizeAdminTableResponse(
+  payload: AdminTableMockResponse | LarenaReadOnlyRuntimeResponse,
+): AdminTableMockResponse {
+  if ('items' in payload && Array.isArray(payload.items)) {
+    return payload;
+  }
+
+  const readModel = (payload as LarenaReadOnlyRuntimeResponse).data?.read_model;
+  if (!readModel) {
+    throw new Error('Unsupported admin table response shape');
+  }
+
+  const items = Array.isArray(readModel.items) ? readModel.items : [];
+
+  return {
+    columns: readModel.columns || adminTableColumns,
+    fields: readModel.fields || [],
+    viewSettings: readModel.viewSettings,
+    items: items as AdminTableMockResponse['items'],
+    meta: readModel.meta,
+    users: readModel.users || { count: items.length },
+  };
+}
+
+function normalizeAdminTableSettingsResponse(
+  payload: unknown,
+): AdminTableSettingsResponse {
+  const readModel = (payload as LarenaReadOnlyRuntimeResponse)?.data?.read_model;
+  if (!readModel) {
+    return payload as AdminTableSettingsResponse;
+  }
+
+  return {
+    columnSettings: readModel.columnSettings,
+    tableSettings: readModel.tableSettings,
+    viewSettings: readModel.viewSettings,
+    fields: readModel.fields,
+    users: readModel.users || { count: 0 },
+  };
+}
+
+function normalizeAdminTaskDetailResponse(
+  payload: AdminTaskDetailResponse | LarenaReadOnlyRuntimeResponse,
+): AdminTaskDetailResponse {
+  if ('item' in payload || 'fields' in payload) {
+    return payload as AdminTaskDetailResponse;
+  }
+
+  const readModel = (payload as LarenaReadOnlyRuntimeResponse).data?.read_model;
+  if (!readModel) {
+    throw new Error('Unsupported admin task detail response shape');
+  }
+
+  const items = Array.isArray(readModel.items) ? readModel.items : [];
+
+  return {
+    success: true,
+    item: items[0],
+    fields: readModel.fields,
+    viewSettings: readModel.viewSettings,
   };
 }
 

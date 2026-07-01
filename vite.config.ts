@@ -1,6 +1,6 @@
 import { createReadStream, existsSync, statSync } from 'node:fs'
 import { extname, join, normalize, resolve, sep } from 'node:path'
-import { defineConfig, type Connect, type Plugin } from 'vite'
+import { defineConfig, loadEnv, type Connect, type Plugin } from 'vite'
 
 const projectRoot = resolve()
 const distrRoot = resolve('C:/Applications/SIMAI/sf5.webpack/distr')
@@ -63,15 +63,20 @@ function mountDistr(): Plugin {
   }
 }
 
-export default defineConfig({
-  plugins: [mountDistr()],
-  server: {
-    proxy: {
-      '/api': 'http://localhost:5001',
-      '/assets': 'http://localhost:5001',
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, projectRoot, '')
+  const apiProxyTarget = env.VITE_API_PROXY_TARGET || 'http://localhost:5001'
+
+  return {
+    plugins: [mountDistr()],
+    server: {
+      proxy: {
+        '/api': apiProxyTarget,
+        '/assets': apiProxyTarget,
+      },
+      fs: {
+        allow: [projectRoot, distrRoot],
+      },
     },
-    fs: {
-      allow: [projectRoot, distrRoot],
-    },
-  },
+  }
 })

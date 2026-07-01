@@ -1,6 +1,6 @@
 # SIMAI Admin
 
-Демо-админка на Vite для проверки SF5 smart-компонентов: таблицы, меню, фильтров, модального просмотра задачи, редактирования полей и сохранения пользовательских настроек.
+Демо-админка на Vite для проверки SIMAI Framework smart components: таблицы, меню, фильтров, модального просмотра задачи, редактирования полей и сохранения пользовательских настроек.
 
 ## Быстрый старт
 
@@ -10,6 +10,40 @@ npm run dev
 ```
 
 По умолчанию Vite запускает приложение на свободном локальном порту. Mock API ожидается на `http://localhost:5001` и проксируется через `/api`.
+
+## Larena read-only adapter smoke
+
+Для проверки с Larena backend без изменения маршрутов демо-приложения можно
+переключить read-only endpoints через Vite env:
+
+```bash
+VITE_API_PROXY_TARGET=http://127.0.0.1:8000 \
+VITE_ADMIN_TABLE_LIST_PATH=/api/larena/cms/admin-table \
+VITE_ADMIN_TABLE_DETAIL_PATH=/api/larena/cms/admin-table/{id} \
+VITE_ADMIN_TABLE_SETTINGS_PATH=/api/larena/cms/admin-table-settings \
+VITE_LARENA_TEST_ACTOR=allowed \
+VITE_LARENA_SMOKE_SMART_ADAPTER=1 \
+npm run dev
+```
+
+В этом режиме frontend читает package-owned Larena endpoints. Write endpoints
+остаются демо-путями и должны возвращать отказ/ошибку backend-а:
+
+- `POST /api/template/save`;
+- `POST /api/view-settings/:tableId`;
+- `PATCH /api/tasks/:id`.
+
+Такой smoke не делает frontend runtime частью root `simai/larena` и не копирует
+`dist/`, `distr/`, `smart/` или `node_modules` в Larena.
+
+`VITE_LARENA_TEST_ACTOR` нужен только для локального smoke Larena protected
+read-only API и прокидывается как `X-Larena-Test-Actor`. Это не production auth
+contract и не должен использоваться как модель доступа в реальной админке.
+
+`VITE_LARENA_SMOKE_SMART_ADAPTER=1` включает локальный read-only adapter для
+browser smoke, когда опубликованные smart components недоступны или CDN
+нестабилен. Adapter проверяет связку UI -> Larena read-only API, но не является
+заменой production smart components artifact.
 
 ## Mock API
 
@@ -35,7 +69,9 @@ window.sfSmartPath = 'https://cdn.jsdelivr.net/gh/simai/ui-smart@v5.2.0';
 
 Такой режим не требует хранить `distr/` или `smart/` внутри admin-репозитория.
 
-Для локальной разработки ядра SF5 можно временно заменить пути на `/distr/`. Vite-конфиг уже умеет отдавать `/distr` из `C:/Applications/SIMAI/sf5.webpack/distr`.
+Для локальной разработки SIMAI Framework core можно временно заменить пути на
+`/distr/`. Vite-конфиг уже умеет отдавать `/distr` из
+`C:/Applications/SIMAI/sf5.webpack/distr`.
 
 ## Команды
 

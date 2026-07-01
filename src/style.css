@@ -1,10 +1,42 @@
-﻿/*html {*/
-/*  overflow-x: auto;*/
-/*}*/
+﻿html {
+  overflow-x: hidden;
+}
 
-/*body {*/
-/*  min-width: 2000px;*/
-/*}*/
+body {
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+aside {
+  flex: 0 0 min(320px, 42vw);
+  min-width: 0;
+}
+
+main,
+article,
+section {
+  min-width: 0;
+}
+
+.larena-smoke-table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.larena-smoke-table td {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 720px) {
+  body {
+    display: block;
+  }
+
+  aside {
+    max-width: none;
+    width: 100%;
+  }
+}
 sf-table {
   --sf-table-head--background-color: var(--sf-surface-0);
 }

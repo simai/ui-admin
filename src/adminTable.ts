@@ -196,6 +196,26 @@ export type AdminTaskFieldsSavePayload = {
   fields?: Array<Record<string, unknown>>;
 };
 
+type AdminTableSettingsResponse = {
+  templates?: Array<Record<string, any>>;
+  columnSettings?: Record<string, Record<string, unknown>>;
+  tableSettings?: AdminTableMockResponse['tableSettings'];
+  viewSettings?: AdminViewSettings;
+  fields?: AdminTableFilterField[];
+  fieldTypes?: AdminFieldType[];
+  users?: { count: number };
+};
+
+type LarenaReadOnlyRuntimeResponse = {
+  data?: {
+    read_model?: Partial<AdminTableMockResponse> & {
+      diagnostics?: Record<string, unknown>;
+      safe_trace?: Record<string, unknown>;
+    };
+  };
+  meta?: Record<string, unknown>;
+};
+
 export type AdminFieldCreatePayload = {
   tableSettingsKey?: string;
   fieldType: string;
@@ -212,6 +232,53 @@ export type AdminFieldUpdatePayload = {
   fieldType?: string;
   settings: Record<string, unknown>;
 };
+
+const apiConfig = {
+  tasksListPath:
+    import.meta.env.VITE_ADMIN_TABLE_LIST_PATH || '/api/tasks',
+  taskDetailPath:
+    import.meta.env.VITE_ADMIN_TABLE_DETAIL_PATH || '/api/tasks/{id}',
+  userDetailPath:
+    import.meta.env.VITE_ADMIN_USER_DETAIL_PATH || '/api/users/{id}',
+  settingsPath:
+    import.meta.env.VITE_ADMIN_TABLE_SETTINGS_PATH || '/api/settings/get',
+  templateSavePath:
+    import.meta.env.VITE_ADMIN_TEMPLATE_SAVE_PATH || '/api/template/save',
+  viewSettingsPath:
+    import.meta.env.VITE_ADMIN_VIEW_SETTINGS_PATH ||
+    '/api/view-settings/{tableId}',
+  taskSavePath:
+    import.meta.env.VITE_ADMIN_TASK_SAVE_PATH || '/api/tasks/{id}',
+  userSavePath:
+    import.meta.env.VITE_ADMIN_USER_SAVE_PATH || '/api/users/{id}',
+};
+
+function apiHeaders(includeJson = false): HeadersInit {
+  const headers: Record<string, string> = {};
+  const testActor = import.meta.env.VITE_LARENA_TEST_ACTOR;
+
+  if (includeJson) {
+    headers['Content-Type'] = 'application/json';
+  }
+
+  if (testActor) {
+    headers['X-Larena-Test-Actor'] = testActor;
+  }
+
+  return headers;
+}
+
+function buildApiUrl(
+  pathTemplate: string,
+  params: Record<string, string | number> = {},
+) {
+  let path = pathTemplate;
+  Object.entries(params).forEach(([key, value]) => {
+    path = path.replace(`{${key}}`, encodeURIComponent(String(value)));
+  });
+
+  return new URL(path, window.location.origin);
+}
 
 function isFileLike(value: unknown): value is File {
   return typeof File !== 'undefined' && value instanceof File;
@@ -266,19 +333,21 @@ async function saveEntityFields(
   entityId: number | string,
   data: AdminTaskFieldsSavePayload,
 ): Promise<AdminTaskDetailResponse> {
-  const url = new URL(`/api/${entityPath}/${entityId}`, window.location.origin);
+  const url = buildApiUrl(
+    entityPath === 'users' ? apiConfig.userSavePath : apiConfig.taskSavePath,
+    { id: entityId },
+  );
   const multipart = createMultipartPayload(data);
 
   const response = multipart.hasFiles
     ? await fetch(url.toString(), {
         method: 'PATCH',
+        headers: apiHeaders(),
         body: multipart.formData,
       })
     : await fetch(url.toString(), {
         method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: apiHeaders(true),
         body: JSON.stringify(data),
       });
 
@@ -322,32 +391,26 @@ export const initialAdminTableRows: AdminTableRow[] = [
   createAdminRow(12937, 'SIMAI: Каталог', 'simai.catalog'),
 ];
 
-export async function fetchTemplate(key: string) {
-  const url = new URL(
-    `/api/settings/get?tableId=${key}`,
-    window.location.origin,
-  );
+export async function fetchTemplate(key: string): Promise<AdminTableSettingsResponse> {
+  const url = buildApiUrl(apiConfig.settingsPath);
+  url.searchParams.set('tableId', key);
   const response = await fetch(url.toString(), {
     method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: apiHeaders(),
   });
   if (!response.ok) {
     throw new Error('Failed to fetch template');
   }
-  return await response.json();
+  return normalizeAdminTableSettingsResponse(await response.json());
 }
 
 export async function saveTemplate(
   data: Record<string, unknown> | Record<string, unknown>[],
 ) {
-  const url = new URL('/api/template/save', window.location.origin);
+  const url = buildApiUrl(apiConfig.templateSavePath);
   const response = await fetch(url.toString(), {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: apiHeaders(true),
     body: JSON.stringify(data),
   });
 
@@ -360,12 +423,10 @@ export async function saveViewSettings(
   tableId: string,
   data: AdminViewSettings,
 ) {
-  const url = new URL(`/api/view-settings/${tableId}`, window.location.origin);
+  const url = buildApiUrl(apiConfig.viewSettingsPath, { tableId });
   const response = await fetch(url.toString(), {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: apiHeaders(true),
     body: JSON.stringify(data),
   });
 
@@ -380,32 +441,36 @@ export async function fetchTaskDetail(
   taskId: number | string,
   tableId = 'admin_table',
 ): Promise<AdminTaskDetailResponse> {
-  const url = new URL(`/api/tasks/${taskId}`, window.location.origin);
+  const url = buildApiUrl(apiConfig.taskDetailPath, { id: taskId });
   url.searchParams.set('tableId', tableId);
 
-  const response = await fetch(url.toString());
+  const response = await fetch(url.toString(), {
+    headers: apiHeaders(),
+  });
 
   if (!response.ok) {
     throw new Error(`Failed to load task detail ${taskId}`);
   }
 
-  return (await response.json()) as AdminTaskDetailResponse;
+  return normalizeAdminTaskDetailResponse(await response.json());
 }
 
 export async function fetchUserDetail(
   userId: number | string,
   tableId = 'admin_table',
 ): Promise<AdminTaskDetailResponse> {
-  const url = new URL(`/api/users/${userId}`, window.location.origin);
+  const url = buildApiUrl(apiConfig.userDetailPath, { id: userId });
   url.searchParams.set('tableId', tableId);
 
-  const response = await fetch(url.toString());
+  const response = await fetch(url.toString(), {
+    headers: apiHeaders(),
+  });
 
   if (!response.ok) {
     throw new Error(`Failed to load user detail ${userId}`);
   }
 
-  return (await response.json()) as AdminTaskDetailResponse;
+  return normalizeAdminTaskDetailResponse(await response.json());
 }
 
 export async function saveTaskFields(
@@ -429,7 +494,7 @@ export async function createEntityField(
   columns?: AdminTableColumn[];
 }> {
   const entityPath = entity === 'user' || entity === 'users' ? 'users' : 'tasks';
-  const url = new URL(`/api/${entityPath}/fields`, window.location.origin);
+  const url = buildApiUrl(`/api/${entityPath}/fields`);
 
   if (data.tableSettingsKey) {
     url.searchParams.set('tableId', data.tableSettingsKey);
@@ -437,9 +502,7 @@ export async function createEntityField(
 
   const response = await fetch(url.toString(), {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: apiHeaders(true),
     body: JSON.stringify(data),
   });
 
@@ -460,10 +523,7 @@ export async function updateEntityField(
   columns?: AdminTableColumn[];
 }> {
   const entityPath = entity === 'user' || entity === 'users' ? 'users' : 'tasks';
-  const url = new URL(
-    `/api/${entityPath}/fields/${encodeURIComponent(fieldKey)}`,
-    window.location.origin,
-  );
+  const url = buildApiUrl(`/api/${entityPath}/fields/{fieldKey}`, { fieldKey });
 
   if (data.tableSettingsKey) {
     url.searchParams.set('tableId', data.tableSettingsKey);
@@ -471,9 +531,7 @@ export async function updateEntityField(
 
   const response = await fetch(url.toString(), {
     method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: apiHeaders(true),
     body: JSON.stringify(data),
   });
 
@@ -494,10 +552,7 @@ export async function deleteEntityField(
   columns?: AdminTableColumn[];
 }> {
   const entityPath = entity === 'user' || entity === 'users' ? 'users' : 'tasks';
-  const url = new URL(
-    `/api/${entityPath}/fields/${encodeURIComponent(fieldKey)}`,
-    window.location.origin,
-  );
+  const url = buildApiUrl(`/api/${entityPath}/fields/{fieldKey}`, { fieldKey });
 
   if (data.tableSettingsKey) {
     url.searchParams.set('tableId', data.tableSettingsKey);
@@ -509,6 +564,7 @@ export async function deleteEntityField(
 
   const response = await fetch(url.toString(), {
     method: 'DELETE',
+    headers: apiHeaders(),
   });
 
   if (!response.ok) {
@@ -541,7 +597,7 @@ export async function fetchMockSolutions({
   pagination?: AdminTableMockResponse['pagination'];
   users: { count: number };
 }> {
-  const url = new URL('/api/tasks', window.location.origin);
+  const url = buildApiUrl(apiConfig.tasksListPath);
   url.searchParams.set('page', String(page));
   url.searchParams.set('limit', String(limit));
   url.searchParams.set('tableId', tableId);
@@ -552,13 +608,15 @@ export async function fetchMockSolutions({
     url.searchParams.set('filters', JSON.stringify(filters.filters));
   }
 
-  const response = await fetch(url.toString());
+  const response = await fetch(url.toString(), {
+    headers: apiHeaders(),
+  });
 
   if (!response.ok) {
     throw new Error(`Failed to load mock solutions page ${page}`);
   }
 
-  const data = (await response.json()) as AdminTableMockResponse;
+  const data = normalizeAdminTableResponse(await response.json());
 
   return {
     columns: data.columns,
@@ -571,6 +629,75 @@ export async function fetchMockSolutions({
       actions: normalizeTableActions(item.actions || defaultActions),
     })),
     pagination: data.pagination,
+  };
+}
+
+function normalizeAdminTableResponse(
+  payload: AdminTableMockResponse | LarenaReadOnlyRuntimeResponse,
+): AdminTableMockResponse {
+  if ('items' in payload && Array.isArray(payload.items)) {
+    return payload;
+  }
+
+  const readModel = (payload as LarenaReadOnlyRuntimeResponse).data?.read_model;
+  if (!readModel) {
+    throw new Error('Unsupported admin table response shape');
+  }
+
+  const items = Array.isArray(readModel.items) ? readModel.items : [];
+
+  return {
+    columns: readModel.columns || adminTableColumns,
+    fields: readModel.fields || [],
+    fieldTypes: readModel.fieldTypes || [],
+    columnSettings: readModel.columnSettings,
+    tableSettings: readModel.tableSettings,
+    viewSettings: readModel.viewSettings,
+    items: items as AdminTableMockResponse['items'],
+    pagination: readModel.pagination,
+    users: readModel.users || { count: items.length },
+  };
+}
+
+function normalizeAdminTableSettingsResponse(
+  payload: unknown,
+): AdminTableSettingsResponse {
+  const readModel = (payload as LarenaReadOnlyRuntimeResponse)?.data?.read_model;
+  if (!readModel) {
+    return payload as AdminTableSettingsResponse;
+  }
+
+  return {
+    columnSettings: readModel.columnSettings,
+    tableSettings: readModel.tableSettings,
+    viewSettings: readModel.viewSettings,
+    fields: readModel.fields,
+    fieldTypes: readModel.fieldTypes,
+    users: readModel.users || { count: 0 },
+  };
+}
+
+function normalizeAdminTaskDetailResponse(
+  payload: AdminTaskDetailResponse | LarenaReadOnlyRuntimeResponse,
+): AdminTaskDetailResponse {
+  if ('item' in payload || 'fields' in payload || 'rows' in payload) {
+    return payload as AdminTaskDetailResponse;
+  }
+
+  const readModel = (payload as LarenaReadOnlyRuntimeResponse).data?.read_model;
+  if (!readModel) {
+    throw new Error('Unsupported admin task detail response shape');
+  }
+
+  const items = Array.isArray(readModel.items) ? readModel.items : [];
+
+  return {
+    success: true,
+    item: items[0],
+    rows: items as AdminTableMockResponse['items'],
+    fields: readModel.fields,
+    fieldTypes: readModel.fieldTypes,
+    viewSettings: readModel.viewSettings,
   };
 }
 

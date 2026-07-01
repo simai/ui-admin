@@ -17,6 +17,7 @@ import {
   saveViewSettings,
   updateEntityField,
 } from './adminTable';
+import './larenaSmokeSmartAdapter';
 
 type TablePageRequestDetail = {
   mode?: 'replace' | 'append';

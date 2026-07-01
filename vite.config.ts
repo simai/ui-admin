@@ -67,7 +67,8 @@ export default defineConfig({
   plugins: [mountDistr()],
   server: {
     proxy: {
-      '/api': 'http://localhost:5001'
+      '/api': 'http://localhost:5001',
+      '/assets': 'http://localhost:5001',
     },
     fs: {
       allow: [projectRoot, distrRoot],

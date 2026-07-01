@@ -98,6 +98,16 @@ type AdminTableFilterField = {
   };
 };
 
+type AdminFieldType = {
+  id: string;
+  label: string;
+  icon?: string;
+  group?: string;
+  dataType?: string;
+  editorComponent?: string;
+  settings?: Array<Record<string, unknown>>;
+};
+
 type AdminTableTag = {
   text: string;
   type: string;
@@ -138,6 +148,7 @@ export type AdminTableRow = {
 export type AdminTableMockResponse = {
   columns?: AdminTableColumn[];
   fields?: AdminTableFilterField[];
+  fieldTypes?: AdminFieldType[];
   columnSettings?: Record<string, Record<string, unknown>>;
   tableSettings?: {
     key?: string;
@@ -150,19 +161,32 @@ export type AdminTableMockResponse = {
       actions?: AdminTableAction[];
     }
   >;
-  meta?: {
-    current: number;
+  pagination?: {
+    current?: number;
+    page?: number;
     limit: number;
+    offset?: number;
+    nextOffset?: number;
     total: number;
-    pageSize: number;
+    pageSize: number | number[];
+    pageSizes?: number[];
+    totalPages?: number;
+    pageCount?: number;
+    hasMore?: boolean;
   };
   users: { count: number };
 };
 
 export type AdminTaskDetailResponse = {
   success?: boolean;
+  entity?: string;
+  title?: string;
+  heading?: string;
   item?: AdminTableMockResponse['items'][number];
+  affectedRows?: AdminTableMockResponse['items'];
+  rows?: AdminTableMockResponse['items'];
   fields?: AdminTableFilterField[];
+  fieldTypes?: AdminFieldType[];
   viewSettings?: AdminViewSettings;
 };
 
@@ -171,6 +195,99 @@ export type AdminTaskFieldsSavePayload = {
   values: Record<string, unknown>;
   fields?: Array<Record<string, unknown>>;
 };
+
+export type AdminFieldCreatePayload = {
+  tableSettingsKey?: string;
+  fieldType: string;
+  settings: Record<string, unknown>;
+};
+
+export type AdminFieldDeletePayload = {
+  tableSettingsKey?: string;
+  itemId?: number | string;
+};
+
+export type AdminFieldUpdatePayload = {
+  tableSettingsKey?: string;
+  fieldType?: string;
+  settings: Record<string, unknown>;
+};
+
+function isFileLike(value: unknown): value is File {
+  return typeof File !== 'undefined' && value instanceof File;
+}
+
+function createMultipartPayload(data: AdminTaskFieldsSavePayload) {
+  const files: Array<{ key: string; file: File }> = [];
+
+  const stripFiles = (value: unknown, key = ''): unknown => {
+    if (isFileLike(value)) {
+      files.push({ key, file: value });
+      return {
+        name: value.name,
+        size: value.size,
+        type: value.type,
+        lastModified: value.lastModified,
+      };
+    }
+
+    if (Array.isArray(value)) {
+      return value.map((item, index) => stripFiles(item, `${key}.${index}`));
+    }
+
+    if (value && typeof value === 'object') {
+      return Object.fromEntries(
+        Object.entries(value as Record<string, unknown>).map(([entryKey, entryValue]) => [
+          entryKey,
+          stripFiles(entryValue, key ? `${key}.${entryKey}` : entryKey),
+        ]),
+      );
+    }
+
+    return value;
+  };
+
+  const payload = stripFiles(data) as AdminTaskFieldsSavePayload;
+  const formData = new FormData();
+
+  formData.append('payload', JSON.stringify(payload));
+  files.forEach(({ key, file }) => {
+    formData.append(`files.${key}`, file, file.name);
+  });
+
+  return {
+    formData,
+    hasFiles: files.length > 0,
+  };
+}
+
+async function saveEntityFields(
+  entityPath: 'tasks' | 'users',
+  entityId: number | string,
+  data: AdminTaskFieldsSavePayload,
+): Promise<AdminTaskDetailResponse> {
+  const url = new URL(`/api/${entityPath}/${entityId}`, window.location.origin);
+  const multipart = createMultipartPayload(data);
+
+  const response = multipart.hasFiles
+    ? await fetch(url.toString(), {
+        method: 'PATCH',
+        body: multipart.formData,
+      })
+    : await fetch(url.toString(), {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+  if (!response.ok) {
+    throw new Error(`Failed to save ${entityPath} fields ${entityId}`);
+  }
+
+  return (await response.json()) as AdminTaskDetailResponse;
+}
 
 export const adminTableColumns: AdminTableColumn[] = [
   { key: 'select', label: '', type: 'select' },
@@ -275,11 +392,82 @@ export async function fetchTaskDetail(
   return (await response.json()) as AdminTaskDetailResponse;
 }
 
+export async function fetchUserDetail(
+  userId: number | string,
+  tableId = 'admin_table',
+): Promise<AdminTaskDetailResponse> {
+  const url = new URL(`/api/users/${userId}`, window.location.origin);
+  url.searchParams.set('tableId', tableId);
+
+  const response = await fetch(url.toString());
+
+  if (!response.ok) {
+    throw new Error(`Failed to load user detail ${userId}`);
+  }
+
+  return (await response.json()) as AdminTaskDetailResponse;
+}
+
 export async function saveTaskFields(
   taskId: number | string,
   data: AdminTaskFieldsSavePayload,
 ): Promise<AdminTaskDetailResponse> {
-  const url = new URL(`/api/tasks/${taskId}`, window.location.origin);
+  return saveEntityFields('tasks', taskId, data);
+}
+
+export async function saveUserFields(
+  userId: number | string,
+  data: AdminTaskFieldsSavePayload,
+): Promise<AdminTaskDetailResponse> {
+  return saveEntityFields('users', userId, data);
+}
+
+export async function createEntityField(
+  entity: string,
+  data: AdminFieldCreatePayload,
+): Promise<AdminTaskDetailResponse & {
+  columns?: AdminTableColumn[];
+}> {
+  const entityPath = entity === 'user' || entity === 'users' ? 'users' : 'tasks';
+  const url = new URL(`/api/${entityPath}/fields`, window.location.origin);
+
+  if (data.tableSettingsKey) {
+    url.searchParams.set('tableId', data.tableSettingsKey);
+  }
+
+  const response = await fetch(url.toString(), {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to create ${entityPath} field`);
+  }
+
+  return (await response.json()) as AdminTaskDetailResponse & {
+    columns?: AdminTableColumn[];
+  };
+}
+
+export async function updateEntityField(
+  entity: string,
+  fieldKey: string,
+  data: AdminFieldUpdatePayload,
+): Promise<AdminTaskDetailResponse & {
+  columns?: AdminTableColumn[];
+}> {
+  const entityPath = entity === 'user' || entity === 'users' ? 'users' : 'tasks';
+  const url = new URL(
+    `/api/${entityPath}/fields/${encodeURIComponent(fieldKey)}`,
+    window.location.origin,
+  );
+
+  if (data.tableSettingsKey) {
+    url.searchParams.set('tableId', data.tableSettingsKey);
+  }
 
   const response = await fetch(url.toString(), {
     method: 'PATCH',
@@ -290,10 +478,46 @@ export async function saveTaskFields(
   });
 
   if (!response.ok) {
-    throw new Error(`Failed to save task fields ${taskId}`);
+    throw new Error(`Failed to update ${entityPath} field ${fieldKey}`);
   }
 
-  return (await response.json()) as AdminTaskDetailResponse;
+  return (await response.json()) as AdminTaskDetailResponse & {
+    columns?: AdminTableColumn[];
+  };
+}
+
+export async function deleteEntityField(
+  entity: string,
+  fieldKey: string,
+  data: AdminFieldDeletePayload = {},
+): Promise<AdminTaskDetailResponse & {
+  columns?: AdminTableColumn[];
+}> {
+  const entityPath = entity === 'user' || entity === 'users' ? 'users' : 'tasks';
+  const url = new URL(
+    `/api/${entityPath}/fields/${encodeURIComponent(fieldKey)}`,
+    window.location.origin,
+  );
+
+  if (data.tableSettingsKey) {
+    url.searchParams.set('tableId', data.tableSettingsKey);
+  }
+
+  if (data.itemId) {
+    url.searchParams.set('itemId', String(data.itemId));
+  }
+
+  const response = await fetch(url.toString(), {
+    method: 'DELETE',
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to delete ${entityPath} field ${fieldKey}`);
+  }
+
+  return (await response.json()) as AdminTaskDetailResponse & {
+    columns?: AdminTableColumn[];
+  };
 }
 
 export async function fetchMockSolutions({
@@ -312,8 +536,9 @@ export async function fetchMockSolutions({
   rows: AdminTableRow[];
   columns?: AdminTableColumn[];
   fields?: AdminTableFilterField[];
+  fieldTypes?: AdminFieldType[];
   viewSettings?: AdminViewSettings;
-  meta?: AdminTableMockResponse['meta'];
+  pagination?: AdminTableMockResponse['pagination'];
   users: { count: number };
 }> {
   const url = new URL('/api/tasks', window.location.origin);
@@ -338,13 +563,14 @@ export async function fetchMockSolutions({
   return {
     columns: data.columns,
     fields: data.fields,
+    fieldTypes: data.fieldTypes,
     viewSettings: data.viewSettings,
     users: data.users,
     rows: data.items.map((item) => ({
       ...item,
       actions: normalizeTableActions(item.actions || defaultActions),
     })),
-    meta: data.meta,
+    pagination: data.pagination,
   };
 }
 

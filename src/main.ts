@@ -1,26 +1,36 @@
 import type {
-  HTMLSfPaginationElement,
   HTMLSfTagElement,
   HTMLSfTableElement,
   HTMLSfToggleElement,
 } from '../types/smart-components';
 import type { AdminTableMockResponse, AdminViewSettings } from './adminTable';
 import {
+  createEntityField,
+  deleteEntityField,
   fetchMockSolutions,
   fetchTaskDetail,
   fetchTemplate,
+  fetchUserDetail,
   saveTaskFields,
   saveTemplate,
+  saveUserFields,
   saveViewSettings,
+  updateEntityField,
 } from './adminTable';
+
+type TablePageRequestDetail = {
+  mode?: 'replace' | 'append';
+  page?: number;
+  current?: number;
+  limit?: number;
+  pageSize?: number;
+  offset?: number;
+};
 
 class AdminManager {
   themeButton: HTMLSfToggleElement | null;
   table: HTMLSfTableElement | null;
-  pagination: HTMLSfPaginationElement | null;
   pageSize: number;
-  meta: AdminTableMockResponse['meta'] | undefined;
-  loadedBatchCount: number;
   columnsLoaded: boolean;
   filters: { [key: string]: any } = {};
   filterFieldsLoaded: boolean;
@@ -30,12 +40,9 @@ class AdminManager {
   constructor() {
     this.themeButton = null;
     this.table = null;
-    this.pagination = null;
     this.pageSize = 10;
-    this.meta = undefined;
     this.searchText = '';
     this.users = document.getElementById('users_count') as any | null;
-    this.loadedBatchCount = 1;
     this.columnsLoaded = false;
     this.filterFieldsLoaded = false;
     this.viewSettings = null;
@@ -95,34 +102,45 @@ class AdminManager {
     });
     this.table.addEventListener('onFilterUpdate', async (event: Event) => {
       const e = event as CustomEvent<{ [key: string]: any }>;
-      this.loadedBatchCount = 1;
       const filters = e.detail;
       this.filters = filters.values;
-      await this.updateTable();
+      await this.updateTable({ page: 1, mode: 'replace' });
     });
     this.table.addEventListener('onSearchEnd', async (event) => {
       const e = event as CustomEvent<string>;
       this.searchText = e.detail;
-      this.loadedBatchCount = 1;
-      await this.updateTable();
+      await this.updateTable({ page: 1, mode: 'replace' });
+    });
+    this.table.addEventListener('sf-table:page-request', async (event) => {
+      const e = event as CustomEvent<TablePageRequestDetail>;
+      await this.updateTable(e.detail);
     });
     this.table.addEventListener('onRowDetailRequest', async (event: Event) => {
       const e = event as CustomEvent<{
         row?: { id?: number | string; value?: number | string };
+        entity?: string;
+        detailEntity?: string;
         tableSettingsKey?: string;
       }>;
       const rowId = e.detail?.row?.id ?? e.detail?.row?.value;
       if (!rowId) return;
+      const entity = e.detail?.entity || e.detail?.detailEntity || 'task';
 
       const tableSettingsKey =
         e.detail?.tableSettingsKey ||
         this.table?.getTableSettingsKey?.() ||
         'admin_table';
-      const detail = await fetchTaskDetail(rowId, tableSettingsKey);
+      const detail =
+        entity === 'user'
+          ? await fetchUserDetail(rowId, tableSettingsKey)
+          : await fetchTaskDetail(rowId, tableSettingsKey);
       if (detail.viewSettings) {
         this.viewSettings = this.mergeViewSettings(detail.viewSettings);
       }
       (this.table as any)?.setDetailData?.({
+        entity,
+        title: detail.title,
+        heading: detail.heading,
         row: detail.item,
         fields: detail.fields || [],
         viewSettings: detail.viewSettings,
@@ -149,31 +167,128 @@ class AdminManager {
         rowId?: number | string | null;
         values?: Record<string, unknown>;
         fields?: Array<Record<string, unknown>>;
+        entity?: string;
+        detailEntity?: string;
         tableSettingsKey?: string;
       }>;
       const rowId = e.detail?.rowId;
       if (!rowId || !e.detail?.values) return;
+      const entity = e.detail?.entity || e.detail?.detailEntity || 'task';
 
-      const detail = await saveTaskFields(rowId, {
+      const payload = {
         tableSettingsKey:
           e.detail.tableSettingsKey ||
           this.table?.getTableSettingsKey?.() ||
           'admin_table',
         values: e.detail.values,
         fields: e.detail.fields || [],
-      });
+      };
+      const detail =
+        entity === 'user'
+          ? await saveUserFields(rowId, payload)
+          : await saveTaskFields(rowId, payload);
 
       if (detail.viewSettings) {
         this.viewSettings = this.mergeViewSettings(detail.viewSettings);
       }
       if (detail.item) {
-        this.table?.updateRowByKey('id', detail.item.id, detail.item as any);
+        this.applySavedTableRows(detail);
         (this.table as any)?.setDetailData?.({
+          entity,
+          title: detail.title,
+          heading: detail.heading,
           row: detail.item,
           fields: detail.fields || [],
           viewSettings: detail.viewSettings,
         });
       }
+    });
+    this.table.addEventListener('onFieldCreateSubmit', async (event: Event) => {
+      const e = event as CustomEvent<{
+        entity?: string;
+        tableSettingsKey?: string;
+        fieldType?: string;
+        settings?: Record<string, unknown>;
+      }>;
+      const entity = e.detail.entity || 'task';
+      const fieldType = e.detail.fieldType;
+
+      if (!fieldType || !e.detail.settings) {
+        return;
+      }
+
+      const result = await createEntityField(entity, {
+        tableSettingsKey:
+          e.detail.tableSettingsKey ||
+          this.table?.getTableSettingsKey?.() ||
+          'admin_table',
+        fieldType,
+        settings: e.detail.settings,
+      });
+
+      if (result.viewSettings) {
+        this.viewSettings = this.mergeViewSettings(result.viewSettings);
+      }
+
+      (this.table as any)?.applyCreatedFieldResponse?.(result);
+    });
+    this.table.addEventListener('onFieldSettingsSubmit', async (event: Event) => {
+      const e = event as CustomEvent<{
+        entity?: string;
+        tableSettingsKey?: string;
+        fieldKey?: string;
+        fieldType?: string;
+        settings?: Record<string, unknown>;
+      }>;
+      const entity = e.detail.entity || 'task';
+      const fieldKey = e.detail.fieldKey;
+
+      if (!fieldKey || !e.detail.settings) {
+        return;
+      }
+
+      const result = await updateEntityField(entity, fieldKey, {
+        tableSettingsKey:
+          e.detail.tableSettingsKey ||
+          this.table?.getTableSettingsKey?.() ||
+          'admin_table',
+        fieldType: e.detail.fieldType,
+        settings: e.detail.settings,
+      });
+
+      if (result.viewSettings) {
+        this.viewSettings = this.mergeViewSettings(result.viewSettings);
+      }
+
+      (this.table as any)?.applyCreatedFieldResponse?.(result);
+    });
+    this.table.addEventListener('onFieldDeleteSubmit', async (event: Event) => {
+      const e = event as CustomEvent<{
+        entity?: string;
+        tableSettingsKey?: string;
+        fieldKey?: string;
+      }>;
+      const entity = e.detail.entity || 'task';
+      const fieldKey = e.detail.fieldKey;
+
+      if (!fieldKey) {
+        return;
+      }
+
+      const result = await deleteEntityField(entity, fieldKey, {
+        tableSettingsKey:
+          e.detail.tableSettingsKey ||
+          this.table?.getTableSettingsKey?.() ||
+          'admin_table',
+        itemId: (this.table as any)?.getDetailRow?.()?.id,
+      });
+
+      if (result.viewSettings) {
+        this.viewSettings = this.mergeViewSettings(result.viewSettings);
+      }
+
+      this.applySavedTableRows(result);
+      (this.table as any)?.applyDeletedFieldResponse?.(result);
     });
     this.table.addEventListener(
       'onFilterFieldSettingsChange',
@@ -186,6 +301,22 @@ class AdminManager {
         this.viewSettings = this.mergeViewSettings({
           filter: {
             fields: e.detail.filterFieldSettings,
+          },
+        });
+        await saveViewSettings(tableSettingsKey, this.viewSettings);
+      },
+    );
+    this.table.addEventListener(
+      'onDetailFieldSettingsChange',
+      async (event: Event) => {
+        const e = event as CustomEvent<{
+          detailFieldSettings: Record<string, Record<string, unknown>>;
+          tableSettingsKey: string;
+        }>;
+        const tableSettingsKey = e.detail.tableSettingsKey;
+        this.viewSettings = this.mergeViewSettings({
+          detail: {
+            fields: e.detail.detailFieldSettings,
           },
         });
         await saveViewSettings(tableSettingsKey, this.viewSettings);
@@ -210,39 +341,49 @@ class AdminManager {
         });
         this.filters = activeTemplate?.data?.values || {};
         try {
-          this.loadedBatchCount = 1;
-          this.updateTable();
+          this.updateTable({ page: 1, mode: 'replace' });
         } catch (error) {
           console.warn('Mock solutions load failed, use local fallback', error);
-        }
-        this.pagination = document.querySelector('sf-pagination');
-        if (this.pagination) {
-          this.pagination.onAfterRender(() => {
-            this.pageSize = this.pagination?.getProp('pageSize') || 10;
-            this.pagination?.setState({
-              total: this.meta?.total || 0,
-            });
-          });
-          this.pagination.addEventListener('sf-page-size-change', (e: Event) =>
-            this.handlePageSizeChange(e as CustomEvent<{ pageSize: number }>),
-          );
-          this.pagination.addEventListener('sf-show-more', () =>
-            this.handleShowMore(),
-          );
-          this.pagination.addEventListener('sf-page-change', (e: Event) =>
-            this.handlePageChange(e as CustomEvent<{ current: number }>),
-          );
         }
       },
       { once: true },
     );
   }
-  updateTable = async (page = 1, update = false) => {
+
+  applySavedTableRows(detail: {
+    item?: Record<string, any>;
+    affectedRows?: Array<Record<string, any>>;
+    rows?: Array<Record<string, any>>;
+  }) {
+    if (!this.table?.updateRowByKey) {
+      return;
+    }
+
+    const rows = detail.affectedRows?.length
+      ? detail.affectedRows
+      : detail.rows?.length
+        ? detail.rows
+        : [];
+
+    rows.forEach((row) => {
+      if (row?.id) {
+        this.table?.updateRowByKey('id', row.id, row as any);
+      }
+    });
+  }
+
+  updateTable = async (request: TablePageRequestDetail = {}) => {
+    const page = request.page || request.current || 1;
+    const limit = request.limit || request.pageSize || this.pageSize;
+    const append = request.mode === 'append';
+
+    this.pageSize = limit;
+
     const tableId = this.table?.getTableSettingsKey?.() || 'admin_table';
-    const { rows, columns, fields, viewSettings, meta, users } =
+    const { rows, columns, fields, fieldTypes, viewSettings, pagination, users } =
       await fetchMockSolutions({
         page,
-        limit: this.pageSize,
+        limit,
         search: this.searchText,
         filters: this.filters,
         tableId,
@@ -251,40 +392,19 @@ class AdminManager {
       this.viewSettings = this.mergeViewSettings(viewSettings);
     }
     this.applyServerColumns(columns);
+    this.table?.setFieldTypes?.(fieldTypes || []);
     this.applyServerFilterFields(fields);
-    if (update) {
-      this.table?.addRows(rows);
+    if (append) {
+      this.table?.appendTableData?.({ rows, pagination });
     } else {
-      this.table?.setRows(rows);
+      this.table?.setTableData?.({ rows, pagination });
     }
-    this.pagination?.setState({
-      current: page,
-      total: meta?.total || 0,
-    });
     await SF.whenDefined('sf-tag');
     if (this.users) {
       this.users.setState({
         text: users.count,
       });
     }
-  };
-  handlePageChange = async (data: CustomEvent<{ current: number }>) => {
-    const page = data.detail.current;
-    await this.updateTable(page);
-  };
-  handlePageSizeChange = async (data: CustomEvent<{ pageSize: number }>) => {
-    this.pageSize = data.detail.pageSize;
-    this.loadedBatchCount = 1;
-    this.columnsLoaded = false;
-    this.filterFieldsLoaded = false;
-    await this.updateTable();
-  };
-
-  handleShowMore = async () => {
-    if (!this.table) return;
-
-    const page = (this.loadedBatchCount += 1);
-    await this.updateTable(page, true);
   };
 
   applyServerColumns(columns?: AdminTableMockResponse['columns']) {

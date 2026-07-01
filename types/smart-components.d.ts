@@ -932,6 +932,12 @@ export interface HTMLSfTableElement extends SmartComponentElement<{
       | ((currentData: HTMLSfTableData) => Partial<HTMLSfTableData>),
     reason?: string,
   ): this;
+  appendTableData(
+    patch?:
+      | Partial<HTMLSfTableData>
+      | ((currentData: HTMLSfTableData) => Partial<HTMLSfTableData>),
+    reason?: string,
+  ): this;
   getSystemColumns(): HTMLSfTableColumn[];
   getColumns(): HTMLSfTableColumn[];
   getColumnItems(): HTMLSfTableColumn[];
@@ -998,6 +1004,30 @@ export interface HTMLSfTableElement extends SmartComponentElement<{
   getFilterField(fieldKey: string): HTMLSfTableFilterField | null;
   setFilterFields(
     fields?: HTMLSfTableFilterField[],
+    reason?: string,
+  ): this;
+  getFieldTypes(): Array<Record<string, unknown>>;
+  setFieldTypes(
+    fieldTypes?: Array<Record<string, unknown>>,
+    reason?: string,
+  ): this;
+  emitFieldCreateRequest(
+    payload?: Record<string, unknown>,
+    reason?: string,
+  ): Record<string, unknown>;
+  submitFieldCreate(reason?: string): Record<string, unknown> | null;
+  submitFieldDelete(reason?: string): Record<string, unknown> | null;
+  applyCreatedFieldResponse(
+    data?: Record<string, unknown>,
+    reason?: string,
+  ): this;
+  applyDeletedFieldResponse(
+    data?: Record<string, unknown>,
+    reason?: string,
+  ): this;
+  bindDetailFieldDrag(): void;
+  emitDetailFieldSettingsChange(
+    detailFieldSettings?: Record<string, Record<string, unknown>>,
     reason?: string,
   ): this;
   setTemplates(templates: HTMLSfTableTemplate[]): this;

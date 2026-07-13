@@ -48,3 +48,7 @@ sf-table {
 .sf-admin-menu-panel:not(.small) {
   --sf-admin-menu-panel--inline-size: var(--sf-g0);
 }
+
+sf-table .sf-pagination .sf-pagination-main {
+  --sf-pagination-main--border-bottom-width: 0;
+}

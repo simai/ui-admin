@@ -5,8 +5,11 @@ import type {
 } from '../types/smart-components';
 import type { AdminTableMockResponse, AdminViewSettings } from './adminTable';
 import {
+  createEntityItem,
   createEntityField,
+  deleteEntityItem,
   deleteEntityField,
+  fetchEntityCreateDraft,
   fetchMockSolutions,
   fetchTaskDetail,
   fetchTemplate,
@@ -147,6 +150,35 @@ class AdminManager {
         viewSettings: detail.viewSettings,
       });
     });
+    this.table.addEventListener('onRowCreateRequest', async (event: Event) => {
+      const e = event as CustomEvent<{
+        entity?: string;
+        detailEntity?: string;
+        tableSettingsKey?: string;
+      }>;
+      const entity = e.detail?.entity || e.detail?.detailEntity || 'task';
+      const tableSettingsKey =
+        e.detail?.tableSettingsKey ||
+        this.table?.getTableSettingsKey?.() ||
+        'admin_table';
+      const detail = await fetchEntityCreateDraft(entity, tableSettingsKey);
+
+      if (detail.viewSettings) {
+        this.viewSettings = this.mergeViewSettings(detail.viewSettings);
+      }
+
+      (this.table as any)?.setDetailData?.({
+        mode: 'create',
+        entity,
+        title: detail.title,
+        heading: detail.heading,
+        row: detail.item,
+        fields: detail.fields || [],
+        viewSettings: detail.viewSettings,
+        editAll: true,
+      });
+      await (this.table as any)?.setAllDetailFieldsEdited?.(true, 'row-create-edit-all');
+    });
     this.table.addEventListener(
       'onColumnSettingsChange',
       async (event: Event) => {
@@ -202,6 +234,51 @@ class AdminManager {
           fields: detail.fields || [],
           viewSettings: detail.viewSettings,
         });
+        (this.table as any)?.notifyTableSuccess?.('Данные успешно изменены');
+      }
+    });
+    this.table.addEventListener('onRowCreateSubmit', async (event: Event) => {
+      const e = event as CustomEvent<{
+        values?: Record<string, unknown>;
+        fields?: Array<Record<string, unknown>>;
+        entity?: string;
+        detailEntity?: string;
+        tableSettingsKey?: string;
+      }>;
+      if (!e.detail?.values) return;
+      const entity = e.detail?.entity || e.detail?.detailEntity || 'task';
+      const tableSettingsKey =
+        e.detail.tableSettingsKey ||
+        this.table?.getTableSettingsKey?.() ||
+        'admin_table';
+      const payload = {
+        tableSettingsKey,
+        values: e.detail.values,
+        fields: e.detail.fields || [],
+      };
+      const detail = await createEntityItem(entity, payload);
+
+      if (detail.viewSettings) {
+        this.viewSettings = this.mergeViewSettings(detail.viewSettings);
+      }
+
+      if (detail.item) {
+        const pagination = (this.table as any)?.getPaginationData?.() || {};
+        await this.updateTable({
+          page: pagination.current || pagination.page || 1,
+          limit: pagination.pageSize || this.pageSize,
+          mode: 'replace',
+        });
+        (this.table as any)?.setDetailData?.({
+          mode: 'view',
+          entity,
+          title: detail.title,
+          heading: detail.heading,
+          row: detail.item,
+          fields: detail.fields || [],
+          viewSettings: detail.viewSettings,
+        });
+        (this.table as any)?.notifyTableSuccess?.('Запись успешно создана');
       }
     });
     this.table.addEventListener('onFieldCreateSubmit', async (event: Event) => {
@@ -231,6 +308,7 @@ class AdminManager {
         this.viewSettings = this.mergeViewSettings(result.viewSettings);
       }
 
+      this.applySavedTableRows(result);
       (this.table as any)?.applyCreatedFieldResponse?.(result);
     });
     this.table.addEventListener('onFieldSettingsSubmit', async (event: Event) => {
@@ -261,6 +339,7 @@ class AdminManager {
         this.viewSettings = this.mergeViewSettings(result.viewSettings);
       }
 
+      this.applySavedTableRows(result);
       (this.table as any)?.applyCreatedFieldResponse?.(result);
     });
     this.table.addEventListener('onFieldDeleteSubmit', async (event: Event) => {
@@ -290,6 +369,33 @@ class AdminManager {
 
       this.applySavedTableRows(result);
       (this.table as any)?.applyDeletedFieldResponse?.(result);
+    });
+    this.table.addEventListener('onRowDeleteSubmit', async (event: Event) => {
+      const e = event as CustomEvent<{
+        entity?: string;
+        rowId?: number | string | null;
+        tableSettingsKey?: string;
+      }>;
+      const entity = e.detail.entity || 'task';
+      const rowId = e.detail.rowId;
+
+      if (!rowId) {
+        return;
+      }
+
+      const tableSettingsKey =
+        e.detail.tableSettingsKey ||
+        this.table?.getTableSettingsKey?.() ||
+        'admin_table';
+      const pagination = (this.table as any)?.getPaginationData?.() || {};
+
+      await deleteEntityItem(entity, rowId, tableSettingsKey);
+      await this.updateTable({
+        page: pagination.current || pagination.page || 1,
+        limit: pagination.pageSize || this.pageSize,
+        mode: 'replace',
+      });
+      (this.table as any)?.notifyTableSuccess?.('Запись успешно удалена');
     });
     this.table.addEventListener(
       'onFilterFieldSettingsChange',

@@ -251,6 +251,14 @@ const apiConfig = {
     import.meta.env.VITE_ADMIN_TASK_SAVE_PATH || '/api/tasks/{id}',
   userSavePath:
     import.meta.env.VITE_ADMIN_USER_SAVE_PATH || '/api/users/{id}',
+  taskDeletePath:
+    import.meta.env.VITE_ADMIN_TASK_DELETE_PATH || '/api/tasks/{id}',
+  userDeletePath:
+    import.meta.env.VITE_ADMIN_USER_DELETE_PATH || '/api/users/{id}',
+  taskCreatePath:
+    import.meta.env.VITE_ADMIN_TASK_CREATE_PATH || '/api/tasks/create',
+  userCreatePath:
+    import.meta.env.VITE_ADMIN_USER_CREATE_PATH || '/api/users/create',
 };
 
 function apiHeaders(includeJson = false): HeadersInit {
@@ -485,6 +493,86 @@ export async function saveUserFields(
   data: AdminTaskFieldsSavePayload,
 ): Promise<AdminTaskDetailResponse> {
   return saveEntityFields('users', userId, data);
+}
+
+export async function fetchEntityCreateDraft(
+  entity: string,
+  tableId = 'admin_table',
+): Promise<AdminTaskDetailResponse> {
+  const entityPath = entity === 'user' || entity === 'users' ? 'users' : 'tasks';
+  const url = buildApiUrl(
+    entityPath === 'users' ? apiConfig.userCreatePath : apiConfig.taskCreatePath,
+  );
+
+  if (tableId) {
+    url.searchParams.set('tableId', tableId);
+  }
+
+  const response = await fetch(url.toString(), {
+    headers: apiHeaders(),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to load ${entityPath} create draft`);
+  }
+
+  return normalizeAdminTaskDetailResponse(await response.json());
+}
+
+export async function createEntityItem(
+  entity: string,
+  data: AdminTaskFieldsSavePayload,
+): Promise<AdminTaskDetailResponse> {
+  const entityPath = entity === 'user' || entity === 'users' ? 'users' : 'tasks';
+  const url = buildApiUrl(
+    entityPath === 'users' ? '/api/users' : '/api/tasks',
+  );
+  const multipart = createMultipartPayload(data);
+
+  const response = multipart.hasFiles
+    ? await fetch(url.toString(), {
+        method: 'POST',
+        headers: apiHeaders(),
+        body: multipart.formData,
+      })
+    : await fetch(url.toString(), {
+        method: 'POST',
+        headers: apiHeaders(true),
+        body: JSON.stringify(data),
+      });
+
+  if (!response.ok) {
+    throw new Error(`Failed to create ${entityPath} item`);
+  }
+
+  return normalizeAdminTaskDetailResponse(await response.json());
+}
+
+export async function deleteEntityItem(
+  entity: string,
+  entityId: number | string,
+  tableId = 'admin_table',
+): Promise<AdminTaskDetailResponse> {
+  const entityPath = entity === 'user' || entity === 'users' ? 'users' : 'tasks';
+  const url = buildApiUrl(
+    entityPath === 'users' ? apiConfig.userDeletePath : apiConfig.taskDeletePath,
+    { id: entityId },
+  );
+
+  if (tableId) {
+    url.searchParams.set('tableId', tableId);
+  }
+
+  const response = await fetch(url.toString(), {
+    method: 'DELETE',
+    headers: apiHeaders(),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to delete ${entityPath} item ${entityId}`);
+  }
+
+  return (await response.json()) as AdminTaskDetailResponse;
 }
 
 export async function createEntityField(

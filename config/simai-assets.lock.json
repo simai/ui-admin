@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "compatibilityId": "ui-3c86bb4dd27f-smart-7bfa9e60669e",
+  "contractSha256": "333d78f0f3abe6f47c9caa1fc3c53c4d2894e122a922a400804383266cbd72f5",
+  "core": {
+    "repository": "../ui",
+    "commit": "3c86bb4dd27f3fbbcc14bb8202ad45b55a623fcf",
+    "sourceDir": "distr",
+    "requiredFiles": [
+      {
+        "path": "core/css/core.css",
+        "sha256": "70098283adeb3bfd61c5fb31909f54d3f1fd4196d46c7944fff63c519500898d"
+      },
+      {
+        "path": "core/js/core.js",
+        "sha256": "29dea89931545b9b5322f6f4ac433ba7baec3fd0f6370f40708c29155f3281d8"
+      },
+      {
+        "path": "core/contracts/adaptive-sizing.v1.json",
+        "sha256": "333d78f0f3abe6f47c9caa1fc3c53c4d2894e122a922a400804383266cbd72f5"
+      },
+      {
+        "path": "component/admin-menu/js/admin-menu.js",
+        "sha256": "af2aad97577cd28f7c3e675340dca752274bd1f11466725b6938a6044a158102"
+      }
+    ]
+  },
+  "smart": {
+    "repository": "../ui-smart",
+    "commit": "7bfa9e60669e84c1b56b8404a9c22ebbf5b670c7",
+    "sourceDir": "smart",
+    "targetDir": "smart",
+    "requiredFiles": [
+      {
+        "path": "admin-menu/js/admin-menu.js",
+        "sha256": "c60d53b9a6b0e833cfbaca3a21bf165b3cb6b3f28f0066e8ecdb385d1bc87389"
+      },
+      {
+        "path": "icon-buttons/js/icon-buttons.js",
+        "sha256": "dc053c2e8696eb5dec0cc7eb2f064a7e91a26bce35d4a5818638056bd192c569"
+      },
+      {
+        "path": "table/js/table.js",
+        "sha256": "0a365f568d64313250f72c6704d083b0b8d9666d627469b7b3fbd8023197d31a"
+      }
+    ]
+  }
+}

@@ -11,6 +11,11 @@ npm run dev
 
 По умолчанию Vite запускает приложение на свободном локальном порту. Mock API ожидается на `http://localhost:5001` и проксируется через `/api`.
 
+Перед запуском materializer извлекает Core и Smart из точных Git-ревизий,
+заданных в `config/simai-assets.lock.json`, проверяет обязательные SHA-256 и
+создаёт `.runtime/`. Он не переключает ветки соседних репозиториев. Пути можно
+задать через `SIMAI_UI_REPO` и `SIMAI_UI_SMART_REPO`.
+
 ## Larena read-only adapter smoke
 
 Для проверки с Larena backend без изменения маршрутов демо-приложения можно
@@ -60,29 +65,24 @@ browser smoke, когда опубликованные smart components недо
 
 ## UI Assets
 
-В production-режиме приложение подключает опубликованные релизы:
-
-```html
-window.sfPath = 'https://cdn.jsdelivr.net/gh/simai/ui@v5.2.0/distr';
-window.sfSmartPath = 'https://cdn.jsdelivr.net/gh/simai/ui-smart@v5.2.0';
-```
-
-Такой режим не требует хранить `distr/` или `smart/` внутри admin-репозитория.
-
-Для локальной разработки SIMAI Framework core можно временно заменить пути на
-`/distr/`. Vite-конфиг уже умеет отдавать `/distr` из
-`C:/Applications/SIMAI/sf5.webpack/distr`.
+Dev и production используют одну immutable пару из
+`config/simai-assets.lock.json`. Production-сборка помещает Core в
+`dist/distr/`, а Smart — в `dist/distr/smart/`. Сгенерированные каталоги
+`.runtime/` и `dist/` не коммитятся.
 
 ## Команды
 
 ```bash
 npm run dev
 npm run build
+npm run test:runtime
 npm run preview
 ```
 
 - `dev` - локальная разработка через Vite;
 - `build` - TypeScript check и сборка в `dist/`;
+- `test:runtime` - проверка exact commits, обязательных хэшей и вертикального
+  machine-readable контракта;
 - `preview` - предпросмотр собранного `dist/`.
 
 ## Выгрузка

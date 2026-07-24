@@ -3,7 +3,6 @@ import { extname, join, normalize, resolve, sep } from 'node:path'
 import { defineConfig, loadEnv, type Connect, type Plugin } from 'vite'
 
 const projectRoot = resolve()
-const distrRoot = resolve('C:/Applications/SIMAI/sf5.webpack/distr')
 const distrPrefix = '/distr'
 
 const mimeTypes: Record<string, string> = {
@@ -15,7 +14,7 @@ const mimeTypes: Record<string, string> = {
   '.wasm': 'application/wasm',
 }
 
-function mountDistr(): Plugin {
+function mountDistr(distrRoot: string): Plugin {
   const middleware: Connect.NextHandleFunction = (req, res, next) => {
     const url = req.url?.split('?')[0]
 
@@ -65,10 +64,11 @@ function mountDistr(): Plugin {
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, projectRoot, '')
+  const distrRoot = resolve(env.SIMAI_RUNTIME_ROOT || '.runtime')
   const apiProxyTarget = env.VITE_API_PROXY_TARGET || 'http://localhost:5001'
 
   return {
-    plugins: [mountDistr()],
+    plugins: [mountDistr(distrRoot)],
     server: {
       proxy: {
         '/api': apiProxyTarget,

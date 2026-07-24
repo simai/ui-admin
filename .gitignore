@@ -10,6 +10,7 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+.runtime*
 *.local
 .env
 .env.*
@@ -23,6 +24,9 @@ logo_with_styles.html
 source/
 output/
 *.bak
+*.bak-*
+*.bak_*
+*.codex-bak-*
 *.backup
 *.tmp
 

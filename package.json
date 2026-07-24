@@ -4,8 +4,10 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
+    "prepare:runtime": "node scripts/materialize-framework-runtime.mjs --target .runtime",
+    "dev": "npm run prepare:runtime && vite",
+    "build": "npm run prepare:runtime && tsc && vite build && node scripts/materialize-framework-runtime.mjs --target dist/distr",
+    "test:runtime": "node --test tests/runtime-assets.test.mjs",
     "preview": "vite preview"
   },
   "devDependencies": {

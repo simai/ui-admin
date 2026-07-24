@@ -6,14 +6,13 @@ import test from 'node:test';
 
 const projectRoot = resolve(import.meta.dirname, '..');
 const target = resolve(projectRoot, '.runtime-test');
-const expectedCore = '3c86bb4dd27f3fbbcc14bb8202ad45b55a623fcf';
-const expectedSmart = '7bfa9e60669e84c1b56b8404a9c22ebbf5b670c7';
-const expectedContract =
-  '333d78f0f3abe6f47c9caa1fc3c53c4d2894e122a922a400804383266cbd72f5';
 
 test('materializes the exact accepted Framework pair', async () => {
   await rm(target, { recursive: true, force: true });
   try {
+    const lock = JSON.parse(
+      await readFile(resolve(projectRoot, 'config/simai-assets.lock.json'), 'utf8'),
+    );
     execFileSync(
       process.execPath,
       [
@@ -30,9 +29,12 @@ test('materializes the exact accepted Framework pair', async () => {
     const provenance = JSON.parse(
       await readFile(resolve(target, 'simai-assets.provenance.json'), 'utf8'),
     );
-    assert.equal(provenance.core.commit, expectedCore);
-    assert.equal(provenance.smart.commit, expectedSmart);
-    assert.equal(provenance.contractSha256, expectedContract);
+    assert.equal(provenance.compatibilityId, lock.compatibilityId);
+    assert.equal(provenance.pairIdentitySha256, lock.pairIdentitySha256);
+    assert.equal(provenance.core.commit, lock.core.commit);
+    assert.equal(provenance.smart.commit, lock.smart.commit);
+    assert.equal(provenance.contractSha256, lock.contractSha256);
+    assert.match(provenance.pairIdentitySha256, /^[0-9a-f]{64}$/);
     assert.equal(provenance.horizontalAssertions, 0);
     assert.equal(provenance.core.files.length, 4);
     assert.equal(provenance.smart.files.length, 3);

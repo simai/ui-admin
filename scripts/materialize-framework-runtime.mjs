@@ -117,6 +117,7 @@ try {
   const provenance = {
     schemaVersion: 1,
     compatibilityId: lock.compatibilityId,
+    pairIdentitySha256: lock.pairIdentitySha256,
     contractSha256: lock.contractSha256,
     core: { commit: lock.core.commit, files: coreFiles },
     smart: { commit: lock.smart.commit, files: smartFiles },

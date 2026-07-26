@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
-  "compatibilityId": "ui-ecd8e3af2824-smart-e28eccc65273",
-  "pairIdentitySha256": "a0adc0b9f9d547a699a0f781d395163e3e90df6ab236699d1709e0cab886e897",
+  "compatibilityId": "simai-framework-5.4.0-candidate-2742ed22-b57afb30",
+  "pairIdentitySha256": "23a9f72c018b81fc8cc155b7e64d57b27f3a85cde8d390713eba2bf9cae59983",
   "contractSha256": "333d78f0f3abe6f47c9caa1fc3c53c4d2894e122a922a400804383266cbd72f5",
   "core": {
     "repository": "../ui",
-    "commit": "ecd8e3af28243a15e9899f1135231f6d4bb2621e",
+    "commit": "2742ed22730b3f37cd26ab72c03621637a464ee0",
     "sourceDir": "distr",
     "requiredFiles": [
       {
         "path": "core/css/core.css",
-        "sha256": "70098283adeb3bfd61c5fb31909f54d3f1fd4196d46c7944fff63c519500898d"
+        "sha256": "d624b0bde5340eb7b51d12f9459084f45a49a1e30ba8a0ad75127ac05098d589"
       },
       {
         "path": "core/js/core.js",
-        "sha256": "29dea89931545b9b5322f6f4ac433ba7baec3fd0f6370f40708c29155f3281d8"
+        "sha256": "07894271f09afca742ed746597fce029f16d7a48918bbe2c532947493451294e"
       },
       {
         "path": "core/contracts/adaptive-sizing.v1.json",
@@ -22,28 +22,34 @@
       },
       {
         "path": "component/admin-menu/js/admin-menu.js",
-        "sha256": "af2aad97577cd28f7c3e675340dca752274bd1f11466725b6938a6044a158102"
+        "sha256": "0df442e3f8567753c09eb1c33ebf0c4bdcdbb96b4fdbae73344bb6072a57732b"
       }
     ]
   },
   "smart": {
     "repository": "../ui-smart",
-    "commit": "e28eccc65273d61b27b802139eac56a4a537c01f",
+    "commit": "b57afb30c9b790212afcf451e16ae6e27a5ab6af",
     "sourceDir": "smart",
     "targetDir": "smart",
     "requiredFiles": [
       {
         "path": "admin-menu/js/admin-menu.js",
-        "sha256": "c60d53b9a6b0e833cfbaca3a21bf165b3cb6b3f28f0066e8ecdb385d1bc87389"
+        "sha256": "8244d00e7716a2966533769812014e9607c89e1c8b7a1ddbf8244e65d564d530"
       },
       {
         "path": "icon-buttons/js/icon-buttons.js",
-        "sha256": "dc053c2e8696eb5dec0cc7eb2f064a7e91a26bce35d4a5818638056bd192c569"
+        "sha256": "2164f02a5b2ce10ba9fa966cc06c50fdded3b1f21641023c1d104de720aead38"
       },
       {
         "path": "table/js/table.js",
-        "sha256": "0a365f568d64313250f72c6704d083b0b8d9666d627469b7b3fbd8023197d31a"
+        "sha256": "5bc6dde70bf9e594679246eb9ecf5e86fea3525efe6618e5d5f8e128ef438fc0"
       }
     ]
+  },
+  "frameworkRegistry": {
+    "repository": "../ui",
+    "commit": "8fea5eb45d8cf0464774ad29c34abe1547d9ce63",
+    "path": "contracts/generated/framework-contract-registry.json",
+    "sha256": "932078a8bfaf9bfeebd0162916f20002c1c68fc90ba27d8f6fe4284c1299b402"
   }
 }

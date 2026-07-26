@@ -34,6 +34,14 @@ test('materializes the exact accepted Framework pair', async () => {
     assert.equal(provenance.core.commit, lock.core.commit);
     assert.equal(provenance.smart.commit, lock.smart.commit);
     assert.equal(provenance.contractSha256, lock.contractSha256);
+    assert.equal(
+      provenance.frameworkRegistry.commit,
+      lock.frameworkRegistry.commit,
+    );
+    assert.equal(
+      provenance.frameworkRegistry.sha256,
+      lock.frameworkRegistry.sha256,
+    );
     assert.match(provenance.pairIdentitySha256, /^[0-9a-f]{64}$/);
     assert.equal(provenance.horizontalAssertions, 0);
     assert.equal(provenance.core.files.length, 4);

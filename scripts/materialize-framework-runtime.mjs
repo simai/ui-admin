@@ -31,6 +31,10 @@ const smartRepo = resolve(
   projectRoot,
   process.env.SIMAI_UI_SMART_REPO || lock.smart.repository,
 );
+const registryRepo = resolve(
+  projectRoot,
+  process.env.SIMAI_UI_REGISTRY_REPO || lock.frameworkRegistry.repository,
+);
 
 function git(repo, args, options = {}) {
   return execFileSync('git', ['-C', repo, ...args], {
@@ -49,6 +53,25 @@ function assertExactCommit(repo, commit, label) {
   if (resolved !== commit) {
     throw new Error(`${label} resolved to ${resolved}, expected ${commit}.`);
   }
+}
+
+function readGitFile(repo, commit, path) {
+  return git(repo, ['show', `${commit}:${path}`], { encoding: null });
+}
+
+function sha256Content(content) {
+  return createHash('sha256').update(content).digest('hex');
+}
+
+function expectedPairIdentity() {
+  const identity = {
+    compatibilityId: lock.compatibilityId,
+    coreCommit: lock.core.commit,
+    smartCommit: lock.smart.commit,
+    registryCommit: lock.frameworkRegistry.commit,
+    registrySha256: lock.frameworkRegistry.sha256,
+  };
+  return sha256Content(JSON.stringify(identity));
 }
 
 async function extract(repo, commit, sourceDir, destination) {
@@ -92,6 +115,33 @@ async function verifyRequiredFiles(root, requiredFiles, label) {
 
 assertExactCommit(uiRepo, lock.core.commit, 'Core');
 assertExactCommit(smartRepo, lock.smart.commit, 'Smart');
+assertExactCommit(registryRepo, lock.frameworkRegistry.commit, 'Framework registry');
+
+const registryContent = readGitFile(
+  registryRepo,
+  lock.frameworkRegistry.commit,
+  lock.frameworkRegistry.path,
+);
+const registrySha256 = sha256Content(registryContent);
+if (registrySha256 !== lock.frameworkRegistry.sha256) {
+  throw new Error(
+    `Framework registry SHA-256 ${registrySha256} does not match ${lock.frameworkRegistry.sha256}.`,
+  );
+}
+const registry = JSON.parse(registryContent.toString('utf8'));
+const runtimeSources = new Map(
+  registry.compatibility.runtime_sources.map((source) => [source.owner, source]),
+);
+if (
+  registry.compatibility.id !== lock.compatibilityId
+  || runtimeSources.get('simai/ui')?.commit !== lock.core.commit
+  || runtimeSources.get('simai/ui-smart')?.commit !== lock.smart.commit
+) {
+  throw new Error('Framework registry and runtime lock describe different pairs.');
+}
+if (expectedPairIdentity() !== lock.pairIdentitySha256) {
+  throw new Error('Framework pair identity SHA-256 does not match lock contents.');
+}
 
 const staging = await mkdtemp(resolve(tmpdir(), 'simai-framework-runtime-'));
 try {
@@ -119,6 +169,10 @@ try {
     compatibilityId: lock.compatibilityId,
     pairIdentitySha256: lock.pairIdentitySha256,
     contractSha256: lock.contractSha256,
+    frameworkRegistry: {
+      commit: lock.frameworkRegistry.commit,
+      sha256: registrySha256,
+    },
     core: { commit: lock.core.commit, files: coreFiles },
     smart: { commit: lock.smart.commit, files: smartFiles },
     horizontalAssertions: 0,

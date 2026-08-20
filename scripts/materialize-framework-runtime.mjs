@@ -14,6 +14,50 @@ import { fileURLToPath } from 'node:url';
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const lockPath = resolve(projectRoot, 'config/simai-assets.lock.json');
+
+async function loadLocalEnv() {
+  const envPath = resolve(projectRoot, '.env');
+  let content = '';
+
+  try {
+    content = await readFile(envPath, 'utf8');
+  } catch (error) {
+    if (error?.code === 'ENOENT') {
+      return;
+    }
+
+    throw error;
+  }
+
+  for (const rawLine of content.split(/\r?\n/)) {
+    const line = rawLine.trim();
+
+    if (!line || line.startsWith('#')) {
+      continue;
+    }
+
+    const separatorIndex = line.indexOf('=');
+
+    if (separatorIndex <= 0) {
+      continue;
+    }
+
+    const key = line.slice(0, separatorIndex).trim();
+    let value = line.slice(separatorIndex + 1).trim();
+
+    if (
+      (value.startsWith('"') && value.endsWith('"')) ||
+      (value.startsWith("'") && value.endsWith("'"))
+    ) {
+      value = value.slice(1, -1);
+    }
+
+    process.env[key] ??= value;
+  }
+}
+
+await loadLocalEnv();
+
 const lock = JSON.parse(await readFile(lockPath, 'utf8'));
 const targetIndex = process.argv.indexOf('--target');
 const targetArgument = targetIndex >= 0 ? process.argv[targetIndex + 1] : null;

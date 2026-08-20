@@ -1011,6 +1011,8 @@ export interface HTMLSfTableElement extends SmartComponentElement<{
     fieldTypes?: Array<Record<string, unknown>>,
     reason?: string,
   ): this;
+  notifyTableError(error: unknown, options?: Record<string, unknown>): unknown;
+  notifyTableSuccess(text: string, options?: Record<string, unknown>): unknown;
   emitFieldCreateRequest(
     payload?: Record<string, unknown>,
     reason?: string,

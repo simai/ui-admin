@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-08-20",
+  "subject": "Shared runtime selected by SIMAI_RUNTIME_ROOT",
+  "result": "NOT_REPRODUCIBLE_FROM_AVAILABLE_GIT_EVIDENCE",
+  "artifactMetadata": {
+    "smartComponentMetaGeneratedAt": "2026-07-01T13:52:14.600Z",
+    "sourceCommitPresent": false,
+    "artifactProvenanceManifestPresent": false
+  },
+  "availableGitEvidence": {
+    "bundlerWorktree": {
+      "head": "483d8d5c7b98266f4e8e8e17b6b1063fc6a53dfe",
+      "clean": false,
+      "usableAsArtifactProvenance": false
+    },
+    "smartSourceWorktree": {
+      "head": "5560df691a76ef949b73c68c0414ca58bde676cd",
+      "clean": false,
+      "usableAsArtifactProvenance": false
+    },
+    "coreSourceWorktree": {
+      "head": "bdc0d7938e4dc16a1b779a4b8f09983c250f2bfe",
+      "clean": true,
+      "matchesSharedRuntimeRequiredHashes": false
+    }
+  },
+  "conclusion": "Do not replace the Admin lock with these heads. They cannot prove how the observed shared runtime was built.",
+  "safeNextBuild": [
+    "Commit the intended Core and Smart source state in their owner repositories.",
+    "Build into a new output directory from those immutable commits.",
+    "Record source commits, required artifact SHA-256 values and build metadata in provenance.",
+    "Update config/simai-assets.lock.json only from that reproducible output.",
+    "Run strict materialization, runtime asset tests and browser probes against the new pair."
+  ]
+}

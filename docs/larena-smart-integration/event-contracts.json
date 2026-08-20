@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "status": "SOURCE_CONFIRMED",
+  "sourceRef": "sf5/src/smart/table/index.js; simai-admin/src/main.ts",
+  "runtimeStatus": "UNKNOWN",
+  "developmentRuntimeObservation": {
+    "status": "DEVELOPMENT_RUNTIME_OBSERVED",
+    "event": "sf-table:page-request",
+    "evidenceRef": "development-runtime-observation.json",
+    "boundary": "The shared runtime does not match the lock pair. This does not confirm the locked ABI."
+  },
+  "events": [
+    {"name": "onTemplateSave", "detail": ["template object | template object[]"], "adminConsumer": "saveTemplate"},
+    {"name": "onFilterUpdate", "detail": ["values: Record<string, unknown>", "optional filter metadata"], "adminConsumer": "store filters -> updateTable first page"},
+    {"name": "onSearchEnd", "detail": ["search text: string"], "adminConsumer": "store search text -> updateTable first page"},
+    {"name": "sf-table:page-request", "detail": ["mode", "page/current", "limit/pageSize", "offset", "tableSettingsKey"], "adminConsumer": "updateTable"},
+    {"name": "onRowDetailRequest", "detail": ["row.id|row.value", "entity/detailEntity", "tableSettingsKey"], "adminConsumer": "fetchTaskDetail or fetchUserDetail -> setDetailData"},
+    {"name": "onFieldEdit", "detail": ["rowId", "values", "fields", "entity/detailEntity", "tableSettingsKey"], "adminConsumer": "saveTaskFields or saveUserFields"},
+    {"name": "onRowCreateRequest", "detail": ["entity/detailEntity", "tableSettingsKey"], "adminConsumer": "fetchEntityCreateDraft -> setDetailData(create)"},
+    {"name": "onRowCreateSubmit", "detail": ["values", "fields", "entity/detailEntity", "tableSettingsKey"], "adminConsumer": "createEntityItem -> reload page"},
+    {"name": "onRowDeleteSubmit", "detail": ["entity", "rowId", "tableSettingsKey"], "adminConsumer": "deleteEntityItem -> reload page"},
+    {"name": "onColumnSettingsChange", "detail": ["columnSettings", "tableSettingsKey"], "adminConsumer": "saveViewSettings"},
+    {"name": "onFieldCreateSubmit", "detail": ["entity", "fieldType", "settings", "tableSettingsKey"], "adminConsumer": "createEntityField"},
+    {"name": "onFieldSettingsSubmit", "detail": ["entity", "fieldKey", "fieldType?", "settings", "tableSettingsKey"], "adminConsumer": "updateEntityField"},
+    {"name": "onFieldDeleteSubmit", "detail": ["entity", "fieldKey", "tableSettingsKey"], "adminConsumer": "deleteEntityField"},
+    {"name": "onFilterFieldSettingsChange", "detail": ["filterFieldSettings: Record<string, Record<string, unknown>>", "tableSettingsKey"], "adminConsumer": "merge viewSettings.filter -> saveViewSettings"},
+    {"name": "onDetailFieldSettingsChange", "detail": ["detailFieldSettings: Record<string, Record<string, unknown>>", "tableSettingsKey"], "adminConsumer": "merge viewSettings.detail -> saveViewSettings"},
+    {"name": "sf-after-render", "detail": [], "adminConsumer": "fetchTemplate and initial updateTable"}
+  ],
+  "unknown": ["bubbles", "composed", "cancelable", "runtime error behavior", "bulk selection contract", "restore event"]
+}

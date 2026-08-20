@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-08-20",
+  "consumerRepository": "simai-admin",
+  "consumerLock": {
+    "coreCommit": "ecd8e3af28243a15e9899f1135231f6d4bb2621e",
+    "smartCommit": "e28eccc65273d61b27b802139eac56a4a537c01f",
+    "coreJsSha256": "29dea89931545b9b5322f6f4ac433ba7baec3fd0f6370f40708c29155f3281d8",
+    "smartTableJsSha256": "0a365f568d64313250f72c6704d083b0b8d9666d627469b7b3fbd8023197d31a"
+  },
+  "observed": {
+    "coreRepository": {
+      "lockedCommitAvailable": true,
+      "checkedOutCommit": "bdc0d7938e4dc16a1b779a4b8f09983c250f2bfe",
+      "checkedOutCoreJsSha256": "25ea0dd7d84cbd720a0e2a885bc12aa7cb02ea411151408402c66e6cf8e48929",
+      "matchesLockedArtifact": false
+    },
+    "smartRepository": {
+      "lockedCommitAvailable": "UNKNOWN",
+      "checkedOutCommit": "UNKNOWN",
+      "artifactSha256": "UNKNOWN",
+      "matchesLockedArtifact": "UNKNOWN",
+      "reason": "No UI Smart checkout was available during the audit."
+    },
+    "sf5Source": {
+      "commit": "5560df691a76ef949b73c68c0414ca58bde676cd",
+      "relationshipToLockedSmart": "UNKNOWN"
+    },
+    "deployedTarget": {
+      "name": "ui-admin.test",
+      "version": "UNKNOWN",
+      "artifactHashes": "UNKNOWN"
+    }
+  },
+  "verdict": "The available SF5 source may be used only as SOURCE_CONFIRMED evidence. It cannot confirm the deployed or locked Smart ABI."
+}

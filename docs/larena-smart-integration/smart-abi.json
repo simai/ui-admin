@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "evidenceRule": "SOURCE_CONFIRMED means present in observed SF5 source, not verified in the locked Smart artifact.",
+  "components": {
+    "sf-table": {
+      "status": "SOURCE_CONFIRMED",
+      "sourceRef": "sf5/src/smart/table/index.js",
+      "runtimeStatus": "UNKNOWN",
+      "methods": [
+        {"name": "setTableData", "arguments": ["patch: object | function", "reason?: string"], "returns": "this", "behavior": "sync state update", "status": "SOURCE_CONFIRMED"},
+        {"name": "appendTableData", "arguments": ["patch: object | function", "reason?: string"], "returns": "this", "behavior": "sync state update", "status": "SOURCE_CONFIRMED"},
+        {"name": "setColumns", "arguments": ["columns: array | function", "reason?: string"], "returns": "this", "behavior": "sync state update", "status": "SOURCE_CONFIRMED"},
+        {"name": "setFilterFields", "arguments": ["fields: array", "reason?: string"], "returns": "this", "behavior": "sync state update", "status": "SOURCE_CONFIRMED"},
+        {"name": "setFieldTypes", "arguments": ["fieldTypes: array", "reason?: string"], "returns": "this", "behavior": "sync state update", "status": "SOURCE_CONFIRMED"},
+        {"name": "setDetailData", "arguments": ["data: object", "reason?: string"], "returns": "this", "behavior": "sync state update", "status": "SOURCE_CONFIRMED"},
+        {"name": "updateRowByKey", "arguments": ["key", "value", "patch: object | function", "reason?: string"], "returns": "this", "behavior": "sync state update", "status": "SOURCE_CONFIRMED"},
+        {"name": "notifyTableSuccess", "arguments": ["text", "options?: object"], "returns": "UNKNOWN", "behavior": "adds success alert", "status": "SOURCE_CONFIRMED"},
+        {"name": "restore", "arguments": [], "returns": "UNKNOWN", "behavior": "UNKNOWN", "status": "UNKNOWN"}
+      ],
+      "attributes": [
+        "table-settings-key", "pagin", "selectable", "settings", "actions",
+        "filter-text", "clear-text", "search-placeholder", "create-text",
+        "pagination-total", "pagination-page-size", "page-sizes"
+      ],
+      "notes": "Exceptions and error semantics need runtime tests; optional chaining in simai-admin is not ABI evidence."
+    },
+    "sf-admin-menu": {
+      "status": "SOURCE_CONFIRMED",
+      "sourceRef": "sf5/src/smart/admin-menu/index.js",
+      "runtimeStatus": "UNKNOWN",
+      "attributes": ["brand", "logo", "logo-href", "aria-label", "searchable", "collapsible", "settings", "settings-title", "compact", "search-placeholder", "toggle-label", "panel-class", "root-class"],
+      "inputTree": "Nested sf-admin-menu-item elements with text/label, icons, href, badge, order and state attributes.",
+      "persistence": {"status": "SOURCE_CONFIRMED", "storageKey": "main-menu-settings", "larenaCompatibility": "Domain menu and permissions must not rely on this local storage key."},
+      "events": {"status": "UNKNOWN", "reason": "No exact runtime event reflection has been performed."}
+    }
+  }
+}

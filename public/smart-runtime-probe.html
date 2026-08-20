@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SIMAI Smart Runtime Probe</title>
+    <link rel="stylesheet" href="/distr/core/css/core.css" />
+    <script>
+      window.sfPath = '/distr/';
+      window.sfSmartPath = '/distr/';
+    </script>
+    <script src="/distr/core/js/core.js"></script>
+  </head>
+  <body>
+    <sf-admin-menu searchable collapsible aria-label="Runtime probe menu">
+      <sf-admin-menu-item left-icon="home" href="/">Home</sf-admin-menu-item>
+    </sf-admin-menu>
+    <sf-table pagin table-settings-key="runtime_probe"></sf-table>
+    <pre id="result">Waiting for Smart Components...</pre>
+    <script>
+      const result = document.getElementById('result');
+
+      const tableApi = [
+        'setTableData',
+        'appendTableData',
+        'setColumns',
+        'setFilterFields',
+        'setFieldTypes',
+        'setDetailData',
+        'updateRowByKey',
+        'notifyTableSuccess',
+      ];
+
+      window.addEventListener(
+        'sf-loader-init',
+        async () => {
+          const table = document.querySelector('sf-table');
+          const menu = document.querySelector('sf-admin-menu');
+          const pageRequests = [];
+          let setTableDataReturnsSelf = false;
+          const renderResult = () => {
+            const tableRoot = table.shadowRoot || table;
+            const menuRoot = menu.shadowRoot || menu;
+
+            result.textContent = JSON.stringify(
+              {
+                status: 'DEVELOPMENT_RUNTIME_OBSERVED',
+                loaderPresent: Boolean(window.SF?.Loader),
+                table: {
+                  constructor: table.constructor.name,
+                  availableApi: tableApi.filter(
+                    (name) => typeof table[name] === 'function',
+                  ),
+                  setTableDataReturnsSelf,
+                  renderedRows: tableRoot.querySelectorAll('tbody tr').length,
+                },
+                menu: {
+                  constructor: menu.constructor.name,
+                  renderedControls: menuRoot.querySelectorAll('a, button').length,
+                },
+                pageRequests,
+              },
+              null,
+              2,
+            );
+          };
+
+          try {
+            await Promise.all([
+              window.SF.whenDefined('sf-table'),
+              window.SF.whenDefined('sf-admin-menu'),
+            ]);
+
+            table.addEventListener('sf-table:page-request', (event) => {
+              pageRequests.push(event.detail);
+              renderResult();
+            });
+
+            const setTableData = table.setTableData({
+              columns: [
+                { key: 'id', label: 'ID' },
+                { key: 'title', label: 'Title' },
+              ],
+              rows: [{ id: 1, title: 'Probe row' }],
+              fields: [],
+              pagination: { current: 1, limit: 10, pageSize: 10, total: 20 },
+            });
+            setTableDataReturnsSelf = setTableData === table;
+            await table.whenRendered?.();
+            renderResult();
+          } catch (error) {
+            result.textContent = JSON.stringify(
+              {
+                status: 'FAILED',
+                error: error instanceof Error ? error.message : String(error),
+              },
+              null,
+              2,
+            );
+          }
+        },
+        { once: true },
+      );
+    </script>
+  </body>
+</html>

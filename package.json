@@ -6,13 +6,21 @@
   "scripts": {
     "prepare:runtime": "node scripts/materialize-framework-runtime.mjs --target .runtime",
     "dev": "npm run prepare:runtime && vite",
-    "dev:runtime": "vite",
+    "dev:runtime": "node scripts/verify-runtime-root.mjs && vite",
+    "dev:api": "node server.js",
     "build": "npm run prepare:runtime && tsc && vite build && node scripts/materialize-framework-runtime.mjs --target dist/distr",
     "test:runtime": "node --test tests/runtime-assets.test.mjs",
+    "test:api": "node --test tests/mock-api-contract.test.mjs",
+    "test:browser": "node tests/run-browser-smoke.mjs",
+    "test:preview": "node tests/run-browser-smoke.mjs preview",
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@faker-js/faker": "^10.6.0",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
     "json-server": "^1.0.0-beta.15",
+    "playwright-core": "^1.62.1",
     "typescript": "~6.0.2",
     "vite": "^8.0.12"
   }

@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "scope": "Components statically used by simai-admin index.html that are relevant to Larena admin composition.",
+  "components": [
+    {
+      "tag": "sf-table",
+      "loaderKey": "cl-table",
+      "kind": "smart-component custom element",
+      "status": "SOURCE_CONFIRMED",
+      "sourceRef": "sf5/src/smart/table/rule.js; sf5/src/smart/table/index.js",
+      "runtimeTestRef": null,
+      "relations": ["cl-checkbox", "cl-buttons", "cl-icon-buttons", "cl-icons", "cl-inputs", "cl-list", "cl-tags", "cl-pagination", "cl-datepicker", "cl-context-menu", "cl-tabs", "cl-radio"],
+      "ownerBoundary": "Renders table UI and emits UI intents; it does not own backend persistence or domain authorization."
+    },
+    {
+      "tag": "sf-admin-menu",
+      "loaderKey": "cl-admin-menu",
+      "kind": "smart-component custom element",
+      "status": "SOURCE_CONFIRMED",
+      "sourceRef": "sf5/src/smart/admin-menu/rule.js; sf5/src/smart/admin-menu/index.js",
+      "runtimeTestRef": null,
+      "relations": ["admin-menu", "icons", "inputs", "badges"],
+      "ownerBoundary": "Consumes declarative menu items; domain menu structure and permissions must remain backend-owned in Larena."
+    },
+    {
+      "tag": "sf-toggle",
+      "loaderKey": "UNKNOWN",
+      "kind": "smart component",
+      "status": "UNKNOWN",
+      "sourceRef": null,
+      "runtimeTestRef": null,
+      "ownerBoundary": "Used by Admin for temporary theme UI only."
+    },
+    {
+      "tag": "sf-tag",
+      "loaderKey": "UNKNOWN",
+      "kind": "smart component",
+      "status": "UNKNOWN",
+      "sourceRef": null,
+      "runtimeTestRef": null,
+      "ownerBoundary": "Used by Admin to render a server-provided counter."
+    }
+  ],
+  "excluded": "The complete UI inventory, Larena views/presets/modifiers and mobile/a11y states require exact runtime and Larena registry evidence."
+}

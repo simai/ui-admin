@@ -14,8 +14,8 @@ const mimeTypes: Record<string, string> = {
   '.wasm': 'application/wasm',
 }
 
-function mountDistr(distrRoot: string): Plugin {
-  const middleware: Connect.NextHandleFunction = (req, res, next) => {
+function createDistrMiddleware(distrRoot: string): Connect.NextHandleFunction {
+  return (req, res, next) => {
     const url = req.url?.split('?')[0]
 
     if (!url?.startsWith(`${distrPrefix}/`)) {
@@ -51,13 +51,22 @@ function mountDistr(distrRoot: string): Plugin {
     createReadStream(filePath).pipe(res)
   }
 
+}
+
+function mountDistr(
+  developmentDistrRoot: string,
+  previewDistrRoot: string,
+): Plugin {
+  const developmentMiddleware = createDistrMiddleware(developmentDistrRoot)
+  const previewMiddleware = createDistrMiddleware(previewDistrRoot)
+
   return {
     name: 'mount-simai-distr',
     configureServer(server) {
-      server.middlewares.use(middleware)
+      server.middlewares.use(developmentMiddleware)
     },
     configurePreviewServer(server) {
-      server.middlewares.use(middleware)
+      server.middlewares.use(previewMiddleware)
     },
   }
 }
@@ -65,17 +74,24 @@ function mountDistr(distrRoot: string): Plugin {
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, projectRoot, '')
   const distrRoot = resolve(env.SIMAI_RUNTIME_ROOT || '.runtime')
+  const previewDistrRoot = resolve(
+    env.SIMAI_PREVIEW_RUNTIME_ROOT || 'dist/distr',
+  )
   const apiProxyTarget = env.VITE_API_PROXY_TARGET || 'http://localhost:5001'
 
   return {
-    plugins: [mountDistr(distrRoot)],
+    plugins: [mountDistr(distrRoot, previewDistrRoot)],
     server: {
       proxy: {
         '/api': apiProxyTarget,
-        '/assets': apiProxyTarget,
       },
       fs: {
         allow: [projectRoot, distrRoot],
+      },
+    },
+    preview: {
+      proxy: {
+        '/api': apiProxyTarget,
       },
     },
   }

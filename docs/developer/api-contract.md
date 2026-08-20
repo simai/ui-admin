@@ -29,7 +29,7 @@
 
 Для интеграции с другим backend можно переопределить следующие переменные Vite: `VITE_ADMIN_TABLE_LIST_PATH`, `VITE_ADMIN_TABLE_DETAIL_PATH`, `VITE_ADMIN_USER_DETAIL_PATH`, `VITE_ADMIN_TABLE_SETTINGS_PATH`, `VITE_ADMIN_TEMPLATE_SAVE_PATH`, `VITE_ADMIN_VIEW_SETTINGS_PATH`, `VITE_ADMIN_TASK_SAVE_PATH`, `VITE_ADMIN_USER_SAVE_PATH`, `VITE_ADMIN_TASK_DELETE_PATH`, `VITE_ADMIN_USER_DELETE_PATH`, `VITE_ADMIN_TASK_CREATE_PATH`, `VITE_ADMIN_USER_CREATE_PATH`.
 
-Шаблоны detail/save/delete могут содержать `{id}`. Значение кодируется перед подстановкой. Все пути разрешаются относительно текущего origin и проходят через Vite proxy в режиме разработки.
+Шаблоны detail/save/delete могут содержать `{id}`. Значение кодируется перед подстановкой. Все пути разрешаются относительно текущего origin и проходят через Vite proxy по `/api` в режиме разработки и preview.
 
 ## Формат данных
 
@@ -44,6 +44,27 @@
 ```
 
 Без файлов запрос отправляется как JSON. При наличии `File` frontend отправляет `multipart/form-data`: очищенный JSON находится в части `payload`, а каждый файл - в части `files.<path>`. Backend должен возвращать актуальные `item`, `rows`, `fields`, `fieldTypes` и `viewSettings` по необходимости: frontend применяет этот ответ вместо ручной реконструкции колонок и полей.
+
+## Проверка mock API
+
+```bash
+npm run test:api
+```
+
+Тест запускает `server.js` во временной директории и на свободном локальном
+порту; он проверяет list, settings, templates, detail, создание,
+JSON-обновление, multipart-обновление, удаление и CRUD пользовательского поля.
+Рабочие `data.json` и `public/` проекта при этом не изменяются. Для ручного
+запуска используйте `npm run dev:api`.
+
+`npm run test:browser` расширяет эту проверку до browser smoke: он запускает
+Vite с тем же mock API и убеждается, что зарегистрированная `sf-table` получила
+первую страницу данных.
+
+`npm run test:preview` сначала выполняет строгий `npm run build`, затем
+проверяет `dist/` через `vite preview`. Runtime при этом берётся из
+`dist/distr`, а не из development-пути `SIMAI_RUNTIME_ROOT`. Это отдельно
+защищает production output от конфликта статического `/assets` с API proxy.
 
 ## Larena read-only smoke
 

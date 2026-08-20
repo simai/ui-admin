@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-08-20",
+  "runtimeSource": "SIMAI_RUNTIME_ROOT from local .env",
+  "status": "DEVELOPMENT_RUNTIME_OBSERVED",
+  "lockCompatibility": "MISMATCH",
+  "requiredAssets": [
+    {"path": "core/css/core.css", "lockStatus": "MISMATCH", "actualSha256": "13e09e0e4f43e4bc5bf2f6ed36719bc3e5e532c906e9a80103131b4f5303b0df"},
+    {"path": "core/js/core.js", "lockStatus": "MISMATCH", "actualSha256": "25ea0dd7d84cbd720a0e2a885bc12aa7cb02ea411151408402c66e6cf8e48929"},
+    {"path": "core/contracts/adaptive-sizing.v1.json", "lockStatus": "MISSING"},
+    {"path": "component/admin-menu/js/admin-menu.js", "lockStatus": "MISMATCH", "actualSha256": "21a6e8709d138076e335d41bee348b44afa87d108bc3b600274f018f5d3ae02c"},
+    {"path": "smart/admin-menu/js/admin-menu.js", "lockStatus": "MISMATCH", "actualSha256": "ab7e9b625a39ef1a75dce9cdc730462e5647c24a8380e5af5bda9f2c49d76214"},
+    {"path": "smart/icon-buttons/js/icon-buttons.js", "lockStatus": "MISMATCH", "actualSha256": "76398587b4484c97938feeeb570d511b25bacab54c36cea6cf456a467014adfe"},
+    {"path": "smart/table/js/table.js", "lockStatus": "MISMATCH", "actualSha256": "fd153a4e862b69422f9941e06e4ffa0684f0c318997361cc5686509f3507f166"}
+  ],
+  "browserObservation": {
+    "adminPage": {
+      "sfAdminMenuRendered": true,
+      "sfTableRendered": true,
+      "assetRequests": ["/distr/core/js/core.js", "/distr/smart/table/js/table.js"],
+      "consoleError": "Template request failed because no mock API was running."
+    },
+    "probePage": "public/smart-runtime-probe.html",
+    "status": "OBSERVED",
+    "table": {
+      "availableApi": ["setTableData", "appendTableData", "setColumns", "setFilterFields", "setFieldTypes", "setDetailData", "updateRowByKey", "notifyTableSuccess"],
+      "setTableDataReturnsSelf": true,
+      "renderedRowsAfterSetTableData": 1
+    },
+    "menu": {
+      "renderedControls": 6
+    },
+    "paginationEvent": {
+      "name": "sf-table:page-request",
+      "trigger": "Click on the next-page button",
+      "detail": {
+        "mode": "replace",
+        "tableSettingsKey": "runtime_probe",
+        "page": 2,
+        "current": 2,
+        "limit": 10,
+        "pageSize": 10,
+        "offset": 10,
+        "total": 20,
+        "pageCount": 2,
+        "hasMore": true,
+        "search": "",
+        "filterValues": {},
+        "filterTags": {},
+        "source": "sf-page-change"
+      }
+    },
+    "consoleErrors": []
+  },
+  "boundary": "This evidence describes a shared development runtime only. It must not be used to confirm the locked Core/Smart ABI."
+}

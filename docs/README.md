@@ -10,6 +10,7 @@
 - [sf-table в Admin](developer/sf-table-integration.md) - полный lifecycle, contract данных, события, CRUD и связь с текущим API-клиентом.
 - [Административное меню](developer/admin-menu.md) - разметка, вложенность, зависимости и локальные настройки `sf-admin-menu`.
 - [Связи компонентов](developer/component-connections.md) - как меню, таблица, Core loader и Admin orchestration соединены между собой.
+- [Larena Smart Integration: P0 evidence](larena-smart-integration/README.md) - machine-readable evidence, source/runtime границы и блокеры интеграции Smart Components.
 - [Технический аудит](developer/repository-audit.md) - подтвержденная структура, риски и ограничения на 2026-08-20.
 
 ## Границы документации

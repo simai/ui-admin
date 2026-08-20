@@ -432,25 +432,26 @@ class AdminManager {
     this.table.addEventListener(
       'sf-after-render',
       async () => {
-        const key = this.table?.getTableSettingsKey() || 'default';
-        const data = await fetchTemplate(key);
-        this.viewSettings = this.normalizeViewSettings(
-          key,
-          data.viewSettings,
-          data.tableSettings,
-        );
-        const activeTemplate = this.table
-          ?.setTemplates(data.templates || [])
-          .getSelectedFilterTemplate?.();
-        this.table?.setTableSettings({
-          key,
-          columnSettings: this.getTableColumnSettings(),
-        });
-        this.filters = activeTemplate?.data?.values || {};
         try {
-          this.updateTable({ page: 1, mode: 'replace' });
+          const key = this.table?.getTableSettingsKey() || 'default';
+          const data = await fetchTemplate(key);
+          this.viewSettings = this.normalizeViewSettings(
+            key,
+            data.viewSettings,
+            data.tableSettings,
+          );
+          const activeTemplate = this.table
+            ?.setTemplates(data.templates || [])
+            .getSelectedFilterTemplate?.();
+          this.table?.setTableSettings({
+            key,
+            columnSettings: this.getTableColumnSettings(),
+          });
+          this.filters = activeTemplate?.data?.values || {};
+          await this.updateTable({ page: 1, mode: 'replace' });
         } catch (error) {
-          console.warn('Mock solutions load failed, use local fallback', error);
+          console.error('Failed to initialize admin table', error);
+          this.table?.notifyTableError(error);
         }
       },
       { once: true },

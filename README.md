@@ -16,7 +16,7 @@ SIMAI_RUNTIME_ROOT=<путь-к-готовому-distr>
 VITE_API_PROXY_TARGET=http://localhost:5001
 ```
 
-`npm run dev:runtime` использует готовый `distr/` и не требует checkout UI Smart. Для строгой проверки locked revisions используйте `npm run dev`; ему нужны доступные `SIMAI_UI_REPO` и `SIMAI_UI_SMART_REPO`.
+`npm run dev:runtime` читает `.env`, проверяет, что в заданном `distr/` есть Core и Smart, и не требует checkout UI Smart. Для строгой проверки locked revisions используйте `npm run dev`; ему нужны доступные `SIMAI_UI_REPO` и `SIMAI_UI_SMART_REPO`.
 
 ## Команды
 

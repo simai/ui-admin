@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <title>sf-table P0 runtime probe</title>
+  </head>
+  <body>
+    <sf-table pagin table-settings-key="larena_probe"></sf-table>
+    <script>
+      // Run only after loading the exact Core/Smart pair from provenance.json.
+      window.addEventListener('sf-loader-init', async () => {
+        const table = document.querySelector('sf-table');
+        await window.SF.whenDefined('sf-table');
+        table.setTableData({
+          columns: [{ key: 'id', label: 'ID' }, { key: 'title', label: 'Название' }],
+          rows: [{ id: 1, title: 'Probe row' }],
+          fields: [],
+          pagination: { current: 1, limit: 10, pageSize: 10, total: 1 }
+        });
+      }, { once: true });
+    </script>
+  </body>
+</html>

@@ -4,6 +4,7 @@
 
 - Node.js и npm;
 - Git, если используется строгий runtime materializer;
+- Chrome или Microsoft Edge для `npm run test:browser`;
 - отдельный backend или mock API, по умолчанию на `http://localhost:5001`.
 
 Установка зависимостей:
@@ -28,7 +29,7 @@ npm run dev
 npm run dev:runtime
 ```
 
-Этот режим не запускает materializer. Vite отдаёт готовый каталог из `SIMAI_RUNTIME_ROOT` по URL-префиксу `/distr`. Он нужен, когда Core и Smart уже доступны в готовом runtime или когда рядом нет отдельного checkout `ui-smart`.
+Этот режим не запускает materializer. Перед стартом он читает `.env`, требует `SIMAI_RUNTIME_ROOT` и проверяет наличие `core/js/core.js` и `smart/table/js/table.js`. Затем Vite отдаёт готовый каталог по URL-префиксу `/distr`. Он нужен, когда Core и Smart уже доступны в общем готовом runtime или когда рядом нет отдельного checkout `ui-smart`.
 
 `dev:runtime` удобен для локальной разработки, но не подтверждает соответствие assets lock-файлу. Для такой проверки используйте строгий режим и `npm run test:runtime`.
 
@@ -40,8 +41,9 @@ npm run dev:runtime
 | --- | --- | --- |
 | `SIMAI_UI_REPO` | Путь к репозиторию UI Core для materializer | `dev`, `build`, `test:runtime` |
 | `SIMAI_UI_SMART_REPO` | Путь к репозиторию UI Smart для materializer | `dev`, `build`, `test:runtime` |
-| `SIMAI_RUNTIME_ROOT` | Готовый каталог с `core/` и `smart/` | `dev:runtime`, Vite preview |
-| `VITE_API_PROXY_TARGET` | Целевой backend для прокси `/api` и `/assets` | Vite |
+| `SIMAI_RUNTIME_ROOT` | Обязательный для `dev:runtime` готовый каталог с `core/` и `smart/` | `dev:runtime` |
+| `SIMAI_PREVIEW_RUNTIME_ROOT` | Временный runtime для локальной проверки candidate-пары | `vite preview` |
+| `VITE_API_PROXY_TARGET` | Целевой backend для прокси `/api` | Vite dev и preview |
 
 Пример для workspace с готовым runtime и каталогом Core `ui-core`:
 
@@ -59,11 +61,15 @@ VITE_API_PROXY_TARGET=http://localhost:5001
 | --- | --- |
 | `npm run dev` | Строго материализует `.runtime/`, затем запускает Vite |
 | `npm run dev:runtime` | Запускает Vite от готового `SIMAI_RUNTIME_ROOT` |
+| `npm run dev:api` | Запускает локальный mock API на `http://localhost:5001` |
 | `npm run build` | Проверяет TypeScript, собирает `dist/` и materializes `dist/distr/` |
 | `npm run test:runtime` | Проверяет lock-пару, хэши и provenance |
+| `npm run test:api` | Проверяет HTTP-контракт mock API во временной директории |
+| `npm run test:browser` | Проверяет в Chrome связку Vite, mock API, Core и `sf-table` |
+| `npm run test:preview` | Выполняет строгую production-сборку и проверяет её в Chrome или Edge с mock API |
 | `npm run preview` | Локально отдаёт сборку Vite |
 
-Vite выбирает свободный локальный порт. Запросы к `/api` и `/assets` проксируются на `VITE_API_PROXY_TARGET`, поэтому frontend не должен обращаться к backend по жёстко заданному внешнему URL.
+Vite выбирает свободный локальный порт. Запросы к `/api` проксируются на `VITE_API_PROXY_TARGET`, поэтому frontend не должен обращаться к backend по жёстко заданному внешнему URL. Путь `/assets` принадлежит Vite и не проксируется: в production preview там лежат собранные JavaScript и CSS.
 
 ## Быстрая диагностика
 

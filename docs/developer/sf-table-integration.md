@@ -10,6 +10,19 @@ backend.
 связывает `sf-table` с loader key `cl-table`, а `index.js` регистрирует custom
 element через `SfTable.define('sf-table')`.
 
+## Статус доказательств
+
+Этот документ фиксирует два разных уровня фактов:
+
+- связь Admin с таблицей, URL и преобразование HTTP payload подтверждены
+  текущими `index.html`, `src/main.ts` и `src/adminTable.ts`;
+- публичные методы и события подтверждены доступным исходником Smart Table.
+
+Это не является доказательством того, что произвольный общий `distr/` или
+текущая версия исходников совпадают с assets, закреплёнными в
+`config/simai-assets.lock.json`. Для provenance, runtime-наблюдений и известных
+расхождений используйте [P0 evidence](../larena-smart-integration/README.md).
+
 ## Граница ответственности
 
 | Слой | Отвечает за |
@@ -45,6 +58,13 @@ table.setTableData({ rows, pagination })
 `columnsLoaded` и `filterFieldsLoaded` в `AdminManager` защищают базовую схему
 от повторной замены при каждом запросе страницы. Актуальные строки и pagination
 при этом обновляются на каждом `updateTable()`.
+
+Первичная загрузка выполняется после `sf-after-render` как одна async-операция:
+сначала settings и templates, затем первая страница данных. Ошибка на любом
+этапе перехватывается, записывается в console и выводится пользователю через
+`notifyTableError()`. Локального fallback-набора строк нет: при такой ошибке
+состояние таблицы не считается актуальным, а причину нужно исправлять в API или
+runtime.
 
 ## Атрибуты элемента
 

@@ -9,7 +9,7 @@
     "dev:runtime": "node scripts/verify-runtime-root.mjs && vite",
     "dev:api": "node server.js",
     "build": "npm run prepare:runtime && tsc && vite build && node scripts/materialize-framework-runtime.mjs --target dist/distr",
-    "test:runtime": "node --test tests/runtime-assets.test.mjs",
+    "test:runtime": "node --test tests/runtime-assets.test.mjs tests/navigation-menu-reference.test.mjs",
     "test:api": "node --test tests/mock-api-contract.test.mjs",
     "test:browser": "node tests/run-browser-smoke.mjs",
     "test:preview": "node tests/run-browser-smoke.mjs preview",

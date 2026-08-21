@@ -81,6 +81,17 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [mountDistr(distrRoot, previewDistrRoot)],
+    build: {
+      rollupOptions: {
+        input: {
+          admin: resolve(projectRoot, 'index.html'),
+          navigationMenuReference: resolve(
+            projectRoot,
+            'navigation-menu-reference.html',
+          ),
+        },
+      },
+    },
     server: {
       proxy: {
         '/api': apiProxyTarget,

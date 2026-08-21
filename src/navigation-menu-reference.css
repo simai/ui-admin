@@ -1,0 +1,77 @@
+@font-face {
+  font-family: "Material Symbols Outlined";
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: block;
+  src: url("/distr/fonts/MaterialSymbols-Outlined.woff2") format("woff2");
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  min-width: 0;
+  background: var(--sf-surface-0);
+}
+
+.navigation-reference {
+  width: min(320px, 100vw);
+  height: 100%;
+  border-inline-end: var(--sf-a1) solid var(--sf-outline-variant);
+}
+
+.navigation-reference[data-navigation-compact="true"] {
+  width: min(var(--sf-admin-menu-panel-compact--inline-size, 90px), 100vw);
+}
+
+.navigation-reference sf-admin-menu {
+  display: block;
+  height: 100%;
+}
+
+.navigation-reference .sf-admin-menu {
+  display: flex;
+  block-size: 100%;
+  max-block-size: 100%;
+  min-block-size: 0;
+}
+
+.navigation-reference .sf-admin-menu-panel {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.navigation-reference .sf-admin-menu-main {
+  flex: 1 1 0;
+  min-block-size: 0;
+  overflow: hidden;
+}
+
+.navigation-reference .sf-admin-menu-main.open {
+  overflow-y: auto;
+}
+
+.navigation-reference .sf-admin-menu-item-wrap.hidden {
+  display: none;
+}
+
+.navigation-reference .sf-admin-menu-bottom {
+  flex: 0 0 auto;
+}
+
+@layer sf.base {
+  html[data-sf-icon-runtime="bundled-fallback"] body .sf-icon:not(.sf-icon-loaded) {
+    font-size: var(--sf-icon--font-size, var(--sf-icon-size-3)) !important;
+  }
+}
+
+@media (max-width: 520px) {
+  .navigation-reference:not([data-navigation-compact="true"]) {
+    width: 100vw;
+  }
+}

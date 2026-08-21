@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ru" class="theme-dark h-full" data-sf-icon-runtime="bundled-fallback">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>SF Admin Menu Reference</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="/distr/core/css/core.css" />
+    <link rel="stylesheet" href="/src/navigation-menu-reference.css" />
+    <script>
+      window.SF_BOOT_CONFIG = {
+        icons: { enabled: false, accumulate: false },
+        cacheVersion: 'navigation-menu-reference-v2',
+      };
+      window.sfPath = '/distr/';
+      window.sfSmartPath = '/distr/';
+    </script>
+    <script
+      src="/distr/core/js/core.js"
+      data-sf-script="/distr/core/js/core.js"></script>
+  </head>
+  <body>
+    <aside class="navigation-reference" data-navigation-reference="sf-direct">
+      <sf-admin-menu
+        id="navigation-reference-menu"
+        searchable
+        settings
+        logo="/logo.svg"
+        collapsible
+        persistence-mode="local"
+        aria-label="Admin navigation reference">
+        <sf-admin-menu-item item-id="demo.dashboard" left-icon="home" href="/" active>
+          Дашборд
+          <sf-admin-menu-item item-id="demo.dashboard.orders" left-icon="location_on" badge="99+" href="/">
+            Заказы
+          </sf-admin-menu-item>
+          <sf-admin-menu-item item-id="demo.dashboard.chats" left-icon="mail" badge="52" href="/">
+            Чаты
+          </sf-admin-menu-item>
+          <sf-admin-menu-item item-id="demo.dashboard.reports" left-icon="light_mode" href="/">
+            Отчеты
+          </sf-admin-menu-item>
+        </sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.orders" left-icon="location_on" badge="99+" href="/">
+          Заказы
+        </sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.chats" left-icon="mail" badge="52" href="/">
+          Чаты
+        </sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.reports" left-icon="light_mode" href="/">
+          Отчеты
+        </sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.coupons" left-icon="imagesmode" href="/">
+          Купоны
+        </sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.divider.primary" type="divider"></sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.development" left-icon="code">
+          Разработка
+          <sf-admin-menu-item item-id="demo.development.components" left-icon="palette" badge="lab" href="/components">
+            Компоненты
+          </sf-admin-menu-item>
+          <sf-admin-menu-item item-id="demo.development.layouts" left-icon="menu_book" badge="lab" href="/layouts">
+            Макеты
+          </sf-admin-menu-item>
+          <sf-admin-menu-item item-id="demo.development.divider" type="divider"></sf-admin-menu-item>
+          <sf-admin-menu-item item-id="demo.development.frameworks" left-icon="key">
+            Фреймворки
+            <sf-admin-menu-item item-id="demo.development.frameworks.sf5" badge="5.2" href="/sf5">SF5</sf-admin-menu-item>
+            <sf-admin-menu-item item-id="demo.development.frameworks.modules" badge="12" href="/modules">Модули</sf-admin-menu-item>
+          </sf-admin-menu-item>
+          <sf-admin-menu-item item-id="demo.development.integrations" left-icon="hub" badge="24" href="/integrations">Интеграции</sf-admin-menu-item>
+          <sf-admin-menu-item item-id="demo.development.automation" left-icon="automation" badge="beta" href="/automation">Автоматизация</sf-admin-menu-item>
+        </sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.vendors" left-icon="link" href="/">Вендоры</sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.billing" left-icon="person" href="/">Модуль биллинга</sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.updates" left-icon="photo_camera" href="/">Модуль обновления</sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.registration" left-icon="stethoscope" href="/">Модуль регистраций</sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.divider.operations" type="divider"></sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.notifications" left-icon="notifications" badge="7" href="/">Уведомления</sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.audit" left-icon="fact_check" href="/">Журнал аудита</sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.storage" left-icon="database" href="/">Хранилище</sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.backups" left-icon="backup" badge="new" href="/">Резервные копии</sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.monitoring" left-icon="monitoring" href="/">Мониторинг</sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.divider.system" type="divider"></sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.users" left-icon="group" badge="128" href="/">Пользователи</sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.permissions" left-icon="shield" href="/">Права доступа</sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.localization" left-icon="language" href="/">Локализация</sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.diagnostics" left-icon="troubleshoot" badge="3" href="/">Диагностика</sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.divider.services" type="divider"></sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.tasks" left-icon="task_alt" badge="18" href="/">Задачи</sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.calendar" left-icon="calendar_month" href="/">Календарь</sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.documents" left-icon="description" badge="42" href="/">Документы</sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.import" left-icon="upload" href="/">Импорт</sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.export" left-icon="download" href="/">Экспорт</sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.integrations" left-icon="extension" badge="6" href="/">Подключения</sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.api" left-icon="api" href="/">API</sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.webhooks" left-icon="webhook" badge="11" href="/">Вебхуки</sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.logs" left-icon="terminal" href="/">Системные логи</sf-admin-menu-item>
+        <sf-admin-menu-item item-id="demo.health" left-icon="health_and_safety" href="/">Состояние системы</sf-admin-menu-item>
+      </sf-admin-menu>
+    </aside>
+    <script type="module" src="/src/navigation-menu-reference.ts"></script>
+  </body>
+</html>

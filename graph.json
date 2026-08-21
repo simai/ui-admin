@@ -1,0 +1,20 @@
+{
+  "$schema": "https://mirai-graph.dev/schemas/graph-manifest.schema.json",
+  "aliases": ["ui-admin", "simai-admin"],
+  "conformance_level": "level_1",
+  "description": "Vite/TypeScript demo admin application for validating SIMAI Framework Smart components and Larena-compatible API contracts.",
+  "extensions": {"mirai.project_technology": {"context_policy": "task_scoped", "contract_version": "1.0.0", "enabled": true, "source_boundary": "hybrid_sot"}},
+  "format": "mirai-graph",
+  "graph": {"generated": [], "objects": ["graph/objects.json"], "raw_sources": ["README.md", "docs/", "config/simai-assets.lock.json"], "relations": ["graph/relations.json"], "root": "graph", "schemas": [], "source_of_truth": ["graph", "README.md", "docs/", "config/simai-assets.lock.json"]},
+  "id": "package.ui_admin",
+  "imports": [],
+  "kind": "graph_package",
+  "license": "UNLICENSED",
+  "owner": "simai",
+  "profiles": ["software_specification"],
+  "public_safety": "repository_scoped",
+  "schema_version": "2.0.0",
+  "scope": "package",
+  "title": "SIMAI Admin",
+  "version": "0.1.0"
+}

@@ -44,3 +44,4 @@ src/assets/
 *.njsproj
 *.sln
 *.sw?
+.mirai-graph/project-technology/

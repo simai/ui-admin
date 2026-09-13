@@ -1,48 +1,48 @@
 {
   "schemaVersion": 1,
-  "compatibilityId": "ui-2228262ad358-smart-211cee6d4294",
-  "pairIdentitySha256": "daddcb46669140024a9c11798beff24bd89d4f9fee78be252caf53e19bd988b4",
-  "contractSha256": "333d78f0f3abe6f47c9caa1fc3c53c4d2894e122a922a400804383266cbd72f5",
+  "compatibilityId": "ui-73bd250f1d8e-smart-1de6c70ed455",
+  "pairIdentitySha256": "4c1c1fdfa1ecc21ea29e963c19a17f974b61dead297da1aa986548c0d37cf26d",
+  "contractSha256": "b70d02d6902345e17954eafb44f24052b7478439184286bed5a8df6c69c1fe45",
   "core": {
     "repository": "../ui",
-    "commit": "2228262ad3588227b20045f66ca43556fcd27974",
+    "commit": "73bd250f1d8e2435bd2cbd57d6fe2080ade92f01",
     "sourceDir": "distr",
     "requiredFiles": [
       {
         "path": "core/css/core.css",
-        "sha256": "dbfb4113d9af088ced47d2e2a4adfee41fd0681a7a8761ac5e7ae56a7f9a395a"
+        "sha256": "c82e2530b0dd876bda19187ead800c1786a7a139d3e4dd1b5da2bf380ac5f1fb"
       },
       {
         "path": "core/js/core.js",
-        "sha256": "07894271f09afca742ed746597fce029f16d7a48918bbe2c532947493451294e"
+        "sha256": "1173ca0dd736d6c83fe688e19067da135cab05ef132439c9fd22089b04b67053"
       },
       {
         "path": "core/contracts/adaptive-sizing.v1.json",
-        "sha256": "333d78f0f3abe6f47c9caa1fc3c53c4d2894e122a922a400804383266cbd72f5"
+        "sha256": "b70d02d6902345e17954eafb44f24052b7478439184286bed5a8df6c69c1fe45"
       },
       {
         "path": "component/admin-menu/js/admin-menu.js",
-        "sha256": "0df442e3f8567753c09eb1c33ebf0c4bdcdbb96b4fdbae73344bb6072a57732b"
+        "sha256": "7893ec596e4e9dc36c86f9a4f9dde04251a3b5f6019933128946ab67d2eabe8e"
       }
     ]
   },
   "smart": {
     "repository": "../ui-smart",
-    "commit": "211cee6d4294f4407ed6e96fe01f6e9feaadd472",
+    "commit": "1de6c70ed455fa2d4d568795452b63431fdd73a1",
     "sourceDir": "smart",
     "targetDir": "smart",
     "requiredFiles": [
       {
         "path": "admin-menu/js/admin-menu.js",
-        "sha256": "36c2f2db08ba2ebc5e102208c8b762786f83792711781cf141b6ea2dc4732c4c"
+        "sha256": "13b307dedd6d8cc258828d5efb8b5c3b226827ae61701b97b8b722d3f99e7212"
       },
       {
         "path": "icon-buttons/js/icon-buttons.js",
-        "sha256": "c70641cd9942bb324c15c31ffba82b170185c0a2db4695bd2654ce4672f4d8b9"
+        "sha256": "0a2d38c99631a891b725c9f77f58348a79ff57dc4c66222178a8fdae26ed19c4"
       },
       {
         "path": "table/js/table.js",
-        "sha256": "5d22480bf404e3a7114b89a074848710161badade052859334622e8deec99a79"
+        "sha256": "7ef1fe5ed8a933eb2d455e3efc74cf74aa4eddd01c0681031bb2111b864001cc"
       }
     ]
   }

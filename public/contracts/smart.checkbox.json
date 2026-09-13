@@ -1,0 +1,346 @@
+{
+  "schema_version": 2,
+  "id": "smart.checkbox",
+  "version": "1.0.0",
+  "title": "Checkbox",
+  "summary": "Checkbox Smart Component from SIMAI Framework.",
+  "kind": "smart",
+  "reuse_mode": "whole",
+  "lifecycle": "experimental",
+  "tags": [
+    "checkbox"
+  ],
+  "capabilities": [
+    "render",
+    "theme",
+    "responsive"
+  ],
+  "custom_element": "sf-checkbox",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [],
+    "public_parts": []
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "size": {
+        "type": "string",
+        "default": "1",
+        "description": "Checkbox size token.",
+        "enum": [
+          "1/3",
+          "1"
+        ]
+      },
+      "label": {
+        "type": "string",
+        "default": ""
+      },
+      "description": {
+        "type": "string",
+        "default": ""
+      },
+      "help": {
+        "type": "string",
+        "default": ""
+      },
+      "position": {
+        "type": "string",
+        "default": "start",
+        "description": "Logical placement of the indicator relative to its text.",
+        "enum": [
+          "start",
+          "end"
+        ]
+      },
+      "root-class": {
+        "type": "string",
+        "default": ""
+      },
+      "checked": {
+        "type": "boolean",
+        "default": false
+      },
+      "disabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "indeterminate": {
+        "type": "boolean",
+        "default": false,
+        "description": "Mixed visual state for a checkbox that summarizes related options."
+      },
+      "name": {
+        "type": "string",
+        "default": ""
+      },
+      "value": {
+        "type": "string",
+        "default": ""
+      },
+      "error": {
+        "type": "boolean",
+        "default": false,
+        "description": "Invalid state; the native input publishes aria-invalid."
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {},
+  "contracts": {
+    "checkbox_states": {
+      "type": "string",
+      "enum": [
+        "unchecked",
+        "checked",
+        "mixed",
+        "disabled",
+        "invalid"
+      ]
+    }
+  },
+  "methods": {
+    "getInputElement": {
+      "summary": "Public runtime method getInputElement.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "isChecked": {
+      "summary": "Return the current native checked state.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "boolean"
+        ]
+      }
+    },
+    "setChecked": {
+      "summary": "Public runtime method setChecked.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "setIndeterminate": {
+      "summary": "Public runtime method setIndeterminate.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "setDisabled": {
+      "summary": "Public runtime method setDisabled.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "setBooleanStateAttribute": {
+      "summary": "Public runtime method setBooleanStateAttribute.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "setState": {
+      "summary": "Public runtime method setState.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onChange": {
+      "summary": "Public runtime method onChange.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onFocus": {
+      "summary": "Public runtime method onFocus.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onBlur": {
+      "summary": "Public runtime method onBlur.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    }
+  },
+  "events": {},
+  "state": {
+    "machines": {},
+    "visual_states": [
+      "default",
+      "selected",
+      "conflict",
+      "disabled",
+      "error"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "component",
+    "network_owner": "none",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-source",
+    "data": "fixture",
+    "effects": "component",
+    "forbidden_client_responsibilities": [
+      "backend access decisions",
+      "host route invention"
+    ]
+  },
+  "security": {
+    "permissions_owner": "none",
+    "untrusted_inputs": [
+      "props",
+      "children"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": null,
+    "accessible_name": "required",
+    "keyboard": [
+      "Tab",
+      "Space"
+    ],
+    "focus": "Keep visible focus on the active control."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "ru",
+      "en"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile"
+    ]
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [
+      "studio.fixture.json"
+    ],
+    "scenarios": [
+      "studio.scenario.json"
+    ]
+  },
+  "readiness": {
+    "level": "described",
+    "required_checks": [
+      "manifest",
+      "fixture",
+      "runtime-upgrade",
+      "scenario-smoke"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
+      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+    },
+    "aliases": [],
+    "deprecations": [],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-source",
+    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_artifacts": [
+      {
+        "path": "src/smart/checkbox/index.js",
+        "sha256": "caa3795d9dd5bc55007be194c840163f94d6553ad79957b5b223ff440f11e040"
+      }
+    ],
+    "generated_runtime": [
+      {
+        "repository": "simai/ui-smart",
+        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "path": "smart/checkbox/js/checkbox.js",
+        "sha256": "e47d9bf4ce8d219f1ade94fb493aeffd88dce8a1a5338a6648315049641e5361"
+      }
+    ]
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-checkbox when the interface needs the checkbox behavior.",
+    "do_not": [
+      "Do not copy generated ui-smart code",
+      "Do not move host data or access decisions into the component"
+    ],
+    "required_reads": [
+      "inputs",
+      "methods",
+      "events",
+      "ownership",
+      "provenance"
+    ],
+    "minimal_example": "<sf-checkbox></sf-checkbox>",
+    "owner_commands": [
+      "npm run contract:verify",
+      "npm test"
+    ]
+  }
+}

@@ -1,0 +1,727 @@
+{
+  "schema_version": 1,
+  "id": "smart.data-view",
+  "version": "1.0.0",
+  "title": "Data view",
+  "summary": "Complete server-backed collection view with search, filters, table preferences, row and bulk actions, and pagination.",
+  "kind": "composite",
+  "reuse_mode": "whole",
+  "lifecycle": "experimental",
+  "tags": [
+    "admin",
+    "collection",
+    "data",
+    "filter",
+    "table"
+  ],
+  "capabilities": [
+    "data-view",
+    "search",
+    "filtering",
+    "sorting",
+    "selection",
+    "preferences",
+    "pagination",
+    "responsive"
+  ],
+  "custom_element": "sf-table",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [
+      "smart.buttons",
+      "smart.pagination",
+      "smart.context-menu",
+      "smart.checkbox",
+      "smart.inputs",
+      "smart.dropdown",
+      "smart.datepicker",
+      "smart.tags",
+      "smart.icon-buttons",
+      "smart.spinner"
+    ],
+    "public_parts": []
+  },
+  "inputs": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "aria-label",
+      "table-settings-key"
+    ],
+    "properties": {
+      "template": {
+        "type": "string",
+        "const": "default",
+        "default": "default"
+      },
+      "aria-label": {
+        "type": "string",
+        "minLength": 1,
+        "default": "Data table"
+      },
+      "selectable": {
+        "type": "boolean",
+        "default": true
+      },
+      "settings": {
+        "type": "boolean",
+        "default": true
+      },
+      "actions": {
+        "type": "boolean",
+        "default": true
+      },
+      "pagin": {
+        "type": "boolean",
+        "default": false
+      },
+      "filter-text": {
+        "type": "string",
+        "default": "Фильтр"
+      },
+      "clear-text": {
+        "type": "string",
+        "default": "Очистить"
+      },
+      "search-placeholder": {
+        "type": "string",
+        "default": "Поиск"
+      },
+      "create-text": {
+        "type": "string",
+        "default": "Создать"
+      },
+      "pagination-total": {
+        "type": "integer",
+        "minimum": 0,
+        "default": 10
+      },
+      "pagination-page-size": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 100,
+        "default": 10
+      },
+      "page-sizes": {
+        "type": "string",
+        "default": "10,20,30,40"
+      },
+      "context-menu-columns": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 4,
+        "default": 2
+      },
+      "table-settings-key": {
+        "type": "string",
+        "minLength": 1,
+        "default": "admin.collection"
+      },
+      "data-state": {
+        "type": "string",
+        "enum": [
+          "auto",
+          "loading",
+          "populated",
+          "empty",
+          "error"
+        ],
+        "default": "auto"
+      },
+      "loading-text": {
+        "type": "string",
+        "default": "Загрузка данных"
+      },
+      "empty-text": {
+        "type": "string",
+        "default": "Нет данных"
+      },
+      "error-text": {
+        "type": "string",
+        "default": "Не удалось загрузить данные"
+      },
+      "retry-text": {
+        "type": "string",
+        "default": "Повторить"
+      }
+    }
+  },
+  "item_contract": {
+    "stable_id_attribute": "row.id",
+    "package_owned": [
+      "columns[].key",
+      "columns[].label",
+      "filter_fields[].key",
+      "filter_fields[].operators",
+      "actions[].id"
+    ],
+    "preference_fields": [
+      "column_settings.*.order",
+      "column_settings.*.width",
+      "column_settings.*.visible",
+      "column_settings.*.pinned",
+      "query.page_size"
+    ],
+    "supports": [
+      "structured-cells",
+      "row-selection",
+      "bulk-selection",
+      "column-resize",
+      "column-reorder",
+      "column-visibility",
+      "filter-templates",
+      "row-actions"
+    ]
+  },
+  "methods": {
+    "setTableData": {
+      "summary": "Patch columns, rows or related table state supplied by the host.",
+      "arguments": [
+        {
+          "name": "patch",
+          "schema": {
+            "type": "object"
+          }
+        }
+      ],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "setColumns": {
+      "summary": "Replace canonical backend-provided columns.",
+      "arguments": [
+        {
+          "name": "columns",
+          "schema": {
+            "type": "array"
+          }
+        }
+      ],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "setRows": {
+      "summary": "Replace the current backend result rows.",
+      "arguments": [
+        {
+          "name": "rows",
+          "schema": {
+            "type": "array"
+          }
+        }
+      ],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "addRows": {
+      "summary": "Append another backend page for show-more mode.",
+      "arguments": [
+        {
+          "name": "rows",
+          "schema": {
+            "type": "array"
+          }
+        }
+      ],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "setFilterFields": {
+      "summary": "Register backend-allowlisted filter fields and controls.",
+      "arguments": [
+        {
+          "name": "fields",
+          "schema": {
+            "type": "array"
+          }
+        }
+      ],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "setTemplates": {
+      "summary": "Apply saved filter/view templates.",
+      "arguments": [
+        {
+          "name": "templates",
+          "schema": {
+            "type": "array"
+          }
+        }
+      ],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "setTableSettings": {
+      "summary": "Apply a column-preference delta without emitting a save request.",
+      "arguments": [
+        {
+          "name": "settings",
+          "schema": {
+            "type": "object"
+          }
+        }
+      ],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "getFilterPayload": {
+      "summary": "Read the current filter draft for host-side query validation.",
+      "arguments": [],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "getColumnSettings": {
+      "summary": "Read the current column-preference delta.",
+      "arguments": [],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "setDataState": {
+      "summary": "Switch between automatic, loading, populated, empty and error presentation states.",
+      "arguments": [
+        {
+          "name": "state",
+          "schema": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "loading",
+              "populated",
+              "empty",
+              "error"
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "requestRetry": {
+      "summary": "Emit a retry intent after a failed data request.",
+      "arguments": [],
+      "returns": {
+        "type": "object"
+      }
+    }
+  },
+  "events": {
+    "sf-table-search-change": {
+      "summary": "Request a host-side query after the debounced search value changes.",
+      "payload": {
+        "type": "string"
+      }
+    },
+    "sf-table-filter-change": {
+      "summary": "Request a host-side query after the active filter draft changes.",
+      "payload": {
+        "type": "object"
+      }
+    },
+    "sf-table-template-save": {
+      "summary": "Request persistence of one or more filter templates.",
+      "payload": {
+        "type": [
+          "object",
+          "array"
+        ]
+      }
+    },
+    "sf-table-column-settings-change": {
+      "summary": "Request persistence of a column preference delta after resize, reorder or visibility changes.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "reason",
+          "tableSettingsKey",
+          "columnSettings"
+        ],
+        "properties": {
+          "reason": {
+            "type": "string"
+          },
+          "tableSettingsKey": {
+            "type": "string"
+          },
+          "columnSettings": {
+            "$ref": "#/contracts/column_settings"
+          }
+        }
+      }
+    },
+    "sf-table-retry": {
+      "summary": "Request another host-side load after the error state.",
+      "payload": {
+        "type": "null"
+      }
+    }
+  },
+  "contracts": {
+    "query_intent": {
+      "type": "object",
+      "required": [
+        "search",
+        "filters",
+        "sort",
+        "page",
+        "page_size"
+      ],
+      "properties": {
+        "search": {
+          "type": "string"
+        },
+        "filters": {
+          "type": "object"
+        },
+        "sort": {
+          "type": "array"
+        },
+        "page": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "page_size": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        }
+      },
+      "additionalProperties": false
+    },
+    "column_settings": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "order": {
+            "type": "number"
+          },
+          "width": {
+            "type": "string"
+          },
+          "visible": {
+            "type": "boolean"
+          },
+          "pinned": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "action_intent": {
+      "type": "object",
+      "required": [
+        "action_id",
+        "record_ids"
+      ],
+      "properties": {
+        "action_id": {
+          "type": "string"
+        },
+        "record_ids": {
+          "type": "array",
+          "items": {
+            "type": [
+              "string",
+              "integer"
+            ]
+          },
+          "minItems": 1
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "state": {
+    "machine": {
+      "data": [
+        "idle",
+        "loading",
+        "populated",
+        "empty",
+        "error"
+      ],
+      "query": [
+        "clean",
+        "searching",
+        "filtered",
+        "sorting",
+        "paging"
+      ],
+      "preferences": [
+        "idle",
+        "editing",
+        "saving",
+        "success",
+        "error",
+        "conflict"
+      ]
+    },
+    "visual_states": [
+      "loading",
+      "populated",
+      "empty",
+      "error",
+      "selected",
+      "filtered",
+      "settings-open",
+      "context-menu",
+      "wide-overflow",
+      "mobile"
+    ]
+  },
+  "persistence": {
+    "modes": {
+      "external": "The component holds drafts and emits semantic intents; the authenticated host owns all persistence."
+    },
+    "source_of_truth": {
+      "external": "backend Dataview projection and preference store"
+    },
+    "external_rule": "The component never invents endpoints, executes domain queries or persists Larena data directly.",
+    "revision_field": "base_revision"
+  },
+  "ownership": {
+    "data": "Backend Dataview source, query validator, projection and access resolver.",
+    "side_effects": "Domain package handlers behind an allowlisted host event bridge.",
+    "forbidden_client_responsibilities": [
+      "query authorization",
+      "field/operator invention",
+      "record access decisions",
+      "domain mutations",
+      "cross-user preference selection",
+      "HTTP endpoint invention"
+    ]
+  },
+  "backend": {
+    "adapters": [
+      "larena:ui.dataview"
+    ],
+    "integration_examples": {
+      "larena_php": "Smart::renderView('dataview.table', ['props' => ['title' => $title], 'children' => $resolvedChildren]);",
+      "event_bridge": "Normalize SF runtime events to Data View intents, validate them in larena/dataview, then return a fresh access-filtered projection."
+    }
+  },
+  "security": {
+    "permissions": [
+      "Backend filters rows and actions last",
+      "Only registered fields and operators enter a query",
+      "Preference scope comes from the authenticated identity"
+    ],
+    "untrusted_input": [
+      "Reject unknown columns, filters, sorts and action IDs",
+      "Treat every row and structured cell as untrusted render data",
+      "Never accept record ownership or access flags from the browser"
+    ]
+  },
+  "accessibility": {
+    "landmark": "region",
+    "required_label": "aria-label",
+    "keyboard": [
+      "Tab",
+      "Shift+Tab",
+      "Enter",
+      "Space",
+      "Escape",
+      "Arrow keys",
+      "ArrowLeft and ArrowRight resize a focused resizable column"
+    ],
+    "focus": "Every icon-only action and contextual surface has an accessible name. Per-instance overlays stay inside the visual viewport, close on Escape and restore focus to their trigger. Column resize keeps focus on its native button."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "en",
+      "ru"
+    ],
+    "responsive": [
+      "desktop-wide",
+      "desktop-local-scroll",
+      "mobile-stacked-toolbar",
+      "mobile-horizontal-table-scroll",
+      "viewport-bounded-overlays"
+    ]
+  },
+  "scenarios": [
+    {
+      "id": "desktop-populated",
+      "fixture": "data-view-reference",
+      "viewport": "desktop",
+      "assertions": [
+        "search-filter-toolbar",
+        "wide-columns-local-scroll",
+        "sticky-header",
+        "row-and-bulk-actions"
+      ]
+    },
+    {
+      "id": "server-query",
+      "fixture": "data-view-reference",
+      "viewport": "desktop",
+      "assertions": [
+        "search-intent",
+        "filter-intent",
+        "sort-intent",
+        "access-filtered-response"
+      ]
+    },
+    {
+      "id": "preferences",
+      "fixture": "data-view-reference",
+      "viewport": "desktop",
+      "assertions": [
+        "column-resize",
+        "keyboard-column-resize",
+        "column-reorder",
+        "column-visibility",
+        "delta-save",
+        "conflict-retains-draft"
+      ]
+    },
+    {
+      "id": "pagination",
+      "fixture": "data-view-reference",
+      "viewport": "desktop",
+      "assertions": [
+        "page-change",
+        "page-size-change",
+        "show-more-append",
+        "query-state-preserved"
+      ]
+    },
+    {
+      "id": "empty-error",
+      "fixture": "data-view-reference",
+      "viewport": "desktop",
+      "assertions": [
+        "loading",
+        "empty",
+        "error",
+        "retry-intent",
+        "aria-busy"
+      ]
+    },
+    {
+      "id": "mobile-geometry",
+      "fixture": "data-view-reference",
+      "viewport": "mobile",
+      "assertions": [
+        "stacked-controls",
+        "local-horizontal-scroll",
+        "no-document-horizontal-overflow",
+        "overlay-inside-viewport",
+        "actions-reachable"
+      ]
+    },
+    {
+      "id": "theme-locale",
+      "fixture": "data-view-reference",
+      "viewport": "desktop",
+      "assertions": [
+        "light-dark",
+        "ru-en",
+        "accessible-labels",
+        "ltr-rtl"
+      ]
+    }
+  ],
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v1.schema.json",
+      "version": 1
+    },
+    "runtime_pair": {
+      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
+      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+    },
+    "aliases": [
+      "smart.table"
+    ],
+    "deprecations": [],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-source",
+    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_artifacts": [
+      {
+        "path": "src/smart/table/index.js",
+        "sha256": "f00a42e989c8b842369b6f868a84e08e52bca2a673e05ca07a07df73f001ac9a"
+      },
+      {
+        "path": "src/smart/table/js/templates/default.js",
+        "sha256": "c70e937f71c00caf168898e1b4b7f338e73fb448c910e7b400a393cb599a9770"
+      },
+      {
+        "path": "src/smart/table/js/templates/default.css",
+        "sha256": "afcbe0ee2bf2f094c66e14b56abed3e6cfcf03570b8cb0695708c3de2f87d080"
+      },
+      {
+        "path": "src/smart/table/rule.js",
+        "sha256": "73fd88486702bc0c9edcd305481087bef8e4c21764bffc7cd595b34b74edf055"
+      },
+      {
+        "path": "src/smart/table/docs/smart-table-guide.md",
+        "sha256": "9fb8789371cb48e650cfb25cfca76319dc09eb2a3a1718ffc252512f95fc3b84"
+      },
+      {
+        "path": "src/smart/pagination/index.js",
+        "sha256": "1fe1b076babeb6a3c4e333caff47566e43f9b50f61aa21d250be76d585c7cd1c"
+      }
+    ],
+    "generated_runtime": [
+      {
+        "repository": "simai/ui-smart",
+        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "path": "smart/table/js/table.js",
+        "sha256": "8c5e257a80a22c315f3fbe9a241a821b49870dd1d6c26edfc9fd412bda298687"
+      },
+      {
+        "repository": "simai/ui-smart",
+        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "path": "smart/table/css/table.css",
+        "sha256": "b296d71183d2bb9673f02c1350a7d4cee406912636722b16cd4763dc36a17ea4"
+      },
+      {
+        "repository": "simai/ui-smart",
+        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "path": "smart/pagination/js/pagination.js",
+        "sha256": "2c543a4ca8fe4265c7488d1f03febe783d9a5b9e2f1e6c71c44680e191d7ca3a"
+      }
+    ]
+  },
+  "ai_guidance": {
+    "use_when": "Use the whole Data View for an admin collection that needs server search, filters, table preferences, actions or pagination.",
+    "do_not": [
+      "Do not rebuild the toolbar, table and pagination from unrelated primitives",
+      "Do not let the browser own query or access semantics",
+      "Do not send arbitrary field, operator, route or action identifiers to the backend"
+    ],
+    "required_reads": [
+      "contracts",
+      "events",
+      "persistence",
+      "ownership",
+      "backend",
+      "scenarios"
+    ],
+    "minimal_example": "<sf-table aria-label=\"Записи\" table-settings-key=\"package.records\"></sf-table>"
+  }
+}

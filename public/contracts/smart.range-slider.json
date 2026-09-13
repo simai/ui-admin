@@ -1,0 +1,414 @@
+{
+  "schema_version": 2,
+  "id": "smart.range-slider",
+  "version": "1.0.0",
+  "title": "Range Slider",
+  "summary": "Range Slider Smart Component from SIMAI Framework.",
+  "kind": "smart",
+  "reuse_mode": "whole",
+  "lifecycle": "experimental",
+  "tags": [
+    "range-slider"
+  ],
+  "capabilities": [
+    "render",
+    "theme",
+    "responsive"
+  ],
+  "custom_element": "sf-range-slider",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [],
+    "public_parts": []
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "template": {
+        "type": "string",
+        "default": "default",
+        "enum": [
+          "default"
+        ]
+      },
+      "min": {
+        "type": "string",
+        "default": "0"
+      },
+      "max": {
+        "type": "string",
+        "default": "100"
+      },
+      "start": {
+        "type": "string",
+        "default": ""
+      },
+      "value": {
+        "type": "string",
+        "default": ""
+      },
+      "multiple": {
+        "type": "boolean",
+        "default": false
+      },
+      "step": {
+        "type": "string",
+        "default": ""
+      },
+      "margin": {
+        "type": "string",
+        "default": ""
+      },
+      "connect": {
+        "type": "string",
+        "default": ""
+      },
+      "keyboard": {
+        "type": "boolean",
+        "default": true
+      },
+      "label": {
+        "type": "string",
+        "default": "none"
+      },
+      "prefix": {
+        "type": "string",
+        "default": ""
+      },
+      "suffix": {
+        "type": "string",
+        "default": ""
+      },
+      "lower-label": {
+        "type": "string",
+        "default": ""
+      },
+      "upper-label": {
+        "type": "string",
+        "default": ""
+      },
+      "decimals": {
+        "type": "string",
+        "default": ""
+      },
+      "tooltip-position": {
+        "type": "string",
+        "default": ""
+      },
+      "text-position": {
+        "type": "string",
+        "default": ""
+      },
+      "label-position": {
+        "type": "string",
+        "default": ""
+      },
+      "disabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "root-class": {
+        "type": "string",
+        "default": ""
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {},
+  "contracts": {},
+  "methods": {
+    "getSliderRoot": {
+      "summary": "Public runtime method getSliderRoot.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "getValue": {
+      "summary": "Public runtime method getValue.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "setValue": {
+      "summary": "Public runtime method setValue.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "setDisabled": {
+      "summary": "Public runtime method setDisabled.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "setState": {
+      "summary": "Public runtime method setState.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onUpdateValue": {
+      "summary": "Public runtime method onUpdateValue.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onSliderUpdate": {
+      "summary": "Public runtime method onSliderUpdate.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onChange": {
+      "summary": "Public runtime method onChange.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onSliderChange": {
+      "summary": "Public runtime method onSliderChange.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onSet": {
+      "summary": "Public runtime method onSet.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onSliderSet": {
+      "summary": "Public runtime method onSliderSet.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onStart": {
+      "summary": "Public runtime method onStart.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onSliderStart": {
+      "summary": "Public runtime method onSliderStart.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onEnd": {
+      "summary": "Public runtime method onEnd.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onSliderEnd": {
+      "summary": "Public runtime method onSliderEnd.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    }
+  },
+  "events": {},
+  "state": {
+    "machines": {},
+    "visual_states": [
+      "default"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "component",
+    "network_owner": "none",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-source",
+    "data": "fixture",
+    "effects": "component",
+    "forbidden_client_responsibilities": [
+      "backend access decisions",
+      "host route invention"
+    ]
+  },
+  "security": {
+    "permissions_owner": "none",
+    "untrusted_inputs": [
+      "props",
+      "children"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": null,
+    "accessible_name": "recommended",
+    "keyboard": [
+      "Tab"
+    ],
+    "focus": "Keep visible focus on the active control."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "ru",
+      "en"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile"
+    ]
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [
+      "studio.fixture.json"
+    ],
+    "scenarios": [
+      "studio.scenario.json"
+    ]
+  },
+  "readiness": {
+    "level": "described",
+    "required_checks": [
+      "manifest",
+      "fixture",
+      "runtime-upgrade",
+      "scenario-smoke"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
+      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+    },
+    "aliases": [],
+    "deprecations": [],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-source",
+    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_artifacts": [
+      {
+        "path": "src/smart/range-slider/index.js",
+        "sha256": "941cdb90e8e9d8cbaae2cada5250c49e897c007e1f31c51a3d598dfc280c1483"
+      }
+    ],
+    "generated_runtime": [
+      {
+        "repository": "simai/ui-smart",
+        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "path": "smart/range-slider/js/range-slider.js",
+        "sha256": "4cefa05b9232b4cb9b1af7223bf93caf6982525d39066d994d70d8364610afe2"
+      }
+    ]
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-range-slider when the interface needs the range slider behavior.",
+    "do_not": [
+      "Do not copy generated ui-smart code",
+      "Do not move host data or access decisions into the component"
+    ],
+    "required_reads": [
+      "inputs",
+      "methods",
+      "events",
+      "ownership",
+      "provenance"
+    ],
+    "minimal_example": "<sf-range-slider></sf-range-slider>",
+    "owner_commands": [
+      "npm run contract:verify",
+      "npm test"
+    ]
+  }
+}

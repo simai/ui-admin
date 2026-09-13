@@ -89,6 +89,10 @@ export default defineConfig(({ mode }) => {
             projectRoot,
             'navigation-menu-reference.html',
           ),
+          smartComponentCatalog: resolve(
+            projectRoot,
+            'smart-component-catalog.html',
+          ),
         },
       },
     },

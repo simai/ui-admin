@@ -1,0 +1,244 @@
+{
+  "schema_version": 2,
+  "id": "smart.avatars",
+  "version": "1.0.0",
+  "title": "Avatars",
+  "summary": "Avatars Smart Component from SIMAI Framework.",
+  "kind": "smart",
+  "reuse_mode": "whole",
+  "lifecycle": "experimental",
+  "tags": [
+    "avatars"
+  ],
+  "capabilities": [
+    "render",
+    "theme",
+    "responsive"
+  ],
+  "custom_element": "sf-avatars",
+  "templates": [
+    "default",
+    "user",
+    "group",
+    "label",
+    "profile"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [],
+    "public_parts": []
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "template": {
+        "type": "string",
+        "default": "default",
+        "enum": [
+          "default",
+          "user",
+          "group",
+          "label",
+          "profile"
+        ]
+      },
+      "data": {
+        "type": "string",
+        "default": ""
+      },
+      "property": {
+        "type": "string",
+        "default": ""
+      },
+      "image-url": {
+        "type": "string",
+        "default": ""
+      },
+      "avatar-url": {
+        "type": "string",
+        "default": ""
+      },
+      "avatar-size": {
+        "type": "string",
+        "default": ""
+      },
+      "active": {
+        "type": "boolean",
+        "default": false
+      },
+      "check": {
+        "type": "boolean",
+        "default": false
+      },
+      "name": {
+        "type": "string",
+        "default": ""
+      },
+      "source": {
+        "type": "string",
+        "default": ""
+      },
+      "label-text": {
+        "type": "string",
+        "default": ""
+      },
+      "label-second-text": {
+        "type": "string",
+        "default": ""
+      },
+      "avatars": {
+        "type": "array",
+        "default": []
+      },
+      "avatars-more": {
+        "type": "string",
+        "default": ""
+      },
+      "round-size": {
+        "type": "string",
+        "default": ""
+      },
+      "label-size": {
+        "type": "string",
+        "default": ""
+      },
+      "profile-size": {
+        "type": "string",
+        "default": ""
+      },
+      "root-class": {
+        "type": "string",
+        "default": ""
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {},
+  "contracts": {},
+  "methods": {},
+  "events": {},
+  "state": {
+    "machines": {},
+    "visual_states": [
+      "default"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "component",
+    "network_owner": "none",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-source",
+    "data": "fixture",
+    "effects": "component",
+    "forbidden_client_responsibilities": [
+      "backend access decisions",
+      "host route invention"
+    ]
+  },
+  "security": {
+    "permissions_owner": "none",
+    "untrusted_inputs": [
+      "props",
+      "children"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": null,
+    "accessible_name": "recommended",
+    "keyboard": [
+      "Tab"
+    ],
+    "focus": "Keep visible focus on the active control."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "ru",
+      "en"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile"
+    ]
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [
+      "studio.fixture.json"
+    ],
+    "scenarios": [
+      "studio.scenario.json"
+    ]
+  },
+  "readiness": {
+    "level": "described",
+    "required_checks": [
+      "manifest",
+      "fixture",
+      "runtime-upgrade",
+      "scenario-smoke"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
+      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+    },
+    "aliases": [],
+    "deprecations": [],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-source",
+    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_artifacts": [
+      {
+        "path": "src/smart/avatars/index.js",
+        "sha256": "5e45c8186a1c03d4c816486dda7efb978a22a71050486654fd3f04c22311add0"
+      }
+    ],
+    "generated_runtime": [
+      {
+        "repository": "simai/ui-smart",
+        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "path": "smart/avatars/js/avatars.js",
+        "sha256": "5b8615a7f3b8ba95b77beeba744f90705c21cfcc516d22132004a37607b2742c"
+      }
+    ]
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-avatars when the interface needs the avatars behavior.",
+    "do_not": [
+      "Do not copy generated ui-smart code",
+      "Do not move host data or access decisions into the component"
+    ],
+    "required_reads": [
+      "inputs",
+      "methods",
+      "events",
+      "ownership",
+      "provenance"
+    ],
+    "minimal_example": "<sf-avatars></sf-avatars>",
+    "owner_commands": [
+      "npm run contract:verify",
+      "npm test"
+    ]
+  }
+}

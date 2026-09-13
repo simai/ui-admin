@@ -1,0 +1,284 @@
+{
+  "schema_version": 2,
+  "id": "smart.breadcrumbs",
+  "version": "1.0.0",
+  "title": "Breadcrumbs",
+  "summary": "Breadcrumbs Smart Component from SIMAI Framework.",
+  "kind": "smart",
+  "reuse_mode": "whole",
+  "lifecycle": "experimental",
+  "tags": [
+    "breadcrumbs"
+  ],
+  "capabilities": [
+    "render",
+    "theme",
+    "responsive"
+  ],
+  "custom_element": "sf-breadcrumbs",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [
+      "component.breadcrumbs",
+      "component.icons"
+    ],
+    "public_parts": []
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "template": {
+        "type": "string",
+        "default": "default",
+        "enum": [
+          "default"
+        ]
+      },
+      "items": {
+        "type": "string",
+        "default": []
+      },
+      "separator-icon": {
+        "type": "string",
+        "default": "chevron_right"
+      },
+      "home-icon": {
+        "type": "string",
+        "default": "home"
+      },
+      "home-label": {
+        "type": "string",
+        "default": ""
+      },
+      "root-class": {
+        "type": "string",
+        "default": ""
+      },
+      "item-class": {
+        "type": "string",
+        "default": ""
+      },
+      "link-class": {
+        "type": "string",
+        "default": ""
+      },
+      "current-class": {
+        "type": "string",
+        "default": ""
+      },
+      "separator-class": {
+        "type": "string",
+        "default": ""
+      },
+      "container-class": {
+        "type": "string",
+        "default": ""
+      },
+      "aria-label": {
+        "type": "string",
+        "default": "Breadcrumb"
+      },
+      "expand-label": {
+        "type": "string",
+        "default": "Show hidden breadcrumbs"
+      },
+      "expand-on-ellipsis": {
+        "type": "boolean",
+        "default": true
+      },
+      "max-items": {
+        "type": "number",
+        "default": 4
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {},
+  "contracts": {},
+  "methods": {
+    "getCapturedItems": {
+      "summary": "Public runtime method getCapturedItems.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "getDisplayItems": {
+      "summary": "Public runtime method getDisplayItems.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "setState": {
+      "summary": "Public runtime method setState.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onItemClick": {
+      "summary": "Public runtime method onItemClick.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    }
+  },
+  "events": {
+    "sf-breadcrumb-click": {
+      "summary": "Runtime event sf-breadcrumb-click.",
+      "payload": {
+        "type": "object"
+      }
+    }
+  },
+  "state": {
+    "machines": {},
+    "visual_states": [
+      "default"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "component",
+    "network_owner": "none",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-source",
+    "data": "fixture",
+    "effects": "component",
+    "forbidden_client_responsibilities": [
+      "backend access decisions",
+      "host route invention"
+    ]
+  },
+  "security": {
+    "permissions_owner": "none",
+    "untrusted_inputs": [
+      "props",
+      "children"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": "navigation",
+    "accessible_name": "required",
+    "keyboard": [
+      "Tab",
+      "Enter on links",
+      "Enter or Space on the ellipsis button"
+    ],
+    "focus": "Native links and the ellipsis button use keyboard-only focus-visible; the current page does not enter the tab order."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "ru",
+      "en"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile"
+    ]
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [
+      "studio.fixture.json"
+    ],
+    "scenarios": [
+      "studio.scenario.json"
+    ]
+  },
+  "readiness": {
+    "level": "described",
+    "required_checks": [
+      "manifest",
+      "fixture",
+      "runtime-upgrade",
+      "scenario-smoke"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
+      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+    },
+    "aliases": [],
+    "deprecations": [],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-source",
+    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_artifacts": [
+      {
+        "path": "src/smart/breadcrumbs/index.js",
+        "sha256": "36f628be01f7dc363b97b3c7f55b225e6349a16f2aea5a67548181531e2cf0cd"
+      }
+    ],
+    "generated_runtime": [
+      {
+        "repository": "simai/ui-smart",
+        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "path": "smart/breadcrumbs/js/breadcrumbs.js",
+        "sha256": "29a4e1f10d407acb1e1e1139e590bc27dfba97207f1507c614d2d7571ed7f5f7"
+      }
+    ]
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-breadcrumbs to show the current page location in a hierarchy and provide native links to ancestor pages.",
+    "do_not": [
+      "Do not use Breadcrumbs as browsing history, tabs, a menu or a stepper",
+      "Do not omit href when an ancestor has a real URL",
+      "Do not expose separator icons to assistive technology",
+      "Do not copy generated ui-smart code",
+      "Do not move host data or access decisions into the component"
+    ],
+    "required_reads": [
+      "inputs",
+      "methods",
+      "events",
+      "ownership",
+      "provenance"
+    ],
+    "minimal_example": "<sf-breadcrumbs></sf-breadcrumbs>",
+    "owner_commands": [
+      "npm run contract:verify",
+      "npm test"
+    ]
+  }
+}

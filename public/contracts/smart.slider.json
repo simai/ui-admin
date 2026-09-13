@@ -1,0 +1,250 @@
+{
+  "schema_version": 2,
+  "id": "smart.slider",
+  "version": "1.0.0",
+  "title": "Slider",
+  "summary": "Slider Smart Component from SIMAI Framework.",
+  "kind": "smart",
+  "reuse_mode": "whole",
+  "lifecycle": "experimental",
+  "tags": [
+    "slider"
+  ],
+  "capabilities": [
+    "render",
+    "theme",
+    "responsive"
+  ],
+  "custom_element": "sf-slider",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [],
+    "public_parts": []
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "button-type": {
+        "type": "string",
+        "default": "primary"
+      },
+      "button-size": {
+        "type": "string",
+        "default": "1"
+      },
+      "dots": {
+        "type": "boolean",
+        "default": true
+      },
+      "dots-type": {
+        "type": "string",
+        "default": "primary-dark"
+      },
+      "dots-size": {
+        "type": "string",
+        "default": "2"
+      },
+      "thumbs": {
+        "type": "boolean",
+        "default": false
+      },
+      "thumbs-class": {
+        "type": "string",
+        "default": ""
+      },
+      "thumb-class": {
+        "type": "string",
+        "default": ""
+      },
+      "arrows": {
+        "type": "boolean",
+        "default": true
+      },
+      "loop": {
+        "type": "boolean",
+        "default": false
+      },
+      "space-between": {
+        "type": "number",
+        "default": 12
+      },
+      "speed": {
+        "type": "number",
+        "default": 450
+      },
+      "root-class": {
+        "type": "string",
+        "default": ""
+      },
+      "slide-class": {
+        "type": "string",
+        "default": ""
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {},
+  "contracts": {},
+  "methods": {
+    "getSlider": {
+      "summary": "Public runtime method getSlider.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "refresh": {
+      "summary": "Public runtime method refresh.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    }
+  },
+  "events": {
+    "sf-slide-change": {
+      "summary": "Runtime event sf-slide-change.",
+      "payload": {
+        "type": "object"
+      }
+    }
+  },
+  "state": {
+    "machines": {},
+    "visual_states": [
+      "default"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "component",
+    "network_owner": "none",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-source",
+    "data": "fixture",
+    "effects": "component",
+    "forbidden_client_responsibilities": [
+      "backend access decisions",
+      "host route invention"
+    ]
+  },
+  "security": {
+    "permissions_owner": "none",
+    "untrusted_inputs": [
+      "props",
+      "children"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": null,
+    "accessible_name": "recommended",
+    "keyboard": [
+      "Tab"
+    ],
+    "focus": "Keep visible focus on the active control."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "ru",
+      "en"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile"
+    ]
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [
+      "studio.fixture.json"
+    ],
+    "scenarios": [
+      "studio.scenario.json"
+    ]
+  },
+  "readiness": {
+    "level": "described",
+    "required_checks": [
+      "manifest",
+      "fixture",
+      "runtime-upgrade",
+      "scenario-smoke"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
+      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+    },
+    "aliases": [],
+    "deprecations": [],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-source",
+    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_artifacts": [
+      {
+        "path": "src/smart/slider/index.js",
+        "sha256": "117f3684a34db7f6ed986a0149f383ff7e9029eac1e8980e65346efbc6bf7b23"
+      }
+    ],
+    "generated_runtime": [
+      {
+        "repository": "simai/ui-smart",
+        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "path": "smart/slider/js/slider.js",
+        "sha256": "f9f44848d443033730db4363af7bea1e79da5129ee97ff664f7b6673b7ddebac"
+      }
+    ]
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-slider to project the shared Slider/Swiper behavior. In the default template, root-class, author style and root-style customize the existing root; root-style wins. Cosmetic-only changes preserve the active slide, focus and Swiper instances and emit sf-updated with updateMode=dom, not slide-change. afterRender(callback) uses the base lifecycle API. The shared adapter uses navigation aria-label as default Swiper a11y messages; explicit a11y messages override them, disabled a11y remains disabled and aria-labelledby retains native precedence. Omitted space-between and speed inherit Framework spacing and duration tokens; explicit numeric attributes remain compatibility overrides. Reduced motion disables transitions and autoplay. Explicit autoplay pauses on focus and document visibility, while non-visible slides stay outside the keyboard order.",
+    "do_not": [
+      "Do not copy generated ui-smart code",
+      "A slide is one meaningful slot item. Bare slot-only wrappers expose their children; attributed card roots remain whole. Whitespace-only text and comments do not become slides. Preserve composite cards inside one item; do not infer grouping from sibling headings or links.",
+      "Use existing root-class=sf-slider--content for text/card slides with controls in normal flow; default media overlay is preserved. Dot hit areas inherit semantic UI geometry from the shared Slider CSS.",
+      "Pagination inherits shared Slider CSS: inactive contour and current fill use semantic foreground roles; preserve focus-visible, forced-colors and the appropriate backdrop for transparent schemes. Do not create a Smart-only dot palette.",
+      "Do not move host data or access decisions into the component"
+    ],
+    "required_reads": [
+      "inputs",
+      "methods",
+      "events",
+      "ownership",
+      "provenance"
+    ],
+    "minimal_example": "<sf-slider></sf-slider>",
+    "owner_commands": [
+      "npm run contract:verify",
+      "npm test"
+    ]
+  }
+}

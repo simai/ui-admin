@@ -1,0 +1,518 @@
+{
+  "schema_version": 2,
+  "id": "smart.pagination",
+  "version": "1.0.0",
+  "title": "Pagination",
+  "summary": "Source-driven navigation for a collection split into numbered pages.",
+  "kind": "smart",
+  "reuse_mode": "whole",
+  "lifecycle": "experimental",
+  "tags": [
+    "pagination"
+  ],
+  "capabilities": [
+    "render",
+    "interaction",
+    "keyboard",
+    "theme",
+    "responsive"
+  ],
+  "custom_element": "sf-pagination",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [
+      "smart.buttons",
+      "smart.checkbox",
+      "smart.dropdown",
+      "smart.icon-buttons",
+      "smart.list-item"
+    ],
+    "public_parts": []
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "template": {
+        "type": "string",
+        "default": "default",
+        "enum": [
+          "default"
+        ],
+        "description": "Template name."
+      },
+      "top": {
+        "type": "boolean",
+        "default": true,
+        "description": "Show the compatible show-more section."
+      },
+      "middle": {
+        "type": "boolean",
+        "default": true,
+        "description": "Show page navigation and collection summary."
+      },
+      "bottom": {
+        "type": "boolean",
+        "default": true,
+        "description": "Allow the compatible batch-action section."
+      },
+      "top-class": {
+        "type": "string",
+        "default": "",
+        "description": "Framework utility classes for the show-more section."
+      },
+      "main-class": {
+        "type": "string",
+        "default": "",
+        "description": "Framework utility classes for the navigation section."
+      },
+      "bottom-class": {
+        "type": "string",
+        "default": "",
+        "description": "Framework utility classes for the batch-action section."
+      },
+      "aria-label": {
+        "type": "string",
+        "default": "Страницы результатов",
+        "description": "Accessible name of the navigation landmark."
+      },
+      "pages-label": {
+        "type": "string",
+        "default": "Страницы:",
+        "description": "Visible label before page controls."
+      },
+      "page-label": {
+        "type": "string",
+        "default": "Страница",
+        "description": "Accessible prefix for a numbered page action."
+      },
+      "previous-label": {
+        "type": "string",
+        "default": "Предыдущая страница",
+        "description": "Accessible name of the previous-page action."
+      },
+      "next-label": {
+        "type": "string",
+        "default": "Следующая страница",
+        "description": "Accessible name of the next-page action."
+      },
+      "last-label": {
+        "type": "string",
+        "default": "Последняя",
+        "description": "Visible label of the compatible last-page action."
+      },
+      "total-label": {
+        "type": "string",
+        "default": "Всего:",
+        "description": "Visible label for the total item count."
+      },
+      "selected-label": {
+        "type": "string",
+        "default": "Отмечено:",
+        "description": "Visible label for the selected item count."
+      },
+      "selected-count": {
+        "type": "integer",
+        "default": 0,
+        "minimum": 0,
+        "description": "Selected item count, clamped between zero and total."
+      },
+      "show-more-text": {
+        "type": "string",
+        "default": "Показать ещё",
+        "description": "Label of the compatible show-more action."
+      },
+      "current": {
+        "type": "integer",
+        "minimum": 1,
+        "default": 1,
+        "description": "Current one-based page number."
+      },
+      "total": {
+        "type": "integer",
+        "minimum": 0,
+        "default": 10,
+        "description": "Non-negative total item count."
+      },
+      "page-size": {
+        "type": "integer",
+        "minimum": 1,
+        "default": 10,
+        "description": "Positive number of items per page."
+      },
+      "page-sizes": {
+        "type": "string",
+        "default": "10,20,30,40",
+        "description": "Comma-separated positive page-size choices."
+      },
+      "show-page-size": {
+        "type": "boolean",
+        "default": true,
+        "description": "Show the page-size selector for a non-empty collection."
+      },
+      "page-size-label": {
+        "type": "string",
+        "default": "На странице:",
+        "description": "Visible and accessible label of the page-size selector."
+      },
+      "show-actions": {
+        "type": "boolean",
+        "default": true,
+        "description": "Show batch actions when actions are supplied."
+      },
+      "actions": {
+        "type": "string",
+        "default": "",
+        "description": "Pipe-separated compatible batch-action definitions."
+      },
+      "action": {
+        "type": "string",
+        "default": "",
+        "description": "Selected batch-action value."
+      },
+      "action-apply-text": {
+        "type": "string",
+        "default": "Применить",
+        "description": "Label of the batch-action apply button."
+      },
+      "show-action-for-all": {
+        "type": "boolean",
+        "default": false,
+        "description": "Show the compatible all-items toggle."
+      },
+      "action-for-all": {
+        "type": "boolean",
+        "default": false,
+        "description": "Current all-items toggle value."
+      },
+      "action-for-all-label": {
+        "type": "string",
+        "default": "Для всех",
+        "description": "Label of the all-items toggle."
+      },
+      "actions-label": {
+        "type": "string",
+        "default": "Действие с выбранными элементами",
+        "description": "Accessible name of the batch-action selector."
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {
+    "page": "Positive one-based page number bounded by total and page-size.",
+    "ellipsis": "Non-interactive indicator for omitted pages."
+  },
+  "contracts": {
+    "navigation": {
+      "const": "The visible root is a named nav; page actions are native buttons because the component emits state events instead of owning URLs."
+    },
+    "current": {
+      "const": "Exactly one rendered page exposes aria-current=page when total is greater than zero."
+    },
+    "empty": {
+      "const": "A zero-sized collection renders no page controls and emits no page-change."
+    },
+    "responsive": {
+      "const": "A long desktop range keeps edge pages and static ellipses; a narrow range keeps the current page, adjacent pages and directional actions on one line."
+    },
+    "composition": {
+      "const": "Show-more, page-size and batch-action sections remain compatible optional compositions; data loading and host actions stay outside the component."
+    }
+  },
+  "methods": {
+    "getTopSection": {
+      "summary": "Public runtime method getTopSection.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "getMainSection": {
+      "summary": "Public runtime method getMainSection.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "getBottomSection": {
+      "summary": "Public runtime method getBottomSection.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "goToPage": {
+      "summary": "Public runtime method goToPage.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "showMore": {
+      "summary": "Public runtime method showMore.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "setPageSize": {
+      "summary": "Public runtime method setPageSize.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "setAction": {
+      "summary": "Public runtime method setAction.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "setActionForAll": {
+      "summary": "Public runtime method setActionForAll.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "setState": {
+      "summary": "Public runtime method setState.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onPageChange": {
+      "summary": "Public runtime method onPageChange.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onShowMore": {
+      "summary": "Public runtime method onShowMore.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    }
+  },
+  "events": {
+    "sf-action-apply": {
+      "summary": "Runtime event sf-action-apply.",
+      "payload": {
+        "type": "object"
+      }
+    },
+    "sf-action-change": {
+      "summary": "Runtime event sf-action-change.",
+      "payload": {
+        "type": "object"
+      }
+    },
+    "sf-action-for-all-change": {
+      "summary": "Runtime event sf-action-for-all-change.",
+      "payload": {
+        "type": "object"
+      }
+    },
+    "sf-page-change": {
+      "summary": "Runtime event sf-page-change.",
+      "payload": {
+        "type": "object"
+      }
+    },
+    "sf-page-size-change": {
+      "summary": "Runtime event sf-page-size-change.",
+      "payload": {
+        "type": "object"
+      }
+    },
+    "sf-show-more": {
+      "summary": "Runtime event sf-show-more.",
+      "payload": {
+        "type": "object"
+      }
+    }
+  },
+  "state": {
+    "machines": {},
+    "visual_states": [
+      "default",
+      "selected",
+      "disabled",
+      "empty"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "component",
+    "network_owner": "none",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-source",
+    "data": "fixture",
+    "effects": "component",
+    "forbidden_client_responsibilities": [
+      "backend access decisions",
+      "host route invention"
+    ]
+  },
+  "security": {
+    "permissions_owner": "none",
+    "untrusted_inputs": [
+      "props",
+      "children"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": "navigation",
+    "accessible_name": "required",
+    "keyboard": [
+      "Tab"
+    ],
+    "focus": "Tab reaches only enabled native actions. Focus uses the shared keyboard-only focus-visible treatment and remains visible in forced colors; omitted pages are not focusable."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "ru",
+      "en"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile"
+    ]
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [
+      "studio.fixture.json"
+    ],
+    "scenarios": [
+      "studio.scenario.json"
+    ]
+  },
+  "readiness": {
+    "level": "accepted",
+    "required_checks": [
+      "manifest",
+      "fixture",
+      "runtime-upgrade",
+      "scenario-smoke",
+      "owner-contract",
+      "browser-matrix",
+      "documentation-smoke"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
+      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+    },
+    "aliases": [],
+    "deprecations": [],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-source",
+    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_artifacts": [
+      {
+        "path": "src/smart/pagination/index.js",
+        "sha256": "1fe1b076babeb6a3c4e333caff47566e43f9b50f61aa21d250be76d585c7cd1c"
+      }
+    ],
+    "generated_runtime": [
+      {
+        "repository": "simai/ui-smart",
+        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "path": "smart/pagination/js/pagination.js",
+        "sha256": "2c543a4ca8fe4265c7488d1f03febe783d9a5b9e2f1e6c71c44680e191d7ca3a"
+      }
+    ]
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-pagination for a collection divided into numbered pages when the host owns data loading and reacts to pagination events.",
+    "do_not": [
+      "Do not copy generated ui-smart code",
+      "Do not move host data or access decisions into the component",
+      "Do not use Pagination for semantic steps or short content that can be shown at once",
+      "Do not make an ellipsis interactive or put the pagination row on multiple lines",
+      "Do not treat the optional batch-action section as the core pagination contract"
+    ],
+    "required_reads": [
+      "inputs",
+      "methods",
+      "events",
+      "ownership",
+      "provenance"
+    ],
+    "minimal_example": "<sf-pagination aria-label=\"Страницы результатов поиска\" current=\"2\" total=\"96\" page-size=\"10\" top=\"false\" bottom=\"false\" show-page-size=\"false\"></sf-pagination>",
+    "owner_commands": [
+      "npm run contract:verify",
+      "npm test"
+    ]
+  }
+}

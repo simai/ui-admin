@@ -1,0 +1,307 @@
+{
+  "schema_version": 2,
+  "id": "smart.switch",
+  "version": "1.0.0",
+  "title": "Switch",
+  "summary": "Switch Smart Component from SIMAI Framework.",
+  "kind": "smart",
+  "reuse_mode": "both",
+  "lifecycle": "experimental",
+  "tags": [
+    "switch"
+  ],
+  "capabilities": [
+    "render",
+    "theme",
+    "responsive"
+  ],
+  "custom_element": "sf-switch",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [
+      "component.switch"
+    ],
+    "public_parts": [
+      "native-input",
+      "track",
+      "thumb",
+      "label",
+      "description"
+    ]
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "size": {
+        "type": "string",
+        "default": "1",
+        "description": "Switch size token.",
+        "enum": [
+          "1/3",
+          "1"
+        ]
+      },
+      "label": {
+        "type": "string",
+        "default": ""
+      },
+      "description": {
+        "type": "string",
+        "default": ""
+      },
+      "help": {
+        "type": "string",
+        "default": ""
+      },
+      "checked": {
+        "type": "boolean",
+        "default": false
+      },
+      "disabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "name": {
+        "type": "string",
+        "default": ""
+      },
+      "value": {
+        "type": "string",
+        "default": ""
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {},
+  "contracts": {
+    "state_owner": {
+      "const": "native_input"
+    },
+    "application": {
+      "const": "immediate_binary_setting"
+    },
+    "reset": {
+      "const": "native_form_reset"
+    },
+    "switch_states": {
+      "type": "string",
+      "enum": [
+        "unchecked",
+        "checked",
+        "disabled"
+      ]
+    }
+  },
+  "methods": {
+    "getInputElement": {
+      "summary": "Public runtime method getInputElement.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "setChecked": {
+      "summary": "Public runtime method setChecked.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "setDisabled": {
+      "summary": "Public runtime method setDisabled.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "setState": {
+      "summary": "Public runtime method setState.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onChange": {
+      "summary": "Public runtime method onChange.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onFocus": {
+      "summary": "Public runtime method onFocus.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onBlur": {
+      "summary": "Public runtime method onBlur.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    }
+  },
+  "events": {},
+  "state": {
+    "machines": {},
+    "visual_states": [
+      "default",
+      "selected",
+      "disabled"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "component",
+    "network_owner": "none",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-source",
+    "data": "fixture",
+    "effects": "component",
+    "forbidden_client_responsibilities": [
+      "backend access decisions",
+      "host route invention"
+    ]
+  },
+  "security": {
+    "permissions_owner": "none",
+    "untrusted_inputs": [
+      "props",
+      "children"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": "switch",
+    "accessible_name": "required",
+    "keyboard": [
+      "Tab",
+      "Space"
+    ],
+    "focus": "Keep visible focus on the active control."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "ru",
+      "en"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile"
+    ]
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [
+      "studio.fixture.json"
+    ],
+    "scenarios": [
+      "studio.scenario.json"
+    ]
+  },
+  "readiness": {
+    "level": "described",
+    "required_checks": [
+      "manifest",
+      "fixture",
+      "runtime-upgrade",
+      "scenario-smoke"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
+      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+    },
+    "aliases": [],
+    "deprecations": [],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-source",
+    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_artifacts": [
+      {
+        "path": "src/smart/switch/index.js",
+        "sha256": "497eb8e2a96c9c0d3940818eac1a70f0f19ceba5ab7746d3db7ad6a72ba6ded6"
+      }
+    ],
+    "generated_runtime": [
+      {
+        "repository": "simai/ui-smart",
+        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "path": "smart/switch/js/switch.js",
+        "sha256": "fbfc8cfbd228451a04bad864b0d830acd8f5de96b4f42de3a98d7bef39908836"
+      }
+    ]
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-switch when a binary setting takes effect immediately and may need supporting text.",
+    "do_not": [
+      "Do not use Switch for a value submitted only after a separate confirmation action",
+      "Do not label it with commands such as Enable and Disable",
+      "Do not copy generated ui-smart code",
+      "Do not move host data or access decisions into the component"
+    ],
+    "required_reads": [
+      "inputs",
+      "methods",
+      "events",
+      "ownership",
+      "provenance"
+    ],
+    "minimal_example": "<sf-switch></sf-switch>",
+    "owner_commands": [
+      "npm run contract:verify",
+      "npm test"
+    ]
+  }
+}

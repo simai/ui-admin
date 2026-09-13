@@ -1,0 +1,635 @@
+{
+  "schema_version": 1,
+  "id": "smart.admin-menu",
+  "version": "1.0.0",
+  "title": "Admin menu",
+  "summary": "Searchable nested admin navigation with compact mode and editable personal or system preferences.",
+  "kind": "composite",
+  "reuse_mode": "whole",
+  "lifecycle": "experimental",
+  "tags": [
+    "admin",
+    "menu",
+    "navigation",
+    "settings"
+  ],
+  "capabilities": [
+    "navigation",
+    "search",
+    "nested-panels",
+    "preferences",
+    "responsive"
+  ],
+  "custom_element": "sf-admin-menu",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [
+      "component.admin-menu",
+      "component.badges",
+      "component.icons",
+      "component.inputs",
+      "smart.buttons",
+      "smart.context-menu"
+    ],
+    "public_parts": []
+  },
+  "inputs": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "aria-label"
+    ],
+    "properties": {
+      "template": {
+        "type": "string",
+        "const": "default",
+        "default": "default"
+      },
+      "brand": {
+        "type": "string",
+        "default": ""
+      },
+      "logo": {
+        "type": "string",
+        "default": ""
+      },
+      "logo-href": {
+        "type": "string",
+        "default": "#"
+      },
+      "aria-label": {
+        "type": "string",
+        "minLength": 1,
+        "default": "Admin menu"
+      },
+      "searchable": {
+        "type": "boolean",
+        "default": false
+      },
+      "collapsible": {
+        "type": "boolean",
+        "default": false
+      },
+      "settings": {
+        "type": "boolean",
+        "default": true
+      },
+      "settings-title": {
+        "type": "string",
+        "default": "Menu settings"
+      },
+      "compact": {
+        "type": "boolean",
+        "default": false
+      },
+      "persistence-mode": {
+        "type": "string",
+        "enum": [
+          "local",
+          "external"
+        ],
+        "default": "local"
+      },
+      "settings-mode": {
+        "type": "string",
+        "enum": [
+          "user",
+          "system"
+        ],
+        "default": "user"
+      },
+      "settings-revision": {
+        "type": "integer",
+        "minimum": 0,
+        "default": 0
+      },
+      "system-settings-revision": {
+        "type": "integer",
+        "minimum": 0,
+        "default": 0
+      },
+      "allow-system-settings": {
+        "type": "boolean",
+        "default": false
+      },
+      "search-placeholder": {
+        "type": "string",
+        "default": "Search sections"
+      },
+      "toggle-label": {
+        "type": "string",
+        "default": "Menu"
+      },
+      "panel-class": {
+        "type": "string",
+        "default": ""
+      },
+      "root-class": {
+        "type": "string",
+        "default": ""
+      }
+    }
+  },
+  "item_contract": {
+    "stable_id_attribute": "item-id",
+    "package_owned": [
+      "item-id",
+      "label",
+      "href",
+      "icon",
+      "badge",
+      "access"
+    ],
+    "preference_fields": [
+      "order",
+      "hidden",
+      "pinned"
+    ],
+    "supports": [
+      "nested-items",
+      "divider",
+      "main-slot",
+      "bottom-slot",
+      "active",
+      "current",
+      "disabled"
+    ]
+  },
+  "methods": {
+    "applyExternalSettingsState": {
+      "summary": "Apply backend-resolved state and tree.",
+      "arguments": [
+        {
+          "name": "state",
+          "schema": {
+            "type": "object"
+          }
+        },
+        {
+          "name": "target",
+          "schema": {
+            "enum": [
+              "user",
+              "system"
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "type": "null"
+      }
+    },
+    "applySettingsResult": {
+      "summary": "Commit a successful external save response.",
+      "arguments": [
+        {
+          "name": "result",
+          "schema": {
+            "type": "object"
+          }
+        }
+      ],
+      "returns": {
+        "type": "null"
+      }
+    },
+    "applySettingsError": {
+      "summary": "Keep the draft and expose error or conflict state.",
+      "arguments": [
+        {
+          "name": "error",
+          "schema": {
+            "type": "object"
+          }
+        }
+      ],
+      "returns": {
+        "type": "null"
+      }
+    },
+    "setCompact": {
+      "summary": "Set compact navigation mode.",
+      "arguments": [
+        {
+          "name": "compact",
+          "schema": {
+            "type": "boolean"
+          }
+        }
+      ],
+      "returns": {
+        "type": "boolean"
+      }
+    },
+    "toggleMenuSettings": {
+      "summary": "Enter or leave the settings editor.",
+      "arguments": [],
+      "returns": {
+        "type": "null"
+      }
+    }
+  },
+  "events": {
+    "sf-admin-menu-settings-save": {
+      "summary": "Request persistence of the current delta.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "target",
+          "base_revision",
+          "profile"
+        ],
+        "properties": {
+          "target": {
+            "enum": [
+              "user",
+              "system"
+            ]
+          },
+          "base_revision": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "profile": {
+            "$ref": "#/contracts/settings_profile"
+          }
+        }
+      }
+    },
+    "sf-admin-menu-settings-reset": {
+      "summary": "Request reset of the selected preference level.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "target",
+          "base_revision"
+        ],
+        "properties": {
+          "target": {
+            "enum": [
+              "user",
+              "system"
+            ]
+          },
+          "base_revision": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "sf-admin-menu-settings-cancel": {
+      "summary": "Discard the local draft.",
+      "payload": {
+        "type": "object",
+        "properties": {
+          "target": {
+            "enum": [
+              "user",
+              "system"
+            ]
+          }
+        }
+      }
+    },
+    "sf-admin-menu-settings-mode-change": {
+      "summary": "Request state for another settings level.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "target"
+        ],
+        "properties": {
+          "target": {
+            "enum": [
+              "user",
+              "system"
+            ]
+          }
+        }
+      }
+    },
+    "sf-admin-menu-settings-refresh": {
+      "summary": "Request fresh backend state after a conflict.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "target",
+          "base_revision",
+          "profile"
+        ],
+        "properties": {
+          "target": {
+            "enum": [
+              "user",
+              "system"
+            ]
+          },
+          "base_revision": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "profile": {
+            "$ref": "#/contracts/settings_profile"
+          }
+        }
+      }
+    },
+    "sf-admin-menu-compact-change": {
+      "summary": "Notify the host shell about width mode.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "compact",
+          "source"
+        ],
+        "properties": {
+          "compact": {
+            "type": "boolean"
+          },
+          "source": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "contracts": {
+    "settings_profile": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "items",
+        "layout"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "items": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "order": {
+                "type": "number"
+              },
+              "hidden": {
+                "type": "boolean"
+              },
+              "pinned": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "layout": {
+          "type": "object",
+          "properties": {
+            "compact": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    }
+  },
+  "state": {
+    "machine": {
+      "settings": [
+        "idle",
+        "saving",
+        "success",
+        "error",
+        "conflict"
+      ],
+      "navigation": [
+        "expanded",
+        "compact",
+        "nested",
+        "searching"
+      ]
+    },
+    "visual_states": [
+      "loading",
+      "empty",
+      "saving",
+      "success",
+      "error",
+      "conflict",
+      "disabled",
+      "compact",
+      "nested",
+      "mobile"
+    ]
+  },
+  "persistence": {
+    "modes": {
+      "local": "Component-owned demo state in localStorage.",
+      "external": "Draft-only component; host owns persistence."
+    },
+    "source_of_truth": {
+      "local": "browser demo",
+      "external": "authenticated backend"
+    },
+    "external_rule": "The component emits semantic events and never performs HTTP requests. Refresh includes the current draft profile and accepted revision so the host can return an authorized resolved state.",
+    "revision_field": "base_revision"
+  },
+  "ownership": {
+    "data": "Backend package navigation registry and access resolver.",
+    "side_effects": "Host event bridge and backend endpoints.",
+    "forbidden_client_responsibilities": [
+      "access decisions",
+      "route discovery",
+      "domain record semantics",
+      "cross-user identity selection",
+      "HTTP endpoint invention"
+    ]
+  },
+  "backend": {
+    "adapters": [
+      "larena:ui.admin_menu"
+    ],
+    "integration_examples": {
+      "larena_php": "Smart::render('ui.admin_menu', ['props' => $props]);",
+      "event_bridge": "Register the generic Smart event bridge for save, reset, mode-change and refresh events."
+    }
+  },
+  "security": {
+    "permissions": [
+      "Backend filters the tree last",
+      "System settings require a distinct permission",
+      "User scope_id comes from the authenticated identity"
+    ],
+    "untrusted_input": [
+      "Reject unknown item IDs",
+      "Reject package-owned field mutations",
+      "Treat labels, badges and URLs as untrusted render data"
+    ]
+  },
+  "accessibility": {
+    "landmark": "navigation",
+    "required_label": "aria-label",
+    "keyboard": [
+      "Tab",
+      "Enter",
+      "Space",
+      "Escape"
+    ],
+    "focus": "Context menus focus their first available native item after rendering. Escape returns to the native opener; Tab/Shift+Tab close and continue from the opener. Outside focus is preserved. If save/cancel removes the opener, abandoned body focus returns to the settings control or another available control in this Admin Menu. Shared portal ownership and stale callbacks are guarded. Popup geometry follows the native opener, including display-contents Smart hosts, LTR/RTL, responsive movement, content, font and viewport changes; --sf-context-menu-viewport-space derives from the spacing scale. Internal scrolling preserves the menu; outside document scrolling dismisses it. Search and nested drill-down layers make inactive panels inert. Opening a nested layer focuses its localized Back control; Back restores the corresponding tree trigger. Compact search focuses the revealed input. Search placement and directional chevrons follow LTR or RTL."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "en",
+      "ru"
+    ],
+    "responsive": [
+      "desktop-expanded",
+      "desktop-compact",
+      "mobile-full-width",
+      "viewport-bounded-context-menu"
+    ]
+  },
+  "scenarios": [
+    {
+      "id": "local-settings",
+      "fixture": "navigation-menu-reference",
+      "viewport": "desktop",
+      "assertions": [
+        "divider-hide-show",
+        "item-hide-show",
+        "reorder",
+        "save-reload-reset",
+        "identity-scoped-storage",
+        "storage-failure-keeps-draft"
+      ]
+    },
+    {
+      "id": "external-conflict",
+      "fixture": "navigation-menu-reference",
+      "viewport": "desktop",
+      "assertions": [
+        "draft-retained",
+        "base-revision-emitted",
+        "conflict-visible",
+        "refresh-carries-draft",
+        "localized-error",
+        "retry-action",
+        "success-commits-revision",
+        "system-scope-permission"
+      ]
+    },
+    {
+      "id": "nested-content",
+      "fixture": "navigation-menu-reference",
+      "viewport": "desktop",
+      "assertions": [
+        "nested-panels",
+        "nested-badges-fit",
+        "scroll-footer-separation",
+        "inactive-panels-inert",
+        "forward-back-focus-return",
+        "localized-logical-direction"
+      ]
+    },
+    {
+      "id": "search-navigation",
+      "fixture": "navigation-menu-reference",
+      "viewport": "responsive",
+      "assertions": [
+        "deterministic-ranking",
+        "disabled-hidden-exclusion",
+        "native-leaf-link",
+        "parent-result-drill-down",
+        "compact-search-focus",
+        "inline-direction-placement"
+      ]
+    },
+    {
+      "id": "mobile-geometry",
+      "fixture": "navigation-menu-reference",
+      "viewport": "mobile",
+      "assertions": [
+        "no-blank-strip",
+        "popup-inside-viewport",
+        "compact-toggle"
+      ]
+    },
+    {
+      "id": "theme-locale",
+      "fixture": "navigation-menu-reference",
+      "viewport": "desktop",
+      "assertions": [
+        "light-dark",
+        "ru-en",
+        "accessible-labels"
+      ]
+    }
+  ],
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v1.schema.json",
+      "version": 1
+    },
+    "runtime_pair": {
+      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
+      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+    },
+    "aliases": [],
+    "deprecations": [],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-source",
+    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_artifacts": [
+      {
+        "path": "src/smart/admin-menu/index.js",
+        "sha256": "8eacab183bc0c60c021c959c8e38a8a342a22d31724973230f701f0cca97dff9"
+      },
+      {
+        "path": "src/smart/admin-menu/js/templates/default.js",
+        "sha256": "0f4a3364079ba6be0d109168b57a2164e2ec859e6f5cba6cb76ca0d92a8ed12a"
+      },
+      {
+        "path": "src/component/admin-menu/scss/_css__admin_menu.scss",
+        "sha256": "0a15e6fa5e2328b732ac72101ce6a065b86b8526cc78cd2b66f2d92dad97243c"
+      }
+    ],
+    "generated_runtime": [
+      {
+        "repository": "simai/ui-smart",
+        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "path": "smart/admin-menu/js/admin-menu.js",
+        "sha256": "e89f4995b1bb847a6821d1fbf1dd9f2bf43d1ce02eceb7631fd60e177624e3a4"
+      }
+    ]
+  },
+  "ai_guidance": {
+    "use_when": "Use the complete component for product admin navigation with search, nesting, badges, compact mode or editable preferences.",
+    "do_not": [
+      "Do not rebuild the menu from primitive SF tags",
+      "Do not store Larena domain state in localStorage",
+      "Do not let the browser decide access or routes"
+    ],
+    "required_reads": [
+      "inputs",
+      "events",
+      "persistence",
+      "ownership",
+      "backend",
+      "scenarios"
+    ],
+    "minimal_example": "<sf-admin-menu aria-label=\"Admin menu\" searchable collapsible persistence-mode=\"external\"></sf-admin-menu>"
+  }
+}

@@ -1,0 +1,273 @@
+{
+  "schema_version": 2,
+  "id": "smart.progress-bar",
+  "version": "1.0.0",
+  "title": "Progress Bar",
+  "summary": "Continuous determinate progress with normalized value, accessible range semantics and explicit semantic tone.",
+  "kind": "smart",
+  "reuse_mode": "whole",
+  "lifecycle": "experimental",
+  "tags": [
+    "progress-bar"
+  ],
+  "capabilities": [
+    "render",
+    "theme",
+    "responsive",
+    "determinate-progress",
+    "accessible-range"
+  ],
+  "custom_element": "sf-progress-bar",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [
+      "component.progress-bar"
+    ],
+    "public_parts": []
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "template": {
+        "type": "string",
+        "default": "default",
+        "enum": [
+          "default"
+        ]
+      },
+      "size": {
+        "type": "string",
+        "default": "1",
+        "enum": [
+          "1/3",
+          "1/2",
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      "value": {
+        "type": "string",
+        "default": "0",
+        "pattern": "^(?:100|[1-9]?[0-9])(?:\\.[0-9]+)?$"
+      },
+      "text-position": {
+        "type": "string",
+        "default": "none",
+        "enum": [
+          "none",
+          "inline-end",
+          "bottom",
+          "right"
+        ]
+      },
+      "tone": {
+        "type": "string",
+        "default": "primary",
+        "enum": [
+          "primary",
+          "success",
+          "warning",
+          "error"
+        ]
+      },
+      "label": {
+        "type": "string",
+        "default": ""
+      },
+      "value-text": {
+        "type": "string",
+        "default": ""
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {},
+  "contracts": {},
+  "methods": {
+    "getProgress": {
+      "summary": "Public runtime method getProgress.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "setProgress": {
+      "summary": "Public runtime method setProgress.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "setTextPosition": {
+      "summary": "Public runtime method setTextPosition.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    }
+  },
+  "events": {},
+  "state": {
+    "machines": {
+      "progress": [
+        "active",
+        "complete",
+        "error"
+      ]
+    },
+    "visual_states": [
+      "default"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "component",
+    "network_owner": "none",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-source",
+    "data": "host",
+    "effects": "component",
+    "forbidden_client_responsibilities": [
+      "backend access decisions",
+      "host route invention",
+      "running, cancelling or retrying the task",
+      "inferring success, warning or error from the numeric percentage",
+      "inventing the accessible process label"
+    ]
+  },
+  "security": {
+    "permissions_owner": "none",
+    "untrusted_inputs": [
+      "props",
+      "children"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": "progressbar",
+    "accessible_name": "required",
+    "keyboard": [],
+    "focus": "Progress Bar is not interactive and never enters the focus order."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "ru",
+      "en"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile"
+    ]
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [
+      "studio.fixture.json"
+    ],
+    "scenarios": [
+      "studio.scenario.json"
+    ]
+  },
+  "readiness": {
+    "level": "described",
+    "required_checks": [
+      "manifest",
+      "fixture",
+      "runtime-upgrade",
+      "scenario-smoke"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
+      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+    },
+    "aliases": [],
+    "deprecations": [],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-source",
+    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_artifacts": [
+      {
+        "path": "src/smart/progress-bar/index.js",
+        "sha256": "8756aa4c0a2475687b9c25929b0f15df471da92436ef6afa0a545fd3caa5f837"
+      },
+      {
+        "path": "src/smart/progress-bar/js/templates/default.js",
+        "sha256": "c02bf1ecf3b17d32eb93fcb2fdaa6e7548710578a57b37117fd51ff269470183"
+      },
+      {
+        "path": "src/smart/progress-bar/rule.js",
+        "sha256": "9383b6680135d38c42c1fc636bb52ab4b55a110750c7936d1eaacd1a699cde84"
+      },
+      {
+        "path": "src/smart/progress-bar/docs/docs.md",
+        "sha256": "7458b2f8cc7772f51fb950961c2a3af6fd2e6f14e1b2e3c4f8321e3239f95c48"
+      }
+    ],
+    "generated_runtime": [
+      {
+        "repository": "simai/ui-smart",
+        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "path": "smart/progress-bar/js/progress-bar.js",
+        "sha256": "1462c140eba26f595f6c8ed9a9e18a3842edf7f06da71db92e2cad6f3a82647d"
+      }
+    ]
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-progress-bar for continuous determinate progress with a known value from 0 to 100.",
+    "do_not": [
+      "Do not copy generated ui-smart code",
+      "Do not move host data or access decisions into the component",
+      "Do not use Progress Bar for an unknown value; use Spinner",
+      "Do not omit a localized accessible label",
+      "Do not infer semantic tone from the percentage",
+      "Do not make the progress indicator focusable"
+    ],
+    "required_reads": [
+      "inputs",
+      "methods",
+      "events",
+      "ownership",
+      "provenance"
+    ],
+    "minimal_example": "<sf-progress-bar label=\"Загрузка файлов\" value=\"40\"></sf-progress-bar>",
+    "owner_commands": [
+      "npm run contract:verify",
+      "npm test"
+    ]
+  }
+}

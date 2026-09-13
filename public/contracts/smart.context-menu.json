@@ -1,0 +1,290 @@
+{
+  "schema_version": 2,
+  "id": "smart.context-menu",
+  "version": "1.0.0",
+  "title": "Context Menu",
+  "summary": "Presentational action-menu surface with logical tail positions and native keyboard item management.",
+  "kind": "smart",
+  "reuse_mode": "whole",
+  "lifecycle": "experimental",
+  "tags": [
+    "context-menu"
+  ],
+  "capabilities": [
+    "render",
+    "theme",
+    "responsive"
+  ],
+  "custom_element": "sf-context-menu",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [
+      "component.context-menu",
+      "smart.buttons"
+    ],
+    "public_parts": []
+  },
+  "inputs": {
+    "type": "object",
+    "required": [
+      "aria-label"
+    ],
+    "properties": {
+      "template": {
+        "type": "string",
+        "default": "default",
+        "enum": [
+          "default"
+        ]
+      },
+      "position": {
+        "type": "string",
+        "default": "",
+        "enum": [
+          "",
+          "inline-start",
+          "inline-start-top",
+          "inline-start-bottom",
+          "inline-end",
+          "inline-end-top",
+          "inline-end-bottom",
+          "top",
+          "top-inline-start",
+          "top-inline-end",
+          "bottom",
+          "bottom-inline-start",
+          "bottom-inline-end",
+          "start",
+          "end",
+          "top-start",
+          "top-end",
+          "bottom-start",
+          "bottom-end",
+          "left",
+          "left-top",
+          "left-bottom",
+          "right",
+          "right-top",
+          "right-bottom",
+          "top-left",
+          "top-center",
+          "top-right",
+          "bottom-left",
+          "bottom-center",
+          "bottom-right",
+          "left-start",
+          "left-end",
+          "right-start",
+          "right-end",
+          "inline-start-start",
+          "inline-start-end",
+          "inline-end-start",
+          "inline-end-end"
+        ]
+      },
+      "tooltip": {
+        "type": "boolean",
+        "default": true
+      },
+      "text": {
+        "type": "string",
+        "default": ""
+      },
+      "aria-label": {
+        "type": "string",
+        "default": ""
+      },
+      "items": {
+        "type": "array",
+        "default": [],
+        "items": {
+          "type": "object"
+        }
+      },
+      "role": {
+        "type": "string",
+        "default": "menu"
+      },
+      "content-class": {
+        "type": "string",
+        "default": ""
+      },
+      "root-class": {
+        "type": "string",
+        "default": ""
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {},
+  "contracts": {},
+  "methods": {
+    "focus": {
+      "summary": "Focus the current available native item in the rendered default menu. The caller must wait for rendering and owns opening and dismissal.",
+      "arguments": [
+        {
+          "name": "options",
+          "schema": {
+            "type": "object"
+          },
+          "required": false
+        }
+      ],
+      "returns": {
+        "type": "null"
+      }
+    }
+  },
+  "events": {},
+  "state": {
+    "machines": {},
+    "visual_states": [
+      "default"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "component",
+    "network_owner": "none",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-source",
+    "data": "fixture",
+    "effects": "component",
+    "forbidden_client_responsibilities": [
+      "backend access decisions",
+      "host route invention"
+    ]
+  },
+  "security": {
+    "permissions_owner": "none",
+    "untrusted_inputs": [
+      "props",
+      "children"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": "menu",
+    "accessible_name": "required",
+    "keyboard": [
+      "ArrowDown",
+      "ArrowUp",
+      "Home",
+      "End",
+      "Enter",
+      "Space",
+      "Tab"
+    ],
+    "focus": "Default menu: direct native buttons/links and native controls of direct sf-button children receive menuitem roles and one roving tab stop. Native disabled and hidden/inert items are skipped. The host owns opening focus, Escape/Tab dismissal and focus return. Arbitrary widgets and non-menu/custom templates are not managed."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "ru",
+      "en"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile",
+      "semantic-surface-radius",
+      "unclipped-tail-with-scrollable-content",
+      "logical-position-aliases",
+      "forced-colors-boundary"
+    ]
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [
+      "studio.fixture.json"
+    ],
+    "scenarios": [
+      "studio.scenario.json"
+    ]
+  },
+  "readiness": {
+    "level": "described",
+    "required_checks": [
+      "manifest",
+      "fixture",
+      "runtime-upgrade",
+      "scenario-smoke"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
+      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+    },
+    "aliases": [],
+    "deprecations": [],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-source",
+    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_artifacts": [
+      {
+        "path": "src/smart/context-menu/index.js",
+        "sha256": "d59e428d59e7e2d85601430af7e5e47c0750f64236b8b31ee2e7623e0ee0e867"
+      },
+      {
+        "path": "src/smart/context-menu/js/templates/default.js",
+        "sha256": "f3a6f2d36a3e80beaafeeb2a23eafe9d279023f25de0436c33e8d423d4367d69"
+      },
+      {
+        "path": "src/component/context-menu/scss/_css__context_menu.scss",
+        "sha256": "371a4ad2aabe91cccbb1d1d81635905ac02a8baed80d1a55a8b7068e473ff04e"
+      },
+      {
+        "path": "src/component/context-menu/scss/_css__context_menu_custom.scss",
+        "sha256": "d508e073fdbb2157c955683780f3d6c4b49c08360b56b3e7e1ccc3f87616bc06"
+      }
+    ],
+    "generated_runtime": [
+      {
+        "repository": "simai/ui-smart",
+        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "path": "smart/context-menu/js/context-menu.js",
+        "sha256": "f2aadca019229f995acf72b090e0b5ec8a0ce3b1ebe9fac9208492f8c327edf5"
+      }
+    ]
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-context-menu for a short action surface. Prefer logical position values so the tail mirrors in RTL. The surface uses --sf-radius-default; long host-bounded content scrolls without clipping the tail, while forced-colors boundaries remain visible.",
+    "do_not": [
+      "Do not copy generated ui-smart code",
+      "Do not move host data or access decisions into the component",
+      "Do not treat position as an anchor or viewport placement engine; the opening host owns placement, zoom and soft-keyboard reactions",
+      "Do not use physical left/right position values in new direction-neutral markup"
+    ],
+    "required_reads": [
+      "inputs",
+      "methods",
+      "events",
+      "ownership",
+      "provenance"
+    ],
+    "minimal_example": "<sf-context-menu aria-label=\"Действия с документом\"><sf-button slot=\"content\" type=\"link\" scheme=\"on-surface\" text=\"Переименовать\"></sf-button><sf-button slot=\"content\" type=\"link\" scheme=\"on-surface\" text=\"Создать копию\"></sf-button></sf-context-menu>",
+    "owner_commands": [
+      "npm run contract:verify",
+      "npm test"
+    ]
+  }
+}

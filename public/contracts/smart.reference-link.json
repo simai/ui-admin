@@ -1,0 +1,246 @@
+{
+  "schema_version": 2,
+  "id": "smart.reference-link",
+  "version": "1.0.0",
+  "title": "Reference Link",
+  "summary": "Navigation surface that pairs a real destination with a compact reference.",
+  "kind": "smart",
+  "reuse_mode": "whole",
+  "lifecycle": "experimental",
+  "tags": [
+    "reference-link"
+  ],
+  "capabilities": [
+    "render",
+    "theme",
+    "responsive"
+  ],
+  "custom_element": "sf-reference-link",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [
+      "component.reference-link",
+      "smart.icons"
+    ],
+    "public_parts": []
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "template": {
+        "type": "string",
+        "default": "default",
+        "enum": [
+          "default"
+        ]
+      },
+      "icon": {
+        "type": "string",
+        "default": "arrow_forward",
+        "description": "Decorative icon name."
+      },
+      "label": {
+        "type": "string",
+        "default": "",
+        "description": "Destination-oriented visible link label."
+      },
+      "text": {
+        "type": "string",
+        "default": "",
+        "description": "Compact route, source or reference shown beside the label."
+      },
+      "href": {
+        "type": "string",
+        "default": "",
+        "description": "Real navigation destination. Required for an enabled reference."
+      },
+      "target": {
+        "type": "string",
+        "default": "_self",
+        "description": "Native browsing-context target. Disclose new-context navigation in the name."
+      },
+      "disabled": {
+        "type": "boolean",
+        "default": false,
+        "description": "Render an unavailable, non-focusable reference without navigation."
+      },
+      "aria-label": {
+        "type": "string",
+        "default": ""
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {},
+  "contracts": {
+    "navigation": {
+      "enabled": "native anchor with a real href",
+      "disabled": "non-interactive content with no href",
+      "boundary": "the complete reference surface is the pointer and keyboard-focus boundary"
+    },
+    "canonical_elements": {
+      "type": "string",
+      "enum": [
+        "sf-reference-link__main",
+        "sf-reference-link__link",
+        "sf-reference-link__icon",
+        "sf-reference-link__meta"
+      ]
+    },
+    "interaction_states": {
+      "type": "string",
+      "enum": [
+        "hover",
+        "active",
+        "focus-visible"
+      ]
+    }
+  },
+  "methods": {
+    "onClick": {
+      "summary": "Public runtime method onClick.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    }
+  },
+  "events": {},
+  "state": {
+    "machines": {},
+    "visual_states": [
+      "default",
+      "active",
+      "disabled"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "component",
+    "network_owner": "none",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-source",
+    "data": "fixture",
+    "effects": "component",
+    "forbidden_client_responsibilities": [
+      "backend access decisions",
+      "host route invention"
+    ]
+  },
+  "security": {
+    "permissions_owner": "none",
+    "untrusted_inputs": [
+      "props",
+      "children"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": null,
+    "accessible_name": "recommended",
+    "keyboard": [
+      "Tab"
+    ],
+    "focus": "Keep visible focus on the active control."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "ru",
+      "en"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile"
+    ]
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [
+      "studio.fixture.json"
+    ],
+    "scenarios": [
+      "studio.scenario.json"
+    ]
+  },
+  "readiness": {
+    "level": "described",
+    "required_checks": [
+      "manifest",
+      "fixture",
+      "runtime-upgrade",
+      "scenario-smoke"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
+      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+    },
+    "aliases": [],
+    "deprecations": [],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-source",
+    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_artifacts": [
+      {
+        "path": "src/smart/reference-link/index.js",
+        "sha256": "184438376f37c603090d7737e2605b9a00d736798ebc84ac1aa1a392c0b26b24"
+      }
+    ],
+    "generated_runtime": [
+      {
+        "repository": "simai/ui-smart",
+        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "path": "smart/reference-link/js/reference-link.js",
+        "sha256": "6b1322c74c6c71a9038d63db1c1382169e8b118d5c8db7013675652c110550a2"
+      }
+    ]
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-reference-link when a real destination benefits from a visible route, source or other compact reference.",
+    "do_not": [
+      "Do not use Reference Link for a generic action or a plain text link",
+      "Do not render an enabled reference without href",
+      "Do not leave href on a disabled reference",
+      "Do not open a new context without disclosing it in the accessible name",
+      "Do not copy generated ui-smart code",
+      "Do not move host data or access decisions into the component"
+    ],
+    "required_reads": [
+      "inputs",
+      "methods",
+      "events",
+      "ownership",
+      "provenance"
+    ],
+    "minimal_example": "<sf-reference-link label=\"Installation guide\" text=\"/start/install/\" href=\"/start/install/\"></sf-reference-link>",
+    "owner_commands": [
+      "npm run contract:verify",
+      "npm test"
+    ]
+  }
+}

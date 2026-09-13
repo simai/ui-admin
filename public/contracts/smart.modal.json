@@ -1,0 +1,610 @@
+{
+  "schema_version": 2,
+  "id": "smart.modal",
+  "version": "1.0.0",
+  "title": "Modal",
+  "summary": "Modal Smart Component from SIMAI Framework.",
+  "kind": "smart",
+  "reuse_mode": "whole",
+  "lifecycle": "experimental",
+  "tags": [
+    "modal"
+  ],
+  "capabilities": [
+    "render",
+    "theme",
+    "responsive"
+  ],
+  "custom_element": "sf-modal",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [],
+    "public_parts": []
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "template": {
+        "type": "string",
+        "default": "default",
+        "enum": [
+          "default"
+        ]
+      },
+      "modal-id": {
+        "type": "string",
+        "default": ""
+      },
+      "title": {
+        "type": "string",
+        "default": "Modal"
+      },
+      "aria-label": {
+        "type": "string",
+        "default": ""
+      },
+      "text": {
+        "type": "string",
+        "default": ""
+      },
+      "open": {
+        "type": "boolean",
+        "default": false
+      },
+      "autoload": {
+        "type": "boolean",
+        "default": false
+      },
+      "unclose": {
+        "type": "boolean",
+        "default": false
+      },
+      "hide": {
+        "type": "boolean",
+        "default": false
+      },
+      "hide-modifier": {
+        "type": "string",
+        "default": ""
+      },
+      "minimized": {
+        "type": "boolean",
+        "default": false
+      },
+      "overlay": {
+        "type": "boolean",
+        "default": true
+      },
+      "show-header": {
+        "type": "boolean",
+        "default": true
+      },
+      "show-close": {
+        "type": "boolean",
+        "default": true
+      },
+      "show-footer": {
+        "type": "boolean",
+        "default": true
+      },
+      "close-on-esc": {
+        "type": "boolean",
+        "default": true
+      },
+      "close-on-overlay": {
+        "type": "boolean",
+        "default": true
+      },
+      "preserve-scroll-gap": {
+        "type": "boolean",
+        "default": true
+      },
+      "position": {
+        "type": "string",
+        "default": "center",
+        "enum": [
+          "center",
+          "left",
+          "right",
+          "inline-start",
+          "inline-end",
+          "top",
+          "bottom"
+        ]
+      },
+      "mode": {
+        "type": "string",
+        "default": "inline",
+        "enum": [
+          "inline",
+          "ajax",
+          "iframe"
+        ]
+      },
+      "display": {
+        "type": "string",
+        "default": "modal",
+        "enum": [
+          "modal",
+          "inline"
+        ]
+      },
+      "src": {
+        "type": "string",
+        "default": ""
+      },
+      "root-class": {
+        "type": "string",
+        "default": ""
+      },
+      "preload": {
+        "type": "boolean",
+        "default": true
+      },
+      "fullscreen": {
+        "type": "boolean",
+        "default": false
+      },
+      "width": {
+        "type": "string",
+        "default": ""
+      },
+      "height": {
+        "type": "string",
+        "default": ""
+      },
+      "blur": {
+        "type": "string",
+        "default": ""
+      },
+      "blur-type": {
+        "type": "string",
+        "default": "medium",
+        "enum": [
+          "none",
+          "small",
+          "medium",
+          "large"
+        ]
+      },
+      "overlay-preset": {
+        "type": "string",
+        "default": "default",
+        "enum": [
+          "default",
+          "focus"
+        ]
+      },
+      "overlay-class": {
+        "type": "string",
+        "default": ""
+      },
+      "close-class": {
+        "type": "string",
+        "default": ""
+      },
+      "surface-class": {
+        "type": "string",
+        "default": ""
+      },
+      "surface-padding": {
+        "type": "string",
+        "default": ""
+      },
+      "panel-class": {
+        "type": "string",
+        "default": ""
+      },
+      "header-class": {
+        "type": "string",
+        "default": ""
+      },
+      "body-class": {
+        "type": "string",
+        "default": ""
+      },
+      "content-class": {
+        "type": "string",
+        "default": ""
+      },
+      "footer-class": {
+        "type": "string",
+        "default": ""
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {},
+  "contracts": {},
+  "methods": {
+    "getSlotHtml": {
+      "summary": "Public runtime method getSlotHtml.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "open": {
+      "summary": "Public runtime method open.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "close": {
+      "summary": "Public runtime method close.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "hide": {
+      "summary": "Public runtime method hide.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "show": {
+      "summary": "Public runtime method show.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "toggle": {
+      "summary": "Public runtime method toggle.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "setSrc": {
+      "summary": "Public runtime method setSrc.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "getModalRoot": {
+      "summary": "Public runtime method getModalRoot.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onKeyDown": {
+      "summary": "Public runtime method onKeyDown.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "resetRemoteContent": {
+      "summary": "Public runtime method resetRemoteContent.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "clearPortal": {
+      "summary": "Public runtime method clearPortal.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onBeforeOpen": {
+      "summary": "Public runtime method onBeforeOpen.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onAfterOpen": {
+      "summary": "Public runtime method onAfterOpen.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onBeforeClose": {
+      "summary": "Public runtime method onBeforeClose.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onAfterClose": {
+      "summary": "Public runtime method onAfterClose.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onBeforeHide": {
+      "summary": "Public runtime method onBeforeHide.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onAfterHide": {
+      "summary": "Public runtime method onAfterHide.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onBeforeShow": {
+      "summary": "Public runtime method onBeforeShow.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onAfterShow": {
+      "summary": "Public runtime method onAfterShow.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onModalReady": {
+      "summary": "Public runtime method onModalReady.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onModalUpdate": {
+      "summary": "Public runtime method onModalUpdate.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    }
+  },
+  "events": {
+    "modal:ready": {
+      "summary": "Runtime event modal:ready.",
+      "payload": {
+        "type": "object"
+      }
+    },
+    "modal:update": {
+      "summary": "Runtime event modal:update.",
+      "payload": {
+        "type": "object"
+      }
+    },
+    "sf-after-render": {
+      "summary": "Runtime event sf-after-render.",
+      "payload": {
+        "type": "object"
+      }
+    },
+    "sf-before-render": {
+      "summary": "Runtime event sf-before-render.",
+      "payload": {
+        "type": "object"
+      }
+    }
+  },
+  "state": {
+    "machines": {},
+    "visual_states": [
+      "default",
+      "open",
+      "closed"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "component",
+    "network_owner": "none",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-source",
+    "data": "fixture",
+    "effects": "component",
+    "forbidden_client_responsibilities": [
+      "backend access decisions",
+      "host route invention"
+    ]
+  },
+  "security": {
+    "permissions_owner": "none",
+    "untrusted_inputs": [
+      "props",
+      "children"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": null,
+    "accessible_name": "recommended",
+    "keyboard": [
+      "Tab"
+    ],
+    "focus": "Keep visible focus on the active control."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "ru",
+      "en"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile"
+    ]
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [
+      "studio.fixture.json"
+    ],
+    "scenarios": [
+      "studio.scenario.json"
+    ]
+  },
+  "readiness": {
+    "level": "described",
+    "required_checks": [
+      "manifest",
+      "fixture",
+      "runtime-upgrade",
+      "scenario-smoke"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
+      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+    },
+    "aliases": [],
+    "deprecations": [],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-source",
+    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_artifacts": [
+      {
+        "path": "src/smart/modal/index.js",
+        "sha256": "8a83191d96d915051d78383ba8e9293d99b9ffb6c0315c34c503ffe222d0f0f2"
+      }
+    ],
+    "generated_runtime": [
+      {
+        "repository": "simai/ui-smart",
+        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "path": "smart/modal/js/modal.js",
+        "sha256": "a14cc8fca8e803328cc082a6290695ded7c7baf97373a6353b765116a2b89cb5"
+      }
+    ]
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-modal for one bounded task that temporarily owns the top interaction layer. It shares stack, focus return and scroll-lock ownership with ordinary Modal. Prefer center or logical inline-start/inline-end/top/bottom positions; left/right are compatibility aliases. The dialog and iframe are large surfaces on --sf-radius-default, while compact header actions retain --sf-radius--ui. Inline display stays in document flow and does not capture focus. Minimized instances remain open but leave the visible interaction stack.",
+    "do_not": [
+      "Do not copy generated ui-smart code",
+      "Do not use Modal for a long independent workflow that belongs on its own page",
+      "Do not replace semantic spacing, motion, color or radius tokens with absolute design values",
+      "Do not assume remote or iframe content is trusted; the host owns CSP, permissions, errors and data decisions",
+      "Do not move host data or access decisions into the component"
+    ],
+    "required_reads": [
+      "inputs",
+      "methods",
+      "events",
+      "ownership",
+      "provenance"
+    ],
+    "minimal_example": "<sf-modal></sf-modal>",
+    "owner_commands": [
+      "npm run contract:verify",
+      "npm test"
+    ]
+  }
+}

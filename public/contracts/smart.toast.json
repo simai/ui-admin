@@ -1,0 +1,327 @@
+{
+  "schema_version": 2,
+  "id": "smart.toast",
+  "version": "1.0.0",
+  "title": "Toast",
+  "summary": "Transient overlay feedback with semantic roles, optional action, pause-safe lifetime and dismiss behavior.",
+  "kind": "smart",
+  "reuse_mode": "whole",
+  "lifecycle": "experimental",
+  "tags": [
+    "toast"
+  ],
+  "capabilities": [
+    "render",
+    "theme",
+    "responsive"
+  ],
+  "custom_element": "sf-toast",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [
+      "component.toast",
+      "component.buttons",
+      "smart.icon-buttons",
+      "smart.icons"
+    ],
+    "public_parts": []
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "default": "default",
+        "description": "Semantic or branded message role; choose it from meaning rather than desired color.",
+        "enum": [
+          "default",
+          "primary",
+          "error",
+          "warning",
+          "success"
+        ]
+      },
+      "icon": {
+        "type": "string",
+        "default": "",
+        "description": "Optional decorative icon name."
+      },
+      "title": {
+        "type": "string",
+        "default": "",
+        "description": "Short result heading."
+      },
+      "supporting-text": {
+        "type": "string",
+        "default": "",
+        "description": "Concise supporting text at the normal body size."
+      },
+      "action-text": {
+        "type": "string",
+        "default": "",
+        "description": "Visible label of the one optional action."
+      },
+      "action": {
+        "type": "string",
+        "default": "action",
+        "description": "Stable action value emitted in sf-toast-action."
+      },
+      "closable": {
+        "type": "boolean",
+        "default": true,
+        "description": "Render an explicitly named close action."
+      },
+      "close-label": {
+        "type": "string",
+        "default": "Close message",
+        "description": "Localized accessible name of the close action."
+      },
+      "duration": {
+        "type": "number",
+        "default": 0,
+        "minimum": 0,
+        "description": "Explicit lifetime in milliseconds. Zero keeps the message until dismissed."
+      },
+      "role": {
+        "type": "string",
+        "default": "",
+        "description": "Live-region role for dynamically inserted feedback only.",
+        "enum": [
+          "",
+          "status",
+          "alert"
+        ]
+      },
+      "root-class": {
+        "type": "string",
+        "default": ""
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {},
+  "contracts": {
+    "semantic_types": {
+      "type": "string",
+      "enum": [
+        "default",
+        "primary",
+        "error",
+        "warning",
+        "success"
+      ]
+    },
+    "canonical_behavior_attributes": {
+      "type": "string",
+      "enum": [
+        "data-action",
+        "data-close",
+        "data-duration"
+      ]
+    },
+    "dismissal_state": {
+      "const": "closing"
+    },
+    "lifetime": {
+      "persistent": "duration=0; required for messages whose action or content must not be missed",
+      "timed": "positive duration; pauses while pointer or keyboard focus is inside the toast",
+      "dismiss": "token motion completes before the visual owner is removed"
+    },
+    "live_region_guidance": {
+      "assertive": "role=alert only for a newly inserted urgent error",
+      "polite": "role=status for a newly inserted non-urgent result",
+      "static": "omit a live-region role when the toast is present on initial page load"
+    }
+  },
+  "methods": {
+    "close": {
+      "summary": "Public runtime method close.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "setState": {
+      "summary": "Public runtime method setState.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onAction": {
+      "summary": "Public runtime method onAction.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onClose": {
+      "summary": "Public runtime method onClose.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    }
+  },
+  "events": {
+    "sf-toast-action": {
+      "summary": "Emitted once when the optional enabled action is activated.",
+      "payload": {
+        "type": "object"
+      }
+    },
+    "sf-toast-close": {
+      "summary": "Emitted once before token-based dismissal removes the toast owner.",
+      "payload": {
+        "type": "object"
+      }
+    }
+  },
+  "state": {
+    "machines": {},
+    "visual_states": [
+      "default"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "component",
+    "network_owner": "none",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-source",
+    "data": "fixture",
+    "effects": "component",
+    "forbidden_client_responsibilities": [
+      "backend access decisions",
+      "host route invention"
+    ]
+  },
+  "security": {
+    "permissions_owner": "none",
+    "untrusted_inputs": [
+      "props",
+      "children"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": null,
+    "accessible_name": "internal",
+    "keyboard": [
+      "Tab"
+    ],
+    "focus": "Native actions use focus-visible; a timed toast pauses while focus is inside it."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "ru",
+      "en"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile"
+    ]
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [
+      "studio.fixture.json"
+    ],
+    "scenarios": [
+      "studio.scenario.json"
+    ]
+  },
+  "readiness": {
+    "level": "described",
+    "required_checks": [
+      "manifest",
+      "fixture",
+      "runtime-upgrade",
+      "scenario-smoke"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
+      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+    },
+    "aliases": [],
+    "deprecations": [],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-source",
+    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_artifacts": [
+      {
+        "path": "src/smart/toast/index.js",
+        "sha256": "59862ebc7f80e4f86247f87a6b7a3f0cdc04b85850d63110d3953a5075a35a20"
+      }
+    ],
+    "generated_runtime": [
+      {
+        "repository": "simai/ui-smart",
+        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "path": "smart/toast/js/toast.js",
+        "sha256": "dfa1c41f33f651b58453c222be11b03f84beb82284adc4d728281d140d4d6627"
+      }
+    ]
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-toast for concise transient overlay feedback that does not block the current task.",
+    "do_not": [
+      "Do not use Toast for persistent inline guidance; use Alert",
+      "Do not auto-dismiss a message whose content or action must not be missed",
+      "Do not use role=alert for routine success feedback",
+      "Do not choose a semantic type only for its color",
+      "Do not copy generated ui-smart code",
+      "Do not move host data or access decisions into the component"
+    ],
+    "required_reads": [
+      "inputs",
+      "methods",
+      "events",
+      "ownership",
+      "provenance"
+    ],
+    "minimal_example": "<sf-toast type=\"success\" title=\"Saved\" supporting-text=\"Your changes are available.\" role=\"status\" close-label=\"Close message\"></sf-toast>",
+    "owner_commands": [
+      "npm run contract:verify",
+      "npm test"
+    ]
+  }
+}

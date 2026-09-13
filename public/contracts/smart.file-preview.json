@@ -1,0 +1,344 @@
+{
+  "schema_version": 2,
+  "id": "smart.file-preview",
+  "version": "1.0.0",
+  "title": "File Preview",
+  "summary": "Accessible Smart projection of the ordinary File Preview row.",
+  "kind": "smart",
+  "reuse_mode": "whole",
+  "lifecycle": "experimental",
+  "tags": [
+    "file-preview"
+  ],
+  "capabilities": [
+    "render",
+    "theme",
+    "responsive",
+    "events"
+  ],
+  "custom_element": "sf-file-preview",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [
+      "component.file-preview",
+      "component.icons",
+      "component.icon-buttons"
+    ],
+    "public_parts": []
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "template": {
+        "type": "string",
+        "default": "default",
+        "enum": [
+          "default"
+        ]
+      },
+      "name": {
+        "type": "string",
+        "default": "File"
+      },
+      "file-name": {
+        "type": "string",
+        "default": "File"
+      },
+      "size": {
+        "type": "string",
+        "default": ""
+      },
+      "file-size": {
+        "type": "string",
+        "default": ""
+      },
+      "icon": {
+        "type": "string",
+        "default": "description"
+      },
+      "href": {
+        "type": "string",
+        "default": ""
+      },
+      "type": {
+        "type": "string",
+        "default": "auto",
+        "enum": [
+          "auto",
+          "icon",
+          "image"
+        ]
+      },
+      "mime-type": {
+        "type": "string",
+        "default": ""
+      },
+      "image-url": {
+        "type": "string",
+        "default": ""
+      },
+      "avatar-size": {
+        "type": "string",
+        "default": ""
+      },
+      "open": {
+        "type": "boolean",
+        "default": false
+      },
+      "surface": {
+        "type": "boolean",
+        "default": false
+      },
+      "download": {
+        "type": "boolean",
+        "default": true
+      },
+      "target": {
+        "type": "string",
+        "default": "_blank"
+      },
+      "actions": {
+        "type": "boolean",
+        "default": true
+      },
+      "download-action": {
+        "type": "boolean",
+        "default": true
+      },
+      "remove-action": {
+        "type": "boolean",
+        "default": true
+      },
+      "disabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "aria-label": {
+        "type": "string",
+        "default": ""
+      },
+      "download-label": {
+        "type": "string",
+        "default": "Download file"
+      },
+      "remove-label": {
+        "type": "string",
+        "default": "Remove file"
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {},
+  "contracts": {
+    "surface_variant": {
+      "const": "surface"
+    },
+    "event_delivery": {
+      "type": "object",
+      "properties": {
+        "bubbles": {
+          "const": true
+        },
+        "composed": {
+          "const": true
+        },
+        "cancelable": {
+          "const": true
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "methods": {
+    "getValue": {
+      "summary": "Return the current file identity and presentation value.",
+      "arguments": [],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "setOpen": {
+      "summary": "Legacy compatibility setter; actions remain visible.",
+      "arguments": [],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "toggleOpen": {
+      "summary": "Legacy compatibility toggle; actions remain visible.",
+      "arguments": [],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "onDownload": {
+      "summary": "Register a download-event listener.",
+      "arguments": [],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "onRemove": {
+      "summary": "Register a remove-event listener.",
+      "arguments": [],
+      "returns": {
+        "type": "object"
+      }
+    }
+  },
+  "events": {
+    "sf-file-preview:download": {
+      "summary": "A download action was requested.",
+      "payload": {
+        "type": "object"
+      }
+    },
+    "sf-file-preview:remove": {
+      "summary": "A remove action was requested.",
+      "payload": {
+        "type": "object"
+      }
+    }
+  },
+  "state": {
+    "machines": {},
+    "visual_states": [
+      "default",
+      "disabled"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "component",
+    "network_owner": "none",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-source",
+    "data": "host",
+    "effects": "host",
+    "forbidden_client_responsibilities": [
+      "hidden floating action geometry",
+      "permission inference"
+    ]
+  },
+  "security": {
+    "permissions_owner": "host",
+    "untrusted_inputs": [
+      "file-name",
+      "file-size",
+      "href",
+      "image-url"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": "group",
+    "accessible_name": "required",
+    "keyboard": [
+      "Tab",
+      "Enter",
+      "Space"
+    ],
+    "focus": "Native file actions own focus-visible presentation."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "ru",
+      "en"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile"
+    ]
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [
+      "studio.fixture.json"
+    ],
+    "scenarios": [
+      "studio.scenario.json"
+    ]
+  },
+  "readiness": {
+    "level": "described",
+    "required_checks": [
+      "manifest",
+      "fixture",
+      "runtime-upgrade",
+      "scenario-smoke"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
+      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+    },
+    "aliases": [
+      "name",
+      "size",
+      "type=default",
+      "avatar-size",
+      "open"
+    ],
+    "deprecations": [
+      {
+        "path": "open",
+        "since": "1.0.0",
+        "replacement": null
+      }
+    ],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-source",
+    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_artifacts": [
+      {
+        "path": "src/smart/file-preview/index.js",
+        "sha256": "8ad1166eb5f49f554e438f7fd28b1ac5a5c4ffaaf3a44154d76dd411bf28dc32"
+      },
+      {
+        "path": "src/smart/file-preview/js/templates/default.js",
+        "sha256": "06589356cb1cc08b493361a38d75e5ff44bd3c57646f9198d228abd711650ea5"
+      }
+    ],
+    "generated_runtime": []
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-file-preview for an already selected or attached file with visible metadata and optional native actions.",
+    "do_not": [
+      "Do not use it for upload progress or transport",
+      "Do not hide actions in a hover-only or floating layer"
+    ],
+    "required_reads": [
+      "inputs",
+      "methods",
+      "events",
+      "ownership",
+      "provenance"
+    ],
+    "minimal_example": "<sf-file-preview file-name=\"File.pdf\"></sf-file-preview>",
+    "owner_commands": [
+      "npm run contract:verify",
+      "npm test"
+    ]
+  }
+}

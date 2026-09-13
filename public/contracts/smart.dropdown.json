@@ -1,0 +1,307 @@
+{
+  "schema_version": 2,
+  "id": "smart.dropdown",
+  "version": "1.0.0",
+  "title": "Dropdown",
+  "summary": "Accessible single or multiple selection control with searchable options and optional portal projection.",
+  "kind": "smart",
+  "reuse_mode": "whole",
+  "lifecycle": "experimental",
+  "tags": [
+    "dropdown"
+  ],
+  "capabilities": [
+    "render",
+    "theme",
+    "responsive"
+  ],
+  "custom_element": "sf-dropdown",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [
+      "component.dropdown",
+      "smart.list-item",
+      "smart.inputs",
+      "smart.icon-buttons"
+    ],
+    "public_parts": []
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "template": {
+        "type": "string",
+        "default": "default",
+        "enum": [
+          "default"
+        ]
+      },
+      "size": {
+        "type": "string",
+        "default": "1",
+        "enum": [
+          "1/3",
+          "1/2",
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      "type": {
+        "type": "string",
+        "default": "outlined",
+        "enum": [
+          "filled",
+          "outlined"
+        ]
+      },
+      "mode": {
+        "type": "string",
+        "default": "select",
+        "enum": [
+          "tag",
+          "select"
+        ]
+      },
+      "multiple": {
+        "type": "boolean",
+        "default": false,
+        "description": "Allow several values while preserving their serialized selection order. Tag mode is multiple by default."
+      },
+      "portal": {
+        "type": "boolean",
+        "default": false,
+        "description": "Project the popup above clipped ancestors. Native Popover is preferred; a reversible local fallback is used when unavailable."
+      },
+      "value": {
+        "type": "string",
+        "default": "",
+        "description": "Selected machine value, or a comma-separated list of values for multiple selection."
+      },
+      "name": {
+        "type": "string",
+        "default": "",
+        "description": "Native form field name for the selected machine value."
+      },
+      "label": {
+        "type": "string",
+        "default": ""
+      },
+      "required": {
+        "type": "boolean",
+        "default": false
+      },
+      "placeholder": {
+        "type": "string",
+        "default": ""
+      },
+      "search-placeholder": {
+        "type": "string",
+        "default": "Placeholder"
+      },
+      "search": {
+        "type": "boolean",
+        "default": true
+      },
+      "disabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "aria-label": {
+        "type": "string",
+        "default": ""
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {},
+  "contracts": {},
+  "methods": {
+    "openDropdown": {
+      "summary": "Public runtime method openDropdown.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "closeDropdown": {
+      "summary": "Public runtime method closeDropdown.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "toggleDropdown": {
+      "summary": "Public runtime method toggleDropdown.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    }
+  },
+  "events": {
+    "change": {
+      "summary": "Runtime event change.",
+      "payload": {
+        "type": "object"
+      }
+    },
+    "sf-dropdown:change": {
+      "summary": "Runtime event sf-dropdown:change.",
+      "payload": {
+        "type": "object"
+      }
+    }
+  },
+  "state": {
+    "machines": {},
+    "visual_states": [
+      "default",
+      "open",
+      "selected",
+      "disabled"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "component",
+    "network_owner": "none",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-source",
+    "data": "fixture",
+    "effects": "component",
+    "forbidden_client_responsibilities": [
+      "backend access decisions",
+      "host route invention"
+    ]
+  },
+  "security": {
+    "permissions_owner": "none",
+    "untrusted_inputs": [
+      "props",
+      "children"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": "button with listbox popup",
+    "accessible_name": "required",
+    "keyboard": [
+      "Tab",
+      "ArrowDown",
+      "ArrowUp",
+      "Home",
+      "End",
+      "Enter",
+      "Space",
+      "Escape"
+    ],
+    "focus": "The toggle is the primary Tab stop. Arrow keys open and move through available options; Home and End move within the list; Enter or Space selects; Escape closes and restores the toggle; Tab closes and continues native traversal. The searchbox keeps native text-editing Home and End behavior."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "ru",
+      "en"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile"
+    ]
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [
+      "studio.fixture.json"
+    ],
+    "scenarios": [
+      "studio.scenario.json"
+    ]
+  },
+  "readiness": {
+    "level": "described",
+    "required_checks": [
+      "manifest",
+      "fixture",
+      "runtime-upgrade",
+      "scenario-smoke"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
+      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+    },
+    "aliases": [],
+    "deprecations": [],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-source",
+    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_artifacts": [
+      {
+        "path": "src/smart/dropdown/index.js",
+        "sha256": "54ab83caec7652113af747924b775504214b7aff32a474b689b476699100e510"
+      }
+    ],
+    "generated_runtime": [
+      {
+        "repository": "simai/ui-smart",
+        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "path": "smart/dropdown/js/dropdown.js",
+        "sha256": "6aef2afd84f553550d9a4c5d7982cb9c17d969273b262b6c50a71665b2f91e67"
+      }
+    ]
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-dropdown when a form needs one or several values from a concealed option set. Use direct sf-list-item children with stable machine values and visible labels. Use portal only when an ancestor clips the popup.",
+    "do_not": [
+      "Do not copy generated ui-smart code",
+      "Do not move host data or access decisions into the component",
+      "Do not use the visible label as the submitted value when a stable machine identifier exists",
+      "Do not make decorative checkbox, avatar or icon content independently focusable inside an option"
+    ],
+    "required_reads": [
+      "inputs",
+      "methods",
+      "events",
+      "ownership",
+      "provenance"
+    ],
+    "minimal_example": "<sf-dropdown label=\"Статус\" name=\"status\" placeholder=\"Выберите статус\"><sf-list-item value=\"open\" text=\"Открыт\"></sf-list-item><sf-list-item value=\"done\" text=\"Готов\"></sf-list-item></sf-dropdown>",
+    "owner_commands": [
+      "npm run contract:verify",
+      "npm test"
+    ]
+  }
+}

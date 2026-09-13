@@ -1,0 +1,429 @@
+{
+  "schema_version": 2,
+  "id": "smart.inputs",
+  "version": "1.1.0",
+  "title": "Inputs",
+  "summary": "A native single-line form control with Framework presentation, validation messaging and optional mask integration.",
+  "kind": "smart",
+  "reuse_mode": "both",
+  "lifecycle": "experimental",
+  "tags": [
+    "inputs"
+  ],
+  "capabilities": [
+    "render",
+    "theme",
+    "responsive"
+  ],
+  "custom_element": "sf-input",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [
+      "component.inputs"
+    ],
+    "public_parts": [
+      "native-input",
+      "label",
+      "field",
+      "hint",
+      "leading",
+      "trailing"
+    ]
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "size": {
+        "type": "string",
+        "default": "1",
+        "enum": [
+          "1/3",
+          "1/2",
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      "type": {
+        "type": "string",
+        "default": "bordered",
+        "enum": [
+          "bordered",
+          "filled",
+          "hidden"
+        ]
+      },
+      "label": {
+        "type": "string",
+        "default": ""
+      },
+      "required": {
+        "type": "boolean",
+        "default": false
+      },
+      "placeholder": {
+        "type": "string",
+        "default": ""
+      },
+      "input-type": {
+        "type": "string",
+        "default": "text",
+        "enum": [
+          "text",
+          "email",
+          "password",
+          "search",
+          "tel",
+          "url"
+        ]
+      },
+      "autocomplete": {
+        "type": "string",
+        "default": ""
+      },
+      "inputmode": {
+        "type": "string",
+        "default": "",
+        "enum": [
+          "",
+          "none",
+          "text",
+          "tel",
+          "url",
+          "email",
+          "numeric",
+          "decimal",
+          "search"
+        ]
+      },
+      "minlength": {
+        "type": "string",
+        "default": ""
+      },
+      "maxlength": {
+        "type": "string",
+        "default": ""
+      },
+      "pattern": {
+        "type": "string",
+        "default": ""
+      },
+      "hint": {
+        "type": "string",
+        "default": ""
+      },
+      "value": {
+        "type": "string",
+        "default": ""
+      },
+      "default-value": {
+        "type": "string",
+        "default": ""
+      },
+      "name": {
+        "type": "string",
+        "default": ""
+      },
+      "left-icon": {
+        "type": "string",
+        "default": ""
+      },
+      "right-text": {
+        "type": "string",
+        "default": ""
+      },
+      "hint-icon": {
+        "type": "string",
+        "default": ""
+      },
+      "root-class": {
+        "type": "string",
+        "default": ""
+      },
+      "disabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "readonly": {
+        "type": "boolean",
+        "default": false
+      },
+      "error": {
+        "type": "boolean",
+        "default": false
+      },
+      "invalid": {
+        "type": "boolean",
+        "default": false
+      },
+      "error-message": {
+        "type": "string",
+        "default": ""
+      },
+      "mask": {
+        "type": "boolean",
+        "default": false
+      },
+      "mask-pattern": {
+        "type": "string",
+        "default": ""
+      },
+      "mask-lazy": {
+        "type": "string",
+        "default": ""
+      },
+      "mask-placeholder-char": {
+        "type": "string",
+        "default": ""
+      },
+      "mask-options": {
+        "type": "string",
+        "default": ""
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {},
+  "contracts": {
+    "state_owner": {
+      "const": "native_input"
+    },
+    "value_owner": {
+      "const": "native_input"
+    },
+    "form_owner": {
+      "const": "native_form"
+    },
+    "reset": {
+      "const": "native_form_reset"
+    },
+    "mask_owner": {
+      "const": "optional_sf_mask_adapter"
+    },
+    "field_states": {
+      "type": "string",
+      "enum": [
+        "empty",
+        "filled",
+        "hover",
+        "focus-visible",
+        "readonly",
+        "disabled",
+        "invalid"
+      ]
+    }
+  },
+  "methods": {
+    "getInputElement": {
+      "summary": "Public runtime method getInputElement.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onInput": {
+      "summary": "Public runtime method onInput.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onChange": {
+      "summary": "Public runtime method onChange.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onKeyUp": {
+      "summary": "Public runtime method onKeyUp.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onKeyDown": {
+      "summary": "Public runtime method onKeyDown.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onFocus": {
+      "summary": "Public runtime method onFocus.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onBlur": {
+      "summary": "Public runtime method onBlur.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    }
+  },
+  "events": {},
+  "state": {
+    "machines": {},
+    "visual_states": [
+      "default",
+      "active",
+      "disabled",
+      "error"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "component",
+    "network_owner": "none",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-source",
+    "data": "fixture",
+    "effects": "component",
+    "forbidden_client_responsibilities": [
+      "backend access decisions",
+      "host route invention"
+    ]
+  },
+  "security": {
+    "permissions_owner": "none",
+    "untrusted_inputs": [
+      "props",
+      "children"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": "textbox",
+    "accessible_name": "required",
+    "keyboard": [
+      "Tab",
+      "native text editing"
+    ],
+    "focus": "Keep visible focus on the active control."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "ru",
+      "en"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile"
+    ]
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [
+      "studio.fixture.json"
+    ],
+    "scenarios": [
+      "studio.scenario.json"
+    ]
+  },
+  "readiness": {
+    "level": "described",
+    "required_checks": [
+      "manifest",
+      "fixture",
+      "runtime-upgrade",
+      "scenario-smoke"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
+      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+    },
+    "aliases": [],
+    "deprecations": [],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-source",
+    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_artifacts": [
+      {
+        "path": "src/smart/inputs/index.js",
+        "sha256": "518e4d27bdf26eac215ebe89ed2395c2b98d52bde7087b4821275c8dcaa12fae"
+      }
+    ],
+    "generated_runtime": [
+      {
+        "repository": "simai/ui-smart",
+        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "path": "smart/inputs/js/inputs.js",
+        "sha256": "552fe20554433c1a40920f9d615ce76724257c336d5af6ff4d9f444d46d3ccbc"
+      }
+    ]
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-input for a single-line text, email, password, search, telephone or URL value that must participate in a native form.",
+    "do_not": [
+      "Do not use Input for multiline text, numeric steppers, selects or date selection",
+      "Do not use the hidden presentation for visible interactive controls",
+      "Do not copy generated ui-smart code",
+      "Do not move host data or access decisions into the component"
+    ],
+    "required_reads": [
+      "inputs",
+      "methods",
+      "events",
+      "ownership",
+      "provenance"
+    ],
+    "minimal_example": "<sf-input label=\"Email\" input-type=\"email\" name=\"email\" autocomplete=\"email\"></sf-input>",
+    "owner_commands": [
+      "npm run contract:verify",
+      "npm test"
+    ]
+  }
+}

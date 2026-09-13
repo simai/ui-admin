@@ -1,0 +1,280 @@
+{
+  "schema_version": 2,
+  "id": "smart.country-code",
+  "version": "1.0.0",
+  "title": "Country Code",
+  "summary": "Country Code Smart Component from SIMAI Framework.",
+  "kind": "smart",
+  "reuse_mode": "whole",
+  "lifecycle": "experimental",
+  "tags": [
+    "country-code"
+  ],
+  "capabilities": [
+    "render",
+    "theme",
+    "responsive"
+  ],
+  "custom_element": "sf-country-code",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [],
+    "public_parts": []
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "size": {
+        "type": "string",
+        "default": "1"
+      },
+      "label": {
+        "type": "string",
+        "default": "Label"
+      },
+      "required": {
+        "type": "boolean",
+        "default": false,
+        "description": "Native required phone input; the country prefix alone does not satisfy the requirement."
+      },
+      "name": {
+        "type": "string",
+        "default": "",
+        "description": "Native input name used by FormData and form submission."
+      },
+      "form": {
+        "type": "string",
+        "default": "",
+        "description": "Optional id of the native owning form when the field is outside it."
+      },
+      "hint": {
+        "type": "string",
+        "default": ""
+      },
+      "value": {
+        "type": "string",
+        "default": ""
+      },
+      "placeholder": {
+        "type": "string",
+        "default": "+7(___)___-__-__"
+      },
+      "disabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "open": {
+        "type": "boolean",
+        "default": false
+      },
+      "locale": {
+        "type": "string",
+        "default": "ru"
+      },
+      "use-mask": {
+        "type": "boolean",
+        "default": false
+      },
+      "use-country-masks": {
+        "type": "boolean",
+        "default": true
+      },
+      "show-code": {
+        "type": "boolean",
+        "default": true
+      },
+      "mask-style": {
+        "type": "string",
+        "default": "native"
+      },
+      "multi-country": {
+        "type": "boolean",
+        "default": true
+      },
+      "iso2": {
+        "type": "string",
+        "default": ""
+      },
+      "dial-code": {
+        "type": "string",
+        "default": ""
+      },
+      "mask-pattern": {
+        "type": "string",
+        "default": ""
+      },
+      "flag-base": {
+        "type": "string",
+        "default": ""
+      },
+      "lazy-flags": {
+        "type": "boolean",
+        "default": true
+      },
+      "show-mask-placeholder": {
+        "type": "boolean",
+        "default": false
+      },
+      "mask-placeholder-char": {
+        "type": "string",
+        "default": "_"
+      },
+      "max-items": {
+        "type": "number",
+        "default": 0
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {},
+  "contracts": {},
+  "methods": {
+    "setState": {
+      "summary": "Public runtime method setState.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    }
+  },
+  "events": {},
+  "state": {
+    "machines": {},
+    "visual_states": [
+      "default"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "component",
+    "network_owner": "none",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-source",
+    "data": "fixture",
+    "effects": "component",
+    "forbidden_client_responsibilities": [
+      "backend access decisions",
+      "host route invention"
+    ]
+  },
+  "security": {
+    "permissions_owner": "none",
+    "untrusted_inputs": [
+      "props",
+      "children"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": null,
+    "accessible_name": "recommended",
+    "keyboard": [
+      "Tab",
+      "Enter",
+      "Space",
+      "Escape",
+      "ArrowDown",
+      "ArrowUp",
+      "Home",
+      "End",
+      "Typeahead"
+    ],
+    "focus": "Country-code button opens a single-select listbox. Arrows, Home, End and typeahead move focus without changing the phone; Enter/Space commit and Escape cancels. Closing by confirmation or Escape returns focus to the button; Tab leaves without trapping focus. Disabled fields do not open."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "ru",
+      "en"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile"
+    ]
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [
+      "studio.fixture.json"
+    ],
+    "scenarios": [
+      "studio.scenario.json"
+    ]
+  },
+  "readiness": {
+    "level": "described",
+    "required_checks": [
+      "manifest",
+      "fixture",
+      "runtime-upgrade",
+      "scenario-smoke"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
+      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+    },
+    "aliases": [],
+    "deprecations": [],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-source",
+    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_artifacts": [
+      {
+        "path": "src/smart/country-code/index.js",
+        "sha256": "0e30891631ea7d2218f83e0c1dc744e640afcf3905cd337a212fe399050bfa21"
+      }
+    ],
+    "generated_runtime": [
+      {
+        "repository": "simai/ui-smart",
+        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "path": "smart/country-code/js/country-code.js",
+        "sha256": "690b4f6fa24f37f831728827d7ba0b4a71d7230f3b4034c589f5cda1b5eabe2d"
+      }
+    ]
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-country-code when the interface needs the country code behavior.",
+    "do_not": [
+      "Do not copy generated ui-smart code",
+      "Do not move host data or access decisions into the component"
+    ],
+    "required_reads": [
+      "inputs",
+      "methods",
+      "events",
+      "ownership",
+      "provenance"
+    ],
+    "minimal_example": "<sf-country-code></sf-country-code>",
+    "owner_commands": [
+      "npm run contract:verify",
+      "npm test"
+    ]
+  }
+}

@@ -1,0 +1,433 @@
+{
+  "schema_version": 2,
+  "id": "smart.drawer",
+  "version": "1.0.0",
+  "title": "Drawer",
+  "summary": "Modal or modeless side surface with focus, dismissal, logical placement and live-content ownership.",
+  "kind": "smart",
+  "reuse_mode": "whole",
+  "lifecycle": "experimental",
+  "tags": [
+    "drawer"
+  ],
+  "capabilities": [
+    "render",
+    "theme",
+    "responsive"
+  ],
+  "custom_element": "sf-drawer",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [
+      "component.icon-buttons",
+      "component.close"
+    ],
+    "public_parts": []
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "template": {
+        "type": "string",
+        "default": "default",
+        "enum": [
+          "default"
+        ]
+      },
+      "open": {
+        "type": "boolean",
+        "default": false
+      },
+      "placement": {
+        "type": "string",
+        "default": "right",
+        "enum": [
+          "left",
+          "right",
+          "inline-start",
+          "inline-end"
+        ]
+      },
+      "overlay": {
+        "type": "boolean",
+        "default": true
+      },
+      "modal": {
+        "type": "boolean",
+        "default": true
+      },
+      "size": {
+        "type": "string",
+        "default": "medium",
+        "enum": [
+          "small",
+          "medium",
+          "large",
+          "full"
+        ]
+      },
+      "close-on-esc": {
+        "type": "boolean",
+        "default": true
+      },
+      "close-on-overlay": {
+        "type": "boolean",
+        "default": true
+      },
+      "preserve-scroll-gap": {
+        "type": "boolean",
+        "default": true
+      },
+      "show-close": {
+        "type": "boolean",
+        "default": true
+      },
+      "close-placement": {
+        "type": "string",
+        "default": "inside",
+        "enum": [
+          "inside",
+          "outside"
+        ]
+      },
+      "title": {
+        "type": "string",
+        "default": ""
+      },
+      "label": {
+        "type": "string",
+        "default": ""
+      },
+      "close-label": {
+        "type": "string",
+        "default": "Close drawer"
+      },
+      "width": {
+        "type": "string",
+        "default": ""
+      },
+      "z-index": {
+        "type": "string",
+        "default": ""
+      },
+      "overlay-class": {
+        "type": "string",
+        "default": ""
+      },
+      "panel-class": {
+        "type": "string",
+        "default": ""
+      },
+      "header-class": {
+        "type": "string",
+        "default": ""
+      },
+      "body-class": {
+        "type": "string",
+        "default": ""
+      },
+      "close-class": {
+        "type": "string",
+        "default": ""
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {},
+  "contracts": {},
+  "methods": {
+    "open": {
+      "summary": "Public runtime method open.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "close": {
+      "summary": "Public runtime method close.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "toggle": {
+      "summary": "Public runtime method toggle.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "setState": {
+      "summary": "Public runtime method setState.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "getState": {
+      "summary": "Public runtime method getState.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onBeforeOpen": {
+      "summary": "Public runtime method onBeforeOpen.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onAfterOpen": {
+      "summary": "Public runtime method onAfterOpen.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onBeforeClose": {
+      "summary": "Public runtime method onBeforeClose.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "onAfterClose": {
+      "summary": "Public runtime method onAfterClose.",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    }
+  },
+  "events": {
+    "drawer:ready": {
+      "summary": "The portal surface is ready.",
+      "payload": {
+        "type": "object"
+      }
+    },
+    "drawer:update": {
+      "summary": "The portal surface was updated.",
+      "payload": {
+        "type": "object"
+      }
+    },
+    "drawer:before-open": {
+      "summary": "Cancelable intent before opening.",
+      "payload": {
+        "type": "object"
+      }
+    },
+    "drawer:after-open": {
+      "summary": "The Drawer was opened.",
+      "payload": {
+        "type": "object"
+      }
+    },
+    "drawer:before-close": {
+      "summary": "Cancelable intent before closing.",
+      "payload": {
+        "type": "object"
+      }
+    },
+    "drawer:after-close": {
+      "summary": "The Drawer was closed.",
+      "payload": {
+        "type": "object"
+      }
+    }
+  },
+  "state": {
+    "machines": {},
+    "visual_states": [
+      "default",
+      "open",
+      "closed"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "component",
+    "network_owner": "none",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-source",
+    "data": "host",
+    "effects": "component",
+    "forbidden_client_responsibilities": [
+      "backend access decisions",
+      "host route invention"
+    ]
+  },
+  "security": {
+    "permissions_owner": "none",
+    "untrusted_inputs": [
+      "props",
+      "children"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": "dialog",
+    "accessible_name": "required",
+    "keyboard": [
+      "Tab",
+      "Shift+Tab",
+      "Escape"
+    ],
+    "focus": "Modal Drawer moves focus inside, traps Tab on the top instance and restores an available opener. Modeless Drawer does not trap focus or lock the page."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "ru",
+      "en"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile",
+      "ltr",
+      "rtl",
+      "reduced-motion",
+      "semantic-surface-radius",
+      "logical-placement"
+    ]
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [
+      "studio.fixture.json"
+    ],
+    "scenarios": [
+      "studio.scenario.json"
+    ]
+  },
+  "readiness": {
+    "level": "accepted",
+    "required_checks": [
+      "manifest",
+      "fixture",
+      "runtime-upgrade",
+      "scenario-smoke"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
+      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+    },
+    "aliases": [],
+    "deprecations": [
+      {
+        "path": "trigger.data-sf-drawer-*",
+        "since": "1.0.0",
+        "replacement": "data-drawer with aria-controls"
+      }
+    ],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-source",
+    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_artifacts": [
+      {
+        "path": "src/smart/drawer/index.js",
+        "sha256": "1c0756068621254b091245f74d582d31dae2bc181f9d96c7e267010f8fc94420"
+      },
+      {
+        "path": "src/smart/drawer/scss/_smart__drawer.scss",
+        "sha256": "e4edcc52fdc5d4bdff8f66c5ba6a92714d995459b8d647ef822d978012848cbe"
+      },
+      {
+        "path": "src/smart/drawer/rule.js",
+        "sha256": "c64fe407994c86ce8d718fd4543ebbd89f0b5c8550985ffe15df3fe334fbfadc"
+      },
+      {
+        "path": "src/smart/drawer/docs.md",
+        "sha256": "733a9e561bcb9751a5651e2ed517360dbb874ed2ac61a2d2a926faf2790a2d64"
+      }
+    ],
+    "generated_runtime": [
+      {
+        "repository": "simai/ui-smart",
+        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "path": "smart/drawer/js/drawer.js",
+        "sha256": "2014e7f731a7b591f04c2581ade6bc0602b47cecbada9c2936ebabe76f3fa883"
+      }
+    ]
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-drawer for a temporary side surface. Keep the default modal behavior for blocking settings or navigation; use modal=false only when the page must remain interactive. Prefer logical placement, a standard size and data-drawer with aria-controls.",
+    "do_not": [
+      "Do not copy generated ui-smart code",
+      "Do not move host data or access decisions into the component",
+      "Do not use overlay as a substitute for modal semantics",
+      "Do not pass literal design dimensions when a standard size or Framework token exists"
+    ],
+    "required_reads": [
+      "inputs",
+      "methods",
+      "events",
+      "ownership",
+      "provenance"
+    ],
+    "minimal_example": "<button type=\"button\" data-drawer=\"open\" aria-controls=\"settings\">Open</button><sf-drawer id=\"settings\" title=\"Settings\"><p>Content</p></sf-drawer>",
+    "owner_commands": [
+      "npm run contract:verify",
+      "npm test"
+    ]
+  }
+}

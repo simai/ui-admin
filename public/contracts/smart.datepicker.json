@@ -1,0 +1,472 @@
+{
+  "schema_version": 2,
+  "id": "smart.datepicker",
+  "version": "1.0.0",
+  "title": "Datepicker",
+  "summary": "Accessible date and date-range picker with popup and inline presentation, calendar navigation and host-owned values.",
+  "kind": "composite",
+  "reuse_mode": "whole",
+  "lifecycle": "experimental",
+  "tags": [
+    "calendar",
+    "date",
+    "datepicker",
+    "form",
+    "range"
+  ],
+  "capabilities": [
+    "date-selection",
+    "date-range",
+    "keyboard-navigation",
+    "popup",
+    "inline",
+    "theme",
+    "responsive"
+  ],
+  "custom_element": "sf-datepicker",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [
+      "component.datepicker",
+      "smart.inputs",
+      "smart.buttons",
+      "smart.icon-buttons",
+      "smart.icons"
+    ],
+    "public_parts": []
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "template": {
+        "type": "string",
+        "default": "default",
+        "enum": [
+          "default"
+        ]
+      },
+      "value": {
+        "type": "string",
+        "default": ""
+      },
+      "date": {
+        "type": "string",
+        "default": ""
+      },
+      "start-value": {
+        "type": "string",
+        "default": ""
+      },
+      "end-value": {
+        "type": "string",
+        "default": ""
+      },
+      "max-date": {
+        "type": "string",
+        "default": ""
+      },
+      "min-date": {
+        "type": "string",
+        "default": ""
+      },
+      "range": {
+        "type": "boolean",
+        "default": false
+      },
+      "month": {
+        "type": "number",
+        "default": null
+      },
+      "year": {
+        "type": "number",
+        "default": null
+      },
+      "context": {
+        "type": "string",
+        "default": ""
+      },
+      "week-start": {
+        "type": "number",
+        "default": 1
+      },
+      "locale": {
+        "type": "string",
+        "default": ""
+      },
+      "format": {
+        "type": "string",
+        "default": "DD.MM.YYYY"
+      },
+      "root-class": {
+        "type": "string",
+        "default": ""
+      },
+      "close-on-select": {
+        "type": "boolean",
+        "default": true
+      },
+      "input": {
+        "type": "boolean",
+        "default": true
+      },
+      "open": {
+        "type": "boolean",
+        "default": false
+      },
+      "portal": {
+        "type": "boolean",
+        "default": true
+      },
+      "input-type": {
+        "type": "string",
+        "default": "bordered"
+      },
+      "input-size": {
+        "type": "string",
+        "default": "1"
+      },
+      "input-name": {
+        "type": "string",
+        "default": ""
+      },
+      "placeholder": {
+        "type": "string",
+        "default": ""
+      },
+      "label": {
+        "type": "string",
+        "default": ""
+      },
+      "disabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "required": {
+        "type": "boolean",
+        "default": false
+      },
+      "left-icon": {
+        "type": "string",
+        "default": "calendar_today"
+      },
+      "input-root-class": {
+        "type": "string",
+        "default": ""
+      },
+      "mask": {
+        "type": "boolean",
+        "default": false
+      },
+      "mask-pattern": {
+        "type": "string",
+        "default": ""
+      },
+      "mask-lazy": {
+        "type": "string",
+        "default": false
+      },
+      "mask-placeholder-char": {
+        "type": "string",
+        "default": "_"
+      },
+      "mask-options": {
+        "type": "string",
+        "default": ""
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {
+    "value_format": "ISO date strings are stored in YYYY-MM-DD form; format controls only the visible field value.",
+    "range_value": "Range mode exposes start-value and end-value and restarts the range after a completed selection.",
+    "host_owned": [
+      "validation beyond min-date and max-date",
+      "persistence",
+      "timezone and domain-date interpretation"
+    ]
+  },
+  "contracts": {
+    "change_detail": {
+      "type": "object",
+      "required": [
+        "value",
+        "range",
+        "format"
+      ],
+      "properties": {
+        "value": {
+          "type": [
+            "string",
+            "array"
+          ]
+        },
+        "range": {
+          "type": "boolean"
+        },
+        "format": {
+          "type": "string"
+        },
+        "formattedValue": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "methods": {
+    "setContext": {
+      "summary": "Open the day, month or year calendar context.",
+      "arguments": [
+        {
+          "name": "context",
+          "schema": {
+            "type": "string",
+            "enum": [
+              "",
+              "month",
+              "year"
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "openPanel": {
+      "summary": "Open the popup; optionally move focus into the calendar.",
+      "arguments": [
+        {
+          "name": "options",
+          "schema": {
+            "type": "object"
+          }
+        }
+      ],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "closePanel": {
+      "summary": "Close the popup; optionally restore focus to the field.",
+      "arguments": [
+        {
+          "name": "options",
+          "schema": {
+            "type": "object"
+          }
+        }
+      ],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "togglePanel": {
+      "summary": "Toggle the popup without changing the selected value.",
+      "arguments": [],
+      "returns": {
+        "type": "object"
+      }
+    }
+  },
+  "events": {
+    "change": {
+      "summary": "Native-compatible change notification emitted after a date or range endpoint is selected.",
+      "payload": {
+        "$ref": "#/contracts/change_detail"
+      }
+    },
+    "sf-change": {
+      "summary": "Legacy generic Smart Component change event retained for compatibility.",
+      "payload": {
+        "type": "object"
+      }
+    },
+    "sf-datepicker-change": {
+      "summary": "Preferred semantic event emitted after a date or range endpoint is selected.",
+      "payload": {
+        "$ref": "#/contracts/change_detail"
+      }
+    }
+  },
+  "state": {
+    "machines": {
+      "panel": [
+        "closed",
+        "open-below",
+        "open-above"
+      ],
+      "context": [
+        "day",
+        "month",
+        "year"
+      ],
+      "selection": [
+        "empty",
+        "single",
+        "range-start",
+        "range-complete"
+      ]
+    },
+    "visual_states": [
+      "default",
+      "open",
+      "selected",
+      "disabled"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "component",
+    "network_owner": "none",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-source source and machine manifest",
+    "data": "host",
+    "effects": "component",
+    "forbidden_client_responsibilities": [
+      "timezone policy",
+      "business-day validation",
+      "persistence",
+      "backend access decisions",
+      "host route invention"
+    ]
+  },
+  "security": {
+    "permissions_owner": "none",
+    "untrusted_inputs": [
+      "props",
+      "children"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": "dialog in popup mode; group in inline mode",
+    "accessible_name": "required",
+    "keyboard": [
+      "Tab",
+      "Shift+Tab",
+      "Enter",
+      "Space",
+      "Escape",
+      "ArrowLeft",
+      "ArrowRight",
+      "ArrowUp",
+      "ArrowDown",
+      "Home",
+      "End",
+      "PageUp",
+      "PageDown"
+    ],
+    "focus": "ArrowDown opens the popup and moves focus to the active day. Only one day is in the tab order. Escape closes the popup and restores focus to the field. RTL reverses physical horizontal arrows while preserving chronological movement."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "ru",
+      "en"
+    ],
+    "responsive": [
+      "desktop-popup",
+      "mobile-popup",
+      "inline",
+      "visual-viewport-bounded-overlay"
+    ]
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [
+      "studio.fixture.json"
+    ],
+    "scenarios": [
+      "studio.scenario.json"
+    ]
+  },
+  "readiness": {
+    "level": "accepted",
+    "required_checks": [
+      "manifest",
+      "fixture",
+      "runtime-upgrade",
+      "scenario-smoke",
+      "keyboard-navigation",
+      "browser-matrix",
+      "visual-viewport"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
+      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+    },
+    "aliases": [],
+    "deprecations": [],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-source",
+    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_artifacts": [
+      {
+        "path": "src/smart/datepicker/index.js",
+        "sha256": "e9ba61eefb023f1a6a42b83ffca874312531fafd575035569a9b6cbf865f9372"
+      },
+      {
+        "path": "src/smart/datepicker/js/templates/default.js",
+        "sha256": "912fcd699ca05c3fdbeb98751a72f93efcc0616a1422cb25adbc3fadef27b83a"
+      },
+      {
+        "path": "src/smart/datepicker/rule.js",
+        "sha256": "40d018da3176a6a025739aa035d5e821910b7c5275b196e26b7f688a605fcdc9"
+      },
+      {
+        "path": "src/smart/datepicker/docs/smart-datepicker-guide.md",
+        "sha256": "f617da282ae71acd6069081d502a6c935a1b498191aa8f3891ff2d153a287c25"
+      }
+    ],
+    "generated_runtime": [
+      {
+        "repository": "simai/ui-smart",
+        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "path": "smart/datepicker/js/datepicker.js",
+        "sha256": "8550442b1eb0a96fec5364dfb5306ed032267507cc62c85c61326b4ff5e30cae"
+      }
+    ]
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-datepicker for a single date or date range that benefits from calendar navigation. Use a plain input when free-form entry is the primary task.",
+    "do_not": [
+      "Do not copy generated ui-smart code",
+      "Do not use color as the only selected or disabled signal",
+      "Do not encode timezone or business-date rules in the visual component",
+      "Do not move host data or access decisions into the component"
+    ],
+    "required_reads": [
+      "inputs",
+      "methods",
+      "events",
+      "ownership",
+      "provenance"
+    ],
+    "minimal_example": "<sf-datepicker label=\"Дата\" value=\"2026-09-03\"></sf-datepicker>",
+    "owner_commands": [
+      "npm run contract:verify",
+      "npm test"
+    ]
+  }
+}

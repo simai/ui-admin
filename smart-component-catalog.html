@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ru" class="theme-dark h-full" data-sf-icon-runtime="bundled-fallback">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>SIMAI Smart Component Catalog</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="/distr/core/css/core.css" />
+    <link rel="stylesheet" href="/src/smart-component-catalog.css" />
+    <script>
+      window.SF_BOOT_CONFIG = {icons: {enabled: false, accumulate: false}, cacheVersion: 'smart-catalog-v1'};
+      window.sfPath = '/distr/';
+      window.sfSmartPath = '/distr/';
+    </script>
+    <script src="/distr/core/js/core.js" data-sf-script="/distr/core/js/core.js"></script>
+  </head>
+  <body>
+    <main class="catalog-shell">
+      <header class="catalog-header">
+        <div>
+          <p class="catalog-eyebrow">Smart Component Contract Catalog</p>
+          <h1 data-contract-title>smart.admin-menu</h1>
+          <p class="catalog-summary" data-contract-summary>Загрузка машинного контракта…</p>
+        </div>
+        <nav class="catalog-actions" aria-label="Режимы каталога">
+          <label class="catalog-picker"><span>Компонент</span><select data-contract-select>
+            <option value="smart.admin-menu">smart.admin-menu</option>
+            <option value="smart.data-view">smart.data-view</option>
+          </select></label>
+          <button type="button" data-action="theme">Светлая тема</button>
+          <button type="button" data-action="locale">EN</button>
+          <button type="button" data-action="viewport">Mobile</button>
+        </nav>
+      </header>
+
+      <section class="catalog-grid">
+        <article class="catalog-card catalog-preview-card">
+          <div class="catalog-card-head">
+            <div><span class="catalog-kicker">Live playground</span><h2>Полный composite</h2></div>
+            <div class="catalog-segment" data-persistence-controls role="group" aria-label="Persistence mode">
+              <button type="button" data-mode="local">local</button>
+              <button type="button" class="is-active" data-mode="external">external</button>
+            </div>
+            <div class="catalog-segment" data-data-view-states role="group" aria-label="Data View state" hidden>
+              <button type="button" class="is-active" data-data-state="populated">data</button>
+              <button type="button" data-data-state="loading">loading</button>
+              <button type="button" data-data-state="empty">empty</button>
+              <button type="button" data-data-state="error">error</button>
+            </div>
+          </div>
+          <div class="catalog-viewport" data-catalog-viewport="desktop">
+            <div data-contract-fixture="smart.admin-menu">
+              <sf-admin-menu id="catalog-menu" searchable settings collapsible logo="/logo.svg" persistence-mode="external" aria-label="Catalog admin menu">
+                <sf-admin-menu-item item-id="catalog.dashboard" left-icon="home" active>Дашборд</sf-admin-menu-item>
+                <sf-admin-menu-item item-id="catalog.development" left-icon="code">Разработка
+                  <sf-admin-menu-item item-id="catalog.development.components" left-icon="palette" badge="lab">Компоненты</sf-admin-menu-item>
+                  <sf-admin-menu-item item-id="catalog.development.layouts" left-icon="menu_book" badge="12">Макеты</sf-admin-menu-item>
+                </sf-admin-menu-item>
+                <sf-admin-menu-item item-id="catalog.orders" left-icon="location_on" badge="99+">Заказы</sf-admin-menu-item>
+                <sf-admin-menu-item item-id="catalog.divider.primary" type="divider"></sf-admin-menu-item>
+                <sf-admin-menu-item item-id="catalog.audit" left-icon="fact_check">Журнал аудита</sf-admin-menu-item>
+                <sf-admin-menu-item item-id="catalog.storage" left-icon="database" badge="new">Хранилище</sf-admin-menu-item>
+                <sf-admin-menu-item item-id="catalog.divider.system" type="divider"></sf-admin-menu-item>
+                <sf-admin-menu-item item-id="catalog.users" left-icon="group" badge="128">Пользователи</sf-admin-menu-item>
+                <sf-admin-menu-item item-id="catalog.settings" left-icon="settings" slot="bottom">Настройки</sf-admin-menu-item>
+              </sf-admin-menu>
+            </div>
+            <section class="data-view-demo" data-contract-fixture="smart.data-view" aria-label="Проекты" hidden>
+              <header class="data-view-demo__header"><div><span>Content collection</span><h3>Проекты <b data-data-view-count>24</b></h3></div></header>
+              <div class="data-view-demo__state" data-data-view-state-message hidden></div>
+              <div data-data-view-content>
+                <sf-table id="catalog-data-view" aria-label="Проекты" table-settings-key="catalog.projects" filter-text="Фильтр" clear-text="Очистить" search-placeholder="Поиск" create-text="Создать"></sf-table>
+                <sf-pagination id="catalog-pagination" current="1" total="24" page-size="5" page-sizes="5,10,20" show-page-size top middle bottom show-actions actions="archive:Архивировать|delete:Удалить" action-apply-text="Применить" show-action-for-all action-for-all-label="Для всех"></sf-pagination>
+              </div>
+            </section>
+          </div>
+        </article>
+
+        <aside class="catalog-card catalog-controls-card">
+          <div class="catalog-card-head"><div><span class="catalog-kicker">Generated controls</span><h2>Public inputs</h2></div></div>
+          <form data-contract-controls class="catalog-controls"></form>
+        </aside>
+      </section>
+
+      <section class="catalog-details">
+        <article class="catalog-card"><span class="catalog-kicker">Decision</span><h2>Reuse policy</h2><pre data-contract-guidance></pre></article>
+        <article class="catalog-card"><span class="catalog-kicker">Composition</span><h2>Dependency graph</h2><div data-contract-composition class="composition-list"></div></article>
+        <article class="catalog-card"><span class="catalog-kicker">Runtime</span><h2>Event inspector</h2><div data-event-log class="event-log" aria-live="polite"><p>Событий пока нет.</p></div></article>
+        <article class="catalog-card"><span class="catalog-kicker">Conformance</span><h2>Required scenarios</h2><div data-contract-scenarios class="scenario-list"></div></article>
+      </section>
+    </main>
+    <script type="module" src="/src/smart-component-catalog.ts"></script>
+  </body>
+</html>

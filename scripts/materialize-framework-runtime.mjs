@@ -120,6 +120,36 @@ async function sha256(path) {
   return createHash('sha256').update(await readFile(path)).digest('hex');
 }
 
+function stableJson(value) {
+  if (Array.isArray(value)) {
+    return `[${value.map(stableJson).join(',')}]`;
+  }
+  if (value && typeof value === 'object') {
+    return `{${Object.keys(value)
+      .sort()
+      .map((key) => `${JSON.stringify(key)}:${stableJson(value[key])}`)
+      .join(',')}}`;
+  }
+  return JSON.stringify(value);
+}
+
+function pairIdentitySha256(lock) {
+  const identity = {
+    core: {
+      commit: lock.core.commit,
+      requiredFiles: lock.core.requiredFiles,
+    },
+    smart: {
+      commit: lock.smart.commit,
+      requiredFiles: lock.smart.requiredFiles,
+    },
+  };
+
+  return createHash('sha256')
+    .update(stableJson(identity))
+    .digest('hex');
+}
+
 async function verifyRequiredFiles(root, requiredFiles, label) {
   const verified = [];
   for (const required of requiredFiles) {
@@ -136,6 +166,13 @@ async function verifyRequiredFiles(root, requiredFiles, label) {
 
 assertExactCommit(uiRepo, lock.core.commit, 'Core');
 assertExactCommit(smartRepo, lock.smart.commit, 'Smart');
+
+const expectedPairIdentity = pairIdentitySha256(lock);
+if (lock.pairIdentitySha256 !== expectedPairIdentity) {
+  throw new Error(
+    `Framework pair identity ${lock.pairIdentitySha256} does not match ${expectedPairIdentity}.`,
+  );
+}
 
 const staging = await mkdtemp(resolve(tmpdir(), 'simai-framework-runtime-'));
 try {

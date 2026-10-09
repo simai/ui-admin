@@ -93,6 +93,7 @@ export default defineConfig(({ mode }) => {
             projectRoot,
             'smart-component-catalog.html',
           ),
+          workbench: resolve(projectRoot, 'workbench.html'),
         },
       },
     },

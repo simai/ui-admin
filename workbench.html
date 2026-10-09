@@ -1,0 +1,247 @@
+<!doctype html>
+<html
+  lang="ru"
+  class="max-h-screen h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="preconnect"
+      href="https://cdn.jsdelivr.net"
+      crossorigin />
+    <link
+      rel="preconnect"
+      href="https://icons.simai.io"
+      crossorigin />
+    <link
+      rel="preload"
+      href="/distr/core/css/core.css"
+      as="style"
+      onload="
+        this.onload = null;
+        this.rel = 'stylesheet';
+      " />
+    <link
+      rel="preload"
+      href="/src/style.css"
+      as="style"
+      onload="
+        this.onload = null;
+        this.rel = 'stylesheet';
+      " />
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>SIMAI ADMIN — рабочее место записи</title>
+    <script>
+      window.SF_BOOT_CONFIG = {
+        icons: {
+          accumulate: true,
+        },
+      };
+      window.sfPath = '/distr/';
+      window.sfSmartPath = '/distr/';
+    </script>
+    <script
+      src="/distr/core/js/core.js"
+      data-sf-script="/distr/core/js/core.js"></script>
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="/distr/core/css/core.css" />
+      <link
+        rel="stylesheet"
+        href="/src/style.css" />
+    </noscript>
+  </head>
+    <body class="flex h-full">
+    <aside style="max-width: 320px">
+      <sf-admin-menu
+        searchable
+        settings
+        logo="/public/logo.svg"
+        collapsible
+        aria-label="Admin navigation">
+        <sf-admin-menu-item
+          left-icon="home"
+          href="/"
+          active
+          >Дашборд
+          <sf-admin-menu-item
+            left-icon="location_on"
+            badge="99+"
+            href="/"
+            >Заказы</sf-admin-menu-item
+          >
+          <sf-admin-menu-item
+            left-icon="mail"
+            badge="52"
+            href="/"
+            >Чаты</sf-admin-menu-item
+          >
+          <sf-admin-menu-item
+            left-icon="light_mode"
+            href="/"
+            >Отчеты</sf-admin-menu-item
+          >
+          <sf-admin-menu-item left-icon="key">
+            Фреймворки
+            <sf-admin-menu-item href="/sf5">SF5</sf-admin-menu-item>
+            <sf-admin-menu-item href="/modules">Модули</sf-admin-menu-item>
+          </sf-admin-menu-item>
+        </sf-admin-menu-item>
+        <sf-admin-menu-item
+          left-icon="location_on"
+          badge="99+"
+          href="/"
+          >Заказы</sf-admin-menu-item
+        >
+        <sf-admin-menu-item
+          left-icon="mail"
+          badge="52"
+          href="/"
+          >Чаты</sf-admin-menu-item
+        >
+        <sf-admin-menu-item
+          left-icon="light_mode"
+          href="/"
+          >Отчеты</sf-admin-menu-item
+        >
+        <sf-admin-menu-item
+          left-icon="imagesmode"
+          href="/"
+          >Купоны</sf-admin-menu-item
+        >
+        <sf-admin-menu-item type="divider"></sf-admin-menu-item>
+        <sf-admin-menu-item left-icon="key">
+          Фреймворки
+          <sf-admin-menu-item href="/sf5">SF5</sf-admin-menu-item>
+          <sf-admin-menu-item href="/modules">Модули</sf-admin-menu-item>
+          <sf-admin-menu-item href="/placeholder"
+            >Тестовый пункт для провекри плейсхолдера</sf-admin-menu-item
+          >
+        </sf-admin-menu-item>
+        <sf-admin-menu-item
+          left-icon="link"
+          href="/"
+          >Вендоры</sf-admin-menu-item
+        >
+        <sf-admin-menu-item
+          left-icon="/public/logo.svg"
+          href="/placeholder"
+          >Кастомная иконка</sf-admin-menu-item
+        >
+        <sf-admin-menu-item
+          left-icon="person"
+          href="/"
+          >Модуль биллинга</sf-admin-menu-item
+        >
+        <sf-admin-menu-item
+          left-icon="photo_camera"
+          href="/"
+          >Модуль обновления</sf-admin-menu-item
+        >
+        <sf-admin-menu-item
+          left-icon="stethoscope"
+          href="/"
+          >Модуль регистраций</sf-admin-menu-item
+        >
+        <sf-admin-menu-item
+          left-icon="health_and_safety"
+          href="/"
+          >Главный модуль</sf-admin-menu-item
+        >
+        <sf-admin-menu-item
+          left-icon="home"
+          href="/"
+          >Очень очень длинное название пункта меню для
+          теста</sf-admin-menu-item
+        >
+        <sf-admin-menu-item
+          left-icon="home"
+          href="/"
+          >Дашборд</sf-admin-menu-item
+        >
+        <sf-admin-menu-item
+          left-icon="home"
+          href="/"
+          >Дашборд</sf-admin-menu-item
+        >
+        <sf-admin-menu-item
+          left-icon="home"
+          href="/"
+          >Дашборд</sf-admin-menu-item
+        >
+        <sf-admin-menu-item
+          left-icon="home"
+          href="/"
+          >Дашборд</sf-admin-menu-item
+        >
+        <sf-admin-menu-item
+          left-icon="home"
+          href="/"
+          >Дашборд</sf-admin-menu-item
+        >
+        <sf-admin-menu-item
+          left-icon="home"
+          href="/"
+          >Дашборд</sf-admin-menu-item
+        >
+        <sf-admin-menu-item
+          left-icon="home"
+          href="/"
+          >Дашборд</sf-admin-menu-item
+        >
+      </sf-admin-menu>
+    </aside>
+    <main class="flex flex-col flex-1 min-w-0 min-h-0">
+      <!-- The page frame: a bar that names where you are, then the content
+           column. Larena renders the same two things server-side; what matters
+           here is that the column holds the composites rather than the parts
+           they are made of. -->
+      <header class="flex items-cross-center gap-2 p-x-4 p-y-2 border-b-px border-outline-variant">
+        <sf-breadcrumbs aria-label="Где вы находитесь">
+          <a href="/">Админка</a>
+          <a href="/workbench.html">Решения</a>
+        </sf-breadcrumbs>
+        <span class="grow"></span>
+        <sf-avatar size="1" text="SI"></sf-avatar>
+      </header>
+
+      <section class="flex flex-col gap-2 p-4 flex-1 min-w-0 min-h-0">
+        <h1 class="text-title-2 m-0">Решения</h1>
+        <p class="color-on-surface-variant m-0">
+          Список и карточка записи — те же два композита, которыми Larena
+          собирает <code>/admin/cms</code>: список отвечает через порт данных,
+          карточка через свой собственный.
+        </p>
+
+        <!-- The list. Not a bare sf-table: a data view that owns the query, the
+             toolbar, the page row and the row actions, and slots a table in --
+             which is how Larena composes it and how a consumer must. -->
+        <sf-data-view
+          id="solutions"
+          chrome="toolbar pagination select settings"
+          aria-label="Решения">
+          <sf-table
+            slot="content"
+            id="solutions-table"
+            toolbar="false"
+            table-settings-key="admin.solutions"
+            aria-label="Решения"></sf-table>
+          <sf-pagination slot="pagination"></sf-pagination>
+        </sf-data-view>
+      </section>
+    </main>
+
+    <!-- The record panel. It is portalled out of here when it opens, so where
+         the element stands matters only for who owns it. -->
+    <sf-property-view
+      id="record"
+      aria-label="Карточка решения"></sf-property-view>
+
+    <script
+      type="module"
+      src="/src/workbench.ts"></script>
+  </body>
+</html>

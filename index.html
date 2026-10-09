@@ -73,7 +73,7 @@
         <sf-switch id="cap-count" size="1" checked label="Счётчик"></sf-switch>
       </section>
 
-      <section class="flex flex-col gap-2 p-4 flex-1 min-w-0 min-h-0">
+      <section id="list-section" class="flex flex-col gap-2 p-4 flex-1 min-w-0 min-h-0">
         <div class="flex items-cross-center gap-2">
           <h1 class="text-title-2 m-0">Решения</h1>
           <sf-badge id="count" type="tonal" scheme="neutral" text="—"></sf-badge>
@@ -97,14 +97,15 @@
       </section>
     </main>
 
-    <sf-property-view
-      id="record"
-      panel
-      panel-width="44rem"
-      collection="workbench.solutions"
-      collection-label="Решения"
-      collection-icon="inventory_2"
-      aria-label="Карточка решения"></sf-property-view>
+    <!-- The record panel is not here, and that is the point. A property view
+         carrying `panel` is OPEN from the moment it is in the document: the
+         drawer portals its content out of the element, so `hidden` on the
+         element leaves the panel painted, and the composite has no closed
+         state. Its own comment says closing is the host's decision — which
+         means the host decides by placing it and removing it. The page creates
+         it when the address names a record and removes it when it does not.
+         Written down because the first thing a consumer reaches for is
+         `hidden`, and it quietly does nothing. -->
 
     <script type="module" src="/src/polygon.ts"></script>
   </body>

@@ -32,7 +32,7 @@ type WithPort = Element & {
   load?: () => void;
   refresh?: () => void;
 };
-import type { PolygonDataset, PolygonScenario } from './ports/polygon-host.d.mts';
+import type { PolygonDataset, PolygonRecord, PolygonScenario } from './ports/polygon-host.d.mts';
 
 type Dataset = PolygonDataset;
 
@@ -52,8 +52,14 @@ const say = (text: string) => {
 };
 
 const start = async () => {
+  // The list's components, and not the record panel's. The Framework's loader
+  // is markup-driven: it loads a component when it sees its tag, so with no
+  // `sf-property-view` in the page nothing ever loads it and waiting for it
+  // here never returns. The whole page sat empty until this was separated --
+  // the loader is why the element used to be in the markup, and the reason it
+  // could not simply be deleted.
   await Promise.all(
-    ['sf-data-view', 'sf-table', 'sf-property-view', 'sf-dropdown', 'sf-switch']
+    ['sf-data-view', 'sf-table', 'sf-dropdown', 'sf-switch']
       .map((tag) => customElements.whenDefined(tag)),
   );
 
@@ -67,10 +73,149 @@ const start = async () => {
   const dataset = (await response.json()) as Dataset;
 
   const list = element<WithPort>('#solutions');
-  const panel = element<WithPort>('#record');
   const count = element('#count');
 
+  // The record panel is made when it is wanted and removed when it is not. A
+  // property view carrying `panel` is open from the moment it is in the
+  // document -- the drawer portals its content out, so `hidden` on the element
+  // leaves the panel painted -- and the composite has no closed state of its
+  // own: its own comment says closing is the host's decision. This is that
+  // decision. The attributes are set before the port is bound, because binding
+  // is what triggers the read.
+  const PANEL_ATTRIBUTES: Array<[string, string]> = [
+    ['id', 'record'],
+    ['panel-width', '44rem'],
+    ['collection', 'workbench.solutions'],
+    ['collection-label', 'Решения'],
+    ['collection-icon', 'inventory_2'],
+    ['aria-label', 'Карточка решения'],
+  ];
+
+  let panel: (WithPort & HTMLElement) | null = null;
+
+  const listen = (made: HTMLElement) => {
+    // Closing is the page's decision, which is why the component only
+    // announces it. Back rather than a push, so Escape undoes the press that
+    // opened the record instead of adding a third entry to the history.
+    made.addEventListener('sf-property-view-close', () => {
+      if (history.state?.record) history.back();
+      else go({ record: null });
+    });
+
+    // «Open on a full page» is a real navigation to the record's own address.
+    // Larena serves that address from a server; here the same page reads it and
+    // puts the list away.
+    made.addEventListener('sf-property-view-open-full', (event) => {
+      const id = String((event as CustomEvent).detail?.record_id ?? addressNow().record ?? '');
+      if (id) go({ record: id, full: true });
+    });
+
+    // A reference inside the record is another record's address.
+    made.addEventListener('sf-property-view-open-record', (event) => {
+      const id = String((event as CustomEvent).detail?.record_id ?? '');
+      if (id && host.records.some((item) => item.record_id === id)) go({ record: id });
+    });
+  };
+
+  const removePanel = () => {
+    panel?.remove();
+    panel = null;
+    panelPort = null;
+  };
+
+  const makePanel = async (full: boolean, record: PolygonRecord) => {
+    removePanel();
+    const made = document.createElement('sf-property-view') as WithPort & HTMLElement;
+    for (const [name, value] of PANEL_ATTRIBUTES) made.setAttribute(name, value);
+    // Over the list it is a modeless panel; as the page it is the page.
+    if (!full) made.setAttribute('panel', '');
+    made.setAttribute('record-id', record.record_id);
+    // The head carries what the port does not: which collection this is and
+    // what the record is called. A host knows both; the panel would otherwise
+    // guess a title from a field, and guess wrong.
+    made.setAttribute('panel-label', String(record.label ?? record.record_id));
+    listen(made);
+    document.body.append(made);
+    panel = made;
+    // Appending the tag is what makes the loader fetch the component; binding
+    // the port before it is upgraded would call a method that does not exist
+    // yet.
+    await customElements.whenDefined('sf-property-view');
+    return made;
+  };
+
   let host: ReturnType<typeof createPolygonHost>;
+  let panelPort: HostPort | null = null;
+
+  // ─── The address is the state ───────────────────────────────────────────────
+  //
+  // Three of them, and the page reads them rather than remembering anything:
+  //
+  //   /                           the list
+  //   /?record=r-007              the list with that record open over it
+  //   /?record=r-007&view=full    that record as the page, the list put away
+  //
+  // A query rather than a path (`/records/r-007`) because this is a static
+  // site: a path would be a 404 on reload, and an address that only works
+  // until you press F5 is not an address. Larena's own detail page is a path,
+  // because Larena has a server to route it.
+  const addressNow = () => {
+    const query = new URLSearchParams(location.search);
+    return { record: query.get('record') ?? null, full: query.get('view') === 'full' };
+  };
+
+  const addressFor = ({ record, full }: { record: string | null; full?: boolean }) => {
+    const query = new URLSearchParams();
+    if (record) query.set('record', record);
+    if (record && full) query.set('view', 'full');
+    const search = query.toString();
+    return `${location.pathname}${search ? `?${search}` : ''}`;
+  };
+
+  // A press that changes what is open pushes, so Back undoes exactly it.
+  const go = (to: { record: string | null; full?: boolean }) => {
+    const next = addressFor(to);
+    if (next !== `${location.pathname}${location.search}`) history.pushState(to, '', next);
+    void show(to);
+  };
+
+  const show = async ({ record, full }: { record: string | null; full?: boolean }) => {
+    const listSection = element('#list-section');
+
+    if (!record) {
+      listSection?.removeAttribute('hidden');
+      removePanel();
+      say(summary());
+      return;
+    }
+
+    const found = host.records.find((item) => item.record_id === record);
+    if (!found) {
+      // An address naming a record that is not there is a thing to say, not a
+      // blank panel: a stale link is the commonest way to arrive at one. Said
+      // after the list is shown, because showing it says the summary and would
+      // otherwise wipe this.
+      history.replaceState({ record: null }, '', addressFor({ record: null }));
+      await show({ record: null });
+      say(`Записи ${record} нет — возможно, её удалили. Открыт список.`);
+      return;
+    }
+
+    if (full) listSection?.setAttribute('hidden', '');
+    else listSection?.removeAttribute('hidden');
+
+    const made = await makePanel(Boolean(full), found);
+    // The address may have changed again while the component was loading.
+    if (panel !== made) return;
+    panelPort = watchSaves(host.propertyView() as unknown as HostPort);
+    made.setHostPort?.(panelPort);
+  };
+
+  const summary = () => [
+    `${dataset.records.length} записей, ${dataset.structure.fields.length} полей`,
+    `типов свойств: ${new Set(dataset.structure.fields.map((field) => field.property_type)).size}`,
+    `права хоста: ${chosenCapabilities().length ? chosenCapabilities().join(', ') : 'нет ни одного'}`,
+  ].join(' · ');
 
   const chosenCapabilities = () => CAPABILITY_SWITCHES
     .filter(({ id }) => (element<HTMLInputElement>(`#${id}`) as { checked?: boolean } | null)?.checked !== false)
@@ -105,23 +250,16 @@ const start = async () => {
     });
 
     list?.setHostPort?.(host as unknown as HostPort);
-    // The panel reads as soon as it is given a port -- `setHostPort` calls
-    // `load` itself -- so it is pointed at a record first. Without this the
-    // first thing the page did was ask the host for the record with no id and
-    // show «Запись не найдена» before anyone had touched anything.
-    const first = host.records[0];
-    if (first) {
-      panel?.setAttribute('record-id', first.record_id);
-      panel?.setAttribute('panel-label', String(first.label ?? first.record_id));
-    }
-    panel?.setHostPort?.(watchSaves(host.propertyView() as unknown as HostPort));
+    // The panel is NOT wired here. `setHostPort` reads the record at once, so
+    // binding it at startup opened a record nobody had asked for -- the admin
+    // came up with a card already over it. It is bound the first time a record
+    // is opened, after the id is set, which is also the only moment a read is
+    // wanted (owner, 2026-10-10).
+    panelPort = null;
+    list?.refresh?.();
     list?.refresh?.();
 
-    say([
-      `${dataset.records.length} записей, ${dataset.structure.fields.length} полей`,
-      `типов свойств: ${new Set(dataset.structure.fields.map((field) => field.property_type)).size}`,
-      `права хоста: ${chosenCapabilities().length ? chosenCapabilities().join(', ') : 'нет ни одного'}`,
-    ].join(' · '));
+    say(summary());
   };
 
   element('#scenario')?.addEventListener('sf-dropdown:change', mount);
@@ -139,13 +277,11 @@ const start = async () => {
     if (!id) return;
 
     if (action.includes('view') || action.includes('edit')) {
-      const record = host.records.find((item) => item.record_id === id);
-      // The panel's head carries what the port does not: which collection this
-      // is and what the record is called. A host knows both; the panel would
-      // otherwise guess a title from a field, and guess wrong.
-      panel?.setAttribute('record-id', id);
-      if (record) panel?.setAttribute('panel-label', String(record.label ?? id));
-      panel?.load?.();
+      // Pressing a row changes the address, and the address is what decides
+      // what is open. Back and forward then work, a reload lands on the same
+      // record, and the link can be sent to somebody -- which is what an admin
+      // is expected to do and what this page did not do at all.
+      go({ record: id });
       return;
     }
 
@@ -191,7 +327,14 @@ const start = async () => {
     if (count) count.setAttribute('text', total == null ? '—' : String(total));
   });
 
+
+  // Back and forward are the reader's, so the address is read rather than
+  // remembered.
+  addEventListener('popstate', () => { void show(addressNow()); });
+
   mount();
+  // What the address asked for, which on a first visit is the list.
+  void show(addressNow());
 };
 
 void start();

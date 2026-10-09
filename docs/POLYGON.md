@@ -25,6 +25,39 @@ settings in three layers and keeps saved views. The record panel is a second
 port over the *same* records, so a value saved in the panel is the value the
 list shows on its next answer.
 
+## The address is the state
+
+The admin opens as a list. Pressing a row opens the record and changes the
+address; Back closes it again.
+
+| Address | What is on screen |
+|:---|:---|
+| `/` | the list |
+| `/?record=r-007` | the list with that record open over it |
+| `/?record=r-007&view=full` | that record as the page, the list put away |
+
+A reload lands on the same record, Back and Forward work, and the link can be
+sent to somebody — which is what an admin is expected to do. A query rather
+than a path (`/records/r-007`) because this is a static site: a path would be a
+404 on reload, and an address that only works until you press F5 is not an
+address. Larena's detail page is a path, because Larena has a server to route
+it; the page reads one parameter either way.
+
+Two things about the record panel are worth knowing before copying it.
+
+**A property view carrying `panel` is open from the moment it is in the
+document.** The drawer portals its content out of the element, so `hidden` on
+the element leaves the panel painted, and the composite has no closed state of
+its own — its own source says closing is the host's decision. The page makes
+the element when the address names a record and removes it when it does not.
+`hidden` is the first thing a consumer reaches for and it quietly does nothing.
+
+**The Framework's loader is markup-driven**: it fetches a component when it
+sees its tag. With no `sf-property-view` in the page, nothing loads it, so
+`customElements.whenDefined('sf-property-view')` never returns — the whole page
+sat empty until the startup wait was narrowed to the list's own components and
+the panel's class was awaited after its tag was appended.
+
 ## Trying the hard states
 
 The bar above the list is not part of an admin. It makes the host answer the way

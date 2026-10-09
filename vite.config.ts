@@ -166,7 +166,12 @@ export default defineConfig(({ mode }) => {
     build: {
       rollupOptions: {
         input: {
+          // The index is the polygon: it is the page this repository exists
+          // for, and the first one a reader opens. What used to be here -- the
+          // list driven over HTTP by the mock API -- is kept at its own
+          // address, because it is the only page that exercises the transport.
           admin: resolve(projectRoot, 'index.html'),
+          mockApi: resolve(projectRoot, 'mock-api.html'),
           navigationMenuReference: resolve(
             projectRoot,
             'navigation-menu-reference.html',
@@ -175,7 +180,6 @@ export default defineConfig(({ mode }) => {
             projectRoot,
             'smart-component-catalog.html',
           ),
-          polygon: resolve(projectRoot, 'polygon.html'),
           workbench: resolve(projectRoot, 'workbench.html'),
         },
       },

@@ -66,6 +66,18 @@ const fetchText = async (url) => {
 
 const failures = [];
 const skipped = [];
+// What the host says about keeping a copy. The pair in the runtime path means a
+// cached runtime file can never be the wrong pair's -- its URL changes with the
+// pair. The page itself has no such protection: `/` is `/`, and a response with
+// no Cache-Control lets a browser decide for itself. Measured on 2026-10-10,
+// after the index became the polygon: the owner opened the site and Chrome
+// served the previous page out of its cache, transferSize 0.
+//
+// This is reported rather than failed, because it is not something this
+// repository can fix: the remedy is a response header on the host that serves
+// ~/Sites, which is an Ops change with its own gate. Reported so it is a named
+// fact with a named remedy instead of a surprise.
+const cachePolicy = [];
 const required = [
   ...lock.core.requiredFiles.map((file) => ({ side: 'core', path: file.path, sha256: file.sha256 })),
   ...lock.smart.requiredFiles.map((file) => ({
@@ -77,7 +89,12 @@ for (const page of pages) {
   const url = `${origin}/${page}`;
   let html;
   try {
-    html = await (await fetchText(url)).text();
+    const response = await fetchText(url);
+    const control = response.headers.get('cache-control');
+    if (!control || !/no-store|no-cache|max-age=0/u.test(control)) {
+      cachePolicy.push({ page, cache_control: control ?? null, said: 'the page may be served from a browser cache after a republish' });
+    }
+    html = await response.text();
   } catch (error) {
     failures.push({ page, said: `the page could not be read: ${error.message}` });
     continue;
@@ -140,6 +157,11 @@ process.stdout.write(`${JSON.stringify({
   base: expectedBase,
   pages: pages.filter((page) => !skipped.some((item) => item.page === page)),
   skipped,
+  // Not a failure, and not silence either: the pages whose own bytes a browser
+  // may keep across a republish, and what would stop it.
+  cache_policy: cachePolicy.length
+    ? { pages: cachePolicy, remedy: 'serve *.html with Cache-Control: no-store on the host that serves this site' }
+    : 'every page asks not to be kept',
   files: measured,
   result: failures.length ? 'PUBLISHED_RUNTIME_FAIL' : 'PUBLISHED_RUNTIME_OK',
   failures,

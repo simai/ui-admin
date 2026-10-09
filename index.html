@@ -1,312 +1,111 @@
 <!doctype html>
-<html
-  lang="ru"
-  class="max-h-screen h-full">
+<html lang="ru" class="max-h-screen h-full">
   <head>
     <meta charset="UTF-8" />
-    <link
-      rel="preconnect"
-      href="https://cdn.jsdelivr.net"
-      crossorigin />
-    <link
-      rel="preconnect"
-      href="https://icons.simai.io"
-      crossorigin />
-    <link
-      rel="preload"
-      href="/distr/core/css/core.css"
-      as="style"
-      onload="
-        this.onload = null;
-        this.rel = 'stylesheet';
-      " />
-    <link
-      rel="preload"
-      href="/src/style.css"
-      as="style"
-      onload="
-        this.onload = null;
-        this.rel = 'stylesheet';
-      " />
-
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0" />
-    <title>SIMAI ADMIN</title>
+    <link rel="preconnect" href="https://icons.simai.io" crossorigin />
+    <link rel="stylesheet" href="/distr/core/css/core.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SIMAI ADMIN — полигон</title>
     <script>
-      window.SF_BOOT_CONFIG = {
-        icons: {
-          accumulate: true,
-        },
-      };
+      window.SF_BOOT_CONFIG = { icons: { accumulate: true } };
       window.sfPath = '/distr/';
       window.sfSmartPath = '/distr/';
     </script>
-    <script
-      src="/distr/core/js/core.js"
-      data-sf-script="/distr/core/js/core.js"></script>
-    <noscript>
-      <link
-        rel="stylesheet"
-        href="/distr/core/css/core.css" />
-      <link
-        rel="stylesheet"
-        href="/src/style.css" />
-    </noscript>
+    <script src="/distr/core/js/core.js" data-sf-script="/distr/core/js/core.js"></script>
   </head>
   <body class="flex h-full">
-    <aside style="max-width: 320px">
-      <sf-admin-menu
-        searchable
-        settings
-        logo="/public/logo.svg"
-        collapsible
-        aria-label="Admin navigation">
-        <!-- The polygon first: it is the page this repository is for, and the
-             one a reader opens to see what the Framework does now. -->
-        <sf-admin-menu-item
-          left-icon="science"
-          href="/polygon.html"
-          >Полигон</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="table_rows"
-          href="/workbench.html"
-          >Рабочее место записи</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="widgets"
-          href="/smart-component-catalog.html"
-          >Каталог компонентов</sf-admin-menu-item
-        >
+    <aside style="max-width: 300px">
+      <sf-admin-menu searchable settings logo="/logo.svg" collapsible aria-label="Разделы админки">
+        <sf-admin-menu-item left-icon="dashboard" href="/">Дашборд</sf-admin-menu-item>
+        <sf-admin-menu-item left-icon="inventory_2" href="/" active>Решения</sf-admin-menu-item>
+        <sf-admin-menu-item left-icon="receipt_long" href="/" badge="23">Заказы</sf-admin-menu-item>
+        <sf-admin-menu-item left-icon="forum" href="/" badge="7">Обращения</sf-admin-menu-item>
         <sf-admin-menu-item type="divider"></sf-admin-menu-item>
-        <sf-admin-menu-item
-          left-icon="home"
-          href="/"
-          active
-          >Дашборд
-          <sf-admin-menu-item
-            left-icon="location_on"
-            badge="99+"
-            href="/"
-            >Заказы</sf-admin-menu-item
-          >
-          <sf-admin-menu-item
-            left-icon="mail"
-            badge="52"
-            href="/"
-            >Чаты</sf-admin-menu-item
-          >
-          <sf-admin-menu-item
-            left-icon="light_mode"
-            href="/"
-            >Отчеты</sf-admin-menu-item
-          >
-          <sf-admin-menu-item left-icon="key">
-            Фреймворки
-            <sf-admin-menu-item href="/sf5">SF5</sf-admin-menu-item>
-            <sf-admin-menu-item href="/modules">Модули</sf-admin-menu-item>
-          </sf-admin-menu-item>
+        <sf-admin-menu-item left-icon="folder">
+          Контент
+          <sf-admin-menu-item href="/">Страницы</sf-admin-menu-item>
+          <sf-admin-menu-item href="/">Файлы</sf-admin-menu-item>
         </sf-admin-menu-item>
-        <sf-admin-menu-item
-          left-icon="location_on"
-          badge="99+"
-          href="/"
-          >Заказы</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="mail"
-          badge="52"
-          href="/"
-          >Чаты</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="light_mode"
-          href="/"
-          >Отчеты</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="imagesmode"
-          href="/"
-          >Купоны</sf-admin-menu-item
-        >
+        <sf-admin-menu-item left-icon="group" href="/">Пользователи</sf-admin-menu-item>
+        <sf-admin-menu-item left-icon="settings" href="/">Настройки</sf-admin-menu-item>
         <sf-admin-menu-item type="divider"></sf-admin-menu-item>
-        <sf-admin-menu-item left-icon="key">
-          Фреймворки
-          <sf-admin-menu-item href="/sf5">SF5</sf-admin-menu-item>
-          <sf-admin-menu-item href="/modules">Модули</sf-admin-menu-item>
-          <sf-admin-menu-item href="/placeholder"
-            >Тестовый пункт для провекри плейсхолдера</sf-admin-menu-item
-          >
-        </sf-admin-menu-item>
-        <sf-admin-menu-item
-          left-icon="link"
-          href="/"
-          >Вендоры</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="/public/logo.svg"
-          href="/placeholder"
-          >Кастомная иконка</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="person"
-          href="/"
-          >Модуль биллинга</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="photo_camera"
-          href="/"
-          >Модуль обновления</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="stethoscope"
-          href="/"
-          >Модуль регистраций</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="health_and_safety"
-          href="/"
-          >Главный модуль</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="home"
-          href="/"
-          >Очень очень длинное название пункта меню для
-          теста</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="home"
-          href="/"
-          >Дашборд</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="home"
-          href="/"
-          >Дашборд</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="home"
-          href="/"
-          >Дашборд</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="home"
-          href="/"
-          >Дашборд</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="home"
-          href="/"
-          >Дашборд</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="home"
-          href="/"
-          >Дашборд</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="home"
-          href="/"
-          >Дашборд</sf-admin-menu-item
-        >
+        <sf-admin-menu-item left-icon="table_rows" href="/workbench.html">Рабочее место записи</sf-admin-menu-item>
+        <sf-admin-menu-item left-icon="api" href="/mock-api.html">Список на мок-API</sf-admin-menu-item>
+        <sf-admin-menu-item left-icon="widgets" href="/smart-component-catalog.html">Каталог компонентов</sf-admin-menu-item>
       </sf-admin-menu>
     </aside>
-    <main class="w-full min-w-0 h-full min-h-0 flex flex-col">
-      <header class="p-x-4 p-y-1/3 flex-none">
-        <div class="flex content-main-between">
-          <sf-breadcrumbs>
-            <item
-              icon="home"
-              href="/"
-              aria-label="Home"></item>
-            <item current>Решения</item>
-          </sf-breadcrumbs>
-          <div class="flex gap-1/3">
-            <sf-toggle
-              type="icon"
-              id="theme_toggle"
-              size="2"
-              icon="light_mode"
-              name="sf-admin-theme"></sf-toggle>
-            <sf-icon-button
-              variant="icon"
-              size="1"
-              type="link"
-              scheme="on-surface"
-              icon="notifications"></sf-icon-button>
-            <sf-icon-button
-              variant="icon"
-              size="1"
-              type="link"
-              scheme="on-surface"
-              icon="help"></sf-icon-button>
-            <sf-avatar
-              size="1"
-              image-url="https://randomuser.me/api/portraits/men/75.jpg"
-              status="company"
-              aria-label="Avatar image company"></sf-avatar>
-          </div>
-        </div>
+
+    <main class="flex flex-col flex-1 min-w-0 min-h-0">
+      <header class="flex items-cross-center gap-2 p-x-4 p-y-2 border-b-px border-outline-variant">
+        <sf-breadcrumbs aria-label="Где вы находитесь">
+          <a href="/">Админка</a>
+          <a href="/">Решения</a>
+        </sf-breadcrumbs>
+        <span class="grow"></span>
+        <sf-avatar size="1" text="РЗ"></sf-avatar>
       </header>
-      <article class="flex-1 min-w-0 min-h-0 flex flex-col">
-        <section
-          class="flex p-x-4 p-y-1/3 content-main-between gap-2 flex-none">
-          <div class="flex gap-1/3 items-cross-center p-y-2 w-full">
-            <h3 class="color-on-surface">Team members</h3>
-            <sf-tag
-              type="default"
-              id="users_count"
-              size="1/2"
-              text="0"></sf-tag>
-          </div>
-          <div class="flex items-cross-center p-x-1 gap-1">
-            <sf-icon-button
-              variant="icon"
-              size="1"
-              type="link"
-              scheme="on-surface"
-              icon="menu"></sf-icon-button>
-            <sf-icon-button
-              variant="icon"
-              size="1"
-              type="link"
-              scheme="on-surface"
-              icon="apps"></sf-icon-button>
-            <sf-icon-button
-              variant="icon"
-              size="1"
-              type="link"
-              scheme="on-surface"
-              icon="grid_view"></sf-icon-button>
-          </div>
-        </section>
-        <section class="p-x-4 min-w-0 flex flex-col gap-1/3 flex-1 min-h-0">
+
+      <!-- The polygon's own controls. They are not part of an admin: they are
+           how a person makes the host answer the way a real one would on a bad
+           day, without editing any code. A reference that can only be the happy
+           path is a reference that never shows the states a consumer handles
+           worst. -->
+      <section
+        id="controls"
+        class="flex items-cross-center gap-2 p-x-4 p-y-2 bg-surface-container-low border-b-px border-outline-variant"
+        aria-label="Условия полигона">
+        <span class="sf-text-1 color-on-surface-variant">Полигон:</span>
+
+        <sf-dropdown id="scenario" size="1" appearance="outlined" label="Ответы хоста">
+          <sf-list-item value="default" text="Обычные ответы" selected></sf-list-item>
+          <sf-list-item value="empty" text="Пустой список"></sf-list-item>
+          <sf-list-item value="slow" text="Медленный хост"></sf-list-item>
+          <sf-list-item value="forbidden" text="Нет доступа"></sf-list-item>
+          <sf-list-item value="unavailable" text="Хост недоступен"></sf-list-item>
+        </sf-dropdown>
+
+        <span class="grow"></span>
+
+        <span class="sf-text-1 color-on-surface-variant">Права хоста:</span>
+        <sf-switch id="cap-row-actions" size="1" checked label="Действия в строке"></sf-switch>
+        <sf-switch id="cap-saved-views" size="1" checked label="Сохранённые виды"></sf-switch>
+        <sf-switch id="cap-shared" size="1" checked label="Общие настройки"></sf-switch>
+        <sf-switch id="cap-count" size="1" checked label="Счётчик"></sf-switch>
+      </section>
+
+      <section class="flex flex-col gap-2 p-4 flex-1 min-w-0 min-h-0">
+        <div class="flex items-cross-center gap-2">
+          <h1 class="text-title-2 m-0">Решения</h1>
+          <sf-badge id="count" type="tonal" scheme="neutral" text="—"></sf-badge>
+          <span class="grow"></span>
+          <sf-button id="create" size="1" appearance="outline" scheme="on-surface" text="Создать решение"></sf-button>
+        </div>
+        <p id="state" class="color-on-surface-variant m-0 sf-text-1" role="status"></p>
+
+        <sf-data-view
+          id="solutions"
+          chrome="toolbar pagination select settings"
+          aria-label="Решения">
           <sf-table
-            pagin
-            table-settings-key="admin_table"></sf-table>
-          <!-- <sf-pagination
-            current="1"
-            total="10"
-            bottom="true"
-            show-action-for-all
-            page-size="10"
-            page-sizes="10,20,30,40"
-            show-page-size
-            top-class="content-main-center"
-            main-class="items-cross-center content-main-between"
-            bottom-class="items-cross-center gap-2">
-          </sf-pagination> -->
-        </section>
-      </article>
+            slot="content"
+            id="solutions-table"
+            toolbar="false"
+            table-settings-key="polygon.solutions"
+            aria-label="Решения"></sf-table>
+          <sf-pagination slot="pagination"></sf-pagination>
+        </sf-data-view>
+      </section>
     </main>
-    <div
-      data-theme-builder="drawer"
-      right="c8"
-      bottom="e1"
-      class="sf-theme-builder z-9"></div>
-    <script
-      type="module"
-      src="/src/main.ts"></script>
+
+    <sf-property-view
+      id="record"
+      panel
+      panel-width="44rem"
+      collection="workbench.solutions"
+      collection-label="Решения"
+      collection-icon="inventory_2"
+      aria-label="Карточка решения"></sf-property-view>
+
+    <script type="module" src="/src/polygon.ts"></script>
   </body>
 </html>

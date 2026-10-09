@@ -233,7 +233,11 @@ test(`Admin loads sf-table data through Vite ${mode} and mock API`, async () => 
   page.on('pageerror', (error) => pageErrors.push(error.stack || error.message));
   page.on('requestfailed', (request) => failedRequests.push(request.url()));
 
-  await page.goto(appOrigin, { waitUntil: 'networkidle' });
+  // The page that drives the components over HTTP, which is this test's
+  // subject. It used to be the index; the index is the polygon now, and the
+  // polygon answers from a host in the page and would make this test pass
+  // while proving nothing about the transport.
+  await page.goto(new URL('/mock-api.html', appOrigin).href, { waitUntil: 'networkidle' });
 
   try {
     await page.waitForFunction(() => {

@@ -58,7 +58,10 @@ const listHost = (): HostPort => ({
 // the same one: a page that used its own would be a page whose answers nobody
 // checks.
 const recordHost = (): HostPort => createPropertyViewHost({
-  capabilities: ['field-options', 'field-upload', 'view-settings'],
+  // The reference stands in for an administrator: it may write the shared
+  // layer and make shared views, so the whole of the arranging mode can be
+  // tried rather than half of it.
+  capabilities: ['field-options', 'field-upload', 'view-settings', 'shared-view-settings'],
 }) as unknown as HostPort;
 
 // ─── Wiring ───────────────────────────────────────────────────────────────────

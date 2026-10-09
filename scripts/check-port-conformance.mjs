@@ -81,14 +81,25 @@ const reaches = [
   ['view.save', 'refused', ['view-settings'], { record_id: null, collection: base.collection, target: { kind: 'shared' }, view: {} }],
   ['view.save', 'unavailable', [], { record_id: null, collection: base.collection, target: { kind: 'personal' }, view: {} }],
   ['view.reset', 'applied', ALL, { record_id: null, collection: base.collection, target: { kind: 'personal' } }],
+  ['view.profile', 'applied', ALL, { ...base, profile: 'expert' }],
+  ['view.profile', 'refused', ALL, { ...base, profile: 'profile-forbidden' }],
+  ['view.profile', 'unavailable', [], { ...base, profile: 'expert' }],
+  ['view.create', 'applied', ALL, { ...base, label: 'Для продаж', shared: true, view: {} }],
+  ['view.create', 'refused', ['view-settings'], { ...base, label: 'Для всех', shared: true, view: {} }],
+  ['view.rename', 'applied', ALL, { ...base, profile: 'expert', label: 'Экспертный режим' }],
+  ['view.delete', 'applied', ALL, { ...base, profile: 'mine' }],
+  // One shared view left is the case the kit names: a host that keeps the list
+  // refuses the last one rather than leaving the scope with none.
+  ['view.delete', 'refused', ['view-settings', 'shared-view-settings'], { ...base, profile: 'only' },
+    { profiles: [{ id: 'only', label: 'Общий', shared: true }] }],
 ];
 
 const failures = [];
 const reached = new Set();
 
-for (const [intent, answer, capabilities, payload] of reaches) {
+for (const [intent, answer, capabilities, payload, setup] of reaches) {
   const key = `${intent}|${answer}`;
-  const host = createPropertyViewHost({ capabilities });
+  const host = createPropertyViewHost({ capabilities, ...(setup ?? {}) });
   let given;
   try {
     given = await host.raise(intent, payload);

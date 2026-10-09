@@ -63,8 +63,26 @@ export const RECORD = {
 const FORBIDDEN = /forbidden/;
 const UNREACHABLE = /unavailable|missing/;
 
-export const createPropertyViewHost = ({ record = RECORD, capabilities = [] } = {}) => {
-  const state = { record: copy(record), views: {} };
+export const PROFILES = [
+  { id: 'default', label: 'Обычный', shared: true },
+  { id: 'expert', label: 'Экспертный', shared: true },
+  { id: 'mine', label: 'Персональный', shared: false },
+];
+
+// `profiles` is here so a caller can stand the host up with a list of its own —
+// one shared view, say, which is the state in which removing it is refused and
+// which no sequence of calls on the default list reaches.
+export const createPropertyViewHost = ({ record = RECORD, capabilities = [], profiles = PROFILES } = {}) => {
+  const state = { record: copy(record), views: {}, profiles: copy(profiles), profile: copy(profiles)[0]?.id ?? null, next: 4 };
+
+  // The record a read answers with carries the list this host is keeping, not
+  // the one the fixture was written with: the list is the host's.
+  const answerRecord = () => {
+    const answer = copy(state.record);
+    answer.view = { ...(answer.view ?? {}), profiles: copy(state.profiles), profile: state.profile };
+    return answer;
+  };
+  const asRead = () => ({ answer: 'applied', record: answerRecord() });
 
   return {
     version: '1.9.0',
@@ -83,7 +101,7 @@ export const createPropertyViewHost = ({ record = RECORD, capabilities = [] } = 
         if (UNREACHABLE.test(recordId)) {
           return { answer: 'unavailable', reason: 'host-down', message: 'Источник данных недоступен' };
         }
-        return { answer: 'applied', record: copy(state.record) };
+        return asRead();
       }
 
       if (intent === 'group.save') {
@@ -104,7 +122,7 @@ export const createPropertyViewHost = ({ record = RECORD, capabilities = [] } = 
           if (Object.prototype.hasOwnProperty.call(values, field.key)) field.value = values[field.key];
         }
         state.record.revision += 1;
-        return { answer: 'applied', record: copy(state.record) };
+        return asRead();
       }
 
       if (intent === 'field.options') {
@@ -146,6 +164,53 @@ export const createPropertyViewHost = ({ record = RECORD, capabilities = [] } = 
       }
 
       if (intent === 'record.open') return { answer: 'applied' };
+
+      // The named views, and the three acts that keep the list of them.
+      if (intent === 'view.profile' || intent === 'view.create'
+          || intent === 'view.rename' || intent === 'view.delete') {
+        if (!capabilities.includes('view-settings')) {
+          return { answer: 'unavailable', reason: 'capability-not-provided' };
+        }
+        const wanted = String(payload.profile ?? '');
+
+        if (intent === 'view.profile') {
+          if (FORBIDDEN.test(wanted)) return { answer: 'refused', reason: 'access-denied' };
+          const found = state.profiles.find((profile) => profile.id === wanted);
+          if (!found) return { answer: 'refused', reason: 'unknown-view' };
+          state.profile = found.id;
+          return asRead();
+        }
+
+        if (intent === 'view.create') {
+          // The same right that governs the shared layer governs a shared view.
+          if (payload.shared && !capabilities.includes('shared-view-settings')) {
+            return { answer: 'refused', reason: 'access-denied', message: 'Общий вид заводит администратор' };
+          }
+          const id = `view-${state.next++}`;
+          state.profiles.push({ id, label: String(payload.label ?? 'Новый вид'), shared: Boolean(payload.shared) });
+          state.profile = id;
+          return asRead();
+        }
+
+        const found = state.profiles.find((profile) => profile.id === wanted);
+        if (!found) return { answer: 'refused', reason: 'unknown-view' };
+
+        if (intent === 'view.rename') {
+          // The label and nothing else: the id is what anything pointing at
+          // this view points at.
+          found.label = String(payload.label ?? found.label);
+          return asRead();
+        }
+
+        // Removing. The last shared one stays: a scope with none has nothing
+        // for a person who has made none of their own.
+        if (found.shared && state.profiles.filter((profile) => profile.shared).length < 2) {
+          return { answer: 'refused', reason: 'last-shared-view', message: 'Это единственный общий вид' };
+        }
+        state.profiles.splice(state.profiles.indexOf(found), 1);
+        if (state.profile === found.id) state.profile = state.profiles[0]?.id ?? null;
+        return asRead();
+      }
 
       if (intent === 'view.save') {
         const target = payload.target ?? {};

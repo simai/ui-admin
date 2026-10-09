@@ -1,5 +1,5 @@
 import { createReadStream, existsSync, statSync } from 'node:fs'
-import { readFile, readdir, writeFile } from 'node:fs/promises'
+import { cp, readFile, readdir, writeFile } from 'node:fs/promises'
 import { extname, join, normalize, resolve, sep } from 'node:path'
 import { defineConfig, loadEnv, type Connect, type Plugin } from 'vite'
 // @ts-expect-error -- plain JavaScript so the publish scripts and the checks
@@ -81,6 +81,31 @@ function stampRuntimeBase(): Plugin {
 
       return { code: stamp(code, runtimeUrlBase), map: null }
     },
+    // The polygon's dataset lives in data/ rather than public/, because Larena
+    // is meant to read that file as a contract and a contract does not belong
+    // among a site's assets. It is served from there in dev and copied into the
+    // build, which is generated output like everything else under dist.
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        const url = req.url?.split('?')[0]
+
+        if (!url?.startsWith('/data/')) {
+          next()
+          return
+        }
+
+        const file = normalize(join(resolve('data'), decodeURIComponent(url.slice('/data/'.length))))
+
+        if (!file.startsWith(`${resolve('data')}${sep}`) || !existsSync(file)) {
+          next()
+          return
+        }
+
+        res.setHeader('Content-Type', 'application/json; charset=utf-8')
+        res.setHeader('Cache-Control', 'no-store, max-age=0')
+        createReadStream(file).pipe(res)
+      })
+    },
     // Pages under public/ are copied byte for byte and never reach
     // transformIndexHtml, so one of them kept asking for the unstamped path
     // after everything else had been stamped. Whatever is left in the built
@@ -91,6 +116,8 @@ function stampRuntimeBase(): Plugin {
       if (!existsSync(outputDirectory)) {
         return
       }
+
+      await cp(resolve('data'), join(outputDirectory, 'data'), { recursive: true })
 
       for (const entry of await readdir(outputDirectory, { withFileTypes: true })) {
         if (!entry.isFile() || !entry.name.endsWith('.html')) {
@@ -148,6 +175,7 @@ export default defineConfig(({ mode }) => {
             projectRoot,
             'smart-component-catalog.html',
           ),
+          polygon: resolve(projectRoot, 'polygon.html'),
           workbench: resolve(projectRoot, 'workbench.html'),
         },
       },

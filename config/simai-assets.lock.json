@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "compatibilityId": "ui-20e6a21df5f2-smart-dbe6e9c8ba0a",
-  "pairIdentitySha256": "0791ea64c5b92a6b96ad9f352956b40f95b726cccd42b7a810c1a4ea49d8626b",
+  "compatibilityId": "ui-868360de4081-smart-de597daf6a30",
+  "pairIdentitySha256": "0943bc01af598ce6740dadcd843b6d8f0d58f1c35d548a894bfe528403280d95",
   "contractSha256": "b70d02d6902345e17954eafb44f24052b7478439184286bed5a8df6c69c1fe45",
   "core": {
     "repository": "../ui",
-    "commit": "20e6a21df5f21c66bf88c8cf0c03f49b79077384",
+    "commit": "868360de40817af6eb370ee92c872f4c555b6e4a",
     "sourceDir": "distr",
     "requiredFiles": [
       {
@@ -28,7 +28,7 @@
   },
   "smart": {
     "repository": "../ui-smart",
-    "commit": "dbe6e9c8ba0aa3f915bbbf298ac91e7793290211",
+    "commit": "de597daf6a30f63debcea6f7c632434617fcbfe1",
     "sourceDir": "smart",
     "targetDir": "smart",
     "requiredFiles": [
@@ -42,7 +42,7 @@
       },
       {
         "path": "table/js/table.js",
-        "sha256": "9fce25372190d93059f7fbf9238d3db7b09cd81bd6734e1c3ae63fcb32e419d1"
+        "sha256": "d7a6a3fd0a8c4c860a725699d40a95368528a58411ece15e890a58e65569ebfa"
       }
     ]
   }

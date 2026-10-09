@@ -49,6 +49,17 @@
           "3"
         ]
       },
+      "line": {
+        "type": "string",
+        "default": "",
+        "enum": [
+          "",
+          "1/2",
+          "1",
+          "2"
+        ],
+        "description": "Takes the text line of this form size, for a table cell or a row of fields, so the row keeps its control height."
+      },
       "value": {
         "type": "string",
         "default": "0",
@@ -58,15 +69,17 @@
         "type": "boolean",
         "default": true
       },
-      "tone": {
+      "status": {
         "type": "string",
-        "default": "primary",
+        "default": "neutral",
         "enum": [
-          "primary",
+          "neutral",
+          "info",
           "success",
           "warning",
           "error"
-        ]
+        ],
+        "description": "What the progress reports, in the shared status vocabulary. The word this component used before, primary, is still accepted and means neutral."
       },
       "label": {
         "type": "string",
@@ -75,6 +88,18 @@
       "value-text": {
         "type": "string",
         "default": ""
+      },
+      "tone": {
+        "type": "string",
+        "default": "neutral",
+        "description": "Legacy name for status, still honoured. See contracts/public-api-axes.json.",
+        "enum": [
+          "neutral",
+          "info",
+          "success",
+          "warning",
+          "error"
+        ]
       }
     },
     "additionalProperties": false
@@ -192,8 +217,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [],
     "deprecations": [],
@@ -202,15 +227,15 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/progress-scale/index.js",
-        "sha256": "51859a5a9a6083385ba0efda24f01bf03be60f679edb3a496e166653f79ec51e"
+        "sha256": "066b9d9ebc484e056f49b018c08b03c315642c8953ace3a2dab85236ec574aec"
       },
       {
         "path": "src/smart/progress-scale/js/templates/default.js",
-        "sha256": "771715bec8e7ac51c219a5bd37cbb6cbab27272e89ada809758db41ce7678b5d"
+        "sha256": "233027300700454bdf68818e1d4c8680915ff15c90897d7dca21dbf47f7d25b1"
       },
       {
         "path": "src/smart/progress-scale/rule.js",
@@ -224,9 +249,9 @@
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
         "path": "smart/progress-scale/js/progress-scale.js",
-        "sha256": "2a162317593e9f8f004df8dcb1a1414b76159222446cbc7889633e905dfda1d0"
+        "sha256": "a6fdde11756ff6c972b52029dde2a8f91d98272c3f08eef67bda32cf395f8f50"
       }
     ]
   },

@@ -430,8 +430,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [],
     "deprecations": [],
@@ -440,19 +440,19 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/gallery/index.js",
-        "sha256": "c50d7c2d922635e97f32c4f0c6637e62948351194eb5e12d224ab179de2a74ff"
+        "sha256": "34351de8e066380ed5d9253497de3be97326a2807497b01c5b1fb48ebdffb079"
       }
     ],
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
         "path": "smart/gallery/js/gallery.js",
-        "sha256": "0a828b4ed9a3466007a8fa16d125f1f4a0644287cbdb22b4ebbb04f3d43d097d"
+        "sha256": "5d69a39f4860052fa865b6787ba9e51d4ad2bd9c3bd2432d70ed4800ea35c684"
       }
     ]
   },

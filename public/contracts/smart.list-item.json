@@ -39,7 +39,7 @@
         "type": "string",
         "default": ""
       },
-      "type": {
+      "kind": {
         "type": "string",
         "default": "text",
         "enum": [
@@ -48,7 +48,8 @@
           "checkbox",
           "avatar",
           "color"
-        ]
+        ],
+        "description": "What the list item carries: plain text, an icon, a checkbox, an avatar or a colour."
       },
       "size": {
         "type": "string",
@@ -96,6 +97,18 @@
       "aria-label": {
         "type": "string",
         "default": ""
+      },
+      "type": {
+        "type": "string",
+        "default": "text",
+        "description": "Legacy name for kind, still honoured. See contracts/public-api-axes.json.",
+        "enum": [
+          "text",
+          "icon",
+          "checkbox",
+          "avatar",
+          "color"
+        ]
       }
     },
     "additionalProperties": false
@@ -209,8 +222,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [],
     "deprecations": [],
@@ -219,19 +232,19 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/list-item/index.js",
-        "sha256": "bf79f2077a0fda60752cba32439be4f3ee185e8103c9a83fa13b2c880bdbe753"
+        "sha256": "b3f5d110f37b8344f272ab111cf358dbd75bfe961e9dc41d57ca102a80fbb157"
       }
     ],
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
         "path": "smart/list-item/js/list-item.js",
-        "sha256": "11d4acb99ac77781425113bb7f4a0c80f2528dff63e4831040fa6d04eb59c5fa"
+        "sha256": "5d65b5b2f35eac56523266c072aa7386b09656e94ef9d848e12739b87650277a"
       }
     ]
   },

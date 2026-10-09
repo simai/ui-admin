@@ -32,8 +32,9 @@
         "default": "1",
         "description": "Checkbox size token.",
         "enum": [
-          "1/3",
-          "1"
+          "1/2",
+          "1",
+          "2"
         ]
       },
       "label": {
@@ -86,6 +87,11 @@
         "type": "boolean",
         "default": false,
         "description": "Invalid state; the native input publishes aria-invalid."
+      },
+      "aria-label": {
+        "type": "string",
+        "default": "",
+        "description": "Accessible name for a checkbox rendered without a visible label."
       }
     },
     "additionalProperties": false
@@ -213,7 +219,15 @@
       }
     }
   },
-  "events": {},
+  "events": {
+    "change": {
+      "summary": "The checked state changed; the native event bubbles from the inner checkbox, which is its target.",
+      "payload": {
+        "type": "object"
+      },
+      "canonical": true
+    }
+  },
   "state": {
     "machines": {},
     "visual_states": [
@@ -298,8 +312,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [],
     "deprecations": [],
@@ -308,19 +322,19 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/checkbox/index.js",
-        "sha256": "caa3795d9dd5bc55007be194c840163f94d6553ad79957b5b223ff440f11e040"
+        "sha256": "ad100903e76b4820a13943151fb748b60d4f9670c6d4007064de00b6beeb1f4a"
       }
     ],
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
         "path": "smart/checkbox/js/checkbox.js",
-        "sha256": "e47d9bf4ce8d219f1ade94fb493aeffd88dce8a1a5338a6648315049641e5361"
+        "sha256": "00830af31f9b0354b3b69d4645a92411d40f80facae4999b7c48b8d944e59517"
       }
     ]
   },

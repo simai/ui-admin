@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.modal",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Modal",
   "summary": "Modal Smart Component from SIMAI Framework.",
   "kind": "smart",
@@ -454,13 +454,13 @@
   },
   "events": {
     "modal:ready": {
-      "summary": "Runtime event modal:ready.",
+      "summary": "Runtime event modal:ready. Bubbles and is composed; detail.modal is the emitting modal.",
       "payload": {
         "type": "object"
       }
     },
     "modal:update": {
-      "summary": "Runtime event modal:update.",
+      "summary": "Runtime event modal:update. Bubbles and is composed; detail.modal is the emitting modal.",
       "payload": {
         "type": "object"
       }
@@ -559,34 +559,44 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [],
     "deprecations": [],
     "replacement": null,
-    "migrations": []
+    "migrations": [
+      {
+        "from": "1.0.0",
+        "to": "1.1.0",
+        "changes": [
+          "modal:* events bubble and are composed, like the base modal component and sf-drawer; detail.modal names the emitting modal.",
+          "onBeforeOpen, onAfterOpen and the other on* helpers, and handlers passed to SF.create, still receive only that modal's own events.",
+          "Ancestor listeners added with addEventListener now also see events of nested modals; check event.detail.modal."
+        ]
+      }
+    ]
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/modal/index.js",
-        "sha256": "8a83191d96d915051d78383ba8e9293d99b9ffb6c0315c34c503ffe222d0f0f2"
+        "sha256": "74921638cbe1df21e67fa053c20a9a07cb7499dacc0e48f1b6b384b8162922c8"
       }
     ],
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
         "path": "smart/modal/js/modal.js",
-        "sha256": "a14cc8fca8e803328cc082a6290695ded7c7baf97373a6353b765116a2b89cb5"
+        "sha256": "54edd5f017889193373a8ee3169b588192c013b7f8d4fb691fc2efcf52eb1ad6"
       }
     ]
   },
   "ai_guidance": {
-    "use_when": "Use sf-modal for one bounded task that temporarily owns the top interaction layer. It shares stack, focus return and scroll-lock ownership with ordinary Modal. Prefer center or logical inline-start/inline-end/top/bottom positions; left/right are compatibility aliases. The dialog and iframe are large surfaces on --sf-radius-default, while compact header actions retain --sf-radius--ui. Inline display stays in document flow and does not capture focus. Minimized instances remain open but leave the visible interaction stack.",
+    "use_when": "Use sf-modal for one bounded task that temporarily owns the top interaction layer. It shares stack, focus return and scroll-lock ownership with ordinary Modal. Prefer center or logical inline-start/inline-end/top/bottom positions; left/right are compatibility aliases. The dialog and iframe are large surfaces on --sf-radius--surface, while compact header actions retain --sf-radius--ui. Inline display stays in document flow and does not capture focus. Minimized instances remain open but leave the visible interaction stack.",
     "do_not": [
       "Do not copy generated ui-smart code",
       "Do not use Modal for a long independent workflow that belongs on its own page",

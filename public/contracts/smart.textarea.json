@@ -37,20 +37,19 @@
         "type": "string",
         "default": "1",
         "enum": [
-          "1/3",
           "1/2",
           "1",
-          "2",
-          "3"
+          "2"
         ]
       },
-      "type": {
+      "appearance": {
         "type": "string",
         "default": "bordered",
         "enum": [
           "bordered",
           "filled"
-        ]
+        ],
+        "description": "How the field looks: a bordered box or a filled one."
       },
       "label": {
         "type": "string",
@@ -150,6 +149,15 @@
       "mask-options": {
         "type": "string",
         "default": ""
+      },
+      "type": {
+        "type": "string",
+        "default": "bordered",
+        "description": "Legacy name for appearance, still honoured. See contracts/public-api-axes.json.",
+        "enum": [
+          "bordered",
+          "filled"
+        ]
       }
     },
     "additionalProperties": false
@@ -200,7 +208,21 @@
       }
     }
   },
-  "events": {},
+  "events": {
+    "change": {
+      "summary": "The value was committed; the native event bubbles from the inner textarea, which is its target.",
+      "payload": {
+        "type": "object"
+      },
+      "canonical": true
+    },
+    "input": {
+      "summary": "The value changed while typing; the native event bubbles from the inner textarea, which is its target.",
+      "payload": {
+        "type": "object"
+      }
+    }
+  },
   "state": {
     "machines": {},
     "visual_states": [
@@ -284,8 +306,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [],
     "deprecations": [],
@@ -294,19 +316,19 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/textarea/index.js",
-        "sha256": "cd8bd6255962ce88c70ccded1274c4f83534d29fafa1031f9d6d9d461786c6ad"
+        "sha256": "1b2b79513765c98dc496c2e24e715dfe74117c444a5511a6f695bec981412bbb"
       }
     ],
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
         "path": "smart/textarea/js/textarea.js",
-        "sha256": "0a4e067672826d24e818a00b2c9e9987778534af703f8cf43f73d81c85096fdf"
+        "sha256": "d50e0aeab796d67cd85469d66a53e785f7433d38110e011b9772350d8d58f25c"
       }
     ]
   },
@@ -325,7 +347,7 @@
       "ownership",
       "provenance"
     ],
-    "minimal_example": "<sf-textarea label=\"Комментарий\" name=\"comment\" rows=\"4\" maxlength=\"500\"></sf-textarea>",
+    "minimal_example": "<sf-textarea label=\"Comment\" name=\"comment\" rows=\"4\" maxlength=\"500\"></sf-textarea>",
     "owner_commands": [
       "npm run contract:verify",
       "npm test"

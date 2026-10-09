@@ -228,8 +228,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [],
     "deprecations": [],
@@ -238,11 +238,11 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/context-menu/index.js",
-        "sha256": "d59e428d59e7e2d85601430af7e5e47c0750f64236b8b31ee2e7623e0ee0e867"
+        "sha256": "d9ed4998de0f98e9610ec39da5ddb81b6cc5f6c6c4f67fc3c73a9aa2bf8c6c57"
       },
       {
         "path": "src/smart/context-menu/js/templates/default.js",
@@ -250,24 +250,24 @@
       },
       {
         "path": "src/component/context-menu/scss/_css__context_menu.scss",
-        "sha256": "371a4ad2aabe91cccbb1d1d81635905ac02a8baed80d1a55a8b7068e473ff04e"
+        "sha256": "0062b582c4391fd09cfb8975efffcaa2071b0c3f09edddaf62abb4da33e68a10"
       },
       {
         "path": "src/component/context-menu/scss/_css__context_menu_custom.scss",
-        "sha256": "d508e073fdbb2157c955683780f3d6c4b49c08360b56b3e7e1ccc3f87616bc06"
+        "sha256": "8f561a944ba45091acfff006c67467c93f7b9e47a31263f84a9472b2880db110"
       }
     ],
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
         "path": "smart/context-menu/js/context-menu.js",
-        "sha256": "f2aadca019229f995acf72b090e0b5ec8a0ce3b1ebe9fac9208492f8c327edf5"
+        "sha256": "ea25ee1a984ffdb8b34fa05ab03f62f2ed0b1894bacfb6d7a5f66c9396364a61"
       }
     ]
   },
   "ai_guidance": {
-    "use_when": "Use sf-context-menu for a short action surface. Prefer logical position values so the tail mirrors in RTL. The surface uses --sf-radius-default; long host-bounded content scrolls without clipping the tail, while forced-colors boundaries remain visible.",
+    "use_when": "Use sf-context-menu for a short action surface. Prefer logical position values so the tail mirrors in RTL. The surface uses --sf-radius--surface; long host-bounded content scrolls without clipping the tail, while forced-colors boundaries remain visible.",
     "do_not": [
       "Do not copy generated ui-smart code",
       "Do not move host data or access decisions into the component",

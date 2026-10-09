@@ -39,8 +39,9 @@
         "default": "1",
         "description": "Radio size token.",
         "enum": [
-          "1/3",
-          "1"
+          "1/2",
+          "1",
+          "2"
         ]
       },
       "label": {
@@ -178,7 +179,15 @@
       }
     }
   },
-  "events": {},
+  "events": {
+    "change": {
+      "summary": "The selection changed; the native event bubbles from the inner radio, which is its target. The name to bind.",
+      "payload": {
+        "type": "object"
+      },
+      "canonical": true
+    }
+  },
   "state": {
     "machines": {},
     "visual_states": [
@@ -263,8 +272,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [],
     "deprecations": [],
@@ -273,19 +282,19 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/radio/index.js",
-        "sha256": "21a127dae52933228f7b99b63bf7a1a78df183c003da90d7de630e86f82e350f"
+        "sha256": "b4fce0a9c1cd6f66d5f6581f579cc14e67eefed879852445aad9fae0b4411978"
       }
     ],
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
         "path": "smart/radio/js/radio.js",
-        "sha256": "90986ef2374dd571a0c907d820120a4f5ffb3f8e1f574150cf9f3f9eb9362785"
+        "sha256": "b2254bfc7493f5bf59bb64011b8018bc15fbe88bfc1dc2d7a0871c9cbc7581d7"
       }
     ]
   },

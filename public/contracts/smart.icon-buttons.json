@@ -39,14 +39,14 @@
           "default"
         ]
       },
-      "variant": {
+      "kind": {
         "type": "string",
         "default": "icon",
-        "description": "Rendered inner content variant.",
         "enum": [
           "icon",
           "close"
-        ]
+        ],
+        "description": "What the icon button is: an ordinary icon action or a close control."
       },
       "size": {
         "type": "string",
@@ -60,25 +60,36 @@
           "3"
         ]
       },
-      "type": {
+      "appearance": {
         "type": "string",
         "default": "default",
-        "description": "Visual icon button type.",
+        "description": "How the icon button looks. Surface and ghost read the neutral alpha ramp: surface keeps a faint fill and a border, ghost keeps nothing until it is hovered or focused.",
         "enum": [
           "default",
           "tonal",
           "outline",
-          "link"
+          "link",
+          "surface",
+          "ghost"
         ]
       },
       "scheme": {
         "type": "string",
         "default": "primary",
-        "description": "Visual color scheme.",
+        "description": "Which colour family the control takes. What the control is about is the status axis; a status set there wins over this.",
         "enum": [
           "primary",
           "secondary",
           "on-surface"
+        ]
+      },
+      "status": {
+        "type": "string",
+        "default": "",
+        "description": "What the control is about, in the shared status vocabulary. The only one a control paints today is `error`, the destructive one: a control that deletes, discards or cannot be undone.",
+        "enum": [
+          "",
+          "error"
         ]
       },
       "segment": {
@@ -102,10 +113,21 @@
         "default": false,
         "description": "Use the filled glyph axis for the standard icon variant."
       },
+      "spacing": {
+        "type": "string",
+        "default": "normal",
+        "description": "Semantic internal spacing profile.",
+        "enum": [
+          "compact",
+          "normal",
+          "comfortable",
+          "spacious"
+        ]
+      },
       "tightness": {
         "type": "string",
         "default": "",
-        "description": "Vertical tightness modifier.",
+        "description": "Compatibility alias for spacing.",
         "enum": [
           "",
           "low",
@@ -153,6 +175,28 @@
         "type": "string",
         "default": "",
         "description": "Accessible label."
+      },
+      "variant": {
+        "type": "string",
+        "default": "icon",
+        "description": "Legacy name for kind, still honoured. See contracts/public-api-axes.json.",
+        "enum": [
+          "icon",
+          "close"
+        ]
+      },
+      "type": {
+        "type": "string",
+        "default": "default",
+        "description": "Legacy name for appearance, still honoured. See contracts/public-api-axes.json.",
+        "enum": [
+          "default",
+          "tonal",
+          "outline",
+          "link",
+          "surface",
+          "ghost"
+        ]
       }
     },
     "additionalProperties": false
@@ -369,8 +413,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [],
     "deprecations": [],
@@ -379,19 +423,19 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/icon-buttons/index.js",
-        "sha256": "0650602778d942cf238ceff15521c5d358fc57fe95f3d3b32fb1ca3c698b1cec"
+        "sha256": "252c2368fae729db24303104c00430ebf44b049ec3c1d32213fe01e8d7b992bc"
       }
     ],
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
         "path": "smart/icon-buttons/js/icon-buttons.js",
-        "sha256": "34ae776daa5b2f1bc3dfe87dba99b12aaa6a2a8309676fa2533199d3fe013f69"
+        "sha256": "c7bee0fd41873c57fdd56946dfe8b60600b6dc405dae5ee110002cb062db57aa"
       }
     ]
   },

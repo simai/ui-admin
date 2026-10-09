@@ -192,8 +192,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [],
     "deprecations": [],
@@ -202,15 +202,15 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/tree/index.js",
-        "sha256": "510b6564b477cfe9435c91ce6f3b419b0628efc01899d9708e8fc3913cc99940"
+        "sha256": "8e6d071a6497a12110e38b791c1604a594148d4c58ba9a58c39dbbf2685ed685"
       },
       {
         "path": "src/smart/tree/js/templates/default.js",
-        "sha256": "a8189542faadda55ce6dd1ee4c4954d05e21c417d81b19fe5e0e4c4c9773263f"
+        "sha256": "dae4e03e919a2aec257ef007f417a3ef5bb2c9c293677213fe01765e866bb41b"
       },
       {
         "path": "src/smart/tree/js/templates/default.css",
@@ -218,7 +218,7 @@
       },
       {
         "path": "src/smart/tree/rule.js",
-        "sha256": "696f6121ee322a425e2534a67312ed0192c9e5b4ebbf8fcea7f608445288d016"
+        "sha256": "361bd8b45dfe53b9ed05488289b3f4924aeca5b2f10a7f39eeb9b28bdd47c945"
       },
       {
         "path": "src/smart/tree/docs/docs.md",
@@ -228,9 +228,9 @@
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
         "path": "smart/tree/js/tree.js",
-        "sha256": "5c76bf10337e2c03c4e4be9ed528e38cbaa80dc5a503728652ec6c8212dcdddb"
+        "sha256": "63fa149c88cc06b623a4865f75be133eacfb5cec78b23863a9dea2db4873eb2f"
       }
     ]
   },

@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.pagination",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "title": "Pagination",
   "summary": "Source-driven navigation for a collection split into numbered pages.",
   "kind": "smart",
@@ -28,7 +28,9 @@
       "smart.checkbox",
       "smart.dropdown",
       "smart.icon-buttons",
-      "smart.list-item"
+      "smart.inputs",
+      "smart.list-item",
+      "smart.spinner"
     ],
     "public_parts": []
   },
@@ -196,6 +198,66 @@
         "type": "string",
         "default": "Действие с выбранными элементами",
         "description": "Accessible name of the batch-action selector."
+      },
+      "action-choose-label": {
+        "type": "string",
+        "default": "Выберите действие",
+        "description": "Placeholder of the batch-action selector, shown until an action is chosen."
+      },
+      "actions-region-label": {
+        "type": "string",
+        "default": "Действия с отмеченными",
+        "description": "Accessible name of the panel that appears while rows are marked."
+      },
+      "clear-selection-label": {
+        "type": "string",
+        "default": "Снять выделение",
+        "description": "Accessible name and tooltip of the control that drops the selection."
+      },
+      "count-known": {
+        "type": "boolean",
+        "default": true,
+        "description": "Whether the number of records is known. A host that does not count every answer sets it false, and the view offers the number instead of showing it."
+      },
+      "can-count": {
+        "type": "boolean",
+        "default": false,
+        "description": "Whether the host can count on request. Without it the view offers nothing and asks for nothing."
+      },
+      "counting": {
+        "type": "boolean",
+        "default": false,
+        "description": "A count is on its way; the view shows a short wait in place of the number."
+      },
+      "has-next": {
+        "type": "boolean",
+        "default": false,
+        "description": "Whether a further page exists. It is what moves forward and Show more when no total was sent."
+      },
+      "show-count-label": {
+        "type": "string",
+        "default": "Показать количество",
+        "description": "Text of the control that asks the host for the number."
+      },
+      "counting-label": {
+        "type": "string",
+        "default": "Считаем",
+        "description": "Accessible name of the short wait shown while the count is on its way."
+      },
+      "first-label": {
+        "type": "string",
+        "default": "В начало",
+        "description": "Accessible name and tooltip of the control that goes to the first page."
+      },
+      "page-field-label": {
+        "type": "string",
+        "default": "Страница:",
+        "description": "Label of the field that takes a page number."
+      },
+      "show-more-busy": {
+        "type": "boolean",
+        "default": false,
+        "description": "Mark the Show more control as working while the host fetches the next portion; it is disabled and shows a loader."
       }
     },
     "additionalProperties": false
@@ -363,6 +425,12 @@
         "type": "object"
       }
     },
+    "sf-count-request": {
+      "summary": "Runtime event sf-count-request.",
+      "payload": {
+        "type": "object"
+      }
+    },
     "sf-page-change": {
       "summary": "Runtime event sf-page-change.",
       "payload": {
@@ -371,6 +439,12 @@
     },
     "sf-page-size-change": {
       "summary": "Runtime event sf-page-size-change.",
+      "payload": {
+        "type": "object"
+      }
+    },
+    "sf-selection-clear": {
+      "summary": "Runtime event sf-selection-clear.",
       "payload": {
         "type": "object"
       }
@@ -467,29 +541,37 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [],
     "deprecations": [],
     "replacement": null,
-    "migrations": []
+    "migrations": [
+      {
+        "from": "1.0.0",
+        "to": "1.0.1",
+        "changes": [
+          "Fix: the action-for-all checkbox follows the checkbox state (change) instead of toggling on click, so clicking its label no longer toggles twice and leaves it off."
+        ]
+      }
+    ]
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/pagination/index.js",
-        "sha256": "1fe1b076babeb6a3c4e333caff47566e43f9b50f61aa21d250be76d585c7cd1c"
+        "sha256": "46e8c0b79de188d2507e080af43b6030dc5b0eec6040f227a30dff18d98217ba"
       }
     ],
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
         "path": "smart/pagination/js/pagination.js",
-        "sha256": "2c543a4ca8fe4265c7488d1f03febe783d9a5b9e2f1e6c71c44680e191d7ca3a"
+        "sha256": "936a8832405e45930509cd52f41c3fadf0868dcff8f65a0df704583f3d9f94a7"
       }
     ]
   },

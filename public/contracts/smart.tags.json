@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.tags",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Tags",
   "summary": "Compact static, selectable and removable labels with one explicit interaction owner.",
   "kind": "smart",
@@ -42,29 +42,78 @@
         ],
         "description": "Template name."
       },
-      "type": {
+      "kind": {
         "type": "string",
         "default": "checkbox",
+        "description": "What the tag carries: a checkbox, an icon, a colour, an avatar, or nothing but its label. The compatibility input quantity is still accepted and means default.",
         "enum": [
           "checkbox",
           "icon",
           "default",
           "color",
-          "avatar",
+          "avatar"
+        ]
+      },
+      "status": {
+        "type": "string",
+        "default": "",
+        "description": "What the tag reports, in the shared status vocabulary. Leave it empty for a tag that reports nothing.",
+        "enum": [
+          "",
+          "info",
           "success",
-          "error",
-          "warning"
+          "warning",
+          "error"
+        ]
+      },
+      "appearance": {
+        "type": "string",
+        "default": "default",
+        "enum": [
+          "default",
+          "surface",
+          "ghost"
         ],
-        "description": "Tag content and behavior type."
+        "description": "Visual appearance, read from the neutral alpha ramp and separate from type: surface keeps a faint fill and a boundary, ghost keeps nothing until it is hovered. Only the neutral types take it, because a status tag carries its meaning in its colour."
       },
       "size": {
         "type": "string",
         "default": "1/2",
         "enum": [
+          "1/3",
           "1/2",
-          "1"
+          "1",
+          "2",
+          "3"
         ],
-        "description": "Compact Framework size token."
+        "description": "Framework size token: sets the label text and the default spacing."
+      },
+      "line": {
+        "type": "string",
+        "default": "",
+        "enum": [
+          "",
+          "1/2",
+          "1",
+          "2"
+        ],
+        "description": "Takes the text line of this form size as an inline tag one size down, for a table cell, so the row keeps its control height. Overrides size and inline."
+      },
+      "spacing": {
+        "type": "string",
+        "default": "normal",
+        "enum": [
+          "compact",
+          "normal",
+          "comfortable",
+          "spacious"
+        ],
+        "description": "Block padding of a free-standing tag, with the names the buttons use."
+      },
+      "inline": {
+        "type": "boolean",
+        "default": false,
+        "description": "Sit on the text line of another control: no block padding, a flush label, and a remove button the height of the line. The host may publish --sf-tag--line."
       },
       "text": {
         "type": "string",
@@ -121,6 +170,11 @@
         "default": false,
         "description": "Show a separate remove action; icon, color and avatar tags enable it by default."
       },
+      "interactive": {
+        "type": "boolean",
+        "default": false,
+        "description": "Render the label as a button next to the remove action, for tags that open something (for example a filter chip menu); ignored for checkbox tags."
+      },
       "aria-label": {
         "type": "string",
         "default": "",
@@ -128,8 +182,24 @@
       },
       "close-label": {
         "type": "string",
-        "default": "Удалить",
-        "description": "Accessible name of the remove action."
+        "default": "Remove",
+        "description": "Accessible name of the remove action. Defaults to Remove, or Удалить on a Russian page."
+      },
+      "type": {
+        "type": "string",
+        "default": "checkbox",
+        "description": "Legacy name that answered both questions from one list: a content word reaches kind, a status word reaches status. See contracts/public-api-axes.json.",
+        "enum": [
+          "checkbox",
+          "icon",
+          "default",
+          "color",
+          "avatar",
+          "info",
+          "success",
+          "warning",
+          "error"
+        ]
       }
     },
     "additionalProperties": false
@@ -181,7 +251,8 @@
       "summary": "The active state of a checkbox tag changed.",
       "payload": {
         "type": "object"
-      }
+      },
+      "canonical": true
     },
     "close": {
       "summary": "Removal was requested from the separately named close action.",
@@ -276,29 +347,38 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [],
     "deprecations": [],
     "replacement": null,
-    "migrations": []
+    "migrations": [
+      {
+        "from": "1.0.0",
+        "to": "1.1.0",
+        "changes": [
+          "Add interactive: the label becomes a native button beside the separate remove action, so the tag is reachable by Tab and opens with Enter or Space.",
+          "Without interactive the markup is unchanged."
+        ]
+      }
+    ]
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/tags/index.js",
-        "sha256": "383f4905445a4139820e5b7dafbbceab62e2ed4e29b39f324239f77236eb1d8f"
+        "sha256": "e5121a9569b11303f83cb4666f60be80e063c2061cc813831589352f69366867"
       }
     ],
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
         "path": "smart/tags/js/tags.js",
-        "sha256": "76068fe9f6a8075ce589f5d7b8b664977f775fdbe156612627fa26d44d03f443"
+        "sha256": "e63ed0ac9d1a90ec198200bb1b65b8918473cfc2ce260b1586f888b30d7963cf"
       }
     ]
   },
@@ -317,7 +397,7 @@
       "ownership",
       "provenance"
     ],
-    "minimal_example": "<sf-tag type=\"default\" text=\"Документация\"></sf-tag>",
+    "minimal_example": "<sf-tag type=\"default\" text=\"Documentation\"></sf-tag>",
     "owner_commands": [
       "npm run contract:verify",
       "npm test"

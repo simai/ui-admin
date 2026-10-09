@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.dropdown",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "title": "Dropdown",
   "summary": "Accessible single or multiple selection control with searchable options and optional portal projection.",
   "kind": "smart",
@@ -32,31 +32,40 @@
   "inputs": {
     "type": "object",
     "properties": {
-      "template": {
-        "type": "string",
-        "default": "default",
-        "enum": [
-          "default"
-        ]
-      },
-      "size": {
-        "type": "string",
-        "default": "1",
-        "enum": [
-          "1/3",
-          "1/2",
-          "1",
-          "2",
-          "3"
-        ]
-      },
-      "type": {
+      "appearance": {
         "type": "string",
         "default": "outlined",
         "enum": [
           "filled",
           "outlined"
-        ]
+        ],
+        "description": "How the dropdown looks: a filled field or an outlined one."
+      },
+      "aria-label": {
+        "type": "string",
+        "default": ""
+      },
+      "columns": {
+        "type": "string",
+        "default": "6",
+        "description": "How many options a row holds in the grid layout. Ignored in a list."
+      },
+      "disabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "label": {
+        "type": "string",
+        "default": ""
+      },
+      "layout": {
+        "type": "string",
+        "default": "list",
+        "enum": [
+          "list",
+          "grid"
+        ],
+        "description": "How the options are laid out. A list is one option a row; a grid puts several in a row, which is the only way a hundred glyphs can be looked at -- a column of them is a column nobody scrolls to the end of. In a grid an option shows its picture and keeps its text as the name a search reads and a pointer sees."
       },
       "mode": {
         "type": "string",
@@ -71,48 +80,66 @@
         "default": false,
         "description": "Allow several values while preserving their serialized selection order. Tag mode is multiple by default."
       },
-      "portal": {
-        "type": "boolean",
-        "default": false,
-        "description": "Project the popup above clipped ancestors. Native Popover is preferred; a reversible local fallback is used when unavailable."
-      },
-      "value": {
-        "type": "string",
-        "default": "",
-        "description": "Selected machine value, or a comma-separated list of values for multiple selection."
-      },
       "name": {
         "type": "string",
         "default": "",
         "description": "Native form field name for the selected machine value."
       },
-      "label": {
-        "type": "string",
-        "default": ""
-      },
-      "required": {
-        "type": "boolean",
-        "default": false
+      "options": {
+        "type": "array",
+        "description": "Options given as data instead of as sf-list-item children: [{text, value, type?, size?, icon?, selected?, disabled?, colorClass?, avatarImageUrl?, avatarTitle?, ariaLabel?, group?}]. A string or a number is taken as both the label and the value. A parent that renders this dropdown from a template passes its options this way, because capturing child elements means removing them, and the parent can then no longer put a changed list back. Options carrying the same `group`, one after another, are drawn under one heading, so a long list says where each stretch of it comes from instead of repeating that in every row.",
+        "default": []
       },
       "placeholder": {
         "type": "string",
         "default": ""
       },
-      "search-placeholder": {
-        "type": "string",
-        "default": "Placeholder"
+      "portal": {
+        "type": "boolean",
+        "default": true,
+        "description": "Anchor the popup with the shared Framework positioning (SF.Position): native top layer, flip, shift and viewport-limited height. On by default; portal=\"false\" keeps the in-flow list."
+      },
+      "required": {
+        "type": "boolean",
+        "default": false
       },
       "search": {
         "type": "boolean",
         "default": true
       },
-      "disabled": {
-        "type": "boolean",
-        "default": false
-      },
-      "aria-label": {
+      "search-placeholder": {
         "type": "string",
-        "default": ""
+        "default": "Placeholder"
+      },
+      "size": {
+        "type": "string",
+        "default": "1",
+        "enum": [
+          "1/2",
+          "1",
+          "2"
+        ]
+      },
+      "template": {
+        "type": "string",
+        "default": "default",
+        "enum": [
+          "default"
+        ]
+      },
+      "type": {
+        "type": "string",
+        "default": "outlined",
+        "description": "Legacy name for appearance, still honoured. See contracts/public-api-axes.json.",
+        "enum": [
+          "filled",
+          "outlined"
+        ]
+      },
+      "value": {
+        "type": "string",
+        "default": "",
+        "description": "Selected machine value, or a comma-separated list of values for multiple selection."
       }
     },
     "additionalProperties": false
@@ -156,16 +183,18 @@
   },
   "events": {
     "change": {
-      "summary": "Runtime event change.",
+      "summary": "The selection changed; dispatched on the host. The name to bind.",
       "payload": {
         "type": "object"
-      }
+      },
+      "canonical": true
     },
     "sf-dropdown:change": {
-      "summary": "Runtime event sf-dropdown:change.",
+      "summary": "Legacy name for change, still emitted with the same detail; bind change.",
       "payload": {
         "type": "object"
-      }
+      },
+      "alias_of": "change"
     }
   },
   "state": {
@@ -257,29 +286,38 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [],
     "deprecations": [],
     "replacement": null,
-    "migrations": []
+    "migrations": [
+      {
+        "from": "1.0.0",
+        "to": "1.1.0",
+        "changes": [
+          "portal is on by default: the list is positioned by SF.Position (Floating UI) in the native top layer, flips above near the bottom and stays inside the viewport.",
+          "portal=\"false\" keeps the previous in-flow list."
+        ]
+      }
+    ]
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/dropdown/index.js",
-        "sha256": "54ab83caec7652113af747924b775504214b7aff32a474b689b476699100e510"
+        "sha256": "43c4025a44b27b191a85c36593160c7879ee8940f2b1b2738c8cb0dc71857bfb"
       }
     ],
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
         "path": "smart/dropdown/js/dropdown.js",
-        "sha256": "6aef2afd84f553550d9a4c5d7982cb9c17d969273b262b6c50a71665b2f91e67"
+        "sha256": "8bf07c1b1e3272893eaf36917138670d70151cf49c09658d51666b3a966f60ff"
       }
     ]
   },

@@ -29,7 +29,12 @@
     "properties": {
       "size": {
         "type": "string",
-        "default": "1"
+        "default": "1",
+        "enum": [
+          "1/2",
+          "1",
+          "2"
+        ]
       },
       "label": {
         "type": "string",
@@ -72,7 +77,8 @@
       },
       "locale": {
         "type": "string",
-        "default": "ru"
+        "default": "",
+        "description": "Language of the country names and the field's own words: ru or en. When not set it follows the page: Russian on a Russian page, English otherwise."
       },
       "use-mask": {
         "type": "boolean",
@@ -144,7 +150,15 @@
       }
     }
   },
-  "events": {},
+  "events": {
+    "change": {
+      "summary": "The phone value or country was committed; the native event bubbles from the inner input, which is its target. The name to bind.",
+      "payload": {
+        "type": "object"
+      },
+      "canonical": true
+    }
+  },
   "state": {
     "machines": {},
     "visual_states": [
@@ -232,8 +246,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [],
     "deprecations": [],
@@ -242,19 +256,19 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/country-code/index.js",
-        "sha256": "0e30891631ea7d2218f83e0c1dc744e640afcf3905cd337a212fe399050bfa21"
+        "sha256": "4bd3d054651fe758ce9742f32d9284cb28de7a4ca155aee1c4491c241d8f32be"
       }
     ],
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
         "path": "smart/country-code/js/country-code.js",
-        "sha256": "690b4f6fa24f37f831728827d7ba0b4a71d7230f3b4034c589f5cda1b5eabe2d"
+        "sha256": "ae6b17bc63991c2ffbee39af800e400f94ae1df11928716c03ff843f297fe67a"
       }
     ]
   },

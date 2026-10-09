@@ -64,15 +64,17 @@
           "right"
         ]
       },
-      "tone": {
+      "status": {
         "type": "string",
-        "default": "primary",
+        "default": "neutral",
         "enum": [
-          "primary",
+          "neutral",
+          "info",
           "success",
           "warning",
           "error"
-        ]
+        ],
+        "description": "What the progress reports, in the shared status vocabulary. The word this component used before, primary, is still accepted and means neutral."
       },
       "label": {
         "type": "string",
@@ -81,6 +83,18 @@
       "value-text": {
         "type": "string",
         "default": ""
+      },
+      "tone": {
+        "type": "string",
+        "default": "neutral",
+        "description": "Legacy name for status, still honoured. See contracts/public-api-axes.json.",
+        "enum": [
+          "neutral",
+          "info",
+          "success",
+          "warning",
+          "error"
+        ]
       }
     },
     "additionalProperties": false
@@ -209,8 +223,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [],
     "deprecations": [],
@@ -219,15 +233,15 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/progress-bar/index.js",
-        "sha256": "8756aa4c0a2475687b9c25929b0f15df471da92436ef6afa0a545fd3caa5f837"
+        "sha256": "54fed7fce0d34b78daa0b9e5eb40358111390b3455deaf4c6406ba9d0ad2b042"
       },
       {
         "path": "src/smart/progress-bar/js/templates/default.js",
-        "sha256": "c02bf1ecf3b17d32eb93fcb2fdaa6e7548710578a57b37117fd51ff269470183"
+        "sha256": "d8a9975178a4e776698aa2664b770930554ac6b40f283b9a6407d7cf46bf6b3f"
       },
       {
         "path": "src/smart/progress-bar/rule.js",
@@ -241,9 +255,9 @@
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
         "path": "smart/progress-bar/js/progress-bar.js",
-        "sha256": "1462c140eba26f595f6c8ed9a9e18a3842edf7f06da71db92e2cad6f3a82647d"
+        "sha256": "7ba5ae02b1ebdbba43bbd2c91ce6c7e85216971d38b95b04a7b717969f953074"
       }
     ]
   },

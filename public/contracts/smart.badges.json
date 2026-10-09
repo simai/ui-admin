@@ -45,9 +45,21 @@
           "1"
         ]
       },
-      "type": {
+      "line": {
+        "type": "string",
+        "default": "",
+        "enum": [
+          "",
+          "1/2",
+          "1",
+          "2"
+        ],
+        "description": "Takes the text line of this form size, for a table cell or a row of fields, so the row keeps its control height."
+      },
+      "appearance": {
         "type": "string",
         "default": "main",
+        "description": "How the badge looks: the most visible fill, a calmer tonal one, or an outline.",
         "enum": [
           "main",
           "tonal",
@@ -62,11 +74,20 @@
           "primary",
           "secondary",
           "tertiary",
+          "on-surface"
+        ],
+        "description": "Which semantic colour the badge takes. A status word given here still works and reaches the status axis."
+      },
+      "status": {
+        "type": "string",
+        "default": "",
+        "description": "What the badge reports, in the shared status vocabulary. The word this component used before, danger, is still accepted and means error.",
+        "enum": [
+          "",
           "info",
           "success",
           "warning",
-          "danger",
-          "on-surface"
+          "error"
         ]
       },
       "text": {
@@ -76,6 +97,14 @@
       "icon": {
         "type": "string",
         "default": ""
+      },
+      "icon-start": {
+        "type": "string",
+        "default": null
+      },
+      "icon-end": {
+        "type": "string",
+        "default": null
       },
       "icon-left": {
         "type": "string",
@@ -96,6 +125,16 @@
       "aria-label": {
         "type": "string",
         "default": ""
+      },
+      "type": {
+        "type": "string",
+        "default": "main",
+        "description": "Legacy name for appearance, still honoured. See contracts/public-api-axes.json.",
+        "enum": [
+          "main",
+          "tonal",
+          "outline"
+        ]
       }
     },
     "additionalProperties": false
@@ -181,8 +220,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [],
     "deprecations": [],
@@ -191,19 +230,19 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/badges/index.js",
-        "sha256": "6c20be95b4dcc194f1b1e0cb911bb714235fd5db8d99e4ba23fe87c6c5ed141e"
+        "sha256": "af3efc5747c4e2ce6232b9426da54ffb69c98288f7c055525e3c6a4fafc2bcfe"
       }
     ],
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
         "path": "smart/badges/js/badges.js",
-        "sha256": "13cb65db254d7c9512ee0dd191f5f2d62bc9fc20ef7ee40d3aa32bfc1bf7a58c"
+        "sha256": "d5c360ccdb550b7c6a5f890ae684379c8c816b1d5060881635f62498bd981ae1"
       }
     ]
   },

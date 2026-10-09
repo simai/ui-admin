@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
-  "compatibilityId": "ui-122b478ab68d-smart-1de6c70ed455",
-  "pairIdentitySha256": "03e199d7c1663caac73e3f0e1a8d92caea6ed49fd509c6a3f127be2d982c582a",
+  "compatibilityId": "ui-60346abcf723-smart-2f88acf06408",
+  "pairIdentitySha256": "ddddf7eb4c1f6399cfa17ba5c92ce2770d625cec525c71faf9c7cc73c5ddd179",
   "contractSha256": "b70d02d6902345e17954eafb44f24052b7478439184286bed5a8df6c69c1fe45",
   "core": {
     "repository": "../ui",
-    "commit": "122b478ab68d8d7be02febe4a87016eb677a69e8",
+    "commit": "60346abcf723758b7ddab55f532e6dab89f6fef0",
     "sourceDir": "distr",
     "requiredFiles": [
       {
         "path": "core/css/core.css",
-        "sha256": "c82e2530b0dd876bda19187ead800c1786a7a139d3e4dd1b5da2bf380ac5f1fb"
+        "sha256": "d84cc732abcd5c78ff17f0fe45583240743f488fa731d8c154cee6d59e97a225"
       },
       {
         "path": "core/js/core.js",
-        "sha256": "1173ca0dd736d6c83fe688e19067da135cab05ef132439c9fd22089b04b67053"
+        "sha256": "a646dcd4240eb2596ccd26fa852b768262869791b00d74967e0c5cf0a35d0d04"
       },
       {
         "path": "core/contracts/adaptive-sizing.v1.json",
@@ -22,27 +22,27 @@
       },
       {
         "path": "component/admin-menu/js/admin-menu.js",
-        "sha256": "7893ec596e4e9dc36c86f9a4f9dde04251a3b5f6019933128946ab67d2eabe8e"
+        "sha256": "ad5bae13bd49497720f4a9d64c65d4b6740b6eef75c5d7b6a72f0861c0386c45"
       }
     ]
   },
   "smart": {
     "repository": "../ui-smart",
-    "commit": "1de6c70ed455fa2d4d568795452b63431fdd73a1",
+    "commit": "2f88acf064083d3c83d58438a9e68171c2c9d4ec",
     "sourceDir": "smart",
     "targetDir": "smart",
     "requiredFiles": [
       {
         "path": "admin-menu/js/admin-menu.js",
-        "sha256": "13b307dedd6d8cc258828d5efb8b5c3b226827ae61701b97b8b722d3f99e7212"
+        "sha256": "88c1644a6b44b0501872f9e6bf810aa2334467075f7ae31e22190c8b2633a268"
       },
       {
         "path": "icon-buttons/js/icon-buttons.js",
-        "sha256": "0a2d38c99631a891b725c9f77f58348a79ff57dc4c66222178a8fdae26ed19c4"
+        "sha256": "49c10a3678069349bc0b087bc6a0158b397c0a1e35e52f77beaa976ba2dcfe63"
       },
       {
         "path": "table/js/table.js",
-        "sha256": "7ef1fe5ed8a933eb2d455e3efc74cf74aa4eddd01c0681031bb2111b864001cc"
+        "sha256": "c32a8c38af18575480e2bddb11ef826e4a8a80fc954149aec022618824bc9f8b"
       }
     ]
   }

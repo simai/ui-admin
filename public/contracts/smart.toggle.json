@@ -43,15 +43,15 @@
           "2"
         ]
       },
-      "type": {
+      "kind": {
         "type": "string",
         "default": "simple",
-        "description": "Visual presentation of the same binary switch behavior.",
         "enum": [
           "simple",
           "icon",
           "short"
-        ]
+        ],
+        "description": "What the toggle carries: nothing, an icon, or a short label."
       },
       "label": {
         "type": "string",
@@ -76,6 +76,16 @@
       "value": {
         "type": "string",
         "default": ""
+      },
+      "type": {
+        "type": "string",
+        "default": "simple",
+        "description": "Legacy name for kind, still honoured. See contracts/public-api-axes.json.",
+        "enum": [
+          "simple",
+          "icon",
+          "short"
+        ]
       }
     },
     "additionalProperties": false
@@ -179,7 +189,15 @@
       }
     }
   },
-  "events": {},
+  "events": {
+    "change": {
+      "summary": "The pressed state changed; the native event bubbles from the inner checkbox, which is its target. The name to bind.",
+      "payload": {
+        "type": "object"
+      },
+      "canonical": true
+    }
+  },
   "state": {
     "machines": {},
     "visual_states": [
@@ -262,8 +280,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [],
     "deprecations": [],
@@ -272,19 +290,19 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/toggle/index.js",
-        "sha256": "aeae9d74d9acacbe2f870514395e0e1b95e3f5d35b7cb3b8cfa7a6351f1f9533"
+        "sha256": "8d8f3da88b687d4f1bee35a3d879028fd5e59a1ebeb5aec0ff7dea5745d45084"
       }
     ],
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
         "path": "smart/toggle/js/toggle.js",
-        "sha256": "e82d87b636480ac0f72ffbd5749edce2d520ba6d6536d06a5d88433385ea82dc"
+        "sha256": "5a38fcbd23481120e469ccf36003c4e78aca615dc2a0dc987ab2c2ea048fd1c7"
       }
     ]
   },

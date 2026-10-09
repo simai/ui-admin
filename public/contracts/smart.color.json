@@ -1,0 +1,253 @@
+{
+  "schema_version": 2,
+  "id": "smart.color",
+  "version": "1.0.0",
+  "title": "Color",
+  "summary": "A colour control: a swatch that opens the platform picker, the colours a product already has as presets, and a way back to an inherited colour. Built as a general part because a colour is set in a theme, in a site look, on a label and on a chart series, not only on a record.",
+  "kind": "smart",
+  "reuse_mode": "both",
+  "lifecycle": "experimental",
+  "tags": [
+    "input",
+    "color",
+    "property"
+  ],
+  "capabilities": [
+    "render",
+    "theme",
+    "responsive"
+  ],
+  "custom_element": "sf-color",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [
+      "smart.icon-buttons"
+    ],
+    "public_parts": [
+      "swatch",
+      "chip",
+      "text",
+      "swatches",
+      "preset"
+    ]
+  },
+  "inputs": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "template": {
+        "type": "string",
+        "default": "default",
+        "description": "Which template draws it."
+      },
+      "value": {
+        "type": "string",
+        "default": "",
+        "description": "The colour, as #rgb, #rrggbb or #rrggbbaa. Empty means nothing is chosen and the inherited colour applies."
+      },
+      "size": {
+        "type": "string",
+        "default": "1",
+        "enum": [
+          "1/2",
+          "1",
+          "2"
+        ],
+        "description": "The size ladder step, so a colour beside a text field lines up with it."
+      },
+      "appearance": {
+        "type": "string",
+        "default": "bordered",
+        "enum": [
+          "bordered",
+          "outlined",
+          "plain"
+        ],
+        "description": "How the swatch is bounded."
+      },
+      "swatches": {
+        "type": "string",
+        "default": "",
+        "description": "The colours a product already has, space or comma separated, each #hex or #hex|Name. A person picks the brand colour rather than matching a hex by eye."
+      },
+      "inherited-value": {
+        "type": "string",
+        "default": "",
+        "description": "The colour that applies while nothing is chosen. Shown as inherited rather than drawn as the value: a control that drew it as the value would make «not set» and «set to the same colour» look identical, and only one of them follows the theme when the theme changes."
+      },
+      "clearable": {
+        "type": "boolean",
+        "default": false,
+        "description": "Whether a chosen colour can be returned to the inherited one."
+      },
+      "disabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "name": {
+        "type": "string",
+        "default": "",
+        "description": "The form name of the native input."
+      },
+      "label": {
+        "type": "string",
+        "default": "",
+        "description": "The accessible name of the control."
+      },
+      "choose-label": {
+        "type": "string",
+        "default": "Choose a colour",
+        "description": "The words on the swatch. Unset, the component answers in the page's language; the default stated here is what it answers on an English page."
+      },
+      "clear-label": {
+        "type": "string",
+        "default": "Use the inherited colour",
+        "description": "The words on the control that returns to the inherited colour. Unset, it follows the page's language."
+      },
+      "inherited-text": {
+        "type": "string",
+        "default": "inherited",
+        "description": "What is read in place of a value while nothing is chosen. Unset, it follows the page's language."
+      }
+    }
+  },
+  "item_contract": {},
+  "contracts": {},
+  "methods": [
+    "setValue",
+    "clear"
+  ],
+  "events": {
+    "change": {
+      "summary": "A colour was committed, once per change a person makes. Carries the value and the form name; an empty value means the inherited colour applies again.",
+      "payload": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "state": {},
+  "persistence": {},
+  "ownership": {
+    "source": "simai/ui-source",
+    "data": "fixture",
+    "effects": "component",
+    "forbidden_client_responsibilities": [
+      "backend access decisions",
+      "host route invention"
+    ]
+  },
+  "security": {
+    "permissions_owner": "none",
+    "untrusted_inputs": [
+      "props",
+      "children"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": "switch",
+    "accessible_name": "required",
+    "keyboard": [
+      "Tab",
+      "Space"
+    ],
+    "focus": "Keep visible focus on the active control."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "ru",
+      "en"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile"
+    ]
+  },
+  "adapter": {},
+  "artifacts": {
+    "fixtures": [],
+    "scenarios": []
+  },
+  "readiness": {
+    "level": "described",
+    "required_checks": [
+      "manifest",
+      "fixture",
+      "runtime-upgrade",
+      "scenario-smoke"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+    },
+    "aliases": [],
+    "deprecations": [],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-source",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
+    "source_artifacts": [
+      {
+        "path": "src/smart/color/index.js",
+        "sha256": "14bbc33e65ba0dc304d536d03ecfb261f9de444f8ce9d86ce3d6f211d3a2a2dd"
+      },
+      {
+        "path": "src/smart/color/rule.js",
+        "sha256": "4eb88c62173597d5ef68d53915fcaf8d59dbef7dbb2e8df9e9745c453d595476"
+      },
+      {
+        "path": "src/smart/color/js/templates/default.js",
+        "sha256": "06271b557f1b3e323f228f6ed0bfebbde322148ec83191cc6fb90c2af3dd4d2e"
+      },
+      {
+        "path": "src/smart/color/js/templates/default.css",
+        "sha256": "9fbb58fb83d86a82bf3662e826c8f78b9906ed2526ba544722748e136828e95d"
+      }
+    ],
+    "generated_runtime": []
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-switch when a binary setting takes effect immediately and may need supporting text.",
+    "do_not": [
+      "Do not use Switch for a value submitted only after a separate confirmation action",
+      "Do not label it with commands such as Enable and Disable",
+      "Do not copy generated ui-smart code",
+      "Do not move host data or access decisions into the component"
+    ],
+    "required_reads": [
+      "inputs",
+      "methods",
+      "events",
+      "ownership",
+      "provenance"
+    ],
+    "minimal_example": "<sf-switch></sf-switch>",
+    "owner_commands": [
+      "npm run contract:verify",
+      "npm test"
+    ]
+  }
+}

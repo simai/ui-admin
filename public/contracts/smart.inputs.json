@@ -22,7 +22,8 @@
   "exported_parts": [],
   "composition": {
     "uses": [
-      "component.inputs"
+      "component.inputs",
+      "smart.icons"
     ],
     "public_parts": [
       "native-input",
@@ -40,21 +41,20 @@
         "type": "string",
         "default": "1",
         "enum": [
-          "1/3",
           "1/2",
           "1",
-          "2",
-          "3"
+          "2"
         ]
       },
-      "type": {
+      "appearance": {
         "type": "string",
         "default": "bordered",
         "enum": [
           "bordered",
           "filled",
           "hidden"
-        ]
+        ],
+        "description": "How the field looks: a bordered box, a filled one, or hidden."
       },
       "label": {
         "type": "string",
@@ -127,6 +127,14 @@
         "type": "string",
         "default": ""
       },
+      "icon-start": {
+        "type": "string",
+        "default": null
+      },
+      "text-end": {
+        "type": "string",
+        "default": null
+      },
       "left-icon": {
         "type": "string",
         "default": ""
@@ -182,6 +190,16 @@
       "mask-options": {
         "type": "string",
         "default": ""
+      },
+      "type": {
+        "type": "string",
+        "default": "bordered",
+        "description": "Legacy name for appearance, still honoured. See contracts/public-api-axes.json.",
+        "enum": [
+          "bordered",
+          "filled",
+          "hidden"
+        ]
       }
     },
     "additionalProperties": false
@@ -295,7 +313,21 @@
       }
     }
   },
-  "events": {},
+  "events": {
+    "change": {
+      "summary": "The value was committed; the native event bubbles from the inner input, which is its target.",
+      "payload": {
+        "type": "object"
+      },
+      "canonical": true
+    },
+    "input": {
+      "summary": "The value changed while typing; the native event bubbles from the inner input, which is its target.",
+      "payload": {
+        "type": "object"
+      }
+    }
+  },
   "state": {
     "machines": {},
     "visual_states": [
@@ -379,8 +411,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [],
     "deprecations": [],
@@ -389,19 +421,19 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/inputs/index.js",
-        "sha256": "518e4d27bdf26eac215ebe89ed2395c2b98d52bde7087b4821275c8dcaa12fae"
+        "sha256": "12feabb54f97fd3dec9095a120c1d3dd71cf9fa5b4f2d50df018ece64b9daf07"
       }
     ],
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
         "path": "smart/inputs/js/inputs.js",
-        "sha256": "552fe20554433c1a40920f9d615ce76724257c336d5af6ff4d9f444d46d3ccbc"
+        "sha256": "f453cd8952dd6d3a370471586a528317bf2d87480c60d18cf99ef495d0cc0c90"
       }
     ]
   },

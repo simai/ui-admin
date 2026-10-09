@@ -50,6 +50,17 @@
           "3"
         ]
       },
+      "line": {
+        "type": "string",
+        "default": "",
+        "enum": [
+          "",
+          "1/2",
+          "1",
+          "2"
+        ],
+        "description": "Takes the text line of this form size instead of a control height, for an avatar beside a label in a row or a table cell."
+      },
       "shape": {
         "type": "string",
         "default": "circle",
@@ -204,8 +215,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [],
     "deprecations": [],
@@ -214,19 +225,19 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/avatar/index.js",
-        "sha256": "6408f496de4c8bd49a48df4affe0e7459619b8a88cfb7f12e1af3b025cb55271"
+        "sha256": "ffdc3d40a60f4b95de5b3e71e06b6011e8c5ee5bcab0d88555639929394fbbd6"
       }
     ],
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
         "path": "smart/avatar/js/avatar.js",
-        "sha256": "201efef1ea38a2368b09ccc786c0b21e3eb652910ccd0d7506628a705fb06870"
+        "sha256": "8243285e9ecdc2d140e4e37ea0387eeb603c013d0381d376c4e3a7801e4c2df4"
       }
     ]
   },

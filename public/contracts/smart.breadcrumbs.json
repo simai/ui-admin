@@ -23,7 +23,8 @@
   "composition": {
     "uses": [
       "component.breadcrumbs",
-      "component.icons"
+      "component.icons",
+      "smart.icons"
     ],
     "public_parts": []
   },
@@ -233,8 +234,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [],
     "deprecations": [],
@@ -243,19 +244,19 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/breadcrumbs/index.js",
-        "sha256": "36f628be01f7dc363b97b3c7f55b225e6349a16f2aea5a67548181531e2cf0cd"
+        "sha256": "1e4dcc380b2158772df17b41b1c2b562fee18fad8b68742426d7a90f98280368"
       }
     ],
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
         "path": "smart/breadcrumbs/js/breadcrumbs.js",
-        "sha256": "29a4e1f10d407acb1e1e1139e590bc27dfba97207f1507c614d2d7571ed7f5f7"
+        "sha256": "d2302727c9e3cb49eae4f8dea0ddb348f751e01f7ece71f933f8c43f7379df2d"
       }
     ]
   },

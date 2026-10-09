@@ -124,9 +124,25 @@
         "type": "string",
         "default": "bordered"
       },
+      "size": {
+        "type": "string",
+        "default": "1",
+        "enum": [
+          "1/2",
+          "1",
+          "2"
+        ],
+        "description": "Form size of the field."
+      },
       "input-size": {
         "type": "string",
-        "default": "1"
+        "default": "1",
+        "enum": [
+          "1/2",
+          "1",
+          "2"
+        ],
+        "description": "Legacy name for size, still honoured; size wins when both are set. See contracts/public-api-axes.json."
       },
       "input-name": {
         "type": "string",
@@ -148,6 +164,10 @@
         "type": "boolean",
         "default": false
       },
+      "icon-start": {
+        "type": "string",
+        "default": "calendar_today"
+      },
       "left-icon": {
         "type": "string",
         "default": "calendar_today"
@@ -162,7 +182,8 @@
       },
       "mask-pattern": {
         "type": "string",
-        "default": ""
+        "default": "00.00.0000",
+        "description": "Input mask; when not set it is derived from format, so the default format DD.MM.YYYY gives 00.00.0000."
       },
       "mask-lazy": {
         "type": "string",
@@ -273,22 +294,25 @@
   },
   "events": {
     "change": {
-      "summary": "Native-compatible change notification emitted after a date or range endpoint is selected.",
+      "summary": "A date or range endpoint was selected; dispatched on the host. The name to bind.",
       "payload": {
         "$ref": "#/contracts/change_detail"
-      }
-    },
-    "sf-change": {
-      "summary": "Legacy generic Smart Component change event retained for compatibility.",
-      "payload": {
-        "type": "object"
-      }
+      },
+      "canonical": true
     },
     "sf-datepicker-change": {
-      "summary": "Preferred semantic event emitted after a date or range endpoint is selected.",
+      "summary": "Legacy name for change, still emitted with the same detail; bind change.",
       "payload": {
         "$ref": "#/contracts/change_detail"
-      }
+      },
+      "alias_of": "change"
+    },
+    "sf-change": {
+      "summary": "Legacy name for change, still emitted with the same detail; bind change.",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "change"
     }
   },
   "state": {
@@ -410,8 +434,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [],
     "deprecations": [],
@@ -420,31 +444,31 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/datepicker/index.js",
-        "sha256": "e9ba61eefb023f1a6a42b83ffca874312531fafd575035569a9b6cbf865f9372"
+        "sha256": "a791e9574152bf2688de56f05a4489fd38c8c01a50570ef50e26adb15acebe7b"
       },
       {
         "path": "src/smart/datepicker/js/templates/default.js",
-        "sha256": "912fcd699ca05c3fdbeb98751a72f93efcc0616a1422cb25adbc3fadef27b83a"
+        "sha256": "2bd58e4e7681a635daca783f0b03120f0a0a2d2325602e9b05a613c60b9de4a2"
       },
       {
         "path": "src/smart/datepicker/rule.js",
-        "sha256": "40d018da3176a6a025739aa035d5e821910b7c5275b196e26b7f688a605fcdc9"
+        "sha256": "6f6faf9f2d3838d2001f257cefc870cce8213c1a5258df029f5a0df5b218a469"
       },
       {
         "path": "src/smart/datepicker/docs/smart-datepicker-guide.md",
-        "sha256": "f617da282ae71acd6069081d502a6c935a1b498191aa8f3891ff2d153a287c25"
+        "sha256": "05f54b48063a80ac7d54626876aa4ffba1f20f9b2997d0cf5c5a62e38be57304"
       }
     ],
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
         "path": "smart/datepicker/js/datepicker.js",
-        "sha256": "8550442b1eb0a96fec5364dfb5306ed032267507cc62c85c61326b4ff5e30cae"
+        "sha256": "005089c1023b7db8b1fb7de9f8d92931cc338d04699fba6456d0743e8fa35147"
       }
     ]
   },

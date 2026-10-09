@@ -199,8 +199,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [],
     "deprecations": [],
@@ -209,19 +209,19 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/slider/index.js",
-        "sha256": "117f3684a34db7f6ed986a0149f383ff7e9029eac1e8980e65346efbc6bf7b23"
+        "sha256": "dc9b3b2e33dd066b8d8f9da9739d266258a29b2b145e1e104ba939bfb888d622"
       }
     ],
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
         "path": "smart/slider/js/slider.js",
-        "sha256": "f9f44848d443033730db4363af7bea1e79da5129ee97ff664f7b6673b7ddebac"
+        "sha256": "3df576bfeee662f654ffb7fefa286ab2a1eb81249069e7a77527a05ce845ec02"
       }
     ]
   },

@@ -60,13 +60,14 @@
         "type": "string",
         "default": ""
       },
-      "type": {
+      "kind": {
         "type": "string",
         "default": "folder",
         "enum": [
           "folder",
           "file"
-        ]
+        ],
+        "description": "What the tree item is: a folder or a file."
       },
       "value": {
         "type": "string",
@@ -135,6 +136,15 @@
       "name-class": {
         "type": "string",
         "default": ""
+      },
+      "type": {
+        "type": "string",
+        "default": "folder",
+        "description": "Legacy name for kind, still honoured. See contracts/public-api-axes.json.",
+        "enum": [
+          "folder",
+          "file"
+        ]
       }
     },
     "additionalProperties": false
@@ -332,8 +342,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [],
     "deprecations": [],
@@ -342,15 +352,15 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/tree-item/index.js",
-        "sha256": "6b45853a6aa242162e239f08ce2ca4dcfcb0a1fd7799682088725c23c4758b91"
+        "sha256": "04881bc68e6e70dc90e1e475eea8d30e462b9cad5348980a310811295cfaa468"
       },
       {
         "path": "src/smart/tree-item/js/templates/default.js",
-        "sha256": "546983214d15d7274e0f8ca7210822767491226c4670ecce0c07282cc5856e39"
+        "sha256": "c373fbb37492e153d047ce7761a8d9afae7910ff9811915e94657c4829927523"
       },
       {
         "path": "src/smart/tree-item/rule.js",
@@ -364,9 +374,9 @@
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
         "path": "smart/tree-item/js/tree-item.js",
-        "sha256": "535b3b94b5e0148f9138cfb75b2a90d14b7d7b023d203c8345e5c8ef5ce3c7d5"
+        "sha256": "cc9da26cd2a5dc0d2e29b85e7b71161fa6c083fb0ce3b266a52d2af0740a3742"
       }
     ]
   },

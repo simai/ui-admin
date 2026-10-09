@@ -38,11 +38,9 @@
         "type": "string",
         "default": "1",
         "enum": [
-          "1/3",
           "1/2",
           "1",
-          "2",
-          "3"
+          "2"
         ]
       },
       "icon": {
@@ -59,11 +57,13 @@
       },
       "formats": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "Formats line shown under the action. When not set it is derived from accept, and is empty when neither is given: the component names no formats it cannot know."
       },
       "supporting-text": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "Supporting line; falls back to formats."
       },
       "accept": {
         "type": "string",
@@ -198,7 +198,57 @@
       }
     }
   },
-  "events": {},
+  "events": {
+    "change": {
+      "summary": "Files were chosen; the native event bubbles from the inner file input.",
+      "payload": {
+        "type": "object"
+      },
+      "canonical": true
+    },
+    "sf-file-upload:select": {
+      "summary": "Files were selected for upload.",
+      "payload": {
+        "type": "object"
+      }
+    },
+    "sf-file-upload:file-add": {
+      "summary": "A file entered the list.",
+      "payload": {
+        "type": "object"
+      }
+    },
+    "sf-file-upload:file-error": {
+      "summary": "A file failed.",
+      "payload": {
+        "type": "object"
+      }
+    },
+    "sf-file-upload:file-complete": {
+      "summary": "A file finished uploading.",
+      "payload": {
+        "type": "object"
+      }
+    },
+    "sf-file-upload:complete": {
+      "summary": "Every file finished.",
+      "payload": {
+        "type": "object"
+      }
+    },
+    "sf-file-upload:remove": {
+      "summary": "A file was removed from the list.",
+      "payload": {
+        "type": "object"
+      }
+    },
+    "sf-file-upload:retry": {
+      "summary": "A failed file was retried.",
+      "payload": {
+        "type": "object"
+      }
+    }
+  },
   "state": {
     "machines": {},
     "visual_states": [
@@ -280,8 +330,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [],
     "deprecations": [],
@@ -290,19 +340,19 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/file-upload/index.js",
-        "sha256": "30f0cc9499cd18753be987b94beed573d496d9742cab3daa23d69c6fa082f589"
+        "sha256": "74becfb27ce6565eb69fb82eecffa5cb2abe5ca63cb3a7b82b9122a9b8514079"
       }
     ],
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
         "path": "smart/file-upload/js/file-upload.js",
-        "sha256": "96b405a80a708fa32febb21582e1a3da8976f0e4d5b4507c4767a792caee8f7d"
+        "sha256": "d91eecbac29b0dffd3dbf4278d12bdd4e969a3aee24e3c23b1bc2068a833c9c9"
       }
     ]
   },

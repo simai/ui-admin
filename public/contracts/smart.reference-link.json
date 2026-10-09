@@ -30,6 +30,66 @@
   "inputs": {
     "type": "object",
     "properties": {
+      "appearance": {
+        "type": "string",
+        "enum": [
+          "card",
+          "plain"
+        ],
+        "default": "card",
+        "description": "card is the reference as its own box: frame, fill and padding. plain is the link alone, taking the width of its text, for a reference inside something that is already a box -- a record’s field, a table cell -- where a second frame reads as a control the value is not."
+      },
+      "aria-label": {
+        "type": "string",
+        "default": ""
+      },
+      "disabled": {
+        "type": "boolean",
+        "default": false,
+        "description": "Render an unavailable, non-focusable reference without navigation."
+      },
+      "href": {
+        "type": "string",
+        "default": "",
+        "description": "Real navigation destination. Required for an enabled reference."
+      },
+      "icon": {
+        "type": "string",
+        "default": "arrow_forward",
+        "description": "Decorative icon name. An absent attribute is the arrow; an empty one draws no icon, for a reference that stands beside its own label."
+      },
+      "label": {
+        "type": "string",
+        "default": "",
+        "description": "Destination-oriented visible link label."
+      },
+      "line": {
+        "type": "string",
+        "default": "",
+        "enum": [
+          "",
+          "1/2",
+          "1",
+          "2"
+        ],
+        "description": "Takes the text line of this form size as a link without the card, for a table cell, so the row keeps its control height."
+      },
+      "size": {
+        "type": "string",
+        "default": "",
+        "enum": [
+          "",
+          "1/2",
+          "1",
+          "2"
+        ],
+        "description": "Form size: the reference becomes a control of that size, for a row of fields or a table cell. Empty keeps the card spacing."
+      },
+      "target": {
+        "type": "string",
+        "default": "_self",
+        "description": "Native browsing-context target. Disclose new-context navigation in the name."
+      },
       "template": {
         "type": "string",
         "default": "default",
@@ -37,39 +97,10 @@
           "default"
         ]
       },
-      "icon": {
-        "type": "string",
-        "default": "arrow_forward",
-        "description": "Decorative icon name."
-      },
-      "label": {
-        "type": "string",
-        "default": "",
-        "description": "Destination-oriented visible link label."
-      },
       "text": {
         "type": "string",
         "default": "",
         "description": "Compact route, source or reference shown beside the label."
-      },
-      "href": {
-        "type": "string",
-        "default": "",
-        "description": "Real navigation destination. Required for an enabled reference."
-      },
-      "target": {
-        "type": "string",
-        "default": "_self",
-        "description": "Native browsing-context target. Disclose new-context navigation in the name."
-      },
-      "disabled": {
-        "type": "boolean",
-        "default": false,
-        "description": "Render an unavailable, non-focusable reference without navigation."
-      },
-      "aria-label": {
-        "type": "string",
-        "default": ""
       }
     },
     "additionalProperties": false
@@ -194,8 +225,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [],
     "deprecations": [],
@@ -204,19 +235,19 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/reference-link/index.js",
-        "sha256": "184438376f37c603090d7737e2605b9a00d736798ebc84ac1aa1a392c0b26b24"
+        "sha256": "166cfd7a8dbfa8227126d3e8b0b7902637aa92fa6b2cf09c304010f960f4966e"
       }
     ],
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
         "path": "smart/reference-link/js/reference-link.js",
-        "sha256": "6b1322c74c6c71a9038d63db1c1382169e8b118d5c8db7013675652c110550a2"
+        "sha256": "434c02ff8610937d94bf4afb8426f949e8fcf194e390697068dc68fd1457791c"
       }
     ]
   },

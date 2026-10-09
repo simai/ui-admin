@@ -196,8 +196,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [],
     "deprecations": [],
@@ -206,19 +206,19 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/avatars/index.js",
-        "sha256": "5e45c8186a1c03d4c816486dda7efb978a22a71050486654fd3f04c22311add0"
+        "sha256": "f9d68661a23841db8aa1cec3392ec4656577fdcf0a28160b7581cbef16b3170c"
       }
     ],
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
         "path": "smart/avatars/js/avatars.js",
-        "sha256": "5b8615a7f3b8ba95b77beeba744f90705c21cfcc516d22132004a37607b2742c"
+        "sha256": "f384476775b7bb4fb7a704e910477113a1db347970940658648d22ae276f4127"
       }
     ]
   },

@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "prepare:runtime": "node scripts/materialize-framework-runtime.mjs --target .runtime",
+    "prepare:runtime": "npm run pin:check && node scripts/materialize-framework-runtime.mjs --target .runtime",
     "prepare:contracts": "node scripts/materialize-smart-contracts.mjs",
     "prepare:contracts:b0": "node scripts/materialize-smart-contracts.mjs",
     "verify:contracts": "node scripts/verify-smart-contracts-with-studio.mjs",
@@ -16,7 +16,10 @@
     "test:api": "node --test tests/mock-api-contract.test.mjs",
     "test:browser": "node tests/run-browser-smoke.mjs",
     "test:preview": "node tests/run-browser-smoke.mjs preview",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "pin": "node scripts/pin-framework-pair.mjs",
+    "pin:check": "node scripts/pin-framework-pair.mjs --check",
+    "publish": "bash scripts/publish-local-site.sh"
   },
   "devDependencies": {
     "@faker-js/faker": "^10.6.0",

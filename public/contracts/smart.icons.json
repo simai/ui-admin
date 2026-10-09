@@ -179,8 +179,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [],
     "deprecations": [],
@@ -189,11 +189,11 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/icons/index.js",
-        "sha256": "bb4eb1816f0f07d156a3d1ffd52014c770775b8968f43995378a3d87b7a58bfe"
+        "sha256": "2175a88c28458443ad2747277bd90f4711c3a6faa3a27a91db8b1bffbdb60237"
       },
       {
         "path": "src/smart/icons/js/templates/default.js",
@@ -211,9 +211,9 @@
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
         "path": "smart/icons/js/icons.js",
-        "sha256": "055630ed19013bcb34305ff14df42a52dc3adf4ec47290e78546af7e9ba403bc"
+        "sha256": "63c83e36e0eafbcdd72eddfb23c9fb6e0b6e584afc6f6c1f53f8414ec067fa94"
       }
     ]
   },

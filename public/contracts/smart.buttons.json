@@ -21,8 +21,47 @@
   ],
   "exported_parts": [],
   "composition": {
-    "uses": [],
-    "public_parts": []
+    "uses": [
+      "smart.icons"
+    ],
+    "public_parts": [],
+    "declarative": {
+      "standard": "simai.composition.document.v1",
+      "type": "smart.buttons",
+      "mode": "leaf",
+      "profiles": [
+        "ui-layout"
+      ],
+      "props": [
+        "template",
+        "size",
+        "type",
+        "scheme",
+        "status",
+        "text",
+        "icon",
+        "icon-position",
+        "loading",
+        "disabled",
+        "native-type",
+        "aria-label"
+      ],
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": []
+      },
+      "slots": {},
+      "renderer": {
+        "kind": "custom-element",
+        "name": "sf-button"
+      },
+      "assets": [
+        "smart/buttons"
+      ]
+    }
   },
   "inputs": {
     "type": "object",
@@ -47,25 +86,36 @@
           "3"
         ]
       },
-      "type": {
+      "appearance": {
         "type": "string",
         "default": "default",
-        "description": "Visual button type.",
+        "description": "How the button looks. Surface and ghost read the neutral alpha ramp: surface keeps a faint fill and a border, ghost keeps nothing until it is hovered or focused.",
         "enum": [
           "default",
           "tonal",
           "outline",
-          "link"
+          "link",
+          "surface",
+          "ghost"
         ]
       },
       "scheme": {
         "type": "string",
         "default": "primary",
-        "description": "Visual color scheme.",
+        "description": "Which colour family the control takes. What the control is about is the status axis; a status set there wins over this.",
         "enum": [
           "primary",
           "secondary",
           "on-surface"
+        ]
+      },
+      "status": {
+        "type": "string",
+        "default": "",
+        "description": "What the control is about, in the shared status vocabulary. The only one a control paints today is `error`, the destructive one: a control that deletes, discards or cannot be undone.",
+        "enum": [
+          "",
+          "error"
         ]
       },
       "text-position": {
@@ -94,10 +144,36 @@
           "close"
         ]
       },
+      "icon-start": {
+        "type": "string",
+        "default": "",
+        "description": "Logical start icon name.",
+        "examples": [
+          "home",
+          "settings",
+          "search",
+          "edit",
+          "check",
+          "close"
+        ]
+      },
+      "icon-end": {
+        "type": "string",
+        "default": "",
+        "description": "Logical end icon name.",
+        "examples": [
+          "home",
+          "settings",
+          "search",
+          "edit",
+          "check",
+          "close"
+        ]
+      },
       "icon-left": {
         "type": "string",
         "default": "",
-        "description": "Left icon name.",
+        "description": "Compatibility alias for icon-start.",
         "examples": [
           "home",
           "settings",
@@ -110,7 +186,7 @@
       "icon-right": {
         "type": "string",
         "default": "",
-        "description": "Right icon name.",
+        "description": "Compatibility alias for icon-end.",
         "examples": [
           "home",
           "settings",
@@ -129,10 +205,21 @@
           "end"
         ]
       },
+      "spacing": {
+        "type": "string",
+        "default": "normal",
+        "description": "Semantic internal spacing profile.",
+        "enum": [
+          "compact",
+          "normal",
+          "comfortable",
+          "spacious"
+        ]
+      },
       "tightness": {
         "type": "string",
         "default": "",
-        "description": "Vertical tightness modifier.",
+        "description": "Compatibility alias for spacing.",
         "enum": [
           "",
           "low",
@@ -180,6 +267,19 @@
         "type": "string",
         "default": "",
         "description": "Accessible label for icon-only or custom buttons."
+      },
+      "type": {
+        "type": "string",
+        "default": "default",
+        "description": "Legacy name for appearance, still honoured. See contracts/public-api-axes.json.",
+        "enum": [
+          "default",
+          "tonal",
+          "outline",
+          "link",
+          "surface",
+          "ghost"
+        ]
       }
     },
     "additionalProperties": false
@@ -334,8 +434,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [],
     "deprecations": [],
@@ -344,19 +444,19 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/buttons/index.js",
-        "sha256": "596cabb439f524e3e7a1cf1fdcf7702fab73dbd60616ba0e655eaca943b59628"
+        "sha256": "1582376b19cbf3c58b332fb02ab5505f4c371d7086535e9ba02bcabb7887cefb"
       }
     ],
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
         "path": "smart/buttons/js/buttons.js",
-        "sha256": "b9804afcf05c718ed51ee0b8b5e04e946c422d2fb8b8fed112e552824054087b"
+        "sha256": "d5ccf4a5828093764e0ed46005d1276854391cc8a9a1a14047a3d3899a733857"
       }
     ]
   },

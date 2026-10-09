@@ -40,8 +40,9 @@
         "default": "1",
         "description": "Switch size token.",
         "enum": [
-          "1/3",
-          "1"
+          "1/2",
+          "1",
+          "2"
         ]
       },
       "label": {
@@ -174,7 +175,15 @@
       }
     }
   },
-  "events": {},
+  "events": {
+    "change": {
+      "summary": "The on state changed; the native event bubbles from the inner checkbox, which is its target.",
+      "payload": {
+        "type": "object"
+      },
+      "canonical": true
+    }
+  },
   "state": {
     "machines": {},
     "visual_states": [
@@ -257,8 +266,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [],
     "deprecations": [],
@@ -267,19 +276,19 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/switch/index.js",
-        "sha256": "497eb8e2a96c9c0d3940818eac1a70f0f19ceba5ab7746d3db7ad6a72ba6ded6"
+        "sha256": "d79d2f07425471f49a96387437928759a1d6a99408ebb95c49e69b4b2cd1b69c"
       }
     ],
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
         "path": "smart/switch/js/switch.js",
-        "sha256": "fbfc8cfbd228451a04bad864b0d830acd8f5de96b4f42de3a98d7bef39908836"
+        "sha256": "25903bd61b221802a121e3ebf469d44d8ea76f954f549aeae48dbd2966366be3"
       }
     ]
   },

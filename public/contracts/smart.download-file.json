@@ -209,8 +209,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [],
     "deprecations": [],
@@ -219,19 +219,19 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/download-file/index.js",
-        "sha256": "c30b14206e611b7b6651ee2331b34963c1a0c8807405762a82fd504216153fed"
+        "sha256": "6452e87d436eb46deadd5164c4a8475a82b8a91cd209f149b142dfc4ad356181"
       }
     ],
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
         "path": "smart/download-file/js/download-file.js",
-        "sha256": "2c4bcb864b7387b9803c40d31d049efba02d2980f80ef019e6ba5b3deed3a3d1"
+        "sha256": "22d876994057c19beecbe75f2f7ecf756203ffd21708ba370fe4c2d5a393c2b8"
       }
     ]
   },

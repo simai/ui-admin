@@ -1,7 +1,7 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "id": "smart.admin-menu",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Admin menu",
   "summary": "Searchable nested admin navigation with compact mode and editable personal or system preferences.",
   "kind": "composite",
@@ -31,8 +31,12 @@
       "component.badges",
       "component.icons",
       "component.inputs",
+      "smart.badges",
       "smart.buttons",
-      "smart.context-menu"
+      "smart.context-menu",
+      "smart.icon-buttons",
+      "smart.icons",
+      "smart.inputs"
     ],
     "public_parts": []
   },
@@ -130,6 +134,40 @@
       "root-class": {
         "type": "string",
         "default": ""
+      },
+      "search-mode": {
+        "type": "string",
+        "enum": [
+          "row",
+          "panel"
+        ],
+        "default": "row",
+        "description": "Where the search lives: a row under the header, or a panel opened from a magnifier in the header."
+      },
+      "search-label": {
+        "type": "string",
+        "default": "Search the admin (Ctrl+K)",
+        "description": "Accessible name and tooltip of the magnifier that opens the search panel."
+      },
+      "search-shortcut": {
+        "type": "string",
+        "default": "mod+k",
+        "description": "The key that opens the search from anywhere on the page; empty turns it off."
+      },
+      "search-hint": {
+        "type": "string",
+        "default": "",
+        "description": "A short line shown under an empty query, when the host has one."
+      },
+      "search-keys-hint": {
+        "type": "string",
+        "default": "↑↓ select · Enter open · Esc close",
+        "description": "The line of key hints at the bottom of the search panel."
+      },
+      "search-title": {
+        "type": "string",
+        "default": "",
+        "description": "Heading shown above the search field in the navigation panel."
       }
     }
   },
@@ -157,6 +195,48 @@
       "current",
       "disabled"
     ]
+  },
+  "contracts": {
+    "settings_profile": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "items",
+        "layout"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "items": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "order": {
+                "type": "number"
+              },
+              "hidden": {
+                "type": "boolean"
+              },
+              "pinned": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "layout": {
+          "type": "object",
+          "properties": {
+            "compact": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    }
   },
   "methods": {
     "applyExternalSettingsState": {
@@ -233,52 +313,28 @@
     }
   },
   "events": {
-    "sf-admin-menu-settings-save": {
-      "summary": "Request persistence of the current delta.",
+    "sf-admin-menu-compact-change": {
+      "summary": "Notify the host shell about width mode.",
       "payload": {
         "type": "object",
         "required": [
-          "target",
-          "base_revision",
-          "profile"
+          "compact",
+          "source"
         ],
         "properties": {
-          "target": {
-            "enum": [
-              "user",
-              "system"
-            ]
+          "compact": {
+            "type": "boolean"
           },
-          "base_revision": {
-            "type": "integer",
-            "minimum": 0
-          },
-          "profile": {
-            "$ref": "#/contracts/settings_profile"
+          "source": {
+            "type": "string"
           }
         }
       }
     },
-    "sf-admin-menu-settings-reset": {
-      "summary": "Request reset of the selected preference level.",
+    "sf-admin-menu-search": {
+      "summary": "Runtime event sf-admin-menu-search.",
       "payload": {
-        "type": "object",
-        "required": [
-          "target",
-          "base_revision"
-        ],
-        "properties": {
-          "target": {
-            "enum": [
-              "user",
-              "system"
-            ]
-          },
-          "base_revision": {
-            "type": "integer",
-            "minimum": 0
-          }
-        }
+        "type": "object"
       }
     },
     "sf-admin-menu-settings-cancel": {
@@ -338,69 +394,57 @@
         }
       }
     },
-    "sf-admin-menu-compact-change": {
-      "summary": "Notify the host shell about width mode.",
+    "sf-admin-menu-settings-reset": {
+      "summary": "Request reset of the selected preference level.",
       "payload": {
         "type": "object",
         "required": [
-          "compact",
-          "source"
+          "target",
+          "base_revision"
         ],
         "properties": {
-          "compact": {
-            "type": "boolean"
+          "target": {
+            "enum": [
+              "user",
+              "system"
+            ]
           },
-          "source": {
-            "type": "string"
+          "base_revision": {
+            "type": "integer",
+            "minimum": 0
           }
         }
       }
-    }
-  },
-  "contracts": {
-    "settings_profile": {
-      "type": "object",
-      "required": [
-        "schema_version",
-        "items",
-        "layout"
-      ],
-      "properties": {
-        "schema_version": {
-          "const": 1
-        },
-        "items": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "object",
-            "properties": {
-              "order": {
-                "type": "number"
-              },
-              "hidden": {
-                "type": "boolean"
-              },
-              "pinned": {
-                "type": "boolean"
-              }
-            },
-            "additionalProperties": false
-          }
-        },
-        "layout": {
-          "type": "object",
-          "properties": {
-            "compact": {
-              "type": "boolean"
-            }
+    },
+    "sf-admin-menu-settings-save": {
+      "summary": "Request persistence of the current delta.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "target",
+          "base_revision",
+          "profile"
+        ],
+        "properties": {
+          "target": {
+            "enum": [
+              "user",
+              "system"
+            ]
           },
-          "additionalProperties": false
+          "base_revision": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "profile": {
+            "$ref": "#/contracts/settings_profile"
+          }
         }
       }
     }
   },
   "state": {
-    "machine": {
+    "machines": {
       "settings": [
         "idle",
         "saving",
@@ -429,20 +473,15 @@
     ]
   },
   "persistence": {
-    "modes": {
-      "local": "Component-owned demo state in localStorage.",
-      "external": "Draft-only component; host owns persistence."
-    },
-    "source_of_truth": {
-      "local": "browser demo",
-      "external": "authenticated backend"
-    },
-    "external_rule": "The component emits semantic events and never performs HTTP requests. Refresh includes the current draft profile and accepted revision so the host can return an authorized resolved state.",
+    "mode": "hybrid",
+    "source_of_truth": "host",
+    "network_owner": "host",
     "revision_field": "base_revision"
   },
   "ownership": {
-    "data": "Backend package navigation registry and access resolver.",
-    "side_effects": "Host event bridge and backend endpoints.",
+    "source": "simai/ui-source",
+    "data": "host",
+    "effects": "host",
     "forbidden_client_responsibilities": [
       "access decisions",
       "route discovery",
@@ -461,20 +500,17 @@
     }
   },
   "security": {
-    "permissions": [
-      "Backend filters the tree last",
-      "System settings require a distinct permission",
-      "User scope_id comes from the authenticated identity"
-    ],
-    "untrusted_input": [
+    "permissions_owner": "host",
+    "untrusted_inputs": [
       "Reject unknown item IDs",
       "Reject package-owned field mutations",
       "Treat labels, badges and URLs as untrusted render data"
-    ]
+    ],
+    "network_policy": "host-only"
   },
   "accessibility": {
-    "landmark": "navigation",
-    "required_label": "aria-label",
+    "role": "navigation",
+    "accessible_name": "required",
     "keyboard": [
       "Tab",
       "Enter",
@@ -499,119 +535,76 @@
       "viewport-bounded-context-menu"
     ]
   },
-  "scenarios": [
-    {
-      "id": "local-settings",
-      "fixture": "navigation-menu-reference",
-      "viewport": "desktop",
-      "assertions": [
-        "divider-hide-show",
-        "item-hide-show",
-        "reorder",
-        "save-reload-reset",
-        "identity-scoped-storage",
-        "storage-failure-keeps-draft"
-      ]
-    },
-    {
-      "id": "external-conflict",
-      "fixture": "navigation-menu-reference",
-      "viewport": "desktop",
-      "assertions": [
-        "draft-retained",
-        "base-revision-emitted",
-        "conflict-visible",
-        "refresh-carries-draft",
-        "localized-error",
-        "retry-action",
-        "success-commits-revision",
-        "system-scope-permission"
-      ]
-    },
-    {
-      "id": "nested-content",
-      "fixture": "navigation-menu-reference",
-      "viewport": "desktop",
-      "assertions": [
-        "nested-panels",
-        "nested-badges-fit",
-        "scroll-footer-separation",
-        "inactive-panels-inert",
-        "forward-back-focus-return",
-        "localized-logical-direction"
-      ]
-    },
-    {
-      "id": "search-navigation",
-      "fixture": "navigation-menu-reference",
-      "viewport": "responsive",
-      "assertions": [
-        "deterministic-ranking",
-        "disabled-hidden-exclusion",
-        "native-leaf-link",
-        "parent-result-drill-down",
-        "compact-search-focus",
-        "inline-direction-placement"
-      ]
-    },
-    {
-      "id": "mobile-geometry",
-      "fixture": "navigation-menu-reference",
-      "viewport": "mobile",
-      "assertions": [
-        "no-blank-strip",
-        "popup-inside-viewport",
-        "compact-toggle"
-      ]
-    },
-    {
-      "id": "theme-locale",
-      "fixture": "navigation-menu-reference",
-      "viewport": "desktop",
-      "assertions": [
-        "light-dark",
-        "ru-en",
-        "accessible-labels"
-      ]
-    }
-  ],
+  "adapter": {
+    "kind": "owner",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [
+      "studio.fixture.json"
+    ],
+    "scenarios": [
+      "studio.scenario.json"
+    ]
+  },
+  "readiness": {
+    "level": "host-required",
+    "required_checks": [
+      "manifest",
+      "fixture",
+      "runtime-upgrade",
+      "scenario-smoke",
+      "host-settings-bridge"
+    ]
+  },
   "compatibility": {
     "contract_schema": {
-      "id": "https://simai.io/contracts/smart-component-manifest.v1.schema.json",
-      "version": 1
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [],
     "deprecations": [],
     "replacement": null,
-    "migrations": []
+    "migrations": [
+      {
+        "from": "1.0.0",
+        "to": "1.1.0",
+        "changes": [
+          "The manifest moves to smart-component-manifest v2: persistence, ownership, security, accessibility and state use the v2 shape, and adapter, artifacts and readiness are declared.",
+          "The conformance scenarios left the manifest (v2 keeps scenarios in artifacts) and are documented in docs/docs.md; studio.fixture.json and studio.scenario.json are the declared artifacts.",
+          "No runtime behaviour changes."
+        ]
+      }
+    ]
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/admin-menu/index.js",
-        "sha256": "8eacab183bc0c60c021c959c8e38a8a342a22d31724973230f701f0cca97dff9"
+        "sha256": "69d77480efa36e3f6f31d12821e9652f297506810327e3466094d9f714ea91c9"
       },
       {
         "path": "src/smart/admin-menu/js/templates/default.js",
-        "sha256": "0f4a3364079ba6be0d109168b57a2164e2ec859e6f5cba6cb76ca0d92a8ed12a"
+        "sha256": "ffdd2942234ee52fc37b03b840e7e01a7e2244680e4334193c4e4f249e7404eb"
       },
       {
         "path": "src/component/admin-menu/scss/_css__admin_menu.scss",
-        "sha256": "0a15e6fa5e2328b732ac72101ce6a065b86b8526cc78cd2b66f2d92dad97243c"
+        "sha256": "a7bbfb0907d1f6b29b29126ee4e53f9ce23c5fd619c38438d71f15eba53b788a"
       }
     ],
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b",
+        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
         "path": "smart/admin-menu/js/admin-menu.js",
-        "sha256": "e89f4995b1bb847a6821d1fbf1dd9f2bf43d1ce02eceb7631fd60e177624e3a4"
+        "sha256": "98d6f65aefde384824b5e7f2185e6e7ac3f90ec765c2ca81d61d70fc500ef0bc"
       }
     ]
   },
@@ -631,5 +624,12 @@
       "scenarios"
     ],
     "minimal_example": "<sf-admin-menu aria-label=\"Admin menu\" searchable collapsible persistence-mode=\"external\"></sf-admin-menu>"
+  },
+  "public_abi": {
+    "methods": {
+      "setSearchResults": {
+        "summary": "The host answers one search request with its own groups of results."
+      }
+    }
   }
 }

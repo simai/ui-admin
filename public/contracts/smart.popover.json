@@ -1,0 +1,258 @@
+{
+  "schema_version": 2,
+  "id": "smart.popover",
+  "version": "1.0.0",
+  "title": "Popover",
+  "summary": "A surface anchored to a control the consumer supplies, with its own open state, dismissal and returned focus. Built as a general part because the Framework had the surface and not the behaviour: two composites wrote it by hand within a week, the second copying the first.",
+  "kind": "smart",
+  "reuse_mode": "both",
+  "lifecycle": "experimental",
+  "tags": [
+    "popover",
+    "anchored",
+    "surface",
+    "overlay"
+  ],
+  "capabilities": [
+    "render",
+    "theme",
+    "responsive"
+  ],
+  "custom_element": "sf-popover",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [],
+    "public_parts": [],
+    "slots": {
+      "trigger": "The control that opens it, left where the consumer put it.",
+      "content": "What the surface holds. This component claims nothing about its shape."
+    }
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "template": {
+        "type": "string",
+        "default": "default",
+        "description": "Template variant name."
+      },
+      "open": {
+        "type": "boolean",
+        "default": false,
+        "description": "Whether the surface is shown. Reflected, so a consumer can read it and set it."
+      },
+      "placement": {
+        "type": "string",
+        "default": "bottom-end",
+        "description": "Which corner of the trigger the surface hangs from.",
+        "enum": [
+          "bottom-start",
+          "bottom-end",
+          "top-start",
+          "top-end",
+          "inline-start",
+          "inline-end"
+        ]
+      },
+      "label": {
+        "type": "string",
+        "default": "",
+        "description": "The accessible name of the surface. A surface with a role and no name is announced as an unnamed one."
+      },
+      "role": {
+        "type": "string",
+        "default": "dialog",
+        "description": "What the surface is. The role reaches the surface it draws into, so a menu of commands keeps that component's arrow keys and roving focus.",
+        "enum": [
+          "dialog",
+          "menu",
+          "listbox",
+          "group"
+        ]
+      },
+      "width": {
+        "type": "string",
+        "default": "",
+        "description": "A width of its own. Left to its content a surface takes the width of its longest line, which a list of names makes wide and ragged."
+      },
+      "dismissible": {
+        "type": "boolean",
+        "default": true,
+        "description": "Esc and a press outside close it. A consumer that owns those keys turns this off and calls close() when it decides."
+      }
+    }
+  },
+  "item_contract": {},
+  "contracts": {},
+  "methods": {
+    "toggle": {
+      "summary": "Open or close it; a boolean forces one or the other."
+    },
+    "show": {
+      "summary": "Open it."
+    },
+    "close": {
+      "summary": "Close it."
+    },
+    "returnFocus": {
+      "summary": "Put the focus back on the trigger."
+    }
+  },
+  "events": {
+    "sf-popover-open": {
+      "summary": "The surface opened.",
+      "payload": {
+        "type": "object"
+      }
+    },
+    "sf-popover-close": {
+      "summary": "The surface closed.",
+      "payload": {
+        "type": "object"
+      }
+    }
+  },
+  "state": {
+    "machines": {
+      "surface": [
+        "closed",
+        "open"
+      ]
+    },
+    "visual_states": [
+      "default"
+    ]
+  },
+  "persistence": {},
+  "ownership": {
+    "source": "simai/ui-source",
+    "data": "fixture",
+    "effects": "component",
+    "forbidden_client_responsibilities": [
+      "backend access decisions",
+      "host route invention"
+    ]
+  },
+  "security": {
+    "permissions_owner": "none",
+    "untrusted_inputs": [
+      "props",
+      "children"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": "switch",
+    "accessible_name": "required",
+    "keyboard": [
+      "Tab",
+      "Space"
+    ],
+    "focus": "Keep visible focus on the active control."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "ru",
+      "en"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile"
+    ]
+  },
+  "adapter": {},
+  "artifacts": {
+    "source_artifacts": [
+      {
+        "path": "src/smart/popover/index.js",
+        "sha256": "1f77b64872f75e2e84319a7cefd0ce538e031d47fa796435dc003dcd7dc6afce"
+      },
+      {
+        "path": "src/smart/popover/rule.js",
+        "sha256": "88d63d31d61879d048bc901a4a8173d3af9a96d5f3a4fd532eac2ab02ebf351c"
+      },
+      {
+        "path": "src/smart/popover/js/templates/default.js",
+        "sha256": "6f6be19ccafaacaa72e047dbbd0084c4a45738bed8ab1f5756e4833e9abec169"
+      },
+      {
+        "path": "src/smart/popover/js/templates/default.css",
+        "sha256": "5b694b022101f2ea5e552b8282ee692347275f0454d14d727315dd3f15789157"
+      }
+    ]
+  },
+  "readiness": {
+    "level": "described",
+    "required_checks": [
+      "manifest",
+      "fixture",
+      "runtime-upgrade",
+      "scenario-smoke"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+    },
+    "aliases": [],
+    "deprecations": [],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-source",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
+    "source_artifacts": [
+      {
+        "path": "src/smart/popover/index.js",
+        "sha256": "1f77b64872f75e2e84319a7cefd0ce538e031d47fa796435dc003dcd7dc6afce"
+      },
+      {
+        "path": "src/smart/popover/rule.js",
+        "sha256": "88d63d31d61879d048bc901a4a8173d3af9a96d5f3a4fd532eac2ab02ebf351c"
+      },
+      {
+        "path": "src/smart/popover/js/templates/default.js",
+        "sha256": "6f6be19ccafaacaa72e047dbbd0084c4a45738bed8ab1f5756e4833e9abec169"
+      },
+      {
+        "path": "src/smart/popover/js/templates/default.css",
+        "sha256": "5b694b022101f2ea5e552b8282ee692347275f0454d14d727315dd3f15789157"
+      }
+    ],
+    "generated_runtime": []
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-switch when a binary setting takes effect immediately and may need supporting text.",
+    "do_not": [
+      "Do not use Switch for a value submitted only after a separate confirmation action",
+      "Do not label it with commands such as Enable and Disable",
+      "Do not copy generated ui-smart code",
+      "Do not move host data or access decisions into the component"
+    ],
+    "required_reads": [
+      "inputs",
+      "methods",
+      "events",
+      "ownership",
+      "provenance"
+    ],
+    "minimal_example": "<sf-switch></sf-switch>",
+    "owner_commands": [
+      "npm run contract:verify",
+      "npm test"
+    ]
+  }
+}

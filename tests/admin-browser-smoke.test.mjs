@@ -11,9 +11,20 @@ import { chromium } from 'playwright-core';
 const projectRoot = resolve(import.meta.dirname, '..');
 const serverEntry = resolve(projectRoot, 'server.js');
 const viteEntry = resolve(projectRoot, 'node_modules/vite/bin/vite.js');
+// Where to find a browser. The list used to be two Windows paths and nothing
+// else, so on a Mac this test threw «Chrome or Microsoft Edge is required»
+// before it measured anything -- the reference's only browser check had never
+// run here at all (owner, 2026-10-09).
+//
+// playwright-core is already a dependency and brings its own chromium, which is
+// the browser every probe in the Framework measures with. It is asked first, so
+// the same bytes are measured in both repositories; an installed Chrome or Edge
+// still answers when it is not there.
 const browserCandidates = [
   'C:/Program Files/Google/Chrome/Application/chrome.exe',
   'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',
+  '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+  '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge',
 ];
 const mode = process.env.ADMIN_BROWSER_MODE === 'preview' ? 'preview' : 'dev';
 
@@ -110,15 +121,22 @@ async function readRuntimeRoot() {
     return runtimeRoot;
   }
 
-  const env = await readFile(resolve(projectRoot, '.env'), 'utf8');
-  const line = env
-    .split(/\r?\n/)
-    .find((entry) => entry.trim().startsWith('SIMAI_RUNTIME_ROOT='));
-  const value = line?.split('=').slice(1).join('=').trim().replace(/^['"]|['"]$/g, '');
-
-  if (!value) {
-    throw new Error('SIMAI_RUNTIME_ROOT is required for the browser smoke test.');
+  // `.env` is a developer's local override and most machines do not have one:
+  // reading it unconditionally threw ENOENT before the test measured anything.
+  // The runtime this repository materialises for itself is the one to measure,
+  // and `.env` only moves it elsewhere (owner, 2026-10-09).
+  let value = '';
+  try {
+    const env = await readFile(resolve(projectRoot, '.env'), 'utf8');
+    const line = env
+      .split(/\r?\n/)
+      .find((entry) => entry.trim().startsWith('SIMAI_RUNTIME_ROOT='));
+    value = line?.split('=').slice(1).join('=').trim().replace(/^['"]|['"]$/g, '') ?? '';
+  } catch (error) {
+    if (error?.code !== 'ENOENT') throw error;
   }
+
+  if (!value) value = '.runtime';
 
   const runtimeRoot = resolve(projectRoot, value);
   await access(resolve(runtimeRoot, 'core/js/core.js'));
@@ -128,6 +146,15 @@ async function readRuntimeRoot() {
 }
 
 async function resolveBrowserPath() {
+  try {
+    const bundled = chromium.executablePath();
+    if (bundled) {
+      await access(bundled);
+      return bundled;
+    }
+  } catch {
+    // No bundled browser; fall through to whatever this machine has installed.
+  }
   for (const candidate of browserCandidates) {
     try {
       await access(candidate);
@@ -137,7 +164,10 @@ async function resolveBrowserPath() {
     }
   }
 
-  throw new Error('Chrome or Microsoft Edge is required for the browser smoke test.');
+  throw new Error(
+    'No browser for the smoke test: playwright-core has none installed '
+    + '(`npx playwright install chromium`) and neither Chrome nor Edge is in the usual places.',
+  );
 }
 
 test.before(async () => {

@@ -49,11 +49,13 @@
       },
       "size": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "Legacy name for file-size: the file's own size as text (\"12 KB\"), not the size ladder. Still honoured; pass file-size."
       },
       "file-size": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "The file's size as text, for example 12 KB."
       },
       "icon": {
         "type": "string",
@@ -63,14 +65,15 @@
         "type": "string",
         "default": ""
       },
-      "type": {
+      "kind": {
         "type": "string",
         "default": "auto",
         "enum": [
           "auto",
           "icon",
           "image"
-        ]
+        ],
+        "description": "What the preview shows: an icon, the image itself, or whichever suits the file."
       },
       "mime-type": {
         "type": "string",
@@ -118,7 +121,7 @@
       },
       "aria-label": {
         "type": "string",
-        "default": ""
+        "default": "File"
       },
       "download-label": {
         "type": "string",
@@ -127,6 +130,16 @@
       "remove-label": {
         "type": "string",
         "default": "Remove file"
+      },
+      "type": {
+        "type": "string",
+        "default": "auto",
+        "description": "Legacy name for kind, still honoured. See contracts/public-api-axes.json.",
+        "enum": [
+          "auto",
+          "icon",
+          "image"
+        ]
       }
     },
     "additionalProperties": false
@@ -287,8 +300,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "2228262ad3588227b20045f66ca43556fcd27974",
-      "ui_smart_revision": "8b0e0482f78a19aa6af2483d61fe9fe3b79a8e1b"
+      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
+      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
     },
     "aliases": [
       "name",
@@ -309,11 +322,11 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "fbea718f2a7fcf7450ec0a5a52a512fc805aa823",
+    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
     "source_artifacts": [
       {
         "path": "src/smart/file-preview/index.js",
-        "sha256": "8ad1166eb5f49f554e438f7fd28b1ac5a5c4ffaaf3a44154d76dd411bf28dc32"
+        "sha256": "1f00402b0d5fa055de2f7f9ade7636608f388765e56e846f7d6e5af31bcca8c1"
       },
       {
         "path": "src/smart/file-preview/js/templates/default.js",

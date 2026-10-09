@@ -11,7 +11,7 @@
     "dev": "npm run prepare:runtime && npm run prepare:contracts && vite",
     "dev:runtime": "node scripts/verify-runtime-root.mjs && vite",
     "dev:api": "node server.js",
-    "build": "npm run prepare:runtime && npm run prepare:contracts && tsc && vite build && node scripts/materialize-framework-runtime.mjs --target dist/distr",
+    "build": "npm run prepare:runtime && npm run prepare:contracts && npm run check:port && tsc && vite build && node scripts/materialize-framework-runtime.mjs --target dist/distr",
     "test:runtime": "node --test tests/runtime-assets.test.mjs tests/navigation-menu-reference.test.mjs",
     "test:api": "node --test tests/mock-api-contract.test.mjs",
     "test:browser": "node tests/run-browser-smoke.mjs",
@@ -19,7 +19,8 @@
     "preview": "vite preview",
     "pin": "node scripts/pin-framework-pair.mjs",
     "pin:check": "node scripts/pin-framework-pair.mjs --check",
-    "publish": "bash scripts/publish-local-site.sh"
+    "publish": "bash scripts/publish-local-site.sh",
+    "check:port": "node scripts/check-port-conformance.mjs"
   },
   "devDependencies": {
     "@faker-js/faker": "^10.6.0",

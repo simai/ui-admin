@@ -8,6 +8,7 @@
 // first time a port changed. That is how the embedded list came to draw a
 // fallback toolbar for a fortnight.
 import './style.css';
+import { createPropertyViewHost } from './ports/property-view-host.mjs';
 
 type Answer = Record<string, unknown>;
 type HostPort = {
@@ -36,51 +37,6 @@ const RECORDS = [
   { id: 'r-5', title: 'SIMAI: Корзина №034', code: 'simai.cart', section: 'Магазин', status: 'В работе', updated: '2026-11-22', actions: ['view', 'edit'] },
 ];
 
-// ─── The record the panel shows ───────────────────────────────────────────────
-
-const RECORD = {
-  record_id: 'r-1',
-  collection: 'admin.solutions',
-  revision: 7,
-  label: 'SIMAI: Платежи №178',
-  sections: [
-    {
-      key: 'main',
-      label: 'Общее',
-      groups: [
-        {
-          key: 'main',
-          label: 'Основное',
-          columns: 2,
-          fields: [
-            { key: 'code', label: 'Код решения', propertyType: 'string', value: 'simai.payments', width: 'half', required: true },
-            { key: 'title', label: 'Название', propertyType: 'string', value: 'SIMAI: Платежи №178', width: 'half', required: true },
-            { key: 'section', label: 'Раздел', propertyType: 'record', width: 'half',
-              value: { value: 'sec-1', label: 'Платежи и биллинг', href: '/workbench.html' } },
-            { key: 'status', label: 'Статус', propertyType: 'enum', width: 'half', value: 'active',
-              options: [
-                { value: 'active', label: 'В работе' },
-                { value: 'done', label: 'Готово' },
-                { value: 'frozen', label: 'Заморожено' },
-              ] },
-            { key: 'summary', label: 'Описание', propertyType: 'text', width: 'full',
-              value: 'Приём платежей, возвраты и сверка с банком.' },
-          ],
-        },
-        {
-          key: 'dates',
-          label: 'Сроки',
-          columns: 2,
-          fields: [
-            { key: 'released', label: 'Выпущено', propertyType: 'date', value: '2026-09-18', width: 'half' },
-            { key: 'public', label: 'Доступно всем', propertyType: 'boolean', value: true, width: 'half' },
-          ],
-        },
-      ],
-    },
-  ],
-};
-
 // ─── The hosts ────────────────────────────────────────────────────────────────
 
 const listHost = (): HostPort => ({
@@ -98,28 +54,12 @@ const listHost = (): HostPort => ({
   },
 });
 
-const recordHost = (): HostPort => ({
-  version: '1.7.0',
-  capabilities: [],
-  async raise(intent, payload) {
-    if (intent === 'record.load') return { answer: 'applied', record: copy(RECORD) };
-    if (intent === 'group.save') {
-      // A real host validates and stores. This one takes the values as given
-      // and answers with the next revision, which is what makes the panel
-      // leave editing — the panel waits for the host, it does not assume.
-      const group = RECORD.sections
-        .find((section) => section.key === payload.section)?.groups
-        .find((item) => item.key === payload.group);
-      const values = payload.values as Record<string, unknown> | undefined;
-      for (const field of group?.fields ?? []) {
-        if (values && field.key in values) (field as Record<string, unknown>).value = values[field.key];
-      }
-      RECORD.revision += 1;
-      return { answer: 'applied', record: copy(RECORD) };
-    }
-    return { answer: 'unavailable', reason: 'unknown-intent' };
-  },
-});
+// The record host lives in src/ports, because the conformance runner drives
+// the same one: a page that used its own would be a page whose answers nobody
+// checks.
+const recordHost = (): HostPort => createPropertyViewHost({
+  capabilities: ['field-options', 'field-upload', 'view-settings'],
+}) as unknown as HostPort;
 
 // ─── Wiring ───────────────────────────────────────────────────────────────────
 
@@ -138,10 +78,18 @@ const start = async () => {
 
   // A row's view action opens the record over the list, which is the one
   // behaviour that makes these two composites a page rather than two widgets.
-  list?.addEventListener('sf-data-view-action-intent', (event) => {
+  // The data view re-raises the table's own action intent rather than inventing
+  // a second name for it, so this is the event to listen for.
+  list?.addEventListener('sf-table-action-intent', (event) => {
     const detail = (event as CustomEvent).detail ?? {};
     if (!String(detail.action_id ?? '').includes('view')) return;
-    panel?.setAttribute('record-id', String(detail.record_ids?.[0] ?? 'r-1'));
+    const id = String(detail.record_ids?.[0] ?? 'r-1');
+    // The panel's head carries what the port does not: which collection this
+    // is and what the record is called. A host knows both; the panel would
+    // otherwise have to guess at a title from a field, and guess wrong.
+    const record = RECORDS.find((item) => item.id === id);
+    panel?.setAttribute('record-id', id);
+    if (record) panel?.setAttribute('panel-label', record.title);
     panel?.load?.();
   });
 };

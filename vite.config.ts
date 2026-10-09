@@ -1,9 +1,15 @@
 import { createReadStream, existsSync, statSync } from 'node:fs'
+import { readFile, readdir, writeFile } from 'node:fs/promises'
 import { extname, join, normalize, resolve, sep } from 'node:path'
 import { defineConfig, loadEnv, type Connect, type Plugin } from 'vite'
+// @ts-expect-error -- plain JavaScript so the publish scripts and the checks
+// can read the same module without a build step between them.
+import { PLACEHOLDER, runtimeBase, runtimeDirectory, stamp } from './scripts/runtime-base.mjs'
 
 const projectRoot = resolve()
 const distrPrefix = '/distr'
+const runtimeUrlBase: string = runtimeBase()
+const runtimePairDirectory: string = runtimeDirectory()
 
 const mimeTypes: Record<string, string> = {
   '.css': 'text/css; charset=utf-8',
@@ -23,7 +29,13 @@ function createDistrMiddleware(distrRoot: string): Connect.NextHandleFunction {
       return
     }
 
-    const relativePath = decodeURIComponent(url.slice(distrPrefix.length + 1))
+    // Every page asks for the pair-stamped path, including in dev, so the one
+    // thing that differs between dev and the published site is who sets the
+    // headers -- not which URL the page asks for.
+    const requested = decodeURIComponent(url.slice(distrPrefix.length + 1))
+    const relativePath = requested.startsWith(`${runtimePairDirectory}/`)
+      ? requested.slice(runtimePairDirectory.length + 1)
+      : requested
     const filePath = normalize(join(distrRoot, relativePath))
 
     if (!filePath.startsWith(`${distrRoot}${sep}`) || !existsSync(filePath)) {
@@ -53,6 +65,49 @@ function createDistrMiddleware(distrRoot: string): Connect.NextHandleFunction {
 
 }
 
+// The pages and stylesheets are written with the placeholder; the pair's own id
+// is put in at build time, in dev as well, so nothing drifts between them.
+function stampRuntimeBase(): Plugin {
+  return {
+    name: 'stamp-simai-runtime-base',
+    enforce: 'pre',
+    transformIndexHtml(html) {
+      return stamp(html, runtimeUrlBase)
+    },
+    transform(code, id) {
+      if (!id.endsWith('.css') || !code.includes(PLACEHOLDER)) {
+        return null
+      }
+
+      return { code: stamp(code, runtimeUrlBase), map: null }
+    },
+    // Pages under public/ are copied byte for byte and never reach
+    // transformIndexHtml, so one of them kept asking for the unstamped path
+    // after everything else had been stamped. Whatever is left in the built
+    // output is stamped here, which also covers anything added to public/ later.
+    async closeBundle() {
+      const outputDirectory = resolve('dist')
+
+      if (!existsSync(outputDirectory)) {
+        return
+      }
+
+      for (const entry of await readdir(outputDirectory, { withFileTypes: true })) {
+        if (!entry.isFile() || !entry.name.endsWith('.html')) {
+          continue
+        }
+
+        const file = join(outputDirectory, entry.name)
+        const html = await readFile(file, 'utf8')
+
+        if (html.includes(PLACEHOLDER)) {
+          await writeFile(file, stamp(html, runtimeUrlBase))
+        }
+      }
+    },
+  }
+}
+
 function mountDistr(
   developmentDistrRoot: string,
   previewDistrRoot: string,
@@ -75,12 +130,12 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, projectRoot, '')
   const distrRoot = resolve(env.SIMAI_RUNTIME_ROOT || '.runtime')
   const previewDistrRoot = resolve(
-    env.SIMAI_PREVIEW_RUNTIME_ROOT || 'dist/distr',
+    env.SIMAI_PREVIEW_RUNTIME_ROOT || `dist/distr/${runtimePairDirectory}`,
   )
   const apiProxyTarget = env.VITE_API_PROXY_TARGET || 'http://localhost:5001'
 
   return {
-    plugins: [mountDistr(distrRoot, previewDistrRoot)],
+    plugins: [stampRuntimeBase(), mountDistr(distrRoot, previewDistrRoot)],
     build: {
       rollupOptions: {
         input: {

@@ -1,0 +1,148 @@
+#!/usr/bin/env node
+// Usage: node scripts/check-published-runtime.mjs [origin]
+//
+// What the browser actually runs, not what is on disk.
+//
+// On 2026-10-09 the pin was the current pair, the files under the published
+// site were that pair's bytes, every check in this repository was green — and
+// the page in the owner's Chrome was running a Framework from two pairs
+// earlier, because the static host sends no Cache-Control and the browser was
+// free to keep its copy. The reference's whole claim is that it shows what the
+// Framework does now, and nothing here could tell that it did not.
+//
+// So this asks over HTTP, the way a browser does: it reads each page's own
+// runtime base out of the served HTML, fetches the files the lock requires from
+// that base, and hashes them. A base that is not pair-stamped, a file that is
+// not the pinned pair's, or a page still asking for the bare placeholder is a
+// failure.
+import { createHash } from 'node:crypto';
+import { readdirSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { PLACEHOLDER, projectRoot, readLock, runtimeBase } from './runtime-base.mjs';
+
+const origin = (process.argv[2] ?? process.env.ADMIN_ORIGIN ?? 'https://ui-admin.test')
+  .replace(/\/+$/, '');
+const lock = readLock();
+const expectedBase = runtimeBase(lock);
+
+// Every page the site publishes: the ones Vite builds from the repository root
+// and the ones copied straight out of public/, which are exactly the ones that
+// were missed when the stamping was first added.
+const htmlIn = (directory) => {
+  try {
+    return readdirSync(directory).filter((name) => name.endsWith('.html'));
+  } catch {
+    return [];
+  }
+};
+const pages = [...new Set([
+  ...htmlIn(projectRoot),
+  ...htmlIn(resolve(projectRoot, 'public')),
+])].sort();
+
+if (!pages.length) throw new Error('no pages to check');
+
+// The local site is served over a certificate signed by the developer's own
+// authority, which this runner has no reason to hold. `agent` is an https
+// option and global fetch does not read it, so asking that way reported every
+// file as missing rather than as mismatched. Verification is switched off for
+// this process only, and only for a local origin: a public one still has to
+// present a certificate that checks out.
+const host = new URL(origin).hostname;
+const local = host === 'localhost' || host === '127.0.0.1' || host.endsWith('.test')
+  || host.endsWith('.localhost');
+if (origin.startsWith('https://')) {
+  if (!local) {
+    // Nothing to relax, and nothing to hide: a public origin is checked as one.
+  } else {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+  }
+}
+const fetchText = async (url) => {
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`${url} answered ${response.status}`);
+  return response;
+};
+
+const failures = [];
+const skipped = [];
+const required = [
+  ...lock.core.requiredFiles.map((file) => ({ side: 'core', path: file.path, sha256: file.sha256 })),
+  ...lock.smart.requiredFiles.map((file) => ({
+    side: 'smart', path: `${lock.smart.targetDir}/${file.path}`, sha256: file.sha256,
+  })),
+];
+
+for (const page of pages) {
+  const url = `${origin}/${page}`;
+  let html;
+  try {
+    html = await (await fetchText(url)).text();
+  } catch (error) {
+    failures.push({ page, said: `the page could not be read: ${error.message}` });
+    continue;
+  }
+
+  // A runtime URL is the prefix plus, when the page has been stamped, the
+  // pair's own directory, and then one of the runtime's top-level folders.
+  // Written as one group ending in a slash it demanded two, which is why the
+  // first version of this check said every page asked for no runtime at all.
+  // public/ also holds markup samples -- a bare <tr> block, for instance --
+  // which a browser never loads as a document and which therefore ask for no
+  // runtime quite correctly.
+  if (!/<html[\s>]|<!doctype/iu.test(html)) {
+    skipped.push({ page, why: 'a markup fragment, not a page' });
+    continue;
+  }
+
+  const bases = [...html.matchAll(
+    /\/distr\/(?:(ui-[0-9a-f]{12}-smart-[0-9a-f]{12})\/)?(?:core|component|smart|rule|utility|fonts)\//gu,
+  )].map(([, pair]) => (pair ? `${PLACEHOLDER}${pair}/` : PLACEHOLDER));
+  const unique = [...new Set(bases)];
+
+  if (!unique.length) {
+    failures.push({ page, said: 'the page asks for no runtime at all' });
+    continue;
+  }
+  if (unique.length > 1) {
+    failures.push({ page, said: 'the page asks for more than one runtime base', bases: unique });
+    continue;
+  }
+  if (unique[0] === PLACEHOLDER) {
+    failures.push({ page, said: 'the page still asks for the unstamped placeholder, so a cache may answer with any pair' });
+    continue;
+  }
+  if (unique[0] !== expectedBase) {
+    failures.push({ page, said: 'the page asks for a base that is not the pinned pair', found: unique[0], expected: expectedBase });
+  }
+}
+
+// The bytes themselves, fetched from the base the pages ask for.
+const measured = [];
+for (const file of required) {
+  const url = `${origin}${expectedBase}${file.path}`;
+  try {
+    const bytes = Buffer.from(await (await fetchText(url)).arrayBuffer());
+    const sha256 = createHash('sha256').update(bytes).digest('hex');
+    measured.push({ path: file.path, bytes: bytes.length, matches: sha256 === file.sha256 });
+    if (sha256 !== file.sha256) {
+      failures.push({ file: file.path, said: 'the served bytes are not the pinned pair', expected: file.sha256.slice(0, 12), found: sha256.slice(0, 12) });
+    }
+  } catch (error) {
+    failures.push({ file: file.path, said: `the pinned runtime is not served there: ${error.message}` });
+  }
+}
+
+process.stdout.write(`${JSON.stringify({
+  check: 'published-runtime',
+  origin,
+  pair: lock.compatibilityId,
+  base: expectedBase,
+  pages: pages.filter((page) => !skipped.some((item) => item.page === page)),
+  skipped,
+  files: measured,
+  result: failures.length ? 'PUBLISHED_RUNTIME_FAIL' : 'PUBLISHED_RUNTIME_OK',
+  failures,
+}, null, 2)}\n`);
+
+if (failures.length) process.exit(1);

@@ -58,18 +58,49 @@ sees its tag. With no `sf-property-view` in the page, nothing loads it, so
 sat empty until the startup wait was narrowed to the list's own components and
 the panel's class was awaited after its tag was appended.
 
+## The toolbar is the table's
+
+The data view's `toolbar` slot has fallback content of its own — a bare
+«Поиск» input, a «Вид» select and two buttons, raw and unstyled, meant to be
+replaced. A host that also writes `toolbar="false"` on its table gets exactly
+that and nothing else. This page did, and it looked like a form somebody forgot
+to style.
+
+The composition Larena serves, and the one to copy:
+
+```html
+<sf-data-view aria-label="Решения">
+  <span slot="toolbar"></span>          <!-- suppresses the raw fallback -->
+  <sf-table slot="content" aria-label="Решения"></sf-table>
+  <sf-pagination slot="pagination"></sf-pagination>
+</sf-data-view>
+```
+
+The table's own toolbar then does the work: search, «Фильтр» with its field list
+and filter templates, and «Создать». Do not add a create button of your own
+beside it — the table raises `sf-table-create-intent` and the data view turns
+it into `view.create_record` already.
+
 ## Trying the hard states
 
-The bar above the list is not part of an admin. It makes the host answer the way
-a real one does on a bad day, which is what a consumer handles worst and sees
-least:
+An admin does not carry switches for its own host, so the conditions are in the
+address. They travel with every address the page writes, so a link to a record
+under «нет доступа» is still that link.
 
-- **Ответы хоста** — ordinary answers, an empty list, a slow host (900 ms),
-  «нет доступа» (`refused`), «хост недоступен» (`unavailable`).
-- **Права хоста** — each switch removes a capability. The list stops offering
-  what the host no longer claims: without `row-actions` the actions column goes,
-  without `saved-views` the saved-view controls go, without `count-on-request`
-  the total is replaced by «есть ещё страница».
+| | |
+|:---|:---|
+| `?scenario=empty` | the list answers with nothing |
+| `?scenario=slow` | every answer takes 900 ms |
+| `?scenario=forbidden` | the host refuses (`refused`) |
+| `?scenario=unavailable` | the host is down (`unavailable`) |
+| `?caps=-row-actions` | the host stops claiming a capability — repeatable, comma separated |
+| `?caps=row-actions` | the host claims only the ones named |
+
+The list stops offering what the host no longer claims: without `row-actions`
+the actions column goes, without `saved-views` the saved-view controls go,
+without `count-on-request` the total is replaced by «есть ещё страница». The
+line under the heading is empty unless the page is being driven somewhere
+unusual, and then it says where.
 
 ## Using it with a real backend
 

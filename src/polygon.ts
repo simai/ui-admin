@@ -33,14 +33,22 @@ type WithPort = Element & {
   refresh?: () => void;
 };
 import type { PolygonDataset, PolygonRecord, PolygonScenario } from './ports/polygon-host.d.mts';
+import { watchForStalePage } from './stale-page-notice';
 
 type Dataset = PolygonDataset;
 
-const CAPABILITY_SWITCHES: Array<{ id: string; grants: string[] }> = [
-  { id: 'cap-row-actions', grants: ['row-actions'] },
-  { id: 'cap-saved-views', grants: ['saved-views', 'shared-saved-views'] },
-  { id: 'cap-shared', grants: ['shared-column-settings', 'bulk-under-filter'] },
-  { id: 'cap-count', grants: ['count-on-request'] },
+// What the host can do, and what it answers like. These used to be a row of
+// switches above the list, and they made the page read as a toy rather than as
+// an admin (owner, 2026-10-10). They are in the address instead: the hard
+// states stay two keystrokes away, and the page looks like the thing it is
+// meant to look like.
+//
+//   ?scenario=empty | slow | forbidden | unavailable
+//   ?caps=-row-actions,-saved-views        remove a capability
+//   ?caps=row-actions                      or name the only ones to claim
+const ALL_CAPABILITIES = [
+  'row-actions', 'saved-views', 'shared-saved-views',
+  'shared-column-settings', 'bulk-under-filter', 'count-on-request',
 ];
 
 const element = <T extends Element = Element>(selector: string) =>
@@ -59,8 +67,7 @@ const start = async () => {
   // the loader is why the element used to be in the markup, and the reason it
   // could not simply be deleted.
   await Promise.all(
-    ['sf-data-view', 'sf-table', 'sf-dropdown', 'sf-switch']
-      .map((tag) => customElements.whenDefined(tag)),
+    ['sf-data-view', 'sf-table'].map((tag) => customElements.whenDefined(tag)),
   );
 
   // Fetched rather than imported so the published page reads the same file the
@@ -166,6 +173,13 @@ const start = async () => {
 
   const addressFor = ({ record, full }: { record: string | null; full?: boolean }) => {
     const query = new URLSearchParams();
+    // The conditions the page was opened under stay in every address it writes,
+    // so a link to a record under «нет доступа» is still that link.
+    const current = new URLSearchParams(location.search);
+    for (const key of ['scenario', 'caps']) {
+      const value = current.get(key);
+      if (value) query.set(key, value);
+    }
     if (record) query.set('record', record);
     if (record && full) query.set('view', 'full');
     const search = query.toString();
@@ -211,15 +225,30 @@ const start = async () => {
     made.setHostPort?.(panelPort);
   };
 
-  const summary = () => [
-    `${dataset.records.length} записей, ${dataset.structure.fields.length} полей`,
-    `типов свойств: ${new Set(dataset.structure.fields.map((field) => field.property_type)).size}`,
-    `права хоста: ${chosenCapabilities().length ? chosenCapabilities().join(', ') : 'нет ни одного'}`,
-  ].join(' · ');
+  // Said only when the page is not in its ordinary state. An admin does not
+  // explain itself above its own list; a polygon being driven somewhere unusual
+  // has to say where.
+  const summary = () => {
+    const scenario = chosenScenario();
+    const missing = ALL_CAPABILITIES.filter((name) => !chosenCapabilities().includes(name));
+    const notes = [];
+    if (scenario !== 'default') notes.push(`ответы хоста: ${scenario}`);
+    if (missing.length) notes.push(`хост не заявляет: ${missing.join(', ')}`);
+    return notes.join(' · ');
+  };
 
-  const chosenCapabilities = () => CAPABILITY_SWITCHES
-    .filter(({ id }) => (element<HTMLInputElement>(`#${id}`) as { checked?: boolean } | null)?.checked !== false)
-    .flatMap(({ grants }) => grants);
+  const chosenCapabilities = () => {
+    const asked = (new URLSearchParams(location.search).get('caps') ?? '')
+      .split(',').map((part) => part.trim()).filter(Boolean);
+    if (!asked.length) return ALL_CAPABILITIES;
+    // Either a list of removals, or a list of the only ones to claim.
+    const removing = asked.every((part) => part.startsWith('-'));
+    if (removing) {
+      const gone = new Set(asked.map((part) => part.slice(1)));
+      return ALL_CAPABILITIES.filter((name) => !gone.has(name));
+    }
+    return ALL_CAPABILITIES.filter((name) => asked.includes(name));
+  };
 
   // The dropdown's own word for the chosen option is `selectedValue`; `value`
   // on it is an object. Reading the wrong one gave every scenario as
@@ -232,7 +261,7 @@ const start = async () => {
   // browser. «slow» is this page's word, not the host's: the host is given the
   // ordinary answers and a delay.
   const chosenScenario = () => String(
-    (element('#scenario') as { selectedValue?: string } | null)?.selectedValue || 'default',
+    new URLSearchParams(location.search).get('scenario') || 'default',
   );
   const hostScenario = (chosen: string): PolygonScenario =>
     (SCENARIOS as string[]).includes(chosen) ? (chosen as PolygonScenario) : 'default';
@@ -262,10 +291,6 @@ const start = async () => {
     say(summary());
   };
 
-  element('#scenario')?.addEventListener('sf-dropdown:change', mount);
-  for (const { id } of CAPABILITY_SWITCHES) {
-    element(`#${id}`)?.addEventListener('change', mount);
-  }
 
   // A row's view action opens the record over the list. The data view re-raises
   // the table's own intent, so this is the event to listen for rather than a
@@ -312,14 +337,6 @@ const start = async () => {
     },
   });
 
-  element('#create')?.addEventListener('click', () => {
-    void host.raise('view.create_record', { kind: dataset.structure.structure_id })
-      .then((answer) => {
-        say(`Создание: ${String(answer.answer)}`);
-        list?.refresh?.();
-      });
-  });
-
   // The number the host counts, shown beside the heading so a filter that
   // removes rows is visible as a number and not only as a shorter list.
   list?.addEventListener('sf-data-view-answer', (event) => {
@@ -338,3 +355,7 @@ const start = async () => {
 };
 
 void start();
+
+// The host sends no Cache-Control, so a browser may be showing a copy of this
+// page from before the last publish. Say so rather than letting it pass.
+watchForStalePage();

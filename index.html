@@ -45,51 +45,32 @@
         <sf-avatar size="1" text="РЗ"></sf-avatar>
       </header>
 
-      <!-- The polygon's own controls. They are not part of an admin: they are
-           how a person makes the host answer the way a real one would on a bad
-           day, without editing any code. A reference that can only be the happy
-           path is a reference that never shows the states a consumer handles
-           worst. -->
-      <section
-        id="controls"
-        class="flex items-cross-center gap-2 p-x-4 p-y-2 bg-surface-container-low border-b-px border-outline-variant"
-        aria-label="Условия полигона">
-        <span class="sf-text-1 color-on-surface-variant">Полигон:</span>
-
-        <sf-dropdown id="scenario" size="1" appearance="outlined" label="Ответы хоста">
-          <sf-list-item value="default" text="Обычные ответы" selected></sf-list-item>
-          <sf-list-item value="empty" text="Пустой список"></sf-list-item>
-          <sf-list-item value="slow" text="Медленный хост"></sf-list-item>
-          <sf-list-item value="forbidden" text="Нет доступа"></sf-list-item>
-          <sf-list-item value="unavailable" text="Хост недоступен"></sf-list-item>
-        </sf-dropdown>
-
-        <span class="grow"></span>
-
-        <span class="sf-text-1 color-on-surface-variant">Права хоста:</span>
-        <sf-switch id="cap-row-actions" size="1" checked label="Действия в строке"></sf-switch>
-        <sf-switch id="cap-saved-views" size="1" checked label="Сохранённые виды"></sf-switch>
-        <sf-switch id="cap-shared" size="1" checked label="Общие настройки"></sf-switch>
-        <sf-switch id="cap-count" size="1" checked label="Счётчик"></sf-switch>
-      </section>
-
       <section id="list-section" class="flex flex-col gap-2 p-4 flex-1 min-w-0 min-h-0">
         <div class="flex items-cross-center gap-2">
           <h1 class="text-title-2 m-0">Решения</h1>
           <sf-badge id="count" type="tonal" scheme="neutral" text="—"></sf-badge>
           <span class="grow"></span>
-          <sf-button id="create" size="1" appearance="outline" scheme="on-surface" text="Создать решение"></sf-button>
         </div>
+        <!-- Empty unless the page is being driven somewhere unusual: an admin
+             does not explain itself above its own list, and a polygon under
+             «нет доступа» has to say so. -->
         <p id="state" class="color-on-surface-variant m-0 sf-text-1" role="status"></p>
 
+        <!-- The composition Larena serves, and for one reason worth writing
+             down. The data view's `toolbar` slot has fallback content of its
+             own: a bare «Поиск» input, a «Вид» select and two buttons, raw and
+             unstyled, meant to be replaced. A host that also writes
+             `toolbar="false"` on its table gets exactly that and nothing else
+             — which is what this page did, and what the owner saw. Slotting an
+             empty toolbar suppresses the fallback, and the TABLE's own toolbar
+             does the work: search, «Фильтр», and saving a filter template. -->
         <sf-data-view
           id="solutions"
-          chrome="toolbar pagination select settings"
           aria-label="Решения">
+          <span slot="toolbar"></span>
           <sf-table
             slot="content"
             id="solutions-table"
-            toolbar="false"
             table-settings-key="polygon.solutions"
             aria-label="Решения"></sf-table>
           <sf-pagination slot="pagination"></sf-pagination>

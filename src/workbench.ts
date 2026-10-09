@@ -9,6 +9,7 @@
 // fallback toolbar for a fortnight.
 import './style.css';
 import { createPropertyViewHost } from './ports/property-view-host.mjs';
+import { watchForStalePage } from './stale-page-notice';
 
 type Answer = Record<string, unknown>;
 type HostPort = {
@@ -98,3 +99,7 @@ const start = async () => {
 };
 
 void start();
+
+// The host sends no Cache-Control, so a browser may be showing a copy of this
+// page from before the last publish. Say so rather than letting it pass.
+watchForStalePage();

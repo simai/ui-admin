@@ -21,6 +21,7 @@ import {
   updateEntityField,
 } from './adminTable';
 import './larenaSmokeSmartAdapter';
+import { watchForStalePage } from './stale-page-notice';
 
 type TablePageRequestDetail = {
   mode?: 'replace' | 'append';
@@ -662,3 +663,7 @@ declare global {
     adminManager?: AdminManager;
   }
 }
+
+// The host sends no Cache-Control, so a browser may be showing a copy of this
+// page from before the last publish. Say so rather than letting it pass.
+watchForStalePage();

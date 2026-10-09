@@ -219,14 +219,15 @@
         <!-- The list. Not a bare sf-table: a data view that owns the query, the
              toolbar, the page row and the row actions, and slots a table in --
              which is how Larena composes it and how a consumer must. -->
+        <!-- The table keeps its own toolbar, and an empty slotted one keeps the
+             data view's raw fallback out. See index.html. -->
         <sf-data-view
           id="solutions"
-          chrome="toolbar pagination select settings"
           aria-label="Решения">
+          <span slot="toolbar"></span>
           <sf-table
             slot="content"
             id="solutions-table"
-            toolbar="false"
             table-settings-key="admin.solutions"
             aria-label="Решения"></sf-table>
           <sf-pagination slot="pagination"></sf-pagination>

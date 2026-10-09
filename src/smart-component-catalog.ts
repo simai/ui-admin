@@ -1,4 +1,5 @@
 type JsonSchema = {type?: string; enum?: unknown[]; default?: unknown; const?: unknown};
+import { watchForStalePage } from './stale-page-notice';
 type Manifest = {
   id: string; title: string; summary: string; reuse_mode: string; custom_element: string;
   inputs: {properties: Record<string, JsonSchema>}; composition: {uses: string[]; public_parts: string[]};
@@ -294,3 +295,7 @@ await initializeDataView();
 await loadContract(activeContractId);
 
 export {};
+
+// The host sends no Cache-Control, so a browser may be showing a copy of this
+// page from before the last publish. Say so rather than letting it pass.
+watchForStalePage();

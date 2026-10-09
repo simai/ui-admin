@@ -1,3 +1,5 @@
+import { watchForStalePage } from './stale-page-notice';
+
 const applyTheme = (): void => {
   const theme = window.matchMedia('(prefers-color-scheme: light)').matches
     ? 'light'
@@ -26,3 +28,7 @@ document.addEventListener('sf-admin-menu-compact-change', (event) => {
 });
 
 export {};
+
+// The host sends no Cache-Control, so a browser may be showing a copy of this
+// page from before the last publish. Say so rather than letting it pass.
+watchForStalePage();

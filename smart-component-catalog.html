@@ -9,6 +9,24 @@
     <link rel="stylesheet" href="/distr/core/css/core.css" />
     <link rel="stylesheet" href="/src/smart-component-catalog.css" />
     <script>
+      // The theme and the language, before anything renders. A component
+      // resolves its text from the nearest [lang] when it draws and nothing
+      // observes it afterwards, so setting the language later would leave every
+      // drawn label in the old one. Inline and first for the same reason the
+      // theme is: no flash, and no second answer.
+      (function () {
+        var chosen = {};
+        try { chosen = JSON.parse(localStorage.getItem('simai.admin.appearance') || '{}'); } catch (error) { chosen = {}; }
+        var lang = chosen.lang === 'en' ? 'en' : 'ru';
+        document.documentElement.lang = lang;
+        var theme = chosen.theme || 'system';
+        var dark = theme === 'dark'
+          || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.classList.toggle('theme-dark', dark);
+        document.documentElement.classList.toggle('theme-light', !dark);
+      })();
+    </script>
+    <script>
       window.SF_BOOT_CONFIG = {icons: {enabled: false, accumulate: false}, cacheVersion: 'smart-catalog-v1'};
       window.sfPath = '/distr/';
       window.sfSmartPath = '/distr/';

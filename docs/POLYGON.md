@@ -81,6 +81,22 @@ and filter templates, and «Создать». Do not add a create button of your
 beside it — the table raises `sf-table-create-intent` and the data view turns
 it into `view.create_record` already.
 
+## Theme and language
+
+Behind the avatar, where an admin keeps them: **Тема** (системная, светлая,
+тёмная) and **Язык** (Русский, English). The choice is kept in `localStorage`
+and both are applied by an inline script in each page's head, before anything
+renders.
+
+That timing is the whole point. A theme is a class on the document and can be
+changed at any moment — `theme-light` and `theme-dark` carry nothing but
+`color-scheme`, and `light-dark()` branches on it. A language cannot: every
+component resolves its text from the nearest `[lang]` **when it draws**, and
+nothing observes it afterwards. Setting the language on a page that has already
+drawn leaves every drawn label in the old one. So the language is applied before
+the first render, and changing it reloads the page — which lands on the same
+record, because the record is in the address.
+
 ## Trying the hard states
 
 An admin does not carry switches for its own host, so the conditions are in the

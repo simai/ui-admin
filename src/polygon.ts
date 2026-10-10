@@ -20,6 +20,7 @@
 // so they are two clicks away rather than a code change.
 import './style.css';
 import { createPolygonHost } from './ports/polygon-host.mjs';
+import { mountAppearanceMenu } from './appearance';
 
 type Answer = Record<string, unknown>;
 type HostPort = {
@@ -69,6 +70,11 @@ const start = async () => {
   await Promise.all(
     ['sf-data-view', 'sf-table'].map((tag) => customElements.whenDefined(tag)),
   );
+
+  // The theme and the language were applied by the page's own head script,
+  // before anything rendered. This is only the control that changes them.
+  const appearance = element('#appearance');
+  if (appearance) mountAppearanceMenu(appearance);
 
   // Fetched rather than imported so the published page reads the same file the
   // generator wrote and the checks read: one dataset, one copy of it.

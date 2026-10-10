@@ -7,6 +7,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SIMAI ADMIN — полигон</title>
     <script>
+      // The theme and the language, before anything renders. A component
+      // resolves its text from the nearest [lang] when it draws and nothing
+      // observes it afterwards, so setting the language later would leave every
+      // drawn label in the old one. Inline and first for the same reason the
+      // theme is: no flash, and no second answer.
+      (function () {
+        var chosen = {};
+        try { chosen = JSON.parse(localStorage.getItem('simai.admin.appearance') || '{}'); } catch (error) { chosen = {}; }
+        var lang = chosen.lang === 'en' ? 'en' : 'ru';
+        document.documentElement.lang = lang;
+        var theme = chosen.theme || 'system';
+        var dark = theme === 'dark'
+          || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.classList.toggle('theme-dark', dark);
+        document.documentElement.classList.toggle('theme-light', !dark);
+      })();
+    </script>
+    <script>
       window.SF_BOOT_CONFIG = { icons: { accumulate: true } };
       window.sfPath = '/distr/';
       window.sfSmartPath = '/distr/';
@@ -42,7 +60,11 @@
           <a href="/">Решения</a>
         </sf-breadcrumbs>
         <span class="grow"></span>
-        <sf-avatar size="1" text="РЗ"></sf-avatar>
+        <!-- Theme and language, where an admin keeps them: behind the avatar.
+             Built by the page from the Framework's own parts, because a
+             reference that drew its own controls would be showing something
+             nobody can copy. -->
+        <span id="appearance"></span>
       </header>
 
       <section id="list-section" class="flex flex-col gap-2 p-4 flex-1 min-w-0 min-h-0">

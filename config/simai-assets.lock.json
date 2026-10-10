@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "compatibilityId": "ui-6b4a0c3887d6",
-  "pairIdentitySha256": "ec1479cc606aa07df44a985b77573c1833c63f69b547aa987a5a98326eb106c1",
+  "compatibilityId": "ui-d8e4a3a686ee",
+  "pairIdentitySha256": "3898b53fdbd4fa3468b94cd1f9490f012bd3365455d5480ce0dd4e440d2d4e47",
   "contractSha256": "b70d02d6902345e17954eafb44f24052b7478439184286bed5a8df6c69c1fe45",
   "core": {
     "repository": "../ui",
-    "commit": "6b4a0c3887d6ed33e0841cae0a79a2c35e20fb16",
+    "commit": "d8e4a3a686eeda8b39a35a281ad4ec9047317716",
     "sourceDir": "distr",
     "requiredFiles": [
       {
@@ -15,6 +15,10 @@
       {
         "path": "core/js/core.js",
         "sha256": "a646dcd4240eb2596ccd26fa852b768262869791b00d74967e0c5cf0a35d0d04"
+      },
+      {
+        "path": "core/js/core-loader.js",
+        "sha256": "49e5437d951d6c8f999df721ca6a8d1a2bf276255d61d521c596085a1fe9984f"
       },
       {
         "path": "core/contracts/adaptive-sizing.v1.json",
@@ -28,7 +32,7 @@
   },
   "smart": {
     "repository": "../ui",
-    "commit": "6b4a0c3887d6ed33e0841cae0a79a2c35e20fb16",
+    "commit": "d8e4a3a686eeda8b39a35a281ad4ec9047317716",
     "sourceDir": "distr/smart",
     "targetDir": "smart",
     "requiredFiles": [
@@ -39,6 +43,10 @@
       {
         "path": "icon-buttons/js/icon-buttons.js",
         "sha256": "3b982e120ef4246f6bb412eb25640e3bff11435a5cd103bb255b6f81336a1fca"
+      },
+      {
+        "path": "table/smart.manifest.json",
+        "sha256": "54ef638a31bec4bb4748e6108c804defd24a5c71da6f2ab681f794e486b28038"
       },
       {
         "path": "table/js/table.js",

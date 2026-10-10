@@ -223,8 +223,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
-      "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
+      "ui_revision": "1d3f0eb63761e5e94883243e66007bfe38cccd7e",
+      "ui_smart_revision": "4e3e58aa1e6aa20b0434f334ea30e0f1a3c16319"
     },
     "aliases": [],
     "deprecations": [],
@@ -233,7 +233,7 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "4139a570a86a23af49a152c8ab3f3e607be4ac97",
+    "source_revision": "300cf1a3f1b8edf0d4cadc6016a82402de39c1f7",
     "source_artifacts": [
       {
         "path": "src/smart/progress-bar/index.js",
@@ -255,7 +255,7 @@
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717",
+        "revision": "4e3e58aa1e6aa20b0434f334ea30e0f1a3c16319",
         "path": "smart/progress-bar/js/progress-bar.js",
         "sha256": "24d3cacc1b44d08ae6e253d763b7248484e5541a99b74d64cbdaeb1903f27f29"
       }

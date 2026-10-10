@@ -88,6 +88,16 @@ Behind the avatar, where an admin keeps them: **Тема** (системная, 
 and both are applied by an inline script in each page's head, before anything
 renders.
 
+The switch earns its keep: the first thing it showed was that half the admin
+spoke only Russian. sf-table, sf-pagination, the renderer set, the date picker
+and the data view's notices never asked the shared rule, so an English page was
+a patchwork — a record panel that had switched above a toolbar that had not.
+All of them ask it now, and `components-speak-the-page-language` holds it.
+
+What stays Russian on an English page is the **data**: record titles, section
+names, option labels. Those are the host's, and the host's language is the
+host's business.
+
 That timing is the whole point. A theme is a class on the document and can be
 changed at any moment — `theme-light` and `theme-dark` carry nothing but
 `color-scheme`, and `light-dark()` branches on it. A language cannot: every

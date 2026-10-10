@@ -550,7 +550,16 @@ export const createPolygonHost = ({
     // components interacting rather than each one working alone.
     propertyView({ capabilities: panelCapabilities = [
       'field-options', 'field-upload', 'view-settings', 'shared-view-settings',
-    ], profiles: startingProfiles } = {}) {
+      // Opening the record as a page of its own. Without it the panel offers
+      // no such control, which is right for a host that routes no further —
+      // and wrong for this one, which has an address for every record.
+      'record-open',
+    ], profiles: startingProfiles,
+    // Where a record lives, as an address a person can copy and open. The host
+    // knows its own routes; Larena's are paths because it has a server, and
+    // this polygon's are a query because it is static.
+    recordAddress = (id) => `/?record=${encodeURIComponent(id)}`,
+    } = {}) {
       // `profiles` is here so a caller can stand the panel up with a list of
       // its own -- one shared view, say, which is the state in which removing it
       // is refused and which no sequence of calls on the default list reaches.
@@ -584,6 +593,13 @@ export const createPolygonHost = ({
         revision: found.revision,
         label: found.label ?? found.values.title ?? found.record_id,
         editable: found.editable !== false,
+        // The record's own address. The panel draws its copy-link control on
+        // this alone, and offers to open the record as a page when the host
+        // also claims `record-open` — an address worth copying does not
+        // promise a page. Without it both controls are simply absent, which is
+        // what this polygon looked like until the owner noticed the link was
+        // missing beside the close button (2026-10-10).
+        address: recordAddress(found.record_id),
         sections: (structure.sections ?? []).map((section) => ({
           key: section.key,
           label: section.label,

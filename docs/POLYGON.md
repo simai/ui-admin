@@ -132,6 +132,16 @@ record.view = {
 `shared-view-settings` the shared one. A layer that is refused says why in
 `denied` rather than simply being absent — the panel shows the reason.
 
+The record's own address is `record.address`, and the panel draws its copy-link
+control on that alone. Offering to open the record as a page needs the
+`record-open` capability as well, because an address worth copying does not
+promise a page. Without the address both controls are simply absent — there is
+no warning, the head just has two fewer buttons.
+
+```js
+record.address = `/?record=${id}`;   // the host knows its own routes
+```
+
 ## Using it with a real backend
 
 The split is deliberate: **the dataset is a file, the answers are code.** To put

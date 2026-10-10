@@ -104,7 +104,7 @@ const kitFor = (component) => {
 };
 
 const ALL_LIST = ['row-actions', 'saved-views', 'shared-saved-views', 'shared-column-settings', 'bulk-under-filter', 'count-on-request'];
-const ALL_PANEL = ['field-options', 'field-upload', 'view-settings', 'shared-view-settings'];
+const ALL_PANEL = ['field-options', 'field-upload', 'view-settings', 'shared-view-settings', 'record-open'];
 const collection = dataset.structure.structure_id;
 const editable = dataset.records.find((record) => record.editable !== false);
 const locked = dataset.records.find((record) => record.editable === false);

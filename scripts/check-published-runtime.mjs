@@ -119,9 +119,12 @@ for (const page of pages) {
     continue;
   }
 
+  // The same family of ids the stamping writes, rather than today's pair shape:
+  // a page stamped with `ui-<12>` or `pro-<12>` would otherwise read as asking
+  // for no runtime at all, which is the loudest possible wrong answer.
   const asked = [...new Set([...html.matchAll(
-    /\/distr\/(?:(ui-[0-9a-f]{12}-smart-[0-9a-f]{12})\/)?(?:core|component|smart|rule|utility|fonts)\//gu,
-  )].map(([, pair]) => (pair ? `${PLACEHOLDER}${pair}/` : PLACEHOLDER)))];
+    /\/distr\/(?:([a-z][a-z0-9]*-[0-9a-f]{12}(?:-[a-z][a-z0-9]*-[0-9a-f]{12})?)\/)?(?:core|component|smart|rule|utility|fonts)\//gu,
+  )].map(([, id]) => (id ? `${PLACEHOLDER}${id}/` : PLACEHOLDER)))];
 
   if (!asked.length) {
     failures.push({ page, said: 'the page asks for no runtime at all' });

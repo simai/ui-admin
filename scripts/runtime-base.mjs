@@ -23,10 +23,26 @@ export const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..'
 export const readLock = () =>
   JSON.parse(readFileSync(resolve(projectRoot, 'config/simai-assets.lock.json'), 'utf8'));
 
-/** The pair's own id, which is what makes the path unique per pair. */
+/**
+ * What a release id may look like: a product name and twelve hex digits, with
+ * an optional second pair of the same.
+ *
+ * It was `ui-<12>-smart-<12>` exactly, which is the shape of today's pair and
+ * only of today's pair. The split gives the Framework release the id `ui-<12>`
+ * (stage 1 of the Pro plan, one `ui` commit) and the paid release `pro-<12>`,
+ * so the exact shape would have stopped the build dead on the day the first
+ * lock v2 was published — «the lock has no usable compatibilityId», from a
+ * check that was only ever meant to refuse nonsense.
+ *
+ * Still strict: a name, a hyphen and twelve hex digits. What it no longer does
+ * is insist on which products those are.
+ */
+export const RELEASE_ID = /^[a-z][a-z0-9]*-[0-9a-f]{12}(?:-[a-z][a-z0-9]*-[0-9a-f]{12})?$/;
+
+/** The release's own id, which is what makes the path unique per release. */
 export const runtimeDirectory = (lock = readLock()) => {
   const id = String(lock.compatibilityId ?? '');
-  if (!/^ui-[0-9a-f]{12}-smart-[0-9a-f]{12}$/.test(id)) {
+  if (!RELEASE_ID.test(id)) {
     throw new Error(`the lock has no usable compatibilityId: ${JSON.stringify(id)}`);
   }
   return id;

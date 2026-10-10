@@ -102,6 +102,36 @@ without `count-on-request` the total is replaced by «есть ещё стран
 line under the heading is empty unless the page is being driven somewhere
 unusual, and then it says where.
 
+## The record panel can be arranged, and what that needs from a host
+
+The panel offers «Настроить вид» — and with it «Добавить раздел», «Добавить
+область», the bin of «Не размещённые» properties, the layer picker
+«Персональный»/«Для всех» and the named views — only when the host says which
+layers this actor may write. It reads that from `view.editable`, so a host that
+answers with the named views alone gets a panel that can be read and not
+arranged. That is what this polygon did until it was compared with the
+laboratory the arranging was built in.
+
+The whole block a `record.load` carries:
+
+```js
+record.view = {
+  target: 'personal',                 // where a save goes
+  layers: {                           // the arrangement, by layer
+    personal: { revision: 'personal-1', view: { schema_version: 1, sections: {}, groups: {}, fields: {} } },
+    shared:   { revision: 'shared-1',   view: { … } },
+  },
+  editable: ['personal', 'shared'],   // what this actor may write
+  denied: { shared: 'Общую раскладку меняет администратор' },
+  profiles: [{ id: 'default', label: 'Обычный', shared: true }, …],
+  profile: 'default',
+}
+```
+
+`editable` follows the capabilities: `view-settings` gives the personal layer,
+`shared-view-settings` the shared one. A layer that is refused says why in
+`denied` rather than simply being absent — the panel shows the reason.
+
 ## Using it with a real backend
 
 The split is deliberate: **the dataset is a file, the answers are code.** To put

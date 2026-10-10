@@ -559,7 +559,20 @@ export const createPolygonHost = ({
         { id: 'expert', label: 'Экспертный', shared: true },
         { id: 'mine', label: 'Персональный', shared: false },
       ];
-      const panel = { profiles: copy(profiles), profile: profiles[0].id, views: {}, next: 4 };
+      const emptyLayer = () => ({ schema_version: 1, sections: {}, groups: {}, fields: {} });
+      const panel = {
+        profiles: copy(profiles),
+        profile: profiles[0].id,
+        // The arrangement, by layer. The package layer is the structure as it
+        // was declared; a person arranges over it in their own layer, and an
+        // administrator in the shared one.
+        views: {
+          personal: { revision: 'personal-1', view: emptyLayer() },
+          shared: { revision: 'shared-1', view: emptyLayer() },
+        },
+        target: 'personal',
+        next: 4,
+      };
 
       // The port's record: the structure's own sections and groups, each field
       // carrying the value this record holds. The arrangement is the structure's
@@ -599,9 +612,35 @@ export const createPolygonHost = ({
         })),
       });
 
+      // The whole `view` block, not only the named views. The panel offers to
+      // arrange a record — «Настроить», «Добавить область», the bin of
+      // unplaced properties — only when the host says which layers this actor
+      // may write, and it reads that from `view.editable`. A host that sends
+      // the profiles alone gets a panel that can be read and not arranged,
+      // which is what this one was until the owner compared it with the lab
+      // the arranging was built in (2026-10-10).
+      const editableLayers = () => {
+        const layers = [];
+        if (panelCapabilities.includes('view-settings')) layers.push('personal');
+        if (panelCapabilities.includes('shared-view-settings')) layers.push('shared');
+        return layers;
+      };
+
       const answerFor = (found) => {
         const record = project(found);
-        record.view = { profiles: copy(panel.profiles), profile: panel.profile };
+        const editable = editableLayers();
+        record.view = {
+          // Where a save goes. It stays on a layer this actor may write.
+          target: editable.includes(panel.target) ? panel.target : (editable[0] ?? 'personal'),
+          layers: copy(panel.views),
+          editable,
+          // Why a layer is refused, said in words rather than by its absence.
+          denied: editable.includes('shared')
+            ? {}
+            : { shared: 'Общую раскладку меняет администратор' },
+          profiles: copy(panel.profiles),
+          profile: panel.profile,
+        };
         return { answer: 'applied', record };
       };
 
@@ -766,26 +805,29 @@ export const createPolygonHost = ({
             if (target.kind === 'shared' && !panelCapabilities.includes('shared-view-settings')) {
               return { answer: 'refused', reason: 'access-denied', message: 'Общий вид меняет администратор' };
             }
-            const stored = panel.views[target.kind] ?? { revision: 'v1', view: { schema_version: 1, sections: {}, groups: {}, fields: {} } };
+            const kind = String(target.kind ?? 'personal');
+            const stored = panel.views[kind] ?? { revision: `${kind}-1`, view: emptyLayer() };
             if (target.revision && String(target.revision) !== String(stored.revision)) {
               // The conflict carries the stored layer, not only its revision:
               // without it the component draws an arrangement that is no longer
               // the one on the server.
               return { answer: 'conflict', reason: 'stale-revision', revision: stored.revision, view: copy(stored.view) };
             }
-            panel.views[target.kind] = {
-              revision: `v${Number(String(stored.revision).slice(1)) + 1}`,
-              view: copy(payload.view ?? { schema_version: 1, sections: {}, groups: {}, fields: {} }),
-            };
-            return { answer: 'applied', revision: panel.views[target.kind].revision };
+            const step = Number(String(stored.revision).split('-')[1] ?? 1) + 1;
+            panel.views[kind] = { revision: `${kind}-${step}`, view: copy(payload.view ?? emptyLayer()) };
+            panel.target = kind;
+            return { answer: 'applied', revision: panel.views[kind].revision };
           }
 
           if (intent === 'view.reset') {
             if (!panelCapabilities.includes('view-settings')) {
               return { answer: 'unavailable', reason: 'capability-not-provided' };
             }
-            panel.views = {};
-            return { answer: 'applied', revision: 'v0', view: { schema_version: 1, sections: {}, groups: {}, fields: {} } };
+            // Resetting puts the layer back to the package's arrangement, which
+            // is an empty layer: the structure as it was declared.
+            const kind = String(payload.target?.kind ?? panel.target);
+            panel.views[kind] = { revision: `${kind}-1`, view: emptyLayer() };
+            return { answer: 'applied', revision: panel.views[kind].revision, view: emptyLayer() };
           }
 
           return { answer: 'unavailable', reason: 'unknown-intent' };

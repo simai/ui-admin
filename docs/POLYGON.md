@@ -232,6 +232,26 @@ dropped on the way to the column.
 the way the product says it reads. From 1.7.0 this is reachable from a list cell
 as well as from a record panel.
 
+## More than one distribution
+
+The Framework is splitting into a free release and a paid one loaded through a
+second Loader path (owner, 2026-10-10); `sf-data-view`, `sf-table`,
+`sf-property-view` and `sf-admin-menu` go to the paid side, which is every
+composite this polygon is built from.
+
+`scripts/runtime-base.mjs` answers with a **list** of distributions, holding one
+today. The stamping, the publish and `check:published` all read that list rather
+than a single lock, so adding the paid release is a matter of what the list
+returns. A page may ask for more than one stamped base; what it may not do is
+ask for one nobody pinned, and the check refuses that — verified by pinning an
+id the site does not serve.
+
+The reason it is a list before it needs to be: a half-stamped site lets the paid
+half be served from a cache after a republish, and a check that knew about one
+lock would certify half the runtime while saying nothing about the other. That
+is the exact failure this whole mechanism was built for, and it would arrive on
+the day the second distribution does.
+
 ## The checks that keep it honest
 
 | Check | What it refuses |

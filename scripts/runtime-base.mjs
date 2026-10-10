@@ -36,6 +36,28 @@ export const runtimeDirectory = (lock = readLock()) => {
 export const runtimeBase = (lock = readLock()) => `${PLACEHOLDER}${runtimeDirectory(lock)}/`;
 
 /**
+ * Every distribution this site serves, as {name, lock, directory, base}.
+ *
+ * There is one today. The Framework is splitting into a free release and a
+ * paid one loaded through a second Loader path (owner, 2026-10-10), and when
+ * the second arrives the only thing that should change is this list: the
+ * stamping, the publish and the check all read it rather than a single lock.
+ * A half-stamped site would let the paid half be served from a cache after a
+ * republish, and a check that knew about one lock would certify half the
+ * runtime while saying nothing about the other — which is the failure this
+ * whole mechanism exists to prevent.
+ */
+export const distributions = () => {
+  const lock = readLock();
+  return [{
+    name: 'framework',
+    lock,
+    directory: runtimeDirectory(lock),
+    base: runtimeBase(lock),
+  }];
+};
+
+/**
  * Rewrites the placeholder every page and stylesheet is written with.
  *
  * Idempotent on purpose: the build stamps twice -- once as Vite transforms a

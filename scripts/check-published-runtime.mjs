@@ -18,12 +18,16 @@
 import { createHash } from 'node:crypto';
 import { readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { PLACEHOLDER, projectRoot, readLock, runtimeBase } from './runtime-base.mjs';
+import { PLACEHOLDER, distributions, projectRoot } from './runtime-base.mjs';
 
 const origin = (process.argv[2] ?? process.env.ADMIN_ORIGIN ?? 'https://ui-admin.test')
   .replace(/\/+$/, '');
-const lock = readLock();
-const expectedBase = runtimeBase(lock);
+// Every distribution the site serves, not one. There is a single one today;
+// the paid release arrives behind a second Loader path, and a check that knew
+// about one lock would certify half the runtime and say nothing about the
+// other half.
+const served = distributions();
+const bases = new Set(served.map((one) => one.base));
 
 // Every page the site publishes: the ones Vite builds from the repository root
 // and the ones copied straight out of public/, which are exactly the ones that
@@ -78,12 +82,15 @@ const skipped = [];
 // ~/Sites, which is an Ops change with its own gate. Reported so it is a named
 // fact with a named remedy instead of a surprise.
 const cachePolicy = [];
-const required = [
-  ...lock.core.requiredFiles.map((file) => ({ side: 'core', path: file.path, sha256: file.sha256 })),
-  ...lock.smart.requiredFiles.map((file) => ({
-    side: 'smart', path: `${lock.smart.targetDir}/${file.path}`, sha256: file.sha256,
+const required = served.flatMap(({ name, lock, base }) => [
+  ...(lock.core?.requiredFiles ?? []).map((file) => ({
+    distribution: name, base, side: 'core', path: file.path, sha256: file.sha256,
   })),
-];
+  ...(lock.smart?.requiredFiles ?? []).map((file) => ({
+    distribution: name, base, side: 'smart',
+    path: `${lock.smart.targetDir}/${file.path}`, sha256: file.sha256,
+  })),
+]);
 
 for (const page of pages) {
   const url = `${origin}/${page}`;
@@ -112,32 +119,29 @@ for (const page of pages) {
     continue;
   }
 
-  const bases = [...html.matchAll(
+  const asked = [...new Set([...html.matchAll(
     /\/distr\/(?:(ui-[0-9a-f]{12}-smart-[0-9a-f]{12})\/)?(?:core|component|smart|rule|utility|fonts)\//gu,
-  )].map(([, pair]) => (pair ? `${PLACEHOLDER}${pair}/` : PLACEHOLDER));
-  const unique = [...new Set(bases)];
+  )].map(([, pair]) => (pair ? `${PLACEHOLDER}${pair}/` : PLACEHOLDER)))];
 
-  if (!unique.length) {
+  if (!asked.length) {
     failures.push({ page, said: 'the page asks for no runtime at all' });
     continue;
   }
-  if (unique.length > 1) {
-    failures.push({ page, said: 'the page asks for more than one runtime base', bases: unique });
-    continue;
-  }
-  if (unique[0] === PLACEHOLDER) {
-    failures.push({ page, said: 'the page still asks for the unstamped placeholder, so a cache may answer with any pair' });
-    continue;
-  }
-  if (unique[0] !== expectedBase) {
-    failures.push({ page, said: 'the page asks for a base that is not the pinned pair', found: unique[0], expected: expectedBase });
+  // A page may ask for more than one base once the paid release is served
+  // beside the free one; what it may not do is ask for one nobody pinned.
+  for (const base of asked) {
+    if (base === PLACEHOLDER) {
+      failures.push({ page, said: 'the page still asks for the unstamped placeholder, so a cache may answer with any pair' });
+    } else if (!bases.has(base)) {
+      failures.push({ page, said: 'the page asks for a base that is not a pinned distribution', found: base, pinned: [...bases] });
+    }
   }
 }
 
 // The bytes themselves, fetched from the base the pages ask for.
 const measured = [];
 for (const file of required) {
-  const url = `${origin}${expectedBase}${file.path}`;
+  const url = `${origin}${file.base}${file.path}`;
   try {
     const bytes = Buffer.from(await (await fetchText(url)).arrayBuffer());
     const sha256 = createHash('sha256').update(bytes).digest('hex');
@@ -153,8 +157,7 @@ for (const file of required) {
 process.stdout.write(`${JSON.stringify({
   check: 'published-runtime',
   origin,
-  pair: lock.compatibilityId,
-  base: expectedBase,
+  distributions: served.map(({ name, base, lock }) => ({ name, base, pair: lock.compatibilityId })),
   pages: pages.filter((page) => !skipped.some((item) => item.page === page)),
   skipped,
   // Not a failure, and not silence either: the pages whose own bytes a browser

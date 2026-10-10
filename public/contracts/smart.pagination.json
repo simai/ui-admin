@@ -77,42 +77,42 @@
       },
       "aria-label": {
         "type": "string",
-        "default": "Страницы результатов",
+        "default": "Result pages",
         "description": "Accessible name of the navigation landmark."
       },
       "pages-label": {
         "type": "string",
-        "default": "Страницы:",
+        "default": "Pages:",
         "description": "Visible label before page controls."
       },
       "page-label": {
         "type": "string",
-        "default": "Страница",
+        "default": "Page",
         "description": "Accessible prefix for a numbered page action."
       },
       "previous-label": {
         "type": "string",
-        "default": "Предыдущая страница",
+        "default": "Previous page",
         "description": "Accessible name of the previous-page action."
       },
       "next-label": {
         "type": "string",
-        "default": "Следующая страница",
+        "default": "Next page",
         "description": "Accessible name of the next-page action."
       },
       "last-label": {
         "type": "string",
-        "default": "Последняя",
+        "default": "Last",
         "description": "Visible label of the compatible last-page action."
       },
       "total-label": {
         "type": "string",
-        "default": "Всего:",
+        "default": "Total:",
         "description": "Visible label for the total item count."
       },
       "selected-label": {
         "type": "string",
-        "default": "Отмечено:",
+        "default": "Selected:",
         "description": "Visible label for the selected item count."
       },
       "selected-count": {
@@ -123,7 +123,7 @@
       },
       "show-more-text": {
         "type": "string",
-        "default": "Показать ещё",
+        "default": "Show more",
         "description": "Label of the compatible show-more action."
       },
       "current": {
@@ -156,7 +156,7 @@
       },
       "page-size-label": {
         "type": "string",
-        "default": "На странице:",
+        "default": "Per page:",
         "description": "Visible and accessible label of the page-size selector."
       },
       "show-actions": {
@@ -176,7 +176,7 @@
       },
       "action-apply-text": {
         "type": "string",
-        "default": "Применить",
+        "default": "Apply",
         "description": "Label of the batch-action apply button."
       },
       "show-action-for-all": {
@@ -191,27 +191,27 @@
       },
       "action-for-all-label": {
         "type": "string",
-        "default": "Для всех",
+        "default": "For all",
         "description": "Label of the all-items toggle."
       },
       "actions-label": {
         "type": "string",
-        "default": "Действие с выбранными элементами",
+        "default": "Action for the selected records",
         "description": "Accessible name of the batch-action selector."
       },
       "action-choose-label": {
         "type": "string",
-        "default": "Выберите действие",
+        "default": "Choose an action",
         "description": "Placeholder of the batch-action selector, shown until an action is chosen."
       },
       "actions-region-label": {
         "type": "string",
-        "default": "Действия с отмеченными",
+        "default": "Actions for the selected",
         "description": "Accessible name of the panel that appears while rows are marked."
       },
       "clear-selection-label": {
         "type": "string",
-        "default": "Снять выделение",
+        "default": "Clear the selection",
         "description": "Accessible name and tooltip of the control that drops the selection."
       },
       "count-known": {
@@ -236,22 +236,22 @@
       },
       "show-count-label": {
         "type": "string",
-        "default": "Показать количество",
+        "default": "Show the number",
         "description": "Text of the control that asks the host for the number."
       },
       "counting-label": {
         "type": "string",
-        "default": "Считаем",
+        "default": "Counting",
         "description": "Accessible name of the short wait shown while the count is on its way."
       },
       "first-label": {
         "type": "string",
-        "default": "В начало",
+        "default": "First",
         "description": "Accessible name and tooltip of the control that goes to the first page."
       },
       "page-field-label": {
         "type": "string",
-        "default": "Страница:",
+        "default": "Page:",
         "description": "Label of the field that takes a page number."
       },
       "show-more-busy": {
@@ -541,8 +541,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+      "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+      "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
     },
     "aliases": [],
     "deprecations": [],
@@ -559,19 +559,19 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
+    "source_revision": "4139a570a86a23af49a152c8ab3f3e607be4ac97",
     "source_artifacts": [
       {
         "path": "src/smart/pagination/index.js",
-        "sha256": "46e8c0b79de188d2507e080af43b6030dc5b0eec6040f227a30dff18d98217ba"
+        "sha256": "5721824a5c478e3201b5dd602c9f0bd453391a6ca6ff5f456ed3d5ffec61a2d1"
       }
     ],
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
+        "revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717",
         "path": "smart/pagination/js/pagination.js",
-        "sha256": "936a8832405e45930509cd52f41c3fadf0868dcff8f65a0df704583f3d9f94a7"
+        "sha256": "f278711748fa4c0c84a0d91d425fe76aa2ab2a71af9f69c1090e611e39cc5766"
       }
     ]
   },

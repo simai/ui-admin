@@ -35,11 +35,11 @@
       "kind": "composite",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/admin-menu/smart.manifest.json",
-      "manifest_sha256": "73904c3634c2ef9de378becdf9c82ad81335f66465fd8679f35172f83766fe26",
+      "manifest_sha256": "389cf3c2a9680ba18d855bb53575e6391a1f6b2d026ef22d058c808405ea8644",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Searchable nested admin navigation with compact mode and editable personal or system preferences.",
       "tags": [
@@ -75,11 +75,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/alert/smart.manifest.json",
-      "manifest_sha256": "76b23e7c4df3864df7a7d57f8492da138be5893c64c18a06a8a12ed967de5240",
+      "manifest_sha256": "840fc630e43d55e12eaa49026f328bf1f768e3eaa68b16a452a11d026732d31a",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Persistent inline notice with semantic roles, optional actions and dismiss behavior.",
       "tags": [
@@ -107,11 +107,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/avatar/smart.manifest.json",
-      "manifest_sha256": "63bad80be40789f4cd729aaa3dc80609e68725288f300e5e58ae222a6452f18b",
+      "manifest_sha256": "cfc355ee5a9355aa05f70474d7eaaa2e8751e443090b010b34052232ffb43c5b",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Avatar Smart Component from SIMAI Framework.",
       "tags": [
@@ -139,11 +139,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/avatars/smart.manifest.json",
-      "manifest_sha256": "ac560eb6b780f112579c3b4046196feef72a64926fa0906f2113f679426baac1",
+      "manifest_sha256": "ab1c2c4145d6a40ec729d3c87fd25a385a166dc290ef4f156c05e06d52727f35",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Avatars Smart Component from SIMAI Framework.",
       "tags": [
@@ -173,11 +173,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/badges/smart.manifest.json",
-      "manifest_sha256": "5ffcde93e5aaf6d1f45e4ed52d81178eedb281d964bc4de435d4b66ef9773878",
+      "manifest_sha256": "1daf4e99531ae236efc658ee6079bfbf9269395fc332f9d154a43940905c7970",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Badges Smart Component from SIMAI Framework.",
       "tags": [
@@ -209,11 +209,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/breadcrumbs/smart.manifest.json",
-      "manifest_sha256": "14b6745c4486e8c13a534b65512e8b95a5d073c3a272c601fe83022cd941693d",
+      "manifest_sha256": "7e0a14116e69dbaecf88f493c988dc8b236ee53e4a9adbda6a61c6b286584133",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Breadcrumbs Smart Component from SIMAI Framework.",
       "tags": [
@@ -246,11 +246,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/button-group/smart.manifest.json",
-      "manifest_sha256": "8d26276bf630828ab480c5a6cc72b6def7682d48f696fb819b0940d550d7e649",
+      "manifest_sha256": "935755872f7b728f78a62d3438edfb454418bb651b44c69434678158e0c66d77",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "A controlled single-selection group built from SF5 buttons.",
       "tags": [
@@ -319,11 +319,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/buttons/smart.manifest.json",
-      "manifest_sha256": "cdf93f0ae84c5983ab978fc5d8a640b91ecbcb1444fb1ed22fde477067f44f41",
+      "manifest_sha256": "660e6006ee0c055a446b42c355fbaf395d1fb8f0a8df9bafb20006b3865ed084",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Buttons Smart Component from SIMAI Framework.",
       "tags": [
@@ -351,11 +351,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/checkbox/smart.manifest.json",
-      "manifest_sha256": "e6ad39cc15caeccb65bd67d8a8a87f8394daca515a8fa585494a30689957c478",
+      "manifest_sha256": "1511a4ec94e8193aa074cb5caa32302595a23e37f491e9297a351a5c90aaf471",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Checkbox Smart Component from SIMAI Framework.",
       "tags": [
@@ -383,11 +383,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/close/smart.manifest.json",
-      "manifest_sha256": "55ae8852693e09f3d0012de0d567311bced4564741017c20ab8b3be24581254b",
+      "manifest_sha256": "c1180ff71b476318ce0e091c9821435e270dbd8bc17a469932170179be57fa9d",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Close Smart Component from SIMAI Framework.",
       "tags": [
@@ -423,11 +423,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/color/smart.manifest.json",
-      "manifest_sha256": "3764a3f377616d8da3c9dde88f2fd2b9a82a887a43b3dec17a84584d5695a11a",
+      "manifest_sha256": "b73ceb6dfb5036629e5186d41a02a594cd9a1898ba5ec2749f78cdfa74491227",
       "reuse_mode": "both",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "A colour control: a swatch that opens the platform picker, the colours a product already has as presets, and a way back to an inherited colour. Built as a general part because a colour is set in a theme, in a site look, on a label and on a chart series, not only on a record.",
       "tags": [
@@ -460,11 +460,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/composition-overlay/smart.manifest.json",
-      "manifest_sha256": "2d2018ae5a257b94b02345ed91c9ed60a12c53abc8801d7d2ed59d8326691d6b",
+      "manifest_sha256": "500d014d793204052f3fb509e54e9d1b3c3dbd5920dd0d79a24615d4a77cae5e",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Editor chrome over a rendered Composition Document: frames, labels, badges, action toolbar, insertion places, drag and keyboard moves and a keyboard tree, without changing the canvas HTML.",
       "tags": [
@@ -497,11 +497,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/context-menu/smart.manifest.json",
-      "manifest_sha256": "3ea7ff1db03174207603076a6e8a8d15f611a319b6ebcbde0b35063f3b63471b",
+      "manifest_sha256": "722fd48b81547d74299c3b62d616400156f6d8a1a498f8caeb3cb95aa23a8c03",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Presentational action-menu surface with logical tail positions and native keyboard item management.",
       "tags": [
@@ -529,11 +529,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/country-code/smart.manifest.json",
-      "manifest_sha256": "ad3edf342ffc1e8274ceab077306035931d4c2c3af34bcff42cdd935f7ad5a13",
+      "manifest_sha256": "df69f33e771ceed954e151e0e9eb5380fe6b1f089c6300a90cb978cdc04ff390",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Country Code Smart Component from SIMAI Framework.",
       "tags": [
@@ -665,11 +665,11 @@
       "kind": "composite",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/table/smart.manifest.json",
-      "manifest_sha256": "087c6b4eafc5786c56db82b69f0ffda96536dcaa90b929e7ff960fe147976928",
+      "manifest_sha256": "dc52c2a766e4b5627a05430f86e27684407a922b682899071aff4953cd8040d5",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Complete server-backed collection view with search, filters, table preferences, row and bulk actions, and pagination.",
       "tags": [
@@ -713,9 +713,9 @@
             "sf-table-template-select"
           ],
           "host_port": {
-            "path": "src/smart/data-view/port/1.6.0/port.json",
+            "path": "src/smart/data-view/port/1.7.0/port.json",
             "port": "simai.dataview-port",
-            "sha256": "4a8e59c7e4f779c47962bc3e8812da1856f2b24531513148bfb2b42f5b45b194",
+            "sha256": "7adc0b1d2220ca84751825c75e0d00b7d2b9209a346967ae69ff33d748e8bc0a",
             "supported_versions": [
               "1.0.0",
               "1.1.0",
@@ -723,9 +723,10 @@
               "1.3.0",
               "1.4.0",
               "1.5.0",
-              "1.6.0"
+              "1.6.0",
+              "1.7.0"
             ],
-            "version": "1.6.0"
+            "version": "1.7.0"
           },
           "mode": "leaf",
           "persistence": {
@@ -791,11 +792,11 @@
       "kind": "composite",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/data-view/smart.manifest.json",
-      "manifest_sha256": "0d8e718ecb859eb1904c8398d9941770023e31c8af1467fe9c5e0b5f82ea20b8",
+      "manifest_sha256": "e4f4cf7c38dbe119974fd63d3b74dff3856dc6218e9d093452e37d7429365940",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Host-driven data view that composes toolbar, content and pagination around a separate data port.",
       "tags": [
@@ -836,11 +837,11 @@
       "kind": "composite",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/datepicker/smart.manifest.json",
-      "manifest_sha256": "9106700fbfd33112729b08bfded3b037768b0d6d669a11cb7aa51fb8fb7c9053",
+      "manifest_sha256": "2a7ca037d3fb375aae5540b2a4cc4bd4c2148f7aaebe35833f0d989c2204beb1",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Accessible date and date-range picker with popup and inline presentation, calendar navigation and host-owned values.",
       "tags": [
@@ -875,11 +876,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/download-file/smart.manifest.json",
-      "manifest_sha256": "94104eb472be9494ff0e93112ec6533ea34e179a1f59d08cedb94553981a8fab",
+      "manifest_sha256": "91ab394d41abda5e279cd28ce443a7ef95100e79162012ece542fb70d327407c",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Native file download or application-owned file preparation action.",
       "tags": [
@@ -914,11 +915,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/drawer/smart.manifest.json",
-      "manifest_sha256": "bd1edc3cf04e308efa28786949fcba4073620a41c7debe28ae61c7c3ee5615dd",
+      "manifest_sha256": "543334ac6df82ca0d732fb0e125f24ebd984b3285d0eb9913196415a3b3316d5",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Workspace side panel that keeps the page usable: docked column or modeless panel. Modal side panels belong to sf-modal; the modal Drawer mode is deprecated.",
       "tags": [
@@ -951,11 +952,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/dropdown/smart.manifest.json",
-      "manifest_sha256": "931323b9450fd4ab6399aeb980603cbec5bf2aba451cc6491ca1dbc037b168f7",
+      "manifest_sha256": "014a0c43fc34ad2f4117f36e45670638a5153a83319a750a1512cfb3d7e4cff4",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Accessible single or multiple selection control with searchable options and optional portal projection.",
       "tags": [
@@ -988,11 +989,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/file-preview/smart.manifest.json",
-      "manifest_sha256": "fb382ce76a501c01d297cf06c53acbbdf9cba131004a5cf9384d5e01994e305b",
+      "manifest_sha256": "8da18c57801991565e97168a3ab5ae235e1560bb9bb15a993f3c8b2fb0186b11",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Accessible Smart projection of the ordinary File Preview row.",
       "tags": [
@@ -1020,11 +1021,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/file-upload/smart.manifest.json",
-      "manifest_sha256": "b81d9a679e28ba9c8da16eddff4f987c225ba29750f8f7b8054b52cf8341cce3",
+      "manifest_sha256": "d83f9f2540b8b625d7e3b8d68201dd29d8b9b73df9a3e6d7d781c24aad24bdbd",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "File Upload Smart Component from SIMAI Framework.",
       "tags": [
@@ -1052,11 +1053,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/gallery/smart.manifest.json",
-      "manifest_sha256": "d6f399d0f994878e48f80ab07ad1381276485d98ca08fb11ba5b75dca8bf23f1",
+      "manifest_sha256": "13bc9dd10cdb7d26c7bf2b64ba875fe3d5948c8746809cdfa32618138a9ab38a",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Gallery Smart Component from SIMAI Framework.",
       "tags": [
@@ -1088,11 +1089,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/icon-buttons/smart.manifest.json",
-      "manifest_sha256": "a798db72b5f8aab224a7cf2fc518390e9ddd44fb80e7dc5f1be907cb6f2e584b",
+      "manifest_sha256": "ac62157c18bd538cde26feffec767f27d9f8d162f1821eae979fdb4b372be06c",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Native icon-only action with token geometry, accessible naming and shared loading semantics.",
       "tags": [
@@ -1126,11 +1127,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/icons/smart.manifest.json",
-      "manifest_sha256": "68be84a433fb18889acbac35abe4d136f55f00566f9abce518efb683b41d5b06",
+      "manifest_sha256": "2815cd8113ccd3519e691f90a6f020cb34c32c9917b1615522332d214608b6e1",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Semantic Material Symbol wrapper with exact Loader tracking, accessible decorative or informative modes and token-owned geometry.",
       "tags": [
@@ -1158,11 +1159,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/inline-editor/smart.manifest.json",
-      "manifest_sha256": "cb7211bfad390370f36eabb520067b0bc642bd00e80dd7a7038794796fd2acf9",
+      "manifest_sha256": "8433b44f71a66c689ccdd10c6e838b01c66f14a5602b96123550f9725b4399ea",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "In-place editor for content.heading and content.paragraph text: strong, em, code and safe links, own history, safe paste; reports normalized content, never HTML.",
       "tags": [
@@ -1203,11 +1204,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/inputs/smart.manifest.json",
-      "manifest_sha256": "eaa99d513ed24a9370455bfdd92881e59016db61c339b2e5125b2aa8cfd54b24",
+      "manifest_sha256": "a95216a9f54dc8b8829525eb52a4c857b065921fda7888aca027d2b014b8295b",
       "reuse_mode": "both",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "A native single-line form control with Framework presentation, validation messaging and optional mask integration.",
       "tags": [
@@ -1236,11 +1237,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/list-item/smart.manifest.json",
-      "manifest_sha256": "936db6ba4e76c6d5303af41278f63a2d27b57f2b8d142ad2644627703939e737",
+      "manifest_sha256": "5e57adb8351676611fab8c608f619ba405968d0c14b04b678215532e2169938c",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Declarative option descriptor and visual row primitive owned by Dropdown.",
       "tags": [
@@ -1268,11 +1269,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/modal/smart.manifest.json",
-      "manifest_sha256": "53ffbb2c427d763af411b7d42256e04d1620f0074b4522a9feb35f7e3e708986",
+      "manifest_sha256": "f751ae942445501be21389ecdffa7856f077b0db0b62bbcc36bf172521d755a0",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Modal Smart Component from SIMAI Framework.",
       "tags": [
@@ -1310,11 +1311,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/pagination/smart.manifest.json",
-      "manifest_sha256": "91acc99e10d1c8cc43376c45780c562a4aaa3f9fa5e953e0db7a4efd14ce8408",
+      "manifest_sha256": "cc2d464c6b4e0e2fcfb546b8be23a787bf1caae8ab84ef20941c69e9848fd7d3",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Source-driven navigation for a collection split into numbered pages.",
       "tags": [
@@ -1346,11 +1347,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/popover/smart.manifest.json",
-      "manifest_sha256": "aa6c1ba5369f9886918608ee85298668dae1fced2ad6cc8524ce2d9b90479112",
+      "manifest_sha256": "a882a0186016c0003082bd4fe51333482de4e05e33b0978c0edbfec246409c11",
       "reuse_mode": "both",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "A surface anchored to a control the consumer supplies, with its own open state, dismissal and returned focus. Built as a general part because the Framework had the surface and not the behaviour: two composites wrote it by hand within a week, the second copying the first.",
       "tags": [
@@ -1385,11 +1386,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/progress-bar/smart.manifest.json",
-      "manifest_sha256": "a6413b8d24eff45e1a0d0b4b697f02f5386272b32277f1e74f658c2300150402",
+      "manifest_sha256": "157506cedbc01adfbaa23efc820ff935ad3ae5af7059511a8781c52bc6b70501",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Continuous determinate progress with normalized value, accessible range semantics and explicit semantic tone.",
       "tags": [
@@ -1421,11 +1422,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/progress-scale/smart.manifest.json",
-      "manifest_sha256": "9bb41235c4ae82809e67b74c3f6fb9fdad6ad25ee4d20fac96b026f888aebd40",
+      "manifest_sha256": "c87e7d54ff80bb8631a73ca502f24885da8747cd6b92c04734e026df2bdd8581",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Segmented determinate progress with exact accessible value, explicit semantic tone and ten visual steps.",
       "tags": [
@@ -1459,9 +1460,9 @@
             "sf-property-view-state"
           ],
           "host_port": {
-            "path": "src/smart/property-view/port/1.9.0/port.json",
+            "path": "src/smart/property-view/port/1.10.0/port.json",
             "port": "simai.property-view-port",
-            "sha256": "36728388039dfec2c7180be44c868bfbda41b18ab01c116bd039cdf962c2d6a7",
+            "sha256": "c274a7b9336b995beba28c5286150cc19abbc13b286e7e9abb437c70a9982193",
             "supported_versions": [
               "1.0.0",
               "1.1.0",
@@ -1472,9 +1473,9 @@
               "1.6.0",
               "1.7.0",
               "1.8.0",
-              "1.9.0"
+              "1.10.0"
             ],
-            "version": "1.9.0"
+            "version": "1.10.0"
           },
           "mode": "leaf",
           "persistence": {
@@ -1560,11 +1561,11 @@
       "kind": "composite",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/property-view/smart.manifest.json",
-      "manifest_sha256": "e168e035ee4be4bbcbb0fe72267c8b606acb83a2587ad3ef4ef97d406b76c3f2",
+      "manifest_sha256": "74815ff2938f916140217b2b48917e385b9760c8fbaf4fd9bddb73fad20ffdea",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "One object's fields shown as sections, groups and fields, each drawn by the per-type field renderer set, behind a separate host port. A group is edited and saved as one revision by the button, and a reference field is picked from the host's own candidates a page at a time. The pair to the data view: that one is a set of records, this one is a single object.",
       "tags": [
@@ -1602,11 +1603,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/radio/smart.manifest.json",
-      "manifest_sha256": "3dcf7e351099567cfb75fb50fe5b2a69d8c60a6a5a5044066c63885b4571a6ae",
+      "manifest_sha256": "1f3ba4b29612b8dd3e29ea2227a5e27fb4774bb9981e84b16bd9dea1a3a7106d",
       "reuse_mode": "both",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Radio Smart Component from SIMAI Framework.",
       "tags": [
@@ -1634,11 +1635,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/range-slider/smart.manifest.json",
-      "manifest_sha256": "e516840e09c9d8f2ea5a6111e67956897622d6bdd3ac1b97ff6a03d42304fa74",
+      "manifest_sha256": "c14f86db8d7dfab745ced3b3cc149b0cf885423e17377d209125b6c2c7f58f1c",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Range Slider Smart Component from SIMAI Framework.",
       "tags": [
@@ -1669,11 +1670,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/reference-link/smart.manifest.json",
-      "manifest_sha256": "8b0a5656b7f4c7d76f58fff8d9595b48bb1cd1b12bbe50e4f8fdc0da498b0cc2",
+      "manifest_sha256": "ede4667a7302992c37ee07b6cf3a32d9ed377b617ccd6e3cd985b7a8ec32bbfc",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Navigation surface that pairs a real destination with a compact reference.",
       "tags": [
@@ -1706,11 +1707,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/skeleton/smart.manifest.json",
-      "manifest_sha256": "7c2c2d982c6c9e23953dc8f8753d9e6ed19f587431c0df81b82e73175891fcf8",
+      "manifest_sha256": "e4da0cde273e1243ded27e65d0010afe837de1ed4d603d972b7d86e75e43d4e8",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Decorative loading placeholder that reserves source-backed content geometry with semantic tokens and reduced-motion support.",
       "tags": [
@@ -1738,11 +1739,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/slider/smart.manifest.json",
-      "manifest_sha256": "9d56867735d36f5c6b4dbda3d8cef3f232297e845e6a27f29c458ccd90466662",
+      "manifest_sha256": "897566c7055e2d91ffeddf295d7e5977a819d158d4f72a91a878e4f9186f1a4e",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Slider Smart Component from SIMAI Framework.",
       "tags": [
@@ -1770,11 +1771,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/sortable/smart.manifest.json",
-      "manifest_sha256": "0cfb22278690e081978454d7029ed9b56cea28fa598a65e42b7da86b6f3f6ef4",
+      "manifest_sha256": "8b1eed7d7f69d86afe19e2e62812030817a952e080ba519ae156d2f5cdfbfb58",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Drag-and-drop list primitive for reordering, moving between lists and copying from a library by mouse, pen, touch and keyboard; reports intent only.",
       "tags": [
@@ -1808,11 +1809,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/spinner/smart.manifest.json",
-      "manifest_sha256": "bae6b3541bdf8b281583866238dbbff68c110a96e1f197b817575ff2f39e6a6d",
+      "manifest_sha256": "d8da1915c1e65a43f0e0884dcc1777445b028e458f3f4bb5186d28cacea3001a",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Indeterminate waiting indicator with arc or dots presentation, optional polite status announcement and Framework-owned motion.",
       "tags": [
@@ -1842,11 +1843,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/steps/smart.manifest.json",
-      "manifest_sha256": "be2595807f654a516a1fdde8fa0a95d2b8a36c2da769f1f660e0395e7c0bf52a",
+      "manifest_sha256": "92b04450cd3bc5c9621be7909e39f21300bd885e150c912b581aeec231b9981e",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Steps Smart Component from SIMAI Framework.",
       "tags": [
@@ -1882,11 +1883,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/switch/smart.manifest.json",
-      "manifest_sha256": "2f32c5e90a7af0e81740b613674ca460617438346e7b79d336960199e0ca1958",
+      "manifest_sha256": "6d0c0726ab0aa71a6f636ae12ee58aa12f687e862b4d2f17a1af02810285d9af",
       "reuse_mode": "both",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Switch Smart Component from SIMAI Framework.",
       "tags": [
@@ -1920,11 +1921,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/tabs/smart.manifest.json",
-      "manifest_sha256": "71dd708c6af2814fc71c15c7a67809160c77018439dd93a41ae3c97701c41cfe",
+      "manifest_sha256": "33087d8768420cae8e9d836ed8ff63a39665703172139958700d75c67cc3d0b8",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Tabs Smart Component from SIMAI Framework.",
       "tags": [
@@ -1959,11 +1960,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/tags/smart.manifest.json",
-      "manifest_sha256": "68afca1fb7736aa1fd9bf230f861d9bab3db379cc78411dcd4623ef0ecaae188",
+      "manifest_sha256": "f25e04e885d34670006abf8d0ffe97b1f8694bc4b8b1b1b7379634f216932657",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Compact static, selectable and removable labels with one explicit interaction owner.",
       "tags": [
@@ -1997,11 +1998,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/textarea/smart.manifest.json",
-      "manifest_sha256": "eb777dc254863c26968dfc72d71dae40ed1edca2e7841a9ef8158ecc916cdf41",
+      "manifest_sha256": "03ef7b61debb27735f6b7611baf4281c04570c5da14f632bd80c903ba9b24ed5",
       "reuse_mode": "both",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "A native multiline form control with Framework presentation, validation messaging and safe vertical resizing.",
       "tags": [
@@ -2034,11 +2035,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/toast/smart.manifest.json",
-      "manifest_sha256": "3b1e3815854d9969796e5b5d5b4446715b7cbd06198ecdf56c75ea2a1fdcc1b4",
+      "manifest_sha256": "7bae116c00f5321f69bb72a2b405d02fc98b0061ea83c800a85c6797d4e6b740",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Transient overlay feedback with semantic roles, optional action, pause-safe lifetime and dismiss behavior.",
       "tags": [
@@ -2073,11 +2074,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/toggle/smart.manifest.json",
-      "manifest_sha256": "c63736a4e36857a80916efcff25b1ed467ffe6d75f5e6cc62e40fef265a505a5",
+      "manifest_sha256": "567e497bf342048566ac3b2535bf5c65f0675adfef2960f132ed2682ad2e83db",
       "reuse_mode": "both",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Toggle Smart Component from SIMAI Framework.",
       "tags": [
@@ -2106,11 +2107,11 @@
       "kind": "smart",
       "lifecycle": "released",
       "manifest_path": "src/smart/tooltip/smart.manifest.json",
-      "manifest_sha256": "67257f88432310400ea62adbc6d201b6dd0679ec202aff8533413fcb16bc3789",
+      "manifest_sha256": "e3624805b36e2292a487dfe3c6daf6d56026e8d3d0ef13bcdd51b2cf740d9a51",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Tooltip surface that can join the ordinary data-tooltip trigger composition.",
       "tags": [
@@ -2143,11 +2144,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/tree/smart.manifest.json",
-      "manifest_sha256": "58d56a374fe161a96d2d8bc8f222ebd4ec6703f89e859de8bab12417d3f1c80d",
+      "manifest_sha256": "a68f4851ae3d79e39450e68dce23a7f820f1160dc44938117d689401e73b85ec",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "Accessible hierarchical composite with roving focus, branch expansion and host-owned selection.",
       "tags": [
@@ -2181,11 +2182,11 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/tree-item/smart.manifest.json",
-      "manifest_sha256": "25eb32a55938de43ff31afc00cdca7df77227bb81b34d77445575136a2d0e00d",
+      "manifest_sha256": "a16d626ade743bc41912623c2fbddcc9aaec1d83a8b0dc6ce5b03aeca080308d",
       "reuse_mode": "whole",
       "runtime_pair": {
-        "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-        "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+        "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+        "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
       },
       "summary": "One accessible node in a Smart Tree hierarchy.",
       "tags": [

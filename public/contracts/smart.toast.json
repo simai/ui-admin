@@ -287,8 +287,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "8f2b40e21d0bdb9b5f0e16f1c2daf05cebde3de4",
-      "ui_smart_revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2"
+      "ui_revision": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
+      "ui_smart_revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717"
     },
     "aliases": [],
     "deprecations": [],
@@ -297,19 +297,19 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "1a130df271858537996f12cae8af4cc3b0b489cd",
+    "source_revision": "4139a570a86a23af49a152c8ab3f3e607be4ac97",
     "source_artifacts": [
       {
         "path": "src/smart/toast/index.js",
-        "sha256": "fc723958d69c38838e276f551abe497ab048421e0a087dd8d3d504e32534d41c"
+        "sha256": "c592fbfed73546d96dc1a281b4afaefe399086fde6e90176d848d24645e6e00d"
       }
     ],
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "7df7741ba8d0d28f3d4e4bf82f39391be2ad5cf2",
+        "revision": "696f1abe0e69a0f55b95e1137974e94d4a6ca717",
         "path": "smart/toast/js/toast.js",
-        "sha256": "832bd62f07d41f5a27406f2d7e4b1129df5b891d7f8f2c110ba4e8f6d7784652"
+        "sha256": "9028d0dcc27cf70e910439ff4e923018e7c30f3e272ffdfcb6f16320ae53646d"
       }
     ]
   },

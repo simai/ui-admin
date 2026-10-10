@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "compatibilityId": "ui-3de8245b1222-smart-262ade1d5ca8",
-  "pairIdentitySha256": "e61a621ce194b9bd1b2dab2fa601652c5b1ce98b65bcd24e6d7178deb3c01bfa",
+  "compatibilityId": "ui-7cf083816516-smart-696f1abe0e69",
+  "pairIdentitySha256": "f6380709bbec9fbd9af929d47ef3b7cf00d7184cd6f8525d7f693f9a63da2fd3",
   "contractSha256": "b70d02d6902345e17954eafb44f24052b7478439184286bed5a8df6c69c1fe45",
   "core": {
     "repository": "../ui",
-    "commit": "3de8245b122278fad18a918904a882ec8d0946fa",
+    "commit": "7cf0838165160806619e3f0b2ec69cacb2de7e0b",
     "sourceDir": "distr",
     "requiredFiles": [
       {
@@ -22,13 +22,13 @@
       },
       {
         "path": "component/admin-menu/js/admin-menu.js",
-        "sha256": "53f0aea82ff6141bd99fad2088e33eb7e5516ae1181135f4bb4e361cebd450b3"
+        "sha256": "8e152c2a1d57094779198c23a9e61b013588bdfac2dfe99a3d120214f2ce3a2a"
       }
     ]
   },
   "smart": {
     "repository": "../ui-smart",
-    "commit": "262ade1d5ca85850369b9d0e5963f1863d2afd1a",
+    "commit": "696f1abe0e69a0f55b95e1137974e94d4a6ca717",
     "sourceDir": "smart",
     "targetDir": "smart",
     "requiredFiles": [
@@ -42,7 +42,7 @@
       },
       {
         "path": "table/js/table.js",
-        "sha256": "2ebfeefe32ecb5a152e67886f4764f542090efdba9fec268ca23f63706a4d061"
+        "sha256": "780e2396045b35b7a60e14c756d70ca94a59cad2c3cf4d03d0dd7e4bd4c6a329"
       }
     ]
   }

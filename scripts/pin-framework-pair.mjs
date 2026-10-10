@@ -46,6 +46,14 @@ const check = process.argv.includes('--check');
 const git = (root, ...args) =>
   execFileSync('git', ['-C', root, ...args], { encoding: 'utf8' }).trim();
 
+// The same, for a lookup whose failure is already handled: a history git
+// cannot walk should cost the report its distance, not print `fatal:` into
+// the middle of it.
+const gitQuiet = (root, ...args) => execFileSync('git', ['-C', root, ...args], {
+  encoding: 'utf8',
+  stdio: ['ignore', 'pipe', 'ignore'],
+}).trim();
+
 // The same stable serialisation the materialiser uses, because the identity it
 // recomputes has to be the identity written here.
 const stableJson = (value) => {
@@ -113,16 +121,29 @@ if (check) {
     process.stdout.write(`the pin is the current release: ${lock.compatibilityId}\n`);
     process.exit(0);
   }
+  // After the split both sides read one repository at one revision, where a
+  // side-by-side report is the same sentence twice. Sides that resolve to the
+  // same checkout and the same move are named together.
+  const moves = new Map();
   for (const { side, head } of behind) {
-    const pinned = lock[side].commit;
     const root = resolve(projectRoot, lock[side].repository);
+    const key = `${root}\u0000${lock[side].commit}\u0000${head}`;
+    if (!moves.has(key)) {
+      moves.set(key, { sides: [], paths: [], root, pinned: lock[side].commit, head });
+    }
+    moves.get(key).sides.push(side);
+    moves.get(key).paths.push(lock[side].sourceDir);
+  }
+  for (const { sides: named, paths, root, pinned, head } of moves.values()) {
+    const side = named.join(' and ');
     // How far behind, in the words a person asks it in: how many
     // distributions, and since when. «Behind» with no distance is a fact
-    // nobody acts on.
+    // nobody acts on. The try covers the git calls only -- an unreadable
+    // history is a fact to report without, a mistake in here is not.
     let distance = '';
     try {
-      const count = git(root, 'rev-list', '--count', `${pinned}..${head}`, '--', lock[side].sourceDir);
-      const when = git(root, 'show', '-s', '--format=%ad', '--date=short', pinned);
+      const count = gitQuiet(root, 'rev-list', '--count', `${pinned}..${head}`, '--', ...paths);
+      const when = gitQuiet(root, 'show', '-s', '--format=%ad', '--date=short', pinned);
       // Zero means the pinned commit is not behind but beside: it wrote no
       // distribution at all, which is what taking the head used to do.
       distance = count === '0'

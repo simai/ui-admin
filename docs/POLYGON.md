@@ -84,9 +84,25 @@ it into `view.create_record` already.
 ## Theme and language
 
 Behind the avatar, where an admin keeps them: **Тема** (системная, светлая,
-тёмная) and **Язык** (Русский, English). The choice is kept in `localStorage`
-and both are applied by an inline script in each page's head, before anything
-renders.
+тёмная) and **Язык** — Русский, English and **Türkçe**, which the Framework
+does not ship. The polygon registers it at startup, in six lines, because that
+is what a product does:
+
+```js
+SF.language.registerAll('tr', {
+  'sf-table': { filterText: 'Filtre', createText: 'Oluştur' },
+  'sf-pagination': { totalLabel: 'Toplam:' },
+});
+```
+
+Switching needs no reload: the registry tells every mounted component to draw
+again. What Turkish does not cover reads English, never Russian — a product's
+gap falls back to the Framework's default, not to the language the page happens
+to be written in.
+
+The choice is kept in `localStorage` and the page's own `lang` is still set by
+an inline script in each head, before anything renders, so the first paint is
+right and nothing flashes.
 
 The switch earns its keep: the first thing it showed was that half the admin
 spoke only Russian. sf-table, sf-pagination, the renderer set, the date picker

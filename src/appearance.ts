@@ -8,19 +8,19 @@
 // carry nothing but `color-scheme` for `light-dark()` to branch on. Changing
 // the class is enough: no component has to be told.
 //
-// The LANGUAGE is `lang` on the document, and every component resolves its text
-// from the nearest `[lang]` AT RENDER TIME. Nothing observes it afterwards, so
-// changing it on a page that has already drawn leaves every drawn label in the
-// old language — which is exactly the half-translated head this polygon showed
-// an hour before this was written. So a language change reloads the page, and
-// the reload lands on the same record because the record is in the address.
+// The LANGUAGE used to need a reload: a component chose its words when it drew
+// and nothing watched afterwards. From the pair with the language registry it
+// does not — `SF.language.use()` tells every mounted component to draw again.
+// The page's own `lang` is still set before anything renders, by the inline
+// script in each head, so the first paint is right and there is no flash of the
+// wrong language; the switch after that is immediate.
 //
-// Both are applied before anything renders, by the inline script in each page's
-// head. Applying them from a module would be too late for the same reason: the
-// components would already have chosen their words.
+// A product adds a language the Framework never shipped with
+// `SF.language.registerAll(code, byComponent)`, and the menu below lists
+// whatever is available rather than two names written into this file.
 const STORE = 'simai.admin.appearance';
 
-export type Appearance = { theme: 'system' | 'light' | 'dark'; lang: 'ru' | 'en' };
+export type Appearance = { theme: 'system' | 'light' | 'dark'; lang: string };
 
 const DEFAULTS: Appearance = { theme: 'system', lang: 'ru' };
 
@@ -30,7 +30,7 @@ export const readAppearance = (): Appearance => {
     return {
       theme: stored.theme === 'light' || stored.theme === 'dark' || stored.theme === 'system'
         ? stored.theme : DEFAULTS.theme,
-      lang: stored.lang === 'en' || stored.lang === 'ru' ? stored.lang : DEFAULTS.lang,
+      lang: typeof stored.lang === 'string' && stored.lang in LANGUAGE_NAMES ? stored.lang : DEFAULTS.lang,
     };
   } catch {
     // A private window, or storage the browser refuses: the defaults are not an
@@ -52,9 +52,43 @@ export const applyTheme = (theme: Appearance['theme']) => {
   document.documentElement.classList.toggle('theme-light', !dark);
 };
 
-const TEXT = {
-  ru: { title: 'Оформление', theme: 'Тема', lang: 'Язык', system: 'Системная', light: 'Светлая', dark: 'Тёмная', ru: 'Русский', en: 'English', menu: 'Оформление и язык' },
-  en: { title: 'Appearance', theme: 'Theme', lang: 'Language', system: 'System', light: 'Light', dark: 'Dark', ru: 'Русский', en: 'English', menu: 'Appearance and language' },
+const TEXT: Record<string, Record<string, string>> = {
+  ru: { theme: 'Тема', lang: 'Язык', system: 'Системная', light: 'Светлая', dark: 'Тёмная', menu: 'Оформление и язык' },
+  en: { theme: 'Theme', lang: 'Language', system: 'System', light: 'Light', dark: 'Dark', menu: 'Appearance and language' },
+  // The polygon's own third language, registered below, so the menu is not a
+  // demonstration of two.
+  tr: { theme: 'Tema', lang: 'Dil', system: 'Sistem', light: 'Açık', dark: 'Koyu', menu: 'Görünüm ve dil' },
+};
+
+/** A language's own name, which is how a person recognises it in a list. */
+const LANGUAGE_NAMES: Record<string, string> = { ru: 'Русский', en: 'English', tr: 'Türkçe' };
+
+type LanguageApi = {
+  use(code: string | null): unknown;
+  registerAll(code: string, byComponent: Record<string, Record<string, string>>): unknown;
+  current(node?: unknown): string;
+};
+
+const api = (): LanguageApi | null =>
+  (globalThis as { SF?: { language?: LanguageApi } }).SF?.language ?? null;
+
+/**
+ * Turkish for a few of the words, so the polygon shows what a product does
+ * rather than describing it: these are registered at runtime, for components
+ * the Framework ships with English and Russian only.
+ */
+export const teachTurkish = () => {
+  api()?.registerAll('tr', {
+    'sf-table': {
+      filterText: 'Filtre', createText: 'Oluştur', searchPlaceholder: 'Ara',
+      emptyText: 'Veri yok', filterApplyText: 'Filtreyi uygula',
+    },
+    'sf-pagination': {
+      totalLabel: 'Toplam:', pagesLabel: 'Sayfalar:', pageSizeLabel: 'Sayfa başına:',
+      showMoreText: 'Daha fazla göster',
+    },
+    'sf-property-view': { closeLabel: 'Kapat', copyLinkLabel: 'Bağlantıyı kopyala' },
+  });
 };
 
 /**
@@ -64,7 +98,7 @@ const TEXT = {
  */
 export const mountAppearanceMenu = (slot: Element) => {
   const current = readAppearance();
-  const words = TEXT[current.lang];
+  const words = TEXT[current.lang] ?? TEXT.en;
 
   const popover = document.createElement('sf-popover');
   popover.setAttribute('placement', 'bottom-end');
@@ -127,17 +161,21 @@ export const mountAppearanceMenu = (slot: Element) => {
       slot.replaceChildren();
       mountAppearanceMenu(slot);
     }),
-    group(words.lang, [
-      { value: 'ru', text: words.ru },
-      { value: 'en', text: words.en },
-    ], current.lang, (value) => {
-      if (value === current.lang) return;
-      write({ ...readAppearance(), lang: value as Appearance['lang'] });
-      // Every drawn label chose its words when it rendered and nothing observes
-      // `lang` afterwards, so the page is read again. The address carries the
-      // record, so this lands where it was.
-      location.reload();
-    }),
+    // Every language the admin knows a name for, by its own name: a list that
+    // said «Русский, English» in English would be a list of two, and there are
+    // going to be many more.
+    group(words.lang, Object.entries(LANGUAGE_NAMES).map(([value, text]) => ({ value, text })),
+      current.lang, (value) => {
+        if (value === current.lang) return;
+        write({ ...readAppearance(), lang: value });
+        // No reload: the registry tells every mounted component to draw again.
+        // The document's own `lang` is set too, so anything that mounts later
+        // starts in the right language.
+        document.documentElement.lang = value;
+        api()?.use(value);
+        slot.replaceChildren();
+        mountAppearanceMenu(slot);
+      }),
   );
 
   popover.append(trigger, content);

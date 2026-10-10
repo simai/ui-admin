@@ -20,7 +20,7 @@
 // so they are two clicks away rather than a code change.
 import './style.css';
 import { createPolygonHost } from './ports/polygon-host.mjs';
-import { mountAppearanceMenu } from './appearance';
+import { mountAppearanceMenu, teachTurkish } from './appearance';
 
 type Answer = Record<string, unknown>;
 type HostPort = {
@@ -73,6 +73,11 @@ const start = async () => {
 
   // The theme and the language were applied by the page's own head script,
   // before anything rendered. This is only the control that changes them.
+  // What a product does: a language the Framework never shipped, registered at
+  // runtime. The polygon does it so the menu is three languages rather than a
+  // demonstration of two.
+  teachTurkish();
+
   const appearance = element('#appearance');
   if (appearance) mountAppearanceMenu(appearance);
 

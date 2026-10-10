@@ -80,12 +80,22 @@ const distributionCommit = (root, sourceDir) => {
   return commit;
 };
 
-// The release that claims both commits. Keyed by neither repository name nor
-// side, because the split moves smart into ui and the contract's own source
-// names go with it: a release claims these commits if its runtime sources
-// carry them, however many entries that takes.
+// The release that built exactly what this lock reads. Keyed by neither
+// repository name nor side -- the split moved smart into ui and the contract's
+// own source names went with it -- but by the one field that says what a
+// runtime tree is: `runtime_path`. A release claims a side when some entry
+// built that side's `sourceDir` at that side's commit.
+//
+// Matching on the commits alone was not enough. Stage 1 publishes the v2
+// contract (`distr` and `distr/smart`, one ui commit for both) beside a v1
+// alias for older readers (`distr` and `smart`, the ui-smart mirror), and both
+// name the same ui commit. Reading on the file name, the alias sorts first, so
+// a lock already moved onto `distr/smart` would have been named by the alias
+// and pinned `ui-<12>-smart-<12>` instead of the `ui-<12>` the Framework
+// issued. Tying `sourceDir` to `runtime_path` separates them without either
+// side having to know which schema the other speaks.
 const releaseDirectory = resolve(projectRoot, lock.core.repository, 'contracts/releases');
-const releaseFor = (coreCommit, smartCommit) => {
+const releaseFor = (wanted) => {
   for (const name of readdirSync(releaseDirectory)) {
     if (!name.endsWith('.lock.json')) continue;
     let release;
@@ -96,10 +106,11 @@ const releaseFor = (coreCommit, smartCommit) => {
     }
     const id = release?.compatibility_id;
     if (typeof id !== 'string' || id === '') continue;
-    const commits = Object.values(release.runtime_sources ?? {})
-      .map((source) => source?.commit)
-      .filter((commit) => typeof commit === 'string');
-    if (commits.includes(coreCommit) && commits.includes(smartCommit)) return { file: name, id };
+    const sources = Object.values(release.runtime_sources ?? {});
+    const built = ({ sourceDir, commit }) => sources.some(
+      (source) => source?.runtime_path === sourceDir && source?.commit === commit,
+    );
+    if (wanted.every(built)) return { file: name, id };
   }
   return null;
 };
@@ -110,8 +121,7 @@ const sides = ['core', 'smart'].map((side) => {
 });
 
 const current = releaseFor(
-  sides.find(({ side }) => side === 'core').head,
-  sides.find(({ side }) => side === 'smart').head,
+  sides.map(({ side, head }) => ({ sourceDir: lock[side].sourceDir, commit: head })),
 );
 const behind = sides.filter(({ side, head }) => lock[side].commit !== head);
 
@@ -160,7 +170,9 @@ if (check) {
 }
 
 if (current === null) {
-  const named = sides.map(({ side, head }) => `${side} ${head.slice(0, 12)}`).join(', ');
+  const named = sides
+    .map(({ side, head }) => `${side} ${lock[side].sourceDir} at ${head.slice(0, 12)}`)
+    .join(', ');
   process.stderr.write(
     `ADMIN_PIN_UNRELEASED — no contract in ${releaseDirectory} claims ${named}.\n`
     + 'A pair is pinned by the identity the Framework issued for it, so finish the\n'

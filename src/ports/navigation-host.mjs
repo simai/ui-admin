@@ -29,9 +29,10 @@ const unavailable = (reason = 'The host is not answering.') => ({ answer: 'unava
  *   data: any,
  *   capabilities?: string[],
  *   scenario?: 'default' | 'editor' | 'unavailable' | 'one-shared',
+ *   current?: string | null,
  * }} options
  */
-export function createNavigationHost({ data, capabilities = ALL_CAPABILITIES, scenario = 'default' }) {
+export function createNavigationHost({ data, capabilities = ALL_CAPABILITIES, scenario = 'default', current = null }) {
   const offered = new Set(capabilities);
   const sites = new Map(data.sites.map((site) => [site.key, site]));
   const rights = scenario === 'editor'
@@ -60,6 +61,8 @@ export function createNavigationHost({ data, capabilities = ALL_CAPABILITIES, sc
     compact: data.person.compact,
     read: new Set(data.notifications.filter((item) => !item.unread).map((item) => item.key)),
     nextProfile: 1,
+    // The row the page on screen belongs to; the host knows which page it is.
+    current,
   };
 
   // ─── the tree a site is drawn with ──────────────────────────────────────────
@@ -156,7 +159,7 @@ export function createNavigationHost({ data, capabilities = ALL_CAPABILITIES, sc
         count: offered.has('site-switch') ? data.sites.length : 1,
         manage_href: offered.has('site-switch') ? data.manage_sites_href : null,
       },
-      current: null,
+      current: state.current,
       items: treeFor(state.site, state.profile),
       favourites: offered.has('favourites') ? allFavourites() : [],
       profiles: { current: state.profile, list: profileList() },
@@ -198,6 +201,7 @@ export function createNavigationHost({ data, capabilities = ALL_CAPABILITIES, sc
     'item.open': ({ key }) => {
       const row = findRow(key);
       if (!row) return refused('That row is no longer in the menu.');
+      state.current = key;
       return { answer: 'applied', href: row.href };
     },
 

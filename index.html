@@ -44,6 +44,16 @@
       };
     </script>
     <script src="/distr/core/js/core.js" data-sf-script="/distr/core/js/core.js"></script>
+    <script>
+      // DEV ONLY, branch feat/admin-navigation: the free release this page is
+      // pinned to does not carry sf-page-header yet, so its rule is declared
+      // here and its script is served from the dev runtime. Removed with the
+      // repin to the release that carries cl-page-header.
+      SF.RuleLoader['cl-page-header'] ??= {
+        tags: ['sf-page-header'], type: 'smart', mode: 'smart', js: true,
+        relation: [{ name: 'cl-badges' }, { name: 'cl-icon-buttons' }, { name: 'cl-icons' }],
+      };
+    </script>
   </head>
   <body class="flex h-full">
     <!-- The menu that replaces the admin's top bar: sf-admin-menu answered
@@ -54,25 +64,19 @@
     </aside>
 
     <main class="flex flex-col flex-1 min-w-0 min-h-0">
-      <header class="flex items-cross-center gap-2 p-x-4 p-y-2 border-b-px border-outline-variant">
-        <sf-breadcrumbs aria-label="Где вы находитесь">
-          <a href="/">Админка</a>
-          <a href="/">Решения</a>
-        </sf-breadcrumbs>
-        <span class="grow"></span>
-        <!-- Theme and language, where an admin keeps them: behind the avatar.
-             Built by the page from the Framework's own parts, because a
-             reference that drew its own controls would be showing something
-             nobody can copy. -->
-        <span id="appearance"></span>
-      </header>
 
       <section id="list-section" class="flex flex-col gap-2 p-4 flex-1 min-w-0 min-h-0">
-        <div class="flex items-cross-center gap-2">
-          <h1 class="text-title-2 m-0">Решения</h1>
-          <sf-badge id="count" type="tonal" scheme="neutral" text="—"></sf-badge>
-          <span class="grow"></span>
-        </div>
+        <!-- The head of the page, now that the admin has no top bar: where the
+             page is (from the site), what it is called, how many records it
+             holds, its star, and its main action. Theme and language stand in
+             the actions until the profile menu takes them. -->
+        <sf-page-header id="page-header" heading="Каталог решений" count="—" star="off">
+          <sf-breadcrumbs slot="path" aria-label="Где вы находитесь">
+            <sf-breadcrumbs-item href="/">simai.ru</sf-breadcrumbs-item>
+            <sf-breadcrumbs-item href="/">Данные</sf-breadcrumbs-item>
+          </sf-breadcrumbs>
+          <span slot="actions" id="appearance"></span>
+        </sf-page-header>
         <!-- Empty unless the page is being driven somewhere unusual: an admin
              does not explain itself above its own list, and a polygon under
              «нет доступа» has to say so. -->

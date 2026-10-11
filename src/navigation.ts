@@ -13,6 +13,7 @@ import { createNavigationHost } from './ports/navigation-host.mjs';
 type NavigationHost = { port: string; version: string; raise: (intent: string, payload?: unknown) => Promise<unknown> };
 type MenuElement = HTMLElement & { setHostPort?: (host: NavigationHost) => unknown; _navigation?: unknown };
 
+const PAGE_KEY = 'data.catalog';
 const waiting = new Set<MenuElement>();
 let host: NavigationHost | null = null;
 
@@ -31,13 +32,32 @@ addEventListener('sf-host-port-request', (event) => {
 const start = async () => {
   const response = await fetch('/data/navigation.json');
   const data = await response.json();
-  host = createNavigationHost({ data }) as NavigationHost;
+  // This page is the solutions catalog, which is the row data.catalog.
+  host = createNavigationHost({ data, current: PAGE_KEY }) as NavigationHost;
   for (const menu of waiting) give(menu);
   waiting.clear();
   await customElements.whenDefined('sf-admin-menu');
   for (const menu of document.querySelectorAll<MenuElement>('sf-admin-menu')) {
     if (!menu._navigation) give(menu);
   }
+
+  // The page header's star is the same favourite as the menu's: the header says
+  // it was pressed, the host keeps it, and the menu reads the menu again so the
+  // favourites block agrees with the star.
+  const header = document.querySelector('sf-page-header');
+  const menu = document.querySelector<MenuElement & { refresh?: () => Promise<unknown> }>('sf-admin-menu');
+  const starred = async () => {
+    const answer = await host!.raise('navigation.load', { reason: 'requested', site: null }) as { favourites?: Array<{ key: string }> };
+    return (answer.favourites ?? []).some((entry) => entry.key === PAGE_KEY);
+  };
+  header?.setAttribute('star', (await starred()) ? 'on' : 'off');
+  header?.addEventListener('sf-page-header-star', async (event) => {
+    event.preventDefault();
+    const { on } = (event as CustomEvent<{ on: boolean }>).detail;
+    const answer = await host!.raise('favourite.toggle', { key: PAGE_KEY, on }) as { answer: string };
+    if (answer.answer === 'applied') header.setAttribute('star', on ? 'on' : 'off');
+    await menu?.refresh?.();
+  });
 };
 
 void start();

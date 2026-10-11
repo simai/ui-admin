@@ -92,7 +92,7 @@ const start = async () => {
   const dataset = (await response.json()) as Dataset;
 
   const list = element<WithPort>('#solutions');
-  const count = element('#count');
+  const header = element('#page-header');
 
   // The record panel is made when it is wanted and removed when it is not. A
   // property view carrying `panel` is open from the moment it is in the
@@ -353,7 +353,7 @@ const start = async () => {
   // removes rows is visible as a number and not only as a shorter list.
   list?.addEventListener('sf-data-view-answer', (event) => {
     const total = (event as CustomEvent).detail?.data?.total;
-    if (count) count.setAttribute('text', total == null ? '—' : String(total));
+    if (header) header.setAttribute('count', total == null ? '—' : String(total));
   });
 
 

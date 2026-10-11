@@ -254,6 +254,7 @@ const navigationReaches = [
   ['preference.theme', 'applied', ALL_NAV, 'default', { theme: 'dark' }],
   ['preference.language', 'applied', ALL_NAV, 'default', { language: 'en' }],
   ['preference.language', 'refused', ALL_NAV, 'default', { language: 'xx' }],
+  ['preference.compact', 'applied', ALL_NAV, 'default', { compact: true }],
   ['notifications.load', 'applied', ALL_NAV, 'default', { cursor: null }],
   ['notifications.load', 'unavailable', without('notifications'), 'default', { cursor: null }],
   ['notifications.read', 'applied', ALL_NAV, 'default', { all: true }],

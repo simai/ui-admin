@@ -6036,6 +6036,7 @@
     ],
     "theme": "system",
     "language": "ru",
+    "compact": false,
     "languages": [
       {
         "code": "ru",

@@ -55,6 +55,7 @@ export function createNavigationHost({ data, capabilities = ALL_CAPABILITIES, sc
     installFavourites: [...data.install_favourites],
     theme: data.person.theme,
     language: data.person.language,
+    compact: data.person.compact,
     read: new Set(data.notifications.filter((item) => !item.unread).map((item) => item.key)),
     nextProfile: 1,
   };
@@ -135,7 +136,7 @@ export function createNavigationHost({ data, capabilities = ALL_CAPABILITIES, sc
         : [],
       profiles: { current: state.profile, list: profileList() },
       rights: offered.has('menu-profiles') ? rights : { edit_personal: false, edit_shared: false, create_shared: false },
-      person: { ...copy(data.person), theme: state.theme, language: state.language },
+      person: { ...copy(data.person), theme: state.theme, language: state.language, compact: state.compact },
       notifications: offered.has('notifications') ? { unread: unread() } : null,
     };
   };
@@ -324,6 +325,11 @@ export function createNavigationHost({ data, capabilities = ALL_CAPABILITIES, sc
       return { answer: 'applied', language, reload: false };
     },
 
+    'preference.compact': ({ compact }) => {
+      state.compact = Boolean(compact);
+      return { answer: 'applied', compact: state.compact };
+    },
+
     'notifications.load': () => {
       const groups = data.notification_groups.map((group) => ({
         key: group.key,
@@ -359,7 +365,7 @@ export function createNavigationHost({ data, capabilities = ALL_CAPABILITIES, sc
     'favourite.toggle': 'favourites',
     'view.profile': 'menu-profiles', 'view.create': 'menu-profiles', 'view.rename': 'menu-profiles',
     'view.delete': 'menu-profiles', 'view.save': 'menu-profiles', 'view.reset': 'menu-profiles',
-    'preference.theme': 'preferences', 'preference.language': 'preferences',
+    'preference.theme': 'preferences', 'preference.language': 'preferences', 'preference.compact': 'preferences',
     'notifications.load': 'notifications', 'notifications.read': 'notifications',
     'session.sign-out': 'sign-out',
   };

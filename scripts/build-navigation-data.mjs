@@ -208,6 +208,7 @@ const PERSON = {
   ],
   theme: 'system',
   language: 'ru',
+  compact: false,
   languages: LANGUAGES,
 };
 

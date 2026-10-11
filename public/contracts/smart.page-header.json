@@ -93,8 +93,7 @@
     "machines": {},
     "visual_states": [
       "default",
-      "starred",
-      "install"
+      "selected"
     ]
   },
   "persistence": {
@@ -123,7 +122,7 @@
   },
   "accessibility": {
     "role": "banner content; the heading is an h1",
-    "accessible_name": "heading",
+    "accessible_name": "internal",
     "keyboard": [
       "Tab reaches the star and the actions",
       "Enter or Space toggles the star"

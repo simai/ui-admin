@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
   "title": "SIMAI Smart Component Manifest v2",
-  "x-simai-version": "2.2.0",
+  "x-simai-version": "2.3.0",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -760,6 +760,15 @@
         },
         "payload": {
           "$ref": "#/$defs/jsonSchema"
+        },
+        "canonical": {
+          "const": true,
+          "description": "The name to bind: an event that also goes out under older names (alias_of) is marked canonical."
+        },
+        "alias_of": {
+          "type": "string",
+          "minLength": 1,
+          "description": "An older name dispatched with the same detail as the named canonical event of this manifest, kept until it leaves through the change journal."
         }
       }
     },

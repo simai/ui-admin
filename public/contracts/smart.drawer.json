@@ -25,11 +25,7 @@
       "component.icon-buttons",
       "component.close"
     ],
-    "public_parts": [],
-    "slots": {
-      "default": "The drawer's content, moved into the scrolling body.",
-      "edge": "Stands beside the panel, on its outer edge, where the panel's own clipping cannot reach it."
-    }
+    "public_parts": []
   },
   "inputs": {
     "type": "object",
@@ -174,6 +170,18 @@
             "--sf-drawer-dock-inline-end",
             "--sf-drawer-dock-block-start"
           ]
+        }
+      }
+    },
+    "slots": {
+      "type": "object",
+      "description": "The named slots the consumer fills.",
+      "properties": {
+        "default": {
+          "description": "The drawer's content, moved into the scrolling body."
+        },
+        "edge": {
+          "description": "Stands beside the panel, on its outer edge, where the panel's own clipping cannot reach it."
         }
       }
     }

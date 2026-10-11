@@ -25,11 +25,7 @@
   "exported_parts": [],
   "composition": {
     "uses": [],
-    "public_parts": [],
-    "slots": {
-      "trigger": "The control that opens it, left where the consumer put it.",
-      "content": "What the surface holds. This component claims nothing about its shape."
-    }
+    "public_parts": []
   },
   "inputs": {
     "type": "object",
@@ -83,22 +79,61 @@
         "default": true,
         "description": "Esc and a press outside close it. A consumer that owns those keys turns this off and calls close() when it decides."
       }
-    }
+    },
+    "additionalProperties": false
   },
   "item_contract": {},
-  "contracts": {},
+  "contracts": {
+    "slots": {
+      "type": "object",
+      "description": "The named slots the consumer fills.",
+      "properties": {
+        "trigger": {
+          "description": "The control that opens it, left where the consumer put it."
+        },
+        "content": {
+          "description": "What the surface holds. This component claims nothing about its shape."
+        }
+      }
+    }
+  },
   "methods": {
     "toggle": {
-      "summary": "Open or close it; a boolean forces one or the other."
+      "summary": "Open or close it; a boolean forces one or the other.",
+      "arguments": [
+        {
+          "name": "force",
+          "type": "boolean",
+          "required": false
+        }
+      ],
+      "returns": {
+        "type": "boolean",
+        "description": "Whether it is open afterwards."
+      }
     },
     "show": {
-      "summary": "Open it."
+      "summary": "Open it.",
+      "arguments": [],
+      "returns": {
+        "type": "boolean",
+        "description": "Whether it is open afterwards."
+      }
     },
     "close": {
-      "summary": "Close it."
+      "summary": "Close it.",
+      "arguments": [],
+      "returns": {
+        "type": "boolean",
+        "description": "Whether it is open afterwards."
+      }
     },
     "returnFocus": {
-      "summary": "Put the focus back on the trigger."
+      "summary": "Put the focus back on the trigger.",
+      "arguments": [],
+      "returns": {
+        "type": "null"
+      }
     }
   },
   "events": {
@@ -126,7 +161,12 @@
       "default"
     ]
   },
-  "persistence": {},
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "component",
+    "network_owner": "none",
+    "revision_field": null
+  },
   "ownership": {
     "source": "simai/ui-source",
     "data": "fixture",
@@ -167,26 +207,14 @@
       "mobile"
     ]
   },
-  "adapter": {},
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
   "artifacts": {
-    "source_artifacts": [
-      {
-        "path": "src/smart/popover/index.js",
-        "sha256": "1f77b64872f75e2e84319a7cefd0ce538e031d47fa796435dc003dcd7dc6afce"
-      },
-      {
-        "path": "src/smart/popover/rule.js",
-        "sha256": "88d63d31d61879d048bc901a4a8173d3af9a96d5f3a4fd532eac2ab02ebf351c"
-      },
-      {
-        "path": "src/smart/popover/js/templates/default.js",
-        "sha256": "6f6be19ccafaacaa72e047dbbd0084c4a45738bed8ab1f5756e4833e9abec169"
-      },
-      {
-        "path": "src/smart/popover/js/templates/default.css",
-        "sha256": "5b694b022101f2ea5e552b8282ee692347275f0454d14d727315dd3f15789157"
-      }
-    ]
+    "fixtures": [],
+    "scenarios": []
   },
   "readiness": {
     "level": "described",

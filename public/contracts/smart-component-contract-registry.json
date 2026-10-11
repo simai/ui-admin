@@ -373,7 +373,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/color/smart.manifest.json",
-      "manifest_sha256": "6b7f763183ab9c320dc4ede287f1938ef98a22179a2f6ef1944824bc5a845fd3",
+      "manifest_sha256": "99e0ea6a734bc9c5480ab0662230ac2aacd83787d55947c5c928b2ee24e44b7f",
       "reuse_mode": "both",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -581,10 +581,6 @@
       ],
       "composition": {
         "public_parts": [],
-        "slots": {
-          "default": "The drawer's content, moved into the scrolling body.",
-          "edge": "Stands beside the panel, on its outer edge, where the panel's own clipping cannot reach it."
-        },
         "uses": [
           "component.icon-buttons",
           "component.close"
@@ -599,7 +595,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/drawer/smart.manifest.json",
-      "manifest_sha256": "93358e9701e1ef7869ce63a77f46fc04342ff5847c9608492a101b5a30ab0ebb",
+      "manifest_sha256": "c0aa4c66b8e33918389fe39f1aec984a2906fe71c81bab070b1429bdcd7e5c80",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -990,7 +986,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/page-header/smart.manifest.json",
-      "manifest_sha256": "7fef3359dd6b0464dd74cdf15c567c889dccca124f5959db65aff43a6b47b930",
+      "manifest_sha256": "0981e3bfa753f01bef325620c6e836e9051a7f95c09abadaec30d911518fd25f",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -1055,10 +1051,6 @@
       ],
       "composition": {
         "public_parts": [],
-        "slots": {
-          "content": "What the surface holds. This component claims nothing about its shape.",
-          "trigger": "The control that opens it, left where the consumer put it."
-        },
         "uses": []
       },
       "contract_schema": {
@@ -1070,7 +1062,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/popover/smart.manifest.json",
-      "manifest_sha256": "f1bc6941df248b310353a27f2356d6f54e75c24c4f95a8be125a683d6f210ea4",
+      "manifest_sha256": "ee793a4f76f9937aee670d63d24929d421e556dc21a7f4db69c61340961d97fa",
       "reuse_mode": "both",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -1779,5 +1771,5 @@
   "schema": "simai.smart-component-contract-registry.v2",
   "schema_id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
   "schema_path": "contracts/schema/smart-component-manifest.v2.schema.json",
-  "schema_sha256": "ed957aed20465f92c2dbd75d31c5f12ff5badcc21f854ce54405ec43ca1e05db"
+  "schema_sha256": "4218268a8661e8e9229533280f721123b819237e79ea1612c2115f7c5ee73d9a"
 }

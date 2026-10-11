@@ -116,10 +116,28 @@
   },
   "item_contract": {},
   "contracts": {},
-  "methods": [
-    "setValue",
-    "clear"
-  ],
+  "methods": {
+    "setValue": {
+      "summary": "Set the colour as a person would: normalised, reflected to value, and change dispatched when it differs. Returns whether it changed.",
+      "arguments": [
+        {
+          "name": "value",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "returns": {
+        "type": "boolean"
+      }
+    },
+    "clear": {
+      "summary": "Return to the inherited colour; the same as setValue(\"\"). Returns whether it changed.",
+      "arguments": [],
+      "returns": {
+        "type": "boolean"
+      }
+    }
+  },
   "events": {
     "change": {
       "summary": "A colour was committed, once per change a person makes. Carries the value and the form name; an empty value means the inherited colour applies again.",
@@ -136,8 +154,25 @@
       }
     }
   },
-  "state": {},
-  "persistence": {},
+  "state": {
+    "machines": {
+      "surface": [
+        "closed",
+        "open"
+      ]
+    },
+    "visual_states": [
+      "default",
+      "open",
+      "disabled"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "component",
+    "network_owner": "none",
+    "revision_field": null
+  },
   "ownership": {
     "source": "simai/ui-source",
     "data": "fixture",
@@ -178,7 +213,11 @@
       "mobile"
     ]
   },
-  "adapter": {},
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
   "artifacts": {
     "fixtures": [],
     "scenarios": []

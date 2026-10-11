@@ -94,8 +94,20 @@ export function createNavigationHost({ data, capabilities = ALL_CAPABILITIES, sc
   const treeFor = (siteKey, profileKey) => {
     const site = sites.get(siteKey);
     const layout = layouts.get(profileKey) ?? { items: {}, own: [] };
-    return data.roots.map((root, rootIndex) => {
-      const node = decorate(root, root.level);
+    // The roots take the layout too: their order, whether they are hidden, a
+    // name a person gave them, and roots a person added.
+    const roots = [
+      ...data.roots.map((root, index) => ({ root, index })),
+      ...layout.own.filter((entry) => entry.parent === null)
+        .map((entry) => ({ root: { ...entry, level: 'site', own: true }, index: entry.order })),
+    ].map(({ root, index }) => {
+      const entry = layout.items[root.key];
+      return { root, order: entry ? entry.order : index, entry };
+    }).sort((left, right) => left.order - right.order);
+    return roots.map(({ root, entry }, rootIndex) => {
+      let node = decorate(root, root.level);
+      if (root.own) node = { ...node, own: true, package_label: null };
+      if (entry) node = { ...node, hidden: entry.hidden, label: entry.label ?? node.label, icon: entry.icon ?? node.icon };
       if (root.kind !== 'root') return node;
       const children = rowsOf(root, site).map((row, index) => ({ row: decorate(row, root.level), index }));
       for (const own of layout.own.filter((entry) => entry.parent === root.key)) {

@@ -141,13 +141,13 @@ async function readRuntimeRoot() {
   const runtimeRoot = resolve(projectRoot, value);
   await access(resolve(runtimeRoot, 'core/js/core.js'));
 
-  // sf-table is a Pro component since ui-09bc6b371eca, so it is not in the
+  // sf-table is in package larena (Larena's components) since ui-09bc6b371eca, so it is not in the
   // Framework runtime at all; what this check is for is that the smoke test
   // does not start against a runtime nobody materialised, and both halves of
   // what the page loads have to be there for that to mean anything.
-  const proRoot = resolve(projectRoot, process.env.SIMAI_PRO_RUNTIME_ROOT ?? '.runtime-pro');
-  await access(resolve(proRoot, 'rule.js'));
-  await access(resolve(proRoot, 'table/js/table.js'));
+  const packageRoot = resolve(projectRoot, process.env.SIMAI_PACKAGE_RUNTIME_ROOT ?? '.runtime-package');
+  await access(resolve(packageRoot, 'rule.js'));
+  await access(resolve(packageRoot, 'table/js/table.js'));
 
   return runtimeRoot;
 }

@@ -1,109 +1,79 @@
 #!/usr/bin/env node
 // Usage: node scripts/materialize-package-runtime.mjs --target <directory>
 //
-// Materialises the pinned Pro package and proves it is the release the lock
-// names -- including that it is the release built over the Framework this site
-// runs.
+// Materialises the pinned component package and proves it is the build the
+// lock names -- including that it was built over the Framework this site runs.
 //
-// Pro reaches the page as a component package of the Loader rather than as part
-// of the Framework: the page declares `SF_BOOT_CONFIG.packages.pro.base`, the
-// Loader fetches `<base>/rule.js` before its first scan, and the four Pro
-// components load from that base. So the package is served from the root of its
-// own stamped path and the distribution is ui-pro's `smart/` tree, which is why
-// `targetDir` is empty here where the Framework's is `smart`.
+// The package reaches the page as a component package of the Loader: the page
+// declares SF_BOOT_CONFIG.packages.<name>.base, the Loader fetches
+// <base>/rule.js before its first scan, and the package's components load from
+// that base. So the package is served from the root of its own stamped path,
+// which is the `smart/` directory of its build.
+//
+// The bytes come from building the pinned source revision with ui-builder
+// (scripts/package-build.mjs), and are trusted only if the build's archive has
+// the hash the lock recorded when it was pinned and every required file has
+// its hash. A build that differs in one byte is refused, not served.
 import { createHash } from 'node:crypto';
-import { mkdir, mkdtemp, readFile, rm, writeFile, cp } from 'node:fs/promises';
+import { cp, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { dirname, resolve } from 'node:path';
-import {
-  assertExactCommit,
-  extract,
-  loadLocalEnv,
-  stableJson,
-  verifyRequiredFiles,
-} from './runtime-extract.mjs';
-import { projectRoot, readLock, FRAMEWORK_LOCK, PRO_LOCK } from './runtime-base.mjs';
+import { dirname, join, resolve } from 'node:path';
+import { loadLocalEnv, verifyRequiredFiles } from './runtime-extract.mjs';
+import { projectRoot, readLock, FRAMEWORK_LOCK, PACKAGE_LOCK } from './runtime-base.mjs';
+import { ensureBuild } from './package-build.mjs';
+import { distributionIdentitySha256 } from './pin-package-identity.mjs';
 
 await loadLocalEnv(projectRoot);
 
 const targetIndex = process.argv.indexOf('--target');
 const targetArgument = targetIndex >= 0 ? process.argv[targetIndex + 1] : null;
+if (!targetArgument) throw new Error('Usage: materialize-package-runtime.mjs --target <directory>');
 
-if (!targetArgument) {
-  throw new Error('Usage: materialize-package-runtime.mjs --target <directory>');
-}
-
-const lock = readLock(PRO_LOCK);
+const lock = readLock(PACKAGE_LOCK);
 const framework = readLock(FRAMEWORK_LOCK);
 
-if (!lock.compatibilityId) {
-  throw new Error(`${PRO_LOCK} is not pinned — run \`npm run pin:pro\` first.`);
-}
+if (!lock.compatibilityId) throw new Error(`${PACKAGE_LOCK} is not pinned — run \`npm run pin:package\` first.`);
 
 // The cross-check, repeated here rather than trusted from the pin. The pin runs
-// when someone takes a release; this runs on every build, and a lock edited by
-// hand or a Framework taken without its Pro would otherwise reach the site.
+// when someone takes a package; this runs on every build.
 if (lock.requires?.framework !== framework.compatibilityId) {
-  throw new Error(
-    `Pro ${lock.compatibilityId} was built over ${lock.requires?.framework}, `
-    + `this site runs ${framework.compatibilityId}.`,
-  );
+  throw new Error(`${lock.compatibilityId} was built over ${lock.requires?.framework}, this site runs ${framework.compatibilityId}.`);
+}
+if (lock.distributionIdentitySha256 !== distributionIdentitySha256(lock)) {
+  throw new Error(`${PACKAGE_LOCK}: the distribution identity does not match the lock; pin again.`);
+}
+
+const { workspace, receipt, base } = ensureBuild({
+  name: lock.package, folder: lock.source.path, revision: lock.source.revision,
+});
+const archive = join(workspace, receipt.output.archive);
+const archiveSha = existsSync(archive)
+  ? createHash('sha256').update(await readFile(archive)).digest('hex')
+  : null;
+if (archiveSha !== lock.archiveSha256) {
+  throw new Error(`${lock.compatibilityId}: the build's archive is ${archiveSha}, the lock pinned ${lock.archiveSha256}.`);
 }
 
 const target = resolve(projectRoot, targetArgument);
-const repository = resolve(
-  projectRoot,
-  process.env.SIMAI_UI_PRO_REPO || lock.smart.repository,
-);
-
-function distributionIdentitySha256(pro) {
-  return createHash('sha256').update(stableJson({
-    package: pro.package,
-    requires: pro.requires,
-    smart: { commit: pro.smart.commit, requiredFiles: pro.smart.requiredFiles },
-  })).digest('hex');
-}
-
-assertExactCommit(repository, lock.smart.commit, 'Pro');
-
-const expected = distributionIdentitySha256(lock);
-if (lock.distributionIdentitySha256 !== expected) {
-  throw new Error(
-    `Pro distribution identity ${lock.distributionIdentitySha256} does not match ${expected}.`,
-  );
-}
-
-const staging = await mkdtemp(resolve(tmpdir(), 'simai-pro-runtime-'));
+const staging = await mkdtemp(resolve(tmpdir(), 'simai-package-runtime-'));
 try {
-  await extract(
-    repository,
-    lock.smart.commit,
-    lock.smart.sourceDir,
-    resolve(staging, lock.smart.targetDir),
-  );
-
-  const files = await verifyRequiredFiles(
-    resolve(staging, lock.smart.targetDir),
-    lock.smart.requiredFiles,
-    'Pro',
-  );
-
+  await cp(base, staging, { recursive: true });
+  const files = await verifyRequiredFiles(staging, lock.smart.requiredFiles, lock.package);
   const provenance = {
     schemaVersion: 1,
     package: lock.package,
     compatibilityId: lock.compatibilityId,
     distributionIdentitySha256: lock.distributionIdentitySha256,
     requires: lock.requires,
-    smart: { commit: lock.smart.commit, files },
+    source: lock.source,
+    archiveSha256: lock.archiveSha256,
+    smart: { files },
   };
-  await writeFile(
-    resolve(staging, 'simai-package.provenance.json'),
-    `${JSON.stringify(provenance, null, 2)}\n`,
-  );
-
+  await writeFile(join(staging, 'simai-package.provenance.json'), `${JSON.stringify(provenance, null, 2)}\n`);
   await rm(target, { recursive: true, force: true });
   await mkdir(dirname(target), { recursive: true });
-  await cp(staging, target, { recursive: true, force: true });
+  await cp(staging, target, { recursive: true });
   process.stdout.write(`${JSON.stringify(provenance, null, 2)}\n`);
 } finally {
   await rm(staging, { recursive: true, force: true });

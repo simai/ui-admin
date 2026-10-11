@@ -116,7 +116,7 @@ const required = served.flatMap(({ name, lock, base }) => [
   ...(lock.core?.requiredFiles ?? []).map((file) => ({
     distribution: name, base, side: 'core', path: file.path, sha256: file.sha256,
   })),
-  // Pro is served from the root of its own base, so its targetDir is empty and
+  // A package is served from the root of its own base, so its targetDir is empty and
   // joining it with a slash would ask for `//rule.js`.
   ...(lock.smart?.requiredFiles ?? []).map((file) => ({
     distribution: name, base, side: 'smart',
@@ -153,8 +153,8 @@ for (const page of pages) {
   }
 
   // Each distribution is looked for by its own placeholder. Matching one
-  // pattern over `/distr/` could not see Pro at all: its base is
-  // `/distr-pro/pro-<12>/`, it is handed to the Loader rather than written into
+  // pattern over `/distr/` could not see a package at all: its base is
+  // `/distr-larena/larena-<12>/`, it is handed to the Loader rather than written into
   // a URL, and nothing follows it in the page -- so a check built around the
   // Framework's shape would have certified half the runtime while saying
   // nothing about the other half, which is the failure the stamping exists to
@@ -182,8 +182,8 @@ for (const page of pages) {
     continue;
   }
 
-  // And the rule the split makes necessary: the Pro rules are gone from the
-  // free core, so a page that uses a Pro element without declaring the package
+  // And the rule the split makes necessary: the package's rules are not in the
+  // free core, so a page that uses a package element without declaring the package
   // base renders nothing. The elements are read from the free Framework's own
   // package reference rather than listed here, because the Framework is what
   // decides which elements belong to the package.

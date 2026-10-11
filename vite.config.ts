@@ -176,13 +176,17 @@ function mountDistr(
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, projectRoot, '')
   const distrRoot = resolve(env.SIMAI_RUNTIME_ROOT || '.runtime')
-  const proRoot = resolve(env.SIMAI_PRO_RUNTIME_ROOT || '.runtime-pro')
+  // The component package's runtime in dev: materialised there by
+  // prepare:runtime, or pointed elsewhere to try a package build by hand.
+  const packageRoot = resolve(env.SIMAI_PACKAGE_RUNTIME_ROOT || '.runtime-package')
   const previewDistrRoot = resolve(
     env.SIMAI_PREVIEW_RUNTIME_ROOT || `dist/distr/${runtimePairDirectory}`,
   )
   const developmentRoots = new Map<string, string>([
     ['framework', distrRoot],
-    ['pro', proRoot],
+    ...served
+      .filter((one) => one.name !== 'framework')
+      .map((one) => [one.name, packageRoot] as [string, string]),
   ])
   const previewRoots = new Map<string, string>([
     ['framework', previewDistrRoot],
@@ -220,7 +224,7 @@ export default defineConfig(({ mode }) => {
         '/api': apiProxyTarget,
       },
       fs: {
-        allow: [projectRoot, distrRoot, proRoot],
+        allow: [projectRoot, distrRoot, packageRoot],
       },
     },
     preview: {

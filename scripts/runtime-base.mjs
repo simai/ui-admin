@@ -17,10 +17,12 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 export const PLACEHOLDER = '/distr/';
-export const PRO_PLACEHOLDER = '/distr-pro/';
+// A component package is served under /distr-<package>/, its own path beside
+// the Framework's: `/distr-larena/` for Larena's components.
+export const packagePlaceholder = (name) => `/distr-${name}/`;
 
 export const FRAMEWORK_LOCK = 'config/simai-assets.lock.json';
-export const PRO_LOCK = 'config/simai-pro.lock.json';
+export const PACKAGE_LOCK = 'config/simai-package.lock.json';
 
 export const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -77,27 +79,29 @@ export const distributions = () => {
     base: runtimeBase(framework),
   }];
 
-  // Pro is a second distribution with its own release, its own repository and
-  // its own stamped path. It appears here once it is pinned -- an unpinned lock
-  // is the state between authoring the file and taking the first release, and
-  // a site with no Pro pin serves no Pro.
-  const proPath = resolve(projectRoot, PRO_LOCK);
-  if (existsSync(proPath)) {
-    const pro = readLock(PRO_LOCK);
-    if (pro.compatibilityId) {
+  // The component package is a second distribution with its own source, its
+  // own build and its own stamped path: Larena's components, package larena,
+  // since SIMAI Framework Pro was dropped. It appears here once it is pinned --
+  // an unpinned lock is the state between authoring the file and taking the
+  // first build, and a site with no package pin serves no package.
+  const packagePath = resolve(projectRoot, PACKAGE_LOCK);
+  if (existsSync(packagePath)) {
+    const pinned = readLock(PACKAGE_LOCK);
+    if (pinned.compatibilityId) {
+      const placeholder = packagePlaceholder(pinned.package);
       found.push({
-        name: 'pro',
-        placeholder: PRO_PLACEHOLDER,
-        lock: pro,
-        directory: runtimeDirectory(pro),
-        base: `${PRO_PLACEHOLDER}${runtimeDirectory(pro)}/`,
+        name: pinned.package,
+        placeholder,
+        lock: pinned,
+        directory: runtimeDirectory(pinned),
+        base: `${placeholder}${runtimeDirectory(pinned)}/`,
       });
     }
   }
 
   // Each distribution is stamped by its own placeholder, so no placeholder may
   // be a prefix of another: stamping `/distr/` over a path already stamped to
-  // `/distr/pro-<12>/` would produce `/distr/ui-<12>/pro-<12>/`, which is the
+  // `/distr/larena-<12>/` would produce `/distr/ui-<12>/larena-<12>/`, which is the
   // double-stamping defect this file already carries a comment about -- one
   // level deeper and across two distributions, where no single check would see
   // the whole of it.
@@ -139,7 +143,7 @@ export const stamp = (text, base = runtimeBase(), placeholder = PLACEHOLDER) => 
  * Stamps every distribution's placeholder, each with its own base.
  *
  * The single-base `stamp` is kept for callers that mean one distribution, but
- * a page declares both -- the Framework it loads and the Pro package base it
+ * a page declares both -- the Framework it loads and the package base it
  * hands the Loader -- so whatever writes a page has to stamp all of them or
  * ship a page that asks for a path nothing serves.
  */

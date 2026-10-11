@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "package": "larena",
+  "source": {
+    "repository": "simai/larena-ui",
+    "path": "components"
+  },
+  "smart": {
+    "targetDir": ""
+  }
+}

@@ -3,9 +3,9 @@
   "package": "larena",
   "source": {
     "repository": "simai/larena-ui",
-    "revision": "b66760820f984486942252a5571dbae5dff93774",
+    "revision": "87d5854992fd912cf1a70f0e5cdf5806ea7869ad",
     "path": "components",
-    "tree": "1c54978cae673f03e8b71343012dfbd903bc8582"
+    "tree": "72065a7a5ad3a979a44565b3f3775bf453d5498c"
   },
   "smart": {
     "targetDir": "",
@@ -44,10 +44,10 @@
       }
     ]
   },
-  "compatibilityId": "larena-b66760820f98",
+  "compatibilityId": "larena-87d5854992fd",
   "requires": {
-    "framework": "ui-257f66def2b8"
+    "framework": "ui-d34117c9f3f0"
   },
   "archiveSha256": "2aa09477c51443410bba475cc50883a912074bb1ec151c6baa93009641fd401c",
-  "distributionIdentitySha256": "af966530e8c25daaadb0d6561deb109b48d4055c5765fba21251ce3f656e99f6"
+  "distributionIdentitySha256": "5669f2afe9bea66fb8e96587aba2fe12513d64db6b29f4565403b71a95b01ddb"
 }

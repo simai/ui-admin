@@ -24,8 +24,8 @@
     "publish": "bash scripts/publish-local-site.sh",
     "check:port": "node scripts/check-port-conformance.mjs",
     "check:published": "node scripts/check-published-runtime.mjs",
-    "data": "node scripts/build-polygon-data.mjs",
-    "data:check": "node scripts/build-polygon-data.mjs --check",
+    "data": "node scripts/build-polygon-data.mjs && node scripts/build-navigation-data.mjs",
+    "data:check": "node scripts/build-polygon-data.mjs --check && node scripts/build-navigation-data.mjs --check",
     "check:polygon": "node scripts/check-polygon.mjs"
   },
   "devDependencies": {

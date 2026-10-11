@@ -24,11 +24,13 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { createPolygonHost } from '../src/ports/polygon-host.mjs';
+import { createNavigationHost } from '../src/ports/navigation-host.mjs';
 import { projectRoot } from './runtime-base.mjs';
 import { newestKit } from './port-kits.mjs';
 
 const runtime = resolve(projectRoot, process.env.SIMAI_RUNTIME_ROOT ?? '.runtime');
 const dataset = JSON.parse(readFileSync(resolve(projectRoot, 'data/polygon.json'), 'utf8'));
+const navigationData = JSON.parse(readFileSync(resolve(projectRoot, 'data/navigation.json'), 'utf8'));
 const failures = [];
 
 // ─── 1 and 2: the types ───────────────────────────────────────────────────────
@@ -214,14 +216,61 @@ const drive = async (label, kit, reaches, build) => {
   return { reached: reached.size, declared: kit.required.size };
 };
 
+const ALL_NAV = ['favourites', 'menu-profiles', 'notifications', 'preferences', 'search', 'sign-out', 'site-switch'];
+const without = (name) => ALL_NAV.filter((capability) => capability !== name);
+const emptyLayout = { schema_version: 1, items: {}, own: [] };
+
+// How the navigation host reaches each answer. The kit says what the answer
+// must carry; which site, profile or right gets there is this polygon's own.
+const navigationReaches = [
+  ['navigation.load', 'applied', ALL_NAV, 'default', { reason: 'connected', site: null, sequence: 1 }],
+  ['navigation.load', 'refused', ALL_NAV, 'default', { reason: 'connected', site: 'no-such-site' }],
+  ['navigation.load', 'unavailable', ALL_NAV, 'unavailable', { reason: 'connected', site: null }],
+  ['item.open', 'applied', ALL_NAV, 'default', { key: 'data.catalog', href: '/admin/data/catalog' }],
+  ['item.open', 'refused', ALL_NAV, 'default', { key: 'no-such-row' }],
+  ['site.switch', 'applied', ALL_NAV, 'default', { site: 'shop.simai.ru', sequence: 4 }],
+  ['site.switch', 'refused', ALL_NAV, 'default', { site: 'no-such-site' }],
+  ['site.switch', 'unavailable', without('site-switch'), 'default', { site: 'shop.simai.ru' }],
+  ['sites.search', 'applied', ALL_NAV, 'default', { query: '', cursor: null }],
+  ['search.query', 'applied', ALL_NAV, 'default', { query: 'катал', sequence: 2 }],
+  ['search.query', 'unavailable', without('search'), 'default', { query: 'x' }],
+  ['search.choose', 'applied', ALL_NAV, 'default', { group: 'go', key: 'data.catalog' }],
+  ['favourite.toggle', 'applied', ALL_NAV, 'default', { key: 'data.news', on: true }],
+  ['favourite.toggle', 'refused', ALL_NAV, 'default', { key: 'no-such-row', on: true }],
+  ['view.profile', 'applied', ALL_NAV, 'default', { profile: 'expert' }],
+  ['view.profile', 'refused', ALL_NAV, 'default', { profile: 'no-such-profile' }],
+  ['view.create', 'applied', ALL_NAV, 'default', { label: 'Для контент-менеджеров', shared: true, from: 'regular' }],
+  // Making a shared profile is an administrator's; an editor is refused.
+  ['view.create', 'refused', ALL_NAV, 'editor', { label: 'Для всех', shared: true, from: 'regular' }],
+  ['view.rename', 'applied', ALL_NAV, 'default', { profile: 'expert', label: 'Экспертный режим' }],
+  ['view.delete', 'applied', ALL_NAV, 'default', { profile: 'personal' }],
+  // The last shared profile stays; reached by standing the host up with one.
+  ['view.delete', 'refused', ALL_NAV, 'one-shared', { profile: 'only' }],
+  ['view.save', 'applied', ALL_NAV, 'default', { profile: 'personal', revision: 'p1', layout: emptyLayout }],
+  ['view.save', 'conflict', ALL_NAV, 'default', { profile: 'regular', revision: 'stale', layout: emptyLayout }],
+  ['view.save', 'refused', ALL_NAV, 'editor', { profile: 'regular', revision: 'r1', layout: emptyLayout }],
+  ['view.save', 'unavailable', without('menu-profiles'), 'default', { profile: 'personal', revision: 'p1', layout: emptyLayout }],
+  ['view.reset', 'applied', ALL_NAV, 'default', { profile: 'personal', revision: 'p1' }],
+  ['preference.theme', 'applied', ALL_NAV, 'default', { theme: 'dark' }],
+  ['preference.language', 'applied', ALL_NAV, 'default', { language: 'en' }],
+  ['preference.language', 'refused', ALL_NAV, 'default', { language: 'xx' }],
+  ['notifications.load', 'applied', ALL_NAV, 'default', { cursor: null }],
+  ['notifications.load', 'unavailable', without('notifications'), 'default', { cursor: null }],
+  ['notifications.read', 'applied', ALL_NAV, 'default', { all: true }],
+  ['session.sign-out', 'applied', ALL_NAV, 'default', {}],
+];
+
 const listKit = kitFor('simai.dataview-port');
 const panelKit = kitFor('simai.property-view-port');
+const navigationKit = kitFor('simai.admin-navigation-port');
 
 const list = await drive('simai.dataview-port', listKit, listReaches,
   ({ capabilities, scenario }) => createPolygonHost({ dataset, capabilities, scenario }));
 const panel = await drive('simai.property-view-port', panelKit, panelReaches,
   ({ capabilities, scenario, profiles }) => createPolygonHost({ dataset, scenario })
     .propertyView({ capabilities, profiles }));
+const navigation = await drive('simai.admin-navigation-port', navigationKit, navigationReaches,
+  ({ capabilities, scenario }) => createNavigationHost({ data: navigationData, capabilities, scenario }));
 
 process.stdout.write(`${JSON.stringify({
   schema: 'ui-admin.polygon.v1',
@@ -231,6 +280,7 @@ process.stdout.write(`${JSON.stringify({
   ports: {
     'simai.dataview-port': { version: listKit?.version ?? null, ...list },
     'simai.property-view-port': { version: panelKit?.version ?? null, ...panel },
+    'simai.admin-navigation-port': { version: navigationKit?.version ?? null, ...navigation },
   },
   status: failures.length ? 'fail' : 'pass',
   failures,

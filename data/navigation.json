@@ -1,0 +1,6278 @@
+{
+  "schema": "ui-admin.navigation.v1",
+  "summary": "The admin menu's data as a host knows it: sites, the tree per site, profiles with layouts, the person and notifications. Answers simai.admin-navigation-port through src/ports/navigation-host.mjs.",
+  "roots": [
+    {
+      "key": "home",
+      "kind": "page",
+      "level": "site",
+      "label": "Главная",
+      "icon": "home",
+      "href": "/admin"
+    },
+    {
+      "key": "data",
+      "kind": "root",
+      "level": "site",
+      "label": "Данные",
+      "icon": "database",
+      "rows": "storages+data_tail",
+      "action": {
+        "key": "storage.create",
+        "label": "Создать хранилище",
+        "icon": "add",
+        "href": "/admin/storages/new"
+      }
+    },
+    {
+      "key": "site",
+      "kind": "root",
+      "level": "site",
+      "label": "Сайт",
+      "icon": "language",
+      "rows": "site_rows"
+    },
+    {
+      "key": "people",
+      "kind": "root",
+      "level": "site",
+      "label": "Люди",
+      "icon": "group",
+      "rows": "people_rows"
+    },
+    {
+      "key": "install",
+      "kind": "root",
+      "level": "install",
+      "label": "Установка",
+      "icon": "dns",
+      "rows": "install_rows"
+    }
+  ],
+  "rows": {
+    "data_tail": [
+      {
+        "key": "data.d.files",
+        "kind": "divider"
+      },
+      {
+        "key": "data.files",
+        "kind": "page",
+        "label": "Файлы",
+        "icon": "folder",
+        "href": "/admin/files"
+      },
+      {
+        "key": "data.storages",
+        "kind": "page",
+        "label": "Все хранилища",
+        "icon": "list",
+        "href": "/admin/storages"
+      }
+    ],
+    "site_rows": [
+      {
+        "key": "site.settings",
+        "kind": "page",
+        "label": "Настройки сайта",
+        "icon": "tune",
+        "href": "/admin/site/settings"
+      },
+      {
+        "key": "site.pages",
+        "kind": "page",
+        "label": "Страницы",
+        "icon": "web",
+        "href": "/admin/site/pages"
+      },
+      {
+        "key": "site.menus",
+        "kind": "page",
+        "label": "Меню сайта",
+        "icon": "menu",
+        "href": "/admin/site/menus"
+      },
+      {
+        "key": "site.seo",
+        "kind": "page",
+        "label": "SEO",
+        "icon": "travel_explore",
+        "href": "/admin/site/seo"
+      },
+      {
+        "key": "site.d.open",
+        "kind": "divider"
+      },
+      {
+        "key": "site.open",
+        "kind": "link",
+        "label": "Открыть сайт",
+        "icon": "open_in_new",
+        "href": null
+      }
+    ],
+    "people_rows": [
+      {
+        "key": "people.users",
+        "kind": "page",
+        "label": "Пользователи",
+        "icon": "person",
+        "href": "/admin/people/users"
+      },
+      {
+        "key": "people.groups",
+        "kind": "page",
+        "label": "Группы",
+        "icon": "account_tree",
+        "href": "/admin/people/groups"
+      },
+      {
+        "key": "people.roles",
+        "kind": "page",
+        "label": "Роли",
+        "icon": "shield",
+        "href": "/admin/people/roles"
+      }
+    ],
+    "install_rows": [
+      {
+        "key": "install.updates",
+        "kind": "page",
+        "label": "Обновления",
+        "icon": "system_update",
+        "href": "/admin/install/updates",
+        "attention": {
+          "tone": "info",
+          "label": "доступно 1.4"
+        }
+      },
+      {
+        "key": "install.backups",
+        "kind": "page",
+        "label": "Резервные копии",
+        "icon": "backup",
+        "href": "/admin/install/backups"
+      },
+      {
+        "key": "install.journal",
+        "kind": "page",
+        "label": "Журнал",
+        "icon": "receipt",
+        "href": "/admin/install/journal"
+      },
+      {
+        "key": "install.packages",
+        "kind": "page",
+        "label": "Пакеты",
+        "icon": "deployed_code",
+        "href": "/admin/install/packages"
+      },
+      {
+        "key": "install.sites",
+        "kind": "page",
+        "label": "Сайты",
+        "icon": "public",
+        "href": "/admin/install/sites"
+      },
+      {
+        "key": "install.h.dev",
+        "kind": "heading",
+        "label": "Разработка"
+      },
+      {
+        "key": "install.queues",
+        "kind": "page",
+        "label": "Очереди",
+        "icon": "pending_actions",
+        "href": "/admin/install/queues"
+      },
+      {
+        "key": "install.cache",
+        "kind": "page",
+        "label": "Кеш",
+        "icon": "cached",
+        "href": "/admin/install/cache"
+      }
+    ]
+  },
+  "sites": [
+    {
+      "key": "simai.ru",
+      "label": "simai.ru",
+      "caption": "Сайт компании",
+      "mark": "S",
+      "storages": [
+        {
+          "key": "data.h.catalog",
+          "kind": "heading",
+          "label": "Каталог"
+        },
+        {
+          "key": "data.catalog",
+          "kind": "page",
+          "label": "Каталог решений",
+          "icon": "inventory_2",
+          "href": "/admin/data/catalog"
+        },
+        {
+          "key": "data.catalog-sections",
+          "kind": "page",
+          "label": "Разделы каталога",
+          "icon": "account_tree",
+          "href": "/admin/data/catalog-sections"
+        },
+        {
+          "key": "data.h.site",
+          "kind": "heading",
+          "label": "Сайт"
+        },
+        {
+          "key": "data.news",
+          "kind": "page",
+          "label": "Новости",
+          "icon": "newspaper",
+          "href": "/admin/data/news"
+        },
+        {
+          "key": "data.faq",
+          "kind": "page",
+          "label": "Вопросы и ответы",
+          "icon": "quiz",
+          "href": "/admin/data/faq"
+        },
+        {
+          "key": "data.cases",
+          "kind": "page",
+          "label": "Кейсы клиентов",
+          "icon": "work",
+          "href": "/admin/data/cases"
+        },
+        {
+          "key": "data.vacancies",
+          "kind": "page",
+          "label": "Вакансии",
+          "icon": "badge",
+          "href": "/admin/data/vacancies"
+        },
+        {
+          "key": "data.h.requests",
+          "kind": "heading",
+          "label": "Заявки"
+        },
+        {
+          "key": "data.requests",
+          "kind": "page",
+          "label": "Заявки с сайта",
+          "icon": "inbox",
+          "href": "/admin/data/requests",
+          "attention": {
+            "tone": "warning",
+            "label": "4 новых"
+          }
+        },
+        {
+          "key": "data.callbacks",
+          "kind": "page",
+          "label": "Обратные звонки",
+          "icon": "call",
+          "href": "/admin/data/callbacks"
+        }
+      ],
+      "favourites": [
+        "data.catalog",
+        "data.requests"
+      ]
+    },
+    {
+      "key": "shop.simai.ru",
+      "label": "shop.simai.ru",
+      "caption": "Интернет-магазин",
+      "mark": "M",
+      "storages": [
+        {
+          "key": "data.h.shop",
+          "kind": "heading",
+          "label": "Магазин"
+        },
+        {
+          "key": "data.products",
+          "kind": "page",
+          "label": "Товары",
+          "icon": "shopping_bag",
+          "href": "/admin/data/products"
+        },
+        {
+          "key": "data.orders",
+          "kind": "page",
+          "label": "Заказы",
+          "icon": "receipt_long",
+          "href": "/admin/data/orders",
+          "attention": {
+            "tone": "info",
+            "label": "12 новых"
+          }
+        },
+        {
+          "key": "data.customers",
+          "kind": "page",
+          "label": "Покупатели",
+          "icon": "groups",
+          "href": "/admin/data/customers"
+        }
+      ],
+      "favourites": [
+        "data.orders"
+      ]
+    },
+    {
+      "key": "docs.simai.ru",
+      "label": "docs.simai.ru",
+      "caption": "Документация",
+      "mark": "D",
+      "storages": [
+        {
+          "key": "data.articles",
+          "kind": "page",
+          "label": "Статьи",
+          "icon": "article",
+          "href": "/admin/data/articles"
+        },
+        {
+          "key": "data.versions",
+          "kind": "page",
+          "label": "Версии",
+          "icon": "history",
+          "href": "/admin/data/versions"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-001.ru",
+      "label": "client-001.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-002.ru",
+      "label": "client-002.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-003.ru",
+      "label": "client-003.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-004.ru",
+      "label": "client-004.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-005.ru",
+      "label": "client-005.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads",
+          "attention": {
+            "tone": "warning",
+            "label": "1 новая"
+          }
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-006.ru",
+      "label": "client-006.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-007.ru",
+      "label": "client-007.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-008.ru",
+      "label": "client-008.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-009.ru",
+      "label": "client-009.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-010.ru",
+      "label": "client-010.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-011.ru",
+      "label": "client-011.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-012.ru",
+      "label": "client-012.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-013.ru",
+      "label": "client-013.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-014.ru",
+      "label": "client-014.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads",
+          "attention": {
+            "tone": "warning",
+            "label": "1 новая"
+          }
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-015.ru",
+      "label": "client-015.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-016.ru",
+      "label": "client-016.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-017.ru",
+      "label": "client-017.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-018.ru",
+      "label": "client-018.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-019.ru",
+      "label": "client-019.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-020.ru",
+      "label": "client-020.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-021.ru",
+      "label": "client-021.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-022.ru",
+      "label": "client-022.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-023.ru",
+      "label": "client-023.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads",
+          "attention": {
+            "tone": "warning",
+            "label": "1 новая"
+          }
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-024.ru",
+      "label": "client-024.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-025.ru",
+      "label": "client-025.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-026.ru",
+      "label": "client-026.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-027.ru",
+      "label": "client-027.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-028.ru",
+      "label": "client-028.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-029.ru",
+      "label": "client-029.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-030.ru",
+      "label": "client-030.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-031.ru",
+      "label": "client-031.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-032.ru",
+      "label": "client-032.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads",
+          "attention": {
+            "tone": "warning",
+            "label": "1 новая"
+          }
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-033.ru",
+      "label": "client-033.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-034.ru",
+      "label": "client-034.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-035.ru",
+      "label": "client-035.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-036.ru",
+      "label": "client-036.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-037.ru",
+      "label": "client-037.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-038.ru",
+      "label": "client-038.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-039.ru",
+      "label": "client-039.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-040.ru",
+      "label": "client-040.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-041.ru",
+      "label": "client-041.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads",
+          "attention": {
+            "tone": "warning",
+            "label": "1 новая"
+          }
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-042.ru",
+      "label": "client-042.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-043.ru",
+      "label": "client-043.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-044.ru",
+      "label": "client-044.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-045.ru",
+      "label": "client-045.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-046.ru",
+      "label": "client-046.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-047.ru",
+      "label": "client-047.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-048.ru",
+      "label": "client-048.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-049.ru",
+      "label": "client-049.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-050.ru",
+      "label": "client-050.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads",
+          "attention": {
+            "tone": "warning",
+            "label": "1 новая"
+          }
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-051.ru",
+      "label": "client-051.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-052.ru",
+      "label": "client-052.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-053.ru",
+      "label": "client-053.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-054.ru",
+      "label": "client-054.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-055.ru",
+      "label": "client-055.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-056.ru",
+      "label": "client-056.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-057.ru",
+      "label": "client-057.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-058.ru",
+      "label": "client-058.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-059.ru",
+      "label": "client-059.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads",
+          "attention": {
+            "tone": "warning",
+            "label": "1 новая"
+          }
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-060.ru",
+      "label": "client-060.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-061.ru",
+      "label": "client-061.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-062.ru",
+      "label": "client-062.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-063.ru",
+      "label": "client-063.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-064.ru",
+      "label": "client-064.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-065.ru",
+      "label": "client-065.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-066.ru",
+      "label": "client-066.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-067.ru",
+      "label": "client-067.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-068.ru",
+      "label": "client-068.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads",
+          "attention": {
+            "tone": "warning",
+            "label": "1 новая"
+          }
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-069.ru",
+      "label": "client-069.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-070.ru",
+      "label": "client-070.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-071.ru",
+      "label": "client-071.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-072.ru",
+      "label": "client-072.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-073.ru",
+      "label": "client-073.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-074.ru",
+      "label": "client-074.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-075.ru",
+      "label": "client-075.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-076.ru",
+      "label": "client-076.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-077.ru",
+      "label": "client-077.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads",
+          "attention": {
+            "tone": "warning",
+            "label": "1 новая"
+          }
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-078.ru",
+      "label": "client-078.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-079.ru",
+      "label": "client-079.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-080.ru",
+      "label": "client-080.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-081.ru",
+      "label": "client-081.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-082.ru",
+      "label": "client-082.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-083.ru",
+      "label": "client-083.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-084.ru",
+      "label": "client-084.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-085.ru",
+      "label": "client-085.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-086.ru",
+      "label": "client-086.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads",
+          "attention": {
+            "tone": "warning",
+            "label": "1 новая"
+          }
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-087.ru",
+      "label": "client-087.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-088.ru",
+      "label": "client-088.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-089.ru",
+      "label": "client-089.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-090.ru",
+      "label": "client-090.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-091.ru",
+      "label": "client-091.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-092.ru",
+      "label": "client-092.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-093.ru",
+      "label": "client-093.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-094.ru",
+      "label": "client-094.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-095.ru",
+      "label": "client-095.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads",
+          "attention": {
+            "tone": "warning",
+            "label": "1 новая"
+          }
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-096.ru",
+      "label": "client-096.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-097.ru",
+      "label": "client-097.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-098.ru",
+      "label": "client-098.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-099.ru",
+      "label": "client-099.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-100.ru",
+      "label": "client-100.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-101.ru",
+      "label": "client-101.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-102.ru",
+      "label": "client-102.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-103.ru",
+      "label": "client-103.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-104.ru",
+      "label": "client-104.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads",
+          "attention": {
+            "tone": "warning",
+            "label": "1 новая"
+          }
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-105.ru",
+      "label": "client-105.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-106.ru",
+      "label": "client-106.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-107.ru",
+      "label": "client-107.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-108.ru",
+      "label": "client-108.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-109.ru",
+      "label": "client-109.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-110.ru",
+      "label": "client-110.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-111.ru",
+      "label": "client-111.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-112.ru",
+      "label": "client-112.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-113.ru",
+      "label": "client-113.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads",
+          "attention": {
+            "tone": "warning",
+            "label": "1 новая"
+          }
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-114.ru",
+      "label": "client-114.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-115.ru",
+      "label": "client-115.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-116.ru",
+      "label": "client-116.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-117.ru",
+      "label": "client-117.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-118.ru",
+      "label": "client-118.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-119.ru",
+      "label": "client-119.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-120.ru",
+      "label": "client-120.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-121.ru",
+      "label": "client-121.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-122.ru",
+      "label": "client-122.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads",
+          "attention": {
+            "tone": "warning",
+            "label": "1 новая"
+          }
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-123.ru",
+      "label": "client-123.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-124.ru",
+      "label": "client-124.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-125.ru",
+      "label": "client-125.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-126.ru",
+      "label": "client-126.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-127.ru",
+      "label": "client-127.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-128.ru",
+      "label": "client-128.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-129.ru",
+      "label": "client-129.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-130.ru",
+      "label": "client-130.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-131.ru",
+      "label": "client-131.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads",
+          "attention": {
+            "tone": "warning",
+            "label": "1 новая"
+          }
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-132.ru",
+      "label": "client-132.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-133.ru",
+      "label": "client-133.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-134.ru",
+      "label": "client-134.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-135.ru",
+      "label": "client-135.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-136.ru",
+      "label": "client-136.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-137.ru",
+      "label": "client-137.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-138.ru",
+      "label": "client-138.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-139.ru",
+      "label": "client-139.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-140.ru",
+      "label": "client-140.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads",
+          "attention": {
+            "tone": "warning",
+            "label": "1 новая"
+          }
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-141.ru",
+      "label": "client-141.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-142.ru",
+      "label": "client-142.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-143.ru",
+      "label": "client-143.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-144.ru",
+      "label": "client-144.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-145.ru",
+      "label": "client-145.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-146.ru",
+      "label": "client-146.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-147.ru",
+      "label": "client-147.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-148.ru",
+      "label": "client-148.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-149.ru",
+      "label": "client-149.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads",
+          "attention": {
+            "tone": "warning",
+            "label": "1 новая"
+          }
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-150.ru",
+      "label": "client-150.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-151.ru",
+      "label": "client-151.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-152.ru",
+      "label": "client-152.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-153.ru",
+      "label": "client-153.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-154.ru",
+      "label": "client-154.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-155.ru",
+      "label": "client-155.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-156.ru",
+      "label": "client-156.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-157.ru",
+      "label": "client-157.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-158.ru",
+      "label": "client-158.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads",
+          "attention": {
+            "tone": "warning",
+            "label": "1 новая"
+          }
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-159.ru",
+      "label": "client-159.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-160.ru",
+      "label": "client-160.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-161.ru",
+      "label": "client-161.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-162.ru",
+      "label": "client-162.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-163.ru",
+      "label": "client-163.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-164.ru",
+      "label": "client-164.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-165.ru",
+      "label": "client-165.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-166.ru",
+      "label": "client-166.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-167.ru",
+      "label": "client-167.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads",
+          "attention": {
+            "tone": "warning",
+            "label": "1 новая"
+          }
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-168.ru",
+      "label": "client-168.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-169.ru",
+      "label": "client-169.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-170.ru",
+      "label": "client-170.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-171.ru",
+      "label": "client-171.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-172.ru",
+      "label": "client-172.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-173.ru",
+      "label": "client-173.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-174.ru",
+      "label": "client-174.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-175.ru",
+      "label": "client-175.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-176.ru",
+      "label": "client-176.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads",
+          "attention": {
+            "tone": "warning",
+            "label": "1 новая"
+          }
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-177.ru",
+      "label": "client-177.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-178.ru",
+      "label": "client-178.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-179.ru",
+      "label": "client-179.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-180.ru",
+      "label": "client-180.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-181.ru",
+      "label": "client-181.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-182.ru",
+      "label": "client-182.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-183.ru",
+      "label": "client-183.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-184.ru",
+      "label": "client-184.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-185.ru",
+      "label": "client-185.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads",
+          "attention": {
+            "tone": "warning",
+            "label": "1 новая"
+          }
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-186.ru",
+      "label": "client-186.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-187.ru",
+      "label": "client-187.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-188.ru",
+      "label": "client-188.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-189.ru",
+      "label": "client-189.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-190.ru",
+      "label": "client-190.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-191.ru",
+      "label": "client-191.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-192.ru",
+      "label": "client-192.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-193.ru",
+      "label": "client-193.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-194.ru",
+      "label": "client-194.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads",
+          "attention": {
+            "tone": "warning",
+            "label": "1 новая"
+          }
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-195.ru",
+      "label": "client-195.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-196.ru",
+      "label": "client-196.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-197.ru",
+      "label": "client-197.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-198.ru",
+      "label": "client-198.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-199.ru",
+      "label": "client-199.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-200.ru",
+      "label": "client-200.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-201.ru",
+      "label": "client-201.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-202.ru",
+      "label": "client-202.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-203.ru",
+      "label": "client-203.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads",
+          "attention": {
+            "tone": "warning",
+            "label": "1 новая"
+          }
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-204.ru",
+      "label": "client-204.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-205.ru",
+      "label": "client-205.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-206.ru",
+      "label": "client-206.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-207.ru",
+      "label": "client-207.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-208.ru",
+      "label": "client-208.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-209.ru",
+      "label": "client-209.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-210.ru",
+      "label": "client-210.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-211.ru",
+      "label": "client-211.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-212.ru",
+      "label": "client-212.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads",
+          "attention": {
+            "tone": "warning",
+            "label": "1 новая"
+          }
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-213.ru",
+      "label": "client-213.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-214.ru",
+      "label": "client-214.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-215.ru",
+      "label": "client-215.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-216.ru",
+      "label": "client-216.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-217.ru",
+      "label": "client-217.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-218.ru",
+      "label": "client-218.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-219.ru",
+      "label": "client-219.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-220.ru",
+      "label": "client-220.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-221.ru",
+      "label": "client-221.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads",
+          "attention": {
+            "tone": "warning",
+            "label": "1 новая"
+          }
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-222.ru",
+      "label": "client-222.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-223.ru",
+      "label": "client-223.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-224.ru",
+      "label": "client-224.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-225.ru",
+      "label": "client-225.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-226.ru",
+      "label": "client-226.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-227.ru",
+      "label": "client-227.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-228.ru",
+      "label": "client-228.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-229.ru",
+      "label": "client-229.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-230.ru",
+      "label": "client-230.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads",
+          "attention": {
+            "tone": "warning",
+            "label": "1 новая"
+          }
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-231.ru",
+      "label": "client-231.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-232.ru",
+      "label": "client-232.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-233.ru",
+      "label": "client-233.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-234.ru",
+      "label": "client-234.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-235.ru",
+      "label": "client-235.ru",
+      "caption": "Лендинг",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-236.ru",
+      "label": "client-236.ru",
+      "caption": "Сайт клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    },
+    {
+      "key": "client-237.ru",
+      "label": "client-237.ru",
+      "caption": "Магазин клиента",
+      "mark": "C",
+      "storages": [
+        {
+          "key": "data.pages-content",
+          "kind": "page",
+          "label": "Материалы",
+          "icon": "article",
+          "href": "/admin/data/content"
+        },
+        {
+          "key": "data.leads",
+          "kind": "page",
+          "label": "Заявки",
+          "icon": "inbox",
+          "href": "/admin/data/leads"
+        }
+      ],
+      "favourites": []
+    }
+  ],
+  "current_site": "simai.ru",
+  "manage_sites_href": "/admin/install/sites",
+  "install_favourites": [
+    "install.updates"
+  ],
+  "profiles": [
+    {
+      "key": "regular",
+      "label": "Обычный",
+      "kind": "shared"
+    },
+    {
+      "key": "expert",
+      "label": "Экспертный",
+      "kind": "shared"
+    },
+    {
+      "key": "personal",
+      "label": "Персональный",
+      "kind": "personal"
+    }
+  ],
+  "current_profile": "regular",
+  "layouts": {
+    "regular": {
+      "schema_version": 1,
+      "items": {
+        "data.catalog-sections": {
+          "parent": "data",
+          "order": 2,
+          "hidden": true,
+          "label": null,
+          "icon": null
+        },
+        "install.h.dev": {
+          "parent": "install",
+          "order": 5,
+          "hidden": true,
+          "label": null,
+          "icon": null
+        },
+        "install.queues": {
+          "parent": "install",
+          "order": 6,
+          "hidden": true,
+          "label": null,
+          "icon": null
+        },
+        "install.cache": {
+          "parent": "install",
+          "order": 7,
+          "hidden": true,
+          "label": null,
+          "icon": null
+        }
+      },
+      "own": []
+    },
+    "expert": {
+      "schema_version": 1,
+      "items": {},
+      "own": []
+    },
+    "personal": {
+      "schema_version": 1,
+      "items": {
+        "data.h.requests": {
+          "parent": "data",
+          "order": 0,
+          "hidden": false,
+          "label": null,
+          "icon": null
+        },
+        "data.requests": {
+          "parent": "data",
+          "order": 1,
+          "hidden": false,
+          "label": "Мои заявки",
+          "icon": null
+        }
+      },
+      "own": [
+        {
+          "key": "own.crm",
+          "kind": "link",
+          "parent": "data",
+          "order": 99,
+          "label": "CRM отдела продаж",
+          "icon": "open_in_new",
+          "href": "https://crm.example.com/"
+        }
+      ]
+    }
+  },
+  "person": {
+    "name": "Super User",
+    "email": "admin@simai.ru",
+    "role": "Администратор",
+    "avatar": null,
+    "links": [
+      {
+        "key": "profile",
+        "label": "Профиль",
+        "icon": "badge",
+        "href": "/admin/profile"
+      },
+      {
+        "key": "security",
+        "label": "Безопасность входа",
+        "icon": "shield_lock",
+        "href": "/admin/profile/security"
+      },
+      {
+        "key": "sessions",
+        "label": "Активные сеансы",
+        "icon": "devices",
+        "href": "/admin/profile/sessions"
+      },
+      {
+        "key": "shortcuts",
+        "label": "Горячие клавиши",
+        "icon": "keyboard",
+        "href": "/admin/help/shortcuts"
+      },
+      {
+        "key": "help",
+        "label": "Справка",
+        "icon": "help",
+        "href": "https://docs.simai.ru/"
+      }
+    ],
+    "theme": "system",
+    "language": "ru",
+    "languages": [
+      {
+        "code": "ru",
+        "native": "Русский",
+        "english": "Russian"
+      },
+      {
+        "code": "en",
+        "native": "English",
+        "english": "English"
+      },
+      {
+        "code": "de",
+        "native": "Deutsch",
+        "english": "German"
+      },
+      {
+        "code": "fr",
+        "native": "Français",
+        "english": "French"
+      },
+      {
+        "code": "es",
+        "native": "Español",
+        "english": "Spanish"
+      },
+      {
+        "code": "it",
+        "native": "Italiano",
+        "english": "Italian"
+      },
+      {
+        "code": "pt",
+        "native": "Português",
+        "english": "Portuguese"
+      },
+      {
+        "code": "pl",
+        "native": "Polski",
+        "english": "Polish"
+      },
+      {
+        "code": "uk",
+        "native": "Українська",
+        "english": "Ukrainian"
+      },
+      {
+        "code": "be",
+        "native": "Беларуская",
+        "english": "Belarusian"
+      },
+      {
+        "code": "kk",
+        "native": "Қазақ тілі",
+        "english": "Kazakh"
+      },
+      {
+        "code": "uz",
+        "native": "Oʻzbekcha",
+        "english": "Uzbek"
+      },
+      {
+        "code": "az",
+        "native": "Azərbaycan dili",
+        "english": "Azerbaijani"
+      },
+      {
+        "code": "hy",
+        "native": "Հայերեն",
+        "english": "Armenian"
+      },
+      {
+        "code": "ka",
+        "native": "ქართული",
+        "english": "Georgian"
+      },
+      {
+        "code": "tr",
+        "native": "Türkçe",
+        "english": "Turkish"
+      },
+      {
+        "code": "nl",
+        "native": "Nederlands",
+        "english": "Dutch"
+      },
+      {
+        "code": "sv",
+        "native": "Svenska",
+        "english": "Swedish"
+      },
+      {
+        "code": "fi",
+        "native": "Suomi",
+        "english": "Finnish"
+      },
+      {
+        "code": "cs",
+        "native": "Čeština",
+        "english": "Czech"
+      },
+      {
+        "code": "el",
+        "native": "Ελληνικά",
+        "english": "Greek"
+      },
+      {
+        "code": "ar",
+        "native": "العربية",
+        "english": "Arabic"
+      },
+      {
+        "code": "he",
+        "native": "עברית",
+        "english": "Hebrew"
+      },
+      {
+        "code": "hi",
+        "native": "हिन्दी",
+        "english": "Hindi"
+      },
+      {
+        "code": "zh",
+        "native": "中文",
+        "english": "Chinese"
+      },
+      {
+        "code": "ja",
+        "native": "日本語",
+        "english": "Japanese"
+      },
+      {
+        "code": "ko",
+        "native": "한국어",
+        "english": "Korean"
+      }
+    ]
+  },
+  "notification_groups": [
+    {
+      "key": "today",
+      "label": "Сегодня"
+    },
+    {
+      "key": "earlier",
+      "label": "Раньше"
+    }
+  ],
+  "notifications": [
+    {
+      "key": "n1",
+      "group": "today",
+      "title": "Доступно обновление 1.4",
+      "body": "Larena 1.4: профили меню и сайт в адресе.",
+      "when": "10:42",
+      "unread": true,
+      "icon": "system_update",
+      "href": "/admin/install/updates"
+    },
+    {
+      "key": "n2",
+      "group": "today",
+      "title": "Вход с нового устройства",
+      "body": "Chrome, macOS, Москва.",
+      "when": "09:15",
+      "unread": true,
+      "icon": "shield",
+      "href": "/admin/profile/sessions"
+    },
+    {
+      "key": "n3",
+      "group": "today",
+      "title": "Резервная копия готова",
+      "body": null,
+      "when": "03:00",
+      "unread": true,
+      "icon": "backup",
+      "href": "/admin/install/backups"
+    },
+    {
+      "key": "n4",
+      "group": "earlier",
+      "title": "4 новые заявки с сайта",
+      "body": "simai.ru",
+      "when": "вчера",
+      "unread": false,
+      "icon": "inbox",
+      "href": "/admin/data/requests"
+    },
+    {
+      "key": "n5",
+      "group": "earlier",
+      "title": "Резервная копия готова",
+      "body": null,
+      "when": "вчера",
+      "unread": false,
+      "icon": "backup",
+      "href": "/admin/install/backups"
+    },
+    {
+      "key": "n6",
+      "group": "earlier",
+      "title": "Пакет storage обновлён до 2.3",
+      "body": null,
+      "when": "8 окт",
+      "unread": false,
+      "icon": "deployed_code",
+      "href": "/admin/install/packages"
+    }
+  ],
+  "notifications_settings_href": "/admin/profile/notifications",
+  "search": {
+    "recent": [
+      "data.catalog",
+      "data.requests",
+      "site.settings",
+      "install.updates"
+    ],
+    "actions": [
+      {
+        "key": "record.create",
+        "label": "Создать запись…",
+        "caption": "в любом хранилище",
+        "icon": "add"
+      },
+      {
+        "key": "theme.toggle",
+        "label": "Сменить тему",
+        "caption": "Светлая / тёмная",
+        "icon": "dark_mode"
+      },
+      {
+        "key": "site.choose",
+        "label": "Сменить сайт…",
+        "caption": null,
+        "icon": "swap_horiz"
+      }
+    ]
+  }
+}

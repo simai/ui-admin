@@ -237,6 +237,7 @@ const navigationReaches = [
   ['search.choose', 'applied', ALL_NAV, 'default', { group: 'go', key: 'data.catalog' }],
   ['favourite.toggle', 'applied', ALL_NAV, 'default', { key: 'data.news', on: true }],
   ['favourite.toggle', 'refused', ALL_NAV, 'default', { key: 'no-such-row', on: true }],
+  ['favourite.toggle', 'applied', ALL_NAV, 'default', { key: 'record:catalog:r-001', on: true, label: 'SIMAI: Платежи №100', icon: 'inventory_2', href: '/admin/data/catalog?record=r-001' }],
   ['view.profile', 'applied', ALL_NAV, 'default', { profile: 'expert' }],
   ['view.profile', 'refused', ALL_NAV, 'default', { profile: 'no-such-profile' }],
   ['view.create', 'applied', ALL_NAV, 'default', { label: 'Для контент-менеджеров', shared: true, from: 'regular' }],

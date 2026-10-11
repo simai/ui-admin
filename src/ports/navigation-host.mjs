@@ -51,8 +51,10 @@ export function createNavigationHost({ data, capabilities = ALL_CAPABILITIES, sc
   const state = {
     site: data.current_site,
     profile: scenario === 'one-shared' ? 'only' : data.current_profile,
-    favourites: new Map(data.sites.map((site) => [site.key, [...site.favourites]])),
-    installFavourites: [...data.install_favourites],
+    // Starred places as the host keeps them: objects, because the ☆ is in the
+    // head of any page and a record or a searched list is no menu row.
+    favourites: new Map(),
+    installFavourites: null,
     theme: data.person.theme,
     language: data.person.language,
     compact: data.person.compact,
@@ -117,6 +119,30 @@ export function createNavigationHost({ data, capabilities = ALL_CAPABILITIES, sc
     }).map(({ order, ...node }) => node);
   };
 
+  // A starred row is shown with what the row says now; a starred page that is
+  // no row keeps what it was starred with.
+  const asFavourite = (row) => ({
+    key: row.key, label: row.label, icon: row.icon ?? null, href: row.href, level: row.level,
+  });
+  const siteFavourites = (siteKey) => {
+    if (!state.favourites.has(siteKey)) {
+      const tree = treeFor(siteKey, state.profile);
+      const rows = tree.flatMap((root) => [root, ...(root.children ?? [])]);
+      const keys = sites.get(siteKey).favourites;
+      state.favourites.set(siteKey, keys.map((key) => rows.find((row) => row.key === key)).filter(Boolean).map(asFavourite));
+    }
+    return state.favourites.get(siteKey);
+  };
+  const installFavourites = () => {
+    if (!state.installFavourites) {
+      const install = treeFor(data.current_site, state.profile).find((root) => root.level === 'install');
+      state.installFavourites = data.install_favourites
+        .map((key) => (install.children ?? []).find((row) => row.key === key)).filter(Boolean).map(asFavourite);
+    }
+    return state.installFavourites;
+  };
+  const allFavourites = () => [...installFavourites(), ...siteFavourites(state.site)];
+
   const unread = () => data.notifications.filter((item) => item.unread && !state.read.has(item.key)).length;
 
   const navigation = (sequence = null) => {
@@ -131,9 +157,7 @@ export function createNavigationHost({ data, capabilities = ALL_CAPABILITIES, sc
       },
       current: null,
       items: treeFor(state.site, state.profile),
-      favourites: offered.has('favourites')
-        ? [...state.installFavourites, ...(state.favourites.get(state.site) ?? [])]
-        : [],
+      favourites: offered.has('favourites') ? allFavourites() : [],
       profiles: { current: state.profile, list: profileList() },
       rights: offered.has('menu-profiles') ? rights : { edit_personal: false, edit_shared: false, create_shared: false },
       person: { ...copy(data.person), theme: state.theme, language: state.language, compact: state.compact },
@@ -210,7 +234,13 @@ export function createNavigationHost({ data, capabilities = ALL_CAPABILITIES, sc
         groups.push({ key: 'recent', label: 'Недавние', items: recent.map(result) });
       } else {
         const go = rows.filter((row) => row.label.toLowerCase().includes(needle));
-        if (go.length) groups.push({ key: 'go', label: 'Перейти', items: go.map(result) });
+        if (go.length) {
+          groups.push({
+            key: 'go', label: 'Перейти', items: go.slice(0, 5).map(result),
+            // The rest of the group, where there is a rest.
+            more: go.length > 5 ? { label: 'Все результаты', href: `/admin/search?q=${encodeURIComponent(query)}` } : null,
+          });
+        }
       }
       const actions = data.search.actions.filter((action) => !needle || action.label.toLowerCase().includes(needle));
       if (actions.length) {
@@ -233,14 +263,22 @@ export function createNavigationHost({ data, capabilities = ALL_CAPABILITIES, sc
       return { answer: 'applied', href: row.href };
     },
 
-    'favourite.toggle': ({ key, on }) => {
+    'favourite.toggle': ({ key, on, label, icon = null, href }) => {
       const row = findRow(key);
-      if (!row) return refused('That row is not in the menu.');
-      const list = row.level === 'install' ? state.installFavourites : state.favourites.get(state.site);
-      const at = list.indexOf(key);
-      if (on && at < 0) list.push(key);
+      let place = row ? asFavourite(row) : null;
+      if (!place) {
+        // A page that is no row: it comes with what to show for it, or it is
+        // not something the host can keep.
+        const already = allFavourites().find((entry) => entry.key === key);
+        if (!on && already) place = already;
+        else if (label && href) place = { key, label, icon, href, level: 'site' };
+        else return refused('That place is neither a menu row nor a page given with its label and address.');
+      }
+      const list = place.level === 'install' ? installFavourites() : siteFavourites(state.site);
+      const at = list.findIndex((entry) => entry.key === key);
+      if (on && at < 0) list.push(place);
       if (!on && at >= 0) list.splice(at, 1);
-      return { answer: 'applied', favourites: [...state.installFavourites, ...state.favourites.get(state.site)] };
+      return { answer: 'applied', favourites: allFavourites() };
     },
 
     'view.profile': ({ profile }) => {

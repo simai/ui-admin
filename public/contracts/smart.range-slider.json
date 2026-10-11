@@ -388,8 +388,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "1a7cb768631d3ddd13bd1d68f028f740743a7bfe",
-      "ui_smart_revision": "84db6b44a7d3279ba8c9bd93500dd2073e582c92"
+      "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
+      "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
     },
     "aliases": [],
     "deprecations": [],
@@ -398,7 +398,7 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "f4c31ca765a913436d50a4904f1861c5ca1a8428",
+    "source_revision": "d73527c92056a684b5f34a46ec7315e1ded9be19",
     "source_artifacts": [
       {
         "path": "src/smart/range-slider/index.js",
@@ -408,7 +408,7 @@
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "84db6b44a7d3279ba8c9bd93500dd2073e582c92",
+        "revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c",
         "path": "smart/range-slider/js/range-slider.js",
         "sha256": "4d14325fce91ca1d604d4032655634039f1c41661dffad16c913f952d2552b10"
       }

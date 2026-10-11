@@ -15,7 +15,6 @@
 // that base, and hashes them. A base that is not pair-stamped, a file that is
 // not the pinned pair's, or a page still asking for the bare placeholder is a
 // failure.
-import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -71,30 +70,32 @@ const fetchText = async (url) => {
 
 const failures = [];
 
-// Which elements each package provides, read out of the free Framework at the
-// commit this site is pinned to. The reference ships in `ui` rather than in the
-// distribution, so it is read from the pinned commit -- never from a working
-// tree, which may be mid-change.
+// Which elements each package provides, read off the published Framework this
+// check is checking. Since ui-760be10c84f7 the package reference ships in the
+// distribution (`core/contracts/packages/<name>.package.json`, beside the
+// ports), so it is read from the same base the pages ask for -- the same
+// source Larena or Docara would have, which have only the runtime. Before
+// that it lived in `ui` alone and was read from the pinned commit; the
+// authored copy there is gone, so a consumer still reading it would find
+// nothing.
 const packageElements = new Map();
+const frameworkBase = served.find((found) => found.name === 'framework').base;
 for (const one of served) {
   if (one.name === 'framework') continue;
-  const framework = served.find((found) => found.name === 'framework');
-  const repository = resolve(projectRoot, framework.lock.core.repository);
+  const url = `${origin}${frameworkBase}core/contracts/packages/${one.name}.package.json`;
   try {
-    const reference = JSON.parse(execFileSync('git', [
-      '-C', repository, 'show',
-      `${framework.lock.core.commit}:contracts/packages/${one.name}.package.json`,
-    ], { encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 }));
+    const reference = JSON.parse(await (await fetchText(url)).text());
     packageElements.set(
       one.name,
       (reference.provides ?? []).map((item) => item.element).filter(Boolean),
     );
-  } catch {
-    // A package with no reference in the free Framework is a package this
+  } catch (error) {
+    // A package the Framework publishes no reference for is a package this
     // check cannot reason about; it says so rather than inventing a list.
     failures.push({
       distribution: one.name,
-      said: 'the free Framework carries no package reference for this distribution, so what it provides cannot be checked',
+      said: `the published Framework carries no package reference for this distribution, so what it provides cannot be checked: ${error.message}`,
+      url,
     });
   }
 }

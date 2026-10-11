@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "compatibilityId": "ui-09bc6b371eca",
-  "pairIdentitySha256": "03fa8427cbed57a6e67f1bf9c22f9d76b9108fcb362df953bbe6c266aba31cbf",
+  "compatibilityId": "ui-760be10c84f7",
+  "pairIdentitySha256": "16852002878689b7632957eca28978a43b38a09c3a44883dfdb95dfd9911516b",
   "contractSha256": "b70d02d6902345e17954eafb44f24052b7478439184286bed5a8df6c69c1fe45",
   "core": {
     "repository": "../ui",
-    "commit": "09bc6b371eca0ea27723d4a6ace756526c34851d",
+    "commit": "760be10c84f758235bfbecf2c07dfa098da083d6",
     "sourceDir": "distr",
     "requiredFiles": [
       {
@@ -14,7 +14,7 @@
       },
       {
         "path": "core/js/core.js",
-        "sha256": "a646dcd4240eb2596ccd26fa852b768262869791b00d74967e0c5cf0a35d0d04"
+        "sha256": "23b9a7cc9a5634327d4cb75501abdd81735fb61acc89ae294c0c71ae7cd903c0"
       },
       {
         "path": "core/js/core-loader.js",
@@ -25,28 +25,32 @@
         "sha256": "b70d02d6902345e17954eafb44f24052b7478439184286bed5a8df6c69c1fe45"
       },
       {
+        "path": "core/contracts/packages/pro.package.json",
+        "sha256": "d51ceb785f918fe11e1db61da19ef1e660d766c2efb3685f240d8349cc9fef53"
+      },
+      {
         "path": "component/admin-menu/js/admin-menu.js",
-        "sha256": "8e152c2a1d57094779198c23a9e61b013588bdfac2dfe99a3d120214f2ce3a2a"
+        "sha256": "652efa95148ec2cfcd589acae8f6e9ec8648daeacdb4f951349ec83f45f945e7"
       }
     ]
   },
   "smart": {
     "repository": "../ui",
-    "commit": "09bc6b371eca0ea27723d4a6ace756526c34851d",
+    "commit": "760be10c84f758235bfbecf2c07dfa098da083d6",
     "sourceDir": "distr/smart",
     "targetDir": "smart",
     "requiredFiles": [
       {
         "path": "icon-buttons/smart.manifest.json",
-        "sha256": "37224b97515268ba8e1c84792e63e8a4d85d3700ffca87d31114e97974ae7bb7"
+        "sha256": "a915b80581022db8b17ae0a34eb3f4ab915f784c2ad88bc4cf64f1f035bc20e6"
       },
       {
         "path": "icon-buttons/js/icon-buttons.js",
-        "sha256": "3b982e120ef4246f6bb412eb25640e3bff11435a5cd103bb255b6f81336a1fca"
+        "sha256": "19b333284fd4cdb6a05dded256f8457087bfd74aa733c8a60e1c351c3fbbf885"
       },
       {
         "path": "field-renderers/js/field-renderers.js",
-        "sha256": "22c81d650e66e473378295922cff05a66e378b3c2bfae013bc10f358cbafa3d3"
+        "sha256": "79c9ce2d94b83c898de4298fe71af76783262f87f0db95e12636da2cf06f143c"
       }
     ]
   }

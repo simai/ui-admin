@@ -68,14 +68,13 @@
       <section id="list-section" class="flex flex-col gap-2 p-4 flex-1 min-w-0 min-h-0">
         <!-- The head of the page, now that the admin has no top bar: where the
              page is (from the site), what it is called, how many records it
-             holds, its star, and its main action. Theme and language stand in
-             the actions until the profile menu takes them. -->
+             holds, its star, and its main action. Theme and language are in
+             the profile menu at the bottom of the admin menu. -->
         <sf-page-header id="page-header" heading="Каталог решений" count="—" star="off">
           <sf-breadcrumbs slot="path" aria-label="Где вы находитесь">
             <sf-breadcrumbs-item href="/">simai.ru</sf-breadcrumbs-item>
             <sf-breadcrumbs-item href="/">Данные</sf-breadcrumbs-item>
           </sf-breadcrumbs>
-          <span slot="actions" id="appearance"></span>
         </sf-page-header>
         <!-- Empty unless the page is being driven somewhere unusual: an admin
              does not explain itself above its own list, and a polygon under

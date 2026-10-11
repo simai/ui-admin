@@ -21,7 +21,7 @@
 import './style.css';
 import './navigation';
 import { createPolygonHost } from './ports/polygon-host.mjs';
-import { mountAppearanceMenu, teachTurkish } from './appearance';
+import { teachTurkish } from './appearance';
 
 type Answer = Record<string, unknown>;
 type HostPort = {
@@ -79,8 +79,6 @@ const start = async () => {
   // demonstration of two.
   teachTurkish();
 
-  const appearance = element('#appearance');
-  if (appearance) mountAppearanceMenu(appearance);
 
   // Fetched rather than imported so the published page reads the same file the
   // generator wrote and the checks read: one dataset, one copy of it.

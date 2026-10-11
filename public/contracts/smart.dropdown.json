@@ -309,7 +309,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/dropdown/index.js",
-        "sha256": "43c4025a44b27b191a85c36593160c7879ee8940f2b1b2738c8cb0dc71857bfb"
+        "sha256": "96eb80ef8352fa6e36c9e6a125b461c14345cda73b171579dd1a444c05685e66"
       }
     ],
     "generated_runtime": [

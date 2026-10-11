@@ -168,7 +168,7 @@
       "closable": {
         "type": "boolean",
         "default": false,
-        "description": "Show a separate remove action; icon, color and avatar tags enable it by default."
+        "description": "Show a separate remove action; icon, color and avatar tags enable it by default, a checkbox tag only when it is set."
       },
       "interactive": {
         "type": "boolean",
@@ -370,7 +370,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/tags/index.js",
-        "sha256": "e5121a9569b11303f83cb4666f60be80e063c2061cc813831589352f69366867"
+        "sha256": "74b14a1dcdae44f36e65015fa5bd261f590bfa7b63b04dae332c3e70fb4be23f"
       }
     ],
     "generated_runtime": [

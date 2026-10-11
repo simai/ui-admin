@@ -19,6 +19,7 @@
 // list and a slow one are the states a consumer handles worst and sees least,
 // so they are two clicks away rather than a code change.
 import './style.css';
+import './navigation';
 import { createPolygonHost } from './ports/polygon-host.mjs';
 import { mountAppearanceMenu, teachTurkish } from './appearance';
 

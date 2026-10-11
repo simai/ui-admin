@@ -141,7 +141,8 @@ export function createNavigationHost({ data, capabilities = ALL_CAPABILITIES, sc
     }
     return state.installFavourites;
   };
-  const allFavourites = () => [...installFavourites(), ...siteFavourites(state.site)];
+  // The site's own first, then what is shared by every site (mockup v5).
+  const allFavourites = () => [...siteFavourites(state.site), ...installFavourites()];
 
   const unread = () => data.notifications.filter((item) => item.unread && !state.read.has(item.key)).length;
 
@@ -409,6 +410,7 @@ export function createNavigationHost({ data, capabilities = ALL_CAPABILITIES, sc
   };
 
   return {
+    port: 'simai.admin-navigation-port',
     version: '1.0.0',
     capabilities: [...offered].sort(),
     /** What the component would read on connect. */

@@ -12,6 +12,12 @@ aside {
   min-width: 0;
 }
 
+/* The navigation menu is as wide as its open columns -- one, two, or the rail
+   -- so its aside follows it rather than holding the old menu's width. */
+aside.admin-navigation {
+  flex: 0 0 auto;
+}
+
 main,
 article,
 section {

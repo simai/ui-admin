@@ -46,25 +46,11 @@
     <script src="/distr/core/js/core.js" data-sf-script="/distr/core/js/core.js"></script>
   </head>
   <body class="flex h-full">
-    <aside style="max-width: 300px">
-      <sf-admin-menu searchable settings logo="/logo.svg" collapsible aria-label="Разделы админки">
-        <sf-admin-menu-item left-icon="dashboard" href="/">Дашборд</sf-admin-menu-item>
-        <sf-admin-menu-item left-icon="inventory_2" href="/" active>Решения</sf-admin-menu-item>
-        <sf-admin-menu-item left-icon="receipt_long" href="/" badge="23">Заказы</sf-admin-menu-item>
-        <sf-admin-menu-item left-icon="forum" href="/" badge="7">Обращения</sf-admin-menu-item>
-        <sf-admin-menu-item type="divider"></sf-admin-menu-item>
-        <sf-admin-menu-item left-icon="folder">
-          Контент
-          <sf-admin-menu-item href="/">Страницы</sf-admin-menu-item>
-          <sf-admin-menu-item href="/">Файлы</sf-admin-menu-item>
-        </sf-admin-menu-item>
-        <sf-admin-menu-item left-icon="group" href="/">Пользователи</sf-admin-menu-item>
-        <sf-admin-menu-item left-icon="settings" href="/">Настройки</sf-admin-menu-item>
-        <sf-admin-menu-item type="divider"></sf-admin-menu-item>
-        <sf-admin-menu-item left-icon="table_rows" href="/workbench.html">Рабочее место записи</sf-admin-menu-item>
-        <sf-admin-menu-item left-icon="api" href="/mock-api.html">Список на мок-API</sf-admin-menu-item>
-        <sf-admin-menu-item left-icon="widgets" href="/smart-component-catalog.html">Каталог компонентов</sf-admin-menu-item>
-      </sf-admin-menu>
+    <!-- The menu that replaces the admin's top bar: sf-admin-menu answered
+         with the navigation port (src/navigation.ts). No items in the markup:
+         the rows are the host's. -->
+    <aside class="admin-navigation h-full">
+      <sf-admin-menu class="h-full" aria-label="Разделы админки"></sf-admin-menu>
     </aside>
 
     <main class="flex flex-col flex-1 min-w-0 min-h-0">

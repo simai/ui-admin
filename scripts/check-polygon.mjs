@@ -25,6 +25,7 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { createPolygonHost } from '../src/ports/polygon-host.mjs';
 import { projectRoot } from './runtime-base.mjs';
+import { newestKit } from './port-kits.mjs';
 
 const runtime = resolve(projectRoot, process.env.SIMAI_RUNTIME_ROOT ?? '.runtime');
 const dataset = JSON.parse(readFileSync(resolve(projectRoot, 'data/polygon.json'), 'utf8'));
@@ -80,16 +81,10 @@ for (const field of dataset.structure.fields ?? []) {
 
 // ─── 3: the two ports ─────────────────────────────────────────────────────────
 
-const kitFor = (component) => {
-  const portRoot = join(runtime, `smart/${component}/port`);
-  if (!existsSync(portRoot)) return null;
-  const version = readdirSync(portRoot)
-    .filter((name) => /^\d+\.\d+\.\d+$/u.test(name))
-    .sort((left, right) => left.localeCompare(right, undefined, { numeric: true }))
-    .pop();
-  const kitRoot = join(portRoot, version, 'kit');
-  if (!existsSync(kitRoot)) return null;
-  const manifest = JSON.parse(readFileSync(join(kitRoot, 'manifest.json'), 'utf8'));
+const kitFor = (portId) => {
+  const found = newestKit(runtime, portId);
+  if (!found) return null;
+  const { version, root: kitRoot, manifest } = found;
   const required = new Map();
   for (const id of manifest.cases) {
     const path = join(kitRoot, 'cases', `${id}.json`);
@@ -219,8 +214,8 @@ const drive = async (label, kit, reaches, build) => {
   return { reached: reached.size, declared: kit.required.size };
 };
 
-const listKit = kitFor('data-view');
-const panelKit = kitFor('property-view');
+const listKit = kitFor('simai.dataview-port');
+const panelKit = kitFor('simai.property-view-port');
 
 const list = await drive('simai.dataview-port', listKit, listReaches,
   ({ capabilities, scenario }) => createPolygonHost({ dataset, capabilities, scenario }));

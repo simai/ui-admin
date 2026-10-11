@@ -4,11 +4,17 @@ import { extname, join, normalize, resolve, sep } from 'node:path'
 import { defineConfig, loadEnv, type Connect, type Plugin } from 'vite'
 // @ts-expect-error -- plain JavaScript so the publish scripts and the checks
 // can read the same module without a build step between them.
-import { PLACEHOLDER, runtimeBase, runtimeDirectory, stamp } from './scripts/runtime-base.mjs'
+import { distributions, runtimeDirectory, stampAll, unstamped } from './scripts/runtime-base.mjs'
+
+type Distribution = {
+  name: string
+  placeholder: string
+  directory: string
+  base: string
+}
 
 const projectRoot = resolve()
-const distrPrefix = '/distr'
-const runtimeUrlBase: string = runtimeBase()
+const served: Distribution[] = distributions()
 const runtimePairDirectory: string = runtimeDirectory()
 
 const mimeTypes: Record<string, string> = {
@@ -20,21 +26,25 @@ const mimeTypes: Record<string, string> = {
   '.wasm': 'application/wasm',
 }
 
-function createDistrMiddleware(distrRoot: string): Connect.NextHandleFunction {
+function createDistrMiddleware(
+  prefix: string,
+  directory: string,
+  distrRoot: string,
+): Connect.NextHandleFunction {
   return (req, res, next) => {
     const url = req.url?.split('?')[0]
 
-    if (!url?.startsWith(`${distrPrefix}/`)) {
+    if (!url?.startsWith(prefix)) {
       next()
       return
     }
 
-    // Every page asks for the pair-stamped path, including in dev, so the one
-    // thing that differs between dev and the published site is who sets the
-    // headers -- not which URL the page asks for.
-    const requested = decodeURIComponent(url.slice(distrPrefix.length + 1))
-    const relativePath = requested.startsWith(`${runtimePairDirectory}/`)
-      ? requested.slice(runtimePairDirectory.length + 1)
+    // Every page asks for the release-stamped path, including in dev, so the
+    // one thing that differs between dev and the published site is who sets
+    // the headers -- not which URL the page asks for.
+    const requested = decodeURIComponent(url.slice(prefix.length))
+    const relativePath = requested.startsWith(`${directory}/`)
+      ? requested.slice(directory.length + 1)
       : requested
     const filePath = normalize(join(distrRoot, relativePath))
 
@@ -72,14 +82,14 @@ function stampRuntimeBase(): Plugin {
     name: 'stamp-simai-runtime-base',
     enforce: 'pre',
     transformIndexHtml(html) {
-      return stamp(html, runtimeUrlBase)
+      return stampAll(html, served)
     },
     transform(code, id) {
-      if (!id.endsWith('.css') || !code.includes(PLACEHOLDER)) {
+      if (!id.endsWith('.css') || unstamped(code, served).length === 0) {
         return null
       }
 
-      return { code: stamp(code, runtimeUrlBase), map: null }
+      return { code: stampAll(code, served), map: null }
     },
     // The polygon's dataset lives in data/ rather than public/, because Larena
     // is meant to read that file as a contract and a contract does not belong
@@ -127,28 +137,38 @@ function stampRuntimeBase(): Plugin {
         const file = join(outputDirectory, entry.name)
         const html = await readFile(file, 'utf8')
 
-        if (html.includes(PLACEHOLDER)) {
-          await writeFile(file, stamp(html, runtimeUrlBase))
+        if (unstamped(html, served).length > 0) {
+          await writeFile(file, stampAll(html, served))
         }
       }
     },
   }
 }
 
+// Every distribution is mounted, not just the Framework. A site that served
+// one of them in dev would answer the Pro base with the index page and the
+// Loader would fail on `rule.js` that parses as HTML -- a confusing way to find
+// out that a mount was forgotten.
 function mountDistr(
-  developmentDistrRoot: string,
-  previewDistrRoot: string,
+  developmentRoots: Map<string, string>,
+  previewRoots: Map<string, string>,
 ): Plugin {
-  const developmentMiddleware = createDistrMiddleware(developmentDistrRoot)
-  const previewMiddleware = createDistrMiddleware(previewDistrRoot)
+  const middlewares = (roots: Map<string, string>) =>
+    served.map((one) =>
+      createDistrMiddleware(one.placeholder, one.directory, roots.get(one.name) as string),
+    )
 
   return {
     name: 'mount-simai-distr',
     configureServer(server) {
-      server.middlewares.use(developmentMiddleware)
+      for (const middleware of middlewares(developmentRoots)) {
+        server.middlewares.use(middleware)
+      }
     },
     configurePreviewServer(server) {
-      server.middlewares.use(previewMiddleware)
+      for (const middleware of middlewares(previewRoots)) {
+        server.middlewares.use(middleware)
+      }
     },
   }
 }
@@ -156,13 +176,24 @@ function mountDistr(
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, projectRoot, '')
   const distrRoot = resolve(env.SIMAI_RUNTIME_ROOT || '.runtime')
+  const proRoot = resolve(env.SIMAI_PRO_RUNTIME_ROOT || '.runtime-pro')
   const previewDistrRoot = resolve(
     env.SIMAI_PREVIEW_RUNTIME_ROOT || `dist/distr/${runtimePairDirectory}`,
   )
+  const developmentRoots = new Map<string, string>([
+    ['framework', distrRoot],
+    ['pro', proRoot],
+  ])
+  const previewRoots = new Map<string, string>([
+    ['framework', previewDistrRoot],
+    ...served
+      .filter((one) => one.name !== 'framework')
+      .map((one) => [one.name, resolve(`dist${one.placeholder}${one.directory}`)] as [string, string]),
+  ])
   const apiProxyTarget = env.VITE_API_PROXY_TARGET || 'http://localhost:5001'
 
   return {
-    plugins: [stampRuntimeBase(), mountDistr(distrRoot, previewDistrRoot)],
+    plugins: [stampRuntimeBase(), mountDistr(developmentRoots, previewRoots)],
     build: {
       rollupOptions: {
         input: {
@@ -189,7 +220,7 @@ export default defineConfig(({ mode }) => {
         '/api': apiProxyTarget,
       },
       fs: {
-        allow: [projectRoot, distrRoot],
+        allow: [projectRoot, distrRoot, proRoot],
       },
     },
     preview: {

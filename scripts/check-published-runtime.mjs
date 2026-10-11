@@ -15,6 +15,7 @@
 // that base, and hashes them. A base that is not pair-stamped, a file that is
 // not the pinned pair's, or a page still asking for the bare placeholder is a
 // failure.
+import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -69,6 +70,34 @@ const fetchText = async (url) => {
 };
 
 const failures = [];
+
+// Which elements each package provides, read out of the free Framework at the
+// commit this site is pinned to. The reference ships in `ui` rather than in the
+// distribution, so it is read from the pinned commit -- never from a working
+// tree, which may be mid-change.
+const packageElements = new Map();
+for (const one of served) {
+  if (one.name === 'framework') continue;
+  const framework = served.find((found) => found.name === 'framework');
+  const repository = resolve(projectRoot, framework.lock.core.repository);
+  try {
+    const reference = JSON.parse(execFileSync('git', [
+      '-C', repository, 'show',
+      `${framework.lock.core.commit}:contracts/packages/${one.name}.package.json`,
+    ], { encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 }));
+    packageElements.set(
+      one.name,
+      (reference.provides ?? []).map((item) => item.element).filter(Boolean),
+    );
+  } catch {
+    // A package with no reference in the free Framework is a package this
+    // check cannot reason about; it says so rather than inventing a list.
+    failures.push({
+      distribution: one.name,
+      said: 'the free Framework carries no package reference for this distribution, so what it provides cannot be checked',
+    });
+  }
+}
 const skipped = [];
 // What the host says about keeping a copy. The pair in the runtime path means a
 // cached runtime file can never be the wrong pair's -- its URL changes with the
@@ -86,9 +115,12 @@ const required = served.flatMap(({ name, lock, base }) => [
   ...(lock.core?.requiredFiles ?? []).map((file) => ({
     distribution: name, base, side: 'core', path: file.path, sha256: file.sha256,
   })),
+  // Pro is served from the root of its own base, so its targetDir is empty and
+  // joining it with a slash would ask for `//rule.js`.
   ...(lock.smart?.requiredFiles ?? []).map((file) => ({
     distribution: name, base, side: 'smart',
-    path: `${lock.smart.targetDir}/${file.path}`, sha256: file.sha256,
+    path: [lock.smart.targetDir, file.path].filter(Boolean).join('/'),
+    sha256: file.sha256,
   })),
 ]);
 
@@ -119,24 +151,52 @@ for (const page of pages) {
     continue;
   }
 
-  // The same family of ids the stamping writes, rather than today's pair shape:
-  // a page stamped with `ui-<12>` or `pro-<12>` would otherwise read as asking
-  // for no runtime at all, which is the loudest possible wrong answer.
-  const asked = [...new Set([...html.matchAll(
-    /\/distr\/(?:([a-z][a-z0-9]*-[0-9a-f]{12}(?:-[a-z][a-z0-9]*-[0-9a-f]{12})?)\/)?(?:core|component|smart|rule|utility|fonts)\//gu,
-  )].map(([, id]) => (id ? `${PLACEHOLDER}${id}/` : PLACEHOLDER)))];
+  // Each distribution is looked for by its own placeholder. Matching one
+  // pattern over `/distr/` could not see Pro at all: its base is
+  // `/distr-pro/pro-<12>/`, it is handed to the Loader rather than written into
+  // a URL, and nothing follows it in the page -- so a check built around the
+  // Framework's shape would have certified half the runtime while saying
+  // nothing about the other half, which is the failure the stamping exists to
+  // prevent.
+  const asked = [];
+  for (const one of served) {
+    const occurrences = [...html.matchAll(new RegExp(one.placeholder, 'gu'))];
+    if (occurrences.length === 0) continue;
+    const stamped = occurrences.filter(
+      (match) => html.startsWith(`${one.placeholder}${one.directory}/`, match.index),
+    );
+    if (stamped.length < occurrences.length) {
+      failures.push({
+        page,
+        distribution: one.name,
+        said: 'the page still asks for the unstamped placeholder, so a cache may answer with any release',
+        found: one.placeholder,
+      });
+    }
+    if (stamped.length > 0) asked.push(one.base);
+  }
 
   if (!asked.length) {
     failures.push({ page, said: 'the page asks for no runtime at all' });
     continue;
   }
-  // A page may ask for more than one base once the paid release is served
-  // beside the free one; what it may not do is ask for one nobody pinned.
-  for (const base of asked) {
-    if (base === PLACEHOLDER) {
-      failures.push({ page, said: 'the page still asks for the unstamped placeholder, so a cache may answer with any pair' });
-    } else if (!bases.has(base)) {
-      failures.push({ page, said: 'the page asks for a base that is not a pinned distribution', found: base, pinned: [...bases] });
+
+  // And the rule the split makes necessary: the Pro rules are gone from the
+  // free core, so a page that uses a Pro element without declaring the package
+  // base renders nothing. The elements are read from the free Framework's own
+  // package reference rather than listed here, because the Framework is what
+  // decides which elements belong to the package.
+  for (const one of served) {
+    if (one.name === 'framework') continue;
+    const used = (packageElements.get(one.name) ?? []).filter(
+      (element) => new RegExp(`<${element}[\\s/>]`, 'u').test(html),
+    );
+    if (used.length > 0 && !asked.includes(one.base)) {
+      failures.push({
+        page,
+        distribution: one.name,
+        said: `the page uses ${used.join(', ')} without declaring the ${one.name} package base, so those components cannot load`,
+      });
     }
   }
 }

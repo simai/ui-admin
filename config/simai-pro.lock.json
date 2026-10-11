@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "package": "pro",
+  "smart": {
+    "repository": "../ui-pro",
+    "sourceDir": "smart",
+    "targetDir": "",
+    "commit": "1f894a46f48887b8f2874b4567ada7e6c36f473d",
+    "requiredFiles": [
+      {
+        "path": "rule.js",
+        "sha256": "fafe167f45650a7d5008b65acb20fa511b3e0fcfca702b2af092afd498a687af"
+      },
+      {
+        "path": "admin-menu/js/admin-menu.js",
+        "sha256": "899b034e81dac2327f4c1386153b064a658a6a209efb9983408b8300d1abeab2"
+      },
+      {
+        "path": "data-view/js/data-view.js",
+        "sha256": "0d2cdca429cc96bbbad0ddba88af7fed417e71fa575140e496d083cf1d8048a3"
+      },
+      {
+        "path": "property-view/js/property-view.js",
+        "sha256": "2c00131572ab18ee043c2a0b241aa4356c7eae41257533f49fbc57129803c7bf"
+      },
+      {
+        "path": "property-view/css/property-view.css",
+        "sha256": "2180c52f18dd97d9b507e42d35f94ac27dc9d3666d19b69f76a88541dc456179"
+      },
+      {
+        "path": "table/js/table.js",
+        "sha256": "da28e1dde2aa8145badbcd8e3d33d2f50f35ba402e76dbbc0b53dd12379c008d"
+      },
+      {
+        "path": "table/css/table.css",
+        "sha256": "e3c15eb308c2f6fd786ae7298d4decfc60d98985077ef0711ac993ae162d8c45"
+      }
+    ]
+  },
+  "compatibilityId": "pro-1f894a46f488",
+  "requires": {
+    "framework": "ui-09bc6b371eca"
+  },
+  "distributionIdentitySha256": "f07d491b51dcf9280ca6ed81c0415dd43714b995176f99e864a4db0591b4afc8"
+}

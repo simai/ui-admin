@@ -29,22 +29,21 @@ import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createPropertyViewHost, RECORD } from '../src/ports/property-view-host.mjs';
+import { newestKit, PORT_ROOT } from './port-kits.mjs';
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const runtime = resolve(projectRoot, process.env.SIMAI_RUNTIME_ROOT ?? '.runtime');
-const portRoot = join(runtime, 'smart/property-view/port');
+const kit = newestKit(runtime, 'simai.property-view-port');
 
-if (!existsSync(portRoot)) {
-  process.stderr.write(`no port kit under ${portRoot} — run \`npm run prepare:runtime\` first\n`);
+if (!kit) {
+  process.stderr.write(
+    `no simai.property-view-port kit under ${join(runtime, PORT_ROOT)} `
+    + '— run `npm run prepare:runtime` first\n',
+  );
   process.exit(2);
 }
 
-const version = readdirSync(portRoot)
-  .filter((name) => /^\d+\.\d+\.\d+$/.test(name))
-  .sort((left, right) => left.localeCompare(right, undefined, { numeric: true }))
-  .pop();
-const kitRoot = join(portRoot, version, 'kit');
-const manifest = JSON.parse(readFileSync(join(kitRoot, 'manifest.json'), 'utf8'));
+const { version, root: kitRoot, manifest } = kit;
 
 // What the kit requires, read out of it rather than restated here.
 const required = new Map();

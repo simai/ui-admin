@@ -60,6 +60,20 @@
       window.sfPath = '/distr/';
       window.sfSmartPath = '/distr/';
     </script>
+    <script>
+      // The four Pro components this reference is built on -- sf-table,
+      // sf-data-view, sf-property-view and sf-admin-menu -- ship apart from the
+      // free Framework and reach the page as a component package of the Loader:
+      // it fetches <base>/rule.js before its first scan and loads them from
+      // that base. Their rules are gone from the free core, so a page that does
+      // not declare this renders nothing. The base is a placeholder here and the
+      // build stamps the Pro release id into it, so a Pro republish lands on a
+      // path no cache can answer with the previous release's bytes.
+      window.SF_BOOT_CONFIG = {
+        ...window.SF_BOOT_CONFIG,
+        packages: { pro: { base: '/distr-pro/' } },
+      };
+    </script>
     <script
       src="/distr/core/js/core.js"
       data-sf-script="/distr/core/js/core.js"></script>

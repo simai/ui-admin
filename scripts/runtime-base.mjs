@@ -12,16 +12,20 @@
 // So the pair goes in the path. A republish changes every runtime URL, and no
 // cache anywhere can answer with another pair's bytes, on any static host and
 // without a server-side rule the reference cannot carry in its own repository.
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 export const PLACEHOLDER = '/distr/';
+export const PRO_PLACEHOLDER = '/distr-pro/';
+
+export const FRAMEWORK_LOCK = 'config/simai-assets.lock.json';
+export const PRO_LOCK = 'config/simai-pro.lock.json';
 
 export const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
-export const readLock = () =>
-  JSON.parse(readFileSync(resolve(projectRoot, 'config/simai-assets.lock.json'), 'utf8'));
+export const readLock = (file = FRAMEWORK_LOCK) =>
+  JSON.parse(readFileSync(resolve(projectRoot, file), 'utf8'));
 
 /**
  * What a release id may look like: a product name and twelve hex digits, with
@@ -64,13 +68,51 @@ export const runtimeBase = (lock = readLock()) => `${PLACEHOLDER}${runtimeDirect
  * whole mechanism exists to prevent.
  */
 export const distributions = () => {
-  const lock = readLock();
-  return [{
+  const framework = readLock();
+  const found = [{
     name: 'framework',
-    lock,
-    directory: runtimeDirectory(lock),
-    base: runtimeBase(lock),
+    placeholder: PLACEHOLDER,
+    lock: framework,
+    directory: runtimeDirectory(framework),
+    base: runtimeBase(framework),
   }];
+
+  // Pro is a second distribution with its own release, its own repository and
+  // its own stamped path. It appears here once it is pinned -- an unpinned lock
+  // is the state between authoring the file and taking the first release, and
+  // a site with no Pro pin serves no Pro.
+  const proPath = resolve(projectRoot, PRO_LOCK);
+  if (existsSync(proPath)) {
+    const pro = readLock(PRO_LOCK);
+    if (pro.compatibilityId) {
+      found.push({
+        name: 'pro',
+        placeholder: PRO_PLACEHOLDER,
+        lock: pro,
+        directory: runtimeDirectory(pro),
+        base: `${PRO_PLACEHOLDER}${runtimeDirectory(pro)}/`,
+      });
+    }
+  }
+
+  // Each distribution is stamped by its own placeholder, so no placeholder may
+  // be a prefix of another: stamping `/distr/` over a path already stamped to
+  // `/distr/pro-<12>/` would produce `/distr/ui-<12>/pro-<12>/`, which is the
+  // double-stamping defect this file already carries a comment about -- one
+  // level deeper and across two distributions, where no single check would see
+  // the whole of it.
+  for (const one of found) {
+    for (const other of found) {
+      if (one !== other && one.placeholder.startsWith(other.placeholder)) {
+        throw new Error(
+          `the ${one.name} placeholder ${one.placeholder} starts with the `
+          + `${other.name} placeholder ${other.placeholder}`,
+        );
+      }
+    }
+  }
+
+  return found;
 };
 
 /**
@@ -82,18 +124,45 @@ export const distributions = () => {
  * `/distr/<pair>/<pair>/`. The published check caught it, which is the only
  * reason it is written down here rather than shipped.
  */
-export const stamp = (text, base = runtimeBase()) => {
-  const directory = base.slice(PLACEHOLDER.length, -1);
+export const stamp = (text, base = runtimeBase(), placeholder = PLACEHOLDER) => {
+  if (!base.startsWith(placeholder) || !base.endsWith('/')) {
+    throw new Error(`${base} is not a base under ${placeholder}`);
+  }
+  const directory = base.slice(placeholder.length, -1);
   return text.replace(
-    new RegExp(`${PLACEHOLDER}(?!${directory}/)`, 'gu'),
+    new RegExp(`${placeholder}(?!${directory}/)`, 'gu'),
     base,
   );
 };
 
-// Run directly, it prints what the build needs: the directory the runtime is
-// materialised into, or the URL prefix the pages ask for.
+/**
+ * Stamps every distribution's placeholder, each with its own base.
+ *
+ * The single-base `stamp` is kept for callers that mean one distribution, but
+ * a page declares both -- the Framework it loads and the Pro package base it
+ * hands the Loader -- so whatever writes a page has to stamp all of them or
+ * ship a page that asks for a path nothing serves.
+ */
+export const stampAll = (text, found = distributions()) =>
+  found.reduce((carried, one) => stamp(carried, one.base, one.placeholder), text);
+
+/** True when the text still holds a placeholder nothing has stamped. */
+export const unstamped = (text, found = distributions()) =>
+  found.filter((one) => new RegExp(`${one.placeholder}(?!${one.directory}/)`, 'u').test(text));
+
+// Run directly, it prints what the build needs: the directory a runtime is
+// materialised into, or the URL prefix the pages ask for. `--name <name>`
+// chooses the distribution; the Framework is the default, because the build
+// chain asked for it before there was a second one.
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  const nameIndex = process.argv.indexOf('--name');
+  const name = nameIndex >= 0 ? process.argv[nameIndex + 1] : 'framework';
+  const one = distributions().find((found) => found.name === name);
+  if (!one) {
+    process.stderr.write(`no distribution named ${JSON.stringify(name)}\n`);
+    process.exit(1);
+  }
   process.stdout.write(
-    `${process.argv.includes('--directory') ? runtimeDirectory() : runtimeBase()}\n`,
+    `${process.argv.includes('--directory') ? one.directory : one.base}\n`,
   );
 }

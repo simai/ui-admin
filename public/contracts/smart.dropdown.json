@@ -286,8 +286,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "1d3f0eb63761e5e94883243e66007bfe38cccd7e",
-      "ui_smart_revision": "4e3e58aa1e6aa20b0434f334ea30e0f1a3c16319"
+      "ui_revision": "1a7cb768631d3ddd13bd1d68f028f740743a7bfe",
+      "ui_smart_revision": "84db6b44a7d3279ba8c9bd93500dd2073e582c92"
     },
     "aliases": [],
     "deprecations": [],
@@ -305,7 +305,7 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "300cf1a3f1b8edf0d4cadc6016a82402de39c1f7",
+    "source_revision": "f4c31ca765a913436d50a4904f1861c5ca1a8428",
     "source_artifacts": [
       {
         "path": "src/smart/dropdown/index.js",
@@ -315,7 +315,7 @@
     "generated_runtime": [
       {
         "repository": "simai/ui-smart",
-        "revision": "4e3e58aa1e6aa20b0434f334ea30e0f1a3c16319",
+        "revision": "84db6b44a7d3279ba8c9bd93500dd2073e582c92",
         "path": "smart/dropdown/js/dropdown.js",
         "sha256": "3265735b5514c67f932f78cf67022bc9db1affc76703fc9034bc095c3b11c007"
       }

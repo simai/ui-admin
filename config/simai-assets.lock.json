@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "compatibilityId": "ui-339e04ba0cf4",
-  "pairIdentitySha256": "52574307281ce44427cb542844ccd76886c895fd63ffde79cf2e97298f7664a5",
+  "compatibilityId": "ui-97eac0db8651",
+  "pairIdentitySha256": "483ca48c9daa3c3edb385976b6fb080b22141fbf3deb937a5b66ea0a33dd6603",
   "contractSha256": "b70d02d6902345e17954eafb44f24052b7478439184286bed5a8df6c69c1fe45",
   "core": {
     "repository": "../ui",
-    "commit": "339e04ba0cf44f6eeec97db26f782979fc5460f4",
+    "commit": "97eac0db8651a1b79ce9b790a5b7425d93cb7c57",
     "sourceDir": "distr",
     "requiredFiles": [
       {
@@ -36,7 +36,7 @@
   },
   "smart": {
     "repository": "../ui",
-    "commit": "339e04ba0cf44f6eeec97db26f782979fc5460f4",
+    "commit": "97eac0db8651a1b79ce9b790a5b7425d93cb7c57",
     "sourceDir": "distr/smart",
     "targetDir": "smart",
     "requiredFiles": [

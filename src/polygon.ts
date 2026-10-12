@@ -90,7 +90,6 @@ const start = async () => {
   const dataset = (await response.json()) as Dataset;
 
   const list = element<WithPort>('#solutions');
-  const header = element('#page-header');
 
   // The record panel is made when it is wanted and removed when it is not. A
   // property view carrying `panel` is open from the moment it is in the
@@ -117,14 +116,6 @@ const start = async () => {
     made.addEventListener('sf-property-view-close', () => {
       if (history.state?.record) history.back();
       else go({ record: null });
-    });
-
-    // «Open on a full page» is a real navigation to the record's own address.
-    // Larena serves that address from a server; here the same page reads it and
-    // puts the list away.
-    made.addEventListener('sf-property-view-open-full', (event) => {
-      const id = String((event as CustomEvent).detail?.record_id ?? addressNow().record ?? '');
-      if (id) go({ record: id, full: true });
     });
 
     // A reference inside the record is another record's address.
@@ -347,13 +338,8 @@ const start = async () => {
     },
   });
 
-  // The number the host counts, shown beside the heading so a filter that
-  // removes rows is visible as a number and not only as a shorter list.
-  list?.addEventListener('sf-data-view-answer', (event) => {
-    const total = (event as CustomEvent).detail?.data?.total;
-    if (header) header.setAttribute('count', total == null ? '—' : String(total));
-  });
-
+  // No count beside the heading: the table's own footer already reports the
+  // total, and the badge repeated it (owner, 2026-10-12).
 
   // Back and forward are the reader's, so the address is read rather than
   // remembered.

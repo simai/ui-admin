@@ -225,6 +225,33 @@ export const createTreeHost = ({capabilities = ['tree', 'tree-move', 'row-action
         return {answer: 'applied', data: {records: [asRow(node)]}};
       }
 
+      // The checked pages, all or nothing. A bulk action has its own id in the
+      // host (`publish-ru`, not the row's `publish:ru`): the pagination reads
+      // its list from an attribute, where a colon separates the id from its
+      // label.
+      if (intent === 'bulk.apply_selected') {
+        const ids = (payload.record_ids ?? []).map(String);
+        const found = ids.map((id) => byId(id));
+        if (!ids.length || found.some((node) => !node)) {
+          return {answer: 'refused', reason: 'record-unknown', records: ids.filter((id) => !byId(id))};
+        }
+        const [verb, locale] = String(payload.action_id ?? '').split('-');
+        const state = {publish: 'published', unpublish: 'draft', archive: 'archived'}[verb];
+        if (!state || !LOCALES.includes(locale)) return {answer: 'refused', reason: 'action-unknown'};
+        const revisions = payload.revisions ?? {};
+        const conflicts = found
+          .filter((node) => revisions[node.id] !== undefined && String(revisions[node.id]) !== `r${node.revision}`)
+          .map((node) => ({id: node.id, current_revision: `r${node.revision}`}));
+        if (conflicts.length) {
+          return {answer: 'conflict', reason: 'stale-revision', conflicts, current_revision: conflicts[0].current_revision};
+        }
+        for (const node of found) {
+          node.publication[locale] = state;
+          node.revision += 1;
+        }
+        return {answer: 'applied', data: {records: found.map((node) => asRow(node))}};
+      }
+
       if (intent === 'record.open') {
         const node = byId(payload.record_ids?.[0] ?? payload.record_id);
         return node ? {answer: 'applied', record_id: node.id} : {answer: 'refused', reason: 'record-unknown'};

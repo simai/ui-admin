@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru" class="max-h-screen h-full">
+<html lang="ru" class="max-h-screen h-full" data-sf-density="compact">
   <head>
     <meta charset="UTF-8" />
     <link rel="preconnect" href="https://icons.simai.io" crossorigin />
@@ -60,7 +60,7 @@
              page is (from the site), what it is called, how many records it
              holds, its star, and its main action. Theme and language are in
              the profile menu at the bottom of the admin menu. -->
-        <sf-page-header id="page-header" heading="Каталог решений" count="—" star="off">
+        <sf-page-header id="page-header" heading="Каталог решений" star="off">
           <sf-breadcrumbs slot="path" aria-label="Где вы находитесь">
             <sf-breadcrumbs-item href="/">simai.ru</sf-breadcrumbs-item>
             <sf-breadcrumbs-item href="/">Данные</sf-breadcrumbs-item>
@@ -88,7 +88,7 @@
             id="solutions-table"
             table-settings-key="polygon.solutions"
             aria-label="Решения"></sf-table>
-          <sf-pagination slot="pagination"></sf-pagination>
+          <sf-pagination slot="pagination" actions="publish:Опубликовать|unpublish:Снять с публикации|delete:Удалить"></sf-pagination>
         </sf-data-view>
       </section>
     </main>

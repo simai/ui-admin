@@ -452,7 +452,7 @@ export const createPolygonHost = ({
           if (pinning.length) {
             return {
               answer: 'refused', reason: 'shared-only-field', fields: pinning,
-              message: 'Закрепление колонки сохраняется для всех',
+              message: 'Закреплять колонки может только администратор: закрепление видят все',
             };
           }
         }
@@ -550,10 +550,9 @@ export const createPolygonHost = ({
     // components interacting rather than each one working alone.
     propertyView({ capabilities: panelCapabilities = [
       'field-options', 'field-upload', 'view-settings', 'shared-view-settings',
-      // Opening the record as a page of its own. Without it the panel offers
-      // no such control, which is right for a host that routes no further —
-      // and wrong for this one, which has an address for every record.
-      'record-open',
+      // Not 'record-open': the admin reads a record in the panel and has no
+      // page of its own to open it on, so the control did nothing a person
+      // needed (owner, 2026-10-12). A host with record pages claims it.
     ], profiles: startingProfiles,
     // Where a record lives, as an address a person can copy and open. The host
     // knows its own routes; Larena's are paths because it has a server, and

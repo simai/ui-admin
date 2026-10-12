@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "compatibilityId": "ui-0d56174a4f42",
-  "pairIdentitySha256": "5be48dbd5bcd5b3f0dc774d68773fe89c3f5494698dd7a5b87ef4a6e83381de4",
+  "compatibilityId": "ui-c82d49d62d28",
+  "pairIdentitySha256": "8e280b9f35601b149902878ab2d7eec3844c2bbf015f0c59507e6c288ccba50a",
   "contractSha256": "b70d02d6902345e17954eafb44f24052b7478439184286bed5a8df6c69c1fe45",
   "core": {
     "repository": "../ui",
-    "commit": "0d56174a4f42ac06dbe5d9f2c14432e9e9a49fda",
+    "commit": "c82d49d62d28c71aefa2ef2ad05b0a4fae49dfe3",
     "sourceDir": "distr",
     "requiredFiles": [
       {
@@ -14,11 +14,11 @@
       },
       {
         "path": "core/js/core.js",
-        "sha256": "f43595947d332284572428ad279a893ccaa9e565854b779331e3111b70988374"
+        "sha256": "7d75424d6eeee3d2c81bf1fd190f8c9264dd8f0ba45701d6f9929dbb2a916552"
       },
       {
         "path": "core/js/core-loader.js",
-        "sha256": "016785ce2f31d5453cb6b3829a76d9bd44fe89fd070a6f82cd93d5a0de0098d9"
+        "sha256": "789a2a5d8cc0017c77dff773f7b4478a092f7fa0d2176b8e6d6e5fe7f06ffe79"
       },
       {
         "path": "core/contracts/adaptive-sizing.v1.json",
@@ -36,7 +36,7 @@
   },
   "smart": {
     "repository": "../ui",
-    "commit": "97eac0db8651a1b79ce9b790a5b7425d93cb7c57",
+    "commit": "c82d49d62d28c71aefa2ef2ad05b0a4fae49dfe3",
     "sourceDir": "distr/smart",
     "targetDir": "smart",
     "requiredFiles": [
@@ -46,11 +46,11 @@
       },
       {
         "path": "icon-buttons/js/icon-buttons.js",
-        "sha256": "7b91e4bee36ef375c4eb777d2612eab5588c7a11de62d36042be2ccfb5f4ceb0"
+        "sha256": "39556f4d2c296623a70a64a46472f868ae407cea50cf1b7c2463912a84fb225e"
       },
       {
         "path": "field-renderers/js/field-renderers.js",
-        "sha256": "1a1cf7bf9a2591d2846cb17a5b13a7cfbc515d72200d4f0875af9faa1a806f24"
+        "sha256": "f4568cf37eba6acfd1d25ccab1bfd23429b0499f390692b71192f675b77a6134"
       }
     ]
   }

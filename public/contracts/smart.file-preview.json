@@ -119,6 +119,11 @@
         "type": "boolean",
         "default": false
       },
+      "compact": {
+        "type": "boolean",
+        "default": false,
+        "description": "Only the leading visual, as tall as a list row's line: the image, or the file's extension in a tile. For a file in a table cell."
+      },
       "aria-label": {
         "type": "string",
         "default": "File"
@@ -326,11 +331,11 @@
     "source_artifacts": [
       {
         "path": "src/smart/file-preview/index.js",
-        "sha256": "baceeae03c7364c951c18a15946ffb9e47cc942a5c2671e091ed590bca1159cc"
+        "sha256": "e851148357736b1c638b088ecb0a8ac2184366ff644ec9750e8fd496fb0bb2d0"
       },
       {
         "path": "src/smart/file-preview/js/templates/default.js",
-        "sha256": "06589356cb1cc08b493361a38d75e5ff44bd3c57646f9198d228abd711650ea5"
+        "sha256": "f4347ab71d43d3e403469337e46e4a5e7a61ff22ea807bfd21889393b010d3fd"
       }
     ],
     "generated_runtime": []

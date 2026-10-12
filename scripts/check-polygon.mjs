@@ -24,6 +24,7 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { createPolygonHost } from '../src/ports/polygon-host.mjs';
+import { createTreeHost } from '../src/ports/tree-host.mjs';
 import { createNavigationHost } from '../src/ports/navigation-host.mjs';
 import { projectRoot } from './runtime-base.mjs';
 import { newestKit } from './port-kits.mjs';
@@ -100,6 +101,7 @@ const kitFor = (portId) => {
   return { version, manifest, required };
 };
 
+const TREE = ['tree', 'tree-move', 'row-actions'];
 const ALL_LIST = ['row-actions', 'saved-views', 'shared-saved-views', 'shared-column-settings', 'bulk-under-filter', 'count-on-request'];
 const ALL_PANEL = ['field-options', 'field-upload', 'view-settings', 'shared-view-settings', 'record-open'];
 const collection = dataset.structure.structure_id;
@@ -147,6 +149,13 @@ const listReaches = [
   ['view.delete', 'refused', ALL_LIST, 'default', { key: 'no-such-view' }],
   ['view.delete', 'unavailable', [], 'default', { key: 'view-mine' }],
   ['list.open', 'applied', ALL_LIST, 'default', {}],
+  // The tree (port 1.8.0), answered by the site-pages host: a level, the
+  // places a page may go, a move it did not offer, a stale move, and a move a
+  // host without revisions confirms first.
+  ['tree.expand', 'applied', TREE, 'default', { id: 'about', cursor: null, sequence: 2 }],
+  ['node.targets', 'applied', TREE, 'default', { id: 'about' }],
+  ['node.move', 'refused', TREE, 'confirm', { id: 'team', parent: null, index: null }],
+  ['node.move', 'conflict', TREE, 'default', { id: 'about', parent: null, index: 0, revision: 'r9' }],
 ];
 
 const panelReaches = [
@@ -267,7 +276,9 @@ const panelKit = kitFor('simai.property-view-port');
 const navigationKit = kitFor('simai.admin-navigation-port');
 
 const list = await drive('simai.dataview-port', listKit, listReaches,
-  ({ capabilities, scenario }) => createPolygonHost({ dataset, capabilities, scenario }));
+  ({ capabilities, scenario }) => (capabilities.includes('tree')
+    ? createTreeHost({ capabilities, scenario })
+    : createPolygonHost({ dataset, capabilities, scenario })));
 const panel = await drive('simai.property-view-port', panelKit, panelReaches,
   ({ capabilities, scenario, profiles }) => createPolygonHost({ dataset, scenario })
     .propertyView({ capabilities, profiles }));

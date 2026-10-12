@@ -107,7 +107,7 @@
       "id": "smart.file-preview",
       "version": "1.0.0",
       "file": "smart.file-preview.json",
-      "manifest_sha256": "ea4b68a7945fbff50c4d5dada9a9a1c706d31d6860fba3b9b46871b4c5cb4bc4"
+      "manifest_sha256": "572b6269bdb0cbb8fae8c7143277a8b47043b3b90619e25a41b1cf3197ea5f22"
     },
     {
       "id": "smart.file-upload",
@@ -290,6 +290,6 @@
       "manifest_sha256": "82a1c3dbe609499fdeb29eddde3dedf042e3df8e105d1d221ea05bab2b8707b8"
     }
   ],
-  "registry_sha256": "006c581b221ed11ebb6f34458b6f50aeb2041f9b34c7e9176460649032dfab5b",
+  "registry_sha256": "66b5024fb9b29c146e75f72a63b5807dd70d75c3a51304a73c01b7e0d789a85f",
   "registry_schema_sha256": "4218268a8661e8e9229533280f721123b819237e79ea1612c2115f7c5ee73d9a"
 }

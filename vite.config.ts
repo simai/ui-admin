@@ -206,6 +206,7 @@ export default defineConfig(({ mode }) => {
           // list driven over HTTP by the mock API -- is kept at its own
           // address, because it is the only page that exercises the transport.
           admin: resolve(projectRoot, 'index.html'),
+          sitePages: resolve(projectRoot, 'site-pages.html'),
           mockApi: resolve(projectRoot, 'mock-api.html'),
           navigationMenuReference: resolve(
             projectRoot,

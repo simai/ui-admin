@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ru" class="max-h-screen h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://icons.simai.io" crossorigin />
+    <link rel="stylesheet" href="/distr/core/css/core.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SIMAI ADMIN — страницы сайта</title>
+    <script>
+      // The theme and the language, before anything renders. A component
+      // resolves its text from the nearest [lang] when it draws and nothing
+      // observes it afterwards, so setting the language later would leave every
+      // drawn label in the old one. Inline and first for the same reason the
+      // theme is: no flash, and no second answer.
+      (function () {
+        var chosen = {};
+        try { chosen = JSON.parse(localStorage.getItem('simai.admin.appearance') || '{}'); } catch (error) { chosen = {}; }
+        var lang = chosen.lang === 'en' ? 'en' : 'ru';
+        document.documentElement.lang = lang;
+        var theme = chosen.theme || 'system';
+        var dark = theme === 'dark'
+          || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.classList.toggle('theme-dark', dark);
+        document.documentElement.classList.toggle('theme-light', !dark);
+      })();
+    </script>
+    <script>
+      window.SF_BOOT_CONFIG = { icons: { accumulate: true } };
+      window.sfPath = '/distr/';
+      window.sfSmartPath = '/distr/';
+    </script>
+    <script>
+      // The four components this reference is built on -- sf-table,
+      // sf-data-view, sf-property-view and sf-admin-menu -- are Larena's, the
+      // component package larena, and reach the page through the Loader:
+      // it fetches <base>/rule.js before its first scan and loads them from
+      // that base. Their rules are gone from the free core, so a page that does
+      // not declare this renders nothing. The base is a placeholder here and the
+      // build stamps the package's id into it, so a new package build lands on a
+      // path no cache can answer with the previous build's bytes.
+      window.SF_BOOT_CONFIG = {
+        ...window.SF_BOOT_CONFIG,
+        packages: { larena: { base: '/distr-larena/' } },
+      };
+    </script>
+    <script src="/distr/core/js/core.js" data-sf-script="/distr/core/js/core.js"></script>
+  </head>
+  <body class="flex h-full" data-page="site.pages">
+    <aside class="admin-navigation h-full">
+      <sf-admin-menu class="h-full" aria-label="Разделы админки"></sf-admin-menu>
+    </aside>
+
+    <main class="flex flex-col flex-1 min-w-0 min-h-0">
+      <!-- A list that is a tree (data view port 1.8.0): a site's pages, answered
+           one level at a time by src/ports/tree-host.mjs, the reference for
+           Larena's Groups and Site pages. ?scenario=confirm stands it up
+           without revisions, so a move is confirmed first; ?scenario=flat as a
+           plane with no nesting. -->
+      <section class="flex flex-col gap-2 p-4 flex-1 min-w-0 min-h-0">
+        <sf-page-header heading="Страницы" count="—">
+          <sf-breadcrumbs slot="path" aria-label="Где вы находитесь">
+            <sf-breadcrumbs-item href="/">simai.ru</sf-breadcrumbs-item>
+            <sf-breadcrumbs-item href="/">Сайт</sf-breadcrumbs-item>
+          </sf-breadcrumbs>
+        </sf-page-header>
+        <sf-data-view id="pages" aria-label="Страницы сайта">
+          <span slot="toolbar"></span>
+          <sf-table slot="content" id="pages-table" table-settings-key="polygon.site-pages" aria-label="Страницы сайта"></sf-table>
+          <sf-pagination slot="pagination"></sf-pagination>
+        </sf-data-view>
+      </section>
+    </main>
+
+    <script type="module" src="/src/sitePages.ts"></script>
+  </body>
+</html>

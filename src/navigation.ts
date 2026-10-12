@@ -13,7 +13,8 @@ import { createNavigationHost } from './ports/navigation-host.mjs';
 type NavigationHost = { port: string; version: string; raise: (intent: string, payload?: unknown) => Promise<unknown> };
 type MenuElement = HTMLElement & { setHostPort?: (host: NavigationHost) => unknown; _navigation?: unknown };
 
-const PAGE_KEY = 'data.catalog';
+// The row this page is: the catalogue by default, or what the page names.
+const PAGE_KEY = document.body?.dataset.page || 'data.catalog';
 const waiting = new Set<MenuElement>();
 let host: NavigationHost | null = null;
 

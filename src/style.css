@@ -33,14 +33,51 @@ section {
   overflow-wrap: anywhere;
 }
 
+/* A phone: the page is the screen and the menu opens over it from a button
+   at the top (src/navigation.ts adds it). Stacking the menu above the page made
+   the page unreachable: the menu filled the screen and the document did not
+   scroll past it. */
+.admin-navigation-toggle {
+  display: none;
+}
+
 @media (max-width: 720px) {
+  html,
+  body {
+    max-height: none;
+    height: auto;
+  }
+
   body {
     display: block;
   }
 
-  aside {
-    max-width: none;
+  aside.admin-navigation {
+    display: none;
+  }
+
+  body[data-menu-open] aside.admin-navigation {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: var(--sf-z-index-9, 90);
     width: 100%;
+    max-width: none;
+    background-color: var(--sf-surface-0);
+  }
+
+  .admin-navigation-toggle {
+    display: flex;
+    position: sticky;
+    inset-block-start: 0;
+    z-index: var(--sf-z-index-8, 80);
+    padding: var(--sf-a8) var(--sf-space-2);
+    background-color: var(--sf-surface-0);
+    border-block-end: var(--sf-px) solid var(--sf-outline-variant);
+  }
+
+  body[data-menu-open] .admin-navigation-toggle {
+    z-index: calc(var(--sf-z-index-9, 90) + 1);
   }
 }
 sf-table {

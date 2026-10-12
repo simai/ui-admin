@@ -62,3 +62,30 @@ const start = async () => {
 };
 
 void start();
+
+// On a phone the menu is opened from a button above the page and covers it;
+// choosing a row or pressing the button again closes it.
+const addPhoneToggle = () => {
+  if (document.querySelector('.admin-navigation-toggle')) return;
+  const bar = document.createElement('div');
+  bar.className = 'admin-navigation-toggle';
+  const button = document.createElement('sf-button');
+  button.setAttribute('appearance', 'outline');
+  button.setAttribute('size', '1');
+  button.setAttribute('icon-left', 'menu');
+  button.setAttribute('text', document.documentElement.lang === 'en' ? 'Menu' : 'Меню');
+  button.setAttribute('aria-expanded', 'false');
+  button.addEventListener('click', () => {
+    const open = !document.body.hasAttribute('data-menu-open');
+    document.body.toggleAttribute('data-menu-open', open);
+    button.setAttribute('aria-expanded', String(open));
+  });
+  bar.append(button);
+  document.body.prepend(bar);
+  addEventListener('sf-admin-menu-navigate', () => {
+    document.body.removeAttribute('data-menu-open');
+    button.setAttribute('aria-expanded', 'false');
+  });
+};
+if (document.body) addPhoneToggle();
+else addEventListener('DOMContentLoaded', addPhoneToggle);

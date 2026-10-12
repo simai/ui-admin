@@ -1,4 +1,4 @@
-// A host for simai.dataview-port 1.8.0 that answers a tree: a site's pages.
+// A host for simai.dataview-port 1.9.0 that answers a tree: a site's pages.
 //
 // What Larena's site-pages host answers, kept in memory: pages under pages,
 // each with a revision and a publication per language, answered one level at
@@ -108,6 +108,9 @@ export const createTreeHost = ({capabilities = ['tree', 'tree-move', 'row-action
     if (scenario === 'flat') return row;
     row.parent = page.parent;
     row.has_children = childrenOf(page.id).length > 0;
+    // The host names what a node is (port 1.9.0): a section of the site and a
+    // page -- not a folder and a file, which a page with pages under it is not.
+    row.icon = row.has_children ? 'library_books' : 'article';
     if (path) row.path = ancestors(page).map((item) => ({id: item.id, label: item.title}));
     return row;
   };
@@ -123,7 +126,7 @@ export const createTreeHost = ({capabilities = ['tree', 'tree-move', 'row-action
   const digestOf = (payload) => `move:${payload.id}:${payload.parent ?? 'root'}:${payload.index ?? 'end'}`;
 
   return {
-    version: '1.8.0',
+    version: '1.9.0',
     capabilities,
 
     async raise(intent, payload = {}) {

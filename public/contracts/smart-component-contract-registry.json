@@ -447,13 +447,13 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/context-menu/smart.manifest.json",
-      "manifest_sha256": "effb9c3101f9e6a4d4a4b73076b2122f958df7bf98fdf420cc28e3cda642bbfd",
+      "manifest_sha256": "4c52a129f28cb0d0718ad8e99677ff17288363913dd15c13b4d04ccef6ca47b2",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
         "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
       },
-      "summary": "Presentational action-menu surface with logical tail positions and native keyboard item management.",
+      "summary": "The Framework's action menu: data entries with icon, caption, value, shortcut, check, submenu, separator and heading, opened by openFor() into the top layer, anchored, with keyboard, typeahead and focus return. A host may still render its own items and own the lifecycle.",
       "tags": [
         "context-menu"
       ],

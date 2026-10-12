@@ -3,9 +3,9 @@
   "package": "larena",
   "source": {
     "repository": "simai/larena-ui",
-    "revision": "312e698ce9412e3dde58669d9a1304a8403dad0e",
+    "revision": "5f0e035b56fa6ebcbbf3731804108bd9ae358711",
     "path": "components",
-    "tree": "c674cd652f23583dc39dcfc2fc0561e9885ca88a"
+    "tree": "6953e53a3b676921a65c339fc1c7883f2d55807d"
   },
   "smart": {
     "targetDir": "",
@@ -16,15 +16,15 @@
       },
       {
         "path": "admin-menu/js/admin-menu.js",
-        "sha256": "3fccbbeee5aa817d9d190c52e69368be411527c7d069501fc00907931965336a"
+        "sha256": "dec07457acd92092f1aeb658dabb1c608b8ff94fcc812a6dad52e259a4fe0cf6"
       },
       {
         "path": "admin-menu/css/admin-menu.css",
-        "sha256": "737fd5ebaf20b4cfb4875603b755a8a0148c66e2b35acefcdfc336d46688a666"
+        "sha256": "84e2601776e67312d8372cfb8a032ee9b2d06b9334004e4762fdb8a922b9ad9a"
       },
       {
         "path": "data-view/js/data-view.js",
-        "sha256": "e98fd87b4147b38970cc7df62f01be6415baa236a5b7ee0f7cc953af8addff97"
+        "sha256": "8878e83d2f2dabf3d4ad7bb092ed72fe1becaaa017ed882c75f95be8a7b70b15"
       },
       {
         "path": "property-view/js/property-view.js",
@@ -36,7 +36,7 @@
       },
       {
         "path": "table/js/table.js",
-        "sha256": "fc7e90ab3ccbfc9bc3bb8cd99c95333fcbfc2c69c428fdc3f0c0a4f8f749cf25"
+        "sha256": "5feab81f397b6053c58a0e0334e3ee323fa7ec3229f11d3e19d247a172e86377"
       },
       {
         "path": "table/css/table.css",
@@ -44,10 +44,10 @@
       }
     ]
   },
-  "compatibilityId": "larena-312e698ce941",
+  "compatibilityId": "larena-5f0e035b56fa",
   "requires": {
-    "framework": "ui-e25d2bda02e6"
+    "framework": "ui-6509ee5ecffd"
   },
-  "archiveSha256": "1f2d298ff643c277f092c2f7dfa9613960ec094d7bdd6c01e8668c894fff358f",
-  "distributionIdentitySha256": "e7ee2e901a1e6186e9f691c6519b7e2d6651982b7c13f703039a9a23440fc9ca"
+  "archiveSha256": "d7721eebc5e11e9101af22c0666f9fbea8c6bbb80cdb73f990f2bffff2f66774",
+  "distributionIdentitySha256": "84fd5cfd9502ba7e6ef6d4897f320e0b4cdd809b14d146f94d01cd09212bd37a"
 }

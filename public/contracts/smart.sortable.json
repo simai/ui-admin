@@ -264,7 +264,7 @@
       },
       {
         "path": "src/core/js/composition/sortable.mjs",
-        "sha256": "ddc403a70820606285931d4fd7cfa6b0af77cf1e5db45a4a6ad86ad5fce1a575"
+        "sha256": "e9925041dbe2d275785adfe864a4bbf4da7b901dabd06aec42087cb9c86dafb7"
       }
     ],
     "generated_runtime": []

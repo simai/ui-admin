@@ -436,11 +436,11 @@
       },
       {
         "path": "src/core/js/composition/overlay.mjs",
-        "sha256": "fa6b10e8388f94f4af724fd53066e222edf6d8d92935a5587ba783d862af4aa8"
+        "sha256": "3a735e7de5e7009a3eebd2e793f24c5b15482807d3363e64de96ece6c1e301a4"
       },
       {
         "path": "src/core/js/composition/sortable.mjs",
-        "sha256": "ddc403a70820606285931d4fd7cfa6b0af77cf1e5db45a4a6ad86ad5fce1a575"
+        "sha256": "e9925041dbe2d275785adfe864a4bbf4da7b901dabd06aec42087cb9c86dafb7"
       },
       {
         "path": "src/core/js/composition/canonical.mjs",

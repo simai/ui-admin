@@ -51,6 +51,8 @@ type Dataset = PolygonDataset;
 const ALL_CAPABILITIES = [
   'row-actions', 'saved-views', 'shared-saved-views',
   'shared-column-settings', 'bulk-under-filter', 'count-on-request',
+  // Port 1.10.0: the polygon creates records and keeps personal column settings.
+  'create-record', 'personal-column-settings',
 ];
 
 const element = <T extends Element = Element>(selector: string) =>

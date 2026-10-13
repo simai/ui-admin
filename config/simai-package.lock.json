@@ -3,9 +3,9 @@
   "package": "larena",
   "source": {
     "repository": "simai/larena-ui",
-    "revision": "6e07294e202aad6380b0c83b96ab94265de06805",
+    "revision": "4d1448e13b6197920ddba20abf6e7e114c0fcfa8",
     "path": "components",
-    "tree": "53ac1667120d085167b292b39182e43fcb7546fb"
+    "tree": "ee368f5bc10d129e5acb36c95fba4a9f1507e85a"
   },
   "smart": {
     "targetDir": "",
@@ -24,11 +24,11 @@
       },
       {
         "path": "data-view/js/data-view.js",
-        "sha256": "73083af0d32379806c608fd1ec024e7a4d52b98493264a0d56c2f0b7f0471874"
+        "sha256": "2918cbf8b7a681a2fcdbfbf77b698a057f250d78c35182935a4867e57ea6712a"
       },
       {
         "path": "property-view/js/property-view.js",
-        "sha256": "7b07d1cdd823b7d8853b5a086f1ea18e5f4a23794f79de5fe9e5930e1eaf949d"
+        "sha256": "89cc17186b49c8bdcb39e2250027b94c48b1c8e54462bfa8c6af108aca6c12b3"
       },
       {
         "path": "property-view/css/property-view.css",
@@ -36,7 +36,7 @@
       },
       {
         "path": "table/js/table.js",
-        "sha256": "b91f05335ed7d9644690910bd634f6431abcaa59ae744bbc8748c3f3a5537d9c"
+        "sha256": "c32e311cf5c1163c328727266fb40a01e50820e026a0b3a986d7ae494893f7e1"
       },
       {
         "path": "table/css/table.css",
@@ -44,10 +44,10 @@
       }
     ]
   },
-  "compatibilityId": "larena-6e07294e202a",
+  "compatibilityId": "larena-4d1448e13b61",
   "requires": {
-    "framework": "ui-272734e6edf3"
+    "framework": "ui-9fbf82f469bb"
   },
-  "archiveSha256": "9d9ff7aee2a35b0c99e7abeac2cd4ac91fcb2faea145e021a2dbe4b3763bb2c3",
-  "distributionIdentitySha256": "dc90e63fe060bfa4a1f2101f9ef7cc993b2e58fe656cf14c7680b61fba211569"
+  "archiveSha256": "dacfae7e49ab94682f6a72917558956de54c94de2a685d836d3a87b95a7e7596",
+  "distributionIdentitySha256": "4daa19b4b2a31e21c84b818f69c003b9e5713945c1bb7b3252eb278f5fafd4fd"
 }

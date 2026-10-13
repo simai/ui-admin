@@ -102,7 +102,7 @@ const kitFor = (portId) => {
 };
 
 const TREE = ['tree', 'tree-move', 'row-actions'];
-const ALL_LIST = ['row-actions', 'saved-views', 'shared-saved-views', 'shared-column-settings', 'bulk-under-filter', 'count-on-request'];
+const ALL_LIST = ['row-actions', 'saved-views', 'shared-saved-views', 'shared-column-settings', 'bulk-under-filter', 'count-on-request', 'create-record', 'personal-column-settings'];
 const ALL_PANEL = ['field-options', 'field-upload', 'view-settings', 'shared-view-settings', 'record-open'];
 const collection = dataset.structure.structure_id;
 const editable = dataset.records.find((record) => record.editable !== false);
@@ -131,6 +131,8 @@ const listReaches = [
   ['bulk.apply_under_filter', 'unavailable', [], 'default', { action_id: 'publish', filters: {} }],
   ['view.create_record', 'applied', ALL_LIST, 'default', { kind: collection }],
   ['view.create_record', 'refused', ALL_LIST, 'default', { kind: 'something.else' }],
+  ['view.create_record', 'unavailable', ['row-actions'], 'default', { kind: collection }],
+  ['settings.save_personal', 'unavailable', ['row-actions'], 'default', { columnSettings: {}, base_revision: 'personal-1' }],
   ['settings.save_personal', 'applied', ALL_LIST, 'default', { columnSettings: {}, base_revision: 'personal-1' }],
   ['settings.save_personal', 'conflict', ALL_LIST, 'default', { columnSettings: {}, base_revision: 'personal-9' }],
   ['settings.save_shared', 'applied', ALL_LIST, 'default', { columnSettings: {}, base_revision: 'shared-1', target: 'shared' }],

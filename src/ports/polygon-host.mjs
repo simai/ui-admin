@@ -114,6 +114,8 @@ export const createPolygonHost = ({
   capabilities = [
     'row-actions', 'saved-views', 'shared-saved-views',
     'shared-column-settings', 'bulk-under-filter', 'count-on-request',
+    // Port 1.10.0: creating and personal column settings are announced too.
+    'create-record', 'personal-column-settings',
   ],
   // The scenario switch: a polygon has to be able to be an empty list, a
   // forbidden one and a broken one, because those are the states a consumer
@@ -293,7 +295,7 @@ export const createPolygonHost = ({
   };
 
   return {
-    version: '1.7.0',
+    version: '1.10.0',
     capabilities,
     formatFieldValue,
     // Read by the page so the panel and the list agree on one dataset.
@@ -416,6 +418,9 @@ export const createPolygonHost = ({
       }
 
       if (intent === 'view.create_record') {
+        if (!capabilities.includes('create-record')) {
+          return { answer: 'unavailable', reason: 'capability-not-provided' };
+        }
         const kind = String(payload.kind ?? structure.structure_id);
         if (kind !== structure.structure_id) return { answer: 'refused', reason: 'unknown-kind' };
         const index = state.records.length + 1;
@@ -439,6 +444,9 @@ export const createPolygonHost = ({
         // Not connected here is a different fact from not allowed: without the
         // capability the view explains rather than showing a button that fails
         // (kit case settings-shared-needs-permission).
+        if (!shared && !capabilities.includes('personal-column-settings')) {
+          return { answer: 'unavailable', reason: 'capability-not-provided' };
+        }
         if (shared && !capabilities.includes('shared-column-settings')) {
           return { answer: 'unavailable', reason: 'capability-not-provided', message: 'Общие настройки здесь не подключены' };
         }

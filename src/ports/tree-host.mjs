@@ -66,7 +66,10 @@ const ROW_ACTIONS = [
 /**
  * @param {{capabilities?: string[], scenario?: string}} [options]
  */
-export const createTreeHost = ({capabilities = ['tree', 'tree-move', 'row-actions'], scenario = 'default'} = {}) => {
+// Port 1.10.0: the host announces what it answers. It creates records and keeps
+// no column settings or saved views, so the page offers creating and neither of
+// the others.
+export const createTreeHost = ({capabilities = ['tree', 'tree-move', 'row-actions', 'create-record'], scenario = 'default'} = {}) => {
   const pages = seed();
   const confirming = scenario === 'confirm';
   const byId = (id) => pages.find((page) => page.id === String(id));
@@ -126,7 +129,7 @@ export const createTreeHost = ({capabilities = ['tree', 'tree-move', 'row-action
   const digestOf = (payload) => `move:${payload.id}:${payload.parent ?? 'root'}:${payload.index ?? 'end'}`;
 
   return {
-    version: '1.9.0',
+    version: '1.10.0',
     capabilities,
 
     async raise(intent, payload = {}) {
@@ -258,6 +261,7 @@ export const createTreeHost = ({capabilities = ['tree', 'tree-move', 'row-action
       }
 
       if (intent === 'view.create_record') {
+        if (!capabilities.includes('create-record')) return {answer: 'unavailable', reason: 'capability-not-provided'};
         if (payload.parent !== undefined && payload.parent !== null && !byId(payload.parent)) {
           return {answer: 'refused', reason: 'target-unknown'};
         }

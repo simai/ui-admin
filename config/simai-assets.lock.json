@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "compatibilityId": "ui-84c7312396f6",
-  "pairIdentitySha256": "495ee063a4f19a478c9015edfcc6c47c3a6de46b623cdbec0bb79d36afca0761",
+  "compatibilityId": "ui-45c15e706fde",
+  "pairIdentitySha256": "b2275abc15bded147c42a1a94ed1f7260f26345b069023b8fafba52c10a4b7ad",
   "contractSha256": "b70d02d6902345e17954eafb44f24052b7478439184286bed5a8df6c69c1fe45",
   "core": {
     "repository": "../ui",
-    "commit": "84c7312396f6f59548b5c2c41ef6915de010ad5b",
+    "commit": "45c15e706fde4a5785d684f0a0d54b9a42497c60",
     "sourceDir": "distr",
     "requiredFiles": [
       {
         "path": "core/css/core.css",
-        "sha256": "57fac4ec2654d2ad2197460ff40b24930b7a6c7b1f2e5ef2f39e97a14d856720"
+        "sha256": "7c1533c17fb4790250cf45e180cdbd91e9f32dca745a55c2f14674836ad2fae0"
       },
       {
         "path": "core/js/core.js",

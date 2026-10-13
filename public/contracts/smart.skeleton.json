@@ -120,14 +120,17 @@
   "contracts": {},
   "methods": {
     "setState": {
-      "summary": "Public runtime method setState.",
-      "arguments": [],
+      "summary": "Writes each key as its kebab-case attribute: false, null, undefined or an empty string removes it, true sets it empty, anything else is stringified.",
+      "arguments": [
+        {
+          "name": "nextState",
+          "type": "object",
+          "required": true
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     }
   },

@@ -71,7 +71,7 @@
       "swatches": {
         "type": "string",
         "default": "",
-        "description": "The colours a product already has, space or comma separated, each #hex or #hex|Name. A person picks the brand colour rather than matching a hex by eye."
+        "description": "The colours a product already has, comma separated, each #hex or #hex|Name; a name may hold spaces. A piece without a name may list several colours by spaces. A person picks the brand colour rather than matching a hex by eye."
       },
       "inherited-value": {
         "type": "string",
@@ -90,7 +90,7 @@
       "name": {
         "type": "string",
         "default": "",
-        "description": "The form name of the native input."
+        "description": "The form name. A hidden input carries the value under it, empty while the inherited colour applies."
       },
       "label": {
         "type": "string",
@@ -118,7 +118,7 @@
   "contracts": {},
   "methods": {
     "setValue": {
-      "summary": "Set the colour as a person would: normalised, reflected to value, and change dispatched when it differs. Returns whether it changed.",
+      "summary": "Set and commit the colour as a person would: normalised, reflected to value, input and then change dispatched when it differs from the committed one. Returns whether the value changed.",
       "arguments": [
         {
           "name": "value",
@@ -140,7 +140,21 @@
   },
   "events": {
     "change": {
-      "summary": "A colour was committed, once per change a person makes. Carries the value and the form name; an empty value means the inherited colour applies again.",
+      "summary": "A colour was committed: once when the platform picker closes or a swatch or clear is pressed, not on every step of a drag. Carries the value and the form name; an empty value means the inherited colour applies again. The picker's own change does not leave the host.",
+      "payload": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "input": {
+      "summary": "The colour moved, on every step of a drag across the platform picker and before each change. Carries the value and the form name.",
       "payload": {
         "type": "object",
         "properties": {
@@ -191,13 +205,14 @@
     "network_policy": "deny"
   },
   "accessibility": {
-    "role": "switch",
-    "accessible_name": "required",
+    "role": "group",
+    "accessible_name": "recommended",
     "keyboard": [
       "Tab",
+      "Enter",
       "Space"
     ],
-    "focus": "Keep visible focus on the active control."
+    "focus": "The platform colour input, each swatch and the clear button take focus in order and keep a visible focus ring. Swatches say whether they are the chosen colour by aria-pressed."
   },
   "presentation": {
     "themes": [
@@ -251,7 +266,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/color/index.js",
-        "sha256": "14bbc33e65ba0dc304d536d03ecfb261f9de444f8ce9d86ce3d6f211d3a2a2dd"
+        "sha256": "1f5e0552690ca5b76605a50967ebeaaf8d63c537d44a661ce90cf326372523e1"
       },
       {
         "path": "src/smart/color/rule.js",
@@ -259,7 +274,7 @@
       },
       {
         "path": "src/smart/color/js/templates/default.js",
-        "sha256": "f18afa1cc0d3c44f07aa92277ac3de0b41f3e886b8b533c35829f98f853e5693"
+        "sha256": "5b17bab9b762b14d594b0f21151d3d287d3c9cf8e1c6704ccfece68cf414e071"
       },
       {
         "path": "src/smart/color/js/templates/default.css",
@@ -269,10 +284,10 @@
     "generated_runtime": []
   },
   "ai_guidance": {
-    "use_when": "Use sf-switch when a binary setting takes effect immediately and may need supporting text.",
+    "use_when": "Use sf-color wherever a colour is set -- a theme, a site look, a label, a chart series -- and especially when the colour may be left unset to inherit one.",
     "do_not": [
-      "Do not use Switch for a value submitted only after a separate confirmation action",
-      "Do not label it with commands such as Enable and Disable",
+      "Do not draw the inherited colour as the value: pass it as inherited-value so «not set» stays distinguishable",
+      "Do not listen to input for saving; save on change, which fires once per committed colour",
       "Do not copy generated ui-smart code",
       "Do not move host data or access decisions into the component"
     ],
@@ -283,7 +298,7 @@
       "ownership",
       "provenance"
     ],
-    "minimal_example": "<sf-switch></sf-switch>",
+    "minimal_example": "<sf-color label=\"Brand colour\" clearable inherited-value=\"#1f6feb\" swatches=\"#1f6feb|Brand blue, #e5534b|Alert\"></sf-color>",
     "owner_commands": [
       "npm run contract:verify",
       "npm test"

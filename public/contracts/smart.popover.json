@@ -61,7 +61,7 @@
       "role": {
         "type": "string",
         "default": "dialog",
-        "description": "What the surface is. The role reaches the surface it draws into, so a menu of commands keeps that component's arrow keys and roving focus.",
+        "description": "Legacy name for surface-role. Read once and removed from the host, which is not itself a menu or dialog.",
         "enum": [
           "dialog",
           "menu",
@@ -78,6 +78,17 @@
         "type": "boolean",
         "default": true,
         "description": "Esc and a press outside close it. A consumer that owns those keys turns this off and calls close() when it decides."
+      },
+      "surface-role": {
+        "type": "string",
+        "default": "dialog",
+        "enum": [
+          "dialog",
+          "menu",
+          "listbox",
+          "group"
+        ],
+        "description": "What the surface is to a reader: dialog, menu, listbox or group. Written on sf-popover; the surface gets the role and the trigger aria-haspopup."
       }
     },
     "additionalProperties": false
@@ -140,13 +151,57 @@
     "sf-popover-open": {
       "summary": "The surface opened.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "type": "object",
+            "description": "The emitting element."
+          },
+          "tagName": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string"
+          },
+          "open": {
+            "type": "boolean",
+            "const": true
+          }
+        },
+        "required": [
+          "component",
+          "tagName",
+          "template",
+          "open"
+        ]
       }
     },
     "sf-popover-close": {
       "summary": "The surface closed.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "type": "object",
+            "description": "The emitting element."
+          },
+          "tagName": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string"
+          },
+          "open": {
+            "type": "boolean",
+            "const": false
+          }
+        },
+        "required": [
+          "component",
+          "tagName",
+          "template",
+          "open"
+        ]
       }
     }
   },
@@ -185,13 +240,15 @@
     "network_policy": "deny"
   },
   "accessibility": {
-    "role": "switch",
-    "accessible_name": "required",
+    "role": "dialog",
+    "accessible_name": "recommended",
     "keyboard": [
       "Tab",
-      "Space"
+      "Enter",
+      "Space",
+      "Escape"
     ],
-    "focus": "Keep visible focus on the active control."
+    "focus": "label names the surface. surface-role sets the surface's role (dialog by default; menu, listbox, group); the trigger gets aria-haspopup to match and aria-expanded. Opening moves focus into the surface; Escape or a press outside closes it and returns focus to the trigger. While it is open a modal or drawer behind it leaves Escape alone."
   },
   "presentation": {
     "themes": [
@@ -245,7 +302,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/popover/index.js",
-        "sha256": "1f77b64872f75e2e84319a7cefd0ce538e031d47fa796435dc003dcd7dc6afce"
+        "sha256": "2b553508c0e601bd54084b95218aa9afbb8599cb6f28b2316b352fd629f13acf"
       },
       {
         "path": "src/smart/popover/rule.js",
@@ -263,10 +320,10 @@
     "generated_runtime": []
   },
   "ai_guidance": {
-    "use_when": "Use sf-switch when a binary setting takes effect immediately and may need supporting text.",
+    "use_when": "Use sf-popover for a surface anchored to a control the consumer supplies -- a field's settings, a filter, a list of things to add -- that opens on its trigger and closes on Escape or outside.",
     "do_not": [
-      "Do not use Switch for a value submitted only after a separate confirmation action",
-      "Do not label it with commands such as Enable and Disable",
+      "Do not use it for a blocking task; that is sf-modal",
+      "Do not write role on the host; use surface-role",
       "Do not copy generated ui-smart code",
       "Do not move host data or access decisions into the component"
     ],
@@ -277,7 +334,7 @@
       "ownership",
       "provenance"
     ],
-    "minimal_example": "<sf-switch></sf-switch>",
+    "minimal_example": "<sf-popover label=\"Settings\"><button slot=\"trigger\" type=\"button\">Settings</button><div slot=\"content\">…</div></sf-popover>",
     "owner_commands": [
       "npm run contract:verify",
       "npm test"

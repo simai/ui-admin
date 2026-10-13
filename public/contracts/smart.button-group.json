@@ -200,9 +200,34 @@
   },
   "events": {
     "change": {
-      "summary": "The selected value changed; dispatched on the host with previous, value and item. The name to bind.",
+      "summary": "The selected value changed through select() or clear(); dispatched on the host, bubbles and is composed. The name to bind.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "description": "The emitting sf-button-group."
+          },
+          "previous": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string",
+            "description": "Empty after clear()."
+          },
+          "item": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "The selected item; null after clear()."
+          }
+        },
+        "required": [
+          "component",
+          "previous",
+          "value",
+          "item"
+        ]
       },
       "canonical": true
     },

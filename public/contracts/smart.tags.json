@@ -247,14 +247,36 @@
     "change": {
       "summary": "The active state of a checkbox tag changed.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "active": {
+            "type": "boolean"
+          },
+          "component": {
+            "type": "object",
+            "description": "The sf-tag element."
+          }
+        },
+        "required": [
+          "active",
+          "component"
+        ]
       },
       "canonical": true
     },
     "close": {
       "summary": "Removal was requested from the separately named close action.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "type": "object",
+            "description": "The sf-tag element; the host removes it."
+          }
+        },
+        "required": [
+          "component"
+        ]
       }
     }
   },

@@ -59,6 +59,14 @@
           "single",
           "multiple"
         ]
+      },
+      "items": {
+        "type": "array",
+        "default": [],
+        "items": {
+          "type": "object"
+        },
+        "description": "Items given as data instead of as sf-tree-item children (set as a property, not an attribute): [{label, href?, target?, rel?, kind?, value?, open?, selected?, active?, disabled?, icon?, openIcon?, closedIcon?, chevronOpenIcon?, chevronClosedIcon?, openLabel?, closeLabel?, children?}]. text or title stand in for label. Setting it replaces the items and re-renders; sf-tree-item children are read once and removed, so a parent that re-renders changed items passes them this way."
       }
     },
     "additionalProperties": false
@@ -67,14 +75,22 @@
   "contracts": {},
   "methods": {
     "onToggle": {
-      "summary": "Public runtime method onToggle.",
-      "arguments": [],
+      "summary": "Adds a listener for sf-tree-item-toggle from any item in the tree; the handler is called with (item, detail, event).",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": "object|boolean",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     }
   },
@@ -82,7 +98,37 @@
     "sf-tree-selection-change": {
       "summary": "Selection requested or changed for a tree item.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "type": "object",
+            "description": "The emitting element."
+          },
+          "tagName": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string"
+          },
+          "item": {
+            "type": "object",
+            "description": "The sf-tree-item."
+          },
+          "selected": {
+            "type": "boolean"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "component",
+          "tagName",
+          "template",
+          "item",
+          "selected",
+          "value"
+        ]
       }
     }
   },

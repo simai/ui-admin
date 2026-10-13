@@ -152,36 +152,33 @@
   "contracts": {},
   "methods": {
     "setOpen": {
-      "summary": "Public runtime method setOpen.",
-      "arguments": [],
+      "summary": "Opens or closes a branch and emits sf-tree-item-toggle; does nothing for a file, a leaf, a disabled item or an unchanged state.",
+      "arguments": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "open": {
-      "summary": "Public runtime method open.",
+      "summary": "Same as setOpen(true).",
       "arguments": [],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "close": {
-      "summary": "Public runtime method close.",
+      "summary": "Same as setOpen(false).",
       "arguments": [],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "focusItem": {
@@ -203,25 +200,30 @@
       }
     },
     "toggle": {
-      "summary": "Public runtime method toggle.",
+      "summary": "Flips the open state through setOpen.",
       "arguments": [],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onToggle": {
-      "summary": "Public runtime method onToggle.",
-      "arguments": [],
+      "summary": "Adds a listener for sf-tree-item-toggle; the handler is called with (open, detail, event). Ignores a non-function handler.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": "object|boolean",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     }
   },
@@ -229,13 +231,77 @@
     "sf-tree-item-click": {
       "summary": "Runtime event sf-tree-item-click.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "type": "object",
+            "description": "The emitting element."
+          },
+          "tagName": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string"
+          },
+          "item": {
+            "type": "object",
+            "description": "The sf-tree-item."
+          },
+          "value": {
+            "type": "string"
+          },
+          "originalEvent": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "The click; null when activated from the keyboard (Enter) on an item without a link."
+          }
+        },
+        "required": [
+          "component",
+          "tagName",
+          "template",
+          "item",
+          "value",
+          "originalEvent"
+        ]
       }
     },
     "sf-tree-item-toggle": {
       "summary": "Runtime event sf-tree-item-toggle.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "type": "object",
+            "description": "The emitting element."
+          },
+          "tagName": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string"
+          },
+          "item": {
+            "type": "object",
+            "description": "The sf-tree-item."
+          },
+          "open": {
+            "type": "boolean"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "component",
+          "tagName",
+          "template",
+          "item",
+          "open",
+          "value"
+        ]
       }
     }
   },

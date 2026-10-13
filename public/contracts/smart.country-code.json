@@ -3,7 +3,7 @@
   "id": "smart.country-code",
   "version": "1.0.0",
   "title": "Country Code",
-  "summary": "Country Code Smart Component from SIMAI Framework.",
+  "summary": "A telephone field with a country picker: a button opens a searchable listbox of countries, and the chosen country sets the dial code, flag and, optionally, the input mask of the native tel input.",
   "kind": "smart",
   "reuse_mode": "whole",
   "lifecycle": "experimental",
@@ -139,22 +139,25 @@
   "contracts": {},
   "methods": {
     "setState": {
-      "summary": "Public runtime method setState.",
-      "arguments": [],
+      "summary": "Applies disabled, open (or active), value, iso2 and dialCode to the rendered field; setting value dispatches native input and change from the inner input. Returns true when applied, false before render.",
+      "arguments": [
+        {
+          "name": "nextState",
+          "type": "object",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "boolean"
       }
     }
   },
   "events": {
     "change": {
-      "summary": "The phone value or country was committed; the native event bubbles from the inner input, which is its target. The name to bind.",
+      "summary": "The phone value or country was committed; the native event bubbles from the inner input, which is its target. It carries no detail. The name to bind.",
       "payload": {
-        "type": "object"
+        "type": "null",
+        "description": "A native Event: there is no detail."
       },
       "canonical": true
     }

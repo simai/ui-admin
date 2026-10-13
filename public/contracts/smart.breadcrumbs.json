@@ -3,7 +3,7 @@
   "id": "smart.breadcrumbs",
   "version": "1.0.0",
   "title": "Breadcrumbs",
-  "summary": "Breadcrumbs Smart Component from SIMAI Framework.",
+  "summary": "Shows the current page's place in a hierarchy as a trail of native links built from items, the items attribute or sf-breadcrumbs-item children. A long trail collapses its middle into an ellipsis button (max-items, default 4) that expands in place.",
   "kind": "smart",
   "reuse_mode": "whole",
   "lifecycle": "experimental",
@@ -100,55 +100,102 @@
   "contracts": {},
   "methods": {
     "getCapturedItems": {
-      "summary": "Public runtime method getCapturedItems.",
+      "summary": "Reads the captured sf-breadcrumbs-item children into plain item objects (label, href, icon, current, active, disabled, ellipsis, target, rel, itemClass, containerClass, ariaLabel, value, hiddenItems).",
       "arguments": [],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "array",
+        "items": {
+          "type": "object"
+        }
       }
     },
     "getDisplayItems": {
-      "summary": "Public runtime method getDisplayItems.",
-      "arguments": [],
+      "summary": "Returns the items as they are shown: when there are more than max-items (at least 3) and the ellipsis is not expanded, the middle is replaced by one ellipsis item holding the hidden ones; every item is reindexed and only the last may be current.",
+      "arguments": [
+        {
+          "name": "items",
+          "type": "array",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "array",
+        "items": {
+          "type": "object"
+        }
       }
     },
     "setState": {
-      "summary": "Public runtime method setState.",
-      "arguments": [],
+      "summary": "Writes each key as a host attribute (camelCase to kebab-case): arrays as JSON, true as an empty attribute, false/null/undefined remove it. Returns the element.",
+      "arguments": [
+        {
+          "name": "nextState",
+          "type": "object",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onItemClick": {
-      "summary": "Public runtime method onItemClick.",
-      "arguments": [],
+      "summary": "Adds a listener for sf-breadcrumb-click; the handler receives (item, detail, event). Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     }
   },
   "events": {
     "sf-breadcrumb-click": {
-      "summary": "Runtime event sf-breadcrumb-click.",
+      "summary": "An item was clicked. Bubbles, is composed and is cancelable: preventDefault() on an ellipsis item keeps it collapsed. Disabled and current items have the native navigation prevented before dispatch.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "description": "The emitting element."
+          },
+          "tagName": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string",
+            "description": "The active template name."
+          },
+          "item": {
+            "type": "object",
+            "description": "The clicked display item."
+          },
+          "index": {
+            "type": "number"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "The display items at the time of the click."
+          },
+          "originalEvent": {
+            "description": "The native click event."
+          }
+        }
       }
     }
   },

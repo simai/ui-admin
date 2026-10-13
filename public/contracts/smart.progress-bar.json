@@ -100,36 +100,38 @@
   "contracts": {},
   "methods": {
     "getProgress": {
-      "summary": "Public runtime method getProgress.",
+      "summary": "Returns the value attribute as a number (0 when absent); it is not clamped.",
       "arguments": [],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "number"
       }
     },
     "setProgress": {
-      "summary": "Public runtime method setProgress.",
-      "arguments": [],
+      "summary": "Sets the value attribute; null or undefined removes it.",
+      "arguments": [
+        {
+          "name": "nextValue",
+          "type": "number|string",
+          "required": true
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "setTextPosition": {
-      "summary": "Public runtime method setTextPosition.",
-      "arguments": [],
+      "summary": "Sets text-position; null or undefined removes it.",
+      "arguments": [
+        {
+          "name": "nextValue",
+          "type": "string",
+          "required": true
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     }
   },

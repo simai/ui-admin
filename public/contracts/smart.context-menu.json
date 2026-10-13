@@ -332,15 +332,17 @@
       }
     },
     "sf-context-menu-open": {
-      "summary": "Opened through openFor().",
+      "summary": "Opened through openFor(). Bubbles and is composed; carries no detail.",
       "payload": {
-        "type": "object"
+        "type": "null",
+        "description": "detail is null."
       }
     },
     "sf-context-menu-close": {
-      "summary": "Closed.",
+      "summary": "A menu opened through openFor() was closed. Bubbles and is composed; carries no detail.",
       "payload": {
-        "type": "object"
+        "type": "null",
+        "description": "detail is null."
       }
     },
     "sf-context-menu-search": {

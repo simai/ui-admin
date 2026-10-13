@@ -3,10 +3,10 @@
   "id": "smart.toggle",
   "version": "1.0.0",
   "title": "Toggle",
-  "summary": "Toggle Smart Component from SIMAI Framework.",
+  "summary": "Deprecated: superseded by sf-switch, which draws the same control and carries both of Toggle's looks. A compact on/off control (a native checkbox with role=\"switch\") kept only for markup already written; it is removed after 2026-11-01 (journal record component-toggle-to-switch).",
   "kind": "smart",
   "reuse_mode": "both",
-  "lifecycle": "experimental",
+  "lifecycle": "deprecated",
   "tags": [
     "toggle"
   ],
@@ -112,80 +112,112 @@
   },
   "methods": {
     "getInputElement": {
-      "summary": "Public runtime method getInputElement.",
+      "summary": "Returns the inner native input (.sf-toggle input[type=\"checkbox\"]), or null before render.",
       "arguments": [],
       "returns": {
         "type": [
           "object",
-          "boolean",
           "null"
         ]
       }
     },
     "setChecked": {
-      "summary": "Public runtime method setChecked.",
-      "arguments": [],
+      "summary": "Sets the checked property and state of the inner input; does not dispatch change.",
+      "arguments": [
+        {
+          "name": "nextValue",
+          "type": "boolean",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "setDisabled": {
-      "summary": "Public runtime method setDisabled.",
-      "arguments": [],
+      "summary": "Sets or clears disabled on the host and the inner input.",
+      "arguments": [
+        {
+          "name": "nextValue",
+          "type": "boolean",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "setState": {
-      "summary": "Public runtime method setState.",
-      "arguments": [],
+      "summary": "Applies checked and disabled, plus type, size, icon and label as host attributes, to the inner input and reflects them to host attributes; before render it falls back to the base setState.",
+      "arguments": [
+        {
+          "name": "nextState",
+          "type": "object",
+          "required": true
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onChange": {
-      "summary": "Public runtime method onChange.",
-      "arguments": [],
+      "summary": "Adds a listener for the native change event that bubbles from the inner input.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": "object|boolean",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onFocus": {
-      "summary": "Public runtime method onFocus.",
-      "arguments": [],
+      "summary": "Adds a focusin listener on the host.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": "object|boolean",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onBlur": {
-      "summary": "Public runtime method onBlur.",
-      "arguments": [],
+      "summary": "Adds a focusout listener on the host.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": "object|boolean",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     }
   },
@@ -285,7 +317,7 @@
     },
     "aliases": [],
     "deprecations": [],
-    "replacement": null,
+    "replacement": "smart.switch",
     "migrations": []
   },
   "provenance": {
@@ -307,8 +339,9 @@
     ]
   },
   "ai_guidance": {
-    "use_when": "Use sf-toggle for a compact immediate binary setting where the fuller Switch presentation is unnecessary.",
+    "use_when": "Do not use sf-toggle for new work; use sf-switch, which draws the same control (sf-switch--short and sf-switch--icon give Toggle's two looks). Keep sf-toggle only in markup already written until it is moved.",
     "do_not": [
+      "Do not use sf-toggle for new work; use sf-switch",
       "Do not use Toggle for multiple-choice selection or a deferred form option",
       "Do not use an unexplained icon as the only accessible name",
       "Do not copy generated ui-smart code",

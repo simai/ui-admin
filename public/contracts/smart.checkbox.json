@@ -3,7 +3,7 @@
   "id": "smart.checkbox",
   "version": "1.0.0",
   "title": "Checkbox",
-  "summary": "Checkbox Smart Component from SIMAI Framework.",
+  "summary": "A native checkbox with a label, Framework presentation and checked, indeterminate and disabled states kept in step between the host attributes and the inner input.",
   "kind": "smart",
   "reuse_mode": "whole",
   "lifecycle": "experimental",
@@ -111,14 +111,14 @@
   },
   "methods": {
     "getInputElement": {
-      "summary": "Public runtime method getInputElement.",
+      "summary": "Returns the inner native checkbox input, or null before render.",
       "arguments": [],
       "returns": {
         "type": [
           "object",
-          "boolean",
           "null"
-        ]
+        ],
+        "description": "The HTMLInputElement."
       }
     },
     "isChecked": {
@@ -131,99 +131,162 @@
       }
     },
     "setChecked": {
-      "summary": "Public runtime method setChecked.",
-      "arguments": [],
+      "summary": "Sets the checked state on the host attribute and the inner input through setState(). Returns the element.",
+      "arguments": [
+        {
+          "name": "nextValue",
+          "type": [
+            "boolean",
+            "string"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "setIndeterminate": {
-      "summary": "Public runtime method setIndeterminate.",
-      "arguments": [],
+      "summary": "Sets the indeterminate state on the host attribute and the inner input through setState(). Returns the element.",
+      "arguments": [
+        {
+          "name": "nextValue",
+          "type": [
+            "boolean",
+            "string"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "setDisabled": {
-      "summary": "Public runtime method setDisabled.",
-      "arguments": [],
+      "summary": "Sets the disabled state on the host attribute and the inner input through setState(). Returns the element.",
+      "arguments": [
+        {
+          "name": "nextValue",
+          "type": [
+            "boolean",
+            "string"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "setBooleanStateAttribute": {
-      "summary": "Public runtime method setBooleanStateAttribute.",
-      "arguments": [],
+      "summary": "Adds the named host attribute as an empty attribute when value is truthy, removes it otherwise.",
+      "arguments": [
+        {
+          "name": "name",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "value",
+          "type": "boolean",
+          "required": true
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "null",
+        "description": "Returns nothing."
       }
     },
     "setState": {
-      "summary": "Public runtime method setState.",
-      "arguments": [],
+      "summary": "Applies checked, indeterminate and disabled to both the host attribute and the inner input; any other keys go to the base setState as host attributes. Returns the element.",
+      "arguments": [
+        {
+          "name": "nextState",
+          "type": "object",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onChange": {
-      "summary": "Public runtime method onChange.",
-      "arguments": [],
+      "summary": "Adds a listener for change on the host. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onFocus": {
-      "summary": "Public runtime method onFocus.",
-      "arguments": [],
+      "summary": "Adds a listener for focusin on the host. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onBlur": {
-      "summary": "Public runtime method onBlur.",
-      "arguments": [],
+      "summary": "Adds a listener for focusout on the host. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     }
   },
   "events": {
     "change": {
-      "summary": "The checked state changed; the native event bubbles from the inner checkbox, which is its target.",
+      "summary": "The checked state changed; the native event bubbles from the inner checkbox, which is its target. It carries no detail.",
       "payload": {
-        "type": "object"
+        "type": "null",
+        "description": "A native Event: there is no detail."
       },
       "canonical": true
     }

@@ -3,7 +3,7 @@
   "id": "smart.tabs",
   "version": "1.0.0",
   "title": "Tabs",
-  "summary": "Tabs Smart Component from SIMAI Framework.",
+  "summary": "A tab list that shows one local panel at a time, with text or icon tabs given as attributes, slots or data, roving keyboard focus and linked tab panels.",
   "kind": "smart",
   "reuse_mode": "whole",
   "lifecycle": "experimental",
@@ -85,80 +85,114 @@
   "contracts": {},
   "methods": {
     "getData": {
-      "summary": "Public runtime method getData.",
+      "summary": "Returns the data set with setData: {tabs, panels, ...}; {tabs: [], panels: []} when none was set.",
       "arguments": [],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object"
       }
     },
     "setData": {
-      "summary": "Public runtime method setData.",
-      "arguments": [],
+      "summary": "Merges data into the current data (a function receives the current data and returns the next) and re-renders. tabs or items become tab items; panels or content become panels. A non-object is ignored.",
+      "arguments": [
+        {
+          "name": "data",
+          "type": "object|function",
+          "required": true
+        },
+        {
+          "name": "reason",
+          "type": "string",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "setItems": {
-      "summary": "Public runtime method setItems.",
-      "arguments": [],
+      "summary": "Replaces the tabs in the data (a function receives the current tabs) and re-renders.",
+      "arguments": [
+        {
+          "name": "items",
+          "type": "array|function",
+          "required": true
+        },
+        {
+          "name": "reason",
+          "type": "string",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "setPanels": {
-      "summary": "Public runtime method setPanels.",
-      "arguments": [],
+      "summary": "Replaces the panels in the data (a function receives the current panels) and re-renders.",
+      "arguments": [
+        {
+          "name": "panels",
+          "type": "array|function",
+          "required": true
+        },
+        {
+          "name": "reason",
+          "type": "string",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "setState": {
-      "summary": "Public runtime method setState.",
-      "arguments": [],
+      "summary": "Writes each key as its kebab-case attribute; an array (items) is serialised as label::flags entries joined by |. false, null, undefined or empty removes the attribute, true sets it empty.",
+      "arguments": [
+        {
+          "name": "nextState",
+          "type": "object",
+          "required": true
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "goTo": {
-      "summary": "Public runtime method goTo.",
-      "arguments": [],
+      "summary": "Activates the tab at index (an index out of range means 0); does nothing for a disabled or the active tab. Sets active-index and emits sf-tab-change.",
+      "arguments": [
+        {
+          "name": "index",
+          "type": "number|string",
+          "required": true
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onTabChange": {
-      "summary": "Public runtime method onTabChange.",
-      "arguments": [],
+      "summary": "Adds a listener for sf-tab-change; the handler is called with (current, detail, event). Ignores a non-function handler.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": "object|boolean",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     }
   },
@@ -166,7 +200,45 @@
     "sf-tab-change": {
       "summary": "Runtime event sf-tab-change.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "type": "object",
+            "description": "The emitting element."
+          },
+          "tagName": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string"
+          },
+          "previous": {
+            "type": "number"
+          },
+          "current": {
+            "type": "number"
+          },
+          "item": {
+            "type": "object",
+            "description": "A normalised tab item: label plus what was given (disabled, icon, component and so on)."
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "description": "A normalised tab item: label plus what was given (disabled, icon, component and so on)."
+            }
+          }
+        },
+        "required": [
+          "component",
+          "tagName",
+          "template",
+          "previous",
+          "current",
+          "item",
+          "items"
+        ]
       }
     }
   },

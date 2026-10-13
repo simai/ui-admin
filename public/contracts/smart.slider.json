@@ -3,7 +3,7 @@
   "id": "smart.slider",
   "version": "1.0.0",
   "title": "Slider",
-  "summary": "Slider Smart Component from SIMAI Framework.",
+  "summary": "A row of slides moved by arrows, dots, swipe or keys, built on the shared Swiper adapter; with linked thumbnails a second slider picks the slide.",
   "kind": "smart",
   "reuse_mode": "whole",
   "lifecycle": "experimental",
@@ -90,25 +90,37 @@
   "contracts": {},
   "methods": {
     "getSlider": {
-      "summary": "Public runtime method getSlider.",
+      "summary": "The Swiper instance behind the slider, or null before it is bound.",
       "arguments": [],
       "returns": {
         "type": [
           "object",
-          "boolean",
           "null"
         ]
       }
     },
     "refresh": {
-      "summary": "Public runtime method refresh.",
+      "summary": "Rebind the slider after its slides changed: forwards the data attributes and rebuilds Swiper, keeping the events bound. Returns the element.",
       "arguments": [],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
+      }
+    },
+    "slideNext": {
+      "summary": "Move to the next slide, as the next arrow does. Returns the element.",
+      "arguments": [],
+      "returns": {
+        "type": "object",
+        "description": "The element, for chaining."
+      }
+    },
+    "slidePrev": {
+      "summary": "Move to the previous slide, as the previous arrow does. Returns the element.",
+      "arguments": [],
+      "returns": {
+        "type": "object",
+        "description": "The element, for chaining."
       }
     }
   },
@@ -116,7 +128,36 @@
     "sf-slide-change": {
       "summary": "Runtime event sf-slide-change.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "type": "object",
+            "description": "The emitting element."
+          },
+          "tagName": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string"
+          },
+          "activeIndex": {
+            "type": "number"
+          },
+          "realIndex": {
+            "type": "number"
+          },
+          "previousIndex": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "component",
+          "tagName",
+          "template",
+          "activeIndex",
+          "realIndex",
+          "previousIndex"
+        ]
       }
     }
   },

@@ -3,7 +3,7 @@
   "id": "smart.modal",
   "version": "1.1.0",
   "title": "Modal",
-  "summary": "Modal Smart Component from SIMAI Framework.",
+  "summary": "A dialog window over the page in the shared modal stack: centered or at a side, top or bottom edge, with header, content and footer slots, focus trap, scroll lock and focus return. It can also be minimized, load its content by Ajax or into an iframe, or render inline in the page flow.",
   "kind": "smart",
   "reuse_mode": "whole",
   "lifecycle": "experimental",
@@ -219,234 +219,347 @@
   "contracts": {},
   "methods": {
     "getSlotHtml": {
-      "summary": "Public runtime method getSlotHtml.",
-      "arguments": [],
+      "summary": "Returns the HTML of the captured content for a named slot, with runtime data and event ids carried over.",
+      "arguments": [
+        {
+          "name": "name",
+          "type": "string",
+          "required": true
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "string"
       }
     },
     "open": {
-      "summary": "Public runtime method open.",
-      "arguments": [],
+      "summary": "Opens the window, or brings it to the front when already open. Dispatches modal:before-open (cancelable), then modal:after-open once projected; loads remote content when src is set. options.animate (or a boolean) controls the opening transition. Returns the element.",
+      "arguments": [
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "close": {
-      "summary": "Public runtime method close.",
+      "summary": "Closes the window after modal:before-close (cancelable), runs the close transition, restores focus and dispatches modal:after-close. Returns the element.",
       "arguments": [],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "hide": {
-      "summary": "Public runtime method hide.",
+      "summary": "Minimizes an open overlay window after modal:before-hide (cancelable) and dispatches modal:after-hide. Does nothing inline. Returns the element.",
       "arguments": [],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "show": {
-      "summary": "Public runtime method show.",
+      "summary": "Restores a minimized window after modal:before-show (cancelable) and dispatches modal:after-show. Returns the element.",
       "arguments": [],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "toggle": {
-      "summary": "Public runtime method toggle.",
+      "summary": "Calls close() when open, open() otherwise. Returns the element.",
       "arguments": [],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "setSrc": {
-      "summary": "Public runtime method setSrc.",
-      "arguments": [],
+      "summary": "Sets the src attribute, aborts and resets the current remote content and loads the new source when it may load now. Returns the element.",
+      "arguments": [
+        {
+          "name": "src",
+          "type": "string",
+          "required": true
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "getModalRoot": {
-      "summary": "Public runtime method getModalRoot.",
+      "summary": "Returns the rendered .sf-modal element, or null before render.",
       "arguments": [],
       "returns": {
         "type": [
           "object",
-          "boolean",
           "null"
         ]
       }
     },
     "onKeyDown": {
-      "summary": "Public runtime method onKeyDown.",
-      "arguments": [],
+      "summary": "The document keydown handler the modal binds itself: Escape closes the top open window when close-on-esc allows it, Tab is trapped inside it. Not meant to be called by a host.",
+      "arguments": [
+        {
+          "name": "event",
+          "type": "KeyboardEvent",
+          "required": true
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "null",
+        "description": "Returns nothing."
       }
     },
     "resetRemoteContent": {
-      "summary": "Public runtime method resetRemoteContent.",
+      "summary": "Clears the loaded remote HTML, error and loading state and aborts a running request.",
       "arguments": [],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "null",
+        "description": "Returns nothing."
       }
     },
     "clearPortal": {
-      "summary": "Public runtime method clearPortal.",
+      "summary": "Unrenders and removes the portal root the window was projected into, if any.",
       "arguments": [],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "null",
+        "description": "Returns nothing."
       }
     },
     "onBeforeOpen": {
-      "summary": "Public runtime method onBeforeOpen.",
-      "arguments": [],
+      "summary": "Adds a listener for modal:before-open on the host that runs only for this modal's own events. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onAfterOpen": {
-      "summary": "Public runtime method onAfterOpen.",
-      "arguments": [],
+      "summary": "Adds a listener for modal:after-open on the host that runs only for this modal's own events. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onBeforeClose": {
-      "summary": "Public runtime method onBeforeClose.",
-      "arguments": [],
+      "summary": "Adds a listener for modal:before-close on the host that runs only for this modal's own events. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onAfterClose": {
-      "summary": "Public runtime method onAfterClose.",
-      "arguments": [],
+      "summary": "Adds a listener for modal:after-close on the host that runs only for this modal's own events. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onBeforeHide": {
-      "summary": "Public runtime method onBeforeHide.",
-      "arguments": [],
+      "summary": "Adds a listener for modal:before-hide on the host that runs only for this modal's own events. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onAfterHide": {
-      "summary": "Public runtime method onAfterHide.",
-      "arguments": [],
+      "summary": "Adds a listener for modal:after-hide on the host that runs only for this modal's own events. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onBeforeShow": {
-      "summary": "Public runtime method onBeforeShow.",
-      "arguments": [],
+      "summary": "Adds a listener for modal:before-show on the host that runs only for this modal's own events. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onAfterShow": {
-      "summary": "Public runtime method onAfterShow.",
-      "arguments": [],
+      "summary": "Adds a listener for modal:after-show on the host that runs only for this modal's own events. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onModalReady": {
-      "summary": "Public runtime method onModalReady.",
-      "arguments": [],
+      "summary": "Calls the handler at once with a modal:ready event when the modal has already rendered, otherwise adds a listener for its own modal:ready. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onModalUpdate": {
-      "summary": "Public runtime method onModalUpdate.",
+      "summary": "Adds a listener for modal:update on the host that runs only for this modal's own events. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
+      "returns": {
+        "type": "object",
+        "description": "The element, for chaining."
+      }
+    },
+    "reloadContent": {
+      "summary": "Resets the remote content and loads src again, even when the window is closed and preload is off. Returns the element.",
       "arguments": [],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     }
   },
@@ -644,27 +757,163 @@
       }
     },
     "modal:ready": {
-      "summary": "Runtime event modal:ready. Bubbles and is composed; detail.modal is the emitting modal.",
+      "summary": "The window rendered for the first time. Bubbles and is composed; detail.modal is the emitting sf-modal.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "description": "The emitting sf-modal."
+          },
+          "modal": {
+            "description": "The emitting sf-modal."
+          },
+          "modalId": {
+            "type": "string"
+          },
+          "root": {
+            "description": "The rendered .sf-modal element."
+          }
+        }
       }
     },
     "modal:update": {
-      "summary": "Runtime event modal:update. Bubbles and is composed; detail.modal is the emitting modal.",
+      "summary": "The window rendered again after its first render. Bubbles and is composed; detail.modal is the emitting sf-modal.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "description": "The emitting sf-modal."
+          },
+          "modal": {
+            "description": "The emitting sf-modal."
+          },
+          "modalId": {
+            "type": "string"
+          },
+          "root": {
+            "description": "The rendered .sf-modal element."
+          }
+        }
       }
     },
     "sf-after-render": {
-      "summary": "Runtime event sf-after-render.",
+      "summary": "The base lifecycle event after each render. Bubbles and is composed.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "description": "The emitting element."
+          },
+          "tagName": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string",
+            "description": "The active template name."
+          },
+          "changedAttributes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
       }
     },
     "sf-before-render": {
-      "summary": "Runtime event sf-before-render.",
+      "summary": "The base lifecycle event before each render. Bubbles and is composed.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "description": "The emitting element."
+          },
+          "tagName": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string",
+            "description": "The active template name."
+          },
+          "changedAttributes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "modal:before-content-upload": {
+      "summary": "An Ajax content request (mode=ajax) is starting. Bubbles and is composed.",
+      "payload": {
+        "type": "object",
+        "properties": {
+          "component": {
+            "description": "The emitting sf-modal."
+          },
+          "modal": {
+            "description": "The emitting sf-modal."
+          },
+          "modalId": {
+            "type": "string"
+          },
+          "src": {
+            "type": "string"
+          },
+          "remote": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "enum": [
+                  "idle",
+                  "loading",
+                  "success",
+                  "error"
+                ]
+              },
+              "error": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "modal:after-content-upload": {
+      "summary": "Remote content finished loading, with success or error in detail.remote; an aborted request does not emit it. Also fired when an iframe loads. Bubbles and is composed.",
+      "payload": {
+        "type": "object",
+        "properties": {
+          "component": {
+            "description": "The emitting sf-modal."
+          },
+          "modal": {
+            "description": "The emitting sf-modal."
+          },
+          "modalId": {
+            "type": "string"
+          },
+          "src": {
+            "type": "string"
+          },
+          "remote": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "enum": [
+                  "idle",
+                  "loading",
+                  "success",
+                  "error"
+                ]
+              },
+              "error": {
+                "type": "string"
+              }
+            }
+          }
+        }
       }
     }
   },
@@ -700,12 +949,14 @@
     "network_policy": "deny"
   },
   "accessibility": {
-    "role": null,
-    "accessible_name": "recommended",
+    "role": "dialog",
+    "accessible_name": "required",
     "keyboard": [
-      "Tab"
+      "Tab",
+      "Shift+Tab",
+      "Escape"
     ],
-    "focus": "Keep visible focus on the active control."
+    "focus": "Opening focuses the panel of the top window; Tab and Shift+Tab are trapped inside it and Escape closes it when close-on-esc allows. Closing returns focus to the opener. The default title names the dialog through aria-labelledby; supply aria-label for a custom or headerless header. display=inline keeps normal document navigation. With display=inline the window is a region in the page rather than a dialog."
   },
   "presentation": {
     "themes": [
@@ -773,7 +1024,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/modal/index.js",
-        "sha256": "bf846dfbfe8377b19c5fcd61b378508112c293be56d8730ebb86dba3f2818fd4"
+        "sha256": "42cbbe374855a5dc4f909066c2d00b5364084b53566e62e9d9311d26bf8574b2"
       }
     ],
     "generated_runtime": [

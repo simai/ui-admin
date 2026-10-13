@@ -3,7 +3,7 @@
   "id": "smart.gallery",
   "version": "1.0.0",
   "title": "Gallery",
-  "summary": "Gallery Smart Component from SIMAI Framework.",
+  "summary": "An ordered media collection shown in an inline Slider, with an optional Modal lightbox holding a second Slider. The gallery owns the one-based current slide and keeps both views on it.",
   "kind": "smart",
   "reuse_mode": "whole",
   "lifecycle": "experimental",
@@ -227,122 +227,187 @@
   "contracts": {},
   "methods": {
     "getModal": {
-      "summary": "Public runtime method getModal.",
+      "summary": "Returns the lightbox sf-modal, or null when there is none.",
       "arguments": [],
       "returns": {
         "type": [
           "object",
-          "boolean",
           "null"
         ]
       }
     },
     "getInlineSlider": {
-      "summary": "Public runtime method getInlineSlider.",
+      "summary": "Returns the inline sf-slider, or null before render.",
       "arguments": [],
       "returns": {
         "type": [
           "object",
-          "boolean",
           "null"
         ]
       }
     },
     "getLightboxSlider": {
-      "summary": "Public runtime method getLightboxSlider.",
+      "summary": "Returns the lightbox sf-slider, or null when there is none.",
       "arguments": [],
       "returns": {
         "type": [
           "object",
-          "boolean",
           "null"
         ]
       }
     },
     "open": {
-      "summary": "Public runtime method open.",
-      "arguments": [],
+      "summary": "Moves to the given one-based slide when an index is passed, sets open and opens the lightbox modal. Returns the element.",
+      "arguments": [
+        {
+          "name": "index",
+          "type": "number",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "close": {
-      "summary": "Public runtime method close.",
+      "summary": "Removes open and closes the lightbox modal. Returns the element.",
       "arguments": [],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "toggle": {
-      "summary": "Public runtime method toggle.",
-      "arguments": [],
+      "summary": "Calls close() when open, open(index) otherwise. Returns the element.",
+      "arguments": [
+        {
+          "name": "index",
+          "type": "number",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "goTo": {
-      "summary": "Public runtime method goTo.",
-      "arguments": [],
+      "summary": "Moves to a one-based slide, clamped to the slide count, reflects it to the current attribute, syncs both sliders and dispatches sf-change when it moved. Returns the element.",
+      "arguments": [
+        {
+          "name": "index",
+          "type": "number",
+          "required": true
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "next": {
-      "summary": "Public runtime method next.",
+      "summary": "goTo(current + 1); stops at the last slide. Returns the element.",
       "arguments": [],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "prev": {
-      "summary": "Public runtime method prev.",
+      "summary": "goTo(current - 1); stops at the first slide. Returns the element.",
       "arguments": [],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     }
   },
   "events": {
     "sf-change": {
-      "summary": "Runtime event sf-change.",
+      "summary": "The current slide changed through the API or either slider. Bubbles and is composed.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "description": "The emitting element."
+          },
+          "tagName": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string",
+            "description": "The active template name."
+          },
+          "previous": {
+            "type": "number"
+          },
+          "current": {
+            "type": "number",
+            "description": "One-based."
+          },
+          "total": {
+            "type": "number"
+          },
+          "from": {
+            "enum": [
+              "api",
+              "inline",
+              "lightbox"
+            ],
+            "description": "What moved the gallery."
+          }
+        }
       }
     },
     "sf-close": {
-      "summary": "Runtime event sf-close.",
+      "summary": "The lightbox modal finished closing. Bubbles and is composed.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "description": "The emitting element."
+          },
+          "tagName": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string",
+            "description": "The active template name."
+          },
+          "current": {
+            "type": "number",
+            "description": "One-based."
+          },
+          "total": {
+            "type": "number"
+          }
+        }
       }
     },
     "sf-open": {
-      "summary": "Runtime event sf-open.",
+      "summary": "The lightbox modal finished opening. Bubbles and is composed.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "description": "The emitting element."
+          },
+          "tagName": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string",
+            "description": "The active template name."
+          },
+          "current": {
+            "type": "number",
+            "description": "One-based."
+          },
+          "total": {
+            "type": "number"
+          }
+        }
       }
     }
   },

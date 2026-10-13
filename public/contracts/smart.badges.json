@@ -3,7 +3,7 @@
   "id": "smart.badges",
   "version": "1.0.0",
   "title": "Badges",
-  "summary": "Badges Smart Component from SIMAI Framework.",
+  "summary": "A short non-interactive label for a status, category, version or count beside an object, drawn in a size, appearance and colour role or status. It adds no keyboard or pointer behaviour.",
   "kind": "smart",
   "reuse_mode": "whole",
   "lifecycle": "experimental",

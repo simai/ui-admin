@@ -43,83 +43,108 @@
     "properties": {
       "template": {
         "type": "string",
-        "default": "default"
+        "default": "default",
+        "description": "Which template draws it."
       },
       "value": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "The ISO date (yyyy-mm-dd). As a property, [start, end] for a range; the attribute is the same as date."
       },
       "date": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "The ISO date (yyyy-mm-dd) chosen; value is read when date is absent."
       },
       "start-value": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "Range only: the ISO start date."
       },
       "end-value": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "Range only: the ISO end date."
       },
       "max-date": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "The latest ISO date that can be chosen; later days are disabled."
       },
       "min-date": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "The earliest ISO date that can be chosen; earlier days are disabled."
       },
       "range": {
         "type": "boolean",
-        "default": false
+        "default": false,
+        "description": "Pick a start and an end instead of one date."
       },
       "month": {
         "type": "number",
-        "default": null
+        "default": null,
+        "description": "The month shown when the panel opens, 0-11; defaults to the chosen date's month, else the current one."
       },
       "year": {
         "type": "number",
-        "default": null
+        "default": null,
+        "description": "The year shown when the panel opens; defaults to the chosen date's year, else the current one."
       },
       "context": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "Which grid the panel opens on: days (empty), month or year.",
+        "enum": [
+          "",
+          "month",
+          "year"
+        ]
       },
       "week-start": {
         "type": "number",
-        "default": 1
+        "default": 1,
+        "description": "The first day of the week: 1 for Monday, 0 for Sunday."
       },
       "locale": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "The language of month and day names; defaults to the page language."
       },
       "format": {
         "type": "string",
-        "default": "DD.MM.YYYY"
+        "default": "DD.MM.YYYY",
+        "description": "How the date is shown in the field, e.g. DD.MM.YYYY. The value stays ISO."
       },
       "root-class": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "Classes added to the component's root."
       },
       "close-on-select": {
         "type": "boolean",
-        "default": true
+        "default": true,
+        "description": "Close the panel once a date (or a range end) is chosen."
       },
       "input": {
         "type": "boolean",
-        "default": true
+        "default": true,
+        "description": "Draw the text field; without it only the panel is drawn."
       },
       "open": {
         "type": "boolean",
-        "default": false
+        "default": false,
+        "description": "Whether the panel is open."
       },
       "portal": {
         "type": "boolean",
-        "default": true
+        "default": true,
+        "description": "Draw the panel at the end of the document so no clipping ancestor cuts it."
       },
       "input-type": {
         "type": "string",
-        "default": "bordered"
+        "default": "bordered",
+        "description": "The field's appearance (bordered by default), as on sf-inputs."
       },
       "size": {
         "type": "string",
@@ -148,35 +173,43 @@
       },
       "placeholder": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "The field's placeholder text."
       },
       "label": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "The field's visible label."
       },
       "disabled": {
         "type": "boolean",
-        "default": false
+        "default": false,
+        "description": "Disable the field and the panel."
       },
       "required": {
         "type": "boolean",
-        "default": false
+        "default": false,
+        "description": "Mark the field required in its form."
       },
       "icon-start": {
         "type": "string",
-        "default": "calendar_today"
+        "default": "calendar_today",
+        "description": "The icon at the start of the field; the canonical name for left-icon."
       },
       "left-icon": {
         "type": "string",
-        "default": "calendar_today"
+        "default": "calendar_today",
+        "description": "Legacy name for icon-start, still honoured; icon-start wins when both are set."
       },
       "input-root-class": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "Classes added to the field's root."
       },
       "mask": {
         "type": "boolean",
-        "default": false
+        "default": false,
+        "description": "Mask what can be typed in the field to the format."
       },
       "mask-pattern": {
         "type": "string",
@@ -184,16 +217,19 @@
         "description": "Input mask; when not set it is derived from format, so the default format DD.MM.YYYY gives 00.00.0000."
       },
       "mask-lazy": {
-        "type": "string",
-        "default": false
+        "type": "boolean",
+        "default": false,
+        "description": "Show the mask's placeholder characters only as they are typed."
       },
       "mask-placeholder-char": {
         "type": "string",
-        "default": "_"
+        "default": "_",
+        "description": "The character that stands for a position not yet typed."
       },
       "mask-options": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "Further mask options as JSON, passed to the field's mask."
       },
       "name": {
         "type": "string",
@@ -487,7 +523,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/datepicker/index.js",
-        "sha256": "fe0f12a0c47f7a1e0016e995a89f0415e67801254ea0cefd30e4d4b16ba05d45"
+        "sha256": "0f4a51b78511d236504817bcf1071db939525a4b21f03f152a6058dd1eecce8f"
       },
       {
         "path": "src/smart/datepicker/js/templates/default.js",

@@ -209,15 +209,33 @@
   },
   "events": {
     "sf-file-preview:download": {
-      "summary": "A download action was requested.",
+      "summary": "A download action was requested. Bubbles, is composed and is cancelable: preventDefault() stops the built-in navigation to href.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "action": {
+            "const": "download"
+          },
+          "value": {
+            "type": "object",
+            "description": "getValue(): fileName, fileSize, icon, href, type, mimeType, imageUrl, target."
+          }
+        }
       }
     },
     "sf-file-preview:remove": {
-      "summary": "A remove action was requested.",
+      "summary": "A remove action was requested. Bubbles, is composed and is cancelable; the component removes nothing itself.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "action": {
+            "const": "remove"
+          },
+          "value": {
+            "type": "object",
+            "description": "getValue(): fileName, fileSize, icon, href, type, mimeType, imageUrl, target."
+          }
+        }
       }
     }
   },

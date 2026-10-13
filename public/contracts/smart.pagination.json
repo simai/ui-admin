@@ -291,124 +291,155 @@
   },
   "methods": {
     "getTopSection": {
-      "summary": "Public runtime method getTopSection.",
+      "summary": "Returns the top section element (.sf-pagination-top), or null when it is not rendered.",
       "arguments": [],
       "returns": {
         "type": [
           "object",
-          "boolean",
           "null"
         ]
       }
     },
     "getMainSection": {
-      "summary": "Public runtime method getMainSection.",
+      "summary": "Returns the main section element (.sf-pagination-main), or null when it is not rendered.",
       "arguments": [],
       "returns": {
         "type": [
           "object",
-          "boolean",
           "null"
         ]
       }
     },
     "getBottomSection": {
-      "summary": "Public runtime method getBottomSection.",
+      "summary": "Returns the bottom section element (.sf-pagination-bottom), or null when it is not rendered.",
       "arguments": [],
       "returns": {
         "type": [
           "object",
-          "boolean",
           "null"
         ]
       }
     },
     "goToPage": {
-      "summary": "Public runtime method goToPage.",
-      "arguments": [],
+      "summary": "Moves to a page: the number is parsed as an integer and clamped to 1..pageCount when the count is known (only to at least 1 when it is not). Emits sf-page-change when the page actually changes; does nothing when the total is a known zero.",
+      "arguments": [
+        {
+          "name": "page",
+          "type": "number|string",
+          "required": true
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "showMore": {
-      "summary": "Public runtime method showMore.",
-      "arguments": [],
+      "summary": "Emits sf-show-more with the current paging and the given item; performs no request and changes no state.",
+      "arguments": [
+        {
+          "name": "item",
+          "type": "object",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "setPageSize": {
-      "summary": "Public runtime method setPageSize.",
-      "arguments": [],
+      "summary": "Sets a positive page size, keeps the current page within the new page count and emits sf-page-size-change. A non-positive, non-numeric or unchanged size is ignored.",
+      "arguments": [
+        {
+          "name": "size",
+          "type": "number|string",
+          "required": true
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "setAction": {
-      "summary": "Public runtime method setAction.",
-      "arguments": [],
+      "summary": "Selects a batch action by value (an empty value clears the choice) and emits sf-action-change when it differs from the current one.",
+      "arguments": [
+        {
+          "name": "action",
+          "type": "string",
+          "required": true
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "setActionForAll": {
-      "summary": "Public runtime method setActionForAll.",
-      "arguments": [],
+      "summary": "Sets whether the batch action applies to every record under the filter and emits sf-action-for-all-change. Turning it on also requests the count (sf-count-request with reason action-for-all) when the count is not yet known.",
+      "arguments": [
+        {
+          "name": "value",
+          "type": "boolean",
+          "required": true
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "setState": {
-      "summary": "Public runtime method setState.",
-      "arguments": [],
+      "summary": "Writes each key as its kebab-case attribute: false, null, undefined or an empty string removes the attribute, true sets it empty, anything else is stringified.",
+      "arguments": [
+        {
+          "name": "nextState",
+          "type": "object",
+          "required": true
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onPageChange": {
-      "summary": "Public runtime method onPageChange.",
-      "arguments": [],
+      "summary": "Adds a listener for sf-page-change; the handler is called with (current, detail, event). Ignores a non-function handler.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": "object|boolean",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onShowMore": {
-      "summary": "Public runtime method onShowMore.",
-      "arguments": [],
+      "summary": "Adds a listener for sf-show-more; the handler is called with (detail, event). Ignores a non-function handler.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": "object|boolean",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     }
   },
@@ -416,49 +447,327 @@
     "sf-action-apply": {
       "summary": "Runtime event sf-action-apply.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "type": "object",
+            "description": "The emitting element."
+          },
+          "tagName": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "actionForAll": {
+            "type": "boolean"
+          },
+          "current": {
+            "type": "number"
+          },
+          "total": {
+            "type": "number"
+          },
+          "pageSize": {
+            "type": "number"
+          },
+          "pageCount": {
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "component",
+          "tagName",
+          "template",
+          "action",
+          "actionForAll",
+          "current",
+          "total",
+          "pageSize",
+          "pageCount"
+        ]
       }
     },
     "sf-action-change": {
       "summary": "Runtime event sf-action-change.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "type": "object",
+            "description": "The emitting element."
+          },
+          "tagName": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string"
+          },
+          "previous": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "component",
+          "tagName",
+          "template",
+          "previous",
+          "action"
+        ]
       }
     },
     "sf-action-for-all-change": {
       "summary": "Runtime event sf-action-for-all-change.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "type": "object",
+            "description": "The emitting element."
+          },
+          "tagName": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string"
+          },
+          "previous": {
+            "type": "boolean"
+          },
+          "actionForAll": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "component",
+          "tagName",
+          "template",
+          "previous",
+          "actionForAll"
+        ]
       }
     },
     "sf-count-request": {
       "summary": "Runtime event sf-count-request.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "type": "object",
+            "description": "The emitting element."
+          },
+          "tagName": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string",
+            "enum": [
+              "total",
+              "last-page",
+              "action-for-all"
+            ]
+          },
+          "current": {
+            "type": "number"
+          },
+          "pageSize": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "component",
+          "tagName",
+          "template",
+          "reason",
+          "current",
+          "pageSize"
+        ]
       }
     },
     "sf-page-change": {
       "summary": "Runtime event sf-page-change.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "type": "object",
+            "description": "The emitting element."
+          },
+          "tagName": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string"
+          },
+          "previous": {
+            "type": "number"
+          },
+          "current": {
+            "type": "number"
+          },
+          "total": {
+            "type": "number"
+          },
+          "pageCount": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "pageSize": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "component",
+          "tagName",
+          "template",
+          "previous",
+          "current",
+          "total",
+          "pageCount",
+          "pageSize"
+        ]
       }
     },
     "sf-page-size-change": {
       "summary": "Runtime event sf-page-size-change.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "type": "object",
+            "description": "The emitting element."
+          },
+          "tagName": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string"
+          },
+          "previous": {
+            "type": "number"
+          },
+          "pageSize": {
+            "type": "number"
+          },
+          "current": {
+            "type": "number"
+          },
+          "total": {
+            "type": "number"
+          },
+          "pageCount": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "component",
+          "tagName",
+          "template",
+          "previous",
+          "pageSize",
+          "current",
+          "total",
+          "pageCount"
+        ]
       }
     },
     "sf-selection-clear": {
       "summary": "Runtime event sf-selection-clear.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "type": "object",
+            "description": "The emitting element."
+          },
+          "tagName": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string"
+          },
+          "selectedCount": {
+            "type": "number"
+          },
+          "total": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "component",
+          "tagName",
+          "template",
+          "selectedCount",
+          "total"
+        ]
       }
     },
     "sf-show-more": {
       "summary": "Runtime event sf-show-more.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "type": "object",
+            "description": "The emitting element."
+          },
+          "tagName": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string"
+          },
+          "current": {
+            "type": "number"
+          },
+          "total": {
+            "type": "number"
+          },
+          "pageSize": {
+            "type": "number"
+          },
+          "pageCount": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "hasNext": {
+            "type": "boolean"
+          },
+          "item": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "What showMore was called with; the built-in button passes its click target."
+          }
+        },
+        "required": [
+          "component",
+          "tagName",
+          "template",
+          "current",
+          "total",
+          "pageSize",
+          "pageCount",
+          "hasNext",
+          "item"
+        ]
       }
     }
   },

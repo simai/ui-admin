@@ -182,36 +182,27 @@
   },
   "methods": {
     "openDropdown": {
-      "summary": "Public runtime method openDropdown.",
+      "summary": "Opens the option list unless the control is disabled or already open. Returns the element.",
       "arguments": [],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "closeDropdown": {
-      "summary": "Public runtime method closeDropdown.",
+      "summary": "Closes the option list and clears the search text. Returns the element.",
       "arguments": [],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "toggleDropdown": {
-      "summary": "Public runtime method toggleDropdown.",
+      "summary": "Closes the list when open, opens it otherwise. Returns the element.",
       "arguments": [],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     }
   },
@@ -343,7 +334,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/dropdown/index.js",
-        "sha256": "8217217257e7aac873a4266d310ed36cd2816b670311d5f4e60ea5b7d8f9b518"
+        "sha256": "c8a9e75654ce20b4a37f7301fc0fe435444b1340b9539f1e1544e3485f0b86e6"
       }
     ],
     "generated_runtime": [

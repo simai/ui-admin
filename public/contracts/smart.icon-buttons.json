@@ -248,80 +248,141 @@
   },
   "methods": {
     "setButtonAttributes": {
-      "summary": "Public runtime method setButtonAttributes.",
-      "arguments": [],
+      "summary": "Passes the object to setState() as buttonAttributes; the built-in template does not read it, so it only reaches an external project template. Returns the element.",
+      "arguments": [
+        {
+          "name": "attributes",
+          "type": "object",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onClick": {
-      "summary": "Public runtime method onClick.",
-      "arguments": [],
+      "summary": "Adds a listener for click on the host. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onFocus": {
-      "summary": "Public runtime method onFocus.",
-      "arguments": [],
+      "summary": "Adds a listener for focusin on the host. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onBlur": {
-      "summary": "Public runtime method onBlur.",
-      "arguments": [],
+      "summary": "Adds a listener for focusout on the host. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onMouseEnter": {
-      "summary": "Public runtime method onMouseEnter.",
-      "arguments": [],
+      "summary": "Adds a listener for mouseenter on the host. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onMouseLeave": {
-      "summary": "Public runtime method onMouseLeave.",
-      "arguments": [],
+      "summary": "Adds a listener for mouseleave on the host. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "setDisabled": {
-      "summary": "Public runtime method setDisabled.",
-      "arguments": [],
+      "summary": "Sets the disabled attribute when nextValue is truthy and removes it otherwise. Returns the element.",
+      "arguments": [
+        {
+          "name": "nextValue",
+          "type": "boolean",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     }
   },
@@ -424,7 +485,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/icon-buttons/index.js",
-        "sha256": "252c2368fae729db24303104c00430ebf44b049ec3c1d32213fe01e8d7b992bc"
+        "sha256": "449ab27541c1105b2ab4380d71491851b3b698c10f4fd20df0308497e321bc66"
       }
     ],
     "generated_runtime": [

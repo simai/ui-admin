@@ -197,14 +197,16 @@
   },
   "methods": {
     "setState": {
-      "summary": "Public runtime method setState.",
-      "arguments": [],
+      "summary": "Applies disabled, error or invalid, errorMessage and value to the inner textarea and resyncs its field semantics; setting value dispatches input. Returns false when the textarea is not rendered.",
+      "arguments": [
+        {
+          "name": "nextState",
+          "type": "object",
+          "required": true
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "boolean"
       }
     }
   },

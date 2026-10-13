@@ -3,7 +3,7 @@
   "id": "smart.file-upload",
   "version": "1.0.0",
   "title": "File Upload",
-  "summary": "File Upload Smart Component from SIMAI Framework.",
+  "summary": "A drop area that opens the platform file dialog or takes dropped files, filtered by accept, and lists each file with its upload progress, an error with a retry, and removal. The host uploads; the component shows the state the host sets.",
   "kind": "smart",
   "reuse_mode": "whole",
   "lifecycle": "experimental",
@@ -86,164 +86,360 @@
   "contracts": {},
   "methods": {
     "getItems": {
-      "summary": "Public runtime method getItems.",
+      "summary": "The listed files as item objects.",
       "arguments": [],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
-      }
-    },
-    "onFileAdd": {
-      "summary": "Public runtime method onFileAdd.",
-      "arguments": [],
-      "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
-      }
-    },
-    "onFileError": {
-      "summary": "Public runtime method onFileError.",
-      "arguments": [],
-      "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
-      }
-    },
-    "onFileComplete": {
-      "summary": "Public runtime method onFileComplete.",
-      "arguments": [],
-      "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
-      }
-    },
-    "onFileRemove": {
-      "summary": "Public runtime method onFileRemove.",
-      "arguments": [],
-      "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
-      }
-    },
-    "onFileRetry": {
-      "summary": "Public runtime method onFileRetry.",
-      "arguments": [],
-      "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
-      }
-    },
-    "onComplete": {
-      "summary": "Public runtime method onComplete.",
-      "arguments": [],
-      "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "array",
+        "items": {
+          "type": "object"
+        }
       }
     },
     "setItems": {
-      "summary": "Public runtime method setItems.",
-      "arguments": [],
+      "summary": "Replace the list with these items (name, fileSize, state, progress, errorMessage). Returns the element.",
+      "arguments": [
+        {
+          "name": "items",
+          "type": "array",
+          "required": true
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
+      }
+    },
+    "removeItem": {
+      "summary": "Remove the item at this index from the list; an index outside the list does nothing. Returns the element.",
+      "arguments": [
+        {
+          "name": "index",
+          "type": "number",
+          "required": true
+        }
+      ],
+      "returns": {
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "clear": {
-      "summary": "Public runtime method clear.",
+      "summary": "Empty the list. Returns the element.",
       "arguments": [],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "setState": {
-      "summary": "Public runtime method setState.",
-      "arguments": [],
+      "summary": "Apply several inputs at once (size, icon, linkText, text, formats, supportingText, accept, multiple, disabled, items). Returns the element.",
+      "arguments": [
+        {
+          "name": "state",
+          "type": "object",
+          "required": true
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
+      }
+    },
+    "onFileAdd": {
+      "summary": "Listen for sf-file-upload:file-add; handler receives the event. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": "object",
+          "required": false
+        }
+      ],
+      "returns": {
+        "type": "object",
+        "description": "The element, for chaining."
+      }
+    },
+    "onFileError": {
+      "summary": "Listen for sf-file-upload:file-error; handler receives the event. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": "object",
+          "required": false
+        }
+      ],
+      "returns": {
+        "type": "object",
+        "description": "The element, for chaining."
+      }
+    },
+    "onFileComplete": {
+      "summary": "Listen for sf-file-upload:file-complete; handler receives the event. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": "object",
+          "required": false
+        }
+      ],
+      "returns": {
+        "type": "object",
+        "description": "The element, for chaining."
+      }
+    },
+    "onFileRemove": {
+      "summary": "Listen for sf-file-upload:remove; handler receives the event. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": "object",
+          "required": false
+        }
+      ],
+      "returns": {
+        "type": "object",
+        "description": "The element, for chaining."
+      }
+    },
+    "onFileRetry": {
+      "summary": "Listen for sf-file-upload:retry; handler receives the event. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": "object",
+          "required": false
+        }
+      ],
+      "returns": {
+        "type": "object",
+        "description": "The element, for chaining."
+      }
+    },
+    "onComplete": {
+      "summary": "Listen for sf-file-upload:complete; handler receives the event. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": "object",
+          "required": false
+        }
+      ],
+      "returns": {
+        "type": "object",
+        "description": "The element, for chaining."
       }
     }
   },
   "events": {
     "change": {
-      "summary": "Files were chosen; the native event bubbles from the inner file input.",
+      "summary": "Files were chosen: the native event from the inner file input for a pick, and a CustomEvent from the area for a drop (detail files and source 'drop'), so a form hears of both.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "files": {
+            "type": "array"
+          },
+          "source": {
+            "type": "string"
+          }
+        }
       },
       "canonical": true
     },
-    "sf-file-upload:select": {
-      "summary": "Files were selected for upload.",
+    "sf-file-upload:complete": {
+      "summary": "Every file finished.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
       }
     },
     "sf-file-upload:file-add": {
       "summary": "A file entered the list.",
       "payload": {
-        "type": "object"
-      }
-    },
-    "sf-file-upload:file-error": {
-      "summary": "A file failed.",
-      "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "item": {
+            "type": "object",
+            "description": "name, fileName, fileSize, state (process, done, error), progress, errorMessage"
+          },
+          "index": {
+            "type": "number"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "source": {
+            "type": "string"
+          },
+          "multiple": {
+            "type": "boolean"
+          }
+        }
       }
     },
     "sf-file-upload:file-complete": {
       "summary": "A file finished uploading.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "item": {
+            "type": "object",
+            "description": "name, fileName, fileSize, state (process, done, error), progress, errorMessage"
+          },
+          "index": {
+            "type": "number"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
       }
     },
-    "sf-file-upload:complete": {
-      "summary": "Every file finished.",
+    "sf-file-upload:file-error": {
+      "summary": "A file failed.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "item": {
+            "type": "object",
+            "description": "name, fileName, fileSize, state (process, done, error), progress, errorMessage"
+          },
+          "index": {
+            "type": "number"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "sf-file-upload:reject": {
+      "summary": "Dropped files the accept list does not name were left out, as the platform dialog would not have offered them.",
+      "payload": {
+        "type": "object",
+        "properties": {
+          "files": {
+            "type": "array"
+          },
+          "accept": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          }
+        }
       }
     },
     "sf-file-upload:remove": {
       "summary": "A file was removed from the list.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "item": {
+            "type": "object",
+            "description": "name, fileName, fileSize, state (process, done, error), progress, errorMessage"
+          },
+          "index": {
+            "type": "number"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
       }
     },
     "sf-file-upload:retry": {
       "summary": "A failed file was retried.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "item": {
+            "type": "object",
+            "description": "name, fileName, fileSize, state (process, done, error), progress, errorMessage"
+          },
+          "index": {
+            "type": "number"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "sf-file-upload:select": {
+      "summary": "Files were selected for upload.",
+      "payload": {
+        "type": "object",
+        "properties": {
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "input",
+              "drop"
+            ]
+          },
+          "multiple": {
+            "type": "boolean"
+          }
+        }
       }
     }
   },
@@ -342,7 +538,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/file-upload/index.js",
-        "sha256": "8d3aa46a93349d73129c33b0c94ac57f835a56287d9a25323bcaf22415338076"
+        "sha256": "1905e151b14d65eca2cc8f2e32d14cac94110047a8602f86c19acffb9d1a22fd"
       }
     ],
     "generated_runtime": [

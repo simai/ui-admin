@@ -236,95 +236,163 @@
   },
   "methods": {
     "getInputElement": {
-      "summary": "Public runtime method getInputElement.",
+      "summary": "Returns the inner native input, or null before render.",
       "arguments": [],
       "returns": {
         "type": [
           "object",
-          "boolean",
           "null"
-        ]
+        ],
+        "description": "The HTMLInputElement."
       }
     },
     "onInput": {
-      "summary": "Public runtime method onInput.",
-      "arguments": [],
+      "summary": "Adds a listener for input on the host. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onChange": {
-      "summary": "Public runtime method onChange.",
-      "arguments": [],
+      "summary": "Adds a listener for change on the host. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onKeyUp": {
-      "summary": "Public runtime method onKeyUp.",
-      "arguments": [],
+      "summary": "Adds a listener for keyup on the host. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onKeyDown": {
-      "summary": "Public runtime method onKeyDown.",
-      "arguments": [],
+      "summary": "Adds a listener for keydown on the host. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onFocus": {
-      "summary": "Public runtime method onFocus.",
-      "arguments": [],
+      "summary": "Adds a listener for focusin on the host. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onBlur": {
-      "summary": "Public runtime method onBlur.",
-      "arguments": [],
+      "summary": "Adds a listener for focusout on the host. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     }
   },
   "events": {
     "change": {
-      "summary": "The value was committed; the native event bubbles from the inner input, which is its target.",
+      "summary": "The value was committed; the native event bubbles from the inner input, which is its target. It carries no detail.",
       "payload": {
-        "type": "object"
+        "type": "null",
+        "description": "A native Event: there is no detail."
       },
       "canonical": true
     },
     "input": {
-      "summary": "The value changed while typing; the native event bubbles from the inner input, which is its target.",
+      "summary": "The value changed while typing; the native event bubbles from the inner input, which is its target. It carries no detail.",
       "payload": {
-        "type": "object"
+        "type": "null",
+        "description": "A native Event: there is no detail."
       }
     }
   },

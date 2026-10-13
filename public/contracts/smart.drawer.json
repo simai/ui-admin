@@ -186,102 +186,148 @@
   },
   "methods": {
     "open": {
-      "summary": "Public runtime method open.",
-      "arguments": [],
+      "summary": "Opens the Drawer, or brings it to the front when already open. Dispatches drawer:before-open (cancelable) and later drawer:after-open unless options.emit is false. Returns the element.",
+      "arguments": [
+        {
+          "name": "options",
+          "type": "object",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "close": {
-      "summary": "Public runtime method close.",
-      "arguments": [],
+      "summary": "Closes the Drawer and restores focus to the opener. Dispatches drawer:before-close (cancelable) and drawer:after-close unless options.emit is false. Returns the element.",
+      "arguments": [
+        {
+          "name": "options",
+          "type": "object",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "toggle": {
-      "summary": "Public runtime method toggle.",
+      "summary": "Calls close() when open, open() otherwise. Returns the element.",
       "arguments": [],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "setState": {
-      "summary": "Public runtime method setState.",
-      "arguments": [],
+      "summary": "An open key calls open() or close(); the remaining keys go to the base setState as host attributes. Returns the element.",
+      "arguments": [
+        {
+          "name": "state",
+          "type": "object",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "getState": {
-      "summary": "Public runtime method getState.",
+      "summary": "Returns the current template context plus the open state.",
       "arguments": [],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object"
       }
     },
     "onBeforeOpen": {
-      "summary": "Public runtime method onBeforeOpen.",
-      "arguments": [],
+      "summary": "Adds a listener for drawer:before-open on the host that runs only for this Drawer's own events. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onAfterOpen": {
-      "summary": "Public runtime method onAfterOpen.",
-      "arguments": [],
+      "summary": "Adds a listener for drawer:after-open on the host that runs only for this Drawer's own events. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onBeforeClose": {
-      "summary": "Public runtime method onBeforeClose.",
-      "arguments": [],
+      "summary": "Adds a listener for drawer:before-close on the host that runs only for this Drawer's own events. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onAfterClose": {
-      "summary": "Public runtime method onAfterClose.",
-      "arguments": [],
+      "summary": "Adds a listener for drawer:after-close on the host that runs only for this Drawer's own events. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     }
   },
@@ -289,37 +335,121 @@
     "drawer:ready": {
       "summary": "The portal surface is ready. Bubbles and is composed; detail.drawer is the emitting drawer.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "description": "The emitting sf-drawer."
+          },
+          "drawer": {
+            "description": "The emitting sf-drawer."
+          },
+          "drawerId": {
+            "type": "string"
+          },
+          "root": {
+            "description": "The rendered drawer root ([data-sf-drawer-root]) in its portal."
+          }
+        }
       }
     },
     "drawer:update": {
       "summary": "The portal surface was updated. Bubbles and is composed; detail.drawer is the emitting drawer.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "description": "The emitting sf-drawer."
+          },
+          "drawer": {
+            "description": "The emitting sf-drawer."
+          },
+          "drawerId": {
+            "type": "string"
+          },
+          "root": {
+            "description": "The rendered drawer root ([data-sf-drawer-root]) in its portal."
+          }
+        }
       }
     },
     "drawer:before-open": {
       "summary": "Cancelable intent before opening. Bubbles and is composed; detail.drawer is the emitting drawer.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "description": "The emitting sf-drawer."
+          },
+          "drawer": {
+            "description": "The emitting sf-drawer."
+          },
+          "drawerId": {
+            "type": "string"
+          },
+          "root": {
+            "description": "The rendered drawer root ([data-sf-drawer-root]) in its portal."
+          }
+        }
       }
     },
     "drawer:after-open": {
       "summary": "The Drawer was opened. Bubbles and is composed; detail.drawer is the emitting drawer.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "description": "The emitting sf-drawer."
+          },
+          "drawer": {
+            "description": "The emitting sf-drawer."
+          },
+          "drawerId": {
+            "type": "string"
+          },
+          "root": {
+            "description": "The rendered drawer root ([data-sf-drawer-root]) in its portal."
+          }
+        }
       }
     },
     "drawer:before-close": {
       "summary": "Cancelable intent before closing. Bubbles and is composed; detail.drawer is the emitting drawer.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "description": "The emitting sf-drawer."
+          },
+          "drawer": {
+            "description": "The emitting sf-drawer."
+          },
+          "drawerId": {
+            "type": "string"
+          },
+          "root": {
+            "description": "The rendered drawer root ([data-sf-drawer-root]) in its portal."
+          }
+        }
       }
     },
     "drawer:after-close": {
       "summary": "The Drawer was closed. Bubbles and is composed; detail.drawer is the emitting drawer.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "description": "The emitting sf-drawer."
+          },
+          "drawer": {
+            "description": "The emitting sf-drawer."
+          },
+          "drawerId": {
+            "type": "string"
+          },
+          "root": {
+            "description": "The rendered drawer root ([data-sf-drawer-root]) in its portal."
+          }
+        }
       }
     }
   },
@@ -464,7 +594,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/drawer/index.js",
-        "sha256": "6e7cfb57b622eb693d8971e7dcc6a06ad0a4f8fcbbb9d5f23c667a93534358b4"
+        "sha256": "aae058e83ea93b694a72214a795e7266530a92da17c1bce9e3fa9dba6e3aa1e0"
       },
       {
         "path": "src/smart/drawer/scss/_smart__drawer.scss",

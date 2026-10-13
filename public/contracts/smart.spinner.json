@@ -117,25 +117,21 @@
   "contracts": {},
   "methods": {
     "getSpinnerRoot": {
-      "summary": "Public runtime method getSpinnerRoot.",
+      "summary": "Returns the inner spinner root (.sf-loader-container), or null before render.",
       "arguments": [],
       "returns": {
         "type": [
           "object",
-          "boolean",
           "null"
         ]
       }
     },
     "refreshSpinner": {
-      "summary": "Public runtime method refreshSpinner.",
+      "summary": "Re-renders the bound spinner root from its current configuration; does nothing before it is bound.",
       "arguments": [],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     }
   },

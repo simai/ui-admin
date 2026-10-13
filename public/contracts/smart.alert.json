@@ -170,50 +170,91 @@
   },
   "methods": {
     "close": {
-      "summary": "Public runtime method close.",
+      "summary": "Alias of dismiss(): dispatches sf-alert-close and removes the alert after its exit transition. Returns the element.",
       "arguments": [],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onAction": {
-      "summary": "Public runtime method onAction.",
-      "arguments": [],
+      "summary": "Adds a listener for sf-alert-action; the handler receives (action, detail, event). Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onClose": {
-      "summary": "Public runtime method onClose.",
+      "summary": "Adds a listener for sf-alert-close; the handler receives (detail, event). Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
+      "returns": {
+        "type": "object",
+        "description": "The element, for chaining."
+      }
+    },
+    "dismiss": {
+      "summary": "Dispatches sf-alert-close, then removes the alert from the DOM after its exit transition (at once under reduced motion). Returns the element.",
       "arguments": [],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     }
   },
   "events": {
     "sf-alert-action": {
-      "summary": "Runtime event sf-alert-action.",
+      "summary": "An action button ([data-action] or [data-alert-action]) inside the alert was activated. Bubbles and is composed; not cancelable. The alert stays.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "description": "The trigger's data-action or data-alert-action value; empty when neither is set."
+          },
+          "alert": {
+            "description": "The emitting sf-alert."
+          }
+        }
       }
     },
     "sf-alert-close": {
-      "summary": "Runtime event sf-alert-close.",
+      "summary": "The alert is being dismissed by its close button or dismiss()/close(). Bubbles and is composed; not cancelable; the element is removed after it.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "alert": {
+            "description": "The emitting sf-alert."
+          }
+        }
       }
     }
   },

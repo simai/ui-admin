@@ -3,7 +3,7 @@
   "id": "smart.steps",
   "version": "1.0.0",
   "title": "Steps",
-  "summary": "Steps Smart Component from SIMAI Framework.",
+  "summary": "A row of labelled step buttons, separated by an icon, for a multi-step process: marks the current, completed and error steps and moves to an enabled step when it is pressed.",
   "kind": "smart",
   "reuse_mode": "whole",
   "lifecycle": "experimental",
@@ -31,7 +31,11 @@
     "properties": {
       "size": {
         "type": "string",
-        "default": "1"
+        "default": "1",
+        "enum": [
+          "1",
+          "1/2"
+        ]
       },
       "items": {
         "type": "string",
@@ -75,36 +79,50 @@
   "contracts": {},
   "methods": {
     "setState": {
-      "summary": "Public runtime method setState.",
-      "arguments": [],
+      "summary": "Writes each key as its kebab-case attribute; an array (items) is serialised as label::disabled entries joined by |. false, null, undefined or empty removes the attribute, true sets it empty.",
+      "arguments": [
+        {
+          "name": "nextState",
+          "type": "object",
+          "required": true
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "goToStep": {
-      "summary": "Public runtime method goToStep.",
-      "arguments": [],
+      "summary": "Moves current to the step at index, clamped to the list; does nothing for a disabled or the current step. Emits sf-step-change.",
+      "arguments": [
+        {
+          "name": "index",
+          "type": "number|string",
+          "required": true
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onStepChange": {
-      "summary": "Public runtime method onStepChange.",
-      "arguments": [],
+      "summary": "Adds a listener for sf-step-change; the handler is called with (current, detail, event). Ignores a non-function handler.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": "object|boolean",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     }
   },
@@ -112,7 +130,59 @@
     "sf-step-change": {
       "summary": "Runtime event sf-step-change.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "component": {
+            "type": "object",
+            "description": "The emitting element."
+          },
+          "tagName": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string"
+          },
+          "previous": {
+            "type": "number"
+          },
+          "current": {
+            "type": "number"
+          },
+          "item": {
+            "type": "object",
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "disabled": {
+                "type": "boolean"
+              }
+            }
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string"
+                },
+                "disabled": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "component",
+          "tagName",
+          "template",
+          "previous",
+          "current",
+          "item",
+          "items"
+        ]
       }
     }
   },

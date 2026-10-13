@@ -129,14 +129,22 @@
   },
   "methods": {
     "onClick": {
-      "summary": "Public runtime method onClick.",
-      "arguments": [],
+      "summary": "Adds a click listener on the host.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": "object|boolean",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     }
   },

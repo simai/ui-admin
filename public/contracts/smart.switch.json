@@ -3,7 +3,7 @@
   "id": "smart.switch",
   "version": "1.0.0",
   "title": "Switch",
-  "summary": "Switch Smart Component from SIMAI Framework.",
+  "summary": "An on/off control for a setting that applies at once: a native checkbox with role=\"switch\", a track and a moving thumb, with a label, description and help text.",
   "kind": "smart",
   "reuse_mode": "both",
   "lifecycle": "experimental",
@@ -98,80 +98,112 @@
   },
   "methods": {
     "getInputElement": {
-      "summary": "Public runtime method getInputElement.",
+      "summary": "Returns the inner native input (.sf-switch input[type=\"checkbox\"]), or null before render.",
       "arguments": [],
       "returns": {
         "type": [
           "object",
-          "boolean",
           "null"
         ]
       }
     },
     "setChecked": {
-      "summary": "Public runtime method setChecked.",
-      "arguments": [],
+      "summary": "Sets the checked property and state of the inner input; does not dispatch change.",
+      "arguments": [
+        {
+          "name": "nextValue",
+          "type": "boolean",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "setDisabled": {
-      "summary": "Public runtime method setDisabled.",
-      "arguments": [],
+      "summary": "Sets or clears disabled on the host and the inner input.",
+      "arguments": [
+        {
+          "name": "nextValue",
+          "type": "boolean",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "setState": {
-      "summary": "Public runtime method setState.",
-      "arguments": [],
+      "summary": "Applies checked and disabled to the inner input and reflects them to host attributes; before render it falls back to the base setState.",
+      "arguments": [
+        {
+          "name": "nextState",
+          "type": "object",
+          "required": true
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onChange": {
-      "summary": "Public runtime method onChange.",
-      "arguments": [],
+      "summary": "Adds a listener for the native change event that bubbles from the inner input.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": "object|boolean",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onFocus": {
-      "summary": "Public runtime method onFocus.",
-      "arguments": [],
+      "summary": "Adds a focusin listener on the host.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": "object|boolean",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onBlur": {
-      "summary": "Public runtime method onBlur.",
-      "arguments": [],
+      "summary": "Adds a focusout listener on the host.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": "object|boolean",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     }
   },

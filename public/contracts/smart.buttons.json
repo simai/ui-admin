@@ -3,7 +3,7 @@
   "id": "smart.buttons",
   "version": "1.0.0",
   "title": "Buttons",
-  "summary": "Buttons Smart Component from SIMAI Framework.",
+  "summary": "A native button with Framework presentation: size, appearance, colour role or status, optional start and end icons, spacing and radius. loading sets aria-busy and disables it against repeated activation.",
   "kind": "smart",
   "reuse_mode": "whole",
   "lifecycle": "experimental",
@@ -287,69 +287,127 @@
   "contracts": {},
   "methods": {
     "onClick": {
-      "summary": "Public runtime method onClick.",
-      "arguments": [],
+      "summary": "Adds a listener for click on the host. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onFocus": {
-      "summary": "Public runtime method onFocus.",
-      "arguments": [],
+      "summary": "Adds a listener for focusin on the host. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onBlur": {
-      "summary": "Public runtime method onBlur.",
-      "arguments": [],
+      "summary": "Adds a listener for focusout on the host. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onMouseEnter": {
-      "summary": "Public runtime method onMouseEnter.",
-      "arguments": [],
+      "summary": "Adds a listener for mouseenter on the host. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "onMouseLeave": {
-      "summary": "Public runtime method onMouseLeave.",
-      "arguments": [],
+      "summary": "Adds a listener for mouseleave on the host. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     },
     "setDisabled": {
-      "summary": "Public runtime method setDisabled.",
-      "arguments": [],
+      "summary": "Sets the disabled attribute when nextValue is truthy and removes it otherwise. Returns the element.",
+      "arguments": [
+        {
+          "name": "nextValue",
+          "type": "boolean",
+          "required": false
+        }
+      ],
       "returns": {
-        "type": [
-          "object",
-          "boolean",
-          "null"
-        ]
+        "type": "object",
+        "description": "The element, for chaining."
       }
     }
   },
@@ -447,7 +505,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/buttons/index.js",
-        "sha256": "1582376b19cbf3c58b332fb02ab5505f4c371d7086535e9ba02bcabb7887cefb"
+        "sha256": "f1bf692f4f75ee96fbf22c0b38f5128a89e52c36a4dc1f406dea3757cb3b99ff"
       }
     ],
     "generated_runtime": [

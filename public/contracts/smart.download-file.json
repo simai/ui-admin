@@ -119,9 +119,21 @@
   "methods": {},
   "events": {
     "sf-download-file:click": {
-      "summary": "Emitted once for an enabled native destination or application-owned action.",
+      "summary": "Emitted once for an enabled native destination or application-owned action, from the rendered .sf-download-file root; bubbles to the host, is not composed and not cancelable.",
       "payload": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "href": {
+            "type": "string",
+            "description": "Empty for an application-owned action."
+          },
+          "fileName": {
+            "type": "string"
+          },
+          "download": {
+            "type": "boolean"
+          }
+        }
       }
     }
   },

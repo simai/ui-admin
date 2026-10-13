@@ -65,7 +65,7 @@
       "id": "smart.composition-overlay",
       "version": "1.0.0",
       "file": "smart.composition-overlay.json",
-      "manifest_sha256": "4c7d356590fbcc0b4fa31831b47802504f90366d8a777aa77027c2da6fb1f840"
+      "manifest_sha256": "2f915dd2785216503c642af79ff7b666cc9628044834c2ca92f4c7cf0dee97e1"
     },
     {
       "id": "smart.context-menu",
@@ -221,7 +221,7 @@
       "id": "smart.sortable",
       "version": "1.0.0",
       "file": "smart.sortable.json",
-      "manifest_sha256": "80ded94e68f8cbec1d34cb3b3c70d050999549068c0aea147e9e2959c548b614"
+      "manifest_sha256": "f60ca472babb81bffa1a7ba686c7c33937152b2d39a298863fa1e679b5397f75"
     },
     {
       "id": "smart.spinner",
@@ -290,6 +290,6 @@
       "manifest_sha256": "ba1d8f4593adb7a2ddfd096050d2a4ee2c43a0960f0c27aa5e834eb646e0f35b"
     }
   ],
-  "registry_sha256": "303767deaedc5e039d6474be10ac862dcf10d095239317bde76163eb662a8e8b",
+  "registry_sha256": "fca716ce33208530e752f0bd672ee5296575179b406291204fbfc72a75a63673",
   "registry_schema_sha256": "4218268a8661e8e9229533280f721123b819237e79ea1612c2115f7c5ee73d9a"
 }

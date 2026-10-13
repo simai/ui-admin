@@ -259,11 +259,11 @@
       },
       {
         "path": "src/smart/color/js/templates/default.js",
-        "sha256": "06271b557f1b3e323f228f6ed0bfebbde322148ec83191cc6fb90c2af3dd4d2e"
+        "sha256": "f18afa1cc0d3c44f07aa92277ac3de0b41f3e886b8b533c35829f98f853e5693"
       },
       {
         "path": "src/smart/color/js/templates/default.css",
-        "sha256": "9fbb58fb83d86a82bf3662e826c8f78b9906ed2526ba544722748e136828e95d"
+        "sha256": "e5755625a291f02dc4e75716b5cdecb454954e47219854cc63055f2a0ca3aaec"
       }
     ],
     "generated_runtime": []

@@ -255,6 +255,15 @@
         "type": "boolean",
         "default": false,
         "description": "Mark the Show more control as working while the host fetches the next portion; it is disabled and shows a loader."
+      },
+      "size": {
+        "type": "string",
+        "default": "1",
+        "enum": [
+          "1/2",
+          "1"
+        ],
+        "description": "The step of the size ladder its fields, buttons, labels and page numbers take: 1, or the dense 1/2 of an admin."
       }
     },
     "additionalProperties": false
@@ -560,7 +569,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/pagination/index.js",
-        "sha256": "759aace5a9a904da6b6c63891adc8507a23d1fb0b973023798cf505f4d11f479"
+        "sha256": "5bd5a0bb2a26c582d436f25d0cc428017bbc20370a614a0a8bafcf74c9f43a34"
       }
     ],
     "generated_runtime": [

@@ -59,7 +59,7 @@
       "id": "smart.color",
       "version": "1.0.0",
       "file": "smart.color.json",
-      "manifest_sha256": "4eb59a81a5f1f60f480e68d9479cccae77750a7743eb213e912c5d1abd41c18a"
+      "manifest_sha256": "1a07de600a03574edfd54f86f81191794a1e9035de9ac4a73b6ab8a01b1aed43"
     },
     {
       "id": "smart.composition-overlay",
@@ -167,7 +167,7 @@
       "id": "smart.pagination",
       "version": "1.0.1",
       "file": "smart.pagination.json",
-      "manifest_sha256": "1c6bb6e24b762b4d756586329aa9c8b04d9656fd5837b521d8ad34f9dc8a8dec"
+      "manifest_sha256": "e1709d7fc642f897ddcc85af60b6cc245d3e29a6f43dee0e459f35c9f9aa2f47"
     },
     {
       "id": "smart.popover",
@@ -290,6 +290,6 @@
       "manifest_sha256": "fe28ed009237e8fdc55b79e857c88e7cc9974ca83068532a66f29baf2336fb29"
     }
   ],
-  "registry_sha256": "3a999df702250257fab07cb5174c1bd3b4e79f384557120fa96ee9e6d6cbbc5a",
+  "registry_sha256": "79e26a3658adf1fd3681a65ec0309f27bc426e73143199ea8f6f47d70360374c",
   "registry_schema_sha256": "4218268a8661e8e9229533280f721123b819237e79ea1612c2115f7c5ee73d9a"
 }

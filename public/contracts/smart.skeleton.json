@@ -91,7 +91,8 @@
         "enum": [
           "",
           "icon"
-        ]
+        ],
+        "description": "type=\"icon\" marks a placeholder that stands in for an icon; it combines with any kind. Not a legacy name for kind (see contracts/public-api-axes.json), so it has no removal date."
       },
       "items": {
         "type": "string",

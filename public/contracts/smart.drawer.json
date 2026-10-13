@@ -104,7 +104,8 @@
       },
       "close-label": {
         "type": "string",
-        "default": "Close drawer"
+        "default": "",
+        "description": "Empty: the text of the page's language (\"Close drawer\" in English)."
       },
       "width": {
         "type": "string",
@@ -463,7 +464,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/drawer/index.js",
-        "sha256": "b79e4e792037ff8d1b813c5b00de27079bc5a13b6c599179c03581ee8d976c3f"
+        "sha256": "6e7cfb57b622eb693d8971e7dcc6a06ad0a4f8fcbbb9d5f23c667a93534358b4"
       },
       {
         "path": "src/smart/drawer/scss/_smart__drawer.scss",

@@ -77,11 +77,13 @@
       },
       "aria-label": {
         "type": "string",
-        "default": "Breadcrumb"
+        "default": "",
+        "description": "Empty: the text of the page's language (\"Breadcrumb\" in English)."
       },
       "expand-label": {
         "type": "string",
-        "default": "Show hidden breadcrumbs"
+        "default": "",
+        "description": "Empty: the text of the page's language (\"Show hidden breadcrumbs\" in English)."
       },
       "expand-on-ellipsis": {
         "type": "boolean",
@@ -245,7 +247,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/breadcrumbs/index.js",
-        "sha256": "26b70e0009ed411a11cf2526d29b6aed941ac825bc87136e53da29bf9b8b4a3d"
+        "sha256": "c61005356c3a231afa7a8918037e3da52bfe6e72b8c66651f68105f08304d1b7"
       }
     ],
     "generated_runtime": [

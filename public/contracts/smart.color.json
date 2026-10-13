@@ -99,17 +99,17 @@
       },
       "choose-label": {
         "type": "string",
-        "default": "Choose a colour",
-        "description": "The words on the swatch. Unset, the component answers in the page's language; the default stated here is what it answers on an English page."
+        "default": "",
+        "description": "The words on the swatch. Unset, the component answers in the page's language (\"Choose a colour\" in English)."
       },
       "clear-label": {
         "type": "string",
-        "default": "Use the inherited colour",
+        "default": "",
         "description": "The words on the control that returns to the inherited colour. Unset, it follows the page's language."
       },
       "inherited-text": {
         "type": "string",
-        "default": "inherited",
+        "default": "",
         "description": "What is read in place of a value while nothing is chosen. Unset, it follows the page's language."
       }
     }

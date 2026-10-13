@@ -179,7 +179,7 @@
       },
       "close-label": {
         "type": "string",
-        "default": "Remove",
+        "default": "",
         "description": "Accessible name of the remove action. Defaults to Remove, or Удалить on a Russian page."
       },
       "type": {
@@ -367,7 +367,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/tags/index.js",
-        "sha256": "74b14a1dcdae44f36e65015fa5bd261f590bfa7b63b04dae332c3e70fb4be23f"
+        "sha256": "284858a1f409efe1fab3c9e4ca19a707baaa155774d797aa02864314f92a7ead"
       }
     ],
     "generated_runtime": [

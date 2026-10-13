@@ -51,7 +51,8 @@
       },
       "label": {
         "type": "string",
-        "default": "Loading..."
+        "default": "",
+        "description": "Empty: the text of the page's language (\"Loading...\" in English)."
       },
       "kind": {
         "type": "string",
@@ -238,7 +239,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/spinner/index.js",
-        "sha256": "fafa87ca0dbd1cda7a26cb124f367e3838264df2b5e773c6fc5506161074df3a"
+        "sha256": "e0db5e28d506f5e477cd7e433cf046ce13928465a5b33120733dbb1f8791c1bd"
       },
       {
         "path": "src/smart/spinner/js/templates/default.js",

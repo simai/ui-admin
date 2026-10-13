@@ -46,7 +46,8 @@
       },
       "link-text": {
         "type": "string",
-        "default": "Click to upload"
+        "default": "",
+        "description": "Empty: the text of the page's language (\"Click to upload\" in English)."
       },
       "text": {
         "type": "string",
@@ -341,7 +342,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/file-upload/index.js",
-        "sha256": "86ee5caef790a21ad8008e9b1dafee22bfb6a8742bde07379f8ed4a9927b9f82"
+        "sha256": "8d3aa46a93349d73129c33b0c94ac57f835a56287d9a25323bcaf22415338076"
       }
     ],
     "generated_runtime": [

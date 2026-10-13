@@ -93,7 +93,8 @@
       },
       "aria-label": {
         "type": "string",
-        "default": "Avatar"
+        "default": "",
+        "description": "Empty: the text of the page's language (\"Avatar\" in English)."
       },
       "title": {
         "type": "string",
@@ -224,7 +225,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/avatar/index.js",
-        "sha256": "015e7f40dba97ab943463185cfda58e77f4953b3c32816b87de85e9e56643a39"
+        "sha256": "a1260edefb36506fc80bc1de0872f30b634c3385e9b7f1522323f29fa95212a3"
       }
     ],
     "generated_runtime": [

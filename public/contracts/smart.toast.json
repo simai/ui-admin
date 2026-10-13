@@ -76,8 +76,8 @@
       },
       "close-label": {
         "type": "string",
-        "default": "Close message",
-        "description": "Localized accessible name of the close action."
+        "default": "",
+        "description": "Localized accessible name of the close action. Empty: the text of the page's language (\"Close message\" in English)."
       },
       "duration": {
         "type": "number",
@@ -301,7 +301,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/toast/index.js",
-        "sha256": "c592fbfed73546d96dc1a281b4afaefe399086fde6e90176d848d24645e6e00d"
+        "sha256": "f77b573bfe54ecc8b6df52692415a7ebdebd5130ba6d05e1951dc6409304f4fe"
       }
     ],
     "generated_runtime": [

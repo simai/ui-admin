@@ -112,11 +112,13 @@
       },
       "open-label": {
         "type": "string",
-        "default": "Open item"
+        "default": "",
+        "description": "Empty: the text of the page's language (\"Open item\" in English)."
       },
       "close-label": {
         "type": "string",
-        "default": "Close item"
+        "default": "",
+        "description": "Empty: the text of the page's language (\"Close item\" in English)."
       },
       "root-class": {
         "type": "string",
@@ -353,11 +355,11 @@
     "source_artifacts": [
       {
         "path": "src/smart/tree-item/index.js",
-        "sha256": "7388af85f9da17f764dcd6bd29bb57dcdb5f37968a6b25676313b70bd57cee4e"
+        "sha256": "65abd84acb6b5092fd5b7a0a75187dd1c68bc91009755db70f91170025b5b7e7"
       },
       {
         "path": "src/smart/tree-item/js/templates/default.js",
-        "sha256": "c373fbb37492e153d047ce7761a8d9afae7910ff9811915e94657c4829927523"
+        "sha256": "7210b5b24fef76a0b65526f2778346a524f90f4333e61056d0ce7bce99a8c7f7"
       },
       {
         "path": "src/smart/tree-item/rule.js",

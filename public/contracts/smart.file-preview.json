@@ -123,15 +123,18 @@
       },
       "aria-label": {
         "type": "string",
-        "default": "File"
+        "default": "",
+        "description": "Empty: the text of the page's language (\"File\" in English)."
       },
       "download-label": {
         "type": "string",
-        "default": "Download file"
+        "default": "",
+        "description": "Empty: the text of the page's language (\"Download file\" in English)."
       },
       "remove-label": {
         "type": "string",
-        "default": "Remove file"
+        "default": "",
+        "description": "Empty: the text of the page's language (\"Remove file\" in English)."
       },
       "type": {
         "type": "string",
@@ -328,7 +331,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/file-preview/index.js",
-        "sha256": "e851148357736b1c638b088ecb0a8ac2184366ff644ec9750e8fd496fb0bb2d0"
+        "sha256": "d931978ca718763e8be3161f9b8dbb2ae95ebb716d2e2f1ea9689f7200096c6e"
       },
       {
         "path": "src/smart/file-preview/js/templates/default.js",

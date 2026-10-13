@@ -37,7 +37,8 @@
       },
       "title": {
         "type": "string",
-        "default": "Modal"
+        "default": "",
+        "description": "Empty: the text of the page's language (\"Modal\" in English)."
       },
       "aria-label": {
         "type": "string",
@@ -450,6 +451,198 @@
     }
   },
   "events": {
+    "modal:after-close": {
+      "summary": "Fired after the window closes. Bubbles and is composed.",
+      "payload": {
+        "type": "object",
+        "properties": {
+          "component": {
+            "description": "The emitting sf-modal."
+          },
+          "modal": {
+            "description": "The emitting sf-modal."
+          },
+          "modalId": {
+            "type": "string"
+          },
+          "root": {
+            "description": "The rendered .sf-modal element."
+          },
+          "phase": {
+            "type": "string",
+            "const": "after-close"
+          }
+        }
+      }
+    },
+    "modal:after-hide": {
+      "summary": "Fired after the window is minimized. Bubbles and is composed.",
+      "payload": {
+        "type": "object",
+        "properties": {
+          "component": {
+            "description": "The emitting sf-modal."
+          },
+          "modal": {
+            "description": "The emitting sf-modal."
+          },
+          "modalId": {
+            "type": "string"
+          },
+          "root": {
+            "description": "The rendered .sf-modal element."
+          },
+          "phase": {
+            "type": "string",
+            "const": "after-hide"
+          }
+        }
+      }
+    },
+    "modal:after-open": {
+      "summary": "Fired after the window opens. Bubbles and is composed.",
+      "payload": {
+        "type": "object",
+        "properties": {
+          "component": {
+            "description": "The emitting sf-modal."
+          },
+          "modal": {
+            "description": "The emitting sf-modal."
+          },
+          "modalId": {
+            "type": "string"
+          },
+          "root": {
+            "description": "The rendered .sf-modal element."
+          },
+          "phase": {
+            "type": "string",
+            "const": "after-open"
+          }
+        }
+      }
+    },
+    "modal:after-show": {
+      "summary": "Fired after the window is shown again after being minimized. Bubbles and is composed.",
+      "payload": {
+        "type": "object",
+        "properties": {
+          "component": {
+            "description": "The emitting sf-modal."
+          },
+          "modal": {
+            "description": "The emitting sf-modal."
+          },
+          "modalId": {
+            "type": "string"
+          },
+          "root": {
+            "description": "The rendered .sf-modal element."
+          },
+          "phase": {
+            "type": "string",
+            "const": "after-show"
+          }
+        }
+      }
+    },
+    "modal:before-close": {
+      "summary": "Fired before the window closes; cancelable -- preventDefault() keeps it as it is. Bubbles and is composed.",
+      "payload": {
+        "type": "object",
+        "properties": {
+          "component": {
+            "description": "The emitting sf-modal."
+          },
+          "modal": {
+            "description": "The emitting sf-modal."
+          },
+          "modalId": {
+            "type": "string"
+          },
+          "root": {
+            "description": "The rendered .sf-modal element."
+          },
+          "phase": {
+            "type": "string",
+            "const": "before-close"
+          }
+        }
+      }
+    },
+    "modal:before-hide": {
+      "summary": "Fired before the window is minimized; cancelable -- preventDefault() keeps it as it is. Bubbles and is composed.",
+      "payload": {
+        "type": "object",
+        "properties": {
+          "component": {
+            "description": "The emitting sf-modal."
+          },
+          "modal": {
+            "description": "The emitting sf-modal."
+          },
+          "modalId": {
+            "type": "string"
+          },
+          "root": {
+            "description": "The rendered .sf-modal element."
+          },
+          "phase": {
+            "type": "string",
+            "const": "before-hide"
+          }
+        }
+      }
+    },
+    "modal:before-open": {
+      "summary": "Fired before the window opens; cancelable -- preventDefault() keeps it as it is. Bubbles and is composed.",
+      "payload": {
+        "type": "object",
+        "properties": {
+          "component": {
+            "description": "The emitting sf-modal."
+          },
+          "modal": {
+            "description": "The emitting sf-modal."
+          },
+          "modalId": {
+            "type": "string"
+          },
+          "root": {
+            "description": "The rendered .sf-modal element."
+          },
+          "phase": {
+            "type": "string",
+            "const": "before-open"
+          }
+        }
+      }
+    },
+    "modal:before-show": {
+      "summary": "Fired before the window is shown again after being minimized; cancelable -- preventDefault() keeps it as it is. Bubbles and is composed.",
+      "payload": {
+        "type": "object",
+        "properties": {
+          "component": {
+            "description": "The emitting sf-modal."
+          },
+          "modal": {
+            "description": "The emitting sf-modal."
+          },
+          "modalId": {
+            "type": "string"
+          },
+          "root": {
+            "description": "The rendered .sf-modal element."
+          },
+          "phase": {
+            "type": "string",
+            "const": "before-show"
+          }
+        }
+      }
+    },
     "modal:ready": {
       "summary": "Runtime event modal:ready. Bubbles and is composed; detail.modal is the emitting modal.",
       "payload": {
@@ -580,7 +773,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/modal/index.js",
-        "sha256": "8194adf435561f8997ea8fd8cc749d902424c586a5d604d90d49926815bffbfe"
+        "sha256": "bf846dfbfe8377b19c5fcd61b378508112c293be56d8730ebb86dba3f2818fd4"
       }
     ],
     "generated_runtime": [

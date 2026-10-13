@@ -51,15 +51,18 @@
       },
       "aria-label": {
         "type": "string",
-        "default": "Steps"
+        "default": "",
+        "description": "Empty: the text of the page's language (\"Steps\" in English)."
       },
       "completed-label": {
         "type": "string",
-        "default": "Completed"
+        "default": "",
+        "description": "Empty: the text of the page's language (\"Completed\" in English)."
       },
       "error-label": {
         "type": "string",
-        "default": "Error"
+        "default": "",
+        "description": "Empty: the text of the page's language (\"Error\" in English)."
       },
       "root-class": {
         "type": "string",
@@ -212,7 +215,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/steps/index.js",
-        "sha256": "764168f3e293b556ab5d70103aa4e3d8dbb8469b709639069c0e03ab988a00b2"
+        "sha256": "cb4faf3b4263ca0c0eba2e54b61822b4f67640a8407307ec8b5447b9a93841f7"
       }
     ],
     "generated_runtime": [

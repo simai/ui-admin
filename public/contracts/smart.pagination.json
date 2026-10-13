@@ -74,43 +74,43 @@
       },
       "aria-label": {
         "type": "string",
-        "default": "Result pages",
-        "description": "Accessible name of the navigation landmark."
+        "default": "",
+        "description": "Accessible name of the navigation landmark. Empty: the text of the page's language (\"Result pages\" in English)."
       },
       "pages-label": {
         "type": "string",
-        "default": "Pages:",
-        "description": "Visible label before page controls."
+        "default": "",
+        "description": "Visible label before page controls. Empty: the text of the page's language (\"Pages:\" in English)."
       },
       "page-label": {
         "type": "string",
-        "default": "Page",
-        "description": "Accessible prefix for a numbered page action."
+        "default": "",
+        "description": "Accessible prefix for a numbered page action. Empty: the text of the page's language (\"Page\" in English)."
       },
       "previous-label": {
         "type": "string",
-        "default": "Previous page",
-        "description": "Accessible name of the previous-page action."
+        "default": "",
+        "description": "Accessible name of the previous-page action. Empty: the text of the page's language (\"Previous page\" in English)."
       },
       "next-label": {
         "type": "string",
-        "default": "Next page",
-        "description": "Accessible name of the next-page action."
+        "default": "",
+        "description": "Accessible name of the next-page action. Empty: the text of the page's language (\"Next page\" in English)."
       },
       "last-label": {
         "type": "string",
-        "default": "Last",
-        "description": "Visible label of the compatible last-page action."
+        "default": "",
+        "description": "Visible label of the compatible last-page action. Empty: the text of the page's language (\"Last\" in English)."
       },
       "total-label": {
         "type": "string",
-        "default": "Total:",
-        "description": "Visible label for the total item count."
+        "default": "",
+        "description": "Visible label for the total item count. Empty: the text of the page's language (\"Total:\" in English)."
       },
       "selected-label": {
         "type": "string",
-        "default": "Selected:",
-        "description": "Visible label for the selected item count."
+        "default": "",
+        "description": "Visible label for the selected item count. Empty: the text of the page's language (\"Selected:\" in English)."
       },
       "selected-count": {
         "type": "integer",
@@ -120,8 +120,8 @@
       },
       "show-more-text": {
         "type": "string",
-        "default": "Show more",
-        "description": "Label of the compatible show-more action."
+        "default": "",
+        "description": "Label of the compatible show-more action. Empty: the text of the page's language (\"Show more\" in English)."
       },
       "current": {
         "type": "integer",
@@ -153,8 +153,8 @@
       },
       "page-size-label": {
         "type": "string",
-        "default": "Per page:",
-        "description": "Visible and accessible label of the page-size selector."
+        "default": "",
+        "description": "Visible and accessible label of the page-size selector. Empty: the text of the page's language (\"Per page:\" in English)."
       },
       "show-actions": {
         "type": "boolean",
@@ -173,8 +173,8 @@
       },
       "action-apply-text": {
         "type": "string",
-        "default": "Apply",
-        "description": "Label of the batch-action apply button."
+        "default": "",
+        "description": "Label of the batch-action apply button. Empty: the text of the page's language (\"Apply\" in English)."
       },
       "show-action-for-all": {
         "type": "boolean",
@@ -188,28 +188,28 @@
       },
       "action-for-all-label": {
         "type": "string",
-        "default": "For all",
-        "description": "Label of the all-items toggle."
+        "default": "",
+        "description": "Label of the all-items toggle. Empty: the text of the page's language (\"For all\" in English)."
       },
       "actions-label": {
         "type": "string",
-        "default": "Action for the selected records",
-        "description": "Accessible name of the batch-action selector."
+        "default": "",
+        "description": "Accessible name of the batch-action selector. Empty: the text of the page's language (\"Action for the selected records\" in English)."
       },
       "action-choose-label": {
         "type": "string",
-        "default": "Choose an action",
-        "description": "Placeholder of the batch-action selector, shown until an action is chosen."
+        "default": "",
+        "description": "Placeholder of the batch-action selector, shown until an action is chosen. Empty: the text of the page's language (\"Choose an action\" in English)."
       },
       "actions-region-label": {
         "type": "string",
-        "default": "Actions for the selected",
-        "description": "Accessible name of the panel that appears while rows are marked."
+        "default": "",
+        "description": "Accessible name of the panel that appears while rows are marked. Empty: the text of the page's language (\"Actions for the selected\" in English)."
       },
       "clear-selection-label": {
         "type": "string",
-        "default": "Clear the selection",
-        "description": "Accessible name and tooltip of the control that drops the selection."
+        "default": "",
+        "description": "Accessible name and tooltip of the control that drops the selection. Empty: the text of the page's language (\"Clear the selection\" in English)."
       },
       "count-known": {
         "type": "boolean",
@@ -233,23 +233,23 @@
       },
       "show-count-label": {
         "type": "string",
-        "default": "Show the number",
-        "description": "Text of the control that asks the host for the number."
+        "default": "",
+        "description": "Text of the control that asks the host for the number. Empty: the text of the page's language (\"Show the number\" in English)."
       },
       "counting-label": {
         "type": "string",
-        "default": "Counting",
-        "description": "Accessible name of the short wait shown while the count is on its way."
+        "default": "",
+        "description": "Accessible name of the short wait shown while the count is on its way. Empty: the text of the page's language (\"Counting\" in English)."
       },
       "first-label": {
         "type": "string",
-        "default": "First",
-        "description": "Accessible name and tooltip of the control that goes to the first page."
+        "default": "",
+        "description": "Accessible name and tooltip of the control that goes to the first page. Empty: the text of the page's language (\"First\" in English)."
       },
       "page-field-label": {
         "type": "string",
-        "default": "Page:",
-        "description": "Label of the field that takes a page number."
+        "default": "",
+        "description": "Label of the field that takes a page number. Empty: the text of the page's language (\"Page:\" in English)."
       },
       "show-more-busy": {
         "type": "boolean",
@@ -560,7 +560,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/pagination/index.js",
-        "sha256": "5721824a5c478e3201b5dd602c9f0bd453391a6ca6ff5f456ed3d5ffec61a2d1"
+        "sha256": "759aace5a9a904da6b6c63891adc8507a23d1fb0b973023798cf505f4d11f479"
       }
     ],
     "generated_runtime": [

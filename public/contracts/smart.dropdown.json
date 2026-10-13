@@ -109,7 +109,8 @@
       },
       "search-placeholder": {
         "type": "string",
-        "default": "Placeholder"
+        "default": "",
+        "description": "Empty: the text of the page's language (\"Search\" in English)."
       },
       "size": {
         "type": "string",
@@ -142,7 +143,43 @@
     "additionalProperties": false
   },
   "item_contract": {},
-  "contracts": {},
+  "contracts": {
+    "change_detail": {
+      "type": "object",
+      "required": [
+        "value",
+        "values",
+        "multiple"
+      ],
+      "properties": {
+        "value": {
+          "type": "string",
+          "description": "The value of the item chosen or cleared; \"\" when none."
+        },
+        "label": {
+          "type": "string",
+          "description": "Its visible text."
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Every selected value after the change."
+        },
+        "item": {
+          "description": "The chosen sf-list-item, or null."
+        },
+        "root": {
+          "description": "The emitting sf-dropdown."
+        },
+        "multiple": {
+          "type": "boolean",
+          "description": "Whether several values can be selected."
+        }
+      }
+    }
+  },
   "methods": {
     "openDropdown": {
       "summary": "Public runtime method openDropdown.",
@@ -182,14 +219,14 @@
     "change": {
       "summary": "The selection changed; dispatched on the host. The name to bind.",
       "payload": {
-        "type": "object"
+        "$ref": "#/contracts/change_detail"
       },
       "canonical": true
     },
     "sf-dropdown:change": {
       "summary": "Legacy name for change, still emitted with the same detail; bind change.",
       "payload": {
-        "type": "object"
+        "$ref": "#/contracts/change_detail"
       },
       "alias_of": "change"
     }
@@ -306,7 +343,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/dropdown/index.js",
-        "sha256": "96eb80ef8352fa6e36c9e6a125b461c14345cda73b171579dd1a444c05685e66"
+        "sha256": "8217217257e7aac873a4266d310ed36cd2816b670311d5f4e60ea5b7d8f9b518"
       }
     ],
     "generated_runtime": [

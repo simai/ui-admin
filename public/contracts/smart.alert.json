@@ -100,8 +100,8 @@
       },
       "close-label": {
         "type": "string",
-        "default": "Close alert",
-        "description": "Localized accessible name of the close action."
+        "default": "",
+        "description": "Localized accessible name of the close action. Empty: the text of the page's language (\"Close alert\" in English)."
       },
       "root-class": {
         "type": "string",
@@ -310,7 +310,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/alert/index.js",
-        "sha256": "b2ea446827c778ee37c9fc7915e9bfa323aed43a4befe8fd00798d43888f7be9"
+        "sha256": "ffb15b3e0aa6afd20d8b5d447e903020a65dcb7df2d3800c1ffc4ed1698edd93"
       }
     ],
     "generated_runtime": [

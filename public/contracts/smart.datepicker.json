@@ -143,7 +143,8 @@
       },
       "input-name": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "The form field name of the value; wins over name."
       },
       "placeholder": {
         "type": "string",
@@ -193,6 +194,11 @@
       "mask-options": {
         "type": "string",
         "default": ""
+      },
+      "name": {
+        "type": "string",
+        "default": "",
+        "description": "The form field name of the value. input-name is the same and wins when both are set."
       }
     },
     "additionalProperties": false
@@ -219,16 +225,52 @@
           "type": [
             "string",
             "array"
-          ]
+          ],
+          "description": "The ISO date (yyyy-mm-dd), or [start, end] for a range; \"\" when cleared."
         },
         "range": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "Whether the field picks a range."
         },
         "format": {
-          "type": "string"
+          "type": "string",
+          "description": "The display format."
         },
         "formattedValue": {
-          "type": "string"
+          "type": "string",
+          "description": "The value as shown, in format."
+        },
+        "date": {
+          "type": "string",
+          "description": "The ISO date; for a range, the formatted range."
+        },
+        "isoValue": {
+          "type": "string",
+          "description": "The ISO date; for a range, the start."
+        },
+        "startValue": {
+          "type": "string",
+          "description": "Range only: the ISO start."
+        },
+        "endValue": {
+          "type": "string",
+          "description": "Range only: the ISO end."
+        },
+        "startIsoValue": {
+          "type": "string",
+          "description": "Range only: the ISO start."
+        },
+        "endIsoValue": {
+          "type": "string",
+          "description": "Range only: the ISO end."
+        },
+        "formattedStartValue": {
+          "type": "string",
+          "description": "Range only: the start as shown."
+        },
+        "formattedEndValue": {
+          "type": "string",
+          "description": "Range only: the end as shown."
         }
       }
     }
@@ -307,7 +349,7 @@
     "sf-change": {
       "summary": "Legacy name for change, still emitted with the same detail; bind change.",
       "payload": {
-        "type": "object"
+        "$ref": "#/contracts/change_detail"
       },
       "alias_of": "change"
     }
@@ -445,11 +487,11 @@
     "source_artifacts": [
       {
         "path": "src/smart/datepicker/index.js",
-        "sha256": "04ffd8ec84f8953896a7b6ba0c466b05a038075d360c1f2fb41357a7fd366b71"
+        "sha256": "fe0f12a0c47f7a1e0016e995a89f0415e67801254ea0cefd30e4d4b16ba05d45"
       },
       {
         "path": "src/smart/datepicker/js/templates/default.js",
-        "sha256": "2bd58e4e7681a635daca783f0b03120f0a0a2d2325602e9b05a613c60b9de4a2"
+        "sha256": "d24215c914bcae8ac8176d418959ba96917a823fa615876e081c291981567c5e"
       },
       {
         "path": "src/smart/datepicker/rule.js",

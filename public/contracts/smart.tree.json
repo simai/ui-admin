@@ -203,11 +203,11 @@
     "source_artifacts": [
       {
         "path": "src/smart/tree/index.js",
-        "sha256": "8e6d071a6497a12110e38b791c1604a594148d4c58ba9a58c39dbbf2685ed685"
+        "sha256": "72df19145109c82ba84c3361403ee95b5020524746b73b235b7a34217cfac0bd"
       },
       {
         "path": "src/smart/tree/js/templates/default.js",
-        "sha256": "dae4e03e919a2aec257ef007f417a3ef5bb2c9c293677213fe01765e866bb41b"
+        "sha256": "687fb21260bf46f4c54374a09697d164f25177a1990b8a17542e74cf4c09cd31"
       },
       {
         "path": "src/smart/tree/js/templates/default.css",

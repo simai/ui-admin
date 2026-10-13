@@ -3,9 +3,9 @@
   "package": "larena",
   "source": {
     "repository": "simai/larena-ui",
-    "revision": "6828a70034eb49155cd443eec89818c4f00d4939",
+    "revision": "a6adaa9abbafc41f97f83d311e761d7d54981eb9",
     "path": "components",
-    "tree": "8347f34377a867dd5c0cf7bc2c161a940e57cf2a"
+    "tree": "12e6e5d71a3b4bf10c714b235a4b9c5cb7f08a01"
   },
   "smart": {
     "targetDir": "",
@@ -16,7 +16,7 @@
       },
       {
         "path": "admin-menu/js/admin-menu.js",
-        "sha256": "fe4eb3b1564d811ddb30af34fe9c246c615d821e6edcedafb323fa8a79945211"
+        "sha256": "229576f27dbbe25a01f285dfd1bd59b0a59258be9910b8133f98af529badcfa1"
       },
       {
         "path": "admin-menu/css/admin-menu.css",
@@ -24,11 +24,11 @@
       },
       {
         "path": "data-view/js/data-view.js",
-        "sha256": "864230ba6381855d639cac5068577962538e4489622d4e8b2157604ad5b31bf4"
+        "sha256": "3be212f387b8c0377fec682d2d59a210c1f3ec46bf5978037561bf08f4f45761"
       },
       {
         "path": "property-view/js/property-view.js",
-        "sha256": "ad7c27921b61f1207c3b324c86ea72c8717f84d729e5680566c068e863a53215"
+        "sha256": "811af669d119e17987c3773f934854268432f828fa3f73becaa0abc66b177508"
       },
       {
         "path": "property-view/css/property-view.css",
@@ -36,18 +36,18 @@
       },
       {
         "path": "table/js/table.js",
-        "sha256": "622ec082fd7c39e5e5b0a221db00c0ba954df4cc3f0a4d3f2b90922833ce1659"
+        "sha256": "392647d7636caf40b3089c6d2c8aa7128dac93e6203c3f9ff45f7426c14ce341"
       },
       {
         "path": "table/css/table.css",
-        "sha256": "01ef8c8151086f57cb780a826831497f7c132ae47e51c5ec3d27a7248fe60de9"
+        "sha256": "92eec6f6558e906b0e96ebf2b63031cb81315c6e959405164689962acb3d47a4"
       }
     ]
   },
-  "compatibilityId": "larena-6828a70034eb",
+  "compatibilityId": "larena-a6adaa9abbaf",
   "requires": {
     "framework": "ui-45c15e706fde"
   },
-  "archiveSha256": "dbbc7586ced02a575df3c8f5a6ed8dde00ad2925f8008eecd900b5a82559156b",
-  "distributionIdentitySha256": "b06afec2bf04872b3f4b9a4d58e0f8161efcd004a5a8e0f76e8b44581eb219e8"
+  "archiveSha256": "03bd5212a45e817bbe56620b6d5eabea8586341fd3c4f995fdff456c6aef14c2",
+  "distributionIdentitySha256": "091913c127a27fb57d1781ae99329958033ae45103611670c8a6a192fc88c30d"
 }

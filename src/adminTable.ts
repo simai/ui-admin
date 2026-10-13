@@ -818,9 +818,9 @@ function createTableAction(
     component: {
       type: 'icon-button',
       props: {
-        variant: 'icon',
+        kind: 'icon',
         size: '1',
-        type: 'link',
+        appearance: 'link',
         scheme: 'on-surface',
         icon,
         ariaLabel: label,
@@ -885,7 +885,7 @@ export class AdminTableRenderer {
       case 'handle':
         return SF.create('sf-icon-button', {
           size: '1',
-          type: 'link',
+          appearance: 'link',
           scheme: 'on-surface',
           icon: 'menu',
           'aria-label': `Перетащить ${row.title}`,
@@ -964,9 +964,9 @@ function renderActions(row: AdminTableRow) {
   wrap.append(
     ...row.actions.map((action) =>
       SF.create('sf-icon-button', {
-        variant: 'icon',
+        kind: 'icon',
         size: '1',
-        type: 'link',
+        appearance: 'link',
         scheme: 'on-surface',
         icon: action.icon,
         value: action.value,

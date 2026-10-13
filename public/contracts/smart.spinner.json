@@ -239,11 +239,11 @@
     "source_artifacts": [
       {
         "path": "src/smart/spinner/index.js",
-        "sha256": "e0db5e28d506f5e477cd7e433cf046ce13928465a5b33120733dbb1f8791c1bd"
+        "sha256": "ea495501984dbf3f7fcc054cc9004384d0185a621f897c53f4a75401ea49c401"
       },
       {
         "path": "src/smart/spinner/js/templates/default.js",
-        "sha256": "667b3de3312617dd6e6bd0943f43ad3ffeade61b7ceff34ecd03ab72b45564aa"
+        "sha256": "80a5edb0cd519ba7429c7c47a368d48b705a375cbe333467a12f6e4bb537c335"
       },
       {
         "path": "src/smart/spinner/rule.js",

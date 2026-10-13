@@ -38,7 +38,7 @@
       },
       "label": {
         "type": "string",
-        "default": "Label"
+        "default": ""
       },
       "required": {
         "type": "boolean",
@@ -260,7 +260,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/country-code/index.js",
-        "sha256": "4bd3d054651fe758ce9742f32d9284cb28de7a4ca155aee1c4491c241d8f32be"
+        "sha256": "be531da05549bed63027e3cb619ac38582a01a3bb89e73db775b894a11d073b7"
       }
     ],
     "generated_runtime": [

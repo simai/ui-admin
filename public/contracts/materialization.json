@@ -29,7 +29,7 @@
       "id": "smart.breadcrumbs",
       "version": "1.0.0",
       "file": "smart.breadcrumbs.json",
-      "manifest_sha256": "32706e9e35e811787d10b563f522350aa734370c32837738288f7eb35682e0b0"
+      "manifest_sha256": "d47d5c245d5e225847ff7e83de71d56866e55683823d02ba99ca5ffc51870c24"
     },
     {
       "id": "smart.button-group",
@@ -77,7 +77,7 @@
       "id": "smart.country-code",
       "version": "1.0.0",
       "file": "smart.country-code.json",
-      "manifest_sha256": "d3b39118278ec5f11baa43067ab6500f0fdf90444b39affab53d6f9da3373951"
+      "manifest_sha256": "519c14ca246a5495d012fabb35dcf08b9231c3e4e2c0280c576c1abf7c2cd204"
     },
     {
       "id": "smart.datepicker",
@@ -215,7 +215,7 @@
       "id": "smart.slider",
       "version": "1.0.0",
       "file": "smart.slider.json",
-      "manifest_sha256": "4d84ec7cbe6b9423efd88ffea6a569f3d257d2de536ac6edfde34524c6c12a65"
+      "manifest_sha256": "93dcd98ab1004ee9c982cdaf27fe30dba5da9fb9a77322bb4634b9365a1ee1af"
     },
     {
       "id": "smart.sortable",
@@ -227,7 +227,7 @@
       "id": "smart.spinner",
       "version": "1.0.0",
       "file": "smart.spinner.json",
-      "manifest_sha256": "94daaf1c6f43e281b831dc32bce551f0c63858404d5874d09a8021866b3e70a9"
+      "manifest_sha256": "25c615b77726b3aaecc73cb0ebb722e43221ddc95d335d61f9e4fdcd682373ec"
     },
     {
       "id": "smart.steps",
@@ -290,6 +290,6 @@
       "manifest_sha256": "fe28ed009237e8fdc55b79e857c88e7cc9974ca83068532a66f29baf2336fb29"
     }
   ],
-  "registry_sha256": "79e26a3658adf1fd3681a65ec0309f27bc426e73143199ea8f6f47d70360374c",
+  "registry_sha256": "f31443b89b510f4aea88c65b2d9a579227a3f8f227a1e36519ecbfbd262f37b0",
   "registry_schema_sha256": "4218268a8661e8e9229533280f721123b819237e79ea1612c2115f7c5ee73d9a"
 }

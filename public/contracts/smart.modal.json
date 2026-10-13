@@ -38,7 +38,7 @@
       "title": {
         "type": "string",
         "default": "",
-        "description": "Empty: the text of the page's language (\"Modal\" in English)."
+        "description": "Empty: the text of the page's language (\"Dialog\" in English)."
       },
       "aria-label": {
         "type": "string",

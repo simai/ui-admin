@@ -34,10 +34,7 @@
       "template": {
         "type": "string",
         "default": "default",
-        "description": "Template variant name for SfBaseElement external templates.",
-        "enum": [
-          "default"
-        ]
+        "description": "Template variant name for SfBaseElement external templates."
       },
       "kind": {
         "type": "string",

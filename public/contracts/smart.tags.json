@@ -37,9 +37,6 @@
       "template": {
         "type": "string",
         "default": "default",
-        "enum": [
-          "default"
-        ],
         "description": "Template name."
       },
       "kind": {

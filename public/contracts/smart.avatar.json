@@ -31,12 +31,7 @@
     "properties": {
       "template": {
         "type": "string",
-        "default": "default",
-        "enum": [
-          "default",
-          "label",
-          "card"
-        ]
+        "default": "default"
       },
       "size": {
         "type": "string",

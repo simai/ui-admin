@@ -33,14 +33,7 @@
     "properties": {
       "template": {
         "type": "string",
-        "default": "default",
-        "enum": [
-          "default",
-          "user",
-          "group",
-          "label",
-          "profile"
-        ]
+        "default": "default"
       },
       "data": {
         "type": "string",

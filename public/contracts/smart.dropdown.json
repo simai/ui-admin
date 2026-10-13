@@ -122,10 +122,7 @@
       },
       "template": {
         "type": "string",
-        "default": "default",
-        "enum": [
-          "default"
-        ]
+        "default": "default"
       },
       "type": {
         "type": "string",

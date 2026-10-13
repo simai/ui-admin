@@ -25,7 +25,11 @@
       })();
     </script>
     <script>
-      window.SF_BOOT_CONFIG = { icons: { accumulate: true } };
+      // The tree's node icons and the create menu's arrow come with data,
+      // after the first icon request; declared here they go in it.
+      window.SF_BOOT_CONFIG = {
+        icons: { accumulate: true, preload: ['article', 'library_books', 'keyboard_arrow_down'] },
+      };
       window.sfPath = '/distr/';
       window.sfSmartPath = '/distr/';
     </script>

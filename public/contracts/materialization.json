@@ -113,7 +113,7 @@
       "id": "smart.empty-state",
       "version": "1.0.0",
       "file": "smart.empty-state.json",
-      "manifest_sha256": "11c7dd6ee749ebfec6542119f5e5eab1a97944b34f145221c823633eecc640c3"
+      "manifest_sha256": "39e693f3b5f5a6ac855268228e53b636788c32fb7ac4c4ca8bb402be46ac637e"
     },
     {
       "id": "smart.file-preview",
@@ -320,6 +320,6 @@
       "manifest_sha256": "ba1d8f4593adb7a2ddfd096050d2a4ee2c43a0960f0c27aa5e834eb646e0f35b"
     }
   ],
-  "registry_sha256": "69efc98cec87a9f2ccfc15f4aa765531140b7ee400fe4de7cf4575da21ea9b9b",
+  "registry_sha256": "f77021073603ec45db7ab19e2d14fd8b056d8082e39307c94232e45276a5db9f",
   "registry_schema_sha256": "4218268a8661e8e9229533280f721123b819237e79ea1612c2115f7c5ee73d9a"
 }

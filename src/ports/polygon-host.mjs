@@ -600,6 +600,9 @@ export const createPolygonHost = ({
         revision: found.revision,
         label: found.label ?? found.values.title ?? found.record_id,
         editable: found.editable !== false,
+        // What this actor may do with it (port 1.12.0): a read-only record is
+        // sent nothing, so the panel offers no way to change it.
+        actions: found.editable === false ? [] : ['record.edit'],
         // The record's own address. The panel draws its copy-link control on
         // this alone, and offers to open the record as a page when the host
         // also claims `record-open` — an address worth copying does not
@@ -667,8 +670,27 @@ export const createPolygonHost = ({
         return { answer: 'applied', record };
       };
 
+      // The fields a write may not leave empty, and the integers it may not
+      // break: the same rules for a group, a whole object and a new one.
+      const validate = (values, {all = false} = {}) => {
+        const errors = {};
+        for (const field of structure.fields ?? []) {
+          const given = Object.prototype.hasOwnProperty.call(values, field.key);
+          if (!given && !all) continue;
+          const value = values[field.key];
+          if (field.required && (value === null || value === undefined || String(value).trim() === '')) {
+            errors[field.key] = `${field.label} не может быть пустым`;
+          }
+          if (given && field.property_type === 'integer' && value !== null && value !== ''
+              && !Number.isInteger(Number(value))) {
+            errors[field.key] = 'Нужно целое число';
+          }
+        }
+        return errors;
+      };
+
       return {
-        version: '1.10.0',
+        version: '1.12.0',
         capabilities: panelCapabilities,
         formatFieldValue,
 
@@ -678,6 +700,48 @@ export const createPolygonHost = ({
 
           if (scenario === 'unavailable') {
             return { answer: 'unavailable', reason: 'host-down', message: 'Источник данных недоступен' };
+          }
+
+          // An empty object of the collection for a create: the collection's
+          // arrangement, every value empty, no id and no revision.
+          if (intent === 'record.load' && payload.mode === 'create') {
+            const empty = answerFor({record_id: null, revision: null, label: '', values: {}});
+            empty.record.record_id = null;
+            empty.record.revision = null;
+            empty.record.address = null;
+            return empty;
+          }
+
+          if (intent === 'record.create') {
+            const values = payload.values ?? {};
+            const errors = validate(values, {all: true});
+            if (Object.keys(errors).length) return { answer: 'refused', reason: 'validation', errors };
+            const made = {
+              record_id: `new-${state.records.length + 1}`, revision: 1,
+              label: String(values.title ?? ''), values: Object.fromEntries(Object.entries(values).filter(([key]) => fields.has(key)).map(([key, value]) => [key, copy(value)])),
+            };
+            state.records.push(made);
+            return { answer: 'applied', record_id: made.record_id, record: answerFor(made).record };
+          }
+
+          if (intent === 'record.save') {
+            const found = record(id);
+            if (!found) return { answer: 'refused', reason: 'record-unknown' };
+            if (found.editable === false) {
+              return { answer: 'refused', reason: 'access-denied', message: 'Запись только для чтения' };
+            }
+            if (String(payload.revision ?? '') !== String(found.revision)) {
+              return { answer: 'conflict', reason: 'stale-revision', message: 'Запись изменилась, обновите её' };
+            }
+            const values = payload.values ?? {};
+            const errors = validate(values);
+            if (Object.keys(errors).length) return { answer: 'refused', reason: 'validation', errors };
+            for (const [key, value] of Object.entries(values)) {
+              if (fields.has(key)) found.values[key] = copy(value);
+            }
+            if (Object.prototype.hasOwnProperty.call(values, 'title')) found.label = String(values.title ?? found.label);
+            found.revision = Number(found.revision) + 1;
+            return answerFor(found);
           }
 
           if (intent === 'record.load') {

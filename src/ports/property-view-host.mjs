@@ -18,6 +18,8 @@ export const RECORD = {
   record_id: 'r-1',
   collection: 'admin.solutions',
   revision: 7,
+  // What this person may do with the record (port 1.12.0): change its fields.
+  actions: ['record.edit'],
   label: 'SIMAI: Платежи №178',
   sections: [
     {
@@ -85,11 +87,66 @@ export const createPropertyViewHost = ({ record = RECORD, capabilities = [], pro
   const asRead = () => ({ answer: 'applied', record: answerRecord() });
 
   return {
-    version: '1.9.0',
+    version: '1.12.0',
     capabilities,
 
     async raise(intent, payload = {}) {
       const recordId = String(payload.record_id ?? '');
+
+      // An empty object of the collection for a create (port 1.12.0): the
+      // record's own arrangement, every value empty, no id and no revision --
+      // so a view arranged once is arranged for creating too.
+      if (intent === 'record.load' && payload.mode === 'create') {
+        const empty = copy(state.record);
+        empty.record_id = null;
+        empty.revision = null;
+        for (const section of empty.sections ?? []) {
+          for (const group of section.groups ?? []) {
+            for (const field of group.fields ?? []) field.value = null;
+          }
+        }
+        return { answer: 'applied', record: empty };
+      }
+
+      // Making the object: refused with errors keyed by field, or applied with
+      // the new id and the object as it now stands.
+      if (intent === 'record.create') {
+        const values = payload.values ?? {};
+        if (!String(values.title ?? '').trim()) {
+          return { answer: 'refused', reason: 'validation', errors: { title: 'Название не может быть пустым' } };
+        }
+        const made = copy(state.record);
+        made.record_id = `r-new-${state.next++}`;
+        made.revision = 1;
+        for (const section of made.sections ?? []) {
+          for (const group of section.groups ?? []) {
+            for (const field of group.fields ?? []) {
+              field.value = Object.prototype.hasOwnProperty.call(values, field.key) ? values[field.key] : null;
+            }
+          }
+        }
+        return { answer: 'applied', record_id: made.record_id, record: made };
+      }
+
+      // The whole object as one revision, from a surface open all at once.
+      if (intent === 'record.save') {
+        if (String(payload.revision ?? '') !== String(state.record.revision)) {
+          return { answer: 'conflict', reason: 'stale-revision', message: 'Запись изменилась, обновите её' };
+        }
+        const values = payload.values ?? {};
+        if (Object.prototype.hasOwnProperty.call(values, 'title') && !String(values.title ?? '').trim()) {
+          return { answer: 'refused', reason: 'validation', errors: { title: 'Название не может быть пустым' } };
+        }
+        for (const section of state.record.sections ?? []) {
+          for (const group of section.groups ?? []) {
+            for (const field of group.fields ?? []) {
+              if (Object.prototype.hasOwnProperty.call(values, field.key)) field.value = values[field.key];
+            }
+          }
+        }
+        state.record.revision += 1;
+        return asRead();
+      }
 
       if (intent === 'record.load') {
         // An empty arrangement and a refused read look identical on screen

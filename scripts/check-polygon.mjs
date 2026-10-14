@@ -173,6 +173,12 @@ const panelReaches = [
   ['field.upload', 'applied', ALL_PANEL, 'default', { record_id: editable?.record_id, collection, field: 'cover', file: { name: 'a.pdf', size: 1024 } }],
   ['field.upload', 'refused', ALL_PANEL, 'default', { record_id: editable?.record_id, collection, field: 'cover', file: { name: 'big.bin', size: 1024 * 1024 * 1024 } }],
   ['record.open', 'applied', ALL_PANEL, 'default', { record_id: editable?.record_id, collection }],
+  ['record.load', 'applied', ALL_PANEL, 'default', { record_id: null, collection, mode: 'create' }],
+  // A new record filled as an existing one is, so every required field has a value.
+  ['record.create', 'applied', ALL_PANEL, 'default', { collection, values: { ...(editable?.values ?? {}), title: 'Новая запись' } }],
+  ['record.create', 'refused', ALL_PANEL, 'default', { collection, values: {} }],
+  ['record.save', 'applied', ALL_PANEL, 'default', { record_id: editable?.record_id, collection, values: { title: 'Новое название' }, revision: editable?.revision }],
+  ['record.save', 'conflict', ALL_PANEL, 'default', { record_id: editable?.record_id, collection, values: { title: 'Новое' }, revision: 'stale' }],
   ['view.profile', 'applied', ALL_PANEL, 'default', { record_id: editable?.record_id, collection, profile: 'expert' }],
   ['view.profile', 'refused', ALL_PANEL, 'default', { record_id: editable?.record_id, collection, profile: 'no-such-profile' }],
   ['view.profile', 'unavailable', [], 'default', { record_id: editable?.record_id, collection, profile: 'expert' }],

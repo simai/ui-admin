@@ -3,9 +3,9 @@
   "package": "larena",
   "source": {
     "repository": "simai/larena-ui",
-    "revision": "83d40671f01131649ba10d85dda8aca098cf4bc1",
+    "revision": "05ff22ab26edeb135b57c5bd6c9d12f028b975dc",
     "path": "components",
-    "tree": "016bc6d3aae68ac0f8c46888d5762f615f9d6490"
+    "tree": "1a82627d6a3e8adabd7320916caa94487d0d875c"
   },
   "smart": {
     "targetDir": "",
@@ -16,7 +16,7 @@
       },
       {
         "path": "admin-menu/js/admin-menu.js",
-        "sha256": "ce81d6e3821df2f1b65104db9f1f5d8d597aa942f98c7b2a102d954c45b3d963"
+        "sha256": "b22ff883c6996401a9e7121c0b378ec7c2eacfd83213fa83bfb985383b252989"
       },
       {
         "path": "admin-menu/css/admin-menu.css",
@@ -24,7 +24,7 @@
       },
       {
         "path": "data-view/js/data-view.js",
-        "sha256": "57acceb21933704d2dc86f62cbf77babd3da2bc0590ed41b389ec0b73d630843"
+        "sha256": "ece1007cf0e5257a14aea091d77f494380376dbf3a73a38b6eb536735196c963"
       },
       {
         "path": "property-view/js/property-view.js",
@@ -36,18 +36,18 @@
       },
       {
         "path": "table/js/table.js",
-        "sha256": "dd7a76ad63d20dc40e666f51d2b6a10429e55306e8731b8cc741c4018ba48103"
+        "sha256": "d7810e7683a32fdb02803169325f1e58300f5321c88f0a0178a0305668307635"
       },
       {
         "path": "table/css/table.css",
-        "sha256": "95e04fd66421aa6e4c281ee84de905137122bac1055d06305e1af02fbb573372"
+        "sha256": "c6bbbf07f443b4454f17bbc84a79a6af11380ef4552e9399bfaf219088193f77"
       }
     ]
   },
-  "compatibilityId": "larena-83d40671f011",
+  "compatibilityId": "larena-05ff22ab26ed",
   "requires": {
-    "framework": "ui-30ee90db0b94"
+    "framework": "ui-c95d35179e84"
   },
-  "archiveSha256": "09379804d989fb193fb8f90dd5fc51fbebc0a1137a90a12c8e433211818ff6ef",
-  "distributionIdentitySha256": "b8d726f9c1eabc0a1d9074797a6ad5fba9f5dd2479d9630503c360500d814f1b"
+  "archiveSha256": "980bdd5e0786e6ce19e3dd90e4c421143e797fe062c3cf41211893fdcfc578ae",
+  "distributionIdentitySha256": "b38ab21d194707231d4fcace90b2dad34719f98316b5b33324561a6afa1ccf26"
 }

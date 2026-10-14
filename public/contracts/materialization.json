@@ -71,7 +71,7 @@
       "id": "smart.context-menu",
       "version": "1.3.0",
       "file": "smart.context-menu.json",
-      "manifest_sha256": "d33d1ea36963794b1e90490ac1bdc2880ab2e6c41075538ee4a9b66adf9d6bad"
+      "manifest_sha256": "fa2cb25b56fdd8c82811fb1998bd6df9fe3c60b2f3745575f009ca7e33e07820"
     },
     {
       "id": "smart.country-code",
@@ -290,6 +290,6 @@
       "manifest_sha256": "ba1d8f4593adb7a2ddfd096050d2a4ee2c43a0960f0c27aa5e834eb646e0f35b"
     }
   ],
-  "registry_sha256": "fca716ce33208530e752f0bd672ee5296575179b406291204fbfc72a75a63673",
+  "registry_sha256": "ae767d0904476f317ddabf8a272e14025524c4fbd2e985358b415629b6043aae",
   "registry_schema_sha256": "4218268a8661e8e9229533280f721123b819237e79ea1612c2115f7c5ee73d9a"
 }

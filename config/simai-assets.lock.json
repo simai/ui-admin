@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "compatibilityId": "ui-a362f55f864c",
-  "pairIdentitySha256": "b7e902f49e104714b3135d06e98737e77a87741d9fa1bc3be16e07bdf3948796",
+  "compatibilityId": "ui-dd69be04e936",
+  "pairIdentitySha256": "825551afbcab640b2ff268ae99d596d7ae7b6f1e7cad6ff2a3677aea9b97c269",
   "contractSha256": "b70d02d6902345e17954eafb44f24052b7478439184286bed5a8df6c69c1fe45",
   "core": {
     "repository": "../ui",
-    "commit": "a362f55f864c59f56dcdaacddaf2188730fab9e7",
+    "commit": "dd69be04e9368fa6b439d30eb37e5fb01e2520d0",
     "sourceDir": "distr",
     "requiredFiles": [
       {
@@ -26,7 +26,7 @@
       },
       {
         "path": "core/contracts/packages/larena.package.json",
-        "sha256": "a2457a043addfd85e518773bfba579fb0813e947a4cb3dff42dc479a5f3e77cb"
+        "sha256": "7b1a87457bccf2470d219b7a4e7c5df2e03b15f8b94e28d3e8e160cece830762"
       },
       {
         "path": "component/admin-menu/js/admin-menu.js",
@@ -36,7 +36,7 @@
   },
   "smart": {
     "repository": "../ui",
-    "commit": "a362f55f864c59f56dcdaacddaf2188730fab9e7",
+    "commit": "dd69be04e9368fa6b439d30eb37e5fb01e2520d0",
     "sourceDir": "distr/smart",
     "targetDir": "smart",
     "requiredFiles": [

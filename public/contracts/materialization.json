@@ -206,6 +206,12 @@
       "manifest_sha256": "4c72b0357d2602f7da93a876a1e25ef46e08284d265bc7754cb197f83404f633"
     },
     {
+      "id": "smart.resizer",
+      "version": "1.0.0",
+      "file": "smart.resizer.json",
+      "manifest_sha256": "7199370f288365c42198337172fd9d2431e940adb0bf561555081bb6ff941e84"
+    },
+    {
       "id": "smart.skeleton",
       "version": "1.0.0",
       "file": "smart.skeleton.json",
@@ -290,6 +296,6 @@
       "manifest_sha256": "ba1d8f4593adb7a2ddfd096050d2a4ee2c43a0960f0c27aa5e834eb646e0f35b"
     }
   ],
-  "registry_sha256": "ae767d0904476f317ddabf8a272e14025524c4fbd2e985358b415629b6043aae",
+  "registry_sha256": "52a4339fad25d6dae486bc87c923c21cfe0222d06b5663cf1095f021844f88f0",
   "registry_schema_sha256": "4218268a8661e8e9229533280f721123b819237e79ea1612c2115f7c5ee73d9a"
 }

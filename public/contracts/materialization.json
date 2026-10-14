@@ -74,6 +74,12 @@
       "manifest_sha256": "fa2cb25b56fdd8c82811fb1998bd6df9fe3c60b2f3745575f009ca7e33e07820"
     },
     {
+      "id": "smart.copy-button",
+      "version": "1.0.0",
+      "file": "smart.copy-button.json",
+      "manifest_sha256": "bad8ca0077536c5ee04293fb7b3ba24d048bbf07f472cf3335b0b477fe855399"
+    },
+    {
       "id": "smart.country-code",
       "version": "1.0.0",
       "file": "smart.country-code.json",
@@ -102,6 +108,12 @@
       "version": "1.2.0",
       "file": "smart.dropdown.json",
       "manifest_sha256": "f56408c01df09892e3cf5853c60e33b75237ddd83310509fb034c25335971a46"
+    },
+    {
+      "id": "smart.empty-state",
+      "version": "1.0.0",
+      "file": "smart.empty-state.json",
+      "manifest_sha256": "11c7dd6ee749ebfec6542119f5e5eab1a97944b34f145221c823633eecc640c3"
     },
     {
       "id": "smart.file-preview",
@@ -233,7 +245,7 @@
       "id": "smart.sortable",
       "version": "1.0.0",
       "file": "smart.sortable.json",
-      "manifest_sha256": "c13eac46632d26a23c5a9e3b9e2ed564ae5f73814a21ecaddb583da237fe86fc"
+      "manifest_sha256": "6f5feec021b4c4f075447d5db617bbf05718988a12b15c4848b02fbbd02538ae"
     },
     {
       "id": "smart.spinner",
@@ -302,6 +314,6 @@
       "manifest_sha256": "ba1d8f4593adb7a2ddfd096050d2a4ee2c43a0960f0c27aa5e834eb646e0f35b"
     }
   ],
-  "registry_sha256": "1659d7040091fd032896951db126bfbf07b126e6c7c587fcba9bdddd61c13870",
+  "registry_sha256": "589036c7b696ccab49b32351155e3dd5082360bd08f100e01ffda4f227c785b9",
   "registry_schema_sha256": "4218268a8661e8e9229533280f721123b819237e79ea1612c2115f7c5ee73d9a"
 }

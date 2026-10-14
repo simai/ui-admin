@@ -68,9 +68,19 @@
         "enum": [
           "link",
           "ghost",
-          "outline"
+          "outline",
+          "tonal"
         ],
         "default": "link"
+      },
+      "icon": {
+        "type": "string",
+        "default": "content_copy",
+        "description": "The resting glyph: link, key, ..."
+      },
+      "success-icon": {
+        "type": "string",
+        "default": "check"
       },
       "success-text": {
         "type": "string",
@@ -258,11 +268,11 @@
     "source_artifacts": [
       {
         "path": "src/smart/copy-button/index.js",
-        "sha256": "63553d94152e98383de97f05d28b06d3d634393d59ee017be76275ec8bdfb75a"
+        "sha256": "aae4f10f8a81efa99c04dd831d4abd1b390113f2de9e521daa43b04569777005"
       },
       {
         "path": "src/smart/copy-button/js/templates/default.js",
-        "sha256": "156546373a11f5c6d2ec01cbb5f0131d78aa68e875345d7ca77e946ce9f5ba4d"
+        "sha256": "58a760eef42f4016576a0252b021b0329d97a75a93ea7bb9c17460b7a831309e"
       },
       {
         "path": "src/smart/copy-button/scss/_smart__copy_button.scss",
@@ -274,7 +284,7 @@
       },
       {
         "path": "src/smart/copy-button/docs.md",
-        "sha256": "62355a599c088e5f44638acb10697dfb5277bea0ba40bf3cd5cac50ea038695d"
+        "sha256": "7edb4530fa68757ed179d56c8255c50e13e0d9592a20bcb75d6fbab4a73d08d3"
       }
     ],
     "generated_runtime": []

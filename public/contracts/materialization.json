@@ -77,7 +77,7 @@
       "id": "smart.copy-button",
       "version": "1.0.0",
       "file": "smart.copy-button.json",
-      "manifest_sha256": "bad8ca0077536c5ee04293fb7b3ba24d048bbf07f472cf3335b0b477fe855399"
+      "manifest_sha256": "810e9e1c7f35ef920f258ff07ae90fc2bc0aeed2c545792c3dc2ccc609538d2c"
     },
     {
       "id": "smart.country-code",
@@ -132,6 +132,12 @@
       "version": "1.0.0",
       "file": "smart.gallery.json",
       "manifest_sha256": "e3e567a19b1edcd65bd3500e662db4c0724ad5bbcbd04de70d41c200721b7791"
+    },
+    {
+      "id": "smart.help-mark",
+      "version": "1.0.0",
+      "file": "smart.help-mark.json",
+      "manifest_sha256": "faf1ef8d6d844c3f31634fbe41a5c11aa882297567c9fc4d9b9911fad8d471de"
     },
     {
       "id": "smart.icon-buttons",
@@ -314,6 +320,6 @@
       "manifest_sha256": "ba1d8f4593adb7a2ddfd096050d2a4ee2c43a0960f0c27aa5e834eb646e0f35b"
     }
   ],
-  "registry_sha256": "589036c7b696ccab49b32351155e3dd5082360bd08f100e01ffda4f227c785b9",
+  "registry_sha256": "69efc98cec87a9f2ccfc15f4aa765531140b7ee400fe4de7cf4575da21ea9b9b",
   "registry_schema_sha256": "4218268a8661e8e9229533280f721123b819237e79ea1612c2115f7c5ee73d9a"
 }

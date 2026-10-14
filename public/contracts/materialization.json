@@ -257,7 +257,7 @@
       "id": "smart.tabs",
       "version": "1.0.0",
       "file": "smart.tabs.json",
-      "manifest_sha256": "f2971cc2f20c77db14dcec4edebfe9eec0b9473d48e466b942a6f81c89af419a"
+      "manifest_sha256": "5d7832230d7d77bbfe9ad3466885bed455bc5532a2c8940648061b23fac776d2"
     },
     {
       "id": "smart.tags",
@@ -302,6 +302,6 @@
       "manifest_sha256": "ba1d8f4593adb7a2ddfd096050d2a4ee2c43a0960f0c27aa5e834eb646e0f35b"
     }
   ],
-  "registry_sha256": "7c6e0cf6138876a5c3c858f2a7bc4754f0cadd39dbe64e773c187306575cdf14",
+  "registry_sha256": "1659d7040091fd032896951db126bfbf07b126e6c7c587fcba9bdddd61c13870",
   "registry_schema_sha256": "4218268a8661e8e9229533280f721123b819237e79ea1612c2115f7c5ee73d9a"
 }

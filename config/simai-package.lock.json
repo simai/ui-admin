@@ -3,28 +3,28 @@
   "package": "larena",
   "source": {
     "repository": "simai/larena-ui",
-    "revision": "6b9ac8c21b23465628537c4519187d846b1b9a6d",
+    "revision": "25eb087a9415cdc29fa5c421d1c04b8a04470d63",
     "path": "components",
-    "tree": "db9d10045223f2abe625a49cb345eb017c624839"
+    "tree": "e6ff224b8a19dbc0c09dc6d84aa7bb3ea0f2e279"
   },
   "smart": {
     "targetDir": "",
     "requiredFiles": [
       {
         "path": "rule.js",
-        "sha256": "a52c5e9a7e014862205ff1cb5670291625ecf2647d03d790f7653f2cead70bf0"
+        "sha256": "0e66dd7e81ab75c9fd717af5f83a720ac11b210761a31d2b39e8525de09bd1f0"
       },
       {
         "path": "admin-menu/js/admin-menu.js",
-        "sha256": "35f983477d3d91cbb4b28010c03c24b023828bfbd84856494824d8c31059331e"
+        "sha256": "1132053189845f4e5367ea938ac746227a0592aa18c24669730fb5121527c0b9"
       },
       {
         "path": "admin-menu/css/admin-menu.css",
-        "sha256": "8c935cedbbfe3e32ae90e9f4310a4307adae5d01967571a3ebaba0665eaa0d42"
+        "sha256": "de332e9140714009e08b00fb8400b1c52152d5b98b53cfb07fd0fac0feef74e8"
       },
       {
         "path": "data-view/js/data-view.js",
-        "sha256": "5c0615b175f6e73aa65fb977a83a5402f0e79cf473bc367ffb5ec2ee54a72108"
+        "sha256": "6ea075ffbf475c108ec21439c9aceee9b28c7ac707a06a7f1574070d048376fc"
       },
       {
         "path": "property-view/js/property-view.js",
@@ -36,18 +36,18 @@
       },
       {
         "path": "table/js/table.js",
-        "sha256": "7f67450f6679be63ec33d40fd394edd910ba5da78fcc63c86d20728b5788a223"
+        "sha256": "fa521937e10106b92202441c138d4ac559f0e694b95d67eee017c3279b009a51"
       },
       {
         "path": "table/css/table.css",
-        "sha256": "04efdca2521350df6742cedb5cef9d3db92a6297ad8b2d8515ac350b810c2df4"
+        "sha256": "131ca1566f27a4bfd2b68a729b6a326a24c377a2d03f9bb9a4aaef34c73d6e2b"
       }
     ]
   },
-  "compatibilityId": "larena-6b9ac8c21b23",
+  "compatibilityId": "larena-25eb087a9415",
   "requires": {
-    "framework": "ui-5659eef49d84"
+    "framework": "ui-41007b40c01f"
   },
-  "archiveSha256": "98a398912cb63071cde36ad8e02b8be1f0a8638025dc55f44901e0f7a1eaa949",
-  "distributionIdentitySha256": "a2dd617c24b80d556cc99ce8b67e877a11ccfe4d451f91685587aee47fbde819"
+  "archiveSha256": "74924e51b0c8e4ffa8be575c5baa4c23008cad996df6eaafed6985693c997418",
+  "distributionIdentitySha256": "0b71d8246c563e620c1b15e1390e1563ed0543ee1681da0cef561947d4196cd9"
 }

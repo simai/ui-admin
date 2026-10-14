@@ -176,6 +176,12 @@
       "manifest_sha256": "3a6d43f23e24e1bc97cc76c506f74aafdbccb72faf7e29222088eb6ea22f4602"
     },
     {
+      "id": "smart.profile-picker",
+      "version": "1.0.0",
+      "file": "smart.profile-picker.json",
+      "manifest_sha256": "79dbbd83f309d026156634884ae6a370a28ba589c77857863088ecc99530b7f8"
+    },
+    {
       "id": "smart.progress-bar",
       "version": "1.0.0",
       "file": "smart.progress-bar.json",
@@ -296,6 +302,6 @@
       "manifest_sha256": "ba1d8f4593adb7a2ddfd096050d2a4ee2c43a0960f0c27aa5e834eb646e0f35b"
     }
   ],
-  "registry_sha256": "90e72c1af4dee3e4d7cacfbb12a9ada4017ac133b382c5ce01c6aa2b2475c045",
+  "registry_sha256": "7c6e0cf6138876a5c3c858f2a7bc4754f0cadd39dbe64e773c187306575cdf14",
   "registry_schema_sha256": "4218268a8661e8e9229533280f721123b819237e79ea1612c2115f7c5ee73d9a"
 }

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ru" class="theme-dark" data-sf-icon-runtime="bundled-fallback">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>Витрина свойств</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="/distr/core/css/core.css" />
+    <link rel="stylesheet" href="/src/properties.css" />
+    <script>
+      (function () {
+        var chosen = {};
+        try { chosen = JSON.parse(localStorage.getItem('simai.admin.appearance') || '{}'); } catch (error) { chosen = {}; }
+        var theme = chosen.theme || 'system';
+        var dark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.classList.toggle('theme-dark', dark);
+        document.documentElement.classList.toggle('theme-light', !dark);
+      })();
+    </script>
+    <script>
+      window.SF_BOOT_CONFIG = {icons: {enabled: false, accumulate: false}, cacheVersion: 'properties-v1', packages: {larena: {base: '/distr-larena/'}}};
+      window.sfPath = '/distr/';
+      window.sfSmartPath = '/distr/';
+    </script>
+    <script src="/distr/core/js/core.js" data-sf-script="/distr/core/js/core.js"></script>
+  </head>
+  <body>
+    <main class="properties-shell">
+      <header class="properties-header">
+        <h1>Витрина свойств</h1>
+        <p>Каждое универсальное свойство Framework в трёх режимах: как оно показывается, как редактируется и как по нему фильтруют. Всё нарисовано настоящими рендерерами полей — теми же, что в карточке записи и в таблице.</p>
+        <div class="properties-controls">
+          <label>Размер <select data-size><option value="1">1</option><option value="1/2">1/2</option></select></label>
+          <label>Поиск <input type="search" data-search placeholder="тип или вариант"></label>
+          <button type="button" data-theme>Сменить тему</button>
+        </div>
+      </header>
+      <div class="properties-table" role="table" aria-label="Свойства в трёх режимах">
+        <div class="properties-row properties-head" role="row">
+          <div role="columnheader">Свойство</div><div role="columnheader">Просмотр</div><div role="columnheader">Редактирование</div><div role="columnheader">Фильтр</div>
+        </div>
+        <div data-rows></div>
+      </div>
+      <!-- Warms the record view's bundle, which carries the field renderers. -->
+      <sf-property-view hidden aria-hidden="true"></sf-property-view>
+    </main>
+    <script type="module" src="/src/properties.ts"></script>
+  </body>
+</html>

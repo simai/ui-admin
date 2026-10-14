@@ -217,6 +217,8 @@ export default defineConfig(({ mode }) => {
             'smart-component-catalog.html',
           ),
           workbench: resolve(projectRoot, 'workbench.html'),
+          // Every universal property in its three modes (owner, 2026-10-14).
+          properties: resolve(projectRoot, 'properties.html'),
         },
       },
     },

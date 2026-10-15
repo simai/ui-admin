@@ -79,7 +79,17 @@ const fieldOf = (entry: Entry, variant: string): Field => {
   const key = variant ? `${entry.type}-${variant}` : entry.type;
   const label = variant ? `${entry.label.ru} · ${entry.variants.find((one) => one.id === variant)?.label.ru ?? variant}` : entry.label.ru;
   const options = OPTIONS[entry.type] ?? [];
+  // The polygon's own field of this kind lends its parameters: a palette, a
+  // language, a unit.
+  const own = polygonFields.find((one) => one.property_type === entry.type && String(one.variant ?? '') === variant)
+    ?? polygonFields.find((one) => one.property_type === entry.type);
+  const lent = Object.fromEntries(Object.entries(own ?? {}).filter(([name]) => entry.params.includes(name) && name !== 'options'));
+  // A colour with no palette of its own gets one, so its filter is shown.
+  if (entry.type === 'color' && !lent.swatches) {
+    lent.swatches = [{value: '#2f6feb', label: 'Синий'}, {value: '#1f883d', label: 'Зелёный'}, {value: '#d4a72c', label: 'Жёлтый'}, {value: '#cf222e', label: 'Красный'}];
+  }
   return {
+    ...lent,
     key, label, property_type: entry.type, propertyType: entry.type, ...(variant ? {variant} : {}), options,
     readonly: stateControl.value === 'readonly',
     ...(entry.type === 'number' && variant === 'scale' ? {constraints: {min: 0, max: 100}} : {}),

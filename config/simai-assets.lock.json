@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "compatibilityId": "ui-d7685ca01ec3",
-  "pairIdentitySha256": "021fa0dd9527cd3d009071e5b689174c89e287a36cbff668f8a6cc178f799d6c",
+  "compatibilityId": "ui-945c2ef505cc",
+  "pairIdentitySha256": "4aa990d2e07a161f1f658180beecd3070d3b3f42f42d3ebda34ca03ea6b8793b",
   "contractSha256": "b70d02d6902345e17954eafb44f24052b7478439184286bed5a8df6c69c1fe45",
   "core": {
     "repository": "../ui",
-    "commit": "d7685ca01ec3129ae8f64261c95883769c84ab1f",
+    "commit": "945c2ef505cca268e423f9d67bf0eae0bc9cb7d9",
     "sourceDir": "distr",
     "requiredFiles": [
       {
@@ -18,7 +18,7 @@
       },
       {
         "path": "core/js/core-loader.js",
-        "sha256": "24c589db3540042ffa502953cd49469e069fc18cff626c8fd50126d15250e1c1"
+        "sha256": "31e7ff35eeba89ab80fc6a8172fddd92cf2972616b95e1908b67926d631df5fd"
       },
       {
         "path": "core/contracts/adaptive-sizing.v1.json",

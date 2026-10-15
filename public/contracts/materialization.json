@@ -89,7 +89,7 @@
       "id": "smart.datepicker",
       "version": "1.0.0",
       "file": "smart.datepicker.json",
-      "manifest_sha256": "a3376eaaf5e868d12ef3ccd6d8c343a1140e48e208732004f0b8e90bd675cd1c"
+      "manifest_sha256": "42bdbfa2f20b519081a79c998e4e83791c2e7defad1405b9bdd50d836855a265"
     },
     {
       "id": "smart.download-file",
@@ -320,6 +320,6 @@
       "manifest_sha256": "ba1d8f4593adb7a2ddfd096050d2a4ee2c43a0960f0c27aa5e834eb646e0f35b"
     }
   ],
-  "registry_sha256": "b746a620d3d740c81a75180466bd17fc7cbb1b84efd5bc010e6a3ec448ebf70a",
+  "registry_sha256": "71b611e84f55c25cbe52868a7ba9bd4b53c244baa485d315ddc21335fd833ae3",
   "registry_schema_sha256": "cb39de233b2cf8af93daa44833b2e4d193627648426a202d6baee9938957d407"
 }

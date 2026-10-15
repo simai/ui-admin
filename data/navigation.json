@@ -180,6 +180,13 @@
         "label": "Разработка"
       },
       {
+        "key": "install.properties",
+        "kind": "page",
+        "label": "Свойства",
+        "icon": "category",
+        "href": "/properties.html"
+      },
+      {
         "key": "install.queues",
         "kind": "page",
         "label": "Очереди",

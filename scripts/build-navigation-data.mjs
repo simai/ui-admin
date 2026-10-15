@@ -136,6 +136,9 @@ const INSTALL_ROWS = [
   page('install.packages', 'Пакеты', 'deployed_code', '/admin/install/packages'),
   page('install.sites', 'Сайты', 'public', '/admin/install/sites'),
   heading('install.h.dev', 'Разработка'),
+  // Every universal property in its three modes, the Framework's workbench
+  // (owner, 2026-10-15): shown to everyone who opens the polygon.
+  page('install.properties', 'Свойства', 'category', '/properties.html'),
   page('install.queues', 'Очереди', 'pending_actions', '/admin/install/queues'),
   page('install.cache', 'Кеш', 'cached', '/admin/install/cache'),
 ];

@@ -1,68 +1,91 @@
-// The property showcase (owner, 2026-10-14, remark 17): every universal
-// property of the Framework in its three modes -- shown, edited, filtered --
-// drawn by the Framework's own field renderers (SF.fieldRenderers), the ones
-// the record view and the table use. The fields and values are the polygon's
-// (data/polygon.json), with a few variants added so each one is on the page.
-type Field = Record<string, any> & {key: string; label: string; property_type: string};
+// The property workbench (owner, 2026-10-15, remark 17 and its follow-up):
+// every universal property of the Framework in its three modes -- shown,
+// edited, filtered -- drawn by the Framework's own field renderers
+// (SF.fieldRenderers), the ones the record view and the table use. The list
+// is the Framework's registry of properties (SF.fieldRenderers.registry), so a
+// new property or variant appears here as soon as the Framework has it; the
+// values are the polygon's own where it has one of that kind, made up where
+// it does not.
+type Entry = {type: string; label: {ru: string; en: string}; variants: Array<{id: string; label: {ru: string}}>; params: string[];
+  modes: {view: boolean; edit: boolean; cell: string; filter: string}};
+type Field = Record<string, any> & {key: string; label: string; property_type: string; variant?: string};
 type Renderers = {
   renderViewField: (field: object, value: unknown, host: object, options?: object) => unknown;
   renderEditField: (field: object, value: unknown, host: object, options?: object) => unknown;
   renderFilterField: (field: object, host: object) => unknown;
+  registry?: Entry[];
 };
 type SFGlobal = {fieldRenderers?: Renderers; html: (strings: TemplateStringsArray, ...values: unknown[]) => unknown; render: (what: unknown, where: Element) => void; nothing: unknown};
 
 const sf = () => (window as unknown as {SF: SFGlobal}).SF;
 const rows = document.querySelector<HTMLElement>('[data-rows]')!;
 const sizeControl = document.querySelector<HTMLSelectElement>('[data-size]')!;
+const stateControl = document.querySelector<HTMLSelectElement>('[data-state]')!;
 const search = document.querySelector<HTMLInputElement>('[data-search]')!;
 
 const dataset = await fetch('/data/polygon.json').then((response) => response.json());
 const references: Record<string, Array<Record<string, any>>> = dataset.references ?? {};
-const OPTIONS_FROM: Record<string, string> = {section: 'sections', parent: 'sections', owner: 'users', reviewer: 'users', depends_on: 'relations'};
+const polygonFields: Field[] = dataset.structure.fields;
 
-// One field per type and variant: the polygon's first of each, then the
-// variants it does not carry.
-const seen = new Set<string>();
-const fields: Field[] = [];
-for (const field of dataset.structure.fields as Field[]) {
-  const kind = `${field.property_type}:${field.variant ?? ''}`;
-  if (seen.has(kind)) continue;
-  seen.add(kind);
-  fields.push(field);
-}
-fields.push(
-  {key: 'phone', label: 'Телефон', property_type: 'string', variant: 'phone'},
-  {key: 'progress', label: 'Готовность', property_type: 'number', variant: 'scale', min: 0, max: 100},
-  {key: 'labels', label: 'Метки значками', property_type: 'choices', variant: 'badges',
-    options: (dataset.structure.fields.find((one: Field) => one.key === 'tags')?.options ?? [])},
-);
+// Options for a type: the polygon's references where it has them.
+const OPTIONS: Record<string, Array<Record<string, any>>> = {
+  user: references.users ?? [],
+  record: references.sections ?? [],
+  relation: references.relations ?? [],
+  choice: polygonFields.find((field) => field.property_type === 'choice')?.options ?? [{value: 'a', label: 'Первый'}, {value: 'b', label: 'Второй'}],
+  choices: polygonFields.find((field) => field.property_type === 'choices')?.options ?? [{value: 'a', label: 'Первый'}, {value: 'b', label: 'Второй'}],
+};
 
-// A value to show: the first record that has one, or a made-up one.
-const EXTRA: Record<string, unknown> = {phone: '+7 916 123-45-67', progress: 64};
-const sample = (field: Field): unknown => {
-  if (field.key in EXTRA) return EXTRA[field.key];
-  const source = field.key === 'labels' ? 'tags' : field.key;
+// A value of each kind: the polygon's, or a made-up one.
+const MADE_UP: Record<string, unknown> = {
+  'string': 'simai.payments.v1', 'string:phone': '+7 916 123-45-67', 'text': 'Приём платежей, возвраты и сверка с банком.',
+  'integer': 42, 'number': 1474500.5, 'number:scale': 64, 'date': '2026-10-15', 'datetime': '2026-10-15T10:30:00+03:00',
+  'boolean': true, 'color': '#2f6feb', 'include': '<div class="banner">Привет</div>',
+};
+const LONG: Record<string, unknown> = {
+  'string': 'Очень длинное значение строки, которое не помещается в одну строку и проверяет перенос и обрезку текста в каждом режиме',
+  'text': 'Очень длинный текст. '.repeat(12), 'integer': 9876543210, 'number': 123456789012.75,
+};
+const polygonValue = (type: string, variant: string) => {
+  const field = polygonFields.find((one) => one.property_type === type && String(one.variant ?? '') === variant);
+  if (!field) return undefined;
   for (const record of dataset.records) {
-    const value = record.values?.[source];
+    const value = record.values?.[field.key];
     if (value !== undefined && value !== null && value !== '' && !(Array.isArray(value) && !value.length)) return value;
   }
+  return undefined;
+};
+const sampleOf = (type: string, variant: string): unknown => {
+  const kind = variant ? `${type}:${variant}` : type;
+  if (stateControl.value === 'empty') return type === 'choices' || type === 'file' ? [] : null;
+  if (stateControl.value === 'long' && kind in LONG) return LONG[kind];
+  const fromPolygon = polygonValue(type, variant);
+  if (fromPolygon !== undefined) return fromPolygon;
+  if (kind in MADE_UP) return MADE_UP[kind];
+  if (type in MADE_UP) return MADE_UP[type];
+  const options = OPTIONS[type] ?? [];
+  if (type === 'choices') return options.slice(0, 2).map((option) => option.value);
+  if (type === 'choice') return options[0]?.value ?? null;
+  if (['user', 'record', 'relation'].includes(type)) return options[0] ? {value: options[0].value, label: options[0].label, avatarText: options[0].avatarText} : null;
+  if (type === 'file') return polygonValue('file', 'image-card') ?? {value: 'f-1', label: 'Отчёт.pdf', mime: 'application/pdf', size: 120400};
   return null;
 };
 
-const optionsOf = (field: Field): Array<Record<string, any>> => {
-  if (Array.isArray(field.options)) return field.options;
-  const from = OPTIONS_FROM[field.key];
-  return from ? (references[from] ?? []) : [];
-};
-
-const values = new Map<string, unknown>(fields.map((field) => [field.key, sample(field)]));
+const values = new Map<string, unknown>();
 const filters = new Map<string, Record<string, any>>();
 const searches = new Map<string, string>();
 
-const asField = (field: Field) => ({
-  ...field, propertyType: field.property_type, options: optionsOf(field),
-  filter: {...(field.filter ?? {}), options: optionsOf(field), defaultOperator: 'in'},
-});
+const fieldOf = (entry: Entry, variant: string): Field => {
+  const key = variant ? `${entry.type}-${variant}` : entry.type;
+  const label = variant ? `${entry.label.ru} · ${entry.variants.find((one) => one.id === variant)?.label.ru ?? variant}` : entry.label.ru;
+  const options = OPTIONS[entry.type] ?? [];
+  return {
+    key, label, property_type: entry.type, propertyType: entry.type, ...(variant ? {variant} : {}), options,
+    readonly: stateControl.value === 'readonly',
+    ...(entry.type === 'number' && variant === 'scale' ? {constraints: {min: 0, max: 100}} : {}),
+    filter: {options, defaultOperator: 'in'},
+  };
+};
 
 // The small interface the renderers ask of whoever places them.
 const host = {
@@ -78,7 +101,7 @@ const host = {
   patchTempFilterOptionSearch(key: string, value: string) { searches.set(key, value); draw(); },
   getVisibleFilterOptions(field: Field) {
     const query = (searches.get(field.key) ?? '').toLowerCase();
-    return optionsOf(field).filter((option) => !query || String(option.label ?? '').toLowerCase().includes(query));
+    return (field.options ?? []).filter((option: Record<string, any>) => !query || String(option.label ?? '').toLowerCase().includes(query));
   },
   renderFilterOption(field: Field, option: Record<string, any>) {
     const {html} = sf();
@@ -102,27 +125,35 @@ const host = {
 
 function draw(): void {
   const {html, render, nothing, fieldRenderers} = sf();
-  if (!fieldRenderers) return;
+  if (!fieldRenderers?.registry) return;
   const query = search.value.trim().toLowerCase();
   const size = sizeControl.value;
-  const shown = fields.filter((field) => !query || `${field.label} ${field.property_type} ${field.variant ?? ''}`.toLowerCase().includes(query));
-  render(html`${shown.map((field) => {
-    const definition = asField(field);
+  const kinds = fieldRenderers.registry.flatMap((entry) => ['', ...entry.variants.map((variant) => variant.id)].map((variant) => ({entry, variant})));
+  const shown = kinds.filter(({entry, variant}) => !query || `${entry.label.ru} ${entry.type} ${variant}`.toLowerCase().includes(query));
+  render(html`${shown.map(({entry, variant}) => {
+    const field = fieldOf(entry, variant);
+    if (!values.has(field.key) || stateControl.dataset.drawn !== stateControl.value) values.set(field.key, sampleOf(entry.type, variant));
     const value = values.get(field.key);
-    const view = fieldRenderers.renderViewField(definition, value, host, {size});
-    const edit = fieldRenderers.renderEditField(definition, value, host, {size});
-    const filter = fieldRenderers.renderFilterField(definition, host);
+    const view = fieldRenderers.renderViewField(field, value, host, {size});
+    const edit = fieldRenderers.renderEditField(field, value, host, {size});
+    const filter = fieldRenderers.renderFilterField(field, host);
     const none = html`<span class="properties-empty">—</span>`;
-    return html`<div class="properties-row" role="row" data-property=${`${field.property_type}${field.variant ? `:${field.variant}` : ''}`}>
-      <div class="properties-name" role="cell"><strong>${field.label}</strong><code>${field.property_type}${field.variant ? ` · ${field.variant}` : nothing}</code></div>
+    const textFilter = entry.modes.filter === 'text';
+    return html`<div class="properties-row" role="row" data-property=${`${entry.type}${variant ? `:${variant}` : ''}`}>
+      <div class="properties-name" role="cell"><strong>${field.label}</strong>
+        <code>${entry.type}${variant ? ` · ${variant}` : nothing}</code>
+        <span class="properties-params">${entry.params.join(', ')}</span></div>
       <div class="properties-cell" role="cell" data-mode="view">${view ?? none}</div>
       <div class="properties-cell" role="cell" data-mode="edit">${edit ?? none}</div>
-      <div class="properties-cell properties-filter" role="cell" data-mode="filter">${filter ?? none}</div>
+      <div class="properties-cell properties-filter" role="cell" data-mode="filter" data-filter=${entry.modes.filter}>
+        ${filter ?? none}${textFilter ? html`<span class="properties-note">Своего фильтра нет — поиск по тексту</span>` : nothing}</div>
     </div>`;
   })}`, rows);
+  stateControl.dataset.drawn = stateControl.value;
 }
 
 sizeControl.addEventListener('change', draw);
+stateControl.addEventListener('change', draw);
 search.addEventListener('input', draw);
 document.querySelector('[data-theme]')?.addEventListener('click', () => {
   const dark = !document.documentElement.classList.contains('theme-dark');
@@ -135,4 +166,5 @@ document.querySelector('[data-theme]')?.addEventListener('click', () => {
 const ready = () => Boolean(sf()?.fieldRenderers && sf()?.html);
 for (let wait = 0; !ready() && wait < 200; wait += 1) await new Promise((done) => setTimeout(done, 50));
 if (!ready()) rows.textContent = 'Рендереры полей не загрузились.';
+else if (!sf().fieldRenderers?.registry) rows.textContent = 'В этой паре Framework ещё нет реестра свойств.';
 else draw();

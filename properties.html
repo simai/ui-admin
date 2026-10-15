@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex,nofollow" />
-    <title>Витрина свойств</title>
+    <title>Свойства</title>
     <link rel="icon" href="data:," />
     <link rel="stylesheet" href="/distr/core/css/core.css" />
     <link rel="stylesheet" href="/src/properties.css" />
@@ -28,11 +28,17 @@
   <body>
     <main class="properties-shell">
       <header class="properties-header">
-        <h1>Витрина свойств</h1>
-        <p>Каждое универсальное свойство Framework в трёх режимах: как оно показывается, как редактируется и как по нему фильтруют. Всё нарисовано настоящими рендерерами полей — теми же, что в карточке записи и в таблице.</p>
+        <h1>Свойства</h1>
+        <p>Верстак универсальных свойств Framework. Список строится из реестра свойств (<code>SF.fieldRenderers.registry</code>): каждый тип и вариант в трёх режимах — просмотр, редактирование, фильтр — настоящими рендерерами полей, теми же, что в карточке записи и в таблице. Новое свойство появляется здесь само, как только его рендер и запись в реестре попадают во Framework.</p>
         <div class="properties-controls">
           <label>Размер <select data-size><option value="1">1</option><option value="1/2">1/2</option></select></label>
           <label>Поиск <input type="search" data-search placeholder="тип или вариант"></label>
+          <label>Состояние <select data-state>
+            <option value="normal">Обычное</option>
+            <option value="empty">Пустое</option>
+            <option value="readonly">Только чтение</option>
+            <option value="long">Длинное значение</option>
+          </select></label>
           <button type="button" data-theme>Сменить тему</button>
         </div>
       </header>

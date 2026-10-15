@@ -71,7 +71,7 @@
       "id": "smart.context-menu",
       "version": "1.3.0",
       "file": "smart.context-menu.json",
-      "manifest_sha256": "fa2cb25b56fdd8c82811fb1998bd6df9fe3c60b2f3745575f009ca7e33e07820"
+      "manifest_sha256": "83d057c5a43e30556f830ca945b94d9936e2c57bb522feeb95809400065ede5b"
     },
     {
       "id": "smart.copy-button",
@@ -320,6 +320,6 @@
       "manifest_sha256": "ba1d8f4593adb7a2ddfd096050d2a4ee2c43a0960f0c27aa5e834eb646e0f35b"
     }
   ],
-  "registry_sha256": "71b611e84f55c25cbe52868a7ba9bd4b53c244baa485d315ddc21335fd833ae3",
+  "registry_sha256": "40349c8c2a8f7c21780e43b4807fe1593d6b2b8a44e39aefb41a3b3b811876ac",
   "registry_schema_sha256": "cb39de233b2cf8af93daa44833b2e4d193627648426a202d6baee9938957d407"
 }

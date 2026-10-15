@@ -50,6 +50,9 @@
       </div>
       <!-- Warms the record view's bundle, which carries the field renderers. -->
       <sf-property-view hidden aria-hidden="true"></sf-property-view>
+      <!-- The table whose filter windows the «Фильтр» column opens: the same
+           window a list opens, kept out of sight. -->
+      <div class="properties-filter-host" aria-hidden="true"><sf-table id="filters" size="1" toolbar="false"></sf-table></div>
     </main>
     <script type="module" src="/src/properties.ts"></script>
   </body>

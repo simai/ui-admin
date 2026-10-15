@@ -123,6 +123,32 @@ const host = {
   retryFieldUpload() { return null; },
 };
 
+// The filter column is what a list shows: the field's chip, and on a click
+// the list's own filter window for it -- its controls, «Сбросить» and
+// «Применить» -- from a real sf-table that holds every field as a filter.
+type FilterTable = HTMLElement & {setColumns: (c: object[]) => void; setRows: (r: object[]) => void; setFilterFields: (f: object[]) => void;
+  openContextMenu: (event: object, data: object) => void; size?: string};
+const filterTable = () => document.getElementById('filters') as FilterTable | null;
+let filtersKey = '';
+function syncFilterTable(fields: Field[]): void {
+  const table = filterTable();
+  if (!table || typeof table.setFilterFields !== 'function') return;
+  const key = `${sizeControl.value}|${fields.map((field) => field.key).join(',')}`;
+  if (key === filtersKey) return;
+  filtersKey = key;
+  table.setAttribute('size', sizeControl.value);
+  table.setColumns(fields.map((field) => ({key: field.key, label: field.label})));
+  table.setRows([]);
+  table.setFilterFields(fields.map((field) => ({...field, filter: {...field.filter, searchable: true}})));
+}
+function openFilter(event: Event, field: Field): void {
+  const table = filterTable();
+  if (!table?.openContextMenu) return;
+  const anchor = (event.currentTarget as HTMLElement).querySelector('button') ?? event.currentTarget;
+  table.openContextMenu({currentTarget: anchor, target: anchor, preventDefault() {}, stopPropagation() {}, composedPath: () => [anchor]},
+    {type: 'bottom', menu: 'tag-settings', fieldKey: field.key});
+}
+
 function draw(): void {
   const {html, render, nothing, fieldRenderers} = sf();
   if (!fieldRenderers?.registry) return;
@@ -130,13 +156,13 @@ function draw(): void {
   const size = sizeControl.value;
   const kinds = fieldRenderers.registry.flatMap((entry) => ['', ...entry.variants.map((variant) => variant.id)].map((variant) => ({entry, variant})));
   const shown = kinds.filter(({entry, variant}) => !query || `${entry.label.ru} ${entry.type} ${variant}`.toLowerCase().includes(query));
+  syncFilterTable(kinds.map(({entry, variant}) => fieldOf(entry, variant)));
   render(html`${shown.map(({entry, variant}) => {
     const field = fieldOf(entry, variant);
     if (!values.has(field.key) || stateControl.dataset.drawn !== stateControl.value) values.set(field.key, sampleOf(entry.type, variant));
     const value = values.get(field.key);
     const view = fieldRenderers.renderViewField(field, value, host, {size});
     const edit = fieldRenderers.renderEditField(field, value, host, {size});
-    const filter = fieldRenderers.renderFilterField(field, host);
     const none = html`<span class="properties-empty">—</span>`;
     const textFilter = entry.modes.filter === 'text';
     return html`<div class="properties-row" role="row" data-property=${`${entry.type}${variant ? `:${variant}` : ''}`}>
@@ -146,7 +172,9 @@ function draw(): void {
       <div class="properties-cell" role="cell" data-mode="view">${view ?? none}</div>
       <div class="properties-cell" role="cell" data-mode="edit">${edit ?? none}</div>
       <div class="properties-cell properties-filter" role="cell" data-mode="filter" data-filter=${entry.modes.filter}>
-        ${filter ?? none}${textFilter ? html`<span class="properties-note">Своего фильтра нет — поиск по тексту</span>` : nothing}</div>
+        <sf-tag type="default" size=${size} text=${field.label} interactive
+                @click=${(event: Event) => openFilter(event, field)}></sf-tag>
+        ${textFilter ? html`<span class="properties-note">Своего фильтра нет — поиск по тексту</span>` : nothing}</div>
     </div>`;
   })}`, rows);
   stateControl.dataset.drawn = stateControl.value;

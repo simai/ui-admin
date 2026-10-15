@@ -129,6 +129,8 @@ export const createPolygonHost = ({
   const fields = indexFields(structure);
   const state = {
     records: copy(dataset.records),
+    // The hand-made order's revision (port 1.11.0, record.reorder).
+    orderRevision: 'o1',
     settings: {
       package: { revision: 'pkg-1', columns: {} },
       shared: { revision: 'shared-1', columns: {} },
@@ -177,10 +179,16 @@ export const createPolygonHost = ({
   });
 
   /** A row as the table reads one: the values flattened beside id and permissions. */
+  // Port 1.11.0: with inline-edit an editable record names the booleans a
+  // person writes in place; «public» rewrites what visitors see, so it is
+  // confirmed first.
+  const INLINE_FIELDS = ['public', 'deprecated'];
+  const CONFIRM_FIRST = new Set(['public']);
   const asRow = (record) => ({
     id: record.record_id,
     revision: record.revision,
     actions: record.actions ?? ['view'],
+    ...(capabilities.includes('inline-edit') && record.editable !== false ? { editable: INLINE_FIELDS } : {}),
     ...record.values,
   });
 
@@ -295,7 +303,7 @@ export const createPolygonHost = ({
   };
 
   return {
-    version: '1.10.0',
+    version: '1.11.0',
     capabilities,
     formatFieldValue,
     // Read by the page so the panel and the list agree on one dataset.
@@ -395,6 +403,46 @@ export const createPolygonHost = ({
         }
 
         return { answer: 'applied', records: targets.map(({ found }) => asRow(found)) };
+      }
+
+      // Port 1.11.0: one boolean written in its cell.
+      if (intent === 'record.set') {
+        if (!capabilities.includes('inline-edit')) return { answer: 'unavailable', reason: 'capability-not-provided' };
+        const found = record(payload.record_id);
+        if (!found) return { answer: 'refused', reason: 'record-unknown' };
+        if (found.editable === false || !INLINE_FIELDS.includes(String(payload.key))) {
+          return { answer: 'refused', reason: 'access-denied', message: 'Это поле здесь не меняется' };
+        }
+        if (payload.revision !== undefined && payload.revision !== null && String(payload.revision) !== String(found.revision)) {
+          return { answer: 'conflict', reason: 'stale-revision', current_revision: found.revision };
+        }
+        const digest = `set:${found.record_id}:${payload.key}:${payload.value}:${found.revision}`;
+        if (CONFIRM_FIRST.has(String(payload.key)) && payload.confirm !== digest) {
+          return { answer: 'refused', reason: 'confirm_required', data: { confirm: { digest,
+            summary: payload.value ? 'Запись станет видна посетителям сайта.' : 'Запись перестанет быть видна посетителям сайта.' } } };
+        }
+        found.values[payload.key] = payload.value === true;
+        found.revision = Number(found.revision) + 1;
+        return { answer: 'applied', data: { records: [asRow(found)] } };
+      }
+
+      // Port 1.11.0: the list put in order by hand.
+      if (intent === 'record.reorder') {
+        if (!capabilities.includes('row-reorder')) return { answer: 'unavailable', reason: 'capability-not-provided' };
+        if (payload.revision !== undefined && payload.revision !== null && String(payload.revision) !== state.orderRevision) {
+          return { answer: 'conflict', reason: 'stale-revision', current_revision: state.orderRevision };
+        }
+        const ids = (payload.record_ids ?? []).map(String);
+        const moving = state.records.filter((item) => ids.includes(item.record_id));
+        if (!ids.length || moving.length !== ids.length) return { answer: 'refused', reason: 'record-unknown' };
+        const rest = state.records.filter((item) => !ids.includes(item.record_id));
+        const at = payload.before === null || payload.before === undefined
+          ? rest.length
+          : rest.findIndex((item) => item.record_id === String(payload.before));
+        if (at < 0) return { answer: 'refused', reason: 'record-unknown' };
+        state.records = [...rest.slice(0, at), ...moving, ...rest.slice(at)];
+        state.orderRevision = `o${Number(state.orderRevision.slice(1)) + 1}`;
+        return { answer: 'applied' };
       }
 
       if (intent === 'bulk.apply_under_filter') {

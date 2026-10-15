@@ -151,6 +151,11 @@ const listReaches = [
   ['view.delete', 'refused', ALL_LIST, 'default', { key: 'no-such-view' }],
   ['view.delete', 'unavailable', [], 'default', { key: 'view-mine' }],
   ['list.open', 'applied', ALL_LIST, 'default', {}],
+  // Port 1.11.0: a boolean written in its cell, one confirmed first, and an
+  // order written against a stale revision.
+  ['record.set', 'applied', [...ALL_LIST, 'inline-edit'], 'default', { record_id: editable?.record_id, key: 'deprecated', value: true, revision: editable?.revision }],
+  ['record.set', 'refused', [...ALL_LIST, 'inline-edit'], 'default', { record_id: editable?.record_id, key: 'public', value: true, revision: editable?.revision }],
+  ['record.reorder', 'conflict', [...ALL_LIST, 'row-reorder'], 'default', { record_ids: [editable?.record_id], before: null, revision: 'o9' }],
   // The tree (port 1.8.0), answered by the site-pages host: a level, the
   // places a page may go, a move it did not offer, a stale move, and a move a
   // host without revisions confirms first.

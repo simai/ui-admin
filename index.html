@@ -50,7 +50,7 @@
          with the navigation port (src/navigation.ts). No items in the markup:
          the rows are the host's. -->
     <aside class="admin-navigation h-full">
-      <sf-admin-menu class="h-full" aria-label="Разделы админки"></sf-admin-menu>
+      <sf-admin-menu class="h-full" aria-label="Разделы админки" data-sf-skeleton="menu"></sf-admin-menu>
     </aside>
 
     <main class="flex flex-col flex-1 min-w-0 min-h-0">
@@ -80,6 +80,8 @@
              empty toolbar suppresses the fallback, and the TABLE's own toolbar
              does the work: search, «Фильтр», and saving a filter template. -->
         <sf-data-view
+          data-sf-skeleton="rows"
+          preferences-key="polygon.solutions"
           size="1/2"
           id="solutions"
           aria-label="Решения">

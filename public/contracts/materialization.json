@@ -311,7 +311,7 @@
       "id": "smart.tree",
       "version": "1.0.0",
       "file": "smart.tree.json",
-      "manifest_sha256": "1b33b8711c06b8287080a86e8c827dab308b489251faa37cbaa14daf20c5396c"
+      "manifest_sha256": "72d615c9236cdf4c6859f6b6c4e93bb09e07c0363f76dea94b463c22d77388e8"
     },
     {
       "id": "smart.tree-item",
@@ -320,6 +320,6 @@
       "manifest_sha256": "ba1d8f4593adb7a2ddfd096050d2a4ee2c43a0960f0c27aa5e834eb646e0f35b"
     }
   ],
-  "registry_sha256": "3265ea6160e5d861fad3dd404f99d29ee31f37a1fda888226fd0b8e10f857161",
+  "registry_sha256": "b746a620d3d740c81a75180466bd17fc7cbb1b84efd5bc010e6a3ec448ebf70a",
   "registry_schema_sha256": "cb39de233b2cf8af93daa44833b2e4d193627648426a202d6baee9938957d407"
 }

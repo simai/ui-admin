@@ -5,7 +5,7 @@
       "id": "smart.alert",
       "version": "1.0.0",
       "file": "smart.alert.json",
-      "manifest_sha256": "8f0ff10da353b6385c913d6a1f92a75b024785bda5c1f19d935919cec5521732"
+      "manifest_sha256": "4b4f3b53bf3a73e6f0f3989b89bb72b0ceb1cce21791f6742fe379201ba8f9fe"
     },
     {
       "id": "smart.avatar",
@@ -41,7 +41,7 @@
       "id": "smart.buttons",
       "version": "1.0.0",
       "file": "smart.buttons.json",
-      "manifest_sha256": "479914a05b50c23689486fbc2101f642542d13e2fc98f48a5989bc18c742e390"
+      "manifest_sha256": "70a070dc59e424487fb60222223b9cb5d9eee4a84fbc71d34fbe62ccbdb1dc11"
     },
     {
       "id": "smart.checkbox",
@@ -77,7 +77,7 @@
       "id": "smart.copy-button",
       "version": "1.0.0",
       "file": "smart.copy-button.json",
-      "manifest_sha256": "810e9e1c7f35ef920f258ff07ae90fc2bc0aeed2c545792c3dc2ccc609538d2c"
+      "manifest_sha256": "319efa810a2350e951e1b1d99358e36fb329a0d20376312d197d7c619cfdd97e"
     },
     {
       "id": "smart.country-code",
@@ -89,7 +89,7 @@
       "id": "smart.datepicker",
       "version": "1.0.0",
       "file": "smart.datepicker.json",
-      "manifest_sha256": "6182cb3cf4a765446ff940fec30b45ac5a83c3340d1b693859791740e98acd76"
+      "manifest_sha256": "6098ddf7231b4767693a115846f874bd58d1f157ad6cd4cdfd0e4b50940335c5"
     },
     {
       "id": "smart.download-file",
@@ -137,7 +137,7 @@
       "id": "smart.help-mark",
       "version": "1.0.0",
       "file": "smart.help-mark.json",
-      "manifest_sha256": "faf1ef8d6d844c3f31634fbe41a5c11aa882297567c9fc4d9b9911fad8d471de"
+      "manifest_sha256": "bcd27812e8c8d0ac5ba9f88efefdefed464d173403b9ae783ce61d33d7eaaeae"
     },
     {
       "id": "smart.icon-buttons",
@@ -233,7 +233,7 @@
       "id": "smart.resizer",
       "version": "1.0.0",
       "file": "smart.resizer.json",
-      "manifest_sha256": "929f995a98ade886ad1545b603a48af7a768f319041f22fd9ad083760386744f"
+      "manifest_sha256": "38a3d2b19d36596bbca33d1109a78481da522dede6c5b3ed972fd9e4350e9cb1"
     },
     {
       "id": "smart.skeleton",
@@ -275,13 +275,13 @@
       "id": "smart.tabs",
       "version": "1.0.0",
       "file": "smart.tabs.json",
-      "manifest_sha256": "9cc31d062464b4a070f80ada46d211491642ee2e6e454efac7dcc260abd9218d"
+      "manifest_sha256": "aa518c0e45f2ece718bf82ce7be61a78903cf880a2a882be8b6c37684393565e"
     },
     {
       "id": "smart.tags",
       "version": "1.1.0",
       "file": "smart.tags.json",
-      "manifest_sha256": "232f97d617ab549b3a61d6794a98ae3472f180c24899a6cb25909c4b8632c546"
+      "manifest_sha256": "65927235f20c440dae1475b2bf80bcc293a59da13db825d44a1273c7ab4d00b0"
     },
     {
       "id": "smart.textarea",
@@ -293,7 +293,7 @@
       "id": "smart.toast",
       "version": "1.0.0",
       "file": "smart.toast.json",
-      "manifest_sha256": "a7cc2183079f8b8c57bd0b05eb871e170ccb80eae6bf32934f9e3a244f70d1d7"
+      "manifest_sha256": "5d767d4ab16bca3b70fed25086aaa977e3f5776110758926a071ca259d02af87"
     },
     {
       "id": "smart.toggle",
@@ -320,6 +320,6 @@
       "manifest_sha256": "ba1d8f4593adb7a2ddfd096050d2a4ee2c43a0960f0c27aa5e834eb646e0f35b"
     }
   ],
-  "registry_sha256": "619f8908d998d228923327d8146903b5fd789145a7c91004ed79209cdc008cf0",
+  "registry_sha256": "15bd8c10ff5451b86507b349a7a6785523c220767f716cd11421dddb4bcc21d2",
   "registry_schema_sha256": "cb39de233b2cf8af93daa44833b2e4d193627648426a202d6baee9938957d407"
 }

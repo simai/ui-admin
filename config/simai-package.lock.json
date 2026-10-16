@@ -3,9 +3,9 @@
   "package": "larena",
   "source": {
     "repository": "simai/larena-ui",
-    "revision": "832c7d1707603ede670c866666238fcf3ea70317",
+    "revision": "2ff99f49d4bee5945a63b92e82ffb790e93c94e7",
     "path": "components",
-    "tree": "d0a7a0deee409572d71243b0138e2ca6cb3a0236"
+    "tree": "546460897f135a5e80f300dbe257de87160ccaaf"
   },
   "smart": {
     "targetDir": "",
@@ -16,7 +16,7 @@
       },
       {
         "path": "admin-menu/js/admin-menu.js",
-        "sha256": "e1113d35d6b94266bf3d37020cbd3f3841f0386e56590020371a2f0e3c21c2de"
+        "sha256": "a38b4512b5577424ed7d51820e3e1e591b4481b4c699552ca97f16974a326945"
       },
       {
         "path": "admin-menu/css/admin-menu.css",
@@ -24,11 +24,11 @@
       },
       {
         "path": "data-view/js/data-view.js",
-        "sha256": "caba1032357fa2c2ade9a52d56e9ccb8d63e33d30eaf7d37fe89d59526850153"
+        "sha256": "5017a82811bbf05f9aea710e6927c02a5e23f1ecf9b95301c004378f58e767c0"
       },
       {
         "path": "property-view/js/property-view.js",
-        "sha256": "d6f7424a45c5d93305022cc511f5b7f9f143b0f8189be6bd76573e71da229086"
+        "sha256": "bf24e710aaf2ef7229812fff8f88634874735ec706fa4f2ba2297f55bea2424e"
       },
       {
         "path": "property-view/css/property-view.css",
@@ -36,7 +36,7 @@
       },
       {
         "path": "table/js/table.js",
-        "sha256": "0a80434f7094bbc6e0f7cc031b98f7b746ac943d8582e1a765c9d48e9da82257"
+        "sha256": "20796b58fa4e2c123b20add82ebd041f5830e65a50ce8c5f3aea31d8fa35b97a"
       },
       {
         "path": "table/css/table.css",
@@ -44,10 +44,10 @@
       }
     ]
   },
-  "compatibilityId": "larena-832c7d170760",
+  "compatibilityId": "larena-2ff99f49d4be",
   "requires": {
-    "framework": "ui-2cc712424489"
+    "framework": "ui-337d9f9e0ba3"
   },
-  "archiveSha256": "b93d955932b7aea921c93dc7ac9b503690904de5354fef687c9bb740b92edf23",
-  "distributionIdentitySha256": "1029edc5b833cf0c33857e9e46ea4a5778a4b81c84a60ab50484aadc0bdbfc83"
+  "archiveSha256": "2e8ea0a18c01117ffdac815bc798ad0755758fc4b3f840092bdedd2ec0760506",
+  "distributionIdentitySha256": "9881a4232fcf28dd38c1404bad5839f0e4fd92625af891cc27d4977ae2ba2c19"
 }

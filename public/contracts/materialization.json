@@ -41,7 +41,7 @@
       "id": "smart.buttons",
       "version": "1.0.0",
       "file": "smart.buttons.json",
-      "manifest_sha256": "1f122288fc4b66e374b4fdc756a9db515f3562e4246ca814b77813132272efc1"
+      "manifest_sha256": "479914a05b50c23689486fbc2101f642542d13e2fc98f48a5989bc18c742e390"
     },
     {
       "id": "smart.checkbox",
@@ -89,7 +89,7 @@
       "id": "smart.datepicker",
       "version": "1.0.0",
       "file": "smart.datepicker.json",
-      "manifest_sha256": "42bdbfa2f20b519081a79c998e4e83791c2e7defad1405b9bdd50d836855a265"
+      "manifest_sha256": "6182cb3cf4a765446ff940fec30b45ac5a83c3340d1b693859791740e98acd76"
     },
     {
       "id": "smart.download-file",
@@ -233,7 +233,7 @@
       "id": "smart.resizer",
       "version": "1.0.0",
       "file": "smart.resizer.json",
-      "manifest_sha256": "f61f59ea00c453e0abfed17a46f5e4cfa976a9ae93c825669e34ca07375572ed"
+      "manifest_sha256": "929f995a98ade886ad1545b603a48af7a768f319041f22fd9ad083760386744f"
     },
     {
       "id": "smart.skeleton",
@@ -275,7 +275,7 @@
       "id": "smart.tabs",
       "version": "1.0.0",
       "file": "smart.tabs.json",
-      "manifest_sha256": "5d7832230d7d77bbfe9ad3466885bed455bc5532a2c8940648061b23fac776d2"
+      "manifest_sha256": "9cc31d062464b4a070f80ada46d211491642ee2e6e454efac7dcc260abd9218d"
     },
     {
       "id": "smart.tags",
@@ -320,6 +320,6 @@
       "manifest_sha256": "ba1d8f4593adb7a2ddfd096050d2a4ee2c43a0960f0c27aa5e834eb646e0f35b"
     }
   ],
-  "registry_sha256": "678915574b8bcb20c8d66913ca7e9a2925d06111d9cda5f55130b88e1b3825b0",
+  "registry_sha256": "619f8908d998d228923327d8146903b5fd789145a7c91004ed79209cdc008cf0",
   "registry_schema_sha256": "cb39de233b2cf8af93daa44833b2e4d193627648426a202d6baee9938957d407"
 }

@@ -303,7 +303,7 @@ export const createPolygonHost = ({
   };
 
   return {
-    version: '1.11.0',
+    version: '1.12.0',
     capabilities,
     formatFieldValue,
     // Read by the page so the panel and the list agree on one dataset.

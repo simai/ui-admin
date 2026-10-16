@@ -137,7 +137,7 @@
       "id": "smart.help-mark",
       "version": "1.0.0",
       "file": "smart.help-mark.json",
-      "manifest_sha256": "bcd27812e8c8d0ac5ba9f88efefdefed464d173403b9ae783ce61d33d7eaaeae"
+      "manifest_sha256": "ba6cb38b561ca2abd5d8ae38f8385155f2c0fefea8b97e0e6750f66ae5c072b3"
     },
     {
       "id": "smart.icon-buttons",
@@ -233,7 +233,7 @@
       "id": "smart.resizer",
       "version": "1.0.0",
       "file": "smart.resizer.json",
-      "manifest_sha256": "38a3d2b19d36596bbca33d1109a78481da522dede6c5b3ed972fd9e4350e9cb1"
+      "manifest_sha256": "484623e92e354fed575c942e67d64cbb964c899ba40d0a8e77cb02a794f59dc3"
     },
     {
       "id": "smart.skeleton",
@@ -275,7 +275,7 @@
       "id": "smart.tabs",
       "version": "1.0.0",
       "file": "smart.tabs.json",
-      "manifest_sha256": "aa518c0e45f2ece718bf82ce7be61a78903cf880a2a882be8b6c37684393565e"
+      "manifest_sha256": "de9da8b5fff2345cebd0af7f249074a9b4c30132230178b4cd212e1a115c0f6e"
     },
     {
       "id": "smart.tags",
@@ -320,6 +320,6 @@
       "manifest_sha256": "ba1d8f4593adb7a2ddfd096050d2a4ee2c43a0960f0c27aa5e834eb646e0f35b"
     }
   ],
-  "registry_sha256": "15bd8c10ff5451b86507b349a7a6785523c220767f716cd11421dddb4bcc21d2",
+  "registry_sha256": "7139856f90fa0bab3c4f9e6794eac819ad716b659ec56d2300152c9de9251990",
   "registry_schema_sha256": "cb39de233b2cf8af93daa44833b2e4d193627648426a202d6baee9938957d407"
 }

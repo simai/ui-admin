@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "compatibilityId": "ui-b6321b263444",
-  "pairIdentitySha256": "881f0d26af81629180c7a94e34e96d2216fef39e0a09b3b6382ab934b62ead1d",
+  "compatibilityId": "ui-45384c434d3f",
+  "pairIdentitySha256": "4678eca368d19e83dd88701393df82cdec807898a9adc0e1f97107bd1f00bedc",
   "contractSha256": "b70d02d6902345e17954eafb44f24052b7478439184286bed5a8df6c69c1fe45",
   "core": {
     "repository": "../ui",
-    "commit": "b6321b263444ebe4e7ac00357006b801cb51f3c4",
+    "commit": "45384c434d3f0827935efe9871f062d1dd134e95",
     "sourceDir": "distr",
     "requiredFiles": [
       {
@@ -36,7 +36,7 @@
   },
   "smart": {
     "repository": "../ui",
-    "commit": "b6321b263444ebe4e7ac00357006b801cb51f3c4",
+    "commit": "45384c434d3f0827935efe9871f062d1dd134e95",
     "sourceDir": "distr/smart",
     "targetDir": "smart",
     "requiredFiles": [
@@ -50,7 +50,7 @@
       },
       {
         "path": "field-renderers/js/field-renderers.js",
-        "sha256": "bdbd2333a94be9f2ccd6ed5d541d082bf396b5d543b6779c12efca8c77ebfdde"
+        "sha256": "dac3cc55bced0cc8aa94bb353b7e7843ba57e1b8ebee8801fd84e240469152f4"
       }
     ]
   }

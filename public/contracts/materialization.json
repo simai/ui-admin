@@ -290,6 +290,12 @@
       "manifest_sha256": "6748c9aec825dc5c8383ba0b1f2e20439723f52d000cce5da98e1b43fd485b75"
     },
     {
+      "id": "smart.theme-generator",
+      "version": "1.0.0",
+      "file": "smart.theme-generator.json",
+      "manifest_sha256": "b12b3bf1f3cdd21c338dde3e93cd0aac9bb8c748644b36ee759f04dda5b88b62"
+    },
+    {
       "id": "smart.toast",
       "version": "1.0.0",
       "file": "smart.toast.json",
@@ -320,6 +326,6 @@
       "manifest_sha256": "f0ff164cbacb0dcd6af9fe3ee41acdfdc3da309dd7da3017950161ebe23cf741"
     }
   ],
-  "registry_sha256": "c7a50d9a0b5af9cacd4d2c59b70f70b827ef354731ee9d35c0f6bcf5b4e1b607",
+  "registry_sha256": "e2b4bb48d71e28a1745354928bb8ad50382256d05f2d4068c620b2b512fa0603",
   "registry_schema_sha256": "d5b0a5b299fa4b044d8125a315458c37de76f0bb5c6cb686962cdec7922b14ce"
 }

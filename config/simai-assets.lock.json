@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "compatibilityId": "ui-45384c434d3f",
-  "pairIdentitySha256": "4678eca368d19e83dd88701393df82cdec807898a9adc0e1f97107bd1f00bedc",
+  "compatibilityId": "ui-5f1d2e9e5529",
+  "pairIdentitySha256": "350e21d4aeecccc11651da415418151e69090ec0f69ec9a98a0653944b528eef",
   "contractSha256": "b70d02d6902345e17954eafb44f24052b7478439184286bed5a8df6c69c1fe45",
   "core": {
     "repository": "../ui",
-    "commit": "45384c434d3f0827935efe9871f062d1dd134e95",
+    "commit": "5f1d2e9e5529e8a80d5fcf497dd8d1ff2ab9c864",
     "sourceDir": "distr",
     "requiredFiles": [
       {

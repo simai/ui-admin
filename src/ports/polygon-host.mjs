@@ -738,7 +738,7 @@ export const createPolygonHost = ({
       };
 
       return {
-        version: '1.12.0',
+        version: '1.13.0',
         capabilities: panelCapabilities,
         formatFieldValue,
 

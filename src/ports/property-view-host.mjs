@@ -87,7 +87,7 @@ export const createPropertyViewHost = ({ record = RECORD, capabilities = [], pro
   const asRead = () => ({ answer: 'applied', record: answerRecord() });
 
   return {
-    version: '1.12.0',
+    version: '1.13.0',
     capabilities,
 
     async raise(intent, payload = {}) {

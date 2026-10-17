@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "compatibilityId": "ui-207b90f83e71",
-  "pairIdentitySha256": "23b50ee74fcaec08f99e0c531cd5dfd4bea2725973d1eb53a1214ce1e3c17190",
+  "compatibilityId": "ui-1aa66c4385cf",
+  "pairIdentitySha256": "d4d87f508647554220fc905996751fefb111a5067e10a3fd52d3903017cf52bd",
   "contractSha256": "b70d02d6902345e17954eafb44f24052b7478439184286bed5a8df6c69c1fe45",
   "core": {
     "repository": "../ui",
-    "commit": "207b90f83e71a15923cdd1e4f41bfe3c4e6ff77b",
+    "commit": "1aa66c4385cf0128549d4ccfc8d6c82f22b50aa8",
     "sourceDir": "distr",
     "requiredFiles": [
       {
@@ -36,13 +36,13 @@
   },
   "smart": {
     "repository": "../ui",
-    "commit": "207b90f83e71a15923cdd1e4f41bfe3c4e6ff77b",
+    "commit": "1aa66c4385cf0128549d4ccfc8d6c82f22b50aa8",
     "sourceDir": "distr/smart",
     "targetDir": "smart",
     "requiredFiles": [
       {
         "path": "icon-buttons/smart.manifest.json",
-        "sha256": "072de80b09443c4325e55085643c0b59ce33bb22b0cc379179c3fa59fedd5abe"
+        "sha256": "231f5a224cbd1fbe205941f56430e3b19642184225720fe991ff7d9720e08582"
       },
       {
         "path": "icon-buttons/js/icon-buttons.js",

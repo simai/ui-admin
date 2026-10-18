@@ -173,7 +173,7 @@
       "id": "smart.modal",
       "version": "1.1.0",
       "file": "smart.modal.json",
-      "manifest_sha256": "676e56e52f2adb642f46c7dbfd4651e142a61faa91bd87ddd01e1425537b52ff"
+      "manifest_sha256": "f282c22cbff66ec44dce7ea91d25e2336f2afba8535ee2f274a5d6f45090902b"
     },
     {
       "id": "smart.page-header",
@@ -326,6 +326,6 @@
       "manifest_sha256": "f0ff164cbacb0dcd6af9fe3ee41acdfdc3da309dd7da3017950161ebe23cf741"
     }
   ],
-  "registry_sha256": "44a1dc8a3af8447b19390b6d165b29113093f6ff158ab47351bffa8870c8f82e",
+  "registry_sha256": "877c17913d75a16aac2178753a667f8a31a05bb82de340f9d22b34ca1d41b680",
   "registry_schema_sha256": "d5b0a5b299fa4b044d8125a315458c37de76f0bb5c6cb686962cdec7922b14ce"
 }

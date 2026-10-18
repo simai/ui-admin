@@ -219,6 +219,8 @@ export default defineConfig(({ mode }) => {
           workbench: resolve(projectRoot, 'workbench.html'),
           // Every universal property in its three modes (owner, 2026-10-14).
           properties: resolve(projectRoot, 'properties.html'),
+          // Every capability of sf-modal on one page (owner, 2026-10-18).
+          modalDemo: resolve(projectRoot, 'modal-demo.html'),
         },
       },
     },

@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="ru" class="theme-light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>Модальное окно — все возможности</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="/distr/core/css/core.css" />
+    <script>
+      // The theme, before anything renders; the same choice the polygon keeps.
+      (function () {
+        var chosen = {};
+        try { chosen = JSON.parse(localStorage.getItem('simai.admin.appearance') || '{}'); } catch (error) { chosen = {}; }
+        var theme = chosen.theme || 'system';
+        var dark = theme === 'dark'
+          || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.classList.toggle('theme-dark', dark);
+        document.documentElement.classList.toggle('theme-light', !dark);
+      })();
+    </script>
+    <script>
+      window.SF_BOOT_CONFIG = {icons: {accumulate: true}, cacheVersion: 'modal-demo-v1'};
+      window.sfPath = '/distr/';
+      window.sfSmartPath = '/distr/';
+    </script>
+    <script src="/distr/core/js/core.js" data-sf-script="/distr/core/js/core.js"></script>
+    <style>
+      body { margin: 0; background: var(--sf-surface); color: var(--sf-on-surface); }
+      .demo { max-inline-size: 72rem; margin-inline: auto; padding: var(--sf-space-2) var(--sf-space-1) 6rem; }
+      .demo-section { border-block-start: 1px solid var(--sf-outline-variant); padding-block: var(--sf-space-1); }
+      .demo-row { display: flex; flex-wrap: wrap; gap: var(--sf-space-0_5, 0.5rem); align-items: center; }
+      .demo-note { color: var(--sf-on-surface-variant); margin: 0 0 var(--sf-space-0_5, 0.5rem); max-inline-size: 60rem; }
+      .demo-box { position: relative; block-size: 18rem; border: 1px dashed var(--sf-outline); border-radius: var(--sf-radius-2, 0.5rem); padding: var(--sf-space-0_5, 0.5rem); }
+      .demo-boxes { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: var(--sf-space-1); }
+      .demo-log { font: 12px/1.5 ui-monospace, monospace; block-size: 12rem; overflow: auto; background: var(--sf-surface-1, var(--sf-surface)); border: 1px solid var(--sf-outline-variant); border-radius: var(--sf-radius-2, 0.5rem); padding: var(--sf-space-0_5, 0.5rem); margin: 0; white-space: pre-wrap; }
+      .demo h2 { margin-block: var(--sf-space-1) var(--sf-space-0_5, 0.5rem); }
+      code { font-size: 0.9em; }
+    </style>
+  </head>
+  <body>
+    <main class="demo">
+      <h1 class="title-1 m-0">Модальное окно <code>sf-modal</code></h1>
+      <p class="demo-note">Все возможности на опубликованном Framework этой админки. Каждая кнопка открывает своё окно; справа внизу — журнал событий <code>modal:*</code>.</p>
+      <div class="demo-row">
+        <button type="button" class="sf-button sf-button--outline sf-button--on-surface sf-button--size-1" data-demo-theme><span class="sf-button-text-container">Светлая / тёмная тема</span></button>
+      </div>
+
+      <section class="demo-section">
+        <h2 class="title-3">1. Содержимое</h2>
+        <p class="demo-note">Заголовок и текст атрибутами; слоты <code>header</code>, <code>content</code>, <code>footer</code>; содержимое без слота попадает в основную часть.</p>
+        <div class="demo-row">
+          <button type="button" class="sf-button sf-button--default sf-button--primary sf-button--size-1" data-sf-modal-open="m-text"><span class="sf-button-text-container">title и text</span></button>
+          <button type="button" class="sf-button sf-button--default sf-button--primary sf-button--size-1" data-sf-modal-open="m-slots"><span class="sf-button-text-container">Три слота</span></button>
+          <button type="button" class="sf-button sf-button--default sf-button--primary sf-button--size-1" data-sf-modal-open="m-loose"><span class="sf-button-text-container">Без слота</span></button>
+          <button type="button" class="sf-button sf-button--default sf-button--primary sf-button--size-1" data-sf-modal-open="m-long"><span class="sf-button-text-container">Длинный текст (прокрутка)</span></button>
+        </div>
+        <sf-modal modal-id="m-text" title="Опубликовать изменения?" text="Новая версия станет доступна всем участникам проекта."></sf-modal>
+        <sf-modal modal-id="m-slots" title="Слоты">
+          <div slot="header"><strong>Свой заголовок</strong> из слота <code>header</code></div>
+          <div slot="content"><p class="m-0">Основная часть из слота <code>content</code>.</p></div>
+          <div slot="footer" class="flex gap-1 content-main-end">
+            <button type="button" class="sf-button sf-button--outline sf-button--on-surface sf-button--size-1" data-sf-modal-close="m-slots"><span class="sf-button-text-container">Отмена</span></button>
+            <button type="button" class="sf-button sf-button--default sf-button--primary sf-button--size-1" data-sf-modal-close="m-slots"><span class="sf-button-text-container">Сохранить</span></button>
+          </div>
+        </sf-modal>
+        <sf-modal modal-id="m-loose" title="Без слота">
+          <p class="m-0">Этот абзац написан внутри <code>&lt;sf-modal&gt;</code> без атрибута <code>slot</code> — и всё равно показан.</p>
+        </sf-modal>
+        <sf-modal modal-id="m-long" title="Длинный текст" height="24rem">
+          <div data-demo-long></div>
+        </sf-modal>
+      </section>
+
+      <section class="demo-section">
+        <h2 class="title-3">2. Положение и размер</h2>
+        <p class="demo-note"><code>position</code>: по центру, сбоку (<code>inline-start</code>/<code>inline-end</code> — модальная боковая панель), сверху, снизу; <code>fullscreen</code>; <code>width</code> и <code>height</code>.</p>
+        <div class="demo-row">
+          <button type="button" class="sf-button sf-button--tonal sf-button--primary sf-button--size-1" data-sf-modal-open="m-center"><span class="sf-button-text-container">center</span></button>
+          <button type="button" class="sf-button sf-button--tonal sf-button--primary sf-button--size-1" data-sf-modal-open="m-start"><span class="sf-button-text-container">inline-start</span></button>
+          <button type="button" class="sf-button sf-button--tonal sf-button--primary sf-button--size-1" data-sf-modal-open="m-end"><span class="sf-button-text-container">inline-end</span></button>
+          <button type="button" class="sf-button sf-button--tonal sf-button--primary sf-button--size-1" data-sf-modal-open="m-top"><span class="sf-button-text-container">top</span></button>
+          <button type="button" class="sf-button sf-button--tonal sf-button--primary sf-button--size-1" data-sf-modal-open="m-bottom"><span class="sf-button-text-container">bottom</span></button>
+          <button type="button" class="sf-button sf-button--tonal sf-button--primary sf-button--size-1" data-sf-modal-open="m-full"><span class="sf-button-text-container">fullscreen</span></button>
+          <button type="button" class="sf-button sf-button--tonal sf-button--primary sf-button--size-1" data-sf-modal-open="m-size"><span class="sf-button-text-container">width 40rem, height 20rem</span></button>
+        </div>
+        <sf-modal modal-id="m-center" title="По центру" position="center"><p class="m-0">Положение по умолчанию.</p></sf-modal>
+        <sf-modal modal-id="m-start" title="С начала строки" position="inline-start" width="22rem"><p class="m-0">Модальная боковая панель; в RTL встаёт справа.</p></sf-modal>
+        <sf-modal modal-id="m-end" title="С конца строки" position="inline-end" width="22rem"><p class="m-0">Модальная боковая панель с другой стороны.</p></sf-modal>
+        <sf-modal modal-id="m-top" title="Сверху" position="top"><p class="m-0">Панель у верхнего края.</p></sf-modal>
+        <sf-modal modal-id="m-bottom" title="Снизу" position="bottom"><p class="m-0">Панель у нижнего края.</p></sf-modal>
+        <sf-modal modal-id="m-full" title="Во весь экран" fullscreen><p class="m-0">Окно занимает весь экран.</p></sf-modal>
+        <sf-modal modal-id="m-size" title="Заданный размер" width="40rem" height="20rem"><p class="m-0">Ширина 40rem, высота 20rem.</p></sf-modal>
+      </section>
+
+      <section class="demo-section">
+        <h2 class="title-3">3. Подложка и закрытие</h2>
+        <p class="demo-note"><code>overlay-preset="focus"</code> добавляет размытие; <code>overlay="false"</code> — без подложки; <code>close-on-overlay="false"</code> и <code>close-on-esc="false"</code>; <code>unclose</code> — закрыть можно только кнопкой внутри.</p>
+        <div class="demo-row">
+          <button type="button" class="sf-button sf-button--outline sf-button--primary sf-button--size-1" data-sf-modal-open="m-focus"><span class="sf-button-text-container">overlay-preset="focus"</span></button>
+          <button type="button" class="sf-button sf-button--outline sf-button--primary sf-button--size-1" data-sf-modal-open="m-blur"><span class="sf-button-text-container">blur-type="large"</span></button>
+          <button type="button" class="sf-button sf-button--outline sf-button--primary sf-button--size-1" data-sf-modal-open="m-nooverlay"><span class="sf-button-text-container">Без подложки</span></button>
+          <button type="button" class="sf-button sf-button--outline sf-button--primary sf-button--size-1" data-sf-modal-open="m-sticky"><span class="sf-button-text-container">Клик мимо и Esc не закрывают</span></button>
+          <button type="button" class="sf-button sf-button--outline sf-button--primary sf-button--size-1" data-sf-modal-open="m-unclose"><span class="sf-button-text-container">unclose</span></button>
+        </div>
+        <sf-modal modal-id="m-focus" title="Фокус" overlay-preset="focus"><p class="m-0">Тёмная подложка с размытием фона.</p></sf-modal>
+        <sf-modal modal-id="m-blur" title="Сильное размытие" blur-type="large"><p class="m-0">Подложка с <code>backdrop-blur-large</code>.</p></sf-modal>
+        <sf-modal modal-id="m-nooverlay" title="Без подложки" overlay="false"><p class="m-0">Страница за окном не затемнена.</p></sf-modal>
+        <sf-modal modal-id="m-sticky" title="Только кнопкой" close-on-overlay="false" close-on-esc="false"><p class="m-0">Закрывается крестиком, не кликом мимо и не Esc.</p></sf-modal>
+        <sf-modal modal-id="m-unclose" title="Без крестика" unclose>
+          <p class="m-0">Крестика нет, Esc и клик мимо не работают.</p>
+          <div slot="footer" class="flex content-main-end"><button type="button" class="sf-button sf-button--default sf-button--primary sf-button--size-1" data-sf-modal-close="m-unclose"><span class="sf-button-text-container">Понятно</span></button></div>
+        </sf-modal>
+      </section>
+
+      <section class="demo-section">
+        <h2 class="title-3">4. Шапка и сворачивание</h2>
+        <p class="demo-note"><code>show-header="false"</code>, <code>show-close="false"</code>; <code>hide</code> добавляет кнопку «Свернуть»: окно остаётся открытым, но убирается, а вернуть его можно снаружи — методом <code>show()</code>.</p>
+        <div class="demo-row">
+          <button type="button" class="sf-button sf-button--outline sf-button--on-surface sf-button--size-1" data-sf-modal-open="m-noheader"><span class="sf-button-text-container">Без шапки</span></button>
+          <button type="button" class="sf-button sf-button--outline sf-button--on-surface sf-button--size-1" data-sf-modal-open="m-noclose"><span class="sf-button-text-container">Без крестика в шапке</span></button>
+          <button type="button" class="sf-button sf-button--outline sf-button--on-surface sf-button--size-1" data-sf-modal-open="m-hide"><span class="sf-button-text-container">Сворачиваемое</span></button>
+          <button type="button" class="sf-button sf-button--tonal sf-button--on-surface sf-button--size-1" data-demo-call="m-hide:show"><span class="sf-button-text-container">Развернуть свёрнутое</span></button>
+        </div>
+        <sf-modal modal-id="m-noheader" show-header="false">
+          <p class="m-0">Окно без шапки. Закрыть — кнопкой ниже, Esc или кликом мимо.</p>
+          <div slot="footer" class="flex content-main-end"><button type="button" class="sf-button sf-button--default sf-button--primary sf-button--size-1" data-sf-modal-close="m-noheader"><span class="sf-button-text-container">Закрыть</span></button></div>
+        </sf-modal>
+        <sf-modal modal-id="m-noclose" title="Шапка без крестика" show-close="false"><p class="m-0">Esc и клик мимо по-прежнему закрывают.</p></sf-modal>
+        <sf-modal modal-id="m-hide" title="Сворачиваемое окно" hide><p class="m-0">Нажмите «Свернуть» в шапке, затем «Развернуть свёрнутое» на странице.</p></sf-modal>
+      </section>
+
+      <section class="demo-section">
+        <h2 class="title-3">5. Загрузка содержимого</h2>
+        <p class="demo-note"><code>mode="ajax"</code> с адресом или с селектором блока на странице; <code>mode="iframe"</code>; <code>preload="false"</code> — загрузка при первом открытии; методы <code>setSrc()</code> и <code>reloadContent()</code>.</p>
+        <div class="demo-row">
+          <button type="button" class="sf-button sf-button--default sf-button--secondary sf-button--size-1" data-sf-modal-open="m-ajax"><span class="sf-button-text-container">Ajax по адресу</span></button>
+          <button type="button" class="sf-button sf-button--default sf-button--secondary sf-button--size-1" data-sf-modal-open="m-dom"><span class="sf-button-text-container">Ajax из блока страницы</span></button>
+          <button type="button" class="sf-button sf-button--default sf-button--secondary sf-button--size-1" data-sf-modal-open="m-iframe"><span class="sf-button-text-container">iframe</span></button>
+          <button type="button" class="sf-button sf-button--default sf-button--secondary sf-button--size-1" data-sf-modal-open="m-lazy"><span class="sf-button-text-container">preload="false"</span></button>
+          <button type="button" class="sf-button sf-button--tonal sf-button--secondary sf-button--size-1" data-demo-call="m-ajax:reloadContent"><span class="sf-button-text-container">reloadContent()</span></button>
+          <button type="button" class="sf-button sf-button--tonal sf-button--secondary sf-button--size-1" data-demo-setsrc><span class="sf-button-text-container">setSrc('#demo-hidden-2') и открыть</span></button>
+        </div>
+        <div id="demo-hidden" hidden><p class="m-0">Этот текст скопирован из скрытого блока <code>#demo-hidden</code> на странице.</p></div>
+        <div id="demo-hidden-2" hidden><p class="m-0">А этот — из <code>#demo-hidden-2</code>, после <code>setSrc()</code>.</p></div>
+        <sf-modal modal-id="m-ajax" title="Ajax по адресу" mode="ajax" src="/demo/modal-fragment.html"></sf-modal>
+        <sf-modal modal-id="m-dom" title="Из блока страницы" mode="ajax" src="#demo-hidden"></sf-modal>
+        <sf-modal modal-id="m-iframe" title="iframe" mode="iframe" src="/demo/modal-fragment.html" width="40rem" height="20rem"></sf-modal>
+        <sf-modal modal-id="m-lazy" title="Без предзагрузки" mode="ajax" src="/demo/modal-fragment.html" preload="false"></sf-modal>
+      </section>
+
+      <section class="demo-section">
+        <h2 class="title-3">6. Встроенный режим</h2>
+        <p class="demo-note"><code>display="inline"</code> — окно стоит в потоке страницы, без подложки и без стопки. Его показывает атрибут <code>open</code>.</p>
+        <sf-modal modal-id="m-inline" title="Встроенное окно" display="inline" open><p class="m-0">Это то же окно, только внутри страницы.</p></sf-modal>
+      </section>
+
+      <section class="demo-section">
+        <h2 class="title-3">7. Внутри блока</h2>
+        <p class="demo-note">Внутри элемента с <code>data-sf-overlay-container</code> окно закрывает только этот блок, страница прокручивается. Слева — <code>&lt;sf-modal&gt;</code>; справа — окно из скрипта с <code>param.container</code>.</p>
+        <div class="demo-boxes">
+          <div class="demo-box" data-sf-overlay-container>
+            <button type="button" class="sf-button sf-button--default sf-button--primary sf-button--size-1" data-sf-modal-open="m-boxed"><span class="sf-button-text-container">Открыть в блоке</span></button>
+            <sf-modal modal-id="m-boxed" title="В блоке"><p class="m-0">Подложка и окно — внутри рамки.</p></sf-modal>
+          </div>
+          <div class="demo-box" id="demo-script-box">
+            <button type="button" class="sf-button sf-button--default sf-button--primary sf-button--size-1" data-demo-script><span class="sf-button-text-container">Окно из скрипта</span></button>
+          </div>
+        </div>
+      </section>
+
+      <section class="demo-section">
+        <h2 class="title-3">8. Стопка окон и события</h2>
+        <p class="demo-note">Окно открывает второе поверх себя; Esc закрывает верхнее, фокус возвращается. Второе окно отменяет своё закрытие один раз — <code>preventDefault()</code> на <code>modal:before-close</code>.</p>
+        <div class="demo-row">
+          <button type="button" class="sf-button sf-button--default sf-button--primary sf-button--size-1" data-sf-modal-open="m-stack-1"><span class="sf-button-text-container">Открыть стопку</span></button>
+          <button type="button" class="sf-button sf-button--outline sf-button--on-surface sf-button--size-1" data-demo-clear><span class="sf-button-text-container">Очистить журнал</span></button>
+        </div>
+        <sf-modal modal-id="m-stack-1" title="Первое окно">
+          <p class="m-0">Откройте второе окно поверх этого.</p>
+          <div slot="footer" class="flex content-main-end"><button type="button" class="sf-button sf-button--default sf-button--primary sf-button--size-1" data-sf-modal-open="m-stack-2"><span class="sf-button-text-container">Второе окно</span></button></div>
+        </sf-modal>
+        <sf-modal modal-id="m-stack-2" title="Второе окно"><p class="m-0">Первая попытка закрыть будет отменена (смотрите журнал).</p></sf-modal>
+        <h3 class="title-4">Журнал событий</h3>
+        <pre class="demo-log" data-demo-log aria-live="polite"></pre>
+      </section>
+    </main>
+
+    <script>
+      (function () {
+        var log = document.querySelector('[data-demo-log]');
+        var write = function (line) {
+          var time = new Date().toLocaleTimeString('ru-RU', {hour12: false});
+          log.textContent = time + '  ' + line + '\n' + log.textContent;
+        };
+        ['before-open', 'after-open', 'before-close', 'after-close', 'before-hide', 'after-hide', 'before-show', 'after-show',
+          'before-content-upload', 'after-content-upload'].forEach(function (name) {
+          document.addEventListener('modal:' + name, function (event) {
+            var detail = event.detail || {};
+            var id = detail.modalId || detail.id || (detail.modal && (detail.modal.modalId || detail.modal.id)) || '?';
+            write('modal:' + name + '  ' + id);
+          });
+        });
+
+        var long = document.querySelector('[data-demo-long]');
+        for (var index = 1; index <= 30; index += 1) {
+          var paragraph = document.createElement('p');
+          paragraph.textContent = 'Абзац ' + index + '. Тело окна прокручивается, шапка остаётся на месте.';
+          long.append(paragraph);
+        }
+
+        var refusedOnce = false;
+        document.addEventListener('modal:before-close', function (event) {
+          var detail = event.detail || {};
+          var id = detail.modalId || detail.id || (detail.modal && detail.modal.modalId);
+          if (id === 'm-stack-2' && !refusedOnce) {
+            refusedOnce = true;
+            event.preventDefault();
+            write('  -> закрытие m-stack-2 отменено (preventDefault)');
+          }
+        });
+
+        var modal = function (id) { return window.SF && window.SF.Loader ? document.querySelector('sf-modal[modal-id="' + id + '"]') : null; };
+        document.addEventListener('click', function (event) {
+          var call = event.target.closest('[data-demo-call]');
+          if (call) {
+            var parts = call.getAttribute('data-demo-call').split(':');
+            var target = modal(parts[0]);
+            if (target && typeof target[parts[1]] === 'function') { target[parts[1]](); write(parts[0] + '.' + parts[1] + '()'); }
+          }
+          if (event.target.closest('[data-demo-setsrc]')) {
+            var dom = modal('m-dom');
+            if (dom) { dom.setSrc('#demo-hidden-2'); dom.open(); write("m-dom.setSrc('#demo-hidden-2')"); }
+          }
+          if (event.target.closest('[data-demo-clear]')) log.textContent = '';
+          if (event.target.closest('[data-demo-theme]')) {
+            var root = document.documentElement;
+            var dark = !root.classList.contains('theme-dark');
+            root.classList.toggle('theme-dark', dark);
+            root.classList.toggle('theme-light', !dark);
+          }
+          if (event.target.closest('[data-demo-script]')) {
+            var Modal = window.SF && window.SF.Loader && window.SF.Loader.ComponentRegistry && window.SF.Loader.ComponentRegistry.Modal;
+            if (!Modal) { write('Скриптовый Modal ещё не загружен'); return; }
+            var existing = Modal.registry.get('m-script');
+            var scripted = existing || new Modal({id: 'm-script', param: {
+              container: '#demo-script-box',
+              title: 'Окно из скрипта',
+              html: '<p class="m-0">Создано <code>new Modal({param: {container}})</code>.</p>',
+            }});
+            scripted.open();
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

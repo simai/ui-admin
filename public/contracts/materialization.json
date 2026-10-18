@@ -41,7 +41,7 @@
       "id": "smart.buttons",
       "version": "1.0.0",
       "file": "smart.buttons.json",
-      "manifest_sha256": "3ee83769eb6ff6903d549c2d2ef037a09b0c58666943c8c9e91e3ae9a1201774"
+      "manifest_sha256": "6f59e4c360166c4a97752393873ee97a574bf9ae938f19aa7c9f4b7648c0a31b"
     },
     {
       "id": "smart.checkbox",
@@ -89,7 +89,7 @@
       "id": "smart.datepicker",
       "version": "1.0.0",
       "file": "smart.datepicker.json",
-      "manifest_sha256": "eba71d76700bf7f15abe40120d5ee6dd8c9d551e0e99bc431dd7ba084231292a"
+      "manifest_sha256": "09fb7828b9403de99cd5f2275a87dc0c21adef685ab48fff0318f7e957f441a7"
     },
     {
       "id": "smart.download-file",
@@ -326,6 +326,6 @@
       "manifest_sha256": "f0ff164cbacb0dcd6af9fe3ee41acdfdc3da309dd7da3017950161ebe23cf741"
     }
   ],
-  "registry_sha256": "ec8d276e751171646db60c215a588cc9798ecfc302ea1dda8667e095e96cd9a3",
+  "registry_sha256": "44a1dc8a3af8447b19390b6d165b29113093f6ff158ab47351bffa8870c8f82e",
   "registry_schema_sha256": "d5b0a5b299fa4b044d8125a315458c37de76f0bb5c6cb686962cdec7922b14ce"
 }

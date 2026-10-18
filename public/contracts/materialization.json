@@ -71,7 +71,7 @@
       "id": "smart.context-menu",
       "version": "1.3.0",
       "file": "smart.context-menu.json",
-      "manifest_sha256": "ec1ffd4df3be16a2182a14bd37176c50eedfebb499f4623163f73d5c874e32c6"
+      "manifest_sha256": "49e3b3ce44a3ee6e89c4ecfffb66a18e8eb055153f46098d37ce2385c026aef5"
     },
     {
       "id": "smart.copy-button",
@@ -293,7 +293,7 @@
       "id": "smart.theme-generator",
       "version": "1.0.0",
       "file": "smart.theme-generator.json",
-      "manifest_sha256": "0a61608d253976dbc998d48bd0675a1d56433a4848d71d788d93944971d37e02"
+      "manifest_sha256": "ce0e2fa42b411d513c9544fd21b1a629dc8d5219faed4ac65b55dc6e2955096d"
     },
     {
       "id": "smart.toast",
@@ -326,6 +326,6 @@
       "manifest_sha256": "f0ff164cbacb0dcd6af9fe3ee41acdfdc3da309dd7da3017950161ebe23cf741"
     }
   ],
-  "registry_sha256": "c47c9f5552bc1a41dc76f071968d82f54e0bd19bbaf71e55cf21912f3de9424d",
+  "registry_sha256": "7acc1d400222b6ad69e47d9fcfc9c86f559aa07ed040ff7be67b04106220105e",
   "registry_schema_sha256": "d5b0a5b299fa4b044d8125a315458c37de76f0bb5c6cb686962cdec7922b14ce"
 }

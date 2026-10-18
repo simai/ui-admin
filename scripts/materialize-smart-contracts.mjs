@@ -11,7 +11,9 @@ const hash = (content) => createHash('sha256').update(content).digest('hex');
 
 const registryContent = await readFile(registrySource);
 const registry = JSON.parse(registryContent.toString('utf8'));
-if (registry.schema !== 'simai.smart-component-contract-registry.v2') {
+// Both forms of the name are read (names carry no version, 2026-10-11).
+if (registry.schema !== 'simai.smart-component-contract-registry.v2'
+    && !(registry.schema === 'simai.smart-component-contract-registry' && registry.schema_version === 2)) {
   throw new Error(`Unsupported smart-component registry: ${registry.schema || 'missing schema'}.`);
 }
 if (registry.schema_id !== 'https://simai.io/contracts/smart-component-manifest.v2.schema.json') {

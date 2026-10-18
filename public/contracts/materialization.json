@@ -101,7 +101,7 @@
       "id": "smart.drawer",
       "version": "1.3.0",
       "file": "smart.drawer.json",
-      "manifest_sha256": "f249fd75dad8c4bcf7c91c4db7ee07e1ea6075d08fe9febdb194c8d8199e4803"
+      "manifest_sha256": "edd43f79a2fda2c8abb5afda7779d957ace36b3f0d48c16dccdd79843c9bca9f"
     },
     {
       "id": "smart.dropdown",
@@ -293,7 +293,7 @@
       "id": "smart.theme-generator",
       "version": "1.0.0",
       "file": "smart.theme-generator.json",
-      "manifest_sha256": "b12b3bf1f3cdd21c338dde3e93cd0aac9bb8c748644b36ee759f04dda5b88b62"
+      "manifest_sha256": "0a61608d253976dbc998d48bd0675a1d56433a4848d71d788d93944971d37e02"
     },
     {
       "id": "smart.toast",
@@ -326,6 +326,6 @@
       "manifest_sha256": "f0ff164cbacb0dcd6af9fe3ee41acdfdc3da309dd7da3017950161ebe23cf741"
     }
   ],
-  "registry_sha256": "e2b4bb48d71e28a1745354928bb8ad50382256d05f2d4068c620b2b512fa0603",
+  "registry_sha256": "c47c9f5552bc1a41dc76f071968d82f54e0bd19bbaf71e55cf21912f3de9424d",
   "registry_schema_sha256": "d5b0a5b299fa4b044d8125a315458c37de76f0bb5c6cb686962cdec7922b14ce"
 }

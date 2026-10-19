@@ -35,7 +35,7 @@
       "id": "smart.button-group",
       "version": "1.0.0",
       "file": "smart.button-group.json",
-      "manifest_sha256": "ad996615229ff112c33ff69849f975f52e284337382340ae7f441c4dc5dffe9d"
+      "manifest_sha256": "526eb640ccc1e3f10e4a38a1e2ccfa9b019024e5a8ee0e681e89bcadf611ef89"
     },
     {
       "id": "smart.buttons",
@@ -326,6 +326,6 @@
       "manifest_sha256": "f0ff164cbacb0dcd6af9fe3ee41acdfdc3da309dd7da3017950161ebe23cf741"
     }
   ],
-  "registry_sha256": "487553c7c0762f652f45453dbc78a408faf95bc55717add62de000cf8c7ea5c1",
+  "registry_sha256": "4a0db1d01efce3e5c0e521f775e46bf6dd9a73d5473c173a699a65ebe15c4757",
   "registry_schema_sha256": "d5b0a5b299fa4b044d8125a315458c37de76f0bb5c6cb686962cdec7922b14ce"
 }

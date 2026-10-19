@@ -107,6 +107,13 @@ const OPERATORS = {
   filled: (value) => scalar(value) !== null,
 };
 
+// The polygon's deliberate refusals, worded so a visitor reads them as the
+// demonstration they are rather than as a defect: four records nobody may
+// change (their title ends in «Нет прав») and pinning, which the personal
+// layer may not do (owner, 2026-10-19).
+const LOCKED_RECORD = 'Нет прав: эта запись в демо только для чтения';
+const PIN_REFUSED = 'Нет прав: в демо закреплять колонки может только администратор — закрепление видят все';
+
 export const createPolygonHost = ({
   dataset,
   // What this actor may do. Absent capabilities are answered as absent rather
@@ -144,7 +151,7 @@ export const createPolygonHost = ({
       },
       {
         key: 'view-mine', label: 'Мои', revision: 'v1', level: 'personal',
-        query: { filters: { owner: { operator: 'in', values: ['u-rim'] } }, search: '', sort: [] },
+        query: { filters: { owner: { operator: 'in', values: ['u-igor'] } }, search: '', sort: [] },
         roles: {}, layout: { columns: [] }, settings: { filter_fields: structure.list.filter_fields },
       },
     ],
@@ -378,7 +385,7 @@ export const createPolygonHost = ({
           return {
             answer: 'refused', reason: 'access-denied',
             records: locked.map(({ found }) => found.record_id),
-            message: 'Запись только для чтения',
+            message: LOCKED_RECORD,
           };
         }
 
@@ -508,7 +515,7 @@ export const createPolygonHost = ({
           if (pinning.length) {
             return {
               answer: 'refused', reason: 'shared-only-field', fields: pinning,
-              message: 'Закреплять колонки может только администратор: закрепление видят все',
+              message: PIN_REFUSED,
             };
           }
         }
@@ -776,7 +783,7 @@ export const createPolygonHost = ({
             const found = record(id);
             if (!found) return { answer: 'refused', reason: 'record-unknown' };
             if (found.editable === false) {
-              return { answer: 'refused', reason: 'access-denied', message: 'Запись только для чтения' };
+              return { answer: 'refused', reason: 'access-denied', message: LOCKED_RECORD };
             }
             if (String(payload.revision ?? '') !== String(found.revision)) {
               return { answer: 'conflict', reason: 'stale-revision', message: 'Запись изменилась, обновите её' };
@@ -807,7 +814,7 @@ export const createPolygonHost = ({
             const found = record(id);
             if (!found) return { answer: 'refused', reason: 'record-unknown' };
             if (found.editable === false) {
-              return { answer: 'refused', reason: 'access-denied', message: 'Запись только для чтения' };
+              return { answer: 'refused', reason: 'access-denied', message: LOCKED_RECORD };
             }
             // The revision the read carried is what the write is compared
             // against; answering applied to a stale one loses somebody else's

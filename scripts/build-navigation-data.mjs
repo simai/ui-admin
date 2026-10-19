@@ -216,7 +216,7 @@ const PERSON = {
 };
 
 const NOTIFICATIONS = [
-  { key: 'n1', group: 'today', title: 'Доступно обновление 1.4', body: 'Larena 1.4: профили меню и сайт в адресе.', when: '10:42', unread: true, icon: 'system_update', href: '/admin/install/updates' },
+  { key: 'n1', group: 'today', title: 'Доступно обновление 1.4', body: 'Профили меню и сайт в адресе.', when: '10:42', unread: true, icon: 'system_update', href: '/admin/install/updates' },
   { key: 'n2', group: 'today', title: 'Вход с нового устройства', body: 'Chrome, macOS, Москва.', when: '09:15', unread: true, icon: 'shield', href: '/admin/profile/sessions' },
   { key: 'n3', group: 'today', title: 'Резервная копия готова', body: null, when: '03:00', unread: true, icon: 'backup', href: '/admin/install/backups' },
   { key: 'n4', group: 'earlier', title: '4 новые заявки с сайта', body: 'simai.ru', when: 'вчера', unread: false, icon: 'inbox', href: '/admin/data/requests' },

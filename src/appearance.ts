@@ -107,7 +107,7 @@ export const mountAppearanceMenu = (slot: Element) => {
   const trigger = document.createElement('sf-avatar');
   trigger.setAttribute('slot', 'trigger');
   trigger.setAttribute('size', '1');
-  trigger.setAttribute('text', 'РЗ');
+  trigger.setAttribute('text', 'ИС');
   trigger.setAttribute('role', 'button');
   trigger.setAttribute('tabindex', '0');
   trigger.setAttribute('aria-label', words.menu);

@@ -430,9 +430,9 @@
     ],
     "users": [
       {
-        "value": "u-rim",
-        "label": "Рим Забаров",
-        "avatarText": "РЗ"
+        "value": "u-igor",
+        "label": "Игорь Смирнов",
+        "avatarText": "ИС"
       },
       {
         "value": "u-anna",
@@ -778,9 +778,9 @@
           "label": "Хранилище"
         },
         "reviewer": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "head_script": "",
         "theme_css": "",
@@ -805,9 +805,9 @@
           "label": "Коммуникации"
         },
         "owner": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "status": "review",
         "tags": [
@@ -844,9 +844,9 @@
           "label": "Ядро платформы"
         },
         "reviewer": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "head_script": "",
         "theme_css": "",
@@ -1171,9 +1171,9 @@
           "label": "Платежи и биллинг"
         },
         "owner": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "status": "frozen",
         "tags": [
@@ -1214,9 +1214,9 @@
           "label": "Очереди"
         },
         "reviewer": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "head_script": "<script>\n  window.addEventListener('DOMContentLoaded', () => {\n    document.documentElement.dataset.ready = 'true';\n  });\n</script>",
         "theme_css": "",
@@ -1481,9 +1481,9 @@
           "label": "Хранилище"
         },
         "reviewer": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "head_script": "",
         "theme_css": "",
@@ -1669,14 +1669,14 @@
     {
       "record_id": "r-018",
       "revision": 9,
-      "label": "SIMAI: Биллинг №219",
+      "label": "SIMAI: Биллинг №219 · Нет прав",
       "editable": false,
       "actions": [
         "view"
       ],
       "values": {
         "code": "simai.billing",
-        "title": "SIMAI: Биллинг №219",
+        "title": "SIMAI: Биллинг №219 · Нет прав",
         "section": {
           "value": "sec-content",
           "label": "Контент"
@@ -1725,7 +1725,7 @@
         },
         "head_script": "<script>\n  window.addEventListener('DOMContentLoaded', () => {\n    document.documentElement.dataset.ready = 'true';\n  });\n</script>",
         "theme_css": "",
-        "notes": ""
+        "notes": "Демо: у вас нет прав на эту запись — правка и удаление запрещены намеренно."
       }
     },
     {
@@ -2005,9 +2005,9 @@
           "label": "Администрирование"
         },
         "owner": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "status": "review",
         "tags": [
@@ -2624,9 +2624,9 @@
           "label": "Администрирование"
         },
         "owner": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "status": "active",
         "tags": [
@@ -2659,9 +2659,9 @@
           "label": "Очереди"
         },
         "reviewer": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "head_script": "",
         "theme_css": "",
@@ -2919,9 +2919,9 @@
           "label": "Ядро платформы"
         },
         "reviewer": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "head_script": "",
         "theme_css": "",
@@ -3106,9 +3106,9 @@
           "label": "Очереди"
         },
         "reviewer": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "head_script": "",
         "theme_css": "",
@@ -3367,9 +3367,9 @@
           "label": "Авторизация"
         },
         "reviewer": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "head_script": "",
         "theme_css": ".sf-admin-shell {\n  --sf-admin-accent: var(--sf-primary);\n}",
@@ -3499,7 +3499,7 @@
     {
       "record_id": "r-047",
       "revision": 2,
-      "label": "SIMAI: Уведомления №422",
+      "label": "SIMAI: Уведомления №422 · Нет прав",
       "editable": false,
       "actions": [
         "view",
@@ -3508,15 +3508,15 @@
       ],
       "values": {
         "code": "simai.notify.v3",
-        "title": "SIMAI: Уведомления №422",
+        "title": "SIMAI: Уведомления №422 · Нет прав",
         "section": {
           "value": "sec-shop",
           "label": "Магазин"
         },
         "owner": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "status": "failed",
         "tags": [
@@ -3544,7 +3544,7 @@
         "reviewer": null,
         "head_script": "",
         "theme_css": "",
-        "notes": ""
+        "notes": "Демо: у вас нет прав на эту запись — правка и удаление запрещены намеренно."
       }
     },
     {
@@ -3771,9 +3771,9 @@
           "label": "Хранилище"
         },
         "reviewer": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "head_script": "",
         "theme_css": "",
@@ -4035,9 +4035,9 @@
           "label": "Авторизация"
         },
         "reviewer": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "head_script": "",
         "theme_css": "",
@@ -4175,9 +4175,9 @@
           "label": "Хранилище"
         },
         "reviewer": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "head_script": "",
         "theme_css": "",
@@ -4200,9 +4200,9 @@
           "label": "Администрирование"
         },
         "owner": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "status": "done",
         "tags": [
@@ -4372,9 +4372,9 @@
           "label": "Авторизация"
         },
         "reviewer": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "head_script": "",
         "theme_css": "",
@@ -4545,9 +4545,9 @@
           "label": "Отчётность"
         },
         "reviewer": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "head_script": "",
         "theme_css": "",
@@ -4572,9 +4572,9 @@
           "label": "Инфраструктура"
         },
         "owner": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "status": "review",
         "tags": [
@@ -4870,9 +4870,9 @@
           "label": "Ядро платформы"
         },
         "reviewer": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "head_script": "",
         "theme_css": ".sf-admin-shell {\n  --sf-admin-accent: var(--sf-primary);\n}",
@@ -5288,9 +5288,9 @@
           "label": "Ядро платформы"
         },
         "reviewer": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "head_script": "",
         "theme_css": "",
@@ -5300,7 +5300,7 @@
     {
       "record_id": "r-076",
       "revision": 4,
-      "label": "SIMAI: Платежи №625",
+      "label": "SIMAI: Платежи №625 · Нет прав",
       "editable": false,
       "actions": [
         "view",
@@ -5309,7 +5309,7 @@
       ],
       "values": {
         "code": "simai.payments.v4",
-        "title": "SIMAI: Платежи №625",
+        "title": "SIMAI: Платежи №625 · Нет прав",
         "section": {
           "value": "sec-billing",
           "label": "Платежи и биллинг"
@@ -5358,7 +5358,7 @@
         },
         "head_script": "",
         "theme_css": "",
-        "notes": ""
+        "notes": "Демо: у вас нет прав на эту запись — правка и удаление запрещены намеренно."
       }
     },
     {
@@ -5779,9 +5779,9 @@
           "label": "Ядро платформы"
         },
         "reviewer": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "head_script": "<script>\n  window.addEventListener('DOMContentLoaded', () => {\n    document.documentElement.dataset.ready = 'true';\n  });\n</script>",
         "theme_css": "",
@@ -5848,9 +5848,9 @@
           "label": "Коммуникации"
         },
         "owner": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "status": "done",
         "tags": [
@@ -5948,9 +5948,9 @@
           "label": "Авторизация"
         },
         "reviewer": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "head_script": "",
         "theme_css": "",
@@ -6130,9 +6130,9 @@
           "label": "Ядро платформы"
         },
         "reviewer": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "head_script": "",
         "theme_css": "",
@@ -6308,9 +6308,9 @@
           "label": "Авторизация"
         },
         "reviewer": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "head_script": "",
         "theme_css": "",
@@ -6407,9 +6407,9 @@
           "label": "Платежи и биллинг"
         },
         "owner": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "status": "frozen",
         "tags": [
@@ -6699,9 +6699,9 @@
           "label": "Коммуникации"
         },
         "owner": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "status": "review",
         "tags": [
@@ -6898,9 +6898,9 @@
           "label": "Магазин"
         },
         "owner": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "status": "done",
         "tags": [
@@ -7128,7 +7128,7 @@
     {
       "record_id": "r-105",
       "revision": 6,
-      "label": "SIMAI: Медиа №828",
+      "label": "SIMAI: Медиа №828 · Нет прав",
       "editable": false,
       "actions": [
         "view",
@@ -7137,7 +7137,7 @@
       ],
       "values": {
         "code": "simai.media.v1",
-        "title": "SIMAI: Медиа №828",
+        "title": "SIMAI: Медиа №828 · Нет прав",
         "section": {
           "value": "sec-content",
           "label": "Контент"
@@ -7164,7 +7164,7 @@
         "reviewer": null,
         "head_script": "",
         "theme_css": "",
-        "notes": null
+        "notes": "Демо: у вас нет прав на эту запись — правка и удаление запрещены намеренно."
       }
     },
     {
@@ -7225,9 +7225,9 @@
           "label": "Ядро платформы"
         },
         "reviewer": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "head_script": "<script>\n  window.addEventListener('DOMContentLoaded', () => {\n    document.documentElement.dataset.ready = 'true';\n  });\n</script>",
         "theme_css": "",
@@ -7500,9 +7500,9 @@
           "label": "Авторизация"
         },
         "reviewer": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "head_script": "",
         "theme_css": "",
@@ -7527,9 +7527,9 @@
           "label": "Магазин"
         },
         "owner": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "status": "active",
         "tags": [
@@ -7619,9 +7619,9 @@
           "label": "Авторизация"
         },
         "reviewer": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "head_script": "",
         "theme_css": "",
@@ -7983,9 +7983,9 @@
           "label": "Авторизация"
         },
         "reviewer": {
-          "value": "u-rim",
-          "label": "Рим Забаров",
-          "avatarText": "РЗ"
+          "value": "u-igor",
+          "label": "Игорь Смирнов",
+          "avatarText": "ИС"
         },
         "head_script": "",
         "theme_css": "",

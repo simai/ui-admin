@@ -80,7 +80,7 @@ const SECTIONS = [
 ];
 
 const USERS = [
-  { value: 'u-rim', label: 'Рим Забаров', avatarText: 'РЗ' },
+  { value: 'u-igor', label: 'Игорь Смирнов', avatarText: 'ИС' },
   { value: 'u-anna', label: 'Анна Петрова', avatarText: 'АП' },
   { value: 'u-dmitry', label: 'Дмитрий Орлов', avatarText: 'ДО' },
   { value: 'u-elena', label: 'Елена Кузнецова', avatarText: 'ЕК' },
@@ -251,6 +251,11 @@ const buildRecord = (index) => {
   // than as one case among many.
   const sparse = index % 11 === 5;
   const longTitle = index % 17 === 9;
+  // Four records refuse every write on purpose: «нет доступа» is a state a
+  // consumer has to show. Their title says so, so a visitor who meets the
+  // refusal reads it as the demonstration it is rather than as a defect
+  // (owner, 2026-10-19).
+  const locked = index % 29 === 17;
 
   const values = {
     code: `simai.${slug}${index % 5 === 2 ? '' : `.v${(index % 4) + 1}`}`,
@@ -292,11 +297,17 @@ const buildRecord = (index) => {
     }
   }
 
+  // After the sparse case, which would otherwise empty the note.
+  if (locked) {
+    values.title = `${values.title} · Нет прав`;
+    values.notes = 'Демо: у вас нет прав на эту запись — правка и удаление запрещены намеренно.';
+  }
+
   return {
     record_id: `r-${String(index + 1).padStart(3, '0')}`,
     revision: (index % 9) + 1,
     label: values.title,
-    editable: index % 29 !== 17,
+    editable: !locked,
     actions: index % 4 === 1 ? ['view'] : ['view', 'edit', 'delete'],
     values,
   };

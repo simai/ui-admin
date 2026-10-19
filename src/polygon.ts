@@ -295,9 +295,13 @@ const start = async () => {
   };
 
 
-  // A row's view action opens the record over the list. The data view re-raises
-  // the table's own intent, so this is the event to listen for rather than a
-  // second name for the same thing.
+  // A row's view or edit action opens the record over the list. Only those:
+  // the data view applies every row action itself -- it raises
+  // `record.mutate` (or `record.open`) on the host port it holds, shows the
+  // answer and redraws the rows. This listener used to raise `record.mutate`
+  // a second time, so one delete reached the host twice and the second answer,
+  // «delete: refused (record-unknown)», was what the person was shown
+  // (docs review, 2026-10-19).
   list?.addEventListener('sf-table-action-intent', (event) => {
     const detail = (event as CustomEvent).detail ?? {};
     const action = String(detail.action_id ?? '');
@@ -310,19 +314,7 @@ const start = async () => {
       // record, and the link can be sent to somebody -- which is what an admin
       // is expected to do and what this page did not do at all.
       go({ record: id });
-      return;
     }
-
-    // Everything else is the host's to apply, and the list is told to read
-    // again afterwards so the row shows what the host now holds.
-    void host.raise('record.mutate', {
-      action_id: action,
-      record_ids: detail.record_ids ?? [id],
-      revisions: detail.revisions ?? {},
-    }).then((answer) => {
-      say(`${action}: ${String(answer.answer)}${answer.reason ? ` (${String(answer.reason)})` : ''}`);
-      list?.refresh?.();
-    });
   });
 
   // A record saved in the panel is a row in the list. The panel emits no

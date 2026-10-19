@@ -298,3 +298,90 @@ test(`Admin loads sf-table data through Vite ${mode} and mock API`, async () => 
   assert.deepEqual(pageErrors, []);
   assert.deepEqual(failedRequests, []);
 });
+
+// The polygon itself, for two defects the docs team found on it and no unit
+// could see (docs review, 2026-10-19).
+// - The menu's ⌘K palette is fixed inside the sticky menu column, and a sticky
+//   box is a stacking context: the list's sticky head was painted over the
+//   palette and its rows could not be clicked. The probe asks the browser what
+//   is under the middle of every palette row.
+// - One delete reached the host twice -- the data view applies row actions
+//   itself and the page raised `record.mutate` again -- and the second answer,
+//   «refused (record-unknown)», was shown to the person. The probe counts the
+//   intents the host receives for one delete.
+test(`Polygon palette is above the list and one delete is one intent (Vite ${mode})`, async () => {
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  const pageErrors = [];
+  page.on('pageerror', (error) => pageErrors.push(error.stack || error.message));
+
+  await page.goto(new URL('/', appOrigin).href, { waitUntil: 'networkidle' });
+  await page.waitForFunction(
+    () => document.querySelector('#solutions sf-table')?.getTableData?.().rows?.length > 0,
+    null,
+    { timeout: 20_000 },
+  );
+
+  await page.locator('sf-admin-menu [aria-haspopup="dialog"]').first().click();
+  await page.keyboard.type('по');
+  await page.waitForFunction(() => {
+    const find = (root) => root.querySelector('.sf-admin-nav-palette-item')
+      || [...root.querySelectorAll('*')].map((node) => node.shadowRoot && find(node.shadowRoot)).find(Boolean);
+    return Boolean(find(document));
+  }, null, { timeout: 10_000 });
+
+  const palette = await page.evaluate(() => {
+    const findAll = (root, selector) => [
+      ...root.querySelectorAll(selector),
+      ...[...root.querySelectorAll('*')].flatMap((node) => (node.shadowRoot ? findAll(node.shadowRoot, selector) : [])),
+    ];
+    const deepHit = (x, y) => {
+      let hit = document.elementFromPoint(x, y);
+      while (hit?.shadowRoot) {
+        const inner = hit.shadowRoot.elementFromPoint(x, y);
+        if (!inner || inner === hit) break;
+        hit = inner;
+      }
+      return hit;
+    };
+    return findAll(document, '.sf-admin-nav-palette-field, .sf-admin-nav-palette-item').map((row) => {
+      const box = row.getBoundingClientRect();
+      const hit = deepHit(box.x + box.width / 2, box.y + box.height / 2);
+      return { row: row.className, onTop: row.contains(hit), hit: hit ? `${hit.tagName}.${hit.className}` : null };
+    });
+  });
+  assert.ok(palette.length >= 2, `the palette shows its field and a result: ${JSON.stringify(palette)}`);
+  assert.deepEqual(palette.filter((row) => !row.onTop), [], 'every palette row is the topmost element under itself');
+  await page.keyboard.press('Escape');
+
+  const deletion = await page.evaluate(async () => {
+    const list = document.querySelector('#solutions');
+    const table = list.querySelector('sf-table') ?? list.shadowRoot?.querySelector('sf-table');
+    const port = list.hostPort;
+    const raised = [];
+    const raise = port.raise;
+    port.raise = async function (intent, payload, ...rest) {
+      const answer = await raise.call(this, intent, payload, ...rest);
+      if (intent === 'record.mutate') raised.push({ ids: payload.record_ids, answer: answer.answer, reason: answer.reason ?? null });
+      return answer;
+    };
+    const target = list.records.find((record) => record.actions?.includes('delete')
+      && !JSON.stringify(record).includes('Нет прав'));
+    table.requestActionIntent('delete', [target.id]);
+    await new Promise((settle) => setTimeout(settle, 1500));
+    port.raise = raise;
+    return {
+      id: target.id,
+      raised,
+      gone: !list.records.some((record) => record.id === target.id),
+      state: document.querySelector('#state')?.textContent ?? '',
+      text: document.body.innerText,
+    };
+  });
+  await page.close();
+
+  assert.deepEqual(deletion.raised, [{ ids: [deletion.id], answer: 'applied', reason: null }], 'one delete is one record.mutate');
+  assert.equal(deletion.gone, true);
+  assert.equal(deletion.state, '');
+  assert.doesNotMatch(deletion.text, /refused|record-unknown/);
+  assert.deepEqual(pageErrors, []);
+});

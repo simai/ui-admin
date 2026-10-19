@@ -23,6 +23,14 @@ aside.admin-navigation {
   inset-block-start: 0;
   align-self: flex-start;
   block-size: 100dvh;
+  /* A sticky box is a stacking context of its own, so the menu's ⌘K palette
+     (fixed, z-index 1000 inside it) could rise no higher than this column, and
+     the list's sticky head, later in the document, was painted over the
+     palette: its rows could not be clicked (docs review, 2026-10-19). One step
+     of the Framework's ladder puts the column, and so the palette, above the
+     page's own positioned parts (the table's head and pinned cells reach 6),
+     and below the overlays that stand at --sf-z-index-9. */
+  z-index: var(--sf-z-index-1, 10);
 }
 
 main,
@@ -48,7 +56,10 @@ section {
   display: none;
 }
 
-@media (max-width: 720px) {
+/* The Framework's breakpoint ladder is in rem (sm 32rem, md 44rem, lg 60rem),
+   so it follows the reader's font size rather than a pixel count; below md is
+   a phone here. Written as a range, the way the Framework writes its own. */
+@media (width < 44rem) {
   html,
   body {
     max-height: none;

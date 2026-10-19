@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "compatibilityId": "ui-b57518c7142d",
-  "pairIdentitySha256": "6084c6386cb7e44e668ebc4cf3edc9f4b5221266b8233de23429983d1191f4b8",
+  "compatibilityId": "ui-2af0b2a7f490",
+  "pairIdentitySha256": "176a41b833173099b3d21178cb39ba1e44878a07a8b8c5b1b85363be1ca609ae",
   "contractSha256": "b70d02d6902345e17954eafb44f24052b7478439184286bed5a8df6c69c1fe45",
   "core": {
     "repository": "../ui",
-    "commit": "b57518c7142d289c485c34521806045f57703309",
+    "commit": "2af0b2a7f490d5ae221df80f1572266c12927f42",
     "sourceDir": "distr",
     "requiredFiles": [
       {
@@ -14,7 +14,7 @@
       },
       {
         "path": "core/js/core.js",
-        "sha256": "83ad881988afcc5f01f7a57ff21dded54394dfcea4066380d792f5b1bdc3b57a"
+        "sha256": "0288e2df79355a8e42fc176c5e4d60bdccb4da24b33bbe8dde9cd44093d8ba5f"
       },
       {
         "path": "core/js/core-loader.js",

@@ -66,7 +66,9 @@ async function findAvailablePort() {
 }
 
 async function waitFor(url, description) {
-  const deadline = Date.now() + 15_000;
+  // A loaded machine took 77 s to start the mock API (2026-10-19); the wait
+  // ends as soon as the server answers, so a long deadline costs nothing.
+  const deadline = Date.now() + 180_000;
 
   while (Date.now() < deadline) {
     try {

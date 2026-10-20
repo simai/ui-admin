@@ -76,6 +76,12 @@ lock.source = {
   path: folder,
   tree: receipt.package_source.tree,
 };
+// The ui-builder commit that wrote the pinned archive. The archive digest is
+// what proves the bytes; this names the builder a clean checkout (the server
+// deploy workflow) rebuilds them with. Outside the distribution identity: a
+// later builder that writes the same archive is not a new package.
+if (!receipt.builder?.clean) throw new Error('the package was built by a ui-builder checkout with local changes');
+lock.builder = { repository: receipt.builder.repository, revision: receipt.builder.revision };
 lock.archiveSha256 = receipt.output.archive_sha256;
 lock.smart = { ...lock.smart, requiredFiles };
 lock.distributionIdentitySha256 = distributionIdentitySha256(lock);

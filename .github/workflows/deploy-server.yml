@@ -1,0 +1,110 @@
+name: Deploy to the simai-env server
+
+# admin.simai.io on the simai-env server 201.51.24.222 deploys itself from this
+# repository (owner, 2026-10-20; ui-control
+# control/SERVER-SIMAI-IO-PLAN-2026-10-20.md).
+#
+# Inert until enabled. A push to main does nothing until the repository
+# variable SIMAI_SERVER_DEPLOY is "true". A manual run always builds and, by
+# default (dry_run), stops there: the artifact is kept for a look and nothing
+# reaches the server. The deploy job additionally needs the environment
+# simai-server with the secrets SIMAI_DEPLOY_KEY and SIMAI_DEPLOY_KNOWN_HOSTS.
+#
+# Never on a pull request: the deploy key must not be reachable from a branch
+# someone else wrote.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Build and keep the artifact only; deploy nothing
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+# One run per ref at a time; a newer deploy waits for the running one instead
+# of cancelling it half-way.
+concurrency:
+  group: deploy-server-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  # `npm run build` exactly as on a workstation. It reads the Framework pair
+  # and the larena package from repositories beside this checkout (../ui,
+  # ../larena-ui, ../ui-source, ../ui-builder), each cloned at the revision
+  # config/simai-assets.lock.json and config/simai-package.lock.json pin
+  # (deploy/simai-server/pins.mjs), and rebuilds the package with ui-builder;
+  # the build refuses an archive whose sha256 is not the pinned one. The same
+  # approach as simai/ui-doc's CI, which rebuilds the package on Linux byte for
+  # byte.
+  build:
+    if: vars.SIMAI_SERVER_DEPLOY == 'true' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          # The node the pinned package receipt was built with.
+          node-version: "24.21.0"
+      - name: Read the pins
+        run: node deploy/simai-server/pins.mjs | tee -a "$GITHUB_ENV"
+      - name: Clone the sibling repositories at the pins
+        run: deploy/simai-server/clone-inputs.sh "$(dirname "$GITHUB_WORKSPACE")"
+      - run: npm ci --no-audit --no-fund
+      - run: npm run build
+      - name: Assemble the artifact
+        run: deploy/simai-server/assemble.sh "$RUNNER_TEMP/site"
+      - name: Smoke the artifact's server
+        run: deploy/simai-server/smoke.sh "$RUNNER_TEMP/site"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: site
+          path: ${{ runner.temp }}/site
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 7
+
+  deploy:
+    needs: build
+    if: >-
+      vars.SIMAI_SERVER_DEPLOY == 'true'
+      && github.ref == 'refs/heads/main'
+      && !(github.event_name == 'workflow_dispatch' && inputs.dry_run)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: simai-server
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: site
+          path: ${{ runner.temp }}/deploy/site
+      # The key and the host key reach the files through the environment,
+      # never through a command line or the log.
+      - name: Write the deploy key and the server's host key
+        working-directory: ${{ runner.temp }}/deploy
+        env:
+          SIMAI_DEPLOY_KEY: ${{ secrets.SIMAI_DEPLOY_KEY }}
+          SIMAI_DEPLOY_KNOWN_HOSTS: ${{ secrets.SIMAI_DEPLOY_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+          test -n "$SIMAI_DEPLOY_KEY" && test -n "$SIMAI_DEPLOY_KNOWN_HOSTS"
+          install -m 600 /dev/null key
+          printf '%s\n' "$SIMAI_DEPLOY_KEY" >> key
+          install -m 600 /dev/null known_hosts
+          printf '%s\n' "$SIMAI_DEPLOY_KNOWN_HOSTS" >> known_hosts
+      - name: Deploy
+        working-directory: ${{ runner.temp }}/deploy
+        run: |
+          set -euo pipefail
+          tar -C site -czf site.tgz .
+          sum=$(sha256sum site.tgz | cut -d' ' -f1)
+          ssh -i key -o UserKnownHostsFile=known_hosts -o StrictHostKeyChecking=yes simai-deploy@201.51.24.222 "deploy-artifact $sum" < site.tgz
+      - name: Remove the deploy key
+        if: always()
+        run: rm -f "$RUNNER_TEMP/deploy/key" "$RUNNER_TEMP/deploy/known_hosts"

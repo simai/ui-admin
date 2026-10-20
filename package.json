@@ -28,10 +28,12 @@
     "data:check": "node scripts/build-polygon-data.mjs --check && node scripts/build-navigation-data.mjs --check",
     "check:polygon": "node scripts/check-polygon.mjs"
   },
-  "devDependencies": {
+  "dependencies": {
     "@faker-js/faker": "^10.6.0",
     "cors": "^2.8.6",
-    "express": "^5.2.1",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
     "json-server": "^1.0.0-beta.15",
     "playwright-core": "^1.62.1",
     "typescript": "~6.0.2",

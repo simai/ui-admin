@@ -7,6 +7,10 @@
     "path": "components",
     "tree": "e4454feedf444568cf2f21129499990bef06a524"
   },
+  "builder": {
+    "repository": "simai/ui-builder",
+    "revision": "a1405ae3563fb07995edf05c0f90461104baebdc"
+  },
   "smart": {
     "targetDir": "",
     "requiredFiles": [

@@ -1,0 +1,20 @@
+{
+  "schema": "simai-app/1",
+  "profile": "node",
+  "node": {
+    "version": "22",
+    "start": "node server.js"
+  },
+  "static": {
+    "root": "dist"
+  },
+  "routes": [
+    {
+      "path": "/api/",
+      "to": "service"
+    }
+  ],
+  "health": {
+    "path": "/"
+  }
+}

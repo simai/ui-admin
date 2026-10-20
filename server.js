@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import fs from 'fs/promises';
+import {existsSync} from 'fs';
+import {resolve} from 'path';
 import {faker} from '@faker-js/faker/locale/ru';
 
 const app = express();
@@ -14,7 +16,12 @@ const SERVER_BASE_URL = `http://localhost:${SERVER_PORT}`;
 // directory, so a server can keep it across releases (simai-env "shared").
 // It is served under /api/, the one prefix routed to this service: /assets/ on
 // a deployed site is Vite's bundles.
-const STATE_DIR = './state';
+// SIMAI_STATE_DIR lets a server keep it outside the release directory.
+const STATE_DIR = process.env.SIMAI_STATE_DIR || './state';
+// The built app (npm run build). When it is there, this server is the whole
+// site: the app, its pages and the mock API, so a plain node host serves it.
+const DIST_DIR = resolve(process.env.SIMAI_DIST_DIR || './dist');
+const SERVES_APP = existsSync(`${DIST_DIR}/index.html`);
 const DATA_FILE = `${STATE_DIR}/data.json`;
 const PUBLIC_DIR = './public';
 const AVATAR_DIR = `${STATE_DIR}/avatars`;
@@ -265,6 +272,12 @@ const fieldTypeRegistry = [
         ],
     },
 ];
+
+// The app's own files come first: dist/assets holds Vite's bundles, which the
+// legacy /assets mount below would otherwise shadow.
+if (SERVES_APP) {
+    app.use(express.static(DIST_DIR, {extensions: ['html'], index: 'index.html'}));
+}
 
 app.use(`${ASSET_PUBLIC_BASE}/avatars`, express.static(AVATAR_DIR));
 app.use(`${ASSET_PUBLIC_BASE}/uploads`, express.static(UPLOAD_DIR));
@@ -4855,6 +4868,19 @@ function tasksHandler(req, res) {
             totalPages: Math.ceil(total / limit),
             hasMore: nextOffset < total,
         },
+    });
+}
+
+// A deep link into the app gets the app; the API and asset paths keep their
+// own 404s.
+if (SERVES_APP) {
+    app.get(/^(?!\/api\/|\/assets\/).*/, (req, res, next) => {
+        if (!req.accepts('html')) {
+            next();
+            return;
+        }
+
+        res.sendFile(`${DIST_DIR}/index.html`);
     });
 }
 

@@ -6,21 +6,11 @@
     "start": "node server.js",
     "install": "none"
   },
-  "static": {
-    "root": "dist",
-    "fallback": "/index.html"
-  },
-  "routes": [
-    {
-      "path": "/api/",
-      "to": "service"
-    }
-  ],
   "shared": [
     "state"
   ],
   "health": {
-    "path": "/api/settings/get",
-    "timeout": 60
+    "path": "/api/field-types",
+    "timeout": 120
   }
 }

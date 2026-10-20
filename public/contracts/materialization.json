@@ -11,7 +11,7 @@
       "id": "smart.avatar",
       "version": "1.0.0",
       "file": "smart.avatar.json",
-      "manifest_sha256": "fe2890597ec72fdc24495f46f762c984bad6799b38e9ef58af25f1019eaaa39e"
+      "manifest_sha256": "abe2aa676aedc966cec69af94128dac2d12d9d082f499813f5473cd45d6ce6c5"
     },
     {
       "id": "smart.avatars",
@@ -71,7 +71,7 @@
       "id": "smart.context-menu",
       "version": "1.3.0",
       "file": "smart.context-menu.json",
-      "manifest_sha256": "49e3b3ce44a3ee6e89c4ecfffb66a18e8eb055153f46098d37ce2385c026aef5"
+      "manifest_sha256": "e5a091fec642a92aa69b195c35bced9f211df3e009c11ff1954ba47f67019690"
     },
     {
       "id": "smart.copy-button",
@@ -101,7 +101,7 @@
       "id": "smart.drawer",
       "version": "1.3.0",
       "file": "smart.drawer.json",
-      "manifest_sha256": "928950c4ca58c4b9bc548015831c156cc0cde0bda9c76096742a69fc0f02b562"
+      "manifest_sha256": "d466c0b2aa68d6fe50dde82ceb024390974a99008b39e115a3bec949a47a9898"
     },
     {
       "id": "smart.dropdown",
@@ -143,13 +143,13 @@
       "id": "smart.icon-buttons",
       "version": "1.0.0",
       "file": "smart.icon-buttons.json",
-      "manifest_sha256": "db0a58c036e24ff40445c2a52ec31400e863d2196efbd1e161bb9e39642a4f0c"
+      "manifest_sha256": "63bed80cae2edc1693d111c639dca9ccee305615342ae3013f0bc0ceb164c399"
     },
     {
       "id": "smart.icons",
       "version": "1.0.0",
       "file": "smart.icons.json",
-      "manifest_sha256": "e085e15f211b4b4b25ef72f901418fd2097bf6fa618e502ec24d66ff08e7d8ae"
+      "manifest_sha256": "d72a1c232d859dd2b6e203420357e620026ee9ad3afe50c5644b95b6135670ca"
     },
     {
       "id": "smart.inline-editor",
@@ -191,7 +191,7 @@
       "id": "smart.popover",
       "version": "1.0.0",
       "file": "smart.popover.json",
-      "manifest_sha256": "ded02a58d89a3769e21de67244157282e832d7ec0e985812c926427332441780"
+      "manifest_sha256": "94dcd155053237001f594498340e0b1497dd85fec73dbb3e7262a8b1757ccb51"
     },
     {
       "id": "smart.profile-picker",
@@ -326,6 +326,6 @@
       "manifest_sha256": "f0ff164cbacb0dcd6af9fe3ee41acdfdc3da309dd7da3017950161ebe23cf741"
     }
   ],
-  "registry_sha256": "29b6d4587ff6e2f37696c7a38c1612bb483ff904daa974295603c102ad821fd4",
+  "registry_sha256": "eb5980dfde9743fe0f5c4ecddce08552dff3e417b43e0e4fb1bf750e3105829a",
   "registry_schema_sha256": "d5b0a5b299fa4b044d8125a315458c37de76f0bb5c6cb686962cdec7922b14ce"
 }

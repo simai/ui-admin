@@ -355,35 +355,152 @@ test(`Polygon palette is above the list and one delete is one intent (Vite ${mod
   assert.deepEqual(palette.filter((row) => !row.onTop), [], 'every palette row is the topmost element under itself');
   await page.keyboard.press('Escape');
 
-  const deletion = await page.evaluate(async () => {
+  // A delete is asked first, as the real Larena host asks (docs review,
+  // round 4, 2026-10-20): the host refuses the first record.mutate with
+  // confirm_required, the data view shows «Подтвердите изменение», and the
+  // same call carrying the digest applies. That is still one delete: one
+  // person's intent, one confirmation round, one record gone -- not the
+  // repeated call that used to answer «record-unknown» (a006b42).
+  const started = await page.evaluate(() => {
     const list = document.querySelector('#solutions');
     const table = list.querySelector('sf-table') ?? list.shadowRoot?.querySelector('sf-table');
     const port = list.hostPort;
     const raised = [];
+    window.__deleteRaised = raised;
     const raise = port.raise;
+    window.__deleteRestore = () => { port.raise = raise; };
     port.raise = async function (intent, payload, ...rest) {
       const answer = await raise.call(this, intent, payload, ...rest);
-      if (intent === 'record.mutate') raised.push({ ids: payload.record_ids, answer: answer.answer, reason: answer.reason ?? null });
+      if (intent === 'record.mutate') {
+        raised.push({
+          ids: payload.record_ids, action: payload.action_id ?? null, confirmed: Boolean(payload.confirm),
+          answer: answer.answer, reason: answer.reason ?? null,
+        });
+      }
       return answer;
     };
     const target = list.records.find((record) => record.actions?.includes('delete')
       && !JSON.stringify(record).includes('Нет прав'));
     table.requestActionIntent('delete', [target.id]);
-    await new Promise((settle) => setTimeout(settle, 1500));
-    port.raise = raise;
+    return { id: target.id };
+  });
+
+  const dialog = page.locator('#solutions dialog.sf-data-view-dialog');
+  await dialog.waitFor({ state: 'visible', timeout: 10_000 });
+  const asked = await page.evaluate((id) => ({
+    dialogText: document.querySelector('#solutions dialog.sf-data-view-dialog')?.innerText ?? '',
+    stillThere: document.querySelector('#solutions').records.some((record) => record.id === id),
+    raised: [...window.__deleteRaised],
+  }), started.id);
+  assert.match(asked.dialogText, /Подтвердите изменение/);
+  assert.match(asked.dialogText, /Запись будет удалена\./);
+  assert.equal(asked.stillThere, true, 'the record stays until the delete is confirmed');
+  assert.deepEqual(asked.raised, [
+    { ids: [started.id], action: 'delete', confirmed: false, answer: 'refused', reason: 'confirm_required' },
+  ], 'the first call asks for confirmation and deletes nothing');
+
+  await dialog.locator('[data-apply]').last().click();
+  await page.waitForFunction(
+    (id) => !document.querySelector('#solutions').records.some((record) => record.id === id),
+    started.id,
+    { timeout: 10_000 },
+  );
+  await page.waitForTimeout(500);
+  const deletion = await page.evaluate((id) => {
+    window.__deleteRestore();
     return {
-      id: target.id,
-      raised,
-      gone: !list.records.some((record) => record.id === target.id),
+      id,
+      raised: window.__deleteRaised,
+      gone: !document.querySelector('#solutions').records.some((record) => record.id === id),
+      dialogs: document.querySelectorAll('#solutions dialog.sf-data-view-dialog').length,
       state: document.querySelector('#state')?.textContent ?? '',
       text: document.body.innerText,
     };
-  });
+  }, started.id);
   await page.close();
 
-  assert.deepEqual(deletion.raised, [{ ids: [deletion.id], answer: 'applied', reason: null }], 'one delete is one record.mutate');
+  assert.deepEqual(deletion.raised, [
+    { ids: [deletion.id], action: 'delete', confirmed: false, answer: 'refused', reason: 'confirm_required' },
+    { ids: [deletion.id], action: 'delete', confirmed: true, answer: 'applied', reason: null },
+  ], 'one delete is one intent: one confirmation round, then one applied call');
   assert.equal(deletion.gone, true);
+  assert.equal(deletion.dialogs, 0, 'the confirmation closes');
   assert.equal(deletion.state, '');
-  assert.doesNotMatch(deletion.text, /refused|record-unknown/);
+  assert.doesNotMatch(deletion.text, /refused|record-unknown|confirm_required/);
+  assert.deepEqual(pageErrors, []);
+});
+
+// On a phone the menu opens full screen under the «Меню» bar. The bar used to
+// stand over the open menu's first row, so the site switch could not be pressed
+// at 390 (docs review, round 4, 2026-10-20). Every row on screen must be the
+// topmost element at its own centre, and the bar must still close the menu.
+test(`Polygon phone menu: every row is clickable under the toggle (Vite ${mode})`, async () => {
+  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  const pageErrors = [];
+  page.on('pageerror', (error) => pageErrors.push(error.stack || error.message));
+
+  await page.goto(new URL('/', appOrigin).href, { waitUntil: 'networkidle' });
+  const toggle = page.locator('.admin-navigation-toggle sf-button button');
+  await toggle.click();
+  await page.waitForFunction(() => {
+    const switcher = document.querySelector('aside.admin-navigation .sf-admin-nav-site-trigger');
+    return document.body.hasAttribute('data-menu-open') && switcher && switcher.getBoundingClientRect().height > 0;
+  }, null, { timeout: 10_000 });
+
+  const menu = await page.evaluate(() => {
+    const deepHit = (x, y) => {
+      let hit = document.elementFromPoint(x, y);
+      while (hit?.shadowRoot) {
+        const inner = hit.shadowRoot.elementFromPoint(x, y);
+        if (!inner || inner === hit) break;
+        hit = inner;
+      }
+      return hit;
+    };
+    const describe = (node) => (node ? `${node.tagName}.${String(node.className).slice(0, 60)}` : null);
+    const bar = document.querySelector('.admin-navigation-toggle').getBoundingClientRect();
+    const rows = [...document.querySelectorAll('aside.admin-navigation button, aside.admin-navigation a[href]')]
+      .filter((node) => {
+        const box = node.getBoundingClientRect();
+        return box.width > 0 && box.height > 0 && box.top >= 0 && box.bottom <= innerHeight;
+      })
+      .map((node) => {
+        const box = node.getBoundingClientRect();
+        const hit = deepHit(box.x + box.width / 2, box.y + box.height / 2);
+        return {
+          text: (node.innerText || node.getAttribute('aria-label') || '').trim().replace(/\s+/gu, ' ').slice(0, 40),
+          top: Math.round(box.top),
+          onTop: node.contains(hit),
+          hit: describe(hit),
+        };
+      });
+    const switcher = document.querySelector('aside.admin-navigation .sf-admin-nav-site-trigger');
+    const box = switcher.getBoundingClientRect();
+    const switchHit = deepHit(box.x + box.width / 2, box.y + box.height / 2);
+    return {
+      barBottom: bar.bottom,
+      switchTop: box.top,
+      switchText: switcher.innerText.trim().replace(/\s+/gu, ' '),
+      switchOnTop: switcher.contains(switchHit),
+      switchHit: describe(switchHit),
+      rows,
+    };
+  });
+
+  assert.match(menu.switchText, /Сайт компании/u);
+  assert.ok(menu.switchTop >= menu.barBottom, `the site switch starts below the bar: ${JSON.stringify(menu)}`);
+  assert.equal(menu.switchOnTop, true, `the site switch is the topmost element at its centre, not ${menu.switchHit}`);
+  assert.ok(menu.rows.length >= 3, `the open menu shows its rows: ${JSON.stringify(menu.rows)}`);
+  assert.deepEqual(menu.rows.filter((row) => !row.onTop), [], 'every menu row on screen is the topmost element at its centre');
+
+  await toggle.click();
+  await page.waitForFunction(() => !document.body.hasAttribute('data-menu-open'), null, { timeout: 5_000 });
+  const closed = await page.evaluate(() => ({
+    expanded: document.querySelector('.admin-navigation-toggle sf-button')?.getAttribute('aria-expanded'),
+    menuShown: getComputedStyle(document.querySelector('aside.admin-navigation')).display !== 'none',
+  }));
+  await page.close();
+
+  assert.deepEqual(closed, { expanded: 'false', menuShown: false }, 'the bar still closes the menu');
   assert.deepEqual(pageErrors, []);
 });

@@ -389,7 +389,22 @@ export const createPolygonHost = ({
           };
         }
 
+        // A delete is asked first, as the real Larena host asks: the first
+        // call is refused with `confirm_required`, a digest of what is about to
+        // go and a sentence a person can read; the same call carrying that
+        // digest applies. The digest names the records and their revisions, so
+        // a confirmation given for one state of the list does not delete
+        // another (docs review, round 4, 2026-10-20). The data view shows its
+        // «Подтвердите изменение» between the two calls.
         if (action === 'delete') {
+          const digest = `delete:${ids.join(',')}:${targets.map(({ found }) => found.revision).join(',')}`;
+          if (payload.confirm !== digest) {
+            return {
+              answer: 'refused', reason: 'confirm_required',
+              data: { confirm: { digest,
+                summary: ids.length === 1 ? 'Запись будет удалена.' : `Будут удалены записи: ${ids.length}.` } },
+            };
+          }
           for (const { found } of targets) {
             found.deleted = true;
             found.revision = Number(found.revision) + 1;

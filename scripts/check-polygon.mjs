@@ -298,6 +298,37 @@ const panel = await drive('simai.property-view-port', panelKit, panelReaches,
 const navigation = await drive('simai.admin-navigation-port', navigationKit, navigationReaches,
   ({ capabilities, scenario }) => createNavigationHost({ data: navigationData, capabilities, scenario }));
 
+// ─── 4: a delete is asked first ───────────────────────────────────────────────
+//
+// The real Larena host refuses the first delete with `confirm_required` and
+// applies the second call that carries the digest. A polygon that deleted in one
+// step never showed the confirmation the data view draws between the two.
+const deleteAsksFirst = await (async () => {
+  const host = createPolygonHost({ dataset, capabilities: ALL_LIST, scenario: 'default' });
+  const target = host.records.find((item) => item.editable !== false && (item.actions ?? []).includes('delete'));
+  if (!target) return { said: 'no deletable record in the dataset' };
+  const payload = { action_id: 'delete', record_ids: [target.record_id], revisions: {} };
+  const first = await host.raise('record.mutate', payload);
+  const digest = first?.data?.confirm?.digest;
+  if (first?.answer !== 'refused' || first?.reason !== 'confirm_required' || !digest
+    || first?.data?.confirm?.summary !== 'Запись будет удалена.') {
+    return { said: 'the first delete is not refused with confirm_required, a digest and «Запись будет удалена.»', first };
+  }
+  if (!host.records.some((item) => item.record_id === target.record_id)) {
+    return { said: 'the record went on the first call, before anyone confirmed' };
+  }
+  const wrong = await host.raise('record.mutate', { ...payload, confirm: `${digest}x` });
+  if (wrong?.answer !== 'refused' || wrong?.reason !== 'confirm_required') {
+    return { said: 'a digest that is not the one given was accepted', wrong };
+  }
+  const second = await host.raise('record.mutate', { ...payload, confirm: digest });
+  if (second?.answer !== 'applied' || host.records.some((item) => item.record_id === target.record_id)) {
+    return { said: 'the confirmed delete did not apply', second };
+  }
+  return null;
+})();
+if (deleteAsksFirst) failures.push({ intent: 'record.mutate', action: 'delete', ...deleteAsksFirst });
+
 process.stdout.write(`${JSON.stringify({
   schema: 'ui-admin.polygon.v1',
   records: dataset.records.length,

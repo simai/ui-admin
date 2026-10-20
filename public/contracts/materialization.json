@@ -257,7 +257,7 @@
       "id": "smart.spinner",
       "version": "1.1.0",
       "file": "smart.spinner.json",
-      "manifest_sha256": "fbfbbe9290e6522fd4269d5187bd7e87a4d82fdd9da407e16ccd0e6def6131f2"
+      "manifest_sha256": "644a4669624cd5e1232b438d53863257dedc49e9ebe304da0bd53f5cfd4c272a"
     },
     {
       "id": "smart.steps",
@@ -326,6 +326,6 @@
       "manifest_sha256": "f0ff164cbacb0dcd6af9fe3ee41acdfdc3da309dd7da3017950161ebe23cf741"
     }
   ],
-  "registry_sha256": "694f7e2368871c958c7c90b7c359a41aa41f90cef6c9d7f2d79aa094d60fcbff",
+  "registry_sha256": "29b6d4587ff6e2f37696c7a38c1612bb483ff904daa974295603c102ad821fd4",
   "registry_schema_sha256": "d5b0a5b299fa4b044d8125a315458c37de76f0bb5c6cb686962cdec7922b14ce"
 }

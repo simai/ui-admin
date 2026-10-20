@@ -82,6 +82,16 @@ const addPhoneToggle = () => {
   });
   bar.append(button);
   document.body.prepend(bar);
+  // The open menu is placed under the bar (src/style.css), so the bar's height
+  // is said where the stylesheet can read it. Measured rather than written
+  // down: it follows the button's size and the reader's font size.
+  const measure = () => {
+    document.documentElement.style.setProperty(
+      '--admin-navigation-toggle-block-size', `${bar.getBoundingClientRect().height}px`,
+    );
+  };
+  if (typeof ResizeObserver === 'function') new ResizeObserver(measure).observe(bar);
+  measure();
   addEventListener('sf-admin-menu-navigate', () => {
     document.body.removeAttribute('data-menu-open');
     button.setAttribute('aria-expanded', 'false');

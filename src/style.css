@@ -74,10 +74,17 @@ section {
     display: none;
   }
 
+  /* The open menu starts under the bar that opened it. It used to fill the
+     screen from the top, and the bar, which has to stay above the menu so it
+     can close it, covered the menu's first row: the site switch could not be
+     pressed on a phone (docs review, round 4, 2026-10-20). The bar's height is
+     measured by src/navigation.ts, because it follows the button's size and
+     the reader's font size. */
   body[data-menu-open] aside.admin-navigation {
     display: block;
     position: fixed;
-    inset: 0;
+    inset: var(--admin-navigation-toggle-block-size, 0px) 0 auto;
+    block-size: calc(100dvh - var(--admin-navigation-toggle-block-size, 0px));
     z-index: var(--sf-z-index-9, 90);
     width: 100%;
     max-width: none;

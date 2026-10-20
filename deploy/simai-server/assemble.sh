@@ -7,13 +7,15 @@
 #
 #   dist/             the built site, served statically
 #   server.js         the mock API (/api/), started with `node server.js`
-#   public/           server.js serves /assets from ./public
+#   public/           server.js serves /assets from ./public (local use)
+#   state/            what server.js writes: data, avatars, uploads; kept
+#                     across releases ("shared" in app.json), seeded empty
 #   package.json      with package-lock.json: what node_modules was installed from
 #   node_modules/     production dependencies of server.js only (npm ci --omit=dev)
 #   .simai/app.json   the app description, copied from deploy/simai-server/app.json
 #
-# server.js writes data.json and public/avatars, public/uploads beside itself
-# at run time; none of them is shipped.
+# server.js writes state/data.json, state/avatars and state/uploads at run
+# time and serves the files under /api/assets/; only the empty state/ ships.
 set -euo pipefail
 
 out="${1:?usage: assemble.sh <empty output directory>}"
@@ -30,6 +32,8 @@ cp -R "$root/dist" "$out/dist"
 cp -R "$root/public" "$out/public"
 cp "$root/server.js" "$root/package.json" "$root/package-lock.json" "$out/"
 cp "$root/deploy/simai-server/app.json" "$out/.simai/app.json"
+# An Actions artifact drops empty directories, so state/ carries a marker.
+mkdir -p "$out/state" && : > "$out/state/.keep"
 
 # No bin links: the artifact travels as an Actions artifact, which does not
 # keep symlinks, and server.js needs no executables.

@@ -49,3 +49,6 @@ src/assets/
 .runtime-package/
 .runtime-pro/
 .runtime-pro.dev/
+
+# Mock API state (server.js): data, avatars, uploads
+state/

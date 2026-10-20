@@ -3,10 +3,12 @@
   "profile": "node",
   "node": {
     "version": "22",
-    "start": "node server.js"
+    "start": "node server.js",
+    "install": "none"
   },
   "static": {
-    "root": "dist"
+    "root": "dist",
+    "fallback": "/index.html"
   },
   "routes": [
     {
@@ -14,7 +16,11 @@
       "to": "service"
     }
   ],
+  "shared": [
+    "state"
+  ],
   "health": {
-    "path": "/"
+    "path": "/api/settings/get",
+    "timeout": 60
   }
 }

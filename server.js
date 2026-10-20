@@ -10,11 +10,17 @@ app.use(express.json());
 
 const SERVER_PORT = Number.parseInt(process.env.PORT || '', 10) || 5001;
 const SERVER_BASE_URL = `http://localhost:${SERVER_PORT}`;
-const DATA_FILE = './data.json';
+// What the mock writes -- its data, avatars and uploads -- lives in one
+// directory, so a server can keep it across releases (simai-env "shared").
+// It is served under /api/, the one prefix routed to this service: /assets/ on
+// a deployed site is Vite's bundles.
+const STATE_DIR = './state';
+const DATA_FILE = `${STATE_DIR}/data.json`;
 const PUBLIC_DIR = './public';
-const AVATAR_DIR = `${PUBLIC_DIR}/avatars`;
-const UPLOAD_DIR = `${PUBLIC_DIR}/uploads`;
-const ASSET_PUBLIC_BASE = '/assets';
+const AVATAR_DIR = `${STATE_DIR}/avatars`;
+const UPLOAD_DIR = `${STATE_DIR}/uploads`;
+const ASSET_PUBLIC_BASE = '/api/assets';
+const LEGACY_ASSET_PUBLIC_BASE = '/assets';
 const AVATAR_PUBLIC_BASE = `${ASSET_PUBLIC_BASE}/avatars`;
 const UPLOAD_PUBLIC_BASE = `${ASSET_PUBLIC_BASE}/uploads`;
 const DEFAULT_TABLE_ID = 'tasks';
@@ -260,7 +266,9 @@ const fieldTypeRegistry = [
     },
 ];
 
-app.use('/assets', express.static(PUBLIC_DIR));
+app.use(`${ASSET_PUBLIC_BASE}/avatars`, express.static(AVATAR_DIR));
+app.use(`${ASSET_PUBLIC_BASE}/uploads`, express.static(UPLOAD_DIR));
+app.use(LEGACY_ASSET_PUBLIC_BASE, express.static(PUBLIC_DIR));
 
 const taskStatuses = [
     {id: 1, code: 'new', name: 'Новая', type: 'primary'},
@@ -1171,6 +1179,7 @@ function removeCustomFieldDefinition(entity = 'task', fieldKey = '') {
     return field;
 }
 
+await fs.mkdir(STATE_DIR, {recursive: true});
 const hasTemplates = await fileExists(DATA_FILE);
 let storeData = {
     templates: {},
@@ -3032,11 +3041,14 @@ function getFileNameFromUrl(url = '') {
 function getAvatarLocalPathFromUrl(url = '') {
     const source = String(url || '');
 
-    if (!source.startsWith(AVATAR_PUBLIC_BASE)) {
+    // Data written before the move named avatars under /assets/avatars.
+    const base = [AVATAR_PUBLIC_BASE, `${LEGACY_ASSET_PUBLIC_BASE}/avatars`].find((prefix) => source.startsWith(`${prefix}/`));
+
+    if (!base) {
         return '';
     }
 
-    return `${AVATAR_DIR}/${source.slice(AVATAR_PUBLIC_BASE.length + 1)}`;
+    return `${AVATAR_DIR}/${source.slice(base.length + 1)}`;
 }
 
 async function createAvatarFileValue(url = '', options = {}) {
@@ -4846,7 +4858,7 @@ function tasksHandler(req, res) {
     });
 }
 
-app.listen(SERVER_PORT, () => {
+app.listen(SERVER_PORT, process.env.HOST, () => {
     console.log(`Mock API: ${SERVER_BASE_URL}`);
     console.log(`Tasks endpoint: ${SERVER_BASE_URL}/api/tasks`);
 });

@@ -35,13 +35,13 @@
       "id": "smart.button-group",
       "version": "1.0.0",
       "file": "smart.button-group.json",
-      "manifest_sha256": "526eb640ccc1e3f10e4a38a1e2ccfa9b019024e5a8ee0e681e89bcadf611ef89"
+      "manifest_sha256": "5865ea51473fef523c24a110d64e8f1eff5ea76e446ed39354eb9b8377c3206e"
     },
     {
       "id": "smart.buttons",
       "version": "1.0.0",
       "file": "smart.buttons.json",
-      "manifest_sha256": "6f59e4c360166c4a97752393873ee97a574bf9ae938f19aa7c9f4b7648c0a31b"
+      "manifest_sha256": "e083dc64139c9983608334068ad222f5a828dc505827ba64c60ead9152482839"
     },
     {
       "id": "smart.checkbox",
@@ -143,7 +143,7 @@
       "id": "smart.icon-buttons",
       "version": "1.0.0",
       "file": "smart.icon-buttons.json",
-      "manifest_sha256": "231f5a224cbd1fbe205941f56430e3b19642184225720fe991ff7d9720e08582"
+      "manifest_sha256": "f12c6cad2580e3326563d45350ec6d7ac63ce11a6b102e1490132d2561c8da31"
     },
     {
       "id": "smart.icons",
@@ -255,9 +255,9 @@
     },
     {
       "id": "smart.spinner",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "file": "smart.spinner.json",
-      "manifest_sha256": "10660f7e3ae14cc536c76a99147e92f76d4abdc4b53d7271dac3c0b0e03474f5"
+      "manifest_sha256": "f9a2ad78e3186f9e6e2e8dd591c989a8947ffc40699771958fdeb4acf5eb4d2a"
     },
     {
       "id": "smart.steps",
@@ -326,6 +326,6 @@
       "manifest_sha256": "f0ff164cbacb0dcd6af9fe3ee41acdfdc3da309dd7da3017950161ebe23cf741"
     }
   ],
-  "registry_sha256": "4a0db1d01efce3e5c0e521f775e46bf6dd9a73d5473c173a699a65ebe15c4757",
+  "registry_sha256": "d555b3405b709706e81d92ff7e01d4921af5ca40ca685dd23279547f970b3ae8",
   "registry_schema_sha256": "d5b0a5b299fa4b044d8125a315458c37de76f0bb5c6cb686962cdec7922b14ce"
 }

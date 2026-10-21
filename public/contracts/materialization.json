@@ -143,13 +143,13 @@
       "id": "smart.icon-buttons",
       "version": "1.0.0",
       "file": "smart.icon-buttons.json",
-      "manifest_sha256": "63bed80cae2edc1693d111c639dca9ccee305615342ae3013f0bc0ceb164c399"
+      "manifest_sha256": "5fefde7a534eb5f9e5c2db64de94ccd5fac215667881c4ab2c4cc553d85295e2"
     },
     {
       "id": "smart.icons",
       "version": "1.0.0",
       "file": "smart.icons.json",
-      "manifest_sha256": "d72a1c232d859dd2b6e203420357e620026ee9ad3afe50c5644b95b6135670ca"
+      "manifest_sha256": "1594dc83dcdd718df3db394852731be21837957b223ade91e6a1a79b119c84d7"
     },
     {
       "id": "smart.inline-editor",
@@ -326,6 +326,6 @@
       "manifest_sha256": "f0ff164cbacb0dcd6af9fe3ee41acdfdc3da309dd7da3017950161ebe23cf741"
     }
   ],
-  "registry_sha256": "eb5980dfde9743fe0f5c4ecddce08552dff3e417b43e0e4fb1bf750e3105829a",
+  "registry_sha256": "ee720f6148250809eb25d5f8201773cdee9f2668454db620c2ae734eb3ef2efa",
   "registry_schema_sha256": "d5b0a5b299fa4b044d8125a315458c37de76f0bb5c6cb686962cdec7922b14ce"
 }

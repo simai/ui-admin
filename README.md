@@ -1,50 +1,71 @@
 # SIMAI Admin
 
-Демо-админка на Vite для проверки SIMAI Framework smart components: таблиц, меню, фильтров, detail-форм, редактирования полей и пользовательских настроек.
+The SIMAI Admin components kit, with the reference host and the polygon it is
+built and tried on.
 
-## Быстрый старт
+- **`components/`** — the admin Smart components: `sf-table`, `sf-data-view`,
+  `sf-property-view` and `sf-admin-menu`. They are published as the component
+  package `larena` (the id Larena loads them by). See
+  [`components/README.md`](components/README.md).
+- **The reference host** — a Vite site that runs those components the way an
+  admin does: a records list and record panel, the admin menu, filters,
+  field editing and user settings.
+- **The polygon** (`/polygon.html`) — 120 seeded records using every property
+  type, answered by a mock host that does the work a backend does. See
+  [`docs/POLYGON.md`](docs/POLYGON.md).
+- **`server.js`** — the mock API the host talks to in development.
+
+Everything here is built on the **SIMAI Framework**, which is free and open
+source under Apache-2.0. Framework documentation: https://ui.simai.io/.
+
+## Licensing
+
+This repository is not under the SIMAI Framework's licence. Its own terms are
+in [`LICENSE.md`](LICENSE.md); in plain words:
+
+- **Small businesses use it free** — individuals, and companies with fewer than
+  100 people and under USD 1,000,000 a year in revenue (PolyForm Small
+  Business License 1.0.0).
+- **Non-commercial use is free** — personal projects, study, research,
+  charities, schools, public institutions (PolyForm Noncommercial License
+  1.0.0).
+- **Everyone else pays** — a SIMAI Commercial License, available on request
+  from SIMAI.
+- **Inside Larena it is included** — use as part of Larena is covered by
+  Larena's own licence.
+
+Versions of the components published earlier from `simai/larena-ui` remain
+under Apache-2.0.
+
+## Quick start
+
+The site reads its sibling repositories by default (`../ui` for the pinned
+SIMAI Framework pair, `../ui-source` and `../ui-builder` to build the
+component package); `.env.example` lists the variables that point elsewhere.
 
 ```bash
 npm install
-npm run dev:runtime
+npm run dev           # checks the pins, lays out the runtime, starts Vite
+npm run dev:api       # the mock API (server.js)
 ```
 
-Для локальной разработки задайте `.env` по `.env.example`, например:
+`npm run dev:runtime` serves a ready `distr/` named by `SIMAI_RUNTIME_ROOT`
+instead, without the sibling checkouts.
 
-```env
-SIMAI_RUNTIME_ROOT=<путь-к-готовому-distr>
-VITE_API_PROXY_TARGET=http://localhost:5001
-```
-
-`npm run dev:runtime` читает `.env`, проверяет, что в заданном `distr/` есть Core и Smart, и не требует checkout UI Smart. Для строгой проверки locked revisions используйте `npm run dev`; ему нужны доступные `SIMAI_UI_REPO` и `SIMAI_UI_SMART_REPO`.
-
-## Команды
+## Commands
 
 ```bash
-npm run dev
-npm run dev:runtime
-npm run build
+npm run build          # data check, pins, runtime, contracts, polygon check, Vite build
+npm run pin            # pin the SIMAI Framework pair
+npm run pin:package    # build components/ and pin the package
 npm run test:runtime
-npm run preview
+npm run test:api
+npm run test:browser
+cd components && npm test   # the components' own suite
 ```
 
-## Документация
+## Documentation
 
-Подробные инструкции и подтверждённые ограничения находятся в [docs/README.md](docs/README.md):
-
-- локальная разработка и переменные окружения;
-- Framework runtime, lock-файл и выпуск сборки;
-- контракт mock/Larena API;
-- интеграция `sf-table`;
-- технический аудит репозитория.
-
-## Структура
-
-```text
-src/main.ts         Инициализация таблицы и обработка событий smart components
-src/adminTable.ts   API-клиент и нормализация данных таблицы
-scripts/            Materializer Framework runtime
-config/             Immutable assets lock
-types/              Локальные типы smart components
-docs/               Техническая документация
-```
+Developer notes are in [`docs/README.md`](docs/README.md): local development,
+the Framework runtime and its lock, the mock API contract, the `sf-table`
+integration.

@@ -39,7 +39,11 @@ clone() { # <owner/repo> <directory> <revision>
 }
 
 mkdir -p "$parent"
-clone simai/ui ui "$(pin UI_REVISION)"
+# One ui clone holds both sides of the pair. It is checked out at the core
+# commit (the release build commit); the smart commit may be an older one that
+# last wrote distr/smart, and the release contract names both (pins.mjs).
+clone simai/ui ui "$(pin UI_CORE_REVISION)"
+node "$here/pins.mjs" --verify-ui "$parent/ui"
 
 # The package source is this repository: the pinned revision must be a commit
 # of this checkout, and the ui-source revision the package is built over is the

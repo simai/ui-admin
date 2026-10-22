@@ -54,9 +54,10 @@
    `sf-data-view`; `DataviewHostPort` в Larena этот intent принимает
    (`record.bulk_delete`). Браузерная приёмка в Larena здесь не
    зафиксирована.
-3. **Название платной лицензии.** `README.md` и `LICENSE.md` называют её
-   «SIMAI Commercial License», решение о слоях — «SIMAI Pro». Нужен выбор
-   владельца.
+3. **Название платной лицензии** — «SIMAI Commercial License», как в
+   `README.md` и `LICENSE.md` (решение владельца 2026-10-22). Решение о слоях
+   в `ui-control` называет её «SIMAI Pro» и должно быть приведено к этому
+   названию.
 4. **CHANGELOG** отсутствует; история выпусков пакета — в коммитах
    «Pin …» и в release `simai/larena-ui`.
 5. Каталог [`larena-smart-integration/`](../larena-smart-integration/README.md)

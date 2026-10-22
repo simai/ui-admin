@@ -1,10 +1,17 @@
-# Larena components — the component package `larena`
+# SIMAI Admin components — the component package `larena`
 
-This folder is the source of Larena's own Smart components, the component
-package `larena`. It lives in `simai/larena-ui` and is open under the
-repository's licence, Apache-2.0. A component lives with its owner: these four
-are built for Larena, so they live here rather than in the free Framework
-(owner's decision, 2026-10-11; standard `simai.component-package` 1.0.0).
+This folder is the source of the SIMAI Admin Smart components, the component
+package `larena` (the id Larena loads them by). It lives in `simai/ui-admin`
+(moved from `simai/larena-ui` on 2026-10-22). A component lives with its
+owner: these four are built for admin screens, so they live here rather than
+in the free Framework (owner's decision, 2026-10-11; standard
+`simai.component-package` 1.0.0).
+
+Licence: free for small businesses (PolyForm Small Business 1.0.0) and for
+non-commercial use (PolyForm Noncommercial 1.0.0); everyone else needs the
+SIMAI Commercial License, available on request. Use as part of Larena is
+covered by Larena's licence. See [`../LICENSE.md`](../LICENSE.md). Versions
+published earlier from `simai/larena-ui` remain Apache-2.0.
 
 | Folder | Element | Manifest id |
 |:---|:---|:---|

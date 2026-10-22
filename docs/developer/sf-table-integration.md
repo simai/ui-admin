@@ -1,4 +1,10 @@
-# sf-table в текущей Admin
+# sf-table на mock API (`/mock-api.html`)
+
+Этот документ — о странице `/mock-api.html`, где `sf-table` управляется
+методами и событиями через `src/main.ts` и ходит в `server.js` по HTTP.
+Главная страница (`/`) соединяет `sf-data-view` и `sf-table` с хостом через
+host port — см. [связи компонентов](component-connections.md) и
+[POLYGON.md](../POLYGON.md).
 
 `sf-table` - stateful smart-компонент административной таблицы. Он управляет
 табличной разметкой, поиском, фильтрами, настройками колонок, detail-формой,
@@ -6,29 +12,26 @@
 Компонент не делает HTTP-запросов сам: данные и сохранение принадлежат Admin и
 backend.
 
-Исходный контракт компонента находится в SF5 в `src/smart/table/`: rule
+Исходник компонента — пакет `larena` в этом репозитории,
+[`components/src/smart/table/`](../../components/src/smart/table/); полное
+руководство — `docs/smart-table-guide.md` там же. Rule
 связывает `sf-table` с loader key `cl-table`, а `index.js` регистрирует custom
 element через `SfTable.define('sf-table')`.
 
 ## Статус доказательств
 
-Этот документ фиксирует два разных уровня фактов:
-
-- связь Admin с таблицей, URL и преобразование HTTP payload подтверждены
-  текущими `index.html`, `src/main.ts` и `src/adminTable.ts`;
-- публичные методы и события подтверждены доступным исходником Smart Table.
-
-Это не является доказательством того, что произвольный общий `distr/` или
-текущая версия исходников совпадают с assets, закреплёнными в
-`config/simai-assets.lock.json`. Для provenance, runtime-наблюдений и известных
-расхождений используйте [P0 evidence](../larena-smart-integration/README.md).
+Связь страницы с таблицей, URL и преобразование HTTP payload подтверждены
+`mock-api.html`, `src/main.ts` и `src/adminTable.ts`; публичные методы и
+события — исходником таблицы в `components/`. Что страница грузит именно
+закреплённые выпуски, проверяют `npm run test:runtime` и
+`npm run check:published` ([Framework runtime](framework-runtime.md)).
 
 ## Граница ответственности
 
 | Слой | Отвечает за |
 | --- | --- |
 | `sf-table` | UI state, валидацию detail, CustomEvent, рендер таблицы и модалок |
-| `index.html` | создаёт `<sf-table pagin table-settings-key="admin_table">` |
+| `mock-api.html` | создаёт `<sf-table>` с `table-settings-key` |
 | `src/main.ts` | подписывается на события, запрашивает/применяет данные, сохраняет view settings |
 | `src/adminTable.ts` | строит URLs, отправляет JSON/multipart, нормализует ответы |
 | Backend | rows, columns, fields, fieldTypes, detail, persistence и конечная схема |
@@ -42,7 +45,7 @@ backend является источником истины для `rows`, `colum
 Core loader обнаруживает `<sf-table>` по `RuleLoader.tags`. Rule `cl-table`
 загружает сам компонент и relation-зависимости: checkbox, buttons,
 icon-buttons, icons, inputs, list, tags, pagination, datepicker, context-menu,
-tabs и radio. Их не нужно подключать отдельными script tags в `index.html`.
+tabs и radio. Их не нужно подключать отдельными script tags на странице.
 
 После регистрации элемента Admin ждёт `SF.Loader` или событие `sf-loader-init`,
 создаёт `AdminManager` и подписывается на table events. Первый `updateTable()`

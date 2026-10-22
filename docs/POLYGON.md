@@ -1,8 +1,8 @@
 # The polygon
 
-`/polygon.html` is a records list and a record panel over 120 records that use
-every property type the Framework renders, answered by a host that does the work
-a backend does. It exists so that a scenario can be tried rather than described,
+The index page (`/`) is the polygon: a records list and a record panel over
+120 records that use every property type the Framework renders, answered by a
+host that does the work a backend does. It exists so that a scenario can be tried rather than described,
 and so that what Larena's admin needs is assembled here first.
 
 ## What is in it
@@ -259,7 +259,8 @@ the day the second distribution does.
 | `npm run data:check` | a dataset that is not the generator's own output |
 | `npm run check:polygon` | a property type the Framework renders and the polygon does not show, in a field or in a column; a field no record carries a value for; an answer either port's kit declares and this host cannot produce; an answer missing what the kit requires of it |
 | `npm run check:published` | a published page running anything other than the pinned pair |
-| `npm run pin:check` | a pin behind `ui`/`ui-smart` |
+| `npm run pin:check` | a Framework pin behind the latest `ui` release |
+| `npm run pin:package:check` | a package pin older than `components/`, or built over another Framework release |
 
 `check:polygon` reads the list of property types out of the renderer set that
 ships in the pinned runtime, so a type added to the Framework fails here until

@@ -1,24 +1,64 @@
 # Технический аудит
 
-Дата проверки: 2026-08-20.
+Дата проверки: 2026-10-22, ревизия `d09b36f`. Предыдущий аудит (2026-08-20)
+описывал репозиторий до полигона, до пакета `larena` и до переноса
+компонентов; он заменён этим.
 
-## Подтверждено
+## Что в репозитории
 
-- Приложение - Vite/TypeScript frontend с точкой входа `index.html` и orchestration в `src/main.ts`.
-- Assets Core и Smart фиксируются полными Git SHA и SHA-256 в `config/simai-assets.lock.json`.
-- Strict materializer читает локальный `.env`, поэтому фактический путь `../ui-core` можно задать без изменения lock-файла.
-- `npm run dev:runtime` обходит materializer и способен работать от указанного готового runtime, где присутствуют `core/` и `smart/`.
-- `.env` и generated runtime directories игнорируются Git; `.env.example` разрешён для коммита.
-- Проверка `npm run test:runtime` валидирует точные commit SHA, хэши обязательных файлов и provenance.
+- **`components/`** — исходник пакета `larena`: `sf-table`, `sf-data-view`,
+  `sf-property-view`, `sf-admin-menu`. Перенесён из `simai/larena-ui`
+  2026-10-22. Собственный набор тестов (`cd components && npm test`) в overlay
+  над `ui-source`, закреплённым `components/framework.lock.json`.
+- **Сайт** (Vite/TypeScript): главная — полигон над `data/polygon.json`, плюс
+  страницы дерева, свойств, рабочего стола, модального окна, меню и каталога
+  ([список](local-development.md#страницы)).
+- **Хосты портов** в `src/ports/` — то, что в Larena делает PHP; их держат
+  conformance-наборы Framework (`check:port`, `check:polygon`).
+- **`server.js`** — mock API для `/mock-api.html` и сервер собранного сайта.
+- **Выкладка** — `.github/workflows/deploy-server.yml`, включена
+  (`SIMAI_SERVER_DEPLOY=true`): каждый push в `main` выкладывается на сервер
+  simai-env.
 
-## Важные ограничения
+## Подтверждено 2026-10-22
 
-1. `dev:runtime` проверяет доступность готовых assets только во время работы Vite; он не сравнивает их с lock-файлом. Перед сборкой нужен strict runtime.
-2. `npm run build` требует оба checkout: Core и Smart. Готовый `distr/` не подменяет production materialization.
-3. В lock-файле дефолтный Core путь остаётся `../ui`, хотя локальный каталог называется `ui-core`. Это корректно компенсируется `.env`, но fresh clone без `.env` получит ошибку пути.
-4. Mock API расположен вне этого репозитория, поэтому contract можно задокументировать, но невозможно полноценно проверить CRUD без его запуска.
-5. В репозитории не было отдельного `docs/` и нет `CHANGELOG.md`; текущая документация теперь разложена по `docs/`, а необходимость changelog следует решить до первого versioned release.
+- Пины текущие: Framework `ui-c408b1c544f9`, пакет `larena-9f3e80fb16e3`
+  (`pin:check`, `pin:package:check`).
+- Пакет `larena-9f3e80fb16e3` опубликован GitHub release в `simai/larena-ui`;
+  в `larena-ui` больше нет `components/`.
+- `components`: 445 тестов проходят; `test:api` 5/5, `test:runtime` 2/2,
+  `data:check` — данные совпадают с генераторами.
+- Выпуск `d09b36f` прошёл у диспетчера SIMAI Framework: тесты и browser-probes
+  пакета, `build`, `test:api`, `test:runtime`, `test:browser`,
+  `check:published`.
 
-## Рекомендованный рабочий режим
+## Порядок ответственности
 
-Для повседневной разработки используйте `npm run dev:runtime` с готовым `SIMAI_RUNTIME_ROOT`. Перед изменением lock-пары или релизной сборкой обеспечьте доступ к точным Core/Smart checkout и выполните `npm run test:runtime`, затем `npm run build`.
+- Выпуск пакета для Larena (сборка, публикация release) — диспетчер SIMAI
+  Framework, `ui-control/tools/release`.
+- Общий редактор даты и времени и дефекты `sf-datepicker` — Framework.
+- Повседневная работа над компонентами и сайтом — этот репозиторий; коммит в
+  `components/` и перезакрепление — отдельными коммитами, перед коммитом в
+  `components/` — `refresh-provenance.py`.
+- Компонент, который понадобится второму набору (`ui-chat`, `ui-mail`), не
+  копируется, а продвигается во Framework или `ui-pro` (решение владельца
+  2026-10-22, `ui-control/control/decisions/2026-10-22-component-layers-and-kits.md`).
+
+## Открытые вопросы
+
+1. **Варианты фильтра с сервера** (`filter.optionsSource.type = 'endpoint'`)
+   есть в `sf-table` и описаны в `smart-table-guide.md`, но в Larena
+   endpoint для вариантов пока не найден — интеграция и приёмка на стороне
+   Larena не начаты.
+2. **Массовое действие со своим id** (`bulk.apply_selected`) реализовано в
+   `sf-data-view`; `DataviewHostPort` в Larena этот intent принимает
+   (`record.bulk_delete`). Браузерная приёмка в Larena здесь не
+   зафиксирована.
+3. **Название платной лицензии.** `README.md` и `LICENSE.md` называют её
+   «SIMAI Commercial License», решение о слоях — «SIMAI Pro». Нужен выбор
+   владельца.
+4. **CHANGELOG** отсутствует; история выпусков пакета — в коммитах
+   «Pin …» и в release `simai/larena-ui`.
+5. Каталог [`larena-smart-integration/`](../larena-smart-integration/README.md)
+   — архив проверки 2026-08-20; его блокеры закрыты механизмом пинов и
+   проверок, новые сведения туда не вносятся.

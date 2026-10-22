@@ -1,5 +1,14 @@
 # Larena Smart Integration: P0 evidence
 
+> **Архив, 2026-08-20.** Снимок проверки до пинов по выпускам, до пакета
+> `larena` и до переноса компонентов в этот репозиторий. Его блокеры закрыты:
+> Framework закрепляется по выпуску `ui-<12>` с хэшами файлов, пакет — по
+> квитанции сборки из `components/`, опубликованный сайт проверяет
+> `npm run check:published`. Текущее состояние —
+> [технический аудит](../developer/repository-audit.md) и
+> [Framework runtime](../developer/framework-runtime.md). Файлы ниже не
+> обновляются.
+
 Этот пакет отвечает на P0 handoff для интеграции Larena Admin со Smart
 Components. Его задача - разделить доказанный runtime, наблюдаемый source и
 неподтверждённые предположения.

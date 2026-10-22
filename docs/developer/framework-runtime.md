@@ -1,34 +1,83 @@
-# Framework runtime
+# Framework runtime и пакет компонентов
 
-## Источник версий
+Сайт отдаёт две закреплённые поставки: SIMAI Framework и пакет компонентов
+`larena`, собранный из `components/` этого репозитория. Каждая закреплена
+своим lock-файлом и лежит по своему пути, в имени которого есть id выпуска.
 
-`config/simai-assets.lock.json` фиксирует совместимую пару SIMAI UI Core и UI Smart: полные SHA коммитов, исходные каталоги, обязательные файлы и их SHA-256. Lock-файл является источником истины для production materialization.
+## Framework: `config/simai-assets.lock.json`
 
-Materializer `scripts/materialize-framework-runtime.mjs` читает локальный `.env`, определяет пути к репозиториям, проверяет точные SHA, извлекает зафиксированные каталоги без переключения веток, проверяет SHA-256 и создаёт `simai-assets.provenance.json`.
-
-Материализация создаёт `.runtime/` для строгого dev-режима и `dist/distr/` для production-сборки. Эти каталоги генерируются и не коммитятся.
-
-## Как Vite отдаёт assets
-
-Vite plugin в `vite.config.ts` монтирует выбранный runtime как `/distr`. В `dev:runtime` это `SIMAI_RUNTIME_ROOT`; без него Vite использует `.runtime`. Плагин нормализует путь и не выдаёт файлы за границами указанного каталога.
-
-| Сценарий | Откуда assets | Проверка lock |
-| --- | --- | --- |
-| `npm run dev` | новая `.runtime/` | да |
-| `npm run dev:runtime` | готовый `SIMAI_RUNTIME_ROOT` | нет |
-| `npm run build` | новая `dist/distr/` | да |
-| `npm run preview` | built assets и выбранный Vite runtime | зависит от ранее выполненной сборки |
-
-Не используйте `SIMAI_RUNTIME_ROOT` как способ обойти проверку assets перед релизом: `build` всегда запускает strict materializer.
-
-## Проверка и выпуск
+Lock называет выпуск Framework (`compatibilityId`, вида `ui-<12>`) и коммит
+репозитория `simai/ui`, который этот выпуск собрал. Core берётся из `distr/`
+этого коммита, Smart — из `distr/smart/`; оба из одного репозитория `../ui`.
+Для каждого обязательного файла записан SHA-256.
 
 ```bash
-npm run test:runtime
-npm run build
-npm run preview
+npm run pin:check   # пин совпадает с последним выпуском в ../ui?
+npm run pin         # закрепить последний выпуск
 ```
 
-Перед выгрузкой `dist/` проверьте в браузере загрузку `core.js`, `core.css` и smart components, список, detail, сохранение настроек и фильтров, CRUD записи, CRUD пользовательских полей и сценарии файлов/аватара, если они включены.
+`pin:check` падает, если вышел более новый выпуск: сайт существует, чтобы
+показывать текущий Framework, поэтому отставание — ошибка, а не заметка.
+Закрепляется коммит, который записал `distr`, а не голова репозитория.
 
-На web-сервер выгружается содержимое `dist/`. Backend должен обслуживать или проксировать `/api/*` с того же origin. Файлы Core окажутся в `dist/distr/`, Smart - в `dist/distr/smart/`.
+## Пакет `larena`: `config/simai-package.lock.json`
+
+Пакет собирается из `components/` командой `ui-builder` поверх ревизии
+`ui-source`, закреплённой в `components/framework.lock.json`. Lock называет
+ревизию исходника и его tree, ревизию `ui-builder`, выпуск Framework, поверх
+которого собран пакет (`requires.framework`), SHA-256 архива и обязательных
+файлов. id пакета — `larena-<12>`, по коммиту, который последним менял
+`components/`.
+
+```bash
+npm run pin:package:check   # пакет собран из текущего components/ и поверх закреплённого Framework?
+npm run pin:package         # собрать и закрепить
+```
+
+Пакет, собранный поверх другого выпуска Framework, чем закреплён у сайта,
+отклоняется. Сборки кешируются вне checkout: `../.package-build/ui-admin/`
+(или `SIMAI_PACKAGE_BUILD_ROOT`).
+
+Сборка пакета для Larena и его публикация (GitHub release в `simai/larena-ui`,
+откуда его берёт установщик Larena) — у диспетчера SIMAI Framework
+(`ui-control/tools/release`). Правила для `components/`:
+
+- коммит в `components/` и коммит с перезакреплением — отдельные коммиты;
+- перед каждым коммитом в `components/` пересчитываются digests в манифестах:
+  `python3 ../ui-control/tools/release/refresh-provenance.py components`
+  (сборка контрактов отклоняет манифест, чей исходник изменился).
+
+## Материализация
+
+`npm run dev` и `npm run build` раскладывают обе поставки и проверяют каждый
+файл по lock:
+
+| Поставка | dev | build | URL на странице |
+| --- | --- | --- | --- |
+| Framework | `.runtime/` | `dist/distr/<ui-id>/` | `/distr/<ui-id>/` |
+| `larena` | `.runtime-package/` | `dist/distr-larena/<larena-id>/` | `/distr-larena/<larena-id>/` |
+
+id выпуска в пути (`scripts/runtime-base.mjs`) нужен потому, что после
+переиздания сайта любой кеш иначе мог отдать старую пару. Файлы по таким
+путям никогда не меняются, их можно кешировать навсегда.
+
+`npm run dev:runtime` пропускает материализацию и отдаёт готовый каталог из
+`SIMAI_RUNTIME_ROOT`; соответствие lock он не проверяет. Перед сборкой нужен
+строгий режим.
+
+## Проверки
+
+| Команда | Что отклоняет |
+| --- | --- |
+| `npm run test:runtime` | файлы, не совпадающие с lock-парой |
+| `npm run check:published` | опубликованную страницу, которая грузит не закреплённую пару (спрашивает по HTTP, как браузер; по умолчанию `https://ui-admin.test`, иначе `ADMIN_ORIGIN`) |
+| `npm run test:browser` | неработающую связку Vite, mock API, Framework и пакета |
+
+## Публикация
+
+- **Локально:** `npm run publish` собирает сайт и выкладывает его как
+  `ui-admin.test`.
+- **Сервер:** `.github/workflows/deploy-server.yml` собирает и выкладывает
+  сайт на сервер simai-env при каждом push в `main` (переменная репозитория
+  `SIMAI_SERVER_DEPLOY=true`) или вручную. Сервер запускает `node server.js`,
+  который отдаёт собранный `dist/` и mock API (`deploy/simai-server/app.json`).

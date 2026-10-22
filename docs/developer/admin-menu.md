@@ -1,61 +1,61 @@
 # Административное меню
 
-`sf-admin-menu` в Admin является декларативным smart-компонентом: его структура
-задаётся непосредственно в `index.html`, а поведение и рендер принадлежат UI
-runtime. `src/main.ts` не управляет меню и не подменяет его внутреннее state.
+`sf-admin-menu` — компонент пакета `larena`, исходник в
+[`components/src/smart/admin-menu/`](../../components/src/smart/admin-menu/),
+его документация — `docs/docs.md` там же и
+[ui.simai.io](https://ui.simai.io/ru/smart-components/composite/admin-menu/).
+Базовый presentation-компонент `component/admin-menu` — во Framework
+(`ui-source`).
 
-## Где что находится
+Меню работает в двух режимах: строки приходят от хоста через порт навигации
+или задаются разметкой. В Larena используется первый.
 
-| Уровень | Файл | Роль |
-| --- | --- | --- |
-| Разметка Admin | `index.html` | `<sf-admin-menu>` и вложенные `<sf-admin-menu-item>` |
-| Smart rule | `src/smart/admin-menu/rule.js` в SF5 | связывает tag `sf-admin-menu` с loader key `cl-admin-menu` |
-| Smart implementation | `src/smart/admin-menu/index.js` в SF5 | парсит items, хранит state, рендерит меню |
-| Базовый presentation component | `src/component/admin-menu/` в SF5 | CSS и базовое поведение отрисованной структуры |
+## Через порт навигации (главная страница)
 
-## Загрузка
-
-Core loader обнаруживает `<sf-admin-menu>` в живом DOM по `tags` rule. Для
-`cl-admin-menu` rule декларирует зависимости `admin-menu`, `icons`, `inputs` и
-`badges`. Loader подгружает их до регистрации smart element.
-
-После выполнения Smart bundle `SfAdminMenu.define('sf-admin-menu')`
-регистрирует custom element. Браузер обновляет уже существующий tag, вызывает
-`connectedCallback()` и компонент превращает дочерние `sf-admin-menu-item` в
-своё внутреннее представление.
-
-## Контракт разметки
+На `/` в разметке только пустой элемент:
 
 ```html
-<sf-admin-menu searchable collapsible settings logo="/public/logo.svg">
-  <sf-admin-menu-item left-icon="home" href="/" active>
+<sf-admin-menu class="h-full" aria-label="Разделы админки" data-sf-skeleton="menu"></sf-admin-menu>
+```
+
+При подключении меню поднимает `sf-host-port-request` с
+`context.owner = 'admin-menu'`; `src/navigation.ts` отвечает
+`setHostPort(host)`. Хост — [`src/ports/navigation-host.mjs`](../../src/ports/navigation-host.mjs)
+над `data/navigation.json` (240 сайтов, генератор `scripts/build-navigation-data.mjs`),
+порт `simai.admin-navigation-port` 1.0.0.
+
+Хост отвечает на `navigation.load` и `item.open`, а по заявленным
+возможностям — на переключение сайта, поиск, избранное, профили меню
+(`view.*`), настройки темы, языка и компактного вида (`preference.*`),
+уведомления и выход. Возможность, которую хост не заявил, меню не
+предлагает. Маршруты и права остаются у хоста.
+
+## Разметкой (`/navigation-menu-reference.html`)
+
+```html
+<sf-admin-menu searchable settings logo="/logo.svg" persistence-mode="local">
+  <sf-admin-menu-item item-id="demo.dashboard" left-icon="home" href="/" active>
     Дашборд
-  </sf-admin-menu-item>
-  <sf-admin-menu-item left-icon="key">
-    Фреймворки
-    <sf-admin-menu-item href="/sf5">SF5</sf-admin-menu-item>
+    <sf-admin-menu-item item-id="demo.dashboard.orders" badge="99+" href="/">Заказы</sf-admin-menu-item>
   </sf-admin-menu-item>
   <sf-admin-menu-item type="divider"></sf-admin-menu-item>
 </sf-admin-menu>
 ```
 
-`sf-admin-menu-item` поддерживает `label`/текст узла, `left-icon`,
+`sf-admin-menu-item` поддерживает текст узла или `label`, `left-icon`,
 `right-icon`, `href`, `target`, `rel`, `badge`, `value`, `order`, `slot` или
-`position`, а также состояния `active`, `current`, `disabled` и `hidden`.
-`type="divider"` либо атрибут `divider` создаёт разделитель.
+`position`, состояния `active`, `current`, `disabled`, `hidden`;
+`type="divider"` или `divider` — разделитель. Вложенные пункты становятся
+дочерним уровнем; порядок — по `order`, иначе по разметке.
 
-Вложенные `sf-admin-menu-item` становятся дочерним уровнем пункта. Порядок
-берётся из `order`, при его отсутствии - из порядка в HTML. Прямой текст
-родительского пункта становится label; текст вложенных пунктов в него не входит.
+С `persistence-mode="local"` пользовательские настройки (порядок, скрытые
+пункты) хранятся в `localStorage`; с `external` их сохраняет хост. Разметка —
+исходная структура, локальное состояние меняет её после загрузки.
 
-## Поведение и состояние
+## Что не делать
 
-Компонент сохраняет пользовательские настройки меню в local storage под ключом
-`main-menu-settings`. Поэтому разметка в `index.html` является исходной
-структурой, а локальное состояние может менять видимость, порядок или другие
-настройки конкретных пунктов после загрузки.
-
-Для изменения меню Admin меняйте декларативную разметку в `index.html`. Не
-редактируйте DOM, который компонент создаёт после рендера: он будет заменён при
-следующем обновлении state. При изменении самого поведения меню работайте в
-исходнике Smart/Component владельца, не в Admin.
+- Не править DOM, который меню отрисовало: он перерисовывается из state.
+- Поведение меню меняется в `components/src/smart/admin-menu/`, а не в
+  страницах. Такая правка — изменение пакета: отдельный коммит в
+  `components/`, затем перезакрепление ([Framework runtime](framework-runtime.md)).
+- Панель меню рассчитана на 320px; колонка хоста уже этого её обрежет.

@@ -1,18 +1,32 @@
 # Документация SIMAI Admin
 
-Этот каталог содержит актуальную техническую документацию демо-админки. Корневой `README.md` оставлен короткой точкой входа.
+Корневой [`README.md`](../README.md) — короткая точка входа. Компоненты пакета
+`larena` описаны в [`components/README.md`](../components/README.md) и в
+документации у каждого компонента (`components/src/smart/*/docs*`); решения
+владельца по экранам админки — в
+[`components/docs/developer/admin-decisions.md`](../components/docs/developer/admin-decisions.md).
+
+## Сайт и полигон
+
+- [Полигон](POLYGON.md) — главная страница: 120 записей, все типы свойств,
+  хост с переключаемыми состояниями; что из этого брать Larena.
 
 ## Разработчикам
 
-- [Локальная разработка](developer/local-development.md) - установка, команды и переменные окружения.
-- [Framework runtime](developer/framework-runtime.md) - lock-файл, строгая materialization, provenance и выпуск сборки.
-- [Контракт API](developer/api-contract.md) - endpoints, переназначение путей, форматы запросов и Larena smoke.
-- [sf-table в Admin](developer/sf-table-integration.md) - полный lifecycle, contract данных, события, CRUD и связь с текущим API-клиентом.
-- [Административное меню](developer/admin-menu.md) - разметка, вложенность, зависимости и локальные настройки `sf-admin-menu`.
-- [Связи компонентов](developer/component-connections.md) - как меню, таблица, Core loader и Admin orchestration соединены между собой.
-- [Larena Smart Integration: P0 evidence](larena-smart-integration/README.md) - machine-readable evidence, source/runtime границы и блокеры интеграции Smart Components.
-- [Технический аудит](developer/repository-audit.md) - подтвержденная структура, риски и ограничения на 2026-08-20.
+- [Локальная разработка](developer/local-development.md) — соседние checkout, команды, страницы, переменные окружения.
+- [Framework runtime и пакет компонентов](developer/framework-runtime.md) — два lock-файла, материализация, проверки, выпуск и выкладка.
+- [Связи компонентов](developer/component-connections.md) — как страницы подключают Framework, пакет и хосты портов.
+- [Административное меню](developer/admin-menu.md) — меню через порт навигации и разметкой.
+- [sf-table на mock API](developer/sf-table-integration.md) — страница `/mock-api.html`: методы, события, CRUD.
+- [Контракт API](developer/api-contract.md) — HTTP mock API (`server.js`).
+- [Технический аудит](developer/repository-audit.md) — состояние на 2026-10-22 и открытые вопросы.
+
+## Архив
+
+- [Larena Smart Integration: P0 evidence](larena-smart-integration/README.md) — проверка 2026-08-20, до пинов по выпускам и пакета `larena`; не обновляется.
 
 ## Границы документации
 
-Документы описывают этот frontend-репозиторий. Внешний mock API, Larena и репозитории UI Core/Smart остаются самостоятельными владельцами своих контрактов и исходников.
+Документы описывают этот репозиторий. Framework (`ui-source`, `ui`), сборка
+пакетов (`ui-builder`), выпуск (`ui-control`) и Larena — самостоятельные
+владельцы своих контрактов.

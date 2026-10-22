@@ -10,7 +10,7 @@ built and tried on.
 - **The reference host** — a Vite site that runs those components the way an
   admin does: a records list and record panel, the admin menu, filters,
   field editing and user settings.
-- **The polygon** (`/polygon.html`) — 120 seeded records using every property
+- **The polygon** (`/`, the index page) — 120 seeded records using every property
   type, answered by a mock host that does the work a backend does. See
   [`docs/POLYGON.md`](docs/POLYGON.md).
 - **`server.js`** — the mock API the host talks to in development.

@@ -1,5 +1,14 @@
 # Known Gaps
 
+> **Архив, 2026-08-20.** Снимок проверки до пинов по выпускам, до пакета
+> `larena` и до переноса компонентов в этот репозиторий. Его блокеры закрыты:
+> Framework закрепляется по выпуску `ui-<12>` с хэшами файлов, пакет — по
+> квитанции сборки из `components/`, опубликованный сайт проверяет
+> `npm run check:published`. Текущее состояние —
+> [технический аудит](../developer/repository-audit.md) и
+> [Framework runtime](../developer/framework-runtime.md). Файлы ниже не
+> обновляются.
+
 ## Blocking P0 gaps
 
 - Нет checkout или artifact UI Smart exact revision

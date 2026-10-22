@@ -1,5 +1,12 @@
 # Контракт API
 
+Контракт HTTP mock API (`server.js`), которым пользуется страница
+`/mock-api.html` через `src/adminTable.ts`. Главная страница (`/`) HTTP не
+использует: её отвечает хост в `src/ports/` через host port
+([связи компонентов](component-connections.md)). Тот же `server.js` на сервере
+отдаёт собранный сайт из `dist/` (`SIMAI_DIST_DIR`) и хранит состояние в
+`SIMAI_STATE_DIR`.
+
 ## Базовые пути
 
 По умолчанию `src/adminTable.ts` использует следующие пути:
@@ -81,4 +88,4 @@ VITE_LARENA_SMOKE_SMART_ADAPTER=1
 
 `VITE_LARENA_TEST_ACTOR` добавляет заголовок `X-Larena-Test-Actor` только для локального smoke защищённого read-only API. Это не production-механизм авторизации. Write endpoints остаются демо-путями и должны быть отклонены backend, если Larena предоставляет только чтение.
 
-`VITE_LARENA_SMOKE_SMART_ADAPTER=1` включает локальный адаптер компонентов для browser smoke при недоступных published smart assets. Он проверяет связку frontend с read-only API, но не заменяет production artifacts UI Smart.
+`VITE_LARENA_SMOKE_SMART_ADAPTER=1` включает локальный адаптер компонентов для browser smoke при недоступных published smart assets. Он проверяет связку frontend с read-only API, но не заменяет закреплённый пакет компонентов.

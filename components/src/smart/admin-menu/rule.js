@@ -27,5 +27,8 @@ SF.RuleLoader["cl-admin-menu"] = {
     { name: "cl-profile-picker", lazy: true },
     // A row's glyph is chosen in the edit mode with the grid dropdown.
     { name: "cl-dropdown", lazy: true },
+    // A search that finds nothing and a menu the host could not load say so
+    // in sf-empty-state; neither is on screen when the page starts.
+    { name: "cl-empty-state", lazy: true },
   ],
 };

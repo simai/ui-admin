@@ -34,6 +34,8 @@
       "smart.badges",
       "smart.buttons",
       "smart.context-menu",
+      "smart.dropdown",
+      "smart.empty-state",
       "smart.icon-buttons",
       "smart.icons",
       "smart.inputs",

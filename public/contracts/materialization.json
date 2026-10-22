@@ -71,7 +71,7 @@
       "id": "smart.context-menu",
       "version": "1.3.0",
       "file": "smart.context-menu.json",
-      "manifest_sha256": "e5a091fec642a92aa69b195c35bced9f211df3e009c11ff1954ba47f67019690"
+      "manifest_sha256": "19284a4878e9e7a7d2afe33b8458f40f8d0493698b818b23431830be3e90fa2e"
     },
     {
       "id": "smart.copy-button",
@@ -89,7 +89,7 @@
       "id": "smart.datepicker",
       "version": "1.0.0",
       "file": "smart.datepicker.json",
-      "manifest_sha256": "a6d4a4ff9558e5e1b9559406f65f66f69616e6090e1761f704f0156afbb57b8b"
+      "manifest_sha256": "57d2738e6887c50d644ca69a47ee3240f2a0fbca6b1118e7b8522e6eb858b7d3"
     },
     {
       "id": "smart.download-file",
@@ -137,7 +137,7 @@
       "id": "smart.help-mark",
       "version": "1.0.0",
       "file": "smart.help-mark.json",
-      "manifest_sha256": "726bd858f7fdba04ed6679abe9993775622788e0b5a9e82a34e405dc315f62c3"
+      "manifest_sha256": "dc4a0c80fa7b1187e35ed1fe38eaf83d9199fad7125ad6b20509a95672cdfb47"
     },
     {
       "id": "smart.icon-buttons",
@@ -191,13 +191,13 @@
       "id": "smart.popover",
       "version": "1.0.0",
       "file": "smart.popover.json",
-      "manifest_sha256": "5366cafcffebf1e037855fd2e10fe500a6715b4d842cdb619b428f8f15476137"
+      "manifest_sha256": "e5ac4cbf3c96a671d30221937688be2f4428f279c2d1e3faa5edae4dd0dee91b"
     },
     {
       "id": "smart.profile-picker",
       "version": "1.0.0",
       "file": "smart.profile-picker.json",
-      "manifest_sha256": "287b2e5499fd9039132fd077122f6f3fbec9fa54eaf990f3c9a9f5cee8904bd6"
+      "manifest_sha256": "3b60cfa4bc9d946df8b60bbd97156b2eae74908d7e1b0e783f968ff00a0136d4"
     },
     {
       "id": "smart.progress-bar",
@@ -285,9 +285,9 @@
     },
     {
       "id": "smart.textarea",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "file": "smart.textarea.json",
-      "manifest_sha256": "6748c9aec825dc5c8383ba0b1f2e20439723f52d000cce5da98e1b43fd485b75"
+      "manifest_sha256": "a16fcf3ecd631bafb852e23a8dcc843e18eccff73a60ad9e78eee8aa41fd03b9"
     },
     {
       "id": "smart.theme-generator",
@@ -326,6 +326,6 @@
       "manifest_sha256": "f0ff164cbacb0dcd6af9fe3ee41acdfdc3da309dd7da3017950161ebe23cf741"
     }
   ],
-  "registry_sha256": "42f3c64a11fad416f2ad313eec173279bd0cdb4453586f1e33ee5f6a351c9870",
+  "registry_sha256": "94600aa69906fd64ae2e46543f9d5986c47bdcb0d581463690a88ccbb3410e2c",
   "registry_schema_sha256": "d5b0a5b299fa4b044d8125a315458c37de76f0bb5c6cb686962cdec7922b14ce"
 }

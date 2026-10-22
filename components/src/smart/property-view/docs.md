@@ -99,6 +99,21 @@ which needs a hover, so a touch device had no way to read a hint at all. The
 button's accessible name is the hint itself, so what a screen reader says on
 focus is what the mark opens.
 
+## Date and time fields
+
+A `datetime` field is edited as a day and a time on one row: `sf-datepicker`
+for the day and `sf-input`, masked to hh:mm, for the time, both at the view's
+size and each named for assistive technology («Начало: дата», «Начало: время»).
+The value is the host's text in the site's time zone, read as ISO 8601 (a day, or
+a day and a time after `T` or a space, with optional seconds, fraction and zone)
+and written back as ISO 8601 with a time: a changed day keeps the record's
+clock and zone, a typed time is `hh:mm:00` with the record's zone, and a new value
+has no zone. An untouched field is not written, and a field brought back to what
+it held writes nothing either. Clearing both clears the value. A day without a
+time, a time without a day or a time that is not hh:mm is said under the field
+like a host's error, and the save waits until it is put right. A `readonly`
+datetime is shown, not edited.
+
 ## Inputs
 
 | input | what it does |

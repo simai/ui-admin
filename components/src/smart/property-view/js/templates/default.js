@@ -1,6 +1,7 @@
 import {html, nothing} from 'lit';
 import "./default.css";
 import {renderViewField, renderEditField} from '../../../field-renderers/index.js';
+import {renderDateTimeEdit} from '../datetime-edit.js';
 
 // The arrangement, drawn in the component's own light DOM. Not in a shadow root:
 // the field controls are Smart elements whose stylesheets are document-level, and
@@ -29,7 +30,13 @@ function renderFieldValue(context, field, editing) {
             }
             : {}),
     };
-    const content = editing
+    // A datetime is edited as a day and a time (../datetime-edit.js): the
+    // shared set's control edits the day alone. A readonly one is shown, as the
+    // set shows every readonly field.
+    const type = field.propertyType || field.type || field.dataType;
+    const content = editing && type === 'datetime' && field.readonly !== true
+        ? renderDateTimeEdit(context, field, context.changed.has(key) ? context.changed.get(key) : field.value)
+        : editing
         ? renderEditField(
             field,
             context.changed.has(key) ? context.changed.get(key) : field.value,

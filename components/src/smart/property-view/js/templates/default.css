@@ -437,6 +437,32 @@
     display: flex;
   }
 
+  /* A datetime is a day and a time on one row (js/datetime-edit.js): the day
+     as wide as a date field is anywhere in the view, the time as wide as
+     «00:00» in its own font, so it follows the field's size step with the
+     datepicker. Both are the same size on the ladder, so they stand at one
+     height. The row does not wrap: a time under its day reads as a second
+     field. */
+  .sf-property-view-datetime {
+    display: flex;
+    align-items: center;
+    gap: var(--sf-space-2);
+    max-inline-size: 100%;
+    min-inline-size: 0;
+  }
+
+  /* Both hosts are display: contents, so the flex items are what they draw:
+     the datepicker's wrap and the time field's root (its root-class). */
+  .sf-property-view-datetime > sf-datepicker > .sf-datepicker-wrap {
+    flex: 0 1 auto;
+    min-inline-size: 0;
+  }
+
+  .sf-property-view-datetime .sf-property-view-datetime-time-field {
+    flex: 0 0 6.5em;
+    min-inline-size: 0;
+  }
+
   /* A value whose editor does not exist yet is shown, not blanked, and reads as
      not-yet-editable rather than as empty. */
 

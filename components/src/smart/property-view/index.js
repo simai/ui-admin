@@ -18,6 +18,7 @@ import SfBaseElement from "../../core/js/smart-base";
 import {ICON_CHOICES} from "./js/icon-choices.js";
 import {pageText} from "../../core/js/page-language";
 import {renderPropertyViewTemplate} from "./js/templates/default";
+import {composeDateTime, normalizeTime, splitDateTime} from "./js/datetime-value.js";
 
 // Every port version this composite accepts, in one place, the way sf-data-view
 // keeps its list -- a guard naming a narrower set than the published versions is
@@ -119,6 +120,13 @@ const PROPERTY_VIEW_TEXT = {
         deleteText: "Delete",
         changedText: "Fields changed",
         errorsText: "Errors",
+        dateTimeDateLabel: "{label}: date",
+        dateTimeTimeLabel: "{label}: time",
+        timePlaceholderText: "hh:mm",
+        dateMissingText: "Enter the date",
+        dateInvalidText: "The date is not a calendar date",
+        timeMissingText: "Enter the time",
+        timeInvalidText: "Enter the time as hh:mm, from 00:00 to 23:59",
         conflictText: "The record changed; read it again",
         sectionsLabel: "Sections",
         closeLabel: "Close",
@@ -192,6 +200,13 @@ const PROPERTY_VIEW_TEXT = {
         deleteText: "Удалить",
         changedText: "Изменено полей",
         errorsText: "Ошибок",
+        dateTimeDateLabel: "{label}: дата",
+        dateTimeTimeLabel: "{label}: время",
+        timePlaceholderText: "чч:мм",
+        dateMissingText: "Укажите дату",
+        dateInvalidText: "Дата указана неверно",
+        timeMissingText: "Укажите время",
+        timeInvalidText: "Укажите время в виде чч:мм, от 00:00 до 23:59",
         conflictText: "Запись изменилась, обновите её",
         sectionsLabel: "Разделы",
         closeLabel: "Закрыть",
@@ -383,6 +398,13 @@ class SfPropertyView extends SfBaseElement {
         this.editing = null;
         this.changed = new Map();
         this.errors = new Map();
+        // What a person has entered into a field that is not a value yet: a
+        // datetime's day and time, held until both make one (inputDrafts), and
+        // what is wrong with an entry that cannot be written (inputErrors).
+        // The view's own, so a host's refusal does not replace them; a save
+        // waits until they are put right.
+        this.inputDrafts = new Map();
+        this.inputErrors = new Map();
         this.conflict = null;
         // Candidate records for a reference field, per field: the page the host
         // last answered with and the search it was answered for. Held for
@@ -1458,7 +1480,12 @@ class SfPropertyView extends SfBaseElement {
             selectedSection: this.selectedSection,
             editing: this.editing,
             changed: this.changed,
-            errors: this.errors,
+            errors: this.inputErrors.size ? new Map([...this.errors, ...this.inputErrors]) : this.errors,
+            dateTimeText: {
+                dateLabel: pageText(PROPERTY_VIEW_TEXT, "dateTimeDateLabel", this),
+                timeLabel: pageText(PROPERTY_VIEW_TEXT, "dateTimeTimeLabel", this),
+                placeholder: pageText(PROPERTY_VIEW_TEXT, "timePlaceholderText", this),
+            },
             canPickRecords: this.canPickRecords,
             canUploadFiles: this.canUploadFiles,
             // The base captures the host's slot content in connectedCallback,
@@ -1944,6 +1971,50 @@ class SfPropertyView extends SfBaseElement {
         return this;
     }
 
+    // A datetime's day or time, as the person entered it (js/datetime-edit.js).
+    // The two make one value; until they do, the entry is held as a draft and
+    // what is missing is said under the field, as a host's error would be.
+    dateTimeDraft(key) {
+        return this.inputDrafts.get(String(key)) ?? null;
+    }
+
+    changeDateTime(field, value, part, text) {
+        const key = String(field.key ?? "");
+        // What the record holds, and what the controls show now: the draft,
+        // or the value the field is drawn with (a change not yet saved).
+        const original = splitDateTime(field.value);
+        const current = this.inputDrafts.get(key) ?? splitDateTime(value);
+        // A time that reads as one is kept as hh:mm, so «0930» typed without
+        // the mask shows as 09:30; anything else stays as typed, to be put right.
+        const typed = String(text ?? "");
+        const draft = {...current, [part]: part === "time" ? normalizeTime(typed) ?? typed : typed};
+        this.inputDrafts.set(key, draft);
+        const result = composeDateTime(original, draft);
+        if (result.error) {
+            this.changed.delete(key);
+            this.errors.delete(key);
+            this.inputErrors.set(key, pageText(PROPERTY_VIEW_TEXT, `${result.error}Text`, this));
+            this.requestComponentUpdate("errors");
+            return this;
+        }
+        this.inputErrors.delete(key);
+        // Back to what the record holds is no change: nothing is written.
+        const same = result.value === null ? original.known && !original.date : result.value === original.raw;
+        return this.changeField(field, same ? undefined : result.value);
+    }
+
+    _clearInputs() {
+        this.inputDrafts.clear();
+        this.inputErrors.clear();
+    }
+
+    // An entry that is not a value yet stops a save, and says so where it is.
+    _inputsInvalid() {
+        if (!this.inputErrors.size) return null;
+        this.requestComponentUpdate("errors");
+        return {answer: "refused", reason: "input_invalid", errors: Object.fromEntries(this.inputErrors)};
+    }
+
     // Which fields in a group are picked from a list of records rather than typed.
     _referenceFields(section, group) {
         const current = this.sections.find((entry) => String(entry.key) === String(section));
@@ -1957,6 +2028,7 @@ class SfPropertyView extends SfBaseElement {
         if (!this.mayEdit) return this;
         this.editing = {section: String(section), group: String(group)};
         this.changed.clear();
+        this._clearInputs();
         this.errors.clear();
         this.conflict = null;
         this.requestComponentUpdate("editing");
@@ -1980,6 +2052,7 @@ class SfPropertyView extends SfBaseElement {
         // once the host decides where cancelling leads (a panel closes).
         if (this.openAll) {
             this.changed.clear();
+        this._clearInputs();
             this.errors.clear();
             this.conflict = null;
             this.requestComponentUpdate("editing");
@@ -1989,6 +2062,7 @@ class SfPropertyView extends SfBaseElement {
         }
         this.editing = null;
         this.changed.clear();
+        this._clearInputs();
         this.errors.clear();
         this.conflict = null;
         this.requestComponentUpdate("editing");
@@ -2000,6 +2074,7 @@ class SfPropertyView extends SfBaseElement {
     // revision the read carried, and the host compares and sets.
     async saveGroup() {
         if (this.openAll) return this.saveAll();
+        if (this.editing && this.inputErrors.size) return this._inputsInvalid();
         if (!this.editing || this.changed.size === 0) return null;
         const epoch = ++this.epoch;
         const answer = await this._raise("group.save", {
@@ -2016,6 +2091,7 @@ class SfPropertyView extends SfBaseElement {
             this.sections = Array.isArray(answer.record?.sections) ? answer.record.sections : this.sections;
             this.editing = null;
             this.changed.clear();
+        this._clearInputs();
             this.errors.clear();
             this.conflict = null;
             this._setState("ready");
@@ -2042,6 +2118,7 @@ class SfPropertyView extends SfBaseElement {
     // (record.create), an edit saves every changed field as one revision
     // (record.save), port 1.12.0.
     async saveAll() {
+        if (this.inputErrors.size) return this._inputsInvalid();
         if (this.mode !== "create" && this.changed.size === 0) return null;
         const epoch = ++this.epoch;
         const creating = this.mode === "create";
@@ -2059,6 +2136,7 @@ class SfPropertyView extends SfBaseElement {
         if (!answer) return null;
         if (answer.answer === "applied") {
             this.changed.clear();
+        this._clearInputs();
             this.errors.clear();
             this.conflict = null;
             if (creating) {
@@ -2228,6 +2306,7 @@ class SfPropertyView extends SfBaseElement {
         this.view = answer.record?.view ?? this.view;
         this.editing = null;
         this.changed.clear();
+        this._clearInputs();
         this._setState("ready");
         if (this.configuring) this.setViewTarget(this._layerOfProfile());
         this.requestComponentUpdate("profile");

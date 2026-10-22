@@ -1110,15 +1110,23 @@
     "source_artifacts": [
       {
         "path": "src/smart/property-view/index.js",
-        "sha256": "11715d0b592b4e2ab7bd2ed06da6cf879283d7d1e3f258a1d825768f63b09d28"
+        "sha256": "f53584e304124bf2b0075a78a50ced0390d25e6f17fe5a90dbeeb410d35a4793"
       },
       {
         "path": "src/smart/property-view/js/templates/default.js",
-        "sha256": "143e7d4a24b50fff002cd12a6195e15d70aedab7dad2610b36df8bb4106011d6"
+        "sha256": "965d5e044b4f7b9684f76e41a3023a82dc010df1c98bc0c25c8cf73bdc12a6fe"
       },
       {
         "path": "src/smart/property-view/js/templates/default.css",
-        "sha256": "b27d193dd10ff0c933ab65aa7605b5724c995d43dfbde00a036cf4940e1677ea"
+        "sha256": "51f4b0b71bdf7f7238bc1fc00719655071f7d56300b5398b975b870b88abe9db"
+      },
+      {
+        "path": "src/smart/property-view/js/datetime-value.js",
+        "sha256": "01cfe61e97ca757e8e172a01b3d4030667ced76c7d6a4fa2f8660425c3eab585"
+      },
+      {
+        "path": "src/smart/property-view/js/datetime-edit.js",
+        "sha256": "73aa9ecf895689e6f6456b09da7b896d8497ff5540fb8b38033ebdfe47f94ac8"
       },
       {
         "path": "src/smart/property-view/rule.js",
@@ -1130,7 +1138,7 @@
       },
       {
         "path": "src/smart/property-view/docs.md",
-        "sha256": "0688949a3b01441b26d91c02efca9ef8c58eedc374b6bd65d53738e375cef520"
+        "sha256": "8295a3bf0543a97d4a4036982d883260ee961735373a14349f7e63941157f557"
       }
     ],
     "generated_runtime": []

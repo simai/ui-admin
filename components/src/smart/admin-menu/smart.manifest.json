@@ -684,7 +684,7 @@
     "revision_field": "base_revision"
   },
   "ownership": {
-    "source": "simai/larena-ui",
+    "source": "simai/ui-admin",
     "data": "host",
     "effects": "host",
     "forbidden_client_responsibilities": [

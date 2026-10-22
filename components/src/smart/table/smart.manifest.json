@@ -1642,7 +1642,7 @@
     }
   },
   "ownership": {
-    "source": "simai/ui-source",
+    "source": "simai/ui-admin",
     "data": "host",
     "effects": "host",
     "forbidden_client_responsibilities": [

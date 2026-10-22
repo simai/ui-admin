@@ -57,7 +57,7 @@ node scripts/test.mjs                 # the package's own suite in the overlay
 node scripts/run-browser-probes.mjs <free build output> <package build output>
 ```
 
-`scripts/overlay.mjs` looks for ui-source beside the larena-ui checkout, or at
+`scripts/overlay.mjs` looks for ui-source beside the ui-admin checkout, or at
 `UI_SOURCE_ROOT`, or wherever `--ui-source` says.
 
 ## Building the package
@@ -67,8 +67,8 @@ ui-builder builds it over the pinned ui-source, from committed bytes, twice
 
 ```bash
 node <ui-builder>/scripts/verify-package-reproducibility.cjs \
-  --package-source <larena-ui checkout> --package-path components \
-  <ui-source checkout> <new workspace> --package larena --package-revision <larena-ui commit>
+  --package-source <ui-admin checkout> --package-path components \
+  <ui-source checkout> <new workspace outside the checkout> --package larena --package-revision <ui-admin commit>
 python3 <ui-builder>/scripts/write-package-receipt.py --report <workspace>/report.json --ui <ui checkout>
 ```
 

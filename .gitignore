@@ -17,7 +17,7 @@ dist-ssr
 !.env.example
 
 # Local runtime/vendor assets
-smart/
+/smart/
 
 # Local prototypes and generated scratch files
 logo_with_styles.html

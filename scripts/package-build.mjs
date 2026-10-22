@@ -1,17 +1,21 @@
 // Building a component package the way its owner does, and reading what the
 // build says about itself.
 //
-// Larena's components are the package `larena`: their source is the
-// `components/` folder of simai/larena-ui, and there is no separate repository
-// of built bytes (standard simai.component-package; owner, 2026-10-11). So this
-// site builds the package itself, with the same ui-builder command Larena uses,
+// The admin components are the package `larena`: their source is the
+// `components/` folder of this repository (moved here from simai/larena-ui,
+// owner 2026-10-22), and there is no separate repository of built bytes
+// (standard simai.component-package; owner, 2026-10-11). So this site builds
+// the package itself, with the same ui-builder command Larena uses,
 // over the ui-source revision the folder pins, and trusts nothing but the
 // build's own receipt: the package source revision and tree, the free release
 // it was built over, and the hashes of what it wrote.
 //
-// Builds are kept under .package-build/<package>-<12> and reused: the same
-// commit builds the same bytes (the builder proves that with two waves), so a
-// second build of one revision would only cost time.
+// Builds are kept under ../.package-build/ui-admin/<package>-<12> (or
+// $SIMAI_PACKAGE_BUILD_ROOT/<package>-<12>) and reused: the same commit builds
+// the same bytes (the builder proves that with two waves), so a second build
+// of one revision would only cost time. They sit outside this checkout because
+// the package source is this repository, and ui-builder refuses a workspace
+// inside the package repository.
 import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync, rmSync } from 'node:fs';
 import { join, resolve } from 'node:path';
@@ -23,7 +27,8 @@ export const roots = () => ({
   builder: sibling('ui-builder', 'SIMAI_UI_BUILDER'),
   source: sibling('ui-source', 'SIMAI_UI_SOURCE'),
   ui: sibling('ui', 'SIMAI_UI_REPO'),
-  package: sibling('larena-ui', 'SIMAI_LARENA_UI'),
+  // The package source is this repository: components/ lives here.
+  package: projectRoot,
 });
 
 const git = (root, ...args) =>
@@ -37,8 +42,11 @@ export const packageRevision = (packageRoot, folder) => {
   return revision;
 };
 
+export const buildRoot = () =>
+  resolve(process.env.SIMAI_PACKAGE_BUILD_ROOT || join(projectRoot, '..', '.package-build', 'ui-admin'));
+
 export const workspaceFor = (name, revision) =>
-  join(projectRoot, '.package-build', `${name}-${revision.slice(0, 12)}`);
+  join(buildRoot(), `${name}-${revision.slice(0, 12)}`);
 
 /**
  * The receipt of a build of `name` at `revision`, building it first when this

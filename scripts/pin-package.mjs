@@ -4,9 +4,9 @@
 // The pin of the component package this site serves beside the Framework, and
 // whether it agrees with the Framework pin.
 //
-// The package is `larena`: Larena's components, whose source is the
-// `components/` folder of simai/larena-ui (standard simai.component-package;
-// owner, 2026-10-11, when SIMAI Framework Pro was dropped). There is no
+// The package is `larena`: the admin components, whose source is the
+// `components/` folder of this repository (standard simai.component-package;
+// owner, 2026-10-11; moved here from simai/larena-ui, owner, 2026-10-22). There is no
 // repository of built bytes to pin, so the pin is the source revision -- the
 // commit that last wrote the folder -- and the receipt of building it: the free
 // release it was built over, the archive's hash and the hash of every file the

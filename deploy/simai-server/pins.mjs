@@ -7,13 +7,13 @@
 // repin commit is the whole change the deploy needs:
 //
 //   config/simai-assets.lock.json   the Framework pair: ui at core.commit
-//   config/simai-package.lock.json  the larena package: larena-ui at
-//                                   source.revision, ui-builder at
+//   config/simai-package.lock.json  the larena package: this repository's
+//                                   components/ at source.revision, ui-builder at
 //                                   builder.revision, the archive digest
 //
 // ui-source is the one input no lock here names: it is the revision the
-// package source pins (components/framework.lock.json in larena-ui), read by
-// clone-inputs.sh once larena-ui is cloned.
+// package source pins (components/framework.lock.json in this repository at
+// source.revision), read by clone-inputs.sh from this checkout.
 //
 // Exits 1 when a pin is missing or malformed, so a reshaped lock fails the
 // deploy loudly instead of cloning the wrong revision.
@@ -43,6 +43,9 @@ for (const side of ['core', 'smart']) {
 if (framework.core.commit !== framework.smart.commit) fail('core and smart name different ui commits');
 if (pkg.requires?.framework !== framework.compatibilityId) fail('the package is pinned over another Framework release');
 if (!repository.test(pkg.source?.repository ?? '')) fail('package source.repository');
+// The package source is this repository; clone-inputs.sh reads it from this
+// checkout and clones nothing for it.
+if (pkg.source.repository !== 'simai/ui-admin') fail(`package source.repository is ${pkg.source.repository}, not simai/ui-admin`);
 if (!commit.test(pkg.source?.revision ?? '')) fail('package source.revision');
 if (!/^[A-Za-z0-9._/-]+$/.test(pkg.source?.path ?? '')) fail('package source.path');
 if (!repository.test(pkg.builder?.repository ?? '')) fail('package builder.repository');

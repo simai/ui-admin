@@ -675,7 +675,7 @@
           },
           "reason": {
             "type": "string",
-            "description": "Why, when the answer is not applied: the host's reason, or the view's own (port-not-connected, capability-not-provided, action-not-allowed, no-base-revision)."
+            "description": "Why, when the answer is not applied: the host's reason, or the view's own (port-not-connected, capability-not-provided, action-not-allowed, no-base-revision). A refused query.change is «no access» (rows, toolbar, selection and create withdrawn) only for an access reason: none, forbidden, access_denied, scope_denied, or one ending in _access_denied or _scope_denied; any other reason (query_invalid) is a query error that keeps the toolbar and the query."
           },
           "message": {
             "type": "string",
@@ -1283,7 +1283,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/data-view/index.js",
-        "sha256": "57b127dd048ffae1797714b7886c8f1f314644d938b8e3b2202ed80c04b45ba4"
+        "sha256": "f8a21faa91aa9911b64990a9107aca37b3090f0b90439e9b7e5028795f849209"
       },
       {
         "path": "src/core/contracts/ports/simai.dataview-port/1.5.0/port.json",
@@ -1291,7 +1291,7 @@
       },
       {
         "path": "src/smart/data-view/docs.md",
-        "sha256": "c0ac19e67b161ed93bc94f92ced253075247d9941f9446ef61208b38c1aa1b59"
+        "sha256": "6d1f200e25cf7efa3aa5429aa329078643d50b318b67d28d3ed3e706269708a3"
       },
       {
         "path": "tests/fixtures/data-view-composite-lab.html",

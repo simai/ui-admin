@@ -18,6 +18,8 @@ class EventNode {
   dispatchEvent(event) { for (const fn of this.listeners.get(event.type) ?? []) fn(event); return true; }
   setAttribute(name, value) { this.attributes.set(name, String(value)); }
   getAttribute(name) { return this.attributes.get(name) ?? null; }
+  hasAttribute(name) { return this.attributes.has(name); }
+  removeAttribute(name) { this.attributes.delete(name); }
 }
 
 class FakeTable extends EventNode {
@@ -192,4 +194,63 @@ test('the manifest declares the answer message and treats it as untrusted', () =
   assert.equal(message.type, 'string');
   assert.match(message.description, /query\.change/u);
   assert.ok(manifest.security.untrusted_inputs.includes('answer messages'));
+});
+
+// Larena acceptance, 2026-10-22: a search longer than the host takes is refused
+// as query_invalid with a sentence. That is a query to correct, not an access
+// refusal: the toolbar, the search and the rest of the query stay, and the
+// error state says the host's sentence. Only access reasons are «no access».
+const LONG_SEARCH = 'я'.repeat(300);
+const TOO_LONG = 'Строка поиска длиннее 255 символов';
+const toolbarShown = (view) => view.shadowRoot.toolbar.hidden === false && view.table.getAttribute('toolbar') !== 'false';
+
+test('refused for the query: an error state with the host sentence, the toolbar and the query stay', async () => {
+  const {view, set} = await viewAnswering((payload) => listing(payload));
+  assert.equal(view.getAttribute('data-state'), 'populated');
+  set((payload) => ({answer: 'refused', reason: 'query_invalid', message: `<b>${TOO_LONG}</b>`, sequence: payload.sequence}));
+  await view.changeQuery({search: LONG_SEARCH}, 'search');
+  assert.equal(view.getAttribute('data-state'), 'error');
+  assert.equal(view.shadowRoot.status.textContent, `<b>${TOO_LONG}</b>`, 'the sentence is text, as the host sent it');
+  assert.equal(view.table.emptyContext.message, `<b>${TOO_LONG}</b>`);
+  assert.equal(view.table.emptyContext.kind, undefined, 'not the no-access brick');
+  assert.equal(view.table.getAttribute('data-state'), 'error');
+  assert.ok(toolbarShown(view), 'the toolbar stays');
+  assert.equal(view.query.search, LONG_SEARCH, 'the search the person typed is kept');
+  assert.equal(view.records.length, 0, 'the last answer\'s rows do not answer this query');
+  assert.equal(toastOf(view), null, 'no notice over the state');
+  // Shortened, the query is answered again.
+  set((payload) => listing(payload));
+  await view.changeQuery({search: 'я'}, 'search');
+  assert.equal(view.getAttribute('data-state'), 'populated');
+  assert.ok(toolbarShown(view));
+});
+
+test('refused for the query without a sentence: the view\'s own words', async () => {
+  for (const reason of ['query_invalid', 'minimal_cms_dataview_filter_denied', 'search_too_long']) {
+    const {view} = await viewAnswering((payload) => ({answer: 'refused', reason, sequence: payload.sequence}));
+    assert.equal(view.getAttribute('data-state'), 'error', reason);
+    assert.equal(view.shadowRoot.status.textContent, 'The request could not be completed', reason);
+    assert.equal(view.table.emptyContext.message, 'The request could not be completed', reason);
+    assert.ok(toolbarShown(view), reason);
+    assert.equal(toastOf(view), null, reason);
+  }
+});
+
+test('refused for access: no access, the toolbar withdrawn, for every access reason', async () => {
+  for (const reason of [undefined, '', 'forbidden', 'access_denied', 'scope_denied', 'storage_page_scope_denied', 'registered_list_access_denied']) {
+    const {view} = await viewAnswering((payload) => ({answer: 'refused', reason, sequence: payload.sequence}));
+    assert.equal(view.getAttribute('data-state'), 'empty', String(reason));
+    assert.equal(view.table.emptyContext.kind, 'no-access', String(reason));
+    assert.equal(view.shadowRoot.toolbar.hidden, true, String(reason));
+    assert.equal(view.table.getAttribute('toolbar'), 'false', String(reason));
+  }
+});
+
+test('a query error after no access gives the toolbar back', async () => {
+  const {view, set} = await viewAnswering((payload) => ({answer: 'refused', reason: 'access_denied', sequence: payload.sequence}));
+  assert.equal(view.table.getAttribute('toolbar'), 'false');
+  set((payload) => ({answer: 'refused', reason: 'query_invalid', sequence: payload.sequence}));
+  await view.refresh('search');
+  assert.equal(view.getAttribute('data-state'), 'error');
+  assert.ok(toolbarShown(view));
 });

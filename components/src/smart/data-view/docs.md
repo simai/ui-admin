@@ -119,6 +119,15 @@ a message raises no error notice — the state already says why, e.g. «Спис
 готовится…» while a large storage's list is built. Without a message the view
 keeps its own words («Данные временно недоступны») and the notice.
 
+A refused list is «no access» only when it was refused for access: the reason is
+missing, `forbidden`, `access_denied`, `scope_denied`, or a host's own name ending
+in `_access_denied` or `_scope_denied`. Then the rows go, and so do the toolbar,
+the selection and «Создать». Any other reason is about the query — `query_invalid`
+for a search longer than the host takes, a filter it does not allow: the list
+shows the error state with the host's `message` as text, or «Запрос не выполнен»
+without one, and the toolbar, the search the person typed and the filters stay,
+so the query can be corrected in place. No notice is raised over it.
+
 ## Port 1.2.0: the column that leads a record
 
 Port [1.2.0](../../core/contracts/ports/simai.dataview-port/1.2.0/port.json) adds one optional column property, `role`,

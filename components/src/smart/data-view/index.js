@@ -40,6 +40,24 @@ function hostMessage(answer) {
     return typeof answer?.message === "string" ? answer.message.trim() : "";
 }
 
+// Whether a refused list was refused for access rather than for the query
+// (Larena acceptance, 2026-10-22: a search longer than the host's limit,
+// refused as query_invalid, drew «Нет доступа» and took the toolbar away, so
+// the search could not be shortened without reloading). The port's reason is
+// free text a host may extend (simai.dataview-port 1.12.0 answer.reason) and the
+// contract names one access reason, `forbidden`; it has no class for the rest.
+// Access is read from the code: `forbidden`, `access_denied`, `scope_denied`,
+// and a host's own prefixed form of the last two (`storage_page_scope_denied`,
+// `registered_list_access_denied`). A refusal without a reason stays a refusal
+// of access, as every refused list was before. Any other reason is about the
+// query: the person keeps the toolbar and the query to correct it.
+const ACCESS_REFUSALS = new Set(["forbidden", "access_denied", "scope_denied"]);
+function isAccessRefusal(reason) {
+    if (reason == null || reason === "") return true;
+    const code = String(reason);
+    return ACCESS_REFUSALS.has(code) || code.endsWith("_access_denied") || code.endsWith("_scope_denied");
+}
+
 function projectColumn(column) {
     const projected = copy(column);
     for (const [sent, read] of Object.entries(COLUMN_PRESENTATION)) {
@@ -76,6 +94,7 @@ const DATA_VIEW_TEXT = {
         stateUnavailable: "The data is temporarily unavailable",
         stateLoadFailed: "The data could not be loaded",
         stateLoading: "Loading",
+        stateQueryFailed: "The request could not be completed",
         noticeFetchFailed: "The data could not be fetched. Try again.",
         noticeLoadFailed: "The data could not be loaded.",
         currentViewText: "Current",
@@ -119,6 +138,7 @@ const DATA_VIEW_TEXT = {
         stateUnavailable: "Данные временно недоступны",
         stateLoadFailed: "Не удалось загрузить данные",
         stateLoading: "Загрузка данных",
+        stateQueryFailed: "Запрос не выполнен",
         noticeFetchFailed: "Не удалось получить данные. Повторите попытку.",
         noticeLoadFailed: "Не удалось загрузить данные.",
         currentViewText: "Текущий",
@@ -784,7 +804,9 @@ class SfDataView extends HTMLElement {
             }
             if (query && answer.sequence != null && answer.sequence !== sequence) return null;
             if (query) this.pending = null;
-            if (query) this._queryRefused = answer.answer === "refused";
+            // Refused for access: «no access», without the toolbar. Refused for
+            // the query: the query stays on screen to be corrected (isAccessRefusal).
+            if (query) this._queryRefused = answer.answer === "refused" && isAccessRefusal(answer.reason);
             // The host's own sentence for a list it cannot give or will not
             // give (Larena, 2026-10-21: «Список готовится…» while a large
             // storage's read model is built). It is shown as the state's own
@@ -823,6 +845,25 @@ class SfDataView extends HTMLElement {
                 // the page host's outputs (simai.interface-fragment, effects);
                 // the page's routes take it to whoever listens.
                 if (Array.isArray(answer.effects) && answer.effects.length) globalThis.SF?.Composition?.publishEffects?.(answer.effects, {origin: this});
+            } else if (query && answer.answer === "refused" && !this._queryRefused) {
+                // A query the host would not answer as asked -- a search
+                // longer than it takes, a filter it does not allow. The rows of
+                // the last answer do not answer this query, so they go; the
+                // toolbar, the search the person typed and the filters stay,
+                // and the state says what went wrong: the host's sentence as
+                // text, or the view's own words. No notice over it: the state
+                // and the live region already say it.
+                this.records = [];
+                this.appended = null;
+                this.total = 0;
+                this.countKnown = false;
+                this._renderProjection();
+                // The brick's title as well as the live region: the table's own
+                // «could not load» would say the wrong thing about a query.
+                if (!this._queryMessage) this._queryMessage = pageText(DATA_VIEW_TEXT, "stateQueryFailed", this);
+                this._setState("error", this._queryMessage);
+                this._showAnswer(intent, answer, {stated: true});
+                return answer;
             } else if (query && answer.answer === "refused") {
                 // A refused list shows nothing it had: the rows of the last
                 // allowed answer stayed under «no access» (docs trial 4).
@@ -854,8 +895,8 @@ class SfDataView extends HTMLElement {
         }
     }
 
-    _showAnswer(intent, answer) {
-        if (["conflict", "refused"].includes(answer.answer)
+    _showAnswer(intent, answer, {stated = false} = {}) {
+        if (!stated && ["conflict", "refused"].includes(answer.answer)
             || (answer.answer === "unavailable" && intent !== "query.change")) {
             const text = this._noticeText(answer);
             this._setState(this.records.length ? "populated" : "empty", text);

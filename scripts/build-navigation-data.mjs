@@ -199,7 +199,7 @@ const LANGUAGES = [
 
 const PERSON = {
   name: 'Super User',
-  email: 'admin@simai.ru',
+  email: 'admin@example.com',
   role: 'Администратор',
   avatar: null,
   links: [

@@ -89,7 +89,7 @@
       "id": "smart.datepicker",
       "version": "1.0.1",
       "file": "smart.datepicker.json",
-      "manifest_sha256": "8df2f4f2e2af0466dd27c2a87a43ecdf218fef1cf34d68cd6daf4533b7d51403"
+      "manifest_sha256": "ae501ad5811e4043d861a8182329d67b04b0ace555d1ffd2a52bade78b283339"
     },
     {
       "id": "smart.download-file",
@@ -161,7 +161,7 @@
       "id": "smart.inputs",
       "version": "1.1.0",
       "file": "smart.inputs.json",
-      "manifest_sha256": "8744e008fc38a5ee89599d12d6c7e86e1880ab4fb87c6d4497955dfc3ba93d8c"
+      "manifest_sha256": "b1c555d913bbf9cb7395b5dd4cb94350fb7ece7ca3e858f51bae7768950cc6f3"
     },
     {
       "id": "smart.list-item",
@@ -326,6 +326,6 @@
       "manifest_sha256": "f0ff164cbacb0dcd6af9fe3ee41acdfdc3da309dd7da3017950161ebe23cf741"
     }
   ],
-  "registry_sha256": "bda3be4e5371691187136b91225ec19a3f4fbb524e8f3365a851a8d27d6cea5c",
+  "registry_sha256": "f882b34cffea9ce70f9f4470999dcfceeb7f650fd9dc8b5502ea38f0ceb316a8",
   "registry_schema_sha256": "d5b0a5b299fa4b044d8125a315458c37de76f0bb5c6cb686962cdec7922b14ce"
 }

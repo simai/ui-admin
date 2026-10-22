@@ -1789,12 +1789,32 @@ class SfPropertyView extends SfBaseElement {
     // what was copied, and says what should be opened; where a window goes, and
     // whether it may close over unsaved edits, belongs to whoever placed it.
     closePanel(reason = "close") {
-        const unsaved = this.changed.size;
+        this._commitFocusedEntry();
+        const unsaved = this.unsavedFields;
         this.dispatchEvent(new CustomEvent("sf-property-view-close", {
             bubbles: true, composed: true,
             detail: {reason, record_id: this.recordId || null, unsaved_fields: unsaved},
         }));
         return this;
+    }
+
+    // What would be lost by closing: every changed field, and every entry that
+    // is not a value yet -- a day picked for a datetime whose time is still
+    // empty is work the person did, though there is nothing to save (Larena
+    // acceptance, 2026-10-22: Esc after picking a day closed without asking).
+    get unsavedFields() {
+        return new Set([...this.changed.keys(), ...this.inputErrors.keys()]).size;
+    }
+
+    // A field reports its value when it loses focus, so a time typed and left
+    // focused is not counted until then. Closing takes the focus first, and the
+    // field reports before the count is read.
+    _commitFocusedEntry() {
+        let active = document.activeElement;
+        while (active?.shadowRoot?.activeElement) active = active.shadowRoot.activeElement;
+        if (!active || typeof active.blur !== "function") return;
+        const panel = this.panel ? this.panelContent() : null;
+        if (this.contains(active) || panel?.contains(active)) active.blur();
     }
 
     // What a person pastes is a page they can open, so the host's address is
@@ -2051,13 +2071,21 @@ class SfPropertyView extends SfBaseElement {
         // button alone, so there is nothing to undo. On a surface open all at
         // once the host decides where cancelling leads (a panel closes).
         if (this.openAll) {
+            this.dispatchEvent(new CustomEvent("sf-property-view-cancel", {bubbles: true, composed: true, detail: {mode: this.mode}}));
+            // A panel asks to close with what is unsaved, as the cross and Esc
+            // do, so the host asks the same question on every way out; the
+            // entries stay until the host closes it, and survive a «no»
+            // (Larena acceptance, 2026-10-22: «Отменить» discarded first and
+            // then reported nothing unsaved).
+            if (this.panel) {
+                this.closePanel("cancelled");
+                return this;
+            }
             this.changed.clear();
-        this._clearInputs();
+            this._clearInputs();
             this.errors.clear();
             this.conflict = null;
             this.requestComponentUpdate("editing");
-            this.dispatchEvent(new CustomEvent("sf-property-view-cancel", {bubbles: true, composed: true, detail: {mode: this.mode}}));
-            if (this.panel) this.closePanel?.("cancelled");
             return this;
         }
         this.editing = null;

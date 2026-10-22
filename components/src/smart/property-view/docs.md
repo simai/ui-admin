@@ -114,6 +114,18 @@ time, a time without a day or a time that is not hh:mm is said under the field
 like a host's error, and the save waits until it is put right. A `readonly`
 datetime is shown, not edited.
 
+## Closing a panel over unsaved work
+
+A panel never closes itself: the cross, Esc and «Отменить» each raise
+`sf-property-view-close` (`reason` `close`, `escape` or `cancelled`) with
+`unsaved_fields`, and whether to ask «Закрыть? Введённое не будет сохранено.»
+is the host's decision. The count is the same on every way out: the changed
+fields, plus every entry that is not a value yet (a day picked for a datetime
+whose time is still empty). A field still holding the focus reports first, so
+a time typed and not yet left is counted. «Отменить» keeps what was entered
+until the host removes the panel, so a «no» to the host's question loses
+nothing.
+
 ## Inputs
 
 | input | what it does |

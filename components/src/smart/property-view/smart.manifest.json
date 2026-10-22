@@ -888,7 +888,7 @@
       }
     },
     "sf-property-view-close": {
-      "summary": "The panel asks to be closed, carrying how many fields were changed and not saved.",
+      "summary": "The panel asks to be closed (by its close control, Esc or Cancel), carrying how many fields would be lost: changed and not saved, or entered and not yet a value.",
       "payload": {
         "type": "object"
       }
@@ -1110,7 +1110,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/property-view/index.js",
-        "sha256": "f53584e304124bf2b0075a78a50ced0390d25e6f17fe5a90dbeeb410d35a4793"
+        "sha256": "19f692740acc9025dc5c0d6d804117d01191cce36efe8eb2286766531a70564e"
       },
       {
         "path": "src/smart/property-view/js/templates/default.js",
@@ -1138,7 +1138,7 @@
       },
       {
         "path": "src/smart/property-view/docs.md",
-        "sha256": "8295a3bf0543a97d4a4036982d883260ee961735373a14349f7e63941157f557"
+        "sha256": "f6800cf66244cb9880cdd43678cbd09ca63e168b4f6f9fd5b939889f3996c1e2"
       }
     ],
     "generated_runtime": []

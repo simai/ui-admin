@@ -228,7 +228,7 @@ export const createPropertyViewHost = ({ record = RECORD, capabilities = [], pro
           { value: 'sec-2', label: 'Коммуникации' },
           { value: 'sec-3', label: 'Инфраструктура' },
         ].filter((option) => !search || option.label.toLowerCase().includes(search));
-        return { answer: 'applied', options_page: { options: all, next_cursor: null } };
+        return { answer: 'applied', options_page: { items: all, next_cursor: null } };
       }
 
       if (intent === 'field.upload') {

@@ -88,15 +88,18 @@ const kitFor = (portId) => {
   const found = newestKit(runtime, portId);
   if (!found) return null;
   const { version, root: kitRoot, manifest } = found;
+  // Kept per case, not merged per (intent, answer): since property-view-port
+  // 1.14.0 one answer has two shapes -- a group save refused for its errors,
+  // and refused to be confirmed first -- and no single answer carries both.
   const required = new Map();
   for (const id of manifest.cases) {
     const path = join(kitRoot, 'cases', `${id}.json`);
     if (!existsSync(path)) continue;
     const testCase = JSON.parse(readFileSync(path, 'utf8'));
     const key = `${testCase.when.intent}|${testCase.then.answer}`;
-    const keys = new Set(required.get(key)?.keys ?? []);
-    for (const name of testCase.then.answer_must_include ?? []) keys.add(name);
-    required.set(key, { keys, case: id });
+    const cases = required.get(key) ?? [];
+    cases.push({ case: id, keys: new Set(testCase.then.answer_must_include ?? []) });
+    required.set(key, cases);
   }
   return { version, manifest, required };
 };
@@ -184,6 +187,14 @@ const panelReaches = [
   ['record.create', 'refused', ALL_PANEL, 'default', { collection, values: {} }],
   ['record.save', 'applied', ALL_PANEL, 'default', { record_id: editable?.record_id, collection, values: { title: 'Новое название' }, revision: editable?.revision }],
   ['record.save', 'conflict', ALL_PANEL, 'default', { record_id: editable?.record_id, collection, values: { title: 'Новое' }, revision: 'stale' }],
+  // Port 1.14.0: changing the licence is confirmed first, and a digest that
+  // no longer matches is asked again rather than applied.
+  ['group.save', 'refused', ALL_PANEL, 'default', { record_id: editable?.record_id, collection, section: 'main', group: 'main', values: { licence: { value: 'lic-trial', label: 'Пробная, 30 дней' } }, revision: editable?.revision },
+    undefined, 'group-save-may-ask-for-a-confirmation'],
+  ['group.save', 'refused', ALL_PANEL, 'default', { record_id: editable?.record_id, collection, section: 'main', group: 'main', values: { licence: { value: 'lic-trial', label: 'Пробная, 30 дней' } }, revision: editable?.revision, confirm: 'c0ffee' },
+    undefined, 'a-stale-confirmation-is-asked-again'],
+  ['record.save', 'refused', ALL_PANEL, 'default', { record_id: editable?.record_id, collection, values: { licence: { value: 'lic-trial', label: 'Пробная, 30 дней' } }, revision: editable?.revision },
+    undefined, 'save-may-ask-for-a-confirmation'],
   ['view.profile', 'applied', ALL_PANEL, 'default', { record_id: editable?.record_id, collection, profile: 'expert' }],
   ['view.profile', 'refused', ALL_PANEL, 'default', { record_id: editable?.record_id, collection, profile: 'no-such-profile' }],
   ['view.profile', 'unavailable', [], 'default', { record_id: editable?.record_id, collection, profile: 'expert' }],
@@ -209,7 +220,12 @@ const drive = async (label, kit, reaches, build) => {
     return { reached: 0, declared: 0 };
   }
   const reached = new Set();
-  for (const [intent, answer, capabilities, scenario, payload, profiles] of reaches) {
+  // A row that names its case answers for that case alone; a row that names
+  // none answers for every case of its (intent, answer) that no row names.
+  const named = new Set(reaches.map((row) => row[6]).filter(Boolean));
+  const casesFor = (key, name) => (kit.required.get(key) ?? [])
+    .filter((entry) => (name ? entry.case === name : !named.has(entry.case)));
+  for (const [intent, answer, capabilities, scenario, payload, profiles, caseName] of reaches) {
     const key = `${intent}|${answer}`;
     let given;
     try {
@@ -222,20 +238,26 @@ const drive = async (label, kit, reaches, build) => {
       failures.push({ port: label, intent, expected: answer, got: given?.answer ?? null, said: 'the polygon cannot reach that answer' });
       continue;
     }
-    reached.add(key);
-    for (const name of kit.required.get(key)?.keys ?? []) {
-      if (!(name in given)) {
-        failures.push({ port: label, intent, answer, said: `the answer carries no ${name}`, case: kit.required.get(key)?.case });
+    for (const entry of casesFor(key, caseName)) {
+      reached.add(entry.case);
+      for (const name of entry.keys) {
+        if (!(name in given)) {
+          failures.push({ port: label, intent, answer, said: `the answer carries no ${name}`, case: entry.case });
+        }
       }
     }
   }
-  for (const [key, entry] of kit.required) {
-    if (!reached.has(key)) {
-      const [intent, answer] = key.split('|');
-      failures.push({ port: label, intent, answer, said: 'the kit declares this answer and the polygon reaches no case for it', case: entry.case });
+  let declared = 0;
+  for (const [key, cases] of kit.required) {
+    for (const entry of cases) {
+      declared += 1;
+      if (!reached.has(entry.case)) {
+        const [intent, answer] = key.split('|');
+        failures.push({ port: label, intent, answer, said: 'the kit declares this answer and the polygon reaches no case for it', case: entry.case });
+      }
     }
   }
-  return { reached: reached.size, declared: kit.required.size };
+  return { reached: reached.size, declared };
 };
 
 const ALL_NAV = ['favourites', 'menu-profiles', 'notifications', 'preferences', 'search', 'sign-out', 'site-switch'];

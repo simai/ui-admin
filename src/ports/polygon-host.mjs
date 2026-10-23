@@ -697,6 +697,8 @@ export const createPolygonHost = ({
                 ...(field.required ? { required: true } : {}),
                 ...(found.editable === false ? { readonly: true } : {}),
                 ...(field.options ? { options: field.options } : {}),
+                ...(field.source ? { source: field.source } : {}),
+                ...(field.when ? { when: copy(field.when) } : {}),
                 ...(field.variant ? { variant: field.variant } : {}),
                 ...(field.language ? { language: field.language } : {}),
                 ...(field.multiple ? { multiple: field.multiple } : {}),
@@ -760,7 +762,7 @@ export const createPolygonHost = ({
       };
 
       return {
-        version: '1.13.0',
+        version: '1.14.0',
         capabilities: panelCapabilities,
         formatFieldValue,
 
@@ -794,6 +796,24 @@ export const createPolygonHost = ({
             return { answer: 'applied', record_id: made.record_id, record: answerFor(made).record };
           }
 
+          // Port 1.14.0: a save that changes the licence re-prices the record,
+          // so the host asks first -- refused with confirm_required and a
+          // digest of exactly that save; the same save re-sent with the digest
+          // is applied, and a stale digest is asked again with a new one.
+          const askFirst = (found, values) => {
+            if (!Object.prototype.hasOwnProperty.call(values, 'licence')) return null;
+            const text = JSON.stringify([intent, found.record_id, found.revision, payload.section ?? null, payload.group ?? null, values]);
+            let hash = 0x811c9dc5;
+            for (let index = 0; index < text.length; index += 1) {
+              hash = Math.imul(hash ^ text.charCodeAt(index), 0x01000193) >>> 0;
+            }
+            const digest = hash.toString(16).padStart(8, '0');
+            if (payload.confirm === digest) return null;
+            const label = values.licence?.label ?? 'без лицензии';
+            return { answer: 'refused', reason: 'confirm_required',
+              confirm: { digest, summary: `Лицензия станет «${label}», и стоимость решения пересчитается. Сохранить?` } };
+          };
+
           if (intent === 'record.save') {
             const found = record(id);
             if (!found) return { answer: 'refused', reason: 'record-unknown' };
@@ -806,6 +826,8 @@ export const createPolygonHost = ({
             const values = payload.values ?? {};
             const errors = validate(values);
             if (Object.keys(errors).length) return { answer: 'refused', reason: 'validation', errors };
+            const asked = askFirst(found, values);
+            if (asked) return asked;
             for (const [key, value] of Object.entries(values)) {
               if (fields.has(key)) found.values[key] = copy(value);
             }
@@ -851,6 +873,8 @@ export const createPolygonHost = ({
               }
             }
             if (Object.keys(errors).length) return { answer: 'refused', reason: 'validation', errors };
+            const asked = askFirst(found, values);
+            if (asked) return asked;
 
             for (const [key, value] of Object.entries(values)) {
               if (fields.has(key)) found.values[key] = copy(value);
@@ -870,6 +894,7 @@ export const createPolygonHost = ({
             if (!field) return { answer: 'refused', reason: 'unknown-field' };
             const search = String(payload.search ?? '').toLocaleLowerCase('ru');
             const pool = field.options
+              ?? (field.source ? dataset.references[field.source] : null)
               ?? (field.property_type === 'user' ? dataset.references.users
                 : field.property_type === 'relation' ? dataset.references.relations
                   : dataset.references.sections);
@@ -877,11 +902,14 @@ export const createPolygonHost = ({
               || String(option.label ?? '').toLocaleLowerCase('ru').includes(search));
             // One page, not every candidate: a host that answers with all of
             // them makes the component's paging meaningless.
+            // The port's page is `items` of {value, label} and nothing else: the
+            // picker reads that key, and a page under any other name shows an
+            // empty list however many candidates match.
             const page = matching.slice(0, 5);
             return {
               answer: 'applied',
               options_page: {
-                options: copy(page),
+                items: page.map((option) => ({ value: option.value, label: String(option.label ?? option.value) })),
                 next_cursor: matching.length > page.length ? String(page.length) : null,
               },
             };

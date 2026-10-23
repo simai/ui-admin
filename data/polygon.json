@@ -66,6 +66,13 @@
         ]
       },
       {
+        "key": "licence",
+        "label": "Лицензия",
+        "property_type": "lookup",
+        "source": "licences",
+        "width": "half"
+      },
+      {
         "key": "tags",
         "label": "Метки",
         "property_type": "choices",
@@ -228,6 +235,7 @@
               "section",
               "owner",
               "status",
+              "licence",
               "tags",
               "summary"
             ]
@@ -319,6 +327,10 @@
           "sortable": true
         },
         {
+          "key": "licence",
+          "sortable": true
+        },
+        {
           "key": "tags"
         },
         {
@@ -383,6 +395,7 @@
         "code",
         "section",
         "status",
+        "licence",
         "owner",
         "priority",
         "budget",
@@ -509,6 +522,40 @@
         "scheme": "danger"
       }
     ],
+    "licences": [
+      {
+        "value": "lic-apache",
+        "label": "Apache-2.0"
+      },
+      {
+        "value": "lic-polyform-sb",
+        "label": "PolyForm Small Business"
+      },
+      {
+        "value": "lic-polyform-nc",
+        "label": "PolyForm Noncommercial"
+      },
+      {
+        "value": "lic-commercial",
+        "label": "SIMAI Commercial License"
+      },
+      {
+        "value": "lic-larena",
+        "label": "В составе Larena"
+      },
+      {
+        "value": "lic-trial",
+        "label": "Пробная, 30 дней"
+      },
+      {
+        "value": "lic-internal",
+        "label": "Внутренняя"
+      },
+      {
+        "value": "lic-none",
+        "label": "Без лицензии"
+      }
+    ],
     "tags": [
       {
         "value": "billing",
@@ -622,6 +669,10 @@
           "avatarText": "ЕК"
         },
         "status": "done",
+        "licence": {
+          "value": "lic-apache",
+          "label": "Apache-2.0"
+        },
         "tags": [],
         "summary": "Приём платежей, возвраты и сверка с банком.",
         "version": "1.0.0",
@@ -679,6 +730,10 @@
           "avatarText": "ДО"
         },
         "status": "done",
+        "licence": {
+          "value": "lic-polyform-sb",
+          "label": "PolyForm Small Business"
+        },
         "tags": [
           "infra",
           "notify",
@@ -743,6 +798,10 @@
           "avatarText": "СИ"
         },
         "status": "review",
+        "licence": {
+          "value": "lic-polyform-nc",
+          "label": "PolyForm Noncommercial"
+        },
         "tags": [],
         "summary": "Тарифы, подписки и выставление счетов.",
         "version": "3.2.2",
@@ -810,6 +869,10 @@
           "avatarText": "ИС"
         },
         "status": "review",
+        "licence": {
+          "value": "lic-commercial",
+          "label": "SIMAI Commercial License"
+        },
         "tags": [
           "crm",
           "search"
@@ -876,6 +939,10 @@
           "avatarText": "АП"
         },
         "status": "review",
+        "licence": {
+          "value": "lic-larena",
+          "label": "В составе Larena"
+        },
         "tags": [
           "search"
         ],
@@ -940,6 +1007,10 @@
         },
         "owner": null,
         "status": "frozen",
+        "licence": {
+          "value": "lic-trial",
+          "label": "Пробная, 30 дней"
+        },
         "tags": [],
         "summary": null,
         "version": "6.5.1",
@@ -986,6 +1057,10 @@
           "avatarText": "СИ"
         },
         "status": "done",
+        "licence": {
+          "value": "lic-internal",
+          "label": "Внутренняя"
+        },
         "tags": [
           "billing",
           "files"
@@ -1042,6 +1117,10 @@
           "avatarText": "МВ"
         },
         "status": "review",
+        "licence": {
+          "value": "lic-none",
+          "label": "Без лицензии"
+        },
         "tags": [
           "notify"
         ],
@@ -1111,6 +1190,10 @@
           "avatarText": "ДО"
         },
         "status": "done",
+        "licence": {
+          "value": "lic-apache",
+          "label": "Apache-2.0"
+        },
         "tags": [
           "crm",
           "files",
@@ -1176,6 +1259,10 @@
           "avatarText": "ИС"
         },
         "status": "frozen",
+        "licence": {
+          "value": "lic-polyform-sb",
+          "label": "PolyForm Small Business"
+        },
         "tags": [
           "notify",
           "search"
@@ -1246,6 +1333,10 @@
           "avatarText": "МВ"
         },
         "status": "failed",
+        "licence": {
+          "value": "lic-polyform-nc",
+          "label": "PolyForm Noncommercial"
+        },
         "tags": [
           "search",
           "notify",
@@ -1306,6 +1397,10 @@
           "avatarText": "ДО"
         },
         "status": "active",
+        "licence": {
+          "value": "lic-commercial",
+          "label": "SIMAI Commercial License"
+        },
         "tags": [
           "files",
           "search"
@@ -1382,6 +1477,10 @@
           "avatarText": "АП"
         },
         "status": "failed",
+        "licence": {
+          "value": "lic-larena",
+          "label": "В составе Larena"
+        },
         "tags": [
           "shop",
           "billing",
@@ -1452,6 +1551,10 @@
           "avatarText": "ДО"
         },
         "status": "active",
+        "licence": {
+          "value": "lic-trial",
+          "label": "Пробная, 30 дней"
+        },
         "tags": [
           "search",
           "infra",
@@ -1513,6 +1616,10 @@
           "avatarText": "ДО"
         },
         "status": "frozen",
+        "licence": {
+          "value": "lic-internal",
+          "label": "Внутренняя"
+        },
         "tags": [
           "portal"
         ],
@@ -1575,6 +1682,10 @@
           "avatarText": "МВ"
         },
         "status": "active",
+        "licence": {
+          "value": "lic-none",
+          "label": "Без лицензии"
+        },
         "tags": [],
         "summary": "Приём платежей, возвраты и сверка с банком.",
         "version": "4.5.3",
@@ -1643,6 +1754,10 @@
         },
         "owner": null,
         "status": "failed",
+        "licence": {
+          "value": "lic-apache",
+          "label": "Apache-2.0"
+        },
         "tags": [],
         "summary": null,
         "version": "5.6.0",
@@ -1687,6 +1802,10 @@
           "avatarText": "МВ"
         },
         "status": "done",
+        "licence": {
+          "value": "lic-polyform-sb",
+          "label": "PolyForm Small Business"
+        },
         "tags": [
           "notify",
           "billing",
@@ -1751,6 +1870,10 @@
           "avatarText": "МВ"
         },
         "status": "active",
+        "licence": {
+          "value": "lic-polyform-nc",
+          "label": "PolyForm Noncommercial"
+        },
         "tags": [],
         "summary": "Снимки файлов и базы по расписанию.",
         "version": "1.8.2",
@@ -1801,6 +1924,10 @@
           "avatarText": "МВ"
         },
         "status": "done",
+        "licence": {
+          "value": "lic-commercial",
+          "label": "SIMAI Commercial License"
+        },
         "tags": [
           "portal",
           "crm",
@@ -1878,6 +2005,10 @@
           "avatarText": "МВ"
         },
         "status": "review",
+        "licence": {
+          "value": "lic-larena",
+          "label": "В составе Larena"
+        },
         "tags": [
           "crm",
           "shop",
@@ -1946,6 +2077,10 @@
           "avatarText": "ЕК"
         },
         "status": "active",
+        "licence": {
+          "value": "lic-trial",
+          "label": "Пробная, 30 дней"
+        },
         "tags": [
           "shop",
           "billing",
@@ -2010,6 +2145,10 @@
           "avatarText": "ИС"
         },
         "status": "review",
+        "licence": {
+          "value": "lic-internal",
+          "label": "Внутренняя"
+        },
         "tags": [
           "files",
           "portal",
@@ -2076,6 +2215,10 @@
           "avatarText": "АП"
         },
         "status": "review",
+        "licence": {
+          "value": "lic-none",
+          "label": "Без лицензии"
+        },
         "tags": [
           "portal",
           "files"
@@ -2135,6 +2278,10 @@
           "avatarText": "ДО"
         },
         "status": "done",
+        "licence": {
+          "value": "lic-apache",
+          "label": "Apache-2.0"
+        },
         "tags": [
           "notify",
           "files",
@@ -2209,6 +2356,10 @@
           "avatarText": "МВ"
         },
         "status": "frozen",
+        "licence": {
+          "value": "lic-polyform-sb",
+          "label": "PolyForm Small Business"
+        },
         "tags": [
           "shop",
           "crm",
@@ -2280,6 +2431,10 @@
           "avatarText": "ЕК"
         },
         "status": "done",
+        "licence": {
+          "value": "lic-polyform-nc",
+          "label": "PolyForm Noncommercial"
+        },
         "tags": [
           "crm",
           "shop"
@@ -2332,6 +2487,10 @@
         },
         "owner": null,
         "status": "failed",
+        "licence": {
+          "value": "lic-commercial",
+          "label": "SIMAI Commercial License"
+        },
         "tags": [],
         "summary": null,
         "version": "4.7.3",
@@ -2378,6 +2537,10 @@
           "avatarText": "ДО"
         },
         "status": "done",
+        "licence": {
+          "value": "lic-larena",
+          "label": "В составе Larena"
+        },
         "tags": [
           "crm"
         ],
@@ -2438,6 +2601,10 @@
           "avatarText": "МВ"
         },
         "status": "active",
+        "licence": {
+          "value": "lic-trial",
+          "label": "Пробная, 30 дней"
+        },
         "tags": [],
         "summary": "Изображения, видео и их варианты.",
         "version": "6.9.1",
@@ -2505,6 +2672,10 @@
           "avatarText": "ЕК"
         },
         "status": "active",
+        "licence": {
+          "value": "lic-internal",
+          "label": "Внутренняя"
+        },
         "tags": [
           "billing",
           "shop"
@@ -2561,6 +2732,10 @@
           "avatarText": "ДО"
         },
         "status": "failed",
+        "licence": {
+          "value": "lic-none",
+          "label": "Без лицензии"
+        },
         "tags": [
           "search"
         ],
@@ -2629,6 +2804,10 @@
           "avatarText": "ИС"
         },
         "status": "active",
+        "licence": {
+          "value": "lic-apache",
+          "label": "Apache-2.0"
+        },
         "tags": [
           "infra",
           "search"
@@ -2689,6 +2868,10 @@
           "avatarText": "АП"
         },
         "status": "frozen",
+        "licence": {
+          "value": "lic-polyform-sb",
+          "label": "PolyForm Small Business"
+        },
         "tags": [
           "billing"
         ],
@@ -2747,6 +2930,10 @@
           "avatarText": "ЕК"
         },
         "status": "done",
+        "licence": {
+          "value": "lic-polyform-nc",
+          "label": "PolyForm Noncommercial"
+        },
         "tags": [
           "shop",
           "portal",
@@ -2800,6 +2987,10 @@
           "avatarText": "ДО"
         },
         "status": "frozen",
+        "licence": {
+          "value": "lic-commercial",
+          "label": "SIMAI Commercial License"
+        },
         "tags": [
           "notify",
           "files",
@@ -2876,6 +3067,10 @@
           "avatarText": "АП"
         },
         "status": "done",
+        "licence": {
+          "value": "lic-larena",
+          "label": "В составе Larena"
+        },
         "tags": [
           "files",
           "portal"
@@ -2949,6 +3144,10 @@
           "avatarText": "АП"
         },
         "status": "failed",
+        "licence": {
+          "value": "lic-trial",
+          "label": "Пробная, 30 дней"
+        },
         "tags": [
           "portal"
         ],
@@ -3020,6 +3219,10 @@
         },
         "owner": null,
         "status": "active",
+        "licence": {
+          "value": "lic-internal",
+          "label": "Внутренняя"
+        },
         "tags": [],
         "summary": null,
         "version": "3.8.2",
@@ -3063,6 +3266,10 @@
           "avatarText": "ДО"
         },
         "status": "failed",
+        "licence": {
+          "value": "lic-none",
+          "label": "Без лицензии"
+        },
         "tags": [
           "search",
           "shop"
@@ -3138,6 +3345,10 @@
           "avatarText": "ЕК"
         },
         "status": "frozen",
+        "licence": {
+          "value": "lic-apache",
+          "label": "Apache-2.0"
+        },
         "tags": [
           "search"
         ],
@@ -3200,6 +3411,10 @@
           "avatarText": "АП"
         },
         "status": "failed",
+        "licence": {
+          "value": "lic-polyform-sb",
+          "label": "PolyForm Small Business"
+        },
         "tags": [
           "search",
           "billing",
@@ -3263,6 +3478,10 @@
           "avatarText": "СИ"
         },
         "status": "active",
+        "licence": {
+          "value": "lic-polyform-nc",
+          "label": "PolyForm Noncommercial"
+        },
         "tags": [
           "portal",
           "files",
@@ -3329,6 +3548,10 @@
           "avatarText": "ЕК"
         },
         "status": "failed",
+        "licence": {
+          "value": "lic-commercial",
+          "label": "SIMAI Commercial License"
+        },
         "tags": [],
         "summary": "Обмен с 1С, CRM и платёжными шлюзами.",
         "version": "2.3.3",
@@ -3399,6 +3622,10 @@
           "avatarText": "СИ"
         },
         "status": "done",
+        "licence": {
+          "value": "lic-larena",
+          "label": "В составе Larena"
+        },
         "tags": [
           "search",
           "crm",
@@ -3460,6 +3687,10 @@
           "avatarText": "ДО"
         },
         "status": "active",
+        "licence": {
+          "value": "lic-trial",
+          "label": "Пробная, 30 дней"
+        },
         "tags": [],
         "summary": "Модуль закрывает весь путь обращения: приём, разбор, маршрутизацию ответственному, напоминания по срокам, закрытие с обязательным комментарием и выгрузку в отчётность. Настройки хранятся отдельно для каждой организации портала, а журнал действий пишется целиком и не чистится автоматически.",
         "version": "4.5.1",
@@ -3519,6 +3750,10 @@
           "avatarText": "ИС"
         },
         "status": "failed",
+        "licence": {
+          "value": "lic-internal",
+          "label": "Внутренняя"
+        },
         "tags": [
           "crm"
         ],
@@ -3570,6 +3805,10 @@
           "avatarText": "МВ"
         },
         "status": "active",
+        "licence": {
+          "value": "lic-none",
+          "label": "Без лицензии"
+        },
         "tags": [
           "files",
           "crm",
@@ -3648,6 +3887,10 @@
           "avatarText": "ДО"
         },
         "status": "review",
+        "licence": {
+          "value": "lic-apache",
+          "label": "Apache-2.0"
+        },
         "tags": [
           "billing"
         ],
@@ -3700,6 +3943,10 @@
         },
         "owner": null,
         "status": "failed",
+        "licence": {
+          "value": "lic-polyform-sb",
+          "label": "PolyForm Small Business"
+        },
         "tags": [],
         "summary": null,
         "version": "2.9.1",
@@ -3746,6 +3993,10 @@
           "avatarText": "ДО"
         },
         "status": "done",
+        "licence": {
+          "value": "lic-polyform-nc",
+          "label": "PolyForm Noncommercial"
+        },
         "tags": [
           "portal",
           "crm",
@@ -3803,6 +4054,10 @@
           "avatarText": "МВ"
         },
         "status": "frozen",
+        "licence": {
+          "value": "lic-commercial",
+          "label": "SIMAI Commercial License"
+        },
         "tags": [
           "infra",
           "files",
@@ -3879,6 +4134,10 @@
           "avatarText": "ЕК"
         },
         "status": "active",
+        "licence": {
+          "value": "lic-larena",
+          "label": "В составе Larena"
+        },
         "tags": [
           "shop",
           "files",
@@ -3949,6 +4208,10 @@
           "avatarText": "МВ"
         },
         "status": "failed",
+        "licence": {
+          "value": "lic-trial",
+          "label": "Пробная, 30 дней"
+        },
         "tags": [
           "infra",
           "billing",
@@ -4009,6 +4272,10 @@
           "avatarText": "ЕК"
         },
         "status": "review",
+        "licence": {
+          "value": "lic-internal",
+          "label": "Внутренняя"
+        },
         "tags": [
           "billing",
           "infra",
@@ -4067,6 +4334,10 @@
           "avatarText": "МВ"
         },
         "status": "frozen",
+        "licence": {
+          "value": "lic-none",
+          "label": "Без лицензии"
+        },
         "tags": [],
         "summary": "Сводки по продажам и обращениям.",
         "version": "2.5.3",
@@ -4133,6 +4404,10 @@
           "avatarText": "ЕК"
         },
         "status": "frozen",
+        "licence": {
+          "value": "lic-apache",
+          "label": "Apache-2.0"
+        },
         "tags": [
           "search"
         ],
@@ -4205,6 +4480,10 @@
           "avatarText": "ИС"
         },
         "status": "done",
+        "licence": {
+          "value": "lic-polyform-sb",
+          "label": "PolyForm Small Business"
+        },
         "tags": [
           "shop",
           "notify",
@@ -4276,6 +4555,10 @@
           "avatarText": "АП"
         },
         "status": "review",
+        "licence": {
+          "value": "lic-polyform-nc",
+          "label": "PolyForm Noncommercial"
+        },
         "tags": [
           "files",
           "crm"
@@ -4333,6 +4616,10 @@
           "avatarText": "АП"
         },
         "status": "done",
+        "licence": {
+          "value": "lic-commercial",
+          "label": "SIMAI Commercial License"
+        },
         "tags": [
           "shop",
           "crm",
@@ -4400,6 +4687,10 @@
         },
         "owner": null,
         "status": "review",
+        "licence": {
+          "value": "lic-larena",
+          "label": "В составе Larena"
+        },
         "tags": [],
         "summary": null,
         "version": "1.0.0",
@@ -4444,6 +4735,10 @@
           "avatarText": "СИ"
         },
         "status": "done",
+        "licence": {
+          "value": "lic-trial",
+          "label": "Пробная, 30 дней"
+        },
         "tags": [
           "shop"
         ],
@@ -4512,6 +4807,10 @@
           "avatarText": "СИ"
         },
         "status": "frozen",
+        "licence": {
+          "value": "lic-internal",
+          "label": "Внутренняя"
+        },
         "tags": [
           "billing",
           "files",
@@ -4577,6 +4876,10 @@
           "avatarText": "ИС"
         },
         "status": "review",
+        "licence": {
+          "value": "lic-none",
+          "label": "Без лицензии"
+        },
         "tags": [
           "shop",
           "portal"
@@ -4636,6 +4939,10 @@
           "avatarText": "АП"
         },
         "status": "failed",
+        "licence": {
+          "value": "lic-apache",
+          "label": "Apache-2.0"
+        },
         "tags": [
           "portal"
         ],
@@ -4704,6 +5011,10 @@
           "avatarText": "АП"
         },
         "status": "done",
+        "licence": {
+          "value": "lic-polyform-sb",
+          "label": "PolyForm Small Business"
+        },
         "tags": [
           "crm",
           "shop",
@@ -4774,6 +5085,10 @@
           "avatarText": "ДО"
         },
         "status": "active",
+        "licence": {
+          "value": "lic-polyform-nc",
+          "label": "PolyForm Noncommercial"
+        },
         "tags": [],
         "summary": "Индексация и выдача по сайту.",
         "version": "1.6.2",
@@ -4835,6 +5150,10 @@
           "avatarText": "ДО"
         },
         "status": "active",
+        "licence": {
+          "value": "lic-commercial",
+          "label": "SIMAI Commercial License"
+        },
         "tags": [],
         "summary": "Конструктор форм и обработка заявок.",
         "version": "2.7.3",
@@ -4902,6 +5221,10 @@
           "avatarText": "СИ"
         },
         "status": "failed",
+        "licence": {
+          "value": "lic-larena",
+          "label": "В составе Larena"
+        },
         "tags": [],
         "summary": "Остатки, резервы и движения по складам.",
         "version": "3.8.0",
@@ -4956,6 +5279,10 @@
           "avatarText": "МВ"
         },
         "status": "failed",
+        "licence": {
+          "value": "lic-trial",
+          "label": "Пробная, 30 дней"
+        },
         "tags": [
           "shop",
           "billing",
@@ -5027,6 +5354,10 @@
           "avatarText": "ЕК"
         },
         "status": "done",
+        "licence": {
+          "value": "lic-internal",
+          "label": "Внутренняя"
+        },
         "tags": [
           "crm",
           "infra",
@@ -5077,6 +5408,10 @@
         },
         "owner": null,
         "status": "done",
+        "licence": {
+          "value": "lic-none",
+          "label": "Без лицензии"
+        },
         "tags": [],
         "summary": null,
         "version": "6.1.3",
@@ -5123,6 +5458,10 @@
           "avatarText": "МВ"
         },
         "status": "active",
+        "licence": {
+          "value": "lic-apache",
+          "label": "Apache-2.0"
+        },
         "tags": [],
         "summary": "Загрузка данных из внешних систем.",
         "version": "1.2.0",
@@ -5193,6 +5532,10 @@
           "avatarText": "СИ"
         },
         "status": "review",
+        "licence": {
+          "value": "lic-polyform-sb",
+          "label": "PolyForm Small Business"
+        },
         "tags": [
           "crm"
         ],
@@ -5251,6 +5594,10 @@
           "avatarText": "АП"
         },
         "status": "review",
+        "licence": {
+          "value": "lic-polyform-nc",
+          "label": "PolyForm Noncommercial"
+        },
         "tags": [
           "notify",
           "billing"
@@ -5320,6 +5667,10 @@
           "avatarText": "СИ"
         },
         "status": "review",
+        "licence": {
+          "value": "lic-commercial",
+          "label": "SIMAI Commercial License"
+        },
         "tags": [
           "notify",
           "shop",
@@ -5384,6 +5735,10 @@
           "avatarText": "ЕК"
         },
         "status": "failed",
+        "licence": {
+          "value": "lic-larena",
+          "label": "В составе Larena"
+        },
         "tags": [
           "shop"
         ],
@@ -5452,6 +5807,10 @@
           "avatarText": "ДО"
         },
         "status": "done",
+        "licence": {
+          "value": "lic-trial",
+          "label": "Пробная, 30 дней"
+        },
         "tags": [
           "search",
           "files",
@@ -5529,6 +5888,10 @@
           "avatarText": "АП"
         },
         "status": "done",
+        "licence": {
+          "value": "lic-internal",
+          "label": "Внутренняя"
+        },
         "tags": [],
         "summary": "Снимки файлов и базы по расписанию.",
         "version": "1.8.2",
@@ -5605,6 +5968,10 @@
           "avatarText": "ДО"
         },
         "status": "failed",
+        "licence": {
+          "value": "lic-none",
+          "label": "Без лицензии"
+        },
         "tags": [
           "shop"
         ],
@@ -5680,6 +6047,10 @@
           "avatarText": "МВ"
         },
         "status": "review",
+        "licence": {
+          "value": "lic-apache",
+          "label": "Apache-2.0"
+        },
         "tags": [
           "shop"
         ],
@@ -5752,6 +6123,10 @@
           "avatarText": "СИ"
         },
         "status": "failed",
+        "licence": {
+          "value": "lic-polyform-sb",
+          "label": "PolyForm Small Business"
+        },
         "tags": [],
         "summary": "Индексация и выдача по сайту.",
         "version": "4.1.1",
@@ -5807,6 +6182,10 @@
         },
         "owner": null,
         "status": "failed",
+        "licence": {
+          "value": "lic-polyform-nc",
+          "label": "PolyForm Noncommercial"
+        },
         "tags": [],
         "summary": null,
         "version": "5.2.2",
@@ -5853,6 +6232,10 @@
           "avatarText": "ИС"
         },
         "status": "done",
+        "licence": {
+          "value": "lic-commercial",
+          "label": "SIMAI Commercial License"
+        },
         "tags": [
           "billing"
         ],
@@ -5911,6 +6294,10 @@
           "avatarText": "МВ"
         },
         "status": "done",
+        "licence": {
+          "value": "lic-larena",
+          "label": "В составе Larena"
+        },
         "tags": [
           "portal",
           "infra"
@@ -5978,6 +6365,10 @@
           "avatarText": "АП"
         },
         "status": "review",
+        "licence": {
+          "value": "lic-trial",
+          "label": "Пробная, 30 дней"
+        },
         "tags": [
           "files"
         ],
@@ -6046,6 +6437,10 @@
           "avatarText": "ДО"
         },
         "status": "failed",
+        "licence": {
+          "value": "lic-internal",
+          "label": "Внутренняя"
+        },
         "tags": [
           "portal"
         ],
@@ -6101,6 +6496,10 @@
           "avatarText": "ЕК"
         },
         "status": "done",
+        "licence": {
+          "value": "lic-none",
+          "label": "Без лицензии"
+        },
         "tags": [
           "notify"
         ],
@@ -6162,6 +6561,10 @@
           "avatarText": "АП"
         },
         "status": "frozen",
+        "licence": {
+          "value": "lic-apache",
+          "label": "Apache-2.0"
+        },
         "tags": [
           "crm",
           "portal"
@@ -6228,6 +6631,10 @@
           "avatarText": "ДО"
         },
         "status": "failed",
+        "licence": {
+          "value": "lic-polyform-sb",
+          "label": "PolyForm Small Business"
+        },
         "tags": [],
         "summary": "Изображения, видео и их варианты.",
         "version": "6.9.1",
@@ -6287,6 +6694,10 @@
           "avatarText": "ДО"
         },
         "status": "failed",
+        "licence": {
+          "value": "lic-polyform-nc",
+          "label": "PolyForm Noncommercial"
+        },
         "tags": [],
         "summary": "Приём платежей, возвраты и сверка с банком.",
         "version": "1.0.2",
@@ -6340,6 +6751,10 @@
           "avatarText": "ЕК"
         },
         "status": "frozen",
+        "licence": {
+          "value": "lic-commercial",
+          "label": "SIMAI Commercial License"
+        },
         "tags": [
           "notify",
           "crm",
@@ -6412,6 +6827,10 @@
           "avatarText": "ИС"
         },
         "status": "frozen",
+        "licence": {
+          "value": "lic-larena",
+          "label": "В составе Larena"
+        },
         "tags": [
           "shop"
         ],
@@ -6481,6 +6900,10 @@
         },
         "owner": null,
         "status": "frozen",
+        "licence": {
+          "value": "lic-trial",
+          "label": "Пробная, 30 дней"
+        },
         "tags": [],
         "summary": null,
         "version": "4.3.1",
@@ -6524,6 +6947,10 @@
           "avatarText": "ДО"
         },
         "status": "frozen",
+        "licence": {
+          "value": "lic-internal",
+          "label": "Внутренняя"
+        },
         "tags": [],
         "summary": "Корзина покупателя и оформление заказа.",
         "version": "5.4.2",
@@ -6573,6 +7000,10 @@
           "avatarText": "АП"
         },
         "status": "failed",
+        "licence": {
+          "value": "lic-none",
+          "label": "Без лицензии"
+        },
         "tags": [
           "files",
           "shop"
@@ -6643,6 +7074,10 @@
           "avatarText": "ЕК"
         },
         "status": "frozen",
+        "licence": {
+          "value": "lic-apache",
+          "label": "Apache-2.0"
+        },
         "tags": [
           "shop",
           "infra",
@@ -6704,6 +7139,10 @@
           "avatarText": "ИС"
         },
         "status": "review",
+        "licence": {
+          "value": "lic-polyform-sb",
+          "label": "PolyForm Small Business"
+        },
         "tags": [
           "crm"
         ],
@@ -6779,6 +7218,10 @@
           "avatarText": "ЕК"
         },
         "status": "review",
+        "licence": {
+          "value": "lic-polyform-nc",
+          "label": "PolyForm Noncommercial"
+        },
         "tags": [
           "files",
           "portal",
@@ -6833,6 +7276,10 @@
           "avatarText": "ЕК"
         },
         "status": "frozen",
+        "licence": {
+          "value": "lic-commercial",
+          "label": "SIMAI Commercial License"
+        },
         "tags": [
           "search",
           "files",
@@ -6903,6 +7350,10 @@
           "avatarText": "ИС"
         },
         "status": "done",
+        "licence": {
+          "value": "lic-larena",
+          "label": "В составе Larena"
+        },
         "tags": [
           "search"
         ],
@@ -6972,6 +7423,10 @@
           "avatarText": "МВ"
         },
         "status": "active",
+        "licence": {
+          "value": "lic-trial",
+          "label": "Пробная, 30 дней"
+        },
         "tags": [
           "files"
         ],
@@ -7033,6 +7488,10 @@
           "avatarText": "ЕК"
         },
         "status": "frozen",
+        "licence": {
+          "value": "lic-internal",
+          "label": "Внутренняя"
+        },
         "tags": [
           "files"
         ],
@@ -7088,6 +7547,10 @@
           "avatarText": "ЕК"
         },
         "status": "done",
+        "licence": {
+          "value": "lic-none",
+          "label": "Без лицензии"
+        },
         "tags": [
           "shop",
           "files",
@@ -7144,6 +7607,10 @@
         },
         "owner": null,
         "status": "failed",
+        "licence": {
+          "value": "lic-apache",
+          "label": "Apache-2.0"
+        },
         "tags": [],
         "summary": null,
         "version": "3.4.0",
@@ -7188,6 +7655,10 @@
           "avatarText": "ЕК"
         },
         "status": "active",
+        "licence": {
+          "value": "lic-polyform-sb",
+          "label": "PolyForm Small Business"
+        },
         "tags": [
           "crm",
           "files"
@@ -7257,6 +7728,10 @@
           "avatarText": "ЕК"
         },
         "status": "failed",
+        "licence": {
+          "value": "lic-polyform-nc",
+          "label": "PolyForm Noncommercial"
+        },
         "tags": [
           "infra",
           "billing"
@@ -7322,6 +7797,10 @@
           "avatarText": "ДО"
         },
         "status": "frozen",
+        "licence": {
+          "value": "lic-commercial",
+          "label": "SIMAI Commercial License"
+        },
         "tags": [
           "portal"
         ],
@@ -7396,6 +7875,10 @@
           "avatarText": "ЕК"
         },
         "status": "done",
+        "licence": {
+          "value": "lic-larena",
+          "label": "В составе Larena"
+        },
         "tags": [],
         "summary": "Снимки файлов и базы по расписанию.",
         "version": "1.8.0",
@@ -7458,6 +7941,10 @@
           "avatarText": "МВ"
         },
         "status": "frozen",
+        "licence": {
+          "value": "lic-trial",
+          "label": "Пробная, 30 дней"
+        },
         "tags": [
           "billing"
         ],
@@ -7532,6 +8019,10 @@
           "avatarText": "ИС"
         },
         "status": "active",
+        "licence": {
+          "value": "lic-internal",
+          "label": "Внутренняя"
+        },
         "tags": [
           "search",
           "infra"
@@ -7588,6 +8079,10 @@
           "avatarText": "СИ"
         },
         "status": "frozen",
+        "licence": {
+          "value": "lic-none",
+          "label": "Без лицензии"
+        },
         "tags": [
           "billing",
           "search",
@@ -7651,6 +8146,10 @@
           "avatarText": "АП"
         },
         "status": "failed",
+        "licence": {
+          "value": "lic-apache",
+          "label": "Apache-2.0"
+        },
         "tags": [],
         "summary": "Конструктор форм и обработка заявок.",
         "version": "5.2.0",
@@ -7704,6 +8203,10 @@
           "avatarText": "ДО"
         },
         "status": "frozen",
+        "licence": {
+          "value": "lic-polyform-sb",
+          "label": "PolyForm Small Business"
+        },
         "tags": [],
         "summary": "Остатки, резервы и движения по складам.",
         "version": "6.3.1",
@@ -7774,6 +8277,10 @@
           "avatarText": "МВ"
         },
         "status": "review",
+        "licence": {
+          "value": "lic-polyform-nc",
+          "label": "PolyForm Noncommercial"
+        },
         "tags": [
           "billing"
         ],
@@ -7825,6 +8332,10 @@
         },
         "owner": null,
         "status": "done",
+        "licence": {
+          "value": "lic-commercial",
+          "label": "SIMAI Commercial License"
+        },
         "tags": [],
         "summary": null,
         "version": "2.5.3",
@@ -7871,6 +8382,10 @@
           "avatarText": "ЕК"
         },
         "status": "done",
+        "licence": {
+          "value": "lic-larena",
+          "label": "В составе Larena"
+        },
         "tags": [
           "search",
           "portal"
@@ -7938,6 +8453,10 @@
           "avatarText": "ДО"
         },
         "status": "failed",
+        "licence": {
+          "value": "lic-trial",
+          "label": "Пробная, 30 дней"
+        },
         "tags": [
           "shop",
           "infra",
@@ -8015,6 +8534,10 @@
           "avatarText": "СИ"
         },
         "status": "frozen",
+        "licence": {
+          "value": "lic-internal",
+          "label": "Внутренняя"
+        },
         "tags": [
           "portal"
         ],
@@ -8063,6 +8586,10 @@
           "avatarText": "МВ"
         },
         "status": "frozen",
+        "licence": {
+          "value": "lic-none",
+          "label": "Без лицензии"
+        },
         "tags": [
           "billing"
         ],

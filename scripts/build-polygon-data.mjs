@@ -149,6 +149,7 @@ const FIELDS = [
   { key: 'section', label: 'Раздел', property_type: 'record', width: 'half' },
   { key: 'owner', label: 'Ответственный', property_type: 'user', width: 'half' },
   { key: 'status', label: 'Статус', property_type: 'choice', width: 'half', options: STATUSES },
+  { key: 'licence', label: 'Лицензия', property_type: 'lookup', source: 'licences', width: 'half' },
   { key: 'tags', label: 'Метки', property_type: 'choices', width: 'half', options: TAGS },
   { key: 'summary', label: 'Описание', property_type: 'text', width: 'full' },
 
@@ -177,7 +178,7 @@ const SECTIONS_LAYOUT = [
   {
     key: 'main', label: 'Общее',
     groups: [
-      { key: 'main', label: 'Основное', columns: 2, fields: ['code', 'title', 'section', 'owner', 'status', 'tags', 'summary'] },
+      { key: 'main', label: 'Основное', columns: 2, fields: ['code', 'title', 'section', 'owner', 'status', 'licence', 'tags', 'summary'] },
       { key: 'numbers', label: 'Числа и сроки', columns: 2, fields: ['version', 'priority', 'budget', 'released', 'checked_at', 'public', 'deprecated'] },
     ],
   },
@@ -208,6 +209,7 @@ const LIST_COLUMNS = [
   { key: 'code', width: '12rem', sortable: true },
   { key: 'section', sortable: true },
   { key: 'status', sortable: true },
+  { key: 'licence', sortable: true },
   { key: 'tags' },
   { key: 'owner', sortable: true },
   { key: 'priority', sortable: true, align: 'end' },
@@ -234,6 +236,20 @@ const DOCUMENTS = [
   { value: 'f-sheet', label: 'Расчёт тарифов.xlsx', mime: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', size: 64512 },
   { value: 'f-notes', label: 'Протокол встречи.docx', mime: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', size: 38912 },
   { value: 'f-arch', label: 'Схема обмена.svg', mime: 'image/svg+xml', size: 12288, href: '/icons.svg' },
+];
+
+// A reference list the host pages from (property-view-port 1.14.0, `lookup`
+// with `source`). Assigned by index, not drawn from the generator's random
+// sequence, so adding it moved no other value of the polygon.
+const LICENCES = [
+  { value: 'lic-apache', label: 'Apache-2.0' },
+  { value: 'lic-polyform-sb', label: 'PolyForm Small Business' },
+  { value: 'lic-polyform-nc', label: 'PolyForm Noncommercial' },
+  { value: 'lic-commercial', label: 'SIMAI Commercial License' },
+  { value: 'lic-larena', label: 'В составе Larena' },
+  { value: 'lic-trial', label: 'Пробная, 30 дней' },
+  { value: 'lic-internal', label: 'Внутренняя' },
+  { value: 'lic-none', label: 'Без лицензии' },
 ];
 
 const ACCENTS = ['#2f6feb', '#1f9d55', '#c2410c', '#7c3aed', '#be123c', '#0f766e'];
@@ -265,6 +281,7 @@ const buildRecord = (index) => {
     section: pick(SECTIONS),
     owner: pick(USERS),
     status: status.value,
+    licence: { ...LICENCES[index % LICENCES.length] },
     tags: pickSome(TAGS, 4).map((tag) => tag.value),
     summary: index % 13 === 6 ? LONG_SUMMARY : summary,
 
@@ -331,7 +348,7 @@ const dataset = {
     },
     interaction: { create: true, update: true, delete: true, restore: true },
   },
-  references: { sections: SECTIONS, users: USERS, relations: RELATIONS, statuses: STATUSES, tags: TAGS, files: [...COVERS, ...DOCUMENTS] },
+  references: { sections: SECTIONS, users: USERS, relations: RELATIONS, statuses: STATUSES, licences: LICENCES, tags: TAGS, files: [...COVERS, ...DOCUMENTS] },
   records: Array.from({ length: RECORD_COUNT }, (_, index) => buildRecord(index)),
 };
 

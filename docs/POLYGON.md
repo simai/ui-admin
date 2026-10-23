@@ -260,7 +260,7 @@ the day the second distribution does.
 | `npm run check:polygon` | a property type the Framework renders and the polygon does not show, in a field or in a column; a field no record carries a value for; an answer either port's kit declares and this host cannot produce; an answer missing what the kit requires of it |
 | `npm run check:published` | a published page running anything other than the pinned pair |
 | `npm run pin:check` | a Framework pin behind the latest `ui` release |
-| `npm run pin:package:check` | a package pin older than `components/`, or built over another Framework release |
+| `npm run pin:package:check` | a package pin older than `components/` in `simai/ui-pro`, or built over another Framework release |
 
 `check:polygon` reads the list of property types out of the renderer set that
 ships in the pinned runtime, so a type added to the Framework fails here until

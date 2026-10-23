@@ -1,10 +1,11 @@
 # Документация SIMAI Admin
 
 Корневой [`README.md`](../README.md) — короткая точка входа. Компоненты пакета
-`larena` описаны в [`components/README.md`](../components/README.md) и в
-документации у каждого компонента (`components/src/smart/*/docs*`); решения
-владельца по экранам админки — в
-[`components/docs/developer/admin-decisions.md`](../components/docs/developer/admin-decisions.md).
+`larena` живут в [`simai/ui-pro`](https://github.com/simai/ui-pro) (решение
+владельца, 2026-10-23): их описание — в `components/README.md` и в документации
+у каждого компонента (`components/src/smart/*/docs*`) того репозитория. Решения
+владельца по экранам админки — здесь, в
+[`developer/admin-decisions.md`](developer/admin-decisions.md).
 
 ## Сайт и полигон
 
@@ -19,6 +20,7 @@
 - [Административное меню](developer/admin-menu.md) — меню через порт навигации и разметкой.
 - [sf-table на mock API](developer/sf-table-integration.md) — страница `/mock-api.html`: методы, события, CRUD.
 - [Контракт API](developer/api-contract.md) — HTTP mock API (`server.js`).
+- [Решения по экранам админки](developer/admin-decisions.md) — решения владельца, принятые на полигоне, и что каждое требует от хоста Larena.
 - [Технический аудит](developer/repository-audit.md) — состояние на 2026-10-22 и открытые вопросы.
 
 ## Архив

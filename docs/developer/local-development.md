@@ -9,7 +9,8 @@
 | Каталог | Зачем | Переопределить |
 | --- | --- | --- |
 | `../ui` | закреплённый выпуск SIMAI Framework (Core и Smart) | `SIMAI_UI_REPO` |
-| `../ui-source` | исходник Framework, поверх которого собираются и тестируются `components/` | `SIMAI_UI_SOURCE`, `UI_SOURCE_ROOT` (тесты пакета) |
+| `../ui-pro` | исходник пакета `larena` — `components/` репозитория `simai/ui-pro` | `SIMAI_UI_PRO` |
+| `../ui-source` | исходник Framework, поверх которого собирается и тестируется пакет | `SIMAI_UI_SOURCE`, `UI_SOURCE_ROOT` (тесты пакета) |
 | `../ui-builder` | сборка пакета `larena` | `SIMAI_UI_BUILDER` |
 
 Без соседних checkout можно работать только в режиме `dev:runtime` (ниже).
@@ -79,7 +80,7 @@ npm run dev:runtime
 | `npm run test:preview` | то же над собранным `dist/` |
 | `npm run publish` | собрать и выложить как `ui-admin.test` |
 | `npm run check:published` | опубликованный сайт грузит закреплённые поставки |
-| `cd components && npm test` | собственные тесты пакета в overlay над `ui-source` |
+| `cd ../ui-pro/components && npm test` | собственные тесты пакета в overlay над `ui-source` (в `simai/ui-pro`) |
 
 Vite выбирает свободный порт. `/api` проксируется на `VITE_API_PROXY_TARGET`;
 `/assets` принадлежит Vite и не проксируется.
@@ -87,8 +88,8 @@ Vite выбирает свободный порт. `/api` проксируетс
 ## Быстрая диагностика
 
 - `ADMIN_PIN_BEHIND` — вышел новый выпуск Framework: `npm run pin`.
-- `ADMIN_PACKAGE_PIN_BEHIND` — `components/` изменён после последнего
-  закрепления пакета: `npm run pin:package` (отдельным коммитом после коммита
-  в `components/`).
+- `ADMIN_PACKAGE_PIN_BEHIND` — `../ui-pro/components` изменён после последнего
+  закрепления пакета: `npm run pin:package` (отдельным коммитом здесь, после
+  коммита в `simai/ui-pro`).
 - Ошибка `git -C …/ui rev-parse …` — нет `../ui` или в нём нет закреплённого
   коммита: задайте `SIMAI_UI_REPO` или выполните `git fetch` в `ui`.

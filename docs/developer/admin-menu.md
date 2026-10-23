@@ -1,8 +1,9 @@
 # Административное меню
 
 `sf-admin-menu` — компонент пакета `larena`, исходник в
-[`components/src/smart/admin-menu/`](../../components/src/smart/admin-menu/),
-его документация — `docs/docs.md` там же и
+`components/src/smart/admin-menu/` репозитория
+[`simai/ui-pro`](https://github.com/simai/ui-pro), его документация —
+`docs/docs.md` там же и
 [ui.simai.io](https://ui.simai.io/ru/smart-components/composite/admin-menu/).
 Базовый presentation-компонент `component/admin-menu` — во Framework
 (`ui-source`).
@@ -55,7 +56,8 @@
 ## Что не делать
 
 - Не править DOM, который меню отрисовало: он перерисовывается из state.
-- Поведение меню меняется в `components/src/smart/admin-menu/`, а не в
-  страницах. Такая правка — изменение пакета: отдельный коммит в
-  `components/`, затем перезакрепление ([Framework runtime](framework-runtime.md)).
+- Поведение меню меняется в `components/src/smart/admin-menu/` репозитория
+  `simai/ui-pro`, а не в страницах. Такая правка — изменение пакета: коммит в
+  `ui-pro`, затем перезакрепление здесь
+  ([Framework runtime](framework-runtime.md)).
 - Панель меню рассчитана на 320px; колонка хоста уже этого её обрежет.

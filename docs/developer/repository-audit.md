@@ -4,12 +4,20 @@
 описывал репозиторий до полигона, до пакета `larena` и до переноса
 компонентов; он заменён этим.
 
+Поправка 2026-10-23 (решение владельца): компоненты переехали отсюда в
+[`simai/ui-pro`](https://github.com/simai/ui-pro), этот репозиторий стал их
+референсным приложением. Разделы ниже учитывают переезд; проверки и пины
+остаются на дату аудита.
+
 ## Что в репозитории
 
-- **`components/`** — исходник пакета `larena`: `sf-table`, `sf-data-view`,
-  `sf-property-view`, `sf-admin-menu`. Перенесён из `simai/larena-ui`
-  2026-10-22. Собственный набор тестов (`cd components && npm test`) в overlay
-  над `ui-source`, закреплённым `components/framework.lock.json`.
+- **Исходника пакета здесь больше нет.** `sf-table`, `sf-data-view`,
+  `sf-property-view` и `sf-admin-menu` живут в `components/` репозитория
+  `simai/ui-pro` (2026-10-23; до этого здесь, до 2026-10-22 — в
+  `simai/larena-ui`). Собственный набор тестов пакета
+  (`cd ../ui-pro/components && npm test`) — там же. Этот репозиторий собирает
+  пакет из соседнего checkout `../ui-pro` и закрепляет его
+  (`config/simai-package.lock.json`).
 - **Сайт** (Vite/TypeScript): главная — полигон над `data/polygon.json`, плюс
   страницы дерева, свойств, рабочего стола, модального окна, меню и каталога
   ([список](local-development.md#страницы)).
@@ -26,7 +34,7 @@
   (`pin:check`, `pin:package:check`).
 - Пакет `larena-9f3e80fb16e3` опубликован GitHub release в `simai/larena-ui`;
   в `larena-ui` больше нет `components/`.
-- `components`: 445 тестов проходят; `test:api` 5/5, `test:runtime` 2/2,
+- `components` (тогда ещё здесь): 445 тестов проходят; `test:api` 5/5, `test:runtime` 2/2,
   `data:check` — данные совпадают с генераторами.
 - Выпуск `d09b36f` прошёл у диспетчера SIMAI Framework: тесты и browser-probes
   пакета, `build`, `test:api`, `test:runtime`, `test:browser`,
@@ -37,9 +45,10 @@
 - Выпуск пакета для Larena (сборка, публикация release) — диспетчер SIMAI
   Framework, `ui-control/tools/release`.
 - Общий редактор даты и времени и дефекты `sf-datepicker` — Framework.
-- Повседневная работа над компонентами и сайтом — этот репозиторий; коммит в
-  `components/` и перезакрепление — отдельными коммитами, перед коммитом в
-  `components/` — `refresh-provenance.py`.
+- Повседневная работа над компонентами — `simai/ui-pro` (там же
+  `refresh-provenance.py` перед коммитом в `components/`); работа над сайтом и
+  перезакрепление пакета — этот репозиторий, отдельным коммитом после коммита
+  в `ui-pro`.
 - Компонент, который понадобится второму набору (`ui-chat`, `ui-mail`), не
   копируется, а продвигается во Framework или `ui-pro` (решение владельца
   2026-10-22, `ui-control/control/decisions/2026-10-22-component-layers-and-kits.md`).

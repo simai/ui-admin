@@ -2,12 +2,14 @@
 
 Copyright SIMAI. All rights reserved, except as granted below.
 
-This licence covers everything in this repository: the SIMAI Admin components
-(`components/`, the component package `larena`), the reference host, the
-polygon, the mock server and their scripts and data. It does not cover the
-SIMAI Framework this repository builds on (`simai/ui-source`, `simai/ui`,
-`@simai-studio/ui`), which is licensed separately under Apache-2.0, nor
-third-party dependencies, which keep their own licences.
+This licence covers everything in this repository: the reference application
+that runs the SIMAI Pro components, the polygon, the mock server and their
+scripts and data. It does not cover the components themselves (the component
+package `larena`): their source and their licence are in `simai/ui-pro`
+(owner, 2026-10-23). Nor does it cover the SIMAI Framework this repository
+builds on (`simai/ui-source`, `simai/ui`, `@simai-studio/ui`), which is
+licensed separately under Apache-2.0, nor third-party dependencies, which keep
+their own licences.
 
 You may use this software under **one** of the following licences, at your
 choice:
@@ -25,9 +27,7 @@ choice:
 **Use as part of Larena** (SIMAI's CMS) is covered by Larena's own licence;
 none of the three options above is needed for it.
 
-Versions of these components published earlier from `simai/larena-ui` under
-Apache-2.0 remain under Apache-2.0. These terms apply from the first release
-made from this repository.
+These terms apply from the first release made from this repository.
 
 SPDX-License-Identifier: PolyForm-Small-Business-1.0.0 OR PolyForm-Noncommercial-1.0.0 OR LicenseRef-SIMAI-Commercial
 

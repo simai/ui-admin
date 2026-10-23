@@ -1,8 +1,11 @@
 # Framework runtime и пакет компонентов
 
 Сайт отдаёт две закреплённые поставки: SIMAI Framework и пакет компонентов
-`larena`, собранный из `components/` этого репозитория. Каждая закреплена
-своим lock-файлом и лежит по своему пути, в имени которого есть id выпуска.
+`larena`, собранный из `components/` репозитория
+[`simai/ui-pro`](https://github.com/simai/ui-pro) — соседнего checkout
+`../ui-pro` (решение владельца, 2026-10-23; до этого компоненты лежали здесь).
+Каждая закреплена своим lock-файлом и лежит по своему пути, в имени которого
+есть id выпуска.
 
 ## Framework: `config/simai-assets.lock.json`
 
@@ -22,30 +25,29 @@ npm run pin         # закрепить последний выпуск
 
 ## Пакет `larena`: `config/simai-package.lock.json`
 
-Пакет собирается из `components/` командой `ui-builder` поверх ревизии
-`ui-source`, закреплённой в `components/framework.lock.json`. Lock называет
-ревизию исходника и его tree, ревизию `ui-builder`, выпуск Framework, поверх
-которого собран пакет (`requires.framework`), SHA-256 архива и обязательных
-файлов. id пакета — `larena-<12>`, по коммиту, который последним менял
-`components/`.
+Пакет собирается из `../ui-pro/components` командой `ui-builder` поверх
+ревизии `ui-source`, закреплённой в `components/framework.lock.json` того же
+репозитория. Lock называет репозиторий исходника (`source.repository` —
+`simai/ui-pro`), его ревизию и tree, ревизию `ui-builder`, выпуск Framework,
+поверх которого собран пакет (`requires.framework`), SHA-256 архива и
+обязательных файлов. id пакета — `larena-<12>`, по коммиту `ui-pro`, который
+последним менял `components/`.
 
 ```bash
-npm run pin:package:check   # пакет собран из текущего components/ и поверх закреплённого Framework?
+npm run pin:package:check   # пакет собран из текущего ../ui-pro/components и поверх закреплённого Framework?
 npm run pin:package         # собрать и закрепить
 ```
 
-Пакет, собранный поверх другого выпуска Framework, чем закреплён у сайта,
-отклоняется. Сборки кешируются вне checkout: `../.package-build/ui-admin/`
-(или `SIMAI_PACKAGE_BUILD_ROOT`).
+Путь к исходнику — соседний checkout `../ui-pro` или `SIMAI_UI_PRO`
+(`scripts/package-build.mjs`). Пакет, собранный поверх другого выпуска
+Framework, чем закреплён у сайта, отклоняется. Сборки кешируются вне обоих
+checkout: `../.package-build/ui-admin/` (или `SIMAI_PACKAGE_BUILD_ROOT`).
 
 Сборка пакета для Larena и его публикация (GitHub release в `simai/larena-ui`,
 откуда его берёт установщик Larena) — у диспетчера SIMAI Framework
-(`ui-control/tools/release`). Правила для `components/`:
-
-- коммит в `components/` и коммит с перезакреплением — отдельные коммиты;
-- перед каждым коммитом в `components/` пересчитываются digests в манифестах:
-  `python3 ../ui-control/tools/release/refresh-provenance.py components`
-  (сборка контрактов отклоняет манифест, чей исходник изменился).
+(`ui-control/tools/release`). Правила для `components/` — в `simai/ui-pro`;
+здесь остаётся одно: коммит с перезакреплением пакета — отдельный коммит,
+после коммита в `ui-pro`.
 
 ## Материализация
 

@@ -12,8 +12,9 @@ host port — см. [связи компонентов](component-connections.md
 Компонент не делает HTTP-запросов сам: данные и сохранение принадлежат Admin и
 backend.
 
-Исходник компонента — пакет `larena` в этом репозитории,
-[`components/src/smart/table/`](../../components/src/smart/table/); полное
+Исходник компонента — пакет `larena` в репозитории
+[`simai/ui-pro`](https://github.com/simai/ui-pro),
+`components/src/smart/table/`; полное
 руководство — `docs/smart-table-guide.md` там же. Rule
 связывает `sf-table` с loader key `cl-table`, а `index.js` регистрирует custom
 element через `SfTable.define('sf-table')`.
@@ -22,7 +23,7 @@ element через `SfTable.define('sf-table')`.
 
 Связь страницы с таблицей, URL и преобразование HTTP payload подтверждены
 `mock-api.html`, `src/main.ts` и `src/adminTable.ts`; публичные методы и
-события — исходником таблицы в `components/`. Что страница грузит именно
+события — исходником таблицы в `simai/ui-pro`. Что страница грузит именно
 закреплённые выпуски, проверяют `npm run test:runtime` и
 `npm run check:published` ([Framework runtime](framework-runtime.md)).
 

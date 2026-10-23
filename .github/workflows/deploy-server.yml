@@ -32,15 +32,15 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # `npm run build` exactly as on a workstation. It reads the Framework pair
-  # and what the larena package is built over from repositories beside this
-  # checkout (../ui, ../ui-source, ../ui-builder), each cloned at the revision
-  # config/simai-assets.lock.json and config/simai-package.lock.json pin
-  # (deploy/simai-server/pins.mjs), and rebuilds the package (components/ in
-  # this repository, hence the full-history checkout) with ui-builder;
-  # the build refuses an archive whose sha256 is not the pinned one. The same
-  # approach as simai/ui-doc's CI, which rebuilds the package on Linux byte for
-  # byte.
+  # `npm run build` exactly as on a workstation. It reads the Framework pair,
+  # the component package's source and what it is built over from repositories
+  # beside this checkout (../ui, ../ui-source, ../ui-builder, ../ui-pro), each
+  # cloned at the revision config/simai-assets.lock.json and
+  # config/simai-package.lock.json pin (deploy/simai-server/pins.mjs), and
+  # rebuilds the package (components/ in simai/ui-pro, cloned with its full
+  # history) with ui-builder; the build refuses an archive whose sha256 is not
+  # the pinned one. The same approach as simai/ui-doc's CI, which rebuilds the
+  # package on Linux byte for byte.
   build:
     if: vars.SIMAI_SERVER_DEPLOY == 'true' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
@@ -49,10 +49,8 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           persist-credentials: false
-          # The package pin is the commit that last wrote components/ and the
-          # build lays the package out of git objects: a shallow clone answers
-          # wrongly.
-          fetch-depth: 0
+          # No history is read from this checkout any more: the package source
+          # is simai/ui-pro, which clone-inputs.sh clones in full.
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           # The node the pinned package receipt was built with.

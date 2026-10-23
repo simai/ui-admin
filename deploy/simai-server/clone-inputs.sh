@@ -3,14 +3,17 @@
 #
 # Clones the repositories the build reads beside this checkout, each at the
 # revision the locks pin (deploy/simai-server/pins.mjs), into <parent>: the
-# layout the scripts default to (../ui, ../ui-source, ../ui-builder). The
-# package source, components/, is this checkout itself, so it is not cloned;
-# the checkout must be a full one (the workflow checks out with fetch-depth 0). pin-framework-pair.mjs reads ../ui from the lock itself, not
-# from SIMAI_UI_REPO, so the parent must be the directory this checkout sits in.
+# layout the scripts default to (../ui, ../ui-source, ../ui-builder, ../ui-pro).
+# The package source is the components/ folder of simai/ui-pro, so it is cloned
+# too (owner, 2026-10-23: the components left this repository and it became
+# their reference application). pin-framework-pair.mjs reads ../ui from the lock
+# itself, not from SIMAI_UI_REPO, so the parent must be the directory this
+# checkout sits in.
 #
 # Full clones on purpose: the pin checks ask git which commit last wrote a
-# folder (`git log -1 -- distr`, `-- components`) and the package build lays
-# its overlay out of git objects, so a shallow clone would answer wrongly.
+# folder (`git log -1 -- distr` in ui, `-- components` in ui-pro) and the
+# package build lays its overlay out of git objects, so a shallow clone would
+# answer wrongly.
 #
 # Mirrors simai/ui-doc's CI (.github/workflows/quality.yml), which rebuilds the
 # same package on Linux byte for byte.
@@ -45,13 +48,12 @@ mkdir -p "$parent"
 clone simai/ui ui "$(pin UI_CORE_REVISION)"
 node "$here/pins.mjs" --verify-ui "$parent/ui"
 
-# The package source is this repository: the pinned revision must be a commit
-# of this checkout, and the ui-source revision the package is built over is the
-# one its framework.lock.json pins at that commit.
-checkout="$(git -C "$here" rev-parse --show-toplevel)"
-git -C "$checkout" cat-file -e "$(pin LARENA_REVISION)^{commit}" \
-  || { echo "the package revision $(pin LARENA_REVISION) is not in this checkout (a shallow clone?)" >&2; exit 1; }
-source_lock="$(git -C "$checkout" show "$(pin LARENA_REVISION):$(pin LARENA_PATH)/framework.lock.json")"
+# The package source is simai/ui-pro, cloned at the pinned revision. The
+# ui-source revision the package is built over is the one its
+# framework.lock.json pins at that commit, so it is read from that clone.
+clone "$(pin LARENA_REPOSITORY)" ui-pro "$(pin LARENA_REVISION)"
+package="$parent/ui-pro"
+source_lock="$(git -C "$package" show "$(pin LARENA_REVISION):$(pin LARENA_PATH)/framework.lock.json")"
 source_repository="$(printf '%s' "$source_lock" | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>process.stdout.write(JSON.parse(s).source.repository))')"
 source_revision="$(printf '%s' "$source_lock" | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>process.stdout.write(JSON.parse(s).source.revision))')"
 [[ "$source_repository" =~ ^[A-Za-z0-9._-]+/[A-Za-z0-9._-]+$ ]] || { echo "bad ui-source repository: $source_repository" >&2; exit 1; }

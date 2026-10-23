@@ -10,13 +10,13 @@
 //   config/simai-assets.lock.json   the Framework pair: one ui clone holding
 //                                   core.commit and smart.commit, checked out
 //                                   at core.commit (the release build commit)
-//   config/simai-package.lock.json  the larena package: this repository's
+//   config/simai-package.lock.json  the larena package: simai/ui-pro's
 //                                   components/ at source.revision, ui-builder at
 //                                   builder.revision, the archive digest
 //
 // ui-source is the one input no lock here names: it is the revision the
-// package source pins (components/framework.lock.json in this repository at
-// source.revision), read by clone-inputs.sh from this checkout.
+// package source pins (components/framework.lock.json in simai/ui-pro at
+// source.revision), read by clone-inputs.sh from that clone.
 //
 // The two sides of the pair need not be one commit. A release whose Smart did
 // not change pins core at the build commit and smart at the older commit that
@@ -58,9 +58,10 @@ for (const side of ['core', 'smart']) {
 if (!/^ui-[0-9a-f]{12}(-smart-[0-9a-f]{12})?$/.test(framework.compatibilityId ?? '')) fail('compatibilityId');
 if (pkg.requires?.framework !== framework.compatibilityId) fail('the package is pinned over another Framework release');
 if (!repository.test(pkg.source?.repository ?? '')) fail('package source.repository');
-// The package source is this repository; clone-inputs.sh reads it from this
-// checkout and clones nothing for it.
-if (pkg.source.repository !== 'simai/ui-admin') fail(`package source.repository is ${pkg.source.repository}, not simai/ui-admin`);
+// The package source is simai/ui-pro (owner, 2026-10-23); clone-inputs.sh
+// clones it beside this checkout at source.revision. A lock that names another
+// repository needs its own clone step, so it fails here.
+if (pkg.source.repository !== 'simai/ui-pro') fail(`package source.repository is ${pkg.source.repository}, not simai/ui-pro`);
 if (!commit.test(pkg.source?.revision ?? '')) fail('package source.revision');
 if (!/^[A-Za-z0-9._/-]+$/.test(pkg.source?.path ?? '')) fail('package source.path');
 if (!repository.test(pkg.builder?.repository ?? '')) fail('package builder.repository');

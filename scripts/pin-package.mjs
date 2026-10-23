@@ -5,10 +5,11 @@
 // whether it agrees with the Framework pin.
 //
 // The package is `larena`: the admin components, whose source is the
-// `components/` folder of this repository (standard simai.component-package;
-// owner, 2026-10-11; moved here from simai/larena-ui, owner, 2026-10-22). There is no
-// repository of built bytes to pin, so the pin is the source revision -- the
-// commit that last wrote the folder -- and the receipt of building it: the free
+// `components/` folder of simai/ui-pro, read from the sibling checkout
+// ../ui-pro (standard simai.component-package; owner, 2026-10-11; moved to
+// ui-pro from this repository, owner, 2026-10-23). There is no repository of
+// built bytes to pin, so the pin is the source revision -- the commit that
+// last wrote the folder there -- and the receipt of building it: the free
 // release it was built over, the archive's hash and the hash of every file the
 // receipt calls required. The verified set is the receipt's, never a list
 // written here: a list picked by hand once let a whole release through

@@ -99,9 +99,9 @@
     },
     {
       "id": "smart.drawer",
-      "version": "1.4.0",
+      "version": "1.5.0",
       "file": "smart.drawer.json",
-      "manifest_sha256": "0bd4bf21591b39ffd552d7be6a4ad91dbe8ed07055941ce19cc17a7e65585572"
+      "manifest_sha256": "593c249213c217d61dc82940948f56470744cdec32bcb4cf348b97967d083506"
     },
     {
       "id": "smart.dropdown",
@@ -171,9 +171,9 @@
     },
     {
       "id": "smart.modal",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "file": "smart.modal.json",
-      "manifest_sha256": "5a01f2d5bd2dd569a1f5958e2b1454a03911d9755550f6872da4c27c4879da35"
+      "manifest_sha256": "aef22a45cafea4d5f21ee50e55eab33c10aa8197f9d0373baf13ca8f898802f6"
     },
     {
       "id": "smart.page-header",
@@ -326,6 +326,6 @@
       "manifest_sha256": "f0ff164cbacb0dcd6af9fe3ee41acdfdc3da309dd7da3017950161ebe23cf741"
     }
   ],
-  "registry_sha256": "08e15e7a0d8c3212819b22ca9e315a9413539bf057e2d7fd9420b45efdf216e9",
+  "registry_sha256": "7c152cfecb2b78b6dffcfd1f943ed06a3007fca158eaff7a1882a2817ba5aa1e",
   "registry_schema_sha256": "d5b0a5b299fa4b044d8125a315458c37de76f0bb5c6cb686962cdec7922b14ce"
 }

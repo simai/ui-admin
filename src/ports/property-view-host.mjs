@@ -74,7 +74,10 @@ export const PROFILES = [
 // `profiles` is here so a caller can stand the host up with a list of its own —
 // one shared view, say, which is the state in which removing it is refused and
 // which no sequence of calls on the default list reaches.
-export const createPropertyViewHost = ({ record = RECORD, capabilities = [], profiles = PROFILES } = {}) => {
+// `confirms` names the saves this host asks to confirm first (port 1.14.0): a
+// real host does it for a save with consequences -- changing a contract's type
+// re-prices it -- and a consumer needs a host that does it to copy.
+export const createPropertyViewHost = ({ record = RECORD, capabilities = [], profiles = PROFILES, confirms = [] } = {}) => {
   const state = { record: copy(record), views: {}, profiles: copy(profiles), profile: copy(profiles)[0]?.id ?? null, next: 4 };
 
   // The record a read answers with carries the list this host is keeping, not
@@ -86,8 +89,31 @@ export const createPropertyViewHost = ({ record = RECORD, capabilities = [], pro
   };
   const asRead = () => ({ answer: 'applied', record: answerRecord() });
 
+  // A save the host asks about first is refused with confirm_required and a
+  // digest of exactly what would be written; the same save re-sent with that
+  // digest is applied. The digest covers the values and the revision, so a
+  // confirmation given for one save never applies another, and a stale one is
+  // asked again with the new digest rather than applied.
+  const digestOf = (intent, payload) => {
+    const text = JSON.stringify([intent, payload.section ?? null, payload.group ?? null, payload.values ?? {}, state.record.revision]);
+    let hash = 0x811c9dc5;
+    for (let index = 0; index < text.length; index += 1) {
+      hash = Math.imul(hash ^ text.charCodeAt(index), 0x01000193) >>> 0;
+    }
+    return hash.toString(16).padStart(8, '0');
+  };
+  const askFirst = (intent, payload) => {
+    if (!confirms.includes(intent)) return null;
+    const digest = digestOf(intent, payload);
+    if (payload.confirm === digest) return null;
+    return {
+      answer: 'refused', reason: 'confirm_required',
+      confirm: { digest, summary: 'Изменения затронут связанные записи. Сохранить?' },
+    };
+  };
+
   return {
-    version: '1.13.0',
+    version: '1.14.0',
     capabilities,
 
     async raise(intent, payload = {}) {
@@ -137,6 +163,8 @@ export const createPropertyViewHost = ({ record = RECORD, capabilities = [], pro
         if (Object.prototype.hasOwnProperty.call(values, 'title') && !String(values.title ?? '').trim()) {
           return { answer: 'refused', reason: 'validation', errors: { title: 'Название не может быть пустым' } };
         }
+        const asked = askFirst(intent, payload);
+        if (asked) return asked;
         for (const section of state.record.sections ?? []) {
           for (const group of section.groups ?? []) {
             for (const field of group.fields ?? []) {
@@ -172,6 +200,8 @@ export const createPropertyViewHost = ({ record = RECORD, capabilities = [], pro
         if (Object.prototype.hasOwnProperty.call(values, 'title') && !String(values.title ?? '').trim()) {
           return { answer: 'refused', reason: 'validation', errors: { title: 'Название не может быть пустым' } };
         }
+        const asked = askFirst(intent, payload);
+        if (asked) return asked;
         const group = state.record.sections
           .find((section) => section.key === payload.section)?.groups
           .find((item) => item.key === payload.group);

@@ -45,16 +45,19 @@ if (!kit) {
 
 const { version, root: kitRoot, manifest } = kit;
 
-// What the kit requires, read out of it rather than restated here.
+// What the kit requires, read out of it rather than restated here. Kept per
+// case, not merged per (intent, answer): since port 1.14.0 one answer has two
+// shapes -- a group save refused for its errors, and refused to be confirmed
+// first -- and no single answer carries both.
 const required = new Map();
 for (const id of manifest.cases) {
   const path = join(kitRoot, 'cases', `${id}.json`);
   if (!existsSync(path)) continue;
   const testCase = JSON.parse(readFileSync(path, 'utf8'));
   const key = `${testCase.when.intent}|${testCase.then.answer}`;
-  const keys = new Set(required.get(key)?.keys ?? []);
-  for (const name of testCase.then.answer_must_include ?? []) keys.add(name);
-  required.set(key, { keys, capabilities: testCase.given?.capabilities ?? [], case: id });
+  const cases = required.get(key) ?? [];
+  cases.push({ case: id, keys: new Set(testCase.then.answer_must_include ?? []) });
+  required.set(key, cases);
 }
 
 // How this reference reaches each answer. One row per (intent, answer) the kit
@@ -80,6 +83,14 @@ const reaches = [
   ['record.create', 'refused', ALL, { collection: base.collection, values: {} }],
   ['record.save', 'applied', ALL, { ...base, values: { title: 'Новое' }, revision: 7 }],
   ['record.save', 'conflict', ALL, { ...base, values: { title: 'Новое' }, revision: 1 }],
+  // A save this host asks about first (port 1.14.0), and a digest that no
+  // longer matches: both are refused with a confirmation, never applied.
+  ['group.save', 'refused', ALL, { ...base, section: 'main', group: 'main', values: { status: 'done' }, revision: 7 },
+    { confirms: ['group.save'] }, 'group-save-may-ask-for-a-confirmation'],
+  ['group.save', 'refused', ALL, { ...base, section: 'main', group: 'main', values: { status: 'done' }, revision: 7, confirm: 'c0ffee' },
+    { confirms: ['group.save'] }, 'a-stale-confirmation-is-asked-again'],
+  ['record.save', 'refused', ALL, { ...base, values: { status: 'done' }, revision: 7 },
+    { confirms: ['record.save'] }, 'save-may-ask-for-a-confirmation'],
   ['view.save', 'applied', ALL, { record_id: null, collection: base.collection, target: { kind: 'personal' }, view: {} }],
   ['view.save', 'conflict', ALL, { record_id: null, collection: base.collection, target: { kind: 'shared', revision: 'v-old' }, view: {} }],
   ['view.save', 'refused', ['view-settings'], { record_id: null, collection: base.collection, target: { kind: 'shared' }, view: {} }],
@@ -100,8 +111,13 @@ const reaches = [
 
 const failures = [];
 const reached = new Set();
+// A row that names its case answers for that case alone; a row that names none
+// answers for every case of its (intent, answer) that no row names.
+const named = new Set(reaches.map((row) => row[5]).filter(Boolean));
+const casesFor = (key, name) => (required.get(key) ?? [])
+  .filter((entry) => (name ? entry.case === name : !named.has(entry.case)));
 
-for (const [intent, answer, capabilities, payload, setup] of reaches) {
+for (const [intent, answer, capabilities, payload, setup, caseName] of reaches) {
   const key = `${intent}|${answer}`;
   const host = createPropertyViewHost({ capabilities, ...(setup ?? {}) });
   let given;
@@ -115,18 +131,22 @@ for (const [intent, answer, capabilities, payload, setup] of reaches) {
     failures.push({ intent, expected: answer, got: given?.answer ?? null, said: 'this reference cannot reach that answer' });
     continue;
   }
-  reached.add(key);
-  for (const name of required.get(key)?.keys ?? []) {
-    if (!(name in given)) {
-      failures.push({ intent, answer, said: `the answer carries no ${name}`, case: required.get(key)?.case });
+  for (const entry of casesFor(key, caseName)) {
+    reached.add(entry.case);
+    for (const name of entry.keys) {
+      if (!(name in given)) {
+        failures.push({ intent, answer, said: `the answer carries no ${name}`, case: entry.case });
+      }
     }
   }
 }
 
-for (const [key, entry] of required) {
-  if (!reached.has(key)) {
-    const [intent, answer] = key.split('|');
-    failures.push({ intent, answer, said: 'the kit declares this answer and the reference reaches no case for it', case: entry.case });
+for (const [key, cases] of required) {
+  for (const entry of cases) {
+    if (!reached.has(entry.case)) {
+      const [intent, answer] = key.split('|');
+      failures.push({ intent, answer, said: 'the kit declares this answer and the reference reaches no case for it', case: entry.case });
+    }
   }
 }
 
@@ -162,7 +182,7 @@ const report = {
   schema: 'ui-admin.port_conformance.v1',
   port: manifest.port,
   version,
-  declared: required.size,
+  declared: [...required.values()].reduce((sum, cases) => sum + cases.length, 0),
   reached: reached.size,
   status: failures.length ? 'fail' : 'pass',
   failures,

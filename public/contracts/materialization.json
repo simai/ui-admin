@@ -57,15 +57,15 @@
     },
     {
       "id": "smart.color",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "file": "smart.color.json",
-      "manifest_sha256": "7232c5fe5e3c99ee416cd59f17b9c38a011f47d6bab6c80b5576ded3f1ed9e7c"
+      "manifest_sha256": "f716c1dff16aabb74fcf0ebf8e00a3dfa92dc9d48123228de9f609d8fca8f226"
     },
     {
       "id": "smart.composition-overlay",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "file": "smart.composition-overlay.json",
-      "manifest_sha256": "15aaf785fefedb169bfb755a78f64818206197f17d9f4e8228f962cbc74f1159"
+      "manifest_sha256": "525bc6a795dc88163a961d9bbf091bd1507f33843ef96e0db5e1ba861370aea3"
     },
     {
       "id": "smart.context-menu",
@@ -105,9 +105,9 @@
     },
     {
       "id": "smart.dropdown",
-      "version": "1.2.0",
+      "version": "1.3.0",
       "file": "smart.dropdown.json",
-      "manifest_sha256": "ca87356ffdd7895eac3ca1de503a0f55f0e567f5d8fb59eb12d64a80683e326a"
+      "manifest_sha256": "9698ee038b324aba984a23a14a81aaf1260592fa3d02be21e4834409534bedd2"
     },
     {
       "id": "smart.empty-state",
@@ -152,6 +152,12 @@
       "manifest_sha256": "099a5d8d6d5b24646ba04697fd5cf2ba61e0471b666a29b11501689ecfe49cee"
     },
     {
+      "id": "smart.image-field",
+      "version": "1.0.0",
+      "file": "smart.image-field.json",
+      "manifest_sha256": "5bc0cdecd949256ade03e05ec7cca4b2608739223e16576d7e0a1ac05e4a49f1"
+    },
+    {
       "id": "smart.inline-editor",
       "version": "1.0.0",
       "file": "smart.inline-editor.json",
@@ -159,9 +165,9 @@
     },
     {
       "id": "smart.inputs",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "file": "smart.inputs.json",
-      "manifest_sha256": "b1c555d913bbf9cb7395b5dd4cb94350fb7ece7ca3e858f51bae7768950cc6f3"
+      "manifest_sha256": "d2e1617e6ec0380812acbb991ea600f7f15c888654abacc772a272de56ecb85a"
     },
     {
       "id": "smart.list-item",
@@ -251,7 +257,7 @@
       "id": "smart.sortable",
       "version": "1.0.0",
       "file": "smart.sortable.json",
-      "manifest_sha256": "2533afd7c2e5f04d35d1796aade9966d1cec6d785061c65a71bc7e397a872250"
+      "manifest_sha256": "af1961ce5449b85f069bc893a2df9beb481c2bd79a0e9beb2400976035afe14f"
     },
     {
       "id": "smart.spinner",
@@ -267,9 +273,9 @@
     },
     {
       "id": "smart.switch",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "file": "smart.switch.json",
-      "manifest_sha256": "b20118314e2daf34d6b5cfd907fcb528ce0e5ac5a679a3446978ce74970d10c9"
+      "manifest_sha256": "90cf37a91a7a3bb96a114f704563f36bb03864912aab9c97b63f31288526ef2c"
     },
     {
       "id": "smart.tabs",
@@ -285,9 +291,9 @@
     },
     {
       "id": "smart.textarea",
-      "version": "1.3.0",
+      "version": "1.4.0",
       "file": "smart.textarea.json",
-      "manifest_sha256": "ef2626caed24db48dfcf6a69209a1fdf61339872c71994b65c3923aba9e688b7"
+      "manifest_sha256": "c07933a5a5e9d662391af3983841f2b12d0e2da10c5816300b7ddc4060e0c765"
     },
     {
       "id": "smart.theme-generator",
@@ -326,6 +332,6 @@
       "manifest_sha256": "f0ff164cbacb0dcd6af9fe3ee41acdfdc3da309dd7da3017950161ebe23cf741"
     }
   ],
-  "registry_sha256": "7c152cfecb2b78b6dffcfd1f943ed06a3007fca158eaff7a1882a2817ba5aa1e",
+  "registry_sha256": "6914e64ad6fd0c9cdcc7dc6813502554fb0538dd753ae638e5f477aee6ca01ca",
   "registry_schema_sha256": "d5b0a5b299fa4b044d8125a315458c37de76f0bb5c6cb686962cdec7922b14ce"
 }

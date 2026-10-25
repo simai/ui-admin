@@ -2,6 +2,12 @@
   "schema": "simai.ui-admin.contract-materialization.v1",
   "contracts": [
     {
+      "id": "smart.accordion",
+      "version": "1.0.0",
+      "file": "smart.accordion.json",
+      "manifest_sha256": "0d49de588d3dd69414d5f69247eec364091a189280450cf4e4b6322e03e9ed05"
+    },
+    {
       "id": "smart.alert",
       "version": "1.0.0",
       "file": "smart.alert.json",
@@ -54,6 +60,12 @@
       "version": "1.0.0",
       "file": "smart.close.json",
       "manifest_sha256": "fe86dd60f05ae50cf20a021a406ddd89c90d2928524cba3495d737bcd2b9b645"
+    },
+    {
+      "id": "smart.code-input",
+      "version": "1.0.0",
+      "file": "smart.code-input.json",
+      "manifest_sha256": "699dde2394ddea79eeba052d8a1ce32e63e072b8b9a53b8410913f850a83437a"
     },
     {
       "id": "smart.color",
@@ -176,6 +188,12 @@
       "manifest_sha256": "5ef8306aac427e178645f3e6251c0d0470098a8ed71cb514f2045d391573f764"
     },
     {
+      "id": "smart.menu",
+      "version": "1.0.0",
+      "file": "smart.menu.json",
+      "manifest_sha256": "6da191704db4c2e54388504b5f9bc55594cdfbee66d75bd4f607e7b24eb4cf3e"
+    },
+    {
       "id": "smart.modal",
       "version": "1.2.0",
       "file": "smart.modal.json",
@@ -216,6 +234,12 @@
       "version": "1.0.0",
       "file": "smart.progress-scale.json",
       "manifest_sha256": "c1d6cd02bd5bc072c742584b20703bae835e53c3bac6d18b3eaf77c9919f2760"
+    },
+    {
+      "id": "smart.quantity",
+      "version": "1.0.0",
+      "file": "smart.quantity.json",
+      "manifest_sha256": "60e83b6613aec5d553f712c2fa14836d09f441cba0849f078f21f401d8ec605c"
     },
     {
       "id": "smart.radio",
@@ -332,6 +356,6 @@
       "manifest_sha256": "f0ff164cbacb0dcd6af9fe3ee41acdfdc3da309dd7da3017950161ebe23cf741"
     }
   ],
-  "registry_sha256": "6914e64ad6fd0c9cdcc7dc6813502554fb0538dd753ae638e5f477aee6ca01ca",
+  "registry_sha256": "e2802b64a228b6781e5ee264a3411d9191719cf4fcd96a8bf7e820ff7c35e04a",
   "registry_schema_sha256": "d5b0a5b299fa4b044d8125a315458c37de76f0bb5c6cb686962cdec7922b14ce"
 }

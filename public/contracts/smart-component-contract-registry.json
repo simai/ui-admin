@@ -4,6 +4,47 @@
       "backend_adapters": [],
       "capabilities": [
         "render",
+        "interaction",
+        "keyboard",
+        "theme",
+        "responsive"
+      ],
+      "composition": {
+        "public_parts": [],
+        "uses": [
+          "component.accordion",
+          "smart.badges"
+        ]
+      },
+      "contract_schema": {
+        "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+        "version": 2
+      },
+      "custom_element": "sf-accordion",
+      "id": "smart.accordion",
+      "kind": "smart",
+      "lifecycle": "experimental",
+      "manifest_path": "src/smart/accordion/smart.manifest.json",
+      "manifest_sha256": "0d49de588d3dd69414d5f69247eec364091a189280450cf4e4b6322e03e9ed05",
+      "reuse_mode": "whole",
+      "runtime_pair": {
+        "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
+        "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
+      },
+      "summary": "Sections that open and close, built from data -- a record's groups, a settings panel, an FAQ -- or from <details> in the markup, drawn as the class accordion: the same sizes on the control ladder, appearances, marker and single section. single keeps one open; the headers are buttons with the WAI-ARIA accordion keyboard.",
+      "tags": [
+        "accordion",
+        "disclosure",
+        "sections",
+        "faq",
+        "collapse"
+      ],
+      "title": "Accordion"
+    },
+    {
+      "backend_adapters": [],
+      "capabilities": [
+        "render",
         "theme",
         "responsive"
       ],
@@ -349,6 +390,46 @@
         "close"
       ],
       "title": "Close"
+    },
+    {
+      "backend_adapters": [],
+      "capabilities": [
+        "render",
+        "interaction",
+        "keyboard",
+        "theme",
+        "responsive"
+      ],
+      "composition": {
+        "public_parts": [],
+        "uses": [
+          "component.verification"
+        ]
+      },
+      "contract_schema": {
+        "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+        "version": 2
+      },
+      "custom_element": "sf-code-input",
+      "id": "smart.code-input",
+      "kind": "smart",
+      "lifecycle": "experimental",
+      "manifest_path": "src/smart/code-input/smart.manifest.json",
+      "manifest_sha256": "699dde2394ddea79eeba052d8a1ce32e63e072b8b9a53b8410913f850a83437a",
+      "reuse_mode": "whole",
+      "runtime_pair": {
+        "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
+        "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
+      },
+      "summary": "A one-time code -- from a message, an authenticator, an email -- as a form field with its own value, paste and errors, drawn as the class verification: one native input holds the code (autocomplete one-time-code, so autofill and WebOTP fill it whole) and the cells picture it. Typing fills the next cell, Backspace steps back and clears, a pasted code fills every cell, and each cell is announced by its place.",
+      "tags": [
+        "code-input",
+        "one-time-code",
+        "otp",
+        "verification",
+        "form-field"
+      ],
+      "title": "Code Input"
     },
     {
       "backend_adapters": [],
@@ -1098,6 +1179,48 @@
       "backend_adapters": [],
       "capabilities": [
         "render",
+        "interaction",
+        "keyboard",
+        "theme",
+        "responsive",
+        "navigation"
+      ],
+      "composition": {
+        "public_parts": [],
+        "uses": [
+          "component.menu",
+          "component.badges"
+        ]
+      },
+      "contract_schema": {
+        "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+        "version": 2
+      },
+      "custom_element": "sf-menu",
+      "id": "smart.menu",
+      "kind": "smart",
+      "lifecycle": "experimental",
+      "manifest_path": "src/smart/menu/smart.manifest.json",
+      "manifest_sha256": "6da191704db4c2e54388504b5f9bc55594cdfbee66d75bd4f607e7b24eb4cf3e",
+      "reuse_mode": "whole",
+      "runtime_pair": {
+        "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
+        "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
+      },
+      "summary": "Site navigation built from data -- nested sections, the current page, groups that open and close -- or from a nested list of links in the markup, drawn as the class menu: a column whose branches open in place, or a row whose branches open as panels placed by SF.Position, which becomes a button opening the same links when it does not fit. The WAI-ARIA disclosure navigation pattern, not an application menu.",
+      "tags": [
+        "menu",
+        "navigation",
+        "site-navigation",
+        "disclosure",
+        "nav"
+      ],
+      "title": "Menu"
+    },
+    {
+      "backend_adapters": [],
+      "capabilities": [
+        "render",
         "theme",
         "responsive"
       ],
@@ -1352,6 +1475,48 @@
         "progress-scale"
       ],
       "title": "Progress Scale"
+    },
+    {
+      "backend_adapters": [],
+      "capabilities": [
+        "render",
+        "interaction",
+        "keyboard",
+        "theme",
+        "responsive"
+      ],
+      "composition": {
+        "public_parts": [],
+        "uses": [
+          "component.quantity",
+          "component.icons",
+          "component.icon-buttons"
+        ]
+      },
+      "contract_schema": {
+        "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+        "version": 2
+      },
+      "custom_element": "sf-quantity",
+      "id": "smart.quantity",
+      "kind": "smart",
+      "lifecycle": "experimental",
+      "manifest_path": "src/smart/quantity/smart.manifest.json",
+      "manifest_sha256": "60e83b6613aec5d553f712c2fa14836d09f441cba0849f078f21f401d8ec605c",
+      "reuse_mode": "whole",
+      "runtime_pair": {
+        "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
+        "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
+      },
+      "summary": "A number field with «−» and «+»: a WAI-ARIA spinbutton with bounds, a step and digits, strict typing in the page's language, ArrowUp/ArrowDown, PageUp/PageDown and Home/End, a held stepper repeats; label, help, error, required, disabled, read-only, the three field sizes and the inherited value as every field has them.",
+      "tags": [
+        "quantity",
+        "number",
+        "stepper",
+        "field",
+        "form"
+      ],
+      "title": "Quantity"
     },
     {
       "backend_adapters": [],

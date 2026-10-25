@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you refer to SIMAI Admin, please cite it as below."
+title: "SIMAI Admin"
+abstract: "Reference admin application for SIMAI Framework and SIMAI Pro: a records list and record panel over a seeded polygon, the admin menu and a mock host."
+type: software
+authors:
+  - family-names: "Zabarov"
+    given-names: "Rim"
+    email: "rim@zabarov.com"
+license-url: "https://github.com/simai/ui-admin/blob/main/LICENSE.md"
+repository-code: "https://github.com/simai/ui-admin"
+url: "https://admin.simai.io/"

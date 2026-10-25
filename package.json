@@ -2,6 +2,7 @@
   "name": "simai-admin",
   "private": true,
   "version": "0.1.0",
+  "author": "Rim Zabarov",
   "type": "module",
   "scripts": {
     "prepare:runtime": "npm run pin:check && npm run pin:package:check && node scripts/materialize-framework-runtime.mjs --target .runtime && node scripts/materialize-package-runtime.mjs --target .runtime-package",

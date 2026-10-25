@@ -1,6 +1,12 @@
 # Licence
 
-Copyright SIMAI. All rights reserved, except as granted below.
+- Product: **SIMAI Admin**
+- Author: Rim Zabarov (Рим Забаров)
+- Copyright 2026 Rim Zabarov. All rights reserved, except as granted below.
+- Required Notice: Copyright 2026 Rim Zabarov (https://simai.io/)
+
+"SIMAI" and "SIMAI Admin" are trademarks of their owner; this licence grants
+no right to use them. Distributed and supported under licence by ООО «Симай».
 
 This licence covers everything in this repository: the reference application
 that runs the SIMAI Pro components, the polygon, the mock server and their

@@ -3,32 +3,32 @@
   "package": "larena",
   "source": {
     "repository": "simai/ui-pro",
-    "revision": "c6f3cfc0b36b959ba0d9b9381126261c388084ef",
+    "revision": "7545782e2459257c8b7f5ecd3a9dc4a37889ce79",
     "path": "components",
-    "tree": "63aba5d29002c6f8433080dec4c0453666167316"
+    "tree": "0771ef8ee3ec9485243ad209bdf77f7aeef0db3f"
   },
   "builder": {
     "repository": "simai/ui-builder",
-    "revision": "74ad2e84813c889c3ca3d40bc700023aa7809190"
+    "revision": "71ef256903381a17f546f17f6f9feb7f400204f8"
   },
   "smart": {
     "targetDir": "",
     "requiredFiles": [
       {
         "path": "rule.js",
-        "sha256": "12aaf495af542e02bba9d5ce0d80d6645085a7dfad34aede28423cf1e90b58b5"
+        "sha256": "3158803087224eefff4f6d4ac65084734c8d1b01954097a0fa11f2a4a7e9d88a"
       },
       {
         "path": "admin-menu/js/admin-menu.js",
-        "sha256": "600a376f7deb4f236e8c8479f202a1a17736f811c5fdc2c68b087e4ed62299a8"
+        "sha256": "760e64e8c3a8b7b79591f5c17e46719a9128e5764b1a7300de7ac94dad2bcd0b"
       },
       {
         "path": "admin-menu/css/admin-menu.css",
-        "sha256": "42eaa417a560030ddd7028b0be2e239f3c82f5f4099e564f84183d9c318d990d"
+        "sha256": "d450809c5de546e647440eea11109fafafb65e747020e9746be314fd253467de"
       },
       {
         "path": "change-confirm/js/change-confirm.js",
-        "sha256": "5dcda3c142928835e315117c8278a454f937e39766a7b5ccc588b757b392f5b6"
+        "sha256": "2d17ecdda97eaf802b2d8801d691260f023ed6bb0095c6c928663a2c9d3cc8f3"
       },
       {
         "path": "change-confirm/css/change-confirm.css",
@@ -36,11 +36,11 @@
       },
       {
         "path": "data-view/js/data-view.js",
-        "sha256": "e18438b445ea2fbbd8d5be492e0f05312aa7e41e1be9e47159d77bd7f84a9019"
+        "sha256": "d6d2cd9f30994eb32bbb7a96f52452594257d257c8618d576e82703a4eb71908"
       },
       {
         "path": "message-log/js/message-log.js",
-        "sha256": "e6bd397b7facb8777bcb11a0c562c44fa5a3c24a8b4e50a3d12e26ca693f427b"
+        "sha256": "c7281bd0450f20ace17a49fda8fa0c34fee0cb0ad76684ce5aea6d9b92952452"
       },
       {
         "path": "message-log/css/message-log.css",
@@ -48,23 +48,23 @@
       },
       {
         "path": "property-view/js/property-view.js",
-        "sha256": "8cf1b4820f89c61c91c5ce397216d363b3832816e7c48b35c80420562ae0d12c"
+        "sha256": "a2f862dd9832405cad15aa22dfa7f8bb1080c077581d61f48b344d9def5b0faa"
       },
       {
         "path": "property-view/css/property-view.css",
-        "sha256": "b3e8a3d55e5d09c50e81e380e33a39c1b0d1065e09354e70bdd8324feafe7509"
+        "sha256": "33821d58b1448bc963329e18a60022f30f2e4267cc8425c73a0b0d399d515684"
       },
       {
         "path": "table/js/table.js",
-        "sha256": "c76f70336c84d2528663b08360a04801c0bea985690a26aa00c4bd381ef46890"
+        "sha256": "cf03173f810db9492d7e2b2b58cb193a5390f9375a0fc2355fd172271d68c85d"
       },
       {
         "path": "table/css/table.css",
-        "sha256": "a72263be0db102571cc024bf6cbe4361d83415c9a1666e35c564bf188901b34c"
+        "sha256": "50668593d1464b4cc88e4a9b038e46551a3651bcf225ed9a520599bc29b028f3"
       },
       {
         "path": "thread-list/js/thread-list.js",
-        "sha256": "54c99502f70eda0da69b705ba3021bf04fb239652a65623f589bd31e18feb67d"
+        "sha256": "f6bb2ac1b05901ce7ea0f388a2c7d93614d64286ca485a38059798885e58994d"
       },
       {
         "path": "thread-list/css/thread-list.css",
@@ -72,10 +72,10 @@
       }
     ]
   },
-  "compatibilityId": "larena-c6f3cfc0b36b",
+  "compatibilityId": "larena-7545782e2459",
   "requires": {
-    "framework": "ui-9e143bcd37c1"
+    "framework": "ui-0edd49be08f8"
   },
-  "archiveSha256": "cc636073d1bfdebdf348d82c378d75123d0638a3c265a8f425c1dc2c05e971d8",
-  "distributionIdentitySha256": "9643bc4ee978ee2bdd6007c9ec71a3bdaec2b47bc8ba74e7672358838e10f78a"
+  "archiveSha256": "40250e29f07923a25dddcfcf9f8c3c9fddf98e6bce194b6b32cc8df9fe2277d5",
+  "distributionIdentitySha256": "322d7cfdfcb917c961e396092e639ae1428f9a49acf377f42c00281ed43716be"
 }

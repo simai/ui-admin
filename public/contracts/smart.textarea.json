@@ -190,6 +190,14 @@
         "type": "string",
         "default": "",
         "description": "The accessible name of the button that returns the field to the inherited value. Unset, it follows the page's language («Reset to inherited», «Сбросить к наследуемому»)."
+      },
+      "spell-check": {
+        "type": "boolean",
+        "default": true
+      },
+      "root-class": {
+        "type": "string",
+        "default": ""
       }
     },
     "additionalProperties": false
@@ -385,11 +393,11 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "d73527c92056a684b5f34a46ec7315e1ded9be19",
+    "source_revision": "15634edbb04334b53609d27fa6b98e602b5bf315",
     "source_artifacts": [
       {
         "path": "src/smart/textarea/index.js",
-        "sha256": "c0e7b46498b182b12d3fceaf5205aecf7a2291b9836455fefa4610df809e39de"
+        "sha256": "a1ba7415d096498443e99b1688f0ee605de0096f233c174dab0d4712532e76e9"
       },
       {
         "path": "src/smart/textarea/rule.js",
@@ -397,11 +405,11 @@
       },
       {
         "path": "src/smart/textarea/js/templates/default.js",
-        "sha256": "8f5dd660e67cfa97caa2fdf2ac06d369d2217a151de53f9c1674e1632f5115d1"
+        "sha256": "4d092acb372912b3280b03fceabac693fa7b9e0d3d1536e8d64730fccdd44438"
       },
       {
         "path": "src/smart/helpers/inherited-value.js",
-        "sha256": "0c8658ab61678cd5f89badea902be244b92ba96240fb802c60438227f8f9faa9"
+        "sha256": "604f3d40d27a1430afc06182b7167d2188251191d06e9ccf2f22c3bede321826"
       },
       {
         "path": "src/smart/helpers/inherited-value.css",

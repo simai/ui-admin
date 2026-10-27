@@ -23,7 +23,7 @@
   "composition": {
     "uses": [
       "component.download-file",
-      "smart.icons"
+      "smart.icon"
     ],
     "public_parts": []
   },
@@ -232,11 +232,11 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "d73527c92056a684b5f34a46ec7315e1ded9be19",
+    "source_revision": "497a081882171aa36a3089c3235148998b5cebc7",
     "source_artifacts": [
       {
         "path": "src/smart/download-file/index.js",
-        "sha256": "6452e87d436eb46deadd5164c4a8475a82b8a91cd209f149b142dfc4ad356181"
+        "sha256": "8a99cf5b0a7e1aeed3c93ec9b56a76ff1101cddde81af0402cc273f6de20b05e"
       }
     ],
     "generated_runtime": [

@@ -502,11 +502,11 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "3611b57e08b6f316eb3e90510206f7e286ae1a45",
+    "source_revision": "d949e0253f672652b706a70c107ed9c4711c3613",
     "source_artifacts": [
       {
         "path": "src/smart/quantity/index.js",
-        "sha256": "e6453c1caa4032ddc1f4c868d092472773ff36ffc842e6f620fe69a092b82534"
+        "sha256": "ac8c6d12b0029833fb5d52da7865c4957225171393249eaa2346048ae8c3d2a8"
       },
       {
         "path": "src/smart/quantity/value.mjs",
@@ -514,7 +514,7 @@
       },
       {
         "path": "src/smart/quantity/js/templates/default.js",
-        "sha256": "dfa69cf763975049ba8fc95d294160a736c151f07806e9de98a91cdcb2dfd884"
+        "sha256": "ac388b6b5770a7578a52381477f5e1cde32b1005493c1825bfa90392232fd576"
       },
       {
         "path": "src/smart/quantity/rule.js",
@@ -522,7 +522,7 @@
       },
       {
         "path": "src/smart/quantity/docs.md",
-        "sha256": "c94e5f5f7426d1a7c89d56adb324c52eb2ccf444ba8fa2a1aae26ea070c87540"
+        "sha256": "cad512f82f0e671ea108e121b895d6b294b9dd8c7201a1b454dbe081f3943064"
       }
     ],
     "generated_runtime": []

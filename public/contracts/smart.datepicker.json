@@ -31,10 +31,10 @@
   "composition": {
     "uses": [
       "component.datepicker",
-      "smart.inputs",
-      "smart.buttons",
-      "smart.icon-buttons",
-      "smart.icons"
+      "smart.input",
+      "smart.button",
+      "smart.icon-button",
+      "smart.icon"
     ],
     "public_parts": []
   },
@@ -584,19 +584,19 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "d73527c92056a684b5f34a46ec7315e1ded9be19",
+    "source_revision": "0d9999504a77d3dbbedc0b7fe881b9152a8a1830",
     "source_artifacts": [
       {
         "path": "src/smart/datepicker/index.js",
-        "sha256": "3d5194c8215b86e834b21cd5ed46925ae18d0aa524c06fbf54cef03113a47085"
+        "sha256": "814937d1642a0f279d32b3c35c9cbac32e5e4538574cfcccc1bf753b0f3da507"
       },
       {
         "path": "src/smart/datepicker/js/templates/default.js",
-        "sha256": "7c9b379eda8911e7e31ce7ed3076121fcb98b5d688d53eeca1af9e2f8bd98492"
+        "sha256": "78a88ab0bd71b3f41b3e25f25f31a7c04ddd091fd47d1eea6ec5fc0861f924ec"
       },
       {
         "path": "src/smart/datepicker/rule.js",
-        "sha256": "6f6faf9f2d3838d2001f257cefc870cce8213c1a5258df029f5a0df5b218a469"
+        "sha256": "1ac9f6c94adab8c5c56514e7e8e11638cc3d9c7c5183265a65781a57c4a1cc1f"
       },
       {
         "path": "src/smart/datepicker/docs/smart-datepicker-guide.md",

@@ -24,7 +24,7 @@
   "exported_parts": [],
   "composition": {
     "uses": [
-      "smart.icon-buttons"
+      "smart.icon-button"
     ],
     "public_parts": [
       "swatch",
@@ -299,27 +299,27 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "d73527c92056a684b5f34a46ec7315e1ded9be19",
+    "source_revision": "0d9999504a77d3dbbedc0b7fe881b9152a8a1830",
     "source_artifacts": [
       {
         "path": "src/smart/color/index.js",
-        "sha256": "da7e4dcdb97b8f4cd05fd354ec62105ae2349f80d303e86be4948a8ad5026d35"
+        "sha256": "8bb7296c4fdde4ba9d168b9eaee051eac774a4bbebc8238e182a371f4662ab6d"
       },
       {
         "path": "src/smart/color/rule.js",
-        "sha256": "4eb88c62173597d5ef68d53915fcaf8d59dbef7dbb2e8df9e9745c453d595476"
+        "sha256": "a2f07a806db6d631d84bf0c99855ef9d468615bb262626dc0cd85040786ab196"
       },
       {
         "path": "src/smart/color/js/templates/default.js",
-        "sha256": "f764df01fc867d7d939f4bcd4f22ff3771670b3bfce282c4c4af82a59359be78"
+        "sha256": "572f2a00f6985195ce9c118418e3bca4c4967b0b1867e5d3cc3da5983a877059"
       },
       {
         "path": "src/smart/color/js/templates/default.css",
-        "sha256": "e5755625a291f02dc4e75716b5cdecb454954e47219854cc63055f2a0ca3aaec"
+        "sha256": "82fb434a7723767e263082c44ba06da4ff54495a1a02d442f8e8a85de0ebebec"
       },
       {
         "path": "src/smart/helpers/inherited-value.js",
-        "sha256": "0c8658ab61678cd5f89badea902be244b92ba96240fb802c60438227f8f9faa9"
+        "sha256": "604f3d40d27a1430afc06182b7167d2188251191d06e9ccf2f22c3bede321826"
       },
       {
         "path": "src/smart/helpers/inherited-value.css",

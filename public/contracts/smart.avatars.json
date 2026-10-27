@@ -102,6 +102,10 @@
       "root-class": {
         "type": "string",
         "default": ""
+      },
+      "fields": {
+        "type": "string",
+        "default": ""
       }
     },
     "additionalProperties": false
@@ -201,11 +205,11 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "d73527c92056a684b5f34a46ec7315e1ded9be19",
+    "source_revision": "207fcbc6ba1498cd44790dd11a8fd2f07d0127dd",
     "source_artifacts": [
       {
         "path": "src/smart/avatars/index.js",
-        "sha256": "f9d68661a23841db8aa1cec3392ec4656577fdcf0a28160b7581cbef16b3170c"
+        "sha256": "2fed9e95bbaba7e2654129691b886e7d71f045f809c8ca169ee6d1e4a8f8cdad"
       }
     ],
     "generated_runtime": [

@@ -75,7 +75,8 @@
       },
       "value": {
         "type": "string",
-        "default": ""
+        "default": "on",
+        "description": "What a checked toggle submits; without it, \"on\", as a native checkbox (standard 1.3.8 §17.1 item 2)."
       },
       "type": {
         "type": "string",
@@ -326,11 +327,11 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "d73527c92056a684b5f34a46ec7315e1ded9be19",
+    "source_revision": "298e4fe32c37535a1605a609efdbd579f3848f4c",
     "source_artifacts": [
       {
         "path": "src/smart/toggle/index.js",
-        "sha256": "8d8f3da88b687d4f1bee35a3d879028fd5e59a1ebeb5aec0ff7dea5745d45084"
+        "sha256": "6fceea8749acbd18e783da4b25910c9ce1d9c4493c76e4814598c7d0bd844494"
       }
     ],
     "generated_runtime": [

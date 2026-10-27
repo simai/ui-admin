@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.accordion",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "title": "Accordion",
   "summary": "Sections that open and close, built from data -- a record's groups, a settings panel, an FAQ -- or from <details> in the markup, drawn as the class accordion: the same sizes on the control ladder, appearances, marker and single section. single keeps one open; the headers are buttons with the WAI-ARIA accordion keyboard.",
   "kind": "smart",
@@ -29,7 +29,7 @@
   "composition": {
     "uses": [
       "component.accordion",
-      "smart.badges"
+      "smart.badge"
     ],
     "public_parts": []
   },
@@ -413,11 +413,11 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "3611b57e08b6f316eb3e90510206f7e286ae1a45",
+    "source_revision": "b49854caf8449125bc790b0faf4105315e2d9985",
     "source_artifacts": [
       {
         "path": "src/smart/accordion/index.js",
-        "sha256": "ee8d24c0c83bd2276172354270449d0a7c43a0869416c32d244e51986d4b3b55"
+        "sha256": "99ed4d114cd05b0b13526f9f4b16f186438b2650a67476ba9974ba7074b7bf86"
       },
       {
         "path": "src/smart/accordion/sections.mjs",
@@ -425,7 +425,7 @@
       },
       {
         "path": "src/smart/accordion/js/templates/default.js",
-        "sha256": "ceb7d15c9853a4d136026fd05af300c00e0ca8fe2d5215e2630cc425e9f10cd0"
+        "sha256": "4bea159809f9b456f075bf751a2cdaba351f9ea8c70484018961e848e4be8d99"
       },
       {
         "path": "src/smart/accordion/scss/_smart__accordion.scss",
@@ -433,11 +433,11 @@
       },
       {
         "path": "src/smart/accordion/rule.js",
-        "sha256": "b1acba66304c3cc41af8da828136f7673bfd44e69faebb63953fd52f6033275b"
+        "sha256": "93a6b08c16c0b6e05b68ca2bdfc4ee4059316aa718a2f826143b986d05b5ea12"
       },
       {
         "path": "src/smart/accordion/docs.md",
-        "sha256": "fce4bcdaa5c9aa51055d123f0e49efb88892f9825eb793b3a1a76b0e074c301c"
+        "sha256": "11808f45cb5f027d75bbbdce0ed4a85862a44ba437ebf54039fb552a9d7dd7ad"
       }
     ],
     "generated_runtime": []

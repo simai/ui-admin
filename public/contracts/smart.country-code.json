@@ -268,11 +268,11 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "d73527c92056a684b5f34a46ec7315e1ded9be19",
+    "source_revision": "a38447c031988137d3ebead71d2397ceaf6b1b14",
     "source_artifacts": [
       {
         "path": "src/smart/country-code/index.js",
-        "sha256": "114df966ab51fd15fbee2e47b4eccb8ff1628e467b8621e675895210b3ba0612"
+        "sha256": "f40903f83db10cb6216731971a2afb47bad4fa87b47b0b2ee7fd378a2a5dfb72"
       }
     ],
     "generated_runtime": [

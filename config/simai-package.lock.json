@@ -3,52 +3,52 @@
   "package": "larena",
   "source": {
     "repository": "simai/ui-pro",
-    "revision": "9cbe0610b74b781c86721de77273819a046adda0",
+    "revision": "c6f3cfc0b36b959ba0d9b9381126261c388084ef",
     "path": "components",
-    "tree": "32750ec8cbce5533ac6727bd6bb29d5da4ee3ce1"
+    "tree": "63aba5d29002c6f8433080dec4c0453666167316"
   },
   "builder": {
     "repository": "simai/ui-builder",
-    "revision": "d0e093c4e44132978ce0b90d89da8878e5808ab5"
+    "revision": "74ad2e84813c889c3ca3d40bc700023aa7809190"
   },
   "smart": {
     "targetDir": "",
     "requiredFiles": [
       {
         "path": "rule.js",
-        "sha256": "992e54829b95ed08ca7a91a3705e5a71728955f61cc58e12fc5d418baf5656c6"
+        "sha256": "12aaf495af542e02bba9d5ce0d80d6645085a7dfad34aede28423cf1e90b58b5"
       },
       {
         "path": "admin-menu/js/admin-menu.js",
-        "sha256": "180007de8c70540378e48aaf04f80e08397ffacf843de75a3d4a79e2b91f5da4"
+        "sha256": "600a376f7deb4f236e8c8479f202a1a17736f811c5fdc2c68b087e4ed62299a8"
       },
       {
         "path": "admin-menu/css/admin-menu.css",
-        "sha256": "13d1788be11ac5e65776742e366f303ddaa5c4d8f8c5f6f7fae8ceb0dd6f6a80"
+        "sha256": "42eaa417a560030ddd7028b0be2e239f3c82f5f4099e564f84183d9c318d990d"
       },
       {
         "path": "change-confirm/js/change-confirm.js",
-        "sha256": "425a1991d2b4969f83ad101306d5358e6e4bdb55b1f56bf3aeb2f884a2aacbe9"
+        "sha256": "5dcda3c142928835e315117c8278a454f937e39766a7b5ccc588b757b392f5b6"
       },
       {
         "path": "change-confirm/css/change-confirm.css",
-        "sha256": "1adfa1df7afb3bfacd82c98a3f113c64f57137aa1216b442f81b1e89a6072a14"
+        "sha256": "9dc14a48164a9ca313f90a6eceee6a8f464b143f21909f6e2479442dc033c591"
       },
       {
         "path": "data-view/js/data-view.js",
-        "sha256": "c85983d3e39686cb49fbb3210c8a645116b16f7c5bb58d898504e2f22b2a05c4"
+        "sha256": "e18438b445ea2fbbd8d5be492e0f05312aa7e41e1be9e47159d77bd7f84a9019"
       },
       {
         "path": "message-log/js/message-log.js",
-        "sha256": "473d91c296c0b6c412b91f9da10c34b40bf0e4e804bc7b4439b03b5c7c66d815"
+        "sha256": "e6bd397b7facb8777bcb11a0c562c44fa5a3c24a8b4e50a3d12e26ca693f427b"
       },
       {
         "path": "message-log/css/message-log.css",
-        "sha256": "bb11669e34eff97c4d38a1599a14ef6957f9f5bed483618315d85b3dd6adb4b1"
+        "sha256": "0dbcb7bcb67f842c050c8416e8c58de1be8b5282f98b35aad3fe0a4907718d8e"
       },
       {
         "path": "property-view/js/property-view.js",
-        "sha256": "6db5c9d8190a1091643865098895a7aed62e98d820ae97d556336a3941959424"
+        "sha256": "8cf1b4820f89c61c91c5ce397216d363b3832816e7c48b35c80420562ae0d12c"
       },
       {
         "path": "property-view/css/property-view.css",
@@ -56,26 +56,26 @@
       },
       {
         "path": "table/js/table.js",
-        "sha256": "c1c7d43c24c6c9c968d1f758dfed8039c847805bd33a0655cf8fc5c1e2f3955d"
+        "sha256": "c76f70336c84d2528663b08360a04801c0bea985690a26aa00c4bd381ef46890"
       },
       {
         "path": "table/css/table.css",
-        "sha256": "d12c68237763b98567b604d8b659a0878b61f3415078f0e1fcdfafbc6199e3b6"
+        "sha256": "a72263be0db102571cc024bf6cbe4361d83415c9a1666e35c564bf188901b34c"
       },
       {
         "path": "thread-list/js/thread-list.js",
-        "sha256": "af00f2d8f3f008c7fd9af1cb080b89e03d5de382300c7237b0be143ae58864f0"
+        "sha256": "54c99502f70eda0da69b705ba3021bf04fb239652a65623f589bd31e18feb67d"
       },
       {
         "path": "thread-list/css/thread-list.css",
-        "sha256": "4d1a97d5076e2a41c26ff84891905bc28e1c8748cd5fbc67b1954757165f1fa8"
+        "sha256": "7d1d0b1c1d8245e5425bf86573d7b2455db55438c08c39208788d17b5bd17cfe"
       }
     ]
   },
-  "compatibilityId": "larena-9cbe0610b74b",
+  "compatibilityId": "larena-c6f3cfc0b36b",
   "requires": {
-    "framework": "ui-357568a20a7e"
+    "framework": "ui-9e143bcd37c1"
   },
-  "archiveSha256": "0d3f7dd2433d7fbb0a1a7576a7af19d48b9cb625f842d017e5bb895bb484b4c8",
-  "distributionIdentitySha256": "fa997e0c4ab841e029ce5e7efe3f609e6e9dd57623471de476277b96cb9a2b85"
+  "archiveSha256": "cc636073d1bfdebdf348d82c378d75123d0638a3c265a8f425c1dc2c05e971d8",
+  "distributionIdentitySha256": "9643bc4ee978ee2bdd6007c9ec71a3bdaec2b47bc8ba74e7672358838e10f78a"
 }

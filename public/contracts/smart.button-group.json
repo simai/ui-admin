@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.button-group",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "title": "Button group",
   "summary": "A controlled single-selection group built from SF5 buttons.",
   "kind": "smart",
@@ -27,7 +27,7 @@
   "composition": {
     "uses": [
       "component.button-group",
-      "smart.buttons",
+      "smart.button",
       "component.spinner"
     ],
     "public_parts": []
@@ -446,11 +446,11 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "d73527c92056a684b5f34a46ec7315e1ded9be19",
+    "source_revision": "a38447c031988137d3ebead71d2397ceaf6b1b14",
     "source_artifacts": [
       {
         "path": "src/smart/button-group/index.js",
-        "sha256": "2d9fcd8743768b019510b440f716345b46ca65ea069718845e6497b7de9e73bd"
+        "sha256": "1e1ef6eae204de815f8b377b8a4115d59c2db21e49693f0ab5e4dc839d1b9f83"
       }
     ],
     "generated_runtime": []

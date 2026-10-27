@@ -762,7 +762,7 @@ export const createPolygonHost = ({
       };
 
       return {
-        version: '1.14.0',
+        version: '1.15.0',
         capabilities: panelCapabilities,
         formatFieldValue,
 
@@ -821,7 +821,7 @@ export const createPolygonHost = ({
               return { answer: 'refused', reason: 'access-denied', message: LOCKED_RECORD };
             }
             if (String(payload.revision ?? '') !== String(found.revision)) {
-              return { answer: 'conflict', reason: 'stale-revision', message: 'Запись изменилась, обновите её' };
+              return { answer: 'conflict', reason: 'stale-revision', revision: found.revision, message: 'Запись изменилась, обновите её' };
             }
             const values = payload.values ?? {};
             const errors = validate(values);
@@ -847,17 +847,76 @@ export const createPolygonHost = ({
             return answerFor(found);
           }
 
+          // One group of a record (port 1.15.0, capability `group-load`): the
+          // head and arrangement record.load answers, every group with its
+          // field count, and the fields of the one group asked for. The
+          // revision is the record's -- the same `found.revision` record.load
+          // and every group.save compare against -- because a change to one
+          // group is a change to the record: a revision per group would let a
+          // save of «Числа» pass against a «Основное» someone has since
+          // changed, and the list beside the panel would show the other save.
+          if (intent === 'group.load') {
+            // Not announced, not answered: a component whose host does not
+            // claim group-load reads the record whole and never asks.
+            if (!panelCapabilities.includes('group-load')) {
+              return { answer: 'unavailable', reason: 'capability-not-provided' };
+            }
+            // The record's refusals, with record.load's reasons: a group of a
+            // record this actor may not read is not «a group not found».
+            const found = record(id);
+            if (!found) return { answer: 'refused', reason: 'record-unknown', message: 'Запись не найдена' };
+            if (found.editable === false && scenario === 'forbidden') {
+              return { answer: 'refused', reason: 'access-denied', message: 'Нет доступа к записи' };
+            }
+            const read = answerFor(found);
+            // No section named: the polygon's group keys are unique, so the key
+            // alone finds the group. No group named: the one the panel opens
+            // on, the first group of the first section -- the component knows
+            // no arrangement before its first read and must not guess a key.
+            const sections = (read.record.sections ?? [])
+              .filter((section) => payload.section == null || section.key === payload.section);
+            const wanted = payload.group ?? null;
+            let asked = null;
+            for (const section of sections) {
+              const group = (section.groups ?? []).find((item) => wanted === null || item.key === wanted);
+              if (group) { asked = { section, group }; break; }
+            }
+            // A key the arrangement no longer holds -- a view changed in another
+            // window -- is refused rather than drawn as an empty section, so
+            // the component reads the arrangement again.
+            if (!asked) {
+              return { answer: 'refused', reason: 'unknown-group', message: 'Такой группы в записи нет' };
+            }
+            // Every other group keeps its place and its size, not its fields:
+            // `fields` empty with a count is a group not read yet, and the
+            // count lets the panel draw the skeleton to the size it will have.
+            for (const section of read.record.sections ?? []) {
+              for (const group of section.groups ?? []) {
+                group.field_count = (group.fields ?? []).length;
+                if (group !== asked.group) group.fields = [];
+              }
+            }
+            return {
+              ...read,
+              section: asked.section.key,
+              group: asked.group.key,
+              revision: read.record.revision,
+            };
+          }
+
           if (intent === 'group.save') {
             const found = record(id);
             if (!found) return { answer: 'refused', reason: 'record-unknown' };
             if (found.editable === false) {
               return { answer: 'refused', reason: 'access-denied', message: LOCKED_RECORD };
             }
-            // The revision the read carried is what the write is compared
-            // against; answering applied to a stale one loses somebody else's
-            // save without anyone being told.
+            // The revision the read carried -- record.load's or group.load's,
+            // one and the same -- is what the write is compared against;
+            // answering applied to a stale one loses somebody else's save
+            // without anyone being told. The conflict names the current
+            // revision (port 1.15.0) so the panel reads the record again at it.
             if (String(payload.revision ?? '') !== String(found.revision)) {
-              return { answer: 'conflict', reason: 'stale-revision', message: 'Запись изменилась, обновите её' };
+              return { answer: 'conflict', reason: 'stale-revision', revision: found.revision, message: 'Запись изменилась, обновите её' };
             }
             const values = payload.values ?? {};
             const errors = {};

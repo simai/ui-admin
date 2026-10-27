@@ -30,6 +30,7 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createPropertyViewHost, RECORD } from '../src/ports/property-view-host.mjs';
 import { newestKit, PORT_ROOT } from './port-kits.mjs';
+import { checkGroupReads } from './group-reads.mjs';
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const runtime = resolve(projectRoot, process.env.SIMAI_RUNTIME_ROOT ?? '.runtime');
@@ -63,7 +64,17 @@ for (const id of manifest.cases) {
 // How this reference reaches each answer. One row per (intent, answer) the kit
 // declares; anything the kit declares and this table does not reach is a gap
 // in the reference, reported as one.
+//
+// A row is [intent, answer, capabilities, payload, setup, case, before]:
+// `before` is the calls raised on the same host first, for the cases the kit
+// states as a sequence (`when.after`) -- a group save that is stale only
+// because another group's save came between its read and it.
 const ALL = ['field-options', 'field-upload', 'view-settings', 'shared-view-settings'];
+// Port 1.15.0: reading one group at a time is a capability, so the rows that
+// read a group announce it and the row that shows its absence does not. ALL
+// stays without it because the page's host (src/workbench.ts) is built from
+// the same list and does not announce it yet.
+const GROUPS = [...ALL, 'group-load'];
 const base = { record_id: 'r-1', collection: 'admin.solutions' };
 const reaches = [
   ['record.load', 'applied', ALL, { ...base, reason: 'connected' }],
@@ -107,6 +118,25 @@ const reaches = [
   // refuses the last one rather than leaving the scope with none.
   ['view.delete', 'refused', ['view-settings', 'shared-view-settings'], { ...base, profile: 'only' },
     { profiles: [{ id: 'only', label: 'Общий', shared: true }] }],
+  // Port 1.15.0: one group at a time. The record holds «main» and «dates» in
+  // the section «main»; a group it does not hold is refused, not drawn empty.
+  ['group.load', 'applied', GROUPS, { ...base, section: 'main', group: 'dates', reason: 'started' },
+    undefined, 'group-load-applied-carries-the-group-and-the-revision'],
+  ['group.load', 'applied', GROUPS, { ...base, section: 'main', group: 'main', reason: 'connected' },
+    undefined, 'group-load-revision-is-the-records',
+    [['group.load', { ...base, section: 'main', group: 'dates', reason: 'started' }]]],
+  ['group.load', 'applied', GROUPS, { ...base, group: null, reason: 'connected' },
+    undefined, 'group-load-without-a-group-answers-the-first'],
+  ['group.load', 'refused', GROUPS, { ...base, group: 'no-such-group', reason: 'requested' },
+    undefined, 'group-load-unknown-group-is-refused'],
+  ['group.load', 'unavailable', ALL, { ...base, section: 'main', group: 'main', reason: 'started' },
+    undefined, 'group-load-without-the-capability'],
+  // Read at 7, then «Сроки» saved at 7 makes it 8: «Основное» sent at 7 is
+  // the conflict, and the answer names 8.
+  ['group.save', 'conflict', GROUPS, { ...base, section: 'main', group: 'main', values: { title: 'Новое' }, revision: 7 },
+    undefined, 'group-save-after-group-load-stale-is-a-conflict',
+    [['group.load', { ...base, section: 'main', group: 'main', reason: 'started' }],
+      ['group.save', { ...base, section: 'main', group: 'dates', values: { public: false }, revision: 7 }]]],
 ];
 
 const failures = [];
@@ -117,11 +147,12 @@ const named = new Set(reaches.map((row) => row[5]).filter(Boolean));
 const casesFor = (key, name) => (required.get(key) ?? [])
   .filter((entry) => (name ? entry.case === name : !named.has(entry.case)));
 
-for (const [intent, answer, capabilities, payload, setup, caseName] of reaches) {
+for (const [intent, answer, capabilities, payload, setup, caseName, before] of reaches) {
   const key = `${intent}|${answer}`;
   const host = createPropertyViewHost({ capabilities, ...(setup ?? {}) });
   let given;
   try {
+    for (const [earlier, earlierPayload] of before ?? []) await host.raise(earlier, earlierPayload);
     given = await host.raise(intent, payload);
   } catch (error) {
     failures.push({ intent, answer, said: `raised ${String(error?.message ?? error).slice(0, 120)}` });
@@ -139,6 +170,19 @@ for (const [intent, answer, capabilities, payload, setup, caseName] of reaches) 
       }
     }
   }
+}
+
+// The numbers, not only the keys: a host announcing group-load answers the
+// record's revision from every group read and names the current one in a
+// conflict (port 1.15.0). Only when the kit carries the intent at all, so an
+// older pinned kit is not asked about it.
+if (required.has('group.load|applied')) {
+  const groupFailures = await checkGroupReads(createPropertyViewHost({ capabilities: GROUPS }), {
+    ...base,
+    first: ['main', 'main'],
+    other: ['main', 'dates', { public: false }],
+  });
+  failures.push(...groupFailures);
 }
 
 for (const [key, cases] of required) {

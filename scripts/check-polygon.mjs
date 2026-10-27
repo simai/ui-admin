@@ -28,6 +28,7 @@ import { createTreeHost } from '../src/ports/tree-host.mjs';
 import { createNavigationHost } from '../src/ports/navigation-host.mjs';
 import { projectRoot } from './runtime-base.mjs';
 import { newestKit } from './port-kits.mjs';
+import { checkGroupReads } from './group-reads.mjs';
 
 const runtime = resolve(projectRoot, process.env.SIMAI_RUNTIME_ROOT ?? '.runtime');
 const dataset = JSON.parse(readFileSync(resolve(projectRoot, 'data/polygon.json'), 'utf8'));
@@ -107,6 +108,9 @@ const kitFor = (portId) => {
 const TREE = ['tree', 'tree-move', 'row-actions'];
 const ALL_LIST = ['row-actions', 'saved-views', 'shared-saved-views', 'shared-column-settings', 'bulk-under-filter', 'count-on-request', 'create-record', 'personal-column-settings'];
 const ALL_PANEL = ['field-options', 'field-upload', 'view-settings', 'shared-view-settings', 'record-open'];
+// Port 1.15.0: reading one group at a time is a capability. The rows that read
+// a group announce it and the row that shows its absence does not.
+const GROUPS_PANEL = [...ALL_PANEL, 'group-load'];
 const collection = dataset.structure.structure_id;
 const editable = dataset.records.find((record) => record.editable !== false);
 const locked = dataset.records.find((record) => record.editable === false);
@@ -212,6 +216,29 @@ const panelReaches = [
   // which no sequence of calls on the default list arrives at.
   ['view.delete', 'refused', ALL_PANEL, 'default', { record_id: editable?.record_id, collection, profile: 'only' },
     [{ id: 'only', label: 'Общий', shared: true }]],
+  // Port 1.15.0: one group at a time. The structure's sections are «main»
+  // (groups «main», «numbers») and «look» («visual»), and so on; a group it
+  // does not hold is refused, never drawn empty. A row's eighth place is the
+  // calls raised on the same host first, for the cases the kit states as a
+  // sequence (`when.after`).
+  ['group.load', 'applied', GROUPS_PANEL, 'default', { record_id: editable?.record_id, collection, section: 'look', group: 'visual', reason: 'started' },
+    undefined, 'group-load-applied-carries-the-group-and-the-revision'],
+  ['group.load', 'applied', GROUPS_PANEL, 'default', { record_id: editable?.record_id, collection, section: 'main', group: 'main', reason: 'connected' },
+    undefined, 'group-load-revision-is-the-records',
+    [['group.load', { record_id: editable?.record_id, collection, section: 'main', group: 'numbers', reason: 'started' }]]],
+  ['group.load', 'applied', GROUPS_PANEL, 'default', { record_id: editable?.record_id, collection, group: null, reason: 'connected' },
+    undefined, 'group-load-without-a-group-answers-the-first'],
+  ['group.load', 'refused', GROUPS_PANEL, 'default', { record_id: editable?.record_id, collection, group: 'no-such-group', reason: 'requested' },
+    undefined, 'group-load-unknown-group-is-refused'],
+  ['group.load', 'unavailable', ALL_PANEL, 'default', { record_id: editable?.record_id, collection, section: 'main', group: 'main', reason: 'started' },
+    undefined, 'group-load-without-the-capability'],
+  // Read «Основное», then «Числа» saved at the same revision moves the record
+  // on: «Основное» sent at the revision its read gave is the conflict, and
+  // the answer names the new one.
+  ['group.save', 'conflict', GROUPS_PANEL, 'default', { record_id: editable?.record_id, collection, section: 'main', group: 'main', values: { title: 'Новое' }, revision: editable?.revision },
+    undefined, 'group-save-after-group-load-stale-is-a-conflict',
+    [['group.load', { record_id: editable?.record_id, collection, section: 'main', group: 'main', reason: 'started' }],
+      ['group.save', { record_id: editable?.record_id, collection, section: 'main', group: 'numbers', values: { priority: 3 }, revision: editable?.revision }]]],
 ];
 
 const drive = async (label, kit, reaches, build) => {
@@ -225,11 +252,13 @@ const drive = async (label, kit, reaches, build) => {
   const named = new Set(reaches.map((row) => row[6]).filter(Boolean));
   const casesFor = (key, name) => (kit.required.get(key) ?? [])
     .filter((entry) => (name ? entry.case === name : !named.has(entry.case)));
-  for (const [intent, answer, capabilities, scenario, payload, profiles, caseName] of reaches) {
+  for (const [intent, answer, capabilities, scenario, payload, profiles, caseName, before] of reaches) {
     const key = `${intent}|${answer}`;
     let given;
     try {
-      given = await build({ capabilities, scenario, profiles }).raise(intent, payload);
+      const host = build({ capabilities, scenario, profiles });
+      for (const [earlier, earlierPayload] of before ?? []) await host.raise(earlier, earlierPayload);
+      given = await host.raise(intent, payload);
     } catch (error) {
       failures.push({ port: label, intent, answer, said: `raised ${String(error?.message ?? error).slice(0, 140)}` });
       continue;
@@ -319,6 +348,22 @@ const panel = await drive('simai.property-view-port', panelKit, panelReaches,
     .propertyView({ capabilities, profiles }));
 const navigation = await drive('simai.admin-navigation-port', navigationKit, navigationReaches,
   ({ capabilities, scenario }) => createNavigationHost({ data: navigationData, capabilities, scenario }));
+
+// The numbers, not only the keys: every group read answers the record's
+// revision and a conflict names the current one (port 1.15.0). Only when the
+// pinned kit carries group.load at all.
+if (panelKit?.required.has('group.load|applied')) {
+  const groupFailures = await checkGroupReads(
+    createPolygonHost({ dataset, scenario: 'default' }).propertyView({ capabilities: GROUPS_PANEL }),
+    {
+      record_id: editable?.record_id,
+      collection,
+      first: [dataset.structure.sections[0].key, dataset.structure.sections[0].groups[0].key],
+      other: ['main', 'numbers', { priority: 3 }],
+    },
+  );
+  failures.push(...groupFailures.map((failure) => ({ port: 'simai.property-view-port', ...failure })));
+}
 
 // ─── 4: a delete is asked first ───────────────────────────────────────────────
 //

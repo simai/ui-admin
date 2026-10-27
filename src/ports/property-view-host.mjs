@@ -1,4 +1,5 @@
-// The record panel's host, as the port declares one.
+// The record panel's host, as the port declares one (simai.property-view-port
+// 1.15.0: it reads one group at a time when asked to, behind `group-load`).
 //
 // This is a reference, so the data is a fixture — but the ANSWERS are the port's
 // own, because that is the only part a consumer can copy. The Framework ships a
@@ -113,7 +114,7 @@ export const createPropertyViewHost = ({ record = RECORD, capabilities = [], pro
   };
 
   return {
-    version: '1.14.0',
+    version: '1.15.0',
     capabilities,
 
     async raise(intent, payload = {}) {
@@ -157,7 +158,7 @@ export const createPropertyViewHost = ({ record = RECORD, capabilities = [], pro
       // The whole object as one revision, from a surface open all at once.
       if (intent === 'record.save') {
         if (String(payload.revision ?? '') !== String(state.record.revision)) {
-          return { answer: 'conflict', reason: 'stale-revision', message: 'Запись изменилась, обновите её' };
+          return { answer: 'conflict', reason: 'stale-revision', revision: state.record.revision, message: 'Запись изменилась, обновите её' };
         }
         const values = payload.values ?? {};
         if (Object.prototype.hasOwnProperty.call(values, 'title') && !String(values.title ?? '').trim()) {
@@ -189,12 +190,77 @@ export const createPropertyViewHost = ({ record = RECORD, capabilities = [], pro
         return asRead();
       }
 
+      // One group of the record (port 1.15.0, capability `group-load`): the
+      // head and the arrangement as record.load answers them, every group with
+      // its field count, and the fields of the one group asked for. A section
+      // nobody opens is then never read -- which is the point for a host whose
+      // groups sit in different tables, and why a reference has to show it.
+      //
+      // The revision is the RECORD's, never the group's. A host that kept one
+      // per group would let a save of «Сроки» pass against a state of
+      // «Основное» somebody else has since changed: the two groups are one
+      // object, and a change to either is a change to it. So both reads below
+      // answer state.record.revision, the one record.load answers.
+      if (intent === 'group.load') {
+        // Not announced, not answered: the component's adapter reads the
+        // record once per revision instead and never asks, so an answer here
+        // would only hide a component that asked when it should not have.
+        if (!capabilities.includes('group-load')) {
+          return { answer: 'unavailable', reason: 'capability-not-provided' };
+        }
+        // The record's own refusals first, with record.load's reasons: a group
+        // of a record this person may not read is not «a group not found».
+        if (FORBIDDEN.test(recordId)) {
+          return { answer: 'refused', reason: 'access-denied', message: 'Нет доступа к записи' };
+        }
+        if (UNREACHABLE.test(recordId)) {
+          return { answer: 'unavailable', reason: 'host-down', message: 'Источник данных недоступен' };
+        }
+        const read = answerRecord();
+        // No section named: group keys are unique in this record, so the key
+        // alone finds it. No group named: the one the panel opens on -- the
+        // first group of the first section -- because the component knows no
+        // arrangement before its first read and must not guess a key.
+        const sections = (read.sections ?? [])
+          .filter((section) => payload.section == null || section.key === payload.section);
+        const wanted = payload.group ?? null;
+        let found = null;
+        for (const section of sections) {
+          const group = (section.groups ?? []).find((item) => wanted === null || item.key === wanted);
+          if (group) { found = { section, group }; break; }
+        }
+        // An empty group drawn for a key the arrangement no longer holds would
+        // be a section with nothing in it and no way to tell why; the refusal
+        // lets the component read the arrangement again.
+        if (!found) {
+          return { answer: 'refused', reason: 'unknown-group', message: 'Такой группы в записи нет' };
+        }
+        // Every other group keeps its place and its size but not its fields:
+        // `fields` empty with a count is a group not read yet, never an empty
+        // one, and the count lets the panel draw its skeleton to size.
+        for (const section of read.sections ?? []) {
+          for (const group of section.groups ?? []) {
+            group.field_count = (group.fields ?? []).length;
+            if (group !== found.group) group.fields = [];
+          }
+        }
+        return {
+          answer: 'applied',
+          record: read,
+          section: found.section.key,
+          group: found.group.key,
+          revision: read.revision,
+        };
+      }
+
       if (intent === 'group.save') {
-        // The revision the read carried is what a write is compared against.
-        // Answering applied to a stale one would lose somebody else's save
-        // without anyone being told.
+        // The revision the read carried is what a write is compared against --
+        // record.load's or group.load's, which is the same number. Answering
+        // applied to a stale one would lose somebody else's save without anyone
+        // being told; the conflict names the current revision (port 1.15.0), so
+        // the component keeps what was typed and reads the record again at it.
         if (String(payload.revision ?? '') !== String(state.record.revision)) {
-          return { answer: 'conflict', reason: 'stale-revision', message: 'Запись изменилась, обновите её' };
+          return { answer: 'conflict', reason: 'stale-revision', revision: state.record.revision, message: 'Запись изменилась, обновите её' };
         }
         const values = payload.values ?? {};
         if (Object.prototype.hasOwnProperty.call(values, 'title') && !String(values.title ?? '').trim()) {

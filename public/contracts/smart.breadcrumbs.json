@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.breadcrumbs",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "title": "Breadcrumbs",
   "summary": "Shows the current page's place in a hierarchy as a trail of native links built from items, the items attribute or sf-breadcrumbs-item children. A long trail collapses its middle into an ellipsis button (max-items, default 4) that expands in place.",
   "kind": "smart",
@@ -298,7 +298,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/breadcrumbs/index.js",
-        "sha256": "fafa657b710e3bf1833cda42dd1cca1ce0353401eef96ae96db57bdb9a4b5416"
+        "sha256": "52389559c9db948ef7a1fabfc41bc81a3432324e612ffdd007ab4d46c2894f78"
       }
     ],
     "generated_runtime": [

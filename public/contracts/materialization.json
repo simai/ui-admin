@@ -111,9 +111,9 @@
     },
     {
       "id": "smart.drawer",
-      "version": "1.7.0",
+      "version": "1.8.0",
       "file": "smart.drawer.json",
-      "manifest_sha256": "f04586d2189e689e6631e7fc59fc1af126286080b622fbf4a81364fde1db981b"
+      "manifest_sha256": "1a48bd7ce7a441863f1d8a906b7d7975431b30a2b27dbd397f12576e61c2742a"
     },
     {
       "id": "smart.dropdown",
@@ -356,6 +356,6 @@
       "manifest_sha256": "9ceb7fa5bc414c86c66f1c0ccb9e02c92cd68af4ed203ce2e192bf98c48017b1"
     }
   ],
-  "registry_sha256": "321c4fbe33c9b8283226b9539dc71cb7940bbf7804f95a0b54b2c781512025d2",
+  "registry_sha256": "c545f72e4118e6a4be1690a11f07d851eed979828479cd446cca4cb61709c972",
   "registry_schema_sha256": "d5b0a5b299fa4b044d8125a315458c37de76f0bb5c6cb686962cdec7922b14ce"
 }

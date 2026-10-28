@@ -3,9 +3,9 @@
   "package": "larena",
   "source": {
     "repository": "simai/ui-pro",
-    "revision": "c1c41661dc8785f9fa3c75ca9a5df361f0e6731c",
+    "revision": "db37a4d1cf188c5700b1a17b1d3d10ea785001ad",
     "path": "components",
-    "tree": "e682456317a14637506d034e9d85f340f0aa0b78"
+    "tree": "5b3c5dae121b391e67dcdae23dc64ce6d7de2014"
   },
   "builder": {
     "repository": "simai/ui-builder",
@@ -16,19 +16,19 @@
     "requiredFiles": [
       {
         "path": "rule.js",
-        "sha256": "3158803087224eefff4f6d4ac65084734c8d1b01954097a0fa11f2a4a7e9d88a"
+        "sha256": "1e1e15ae8535f260e383f695968610b5312c587887a8c0d25097adb3d31fed9e"
       },
       {
         "path": "admin-menu/js/admin-menu.js",
-        "sha256": "760e64e8c3a8b7b79591f5c17e46719a9128e5764b1a7300de7ac94dad2bcd0b"
+        "sha256": "15c5c94bbbbfd74063556d362f85b62d3a7eb36ad9f8d184aed3d6522607cff1"
       },
       {
         "path": "admin-menu/css/admin-menu.css",
-        "sha256": "d450809c5de546e647440eea11109fafafb65e747020e9746be314fd253467de"
+        "sha256": "a244857109c3668f12d19f84e37d95cb11b7c8992fc67f2632e106df6f6b3820"
       },
       {
         "path": "change-confirm/js/change-confirm.js",
-        "sha256": "2d17ecdda97eaf802b2d8801d691260f023ed6bb0095c6c928663a2c9d3cc8f3"
+        "sha256": "12ea277c5e97716c551df062282e3a06bee3842b1a750f78b67a29bf18e0cd02"
       },
       {
         "path": "change-confirm/css/change-confirm.css",
@@ -36,11 +36,11 @@
       },
       {
         "path": "data-view/js/data-view.js",
-        "sha256": "3ccaf040381371cf1204492e59707920640318a294e5b4d360928a5216376d50"
+        "sha256": "cb2a0f64d30942fdec02b38f6cf97a0b95fe40d093be24378ada99c9114cfa7a"
       },
       {
         "path": "message-log/js/message-log.js",
-        "sha256": "c7281bd0450f20ace17a49fda8fa0c34fee0cb0ad76684ce5aea6d9b92952452"
+        "sha256": "f3f76864fd434e4555ac23eb038491f1f0b56ff03a3843d3572c5d80d870b894"
       },
       {
         "path": "message-log/css/message-log.css",
@@ -48,34 +48,34 @@
       },
       {
         "path": "property-view/js/property-view.js",
-        "sha256": "50b420525714a55c90eb4d659187361cd237cdc88f3e535ae63656194d8049fd"
+        "sha256": "529cc05b181a6a34cb424532567b33db4fab675110ac15b1000aeadd1f8e7094"
       },
       {
         "path": "property-view/css/property-view.css",
-        "sha256": "33821d58b1448bc963329e18a60022f30f2e4267cc8425c73a0b0d399d515684"
+        "sha256": "0b3460e3d290d414911b6dfdadf8773b7d925cea4884e94a07639a51f7039a2d"
       },
       {
         "path": "table/js/table.js",
-        "sha256": "a4f2b919377ac99545f2a6f6e9c43e515badd4f03fe8c6b8355322c6d6c3b5eb"
+        "sha256": "e3bdaf430c5eab16d48ad2d46cb46ed272bab9c0dce66dd7a0ffebdf3d0bc0dd"
       },
       {
         "path": "table/css/table.css",
-        "sha256": "50668593d1464b4cc88e4a9b038e46551a3651bcf225ed9a520599bc29b028f3"
+        "sha256": "a82a6e3df27e70c79e5eb61d5de3d8dff559f4b545296bc18f5495b0f044a7c7"
       },
       {
         "path": "thread-list/js/thread-list.js",
-        "sha256": "f6bb2ac1b05901ce7ea0f388a2c7d93614d64286ca485a38059798885e58994d"
+        "sha256": "71795ca479cdac9f2334618e97736010f74ec5ae587cdc02c15679641d811d72"
       },
       {
         "path": "thread-list/css/thread-list.css",
-        "sha256": "7d1d0b1c1d8245e5425bf86573d7b2455db55438c08c39208788d17b5bd17cfe"
+        "sha256": "2b5b0eebf2dba7ec6a228a0dbe7213d75c9f67a3e07928cbd9f5edae0a36d59c"
       }
     ]
   },
-  "compatibilityId": "larena-c1c41661dc87",
+  "compatibilityId": "larena-db37a4d1cf18",
   "requires": {
-    "framework": "ui-352b472995b1"
+    "framework": "ui-194f75ac620f"
   },
-  "archiveSha256": "c61ce6897b75676399ddbe23b6e5d477301be286c9a562267408da5ca8d31073",
-  "distributionIdentitySha256": "6a5ff6cca837ec96c4d683638ad16d88e296adcdfb7d12fe8344dd57a5c4838e"
+  "archiveSha256": "3095a02786f33aa9aa77c0567a8553a1b07a4223b3fbe490c248c0d7a9427545",
+  "distributionIdentitySha256": "f44c288ca4e66c470e86ba416d9d56c1feee934700352e049559fa8f21779c52"
 }

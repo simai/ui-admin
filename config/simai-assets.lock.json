@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "compatibilityId": "ui-1e2ff796ebf4",
-  "pairIdentitySha256": "504023c1d3fb4bec9613332353059da5d4b2eac93a47790d1e1bbdc94c2ef657",
+  "compatibilityId": "ui-1d45c724313c",
+  "pairIdentitySha256": "ad66b35f2cef8e0210abc87ca538c725f8445a766e90dc1a4ec42c78284e54c0",
   "contractSha256": "b70d02d6902345e17954eafb44f24052b7478439184286bed5a8df6c69c1fe45",
   "core": {
     "repository": "../ui",
-    "commit": "1e2ff796ebf48e014460bbfd3d1650ab95fe491d",
+    "commit": "1d45c724313c2d47647cf4123cd257149f9e7844",
     "sourceDir": "distr",
     "requiredFiles": [
       {
         "path": "core/css/core.css",
-        "sha256": "c4287e8bae509a372313fa0af768f6b96901beb21c465e020b6cc2e760caea43"
+        "sha256": "c1e425dbc3778b3246fa4b7ffeb46d161321ac8f71ab10321bc6b1c764a219eb"
       },
       {
         "path": "core/js/core.js",
@@ -18,7 +18,7 @@
       },
       {
         "path": "core/js/core-loader.js",
-        "sha256": "6aaeedbf154cf1b8c4a4cc6f82eaa3913e0aafe9915e97562ba838c912596cb9"
+        "sha256": "0c20672a80de0836095fea30839e4f75739863fef86f6b20a0ef1923a476a64c"
       },
       {
         "path": "core/contracts/adaptive-sizing.v1.json",
@@ -26,7 +26,7 @@
       },
       {
         "path": "core/contracts/packages/larena.package.json",
-        "sha256": "6e07418572fc600b64995cb9f043e6a8b46255991b087ae08879757bcf710c19"
+        "sha256": "fd125405ae2c938537fe9c9c1cbe584b5e635c3d6cd38fec71d6187831901880"
       },
       {
         "path": "component/admin-menu/js/admin-menu.js",
@@ -36,13 +36,13 @@
   },
   "smart": {
     "repository": "../ui",
-    "commit": "1e2ff796ebf48e014460bbfd3d1650ab95fe491d",
+    "commit": "f528fb4a3c0a187b341228c8b2e619cfddeebb2e",
     "sourceDir": "distr/smart",
     "targetDir": "smart",
     "requiredFiles": [
       {
         "path": "icon-button/smart.manifest.json",
-        "sha256": "fb99f594c961bfd3b19503e3a65f8714560c30e89c6f0df6bc193a23e808c8a1"
+        "sha256": "662d0afcc060a433604cf42cb23823f0fdb2b5e117b4e9f7767d818d5b4bf0f3"
       },
       {
         "path": "icon-buttons/js/icon-buttons.js",

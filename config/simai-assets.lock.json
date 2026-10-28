@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "compatibilityId": "ui-36116c01a792",
-  "pairIdentitySha256": "6e30a4de098a762ea4751d9a45f41c7e668496ae99ab6b5795c3a77aa8faf23f",
+  "compatibilityId": "ui-519fa0814a02",
+  "pairIdentitySha256": "b2c498d48502f62ad2b01e3220ae64ee9aa6068bcba69385a8d7b56b7ad1203f",
   "contractSha256": "b70d02d6902345e17954eafb44f24052b7478439184286bed5a8df6c69c1fe45",
   "core": {
     "repository": "../ui",
-    "commit": "36116c01a792b69bc2d21b9ec938f83503ff016c",
+    "commit": "519fa0814a02374aae3f0662833ad87c13314b58",
     "sourceDir": "distr",
     "requiredFiles": [
       {
@@ -14,11 +14,11 @@
       },
       {
         "path": "core/js/core.js",
-        "sha256": "009810ad7975dae4838ea359a839c6394241fcc66a4a5c3ec7575dc70a9fed4d"
+        "sha256": "f06bdb5060c75ff0efd74377dbad4dc377fea905e8bac992cdec20c5d1bd1d9e"
       },
       {
         "path": "core/js/core-loader.js",
-        "sha256": "0c20672a80de0836095fea30839e4f75739863fef86f6b20a0ef1923a476a64c"
+        "sha256": "0a3210ea3827fd6a384c7b3c1d00ae99c90463646f3aca526278cc71f73226b1"
       },
       {
         "path": "core/contracts/adaptive-sizing.v1.json",
@@ -36,21 +36,21 @@
   },
   "smart": {
     "repository": "../ui",
-    "commit": "36116c01a792b69bc2d21b9ec938f83503ff016c",
+    "commit": "519fa0814a02374aae3f0662833ad87c13314b58",
     "sourceDir": "distr/smart",
     "targetDir": "smart",
     "requiredFiles": [
       {
         "path": "icon-button/smart.manifest.json",
-        "sha256": "662d0afcc060a433604cf42cb23823f0fdb2b5e117b4e9f7767d818d5b4bf0f3"
+        "sha256": "bcc09140a6af764c5f0c221de88d0bee5f079a7ac46f54bb1e4d98e1b578bf99"
       },
       {
         "path": "icon-buttons/js/icon-buttons.js",
-        "sha256": "f1c4cb8190a2987c78c8b4559c967a9beb020d5d6a1bf53c9c941a1f144ba3da"
+        "sha256": "400b1bbcaa9c51f9bf9b964982a747c9e634643e7d3cf856564084f405d77ffa"
       },
       {
         "path": "field-renderers/js/field-renderers.js",
-        "sha256": "a6951acbcd89438c63865de1f31d78a5ffa898624464a253e107e00fcb09cc86"
+        "sha256": "785f48541a743d04e46ee209bb9a334491e76a0e8afd02293fe2026094ff878a"
       }
     ]
   }

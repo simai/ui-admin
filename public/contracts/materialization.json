@@ -272,6 +272,12 @@
       "manifest_sha256": "0edd0c24da9f9c53639d266695245b8574e69f088ebe49043690822d34a54583"
     },
     {
+      "id": "smart.rich-text",
+      "version": "1.0.0",
+      "file": "smart.rich-text.json",
+      "manifest_sha256": "d83568e1cea8bb1ee073a10a81dbbfdf4dc8e25793188c0ccbc11e828d3b9360"
+    },
+    {
       "id": "smart.site-header",
       "version": "1.0.0",
       "file": "smart.site-header.json",
@@ -368,6 +374,6 @@
       "manifest_sha256": "6c86a097dfadb30594bfa7dd70d3da694cb6128c338adce5fef02236a95fdb9e"
     }
   ],
-  "registry_sha256": "3bfb61982b62105897dc554b9cf5d6f94edac7e0911ae380537bf0d3441d1bce",
+  "registry_sha256": "8222f0a449ebd91d2afbc0d888d9587aac0bf8e01db0d424e80fd085750043ef",
   "registry_schema_sha256": "d5b0a5b299fa4b044d8125a315458c37de76f0bb5c6cb686962cdec7922b14ce"
 }

@@ -3,9 +3,9 @@
   "package": "larena",
   "source": {
     "repository": "simai/ui-pro",
-    "revision": "1f5853f87e9e8db5438b9a99d691652a06fa9c75",
+    "revision": "cbe2cf6f914ae06344af4007d7aba11884d59b63",
     "path": "components",
-    "tree": "f8c738e1ad18c58e467cd05db2a511ff1a5735eb"
+    "tree": "b08323fd4f1f6014c40db330dc995c07f996cce0"
   },
   "builder": {
     "repository": "simai/ui-builder",
@@ -36,7 +36,7 @@
       },
       {
         "path": "chat-composer/js/chat-composer.js",
-        "sha256": "8e9fcbbe36dcc7ae612b046d402b95604a285d7ed5515f1dbf576b5c2844c9da"
+        "sha256": "cbabfc5f61780bed6f48632c56f5955949c54b161384484e00acdf939c4893e6"
       },
       {
         "path": "chat-composer/css/chat-composer.css",
@@ -60,11 +60,11 @@
       },
       {
         "path": "chat-window/js/chat-window.js",
-        "sha256": "6fd875061617fa25c6b2e6a223243408eb08fb015f9ef058443cd4406d0dc5f4"
+        "sha256": "7f9374f77544e0b324c7e9a2fe7dacc2ea955e6b0b94899d5a4a33353d4ade78"
       },
       {
         "path": "chat-window/css/chat-window.css",
-        "sha256": "98b663371ddd772b3efcfb39a4f1578853fa172dbbd951a9ffa5e27e971f1e46"
+        "sha256": "6c98c6244da8d4d474c92ffe37c149b14a5d373cdf2c323842aa1e97acbb7a4c"
       },
       {
         "path": "data-view/js/data-view.js",
@@ -108,10 +108,10 @@
       }
     ]
   },
-  "compatibilityId": "larena-1f5853f87e9e",
+  "compatibilityId": "larena-cbe2cf6f914a",
   "requires": {
-    "framework": "ui-e2cff39223f1"
+    "framework": "ui-3464018a5c94"
   },
-  "archiveSha256": "e900dffd1ad0e04f187219365dbe183e6541d594c979eeae1a0693bfa5f999cf",
-  "distributionIdentitySha256": "77c11fb9c8608f211f037a4870a6c4ee393cc49a8530515b77f7ae7a13f5683f"
+  "archiveSha256": "546f962939bc1343ca8ed3ffd6147eeae5ee066a113f8b20a77ae2572f5c0b89",
+  "distributionIdentitySha256": "77d7a26180f07055ec0b38de8c7f1f996a3604f71ded96bb13c54e1ecfa0f6af"
 }

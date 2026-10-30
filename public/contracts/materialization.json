@@ -87,9 +87,9 @@
     },
     {
       "id": "smart.context-menu",
-      "version": "1.5.0",
+      "version": "1.5.1",
       "file": "smart.context-menu.json",
-      "manifest_sha256": "660f0171fb0b67f2576ff776e65cd152f8a8ad544aeb4f49b360f34ab9c20d1d"
+      "manifest_sha256": "61bbaf9554dfe945a644d25d256da60462709140238d9607d8a5dd33699a70a9"
     },
     {
       "id": "smart.copy-button",
@@ -398,6 +398,6 @@
       "manifest_sha256": "6c86a097dfadb30594bfa7dd70d3da694cb6128c338adce5fef02236a95fdb9e"
     }
   ],
-  "registry_sha256": "74366f1b33c07f31227601eeeb248dfbe153936add408d5f586c363b9551a7ee",
+  "registry_sha256": "d0c7c7f53d775336dd52388c7154acff2391020c43684448f0594223633cd818",
   "registry_schema_sha256": "d5b0a5b299fa4b044d8125a315458c37de76f0bb5c6cb686962cdec7922b14ce"
 }

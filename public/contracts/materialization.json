@@ -15,9 +15,9 @@
     },
     {
       "id": "smart.avatar",
-      "version": "1.1.3",
+      "version": "1.2.0",
       "file": "smart.avatar.json",
-      "manifest_sha256": "69038150e4e1f7b1511aee176950bab4ff6b81d02954048083f4b06681094906"
+      "manifest_sha256": "44d40a8bd2374070832965102fc109b1ba2970263c31df55c00b32f95ca455b8"
     },
     {
       "id": "smart.avatars",
@@ -81,9 +81,9 @@
     },
     {
       "id": "smart.contents",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "file": "smart.contents.json",
-      "manifest_sha256": "18c18998875da00cb29c111841364c51fccb1e70cc3c4d2199aa7662a7a6dc58"
+      "manifest_sha256": "a393ff7011d59f61125e68e62e8925fdca8fa548a563ca20cb0bb349475ecb05"
     },
     {
       "id": "smart.context-menu",
@@ -398,6 +398,6 @@
       "manifest_sha256": "6c86a097dfadb30594bfa7dd70d3da694cb6128c338adce5fef02236a95fdb9e"
     }
   ],
-  "registry_sha256": "d0c7c7f53d775336dd52388c7154acff2391020c43684448f0594223633cd818",
+  "registry_sha256": "e085ea7dff08ddd7afa3fb4a954a85a0d94d0a827ca29223c872ea9c9c9a463f",
   "registry_schema_sha256": "d5b0a5b299fa4b044d8125a315458c37de76f0bb5c6cb686962cdec7922b14ce"
 }

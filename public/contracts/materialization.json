@@ -39,9 +39,9 @@
     },
     {
       "id": "smart.button",
-      "version": "1.1.5",
+      "version": "1.2.0",
       "file": "smart.button.json",
-      "manifest_sha256": "26a65797b50c61aa0d66751e52595d44b9edfbbc999bd338bac878e930ec93f2"
+      "manifest_sha256": "87847ce15e6180a305bfd3fb9e3e25772a5a79d443e2da62becc87e1ef37d14b"
     },
     {
       "id": "smart.button-group",
@@ -78,6 +78,12 @@
       "version": "1.2.4",
       "file": "smart.composition-overlay.json",
       "manifest_sha256": "7ae7acd1d045b6346d96272f4236df18b8b89ca82a54839d882ac4459d2fb811"
+    },
+    {
+      "id": "smart.contents",
+      "version": "1.0.0",
+      "file": "smart.contents.json",
+      "manifest_sha256": "18c18998875da00cb29c111841364c51fccb1e70cc3c4d2199aa7662a7a6dc58"
     },
     {
       "id": "smart.context-menu",
@@ -206,6 +212,12 @@
       "manifest_sha256": "c15438913d35759eb8dc5386f7d790342470f9b8d7b5e65b24337dcde79ac2eb"
     },
     {
+      "id": "smart.pager",
+      "version": "1.0.0",
+      "file": "smart.pager.json",
+      "manifest_sha256": "8260e88a154bc1c32141e7d4a3b7bfe155dcd06f1ab2c24d5270ab050662d54e"
+    },
+    {
       "id": "smart.pagination",
       "version": "1.3.3",
       "file": "smart.pagination.json",
@@ -276,6 +288,18 @@
       "version": "1.0.0",
       "file": "smart.rich-text.json",
       "manifest_sha256": "d83568e1cea8bb1ee073a10a81dbbfdf4dc8e25793188c0ccbc11e828d3b9360"
+    },
+    {
+      "id": "smart.search",
+      "version": "1.0.0",
+      "file": "smart.search.json",
+      "manifest_sha256": "40edbb51a077e2a9f807ca8930e32ed0e150ec63b9b1db01b72e4c46b8959fec"
+    },
+    {
+      "id": "smart.settings-menu",
+      "version": "1.0.0",
+      "file": "smart.settings-menu.json",
+      "manifest_sha256": "f918f9f432a33d13b777891ec7117487d5086bf9f2e983f8c796b8db9d40afb2"
     },
     {
       "id": "smart.site-header",
@@ -374,6 +398,6 @@
       "manifest_sha256": "6c86a097dfadb30594bfa7dd70d3da694cb6128c338adce5fef02236a95fdb9e"
     }
   ],
-  "registry_sha256": "8222f0a449ebd91d2afbc0d888d9587aac0bf8e01db0d424e80fd085750043ef",
+  "registry_sha256": "57a2a92fc5b171dec659ad551618a5675ecc501cb3baa635f2fb5d67e34b00ec",
   "registry_schema_sha256": "d5b0a5b299fa4b044d8125a315458c37de76f0bb5c6cb686962cdec7922b14ce"
 }

@@ -3,9 +3,9 @@
   "package": "larena",
   "source": {
     "repository": "simai/ui-pro",
-    "revision": "d1b0a1cf83c98e9225e0cc78afbdea27ad214bfd",
+    "revision": "9c0b7286e4410a3b06f8e09902bd4e02ff45712d",
     "path": "components",
-    "tree": "7940a554b8d849f46ff3b5a90b7fe6afab780983"
+    "tree": "ac5c23debce9ed881f343993dfcaa8611c84f316"
   },
   "builder": {
     "repository": "simai/ui-builder",
@@ -52,19 +52,19 @@
       },
       {
         "path": "chat-message/js/chat-message.js",
-        "sha256": "3865836d7f1aafe7437967511ff928401b1c6ff4b657644b096a229728ef5d5a"
+        "sha256": "3875e270d14f5b0e927c92db4663386de69231af0a56d6938c97b2d1b74b2c65"
       },
       {
         "path": "chat-message/css/chat-message.css",
-        "sha256": "54dd127b56ed76594f4738b5c3c837aa217925cd62ba9aaf2c903235b5d98dec"
+        "sha256": "da2b7ec448f4d6d575f90af569b53e13a931d9786df2e63880bc4ca65e6d26fb"
       },
       {
         "path": "chat-window/js/chat-window.js",
-        "sha256": "7f9374f77544e0b324c7e9a2fe7dacc2ea955e6b0b94899d5a4a33353d4ade78"
+        "sha256": "5a40842cf10f6148f4fb17b0c75a5bd418b0a4f8fa7b3b3064276385bdd5d5bc"
       },
       {
         "path": "chat-window/css/chat-window.css",
-        "sha256": "6c98c6244da8d4d474c92ffe37c149b14a5d373cdf2c323842aa1e97acbb7a4c"
+        "sha256": "a4a55e64689e3d08af905d1fa6a6a3a96f807c3701109e759f3513cf18c88bb6"
       },
       {
         "path": "data-view/js/data-view.js",
@@ -108,10 +108,10 @@
       }
     ]
   },
-  "compatibilityId": "larena-d1b0a1cf83c9",
+  "compatibilityId": "larena-9c0b7286e441",
   "requires": {
-    "framework": "ui-4b07c619f88b"
+    "framework": "ui-766822bf90e2"
   },
-  "archiveSha256": "546f962939bc1343ca8ed3ffd6147eeae5ee066a113f8b20a77ae2572f5c0b89",
-  "distributionIdentitySha256": "00777b8791704f54038fabe747c3b748010567581d85ae1aaf1a2cfd4ac29b89"
+  "archiveSha256": "ace75955f4f09251c288b6398e2d5e5b95e8e52e21aae9cdc7c651ea2a0ab7f3",
+  "distributionIdentitySha256": "fbbabd2bb93bbedad00c55f2b2e274766e1ae1f01feb20838e6c49eb01e8dc58"
 }

@@ -159,7 +159,8 @@
       "composition": {
         "public_parts": [],
         "uses": [
-          "component.badges"
+          "component.badges",
+          "component.spinner"
         ]
       },
       "contract_schema": {
@@ -171,13 +172,13 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/badge/smart.manifest.json",
-      "manifest_sha256": "6d9f17b30e75eccc269945a032d7b4dc694579c10e42c53b3518390c1c96c72d",
+      "manifest_sha256": "8def7495f34f9a36d893de7b4d4e2387d18b215bdacea5de1683a4d4560f542c",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
         "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
       },
-      "summary": "A short non-interactive label for a status, category, version or count beside an object, drawn in a size, appearance and colour role or status. It adds no keyboard or pointer behaviour.",
+      "summary": "A short non-interactive label for a status, a run's state, a category, a version or a count beside an object, drawn in a size, appearance and colour role or status. It adds no keyboard or pointer behaviour.",
       "tags": [
         "badges"
       ],
@@ -599,13 +600,13 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/context-menu/smart.manifest.json",
-      "manifest_sha256": "a7459a3c30c0dd47f0df093c2cc89b8997d14fecc072afd0fc138f6d1591c92b",
+      "manifest_sha256": "660f0171fb0b67f2576ff776e65cd152f8a8ad544aeb4f49b360f34ab9c20d1d",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
         "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
       },
-      "summary": "The Framework's action menu: data entries with icon, caption, value, shortcut, check, submenu, separator and heading, opened by openFor() into the top layer, anchored, with keyboard, typeahead and focus return. A host may still render its own items and own the lifecycle.",
+      "summary": "The Framework's action menu and its settings panel: data entries with icon, caption, value, shortcut, check, submenu, separator and heading, and the value rows a setting needs (switch, range, choice, a group of rows or tiles) with one change event and the set-value, set-all, reset and show actions, opened by openFor() into the top layer, anchored, with keyboard, typeahead and focus return. A host may still render its own items and own the lifecycle.",
       "tags": [
         "context-menu"
       ],
@@ -1207,7 +1208,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/input/smart.manifest.json",
-      "manifest_sha256": "055b0b4c1e153fbf39a0e814f26dc5c9a6b8ce4dabbd53099b6b79a219617012",
+      "manifest_sha256": "f1bf9d2ea1fcbf6d412cc7e7cb674e85306d387655b28ba2f6122184083b8dbf",
       "reuse_mode": "both",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -1296,7 +1297,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/lookup/smart.manifest.json",
-      "manifest_sha256": "063334108c19d491846d79c9b1faad4d9603587315eb733407e3ff04b80af9ae",
+      "manifest_sha256": "65245141c7a38418ae953db91cc768c463031e171f3f6f9b47e10974bb001642",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -1966,13 +1967,13 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/search/smart.manifest.json",
-      "manifest_sha256": "40edbb51a077e2a9f807ca8930e32ed0e150ec63b9b1db01b72e4c46b8959fec",
+      "manifest_sha256": "20b050635ee31d115e32eb91257c8ea6c9b0f4bec19242512e9bc628c5de0d35",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
         "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
       },
-      "summary": "Site search in a window: a large rounded field and a separate results card under it over a light scrim, opened by a trigger or a key (Command/Control+K, /), a full-screen sheet on a phone. Results come from a provider (a port function) or a static JSON index, grouped, with scopes, recent and popular queries, quick actions and key hints, each block switchable.",
+      "summary": "Site search in a window: a large rounded field and a separate results card under it over a light scrim, opened by a trigger or a key (Command/Control+K, /), a full-screen sheet on a phone. The panel asks a host through simai.search-port and draws what the host announces it can answer: grouped results, scopes, recent and popular queries, commands, a correction and a preview beside the list. Each block is also a setting, so the capability says what is possible and the setting says what is wanted. A page with no host of its own gets the built-in ones: a static JSON index (index) or a provider function.",
       "tags": [
         "search",
         "site-search",
@@ -1980,48 +1981,6 @@
         "dialog"
       ],
       "title": "Site search"
-    },
-    {
-      "backend_adapters": [],
-      "capabilities": [
-        "render",
-        "interaction",
-        "keyboard",
-        "theme",
-        "i18n"
-      ],
-      "composition": {
-        "public_parts": [],
-        "uses": [
-          "component.switch",
-          "smart.context-menu",
-          "smart.icon",
-          "smart.icon-button"
-        ]
-      },
-      "contract_schema": {
-        "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
-        "version": 2
-      },
-      "custom_element": "sf-settings-menu",
-      "id": "smart.settings-menu",
-      "kind": "smart",
-      "lifecycle": "experimental",
-      "manifest_path": "src/smart/settings-menu/smart.manifest.json",
-      "manifest_sha256": "f918f9f432a33d13b777891ec7117487d5086bf9f2e983f8c796b8db9d40afb2",
-      "reuse_mode": "whole",
-      "runtime_pair": {
-        "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
-        "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
-      },
-      "summary": "Compact settings: a list of settings given as data, drawn as a menu that opens from a trigger or stands inline -- rows with the value under the name that open their choices in place (drill, the default), or rows with the control at the end (rows), with an optional block of tiles on top. A special case of the context menu, for a reader's settings, a table's view options, a chat's settings.",
-      "tags": [
-        "settings",
-        "menu",
-        "preferences",
-        "view-options"
-      ],
-      "title": "Settings menu"
     },
     {
       "backend_adapters": [],
@@ -2360,7 +2319,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/tag/smart.manifest.json",
-      "manifest_sha256": "7655fbd4ce90a421999ec48b0a5e2d5a570c556a90c5639ccf9b21a10ec89357",
+      "manifest_sha256": "c1c0dee683d59c5ec59b362153bc9ed9965661a975bd0e7482cfb1ef50623684",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -2400,7 +2359,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/textarea/smart.manifest.json",
-      "manifest_sha256": "e1fd686b3c9f5b0c98ef7b7237170bce4b4080e8f60f33944c62a9537a63bd29",
+      "manifest_sha256": "6a9114aa0a42ada35e21a28aa2e6d0467d8eb1c57b7dc26541653ddc442c44f8",
       "reuse_mode": "both",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",

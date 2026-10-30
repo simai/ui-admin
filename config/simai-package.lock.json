@@ -3,9 +3,9 @@
   "package": "larena",
   "source": {
     "repository": "simai/ui-pro",
-    "revision": "86a389a5e6da8417b14a96a2aae65e155bb33137",
+    "revision": "2b1b675770dc8a05a8d2af36f388a73130ce18f9",
     "path": "components",
-    "tree": "0b2cc21ab00217fab1797d7c904f23997b5bcd79"
+    "tree": "65f49b21922722bf769f31d4f211053a596604d7"
   },
   "builder": {
     "repository": "simai/ui-builder",
@@ -52,7 +52,7 @@
       },
       {
         "path": "chat-message/js/chat-message.js",
-        "sha256": "941bc61eac9c865ba893edd46f209f9b605bc58a4bf74d311a7e65cd9ea74778"
+        "sha256": "4ef236a8dbdd302999f1614f443eecbb0c94de3656f688218edcdac6adcd4fed"
       },
       {
         "path": "chat-message/css/chat-message.css",
@@ -60,11 +60,11 @@
       },
       {
         "path": "chat-window/js/chat-window.js",
-        "sha256": "a50705aaeec9b7cc5e950e3b4f09d176e6c92fb187df510e624159a4105b04df"
+        "sha256": "fb57c8337513f60bfb674d87959a0a1a9c3299f79a87cbbc2b460d0865b094fa"
       },
       {
         "path": "chat-window/css/chat-window.css",
-        "sha256": "0a266bbab8cc6970c0327ba1720d8bab49dfed3057d071b3b1c43b06edfab0e8"
+        "sha256": "156dcb3015b83b6f89f089f6c90267dadd82c9fc297a54705a4813c00a95c30d"
       },
       {
         "path": "data-view/js/data-view.js",
@@ -140,7 +140,7 @@
       },
       {
         "path": "thread-list/js/thread-list.js",
-        "sha256": "3637188e495a63435cf5562ccdd5266a63dc7ffd1b7287fe3346015a826d4cf4"
+        "sha256": "918154c03346ce5b7c2adf69f442bb64144c8321ef4d26a9fb77b434fa60846f"
       },
       {
         "path": "thread-list/css/thread-list.css",
@@ -148,10 +148,10 @@
       }
     ]
   },
-  "compatibilityId": "larena-86a389a5e6da",
+  "compatibilityId": "larena-2b1b675770dc",
   "requires": {
     "framework": "ui-7153f7a9c092"
   },
-  "archiveSha256": "af756e4ffe1ccec2b9f2d79e29240fb9917d3e0a95a21d99158f59806ed006a3",
-  "distributionIdentitySha256": "071dabeba182f564dfc9a69e4d76d4e7bac43640eaa25cf97e3d6b8615c7c8a7"
+  "archiveSha256": "2bc0abf9776fbc4a97c03d66a36a11a55a3e6da5406813ede18bce78a2fd29c4",
+  "distributionIdentitySha256": "2bd1e42265ce4dbf29d6e0699195f1f884d63140506dce7c00b5d09da6f222a6"
 }

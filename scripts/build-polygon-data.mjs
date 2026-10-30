@@ -152,6 +152,7 @@ const FIELDS = [
   { key: 'licence', label: 'Лицензия', property_type: 'lookup', source: 'licences', width: 'half' },
   { key: 'tags', label: 'Метки', property_type: 'choices', width: 'half', options: TAGS },
   { key: 'summary', label: 'Описание', property_type: 'text', width: 'full' },
+  { key: 'body', label: 'Текст страницы', property_type: 'html', width: 'full' },
 
   { key: 'version', label: 'Версия', property_type: 'string', width: 'half' },
   { key: 'priority', label: 'Приоритет', property_type: 'integer', width: 'half' },
@@ -178,7 +179,7 @@ const SECTIONS_LAYOUT = [
   {
     key: 'main', label: 'Общее',
     groups: [
-      { key: 'main', label: 'Основное', columns: 2, fields: ['code', 'title', 'section', 'owner', 'status', 'licence', 'tags', 'summary'] },
+      { key: 'main', label: 'Основное', columns: 2, fields: ['code', 'title', 'section', 'owner', 'status', 'licence', 'tags', 'summary', 'body'] },
       { key: 'numbers', label: 'Числа и сроки', columns: 2, fields: ['version', 'priority', 'budget', 'released', 'checked_at', 'public', 'deprecated'] },
     ],
   },
@@ -204,6 +205,13 @@ const SECTIONS_LAYOUT = [
 
 // The list's own columns, chosen so every cell renderer in the set is on screen
 // at once rather than described in a document.
+// Formatted text with what a paste from an old site brings: a style, an
+// inline handler, a script and a javascript: link. The record view draws it
+// cleaned; nothing of it may run.
+const BODY_HOSTILE = '<div style="color:red"><b>Важно:</b> перенесено со старого сайта.</div>'
+  + '<p onclick="alert(1)">Ссылка <a href="javascript:alert(1)">без адреса</a> и <a href="https://simai.io/">simai.io</a>.</p>'
+  + '<script>alert(1)</script>';
+
 const LIST_COLUMNS = [
   { key: 'title', width: '18rem', sortable: true, pinned: true },
   { key: 'code', width: '12rem', sortable: true },
@@ -222,6 +230,7 @@ const LIST_COLUMNS = [
   { key: 'depends_on' },
   { key: 'head_script' },
   { key: 'summary', width: '20rem' },
+  { key: 'body', width: '20rem' },
 ];
 
 const COVERS = [
@@ -284,6 +293,9 @@ const buildRecord = (index) => {
     licence: { ...LICENCES[index % LICENCES.length] },
     tags: pickSome(TAGS, 4).map((tag) => tag.value),
     summary: index % 13 === 6 ? LONG_SUMMARY : summary,
+    // Formatted text (html): one value in eleven carries markup outside the
+    // subset, which the view must clean before it is drawn.
+    body: index % 11 === 4 ? BODY_HOSTILE : `<h2>${subject}</h2><p>${summary}</p><ul><li>Ответственный назначен</li><li>Права <strong>проверены</strong></li></ul>`,
 
     version: `${(index % 6) + 1}.${index % 10}.${index % 4}`,
     // Zero and a negative are in here on purpose: a formatter that drops a zero
@@ -309,7 +321,7 @@ const buildRecord = (index) => {
   };
 
   if (sparse) {
-    for (const key of ['owner', 'tags', 'summary', 'budget', 'checked_at', 'accent', 'cover', 'attachments', 'depends_on', 'reviewer', 'notes']) {
+    for (const key of ['owner', 'tags', 'summary', 'body', 'budget', 'checked_at', 'accent', 'cover', 'attachments', 'depends_on', 'reviewer', 'notes']) {
       values[key] = Array.isArray(values[key]) ? [] : null;
     }
   }

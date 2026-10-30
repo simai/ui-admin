@@ -194,6 +194,12 @@
       "manifest_sha256": "f7f27402258d124e20e52fa0d9146626bbe7b3df7af03429e6bf312867340884"
     },
     {
+      "id": "smart.lookup",
+      "version": "1.0.0",
+      "file": "smart.lookup.json",
+      "manifest_sha256": "063334108c19d491846d79c9b1faad4d9603587315eb733407e3ff04b80af9ae"
+    },
+    {
       "id": "smart.menu",
       "version": "1.1.4",
       "file": "smart.menu.json",
@@ -398,6 +404,6 @@
       "manifest_sha256": "6c86a097dfadb30594bfa7dd70d3da694cb6128c338adce5fef02236a95fdb9e"
     }
   ],
-  "registry_sha256": "57a2a92fc5b171dec659ad551618a5675ecc501cb3baa635f2fb5d67e34b00ec",
+  "registry_sha256": "795dff2b59924ea562230eb2350b35d5e0a67f5b344a6a1c08d0dd8287efe1fa",
   "registry_schema_sha256": "d5b0a5b299fa4b044d8125a315458c37de76f0bb5c6cb686962cdec7922b14ce"
 }

@@ -3,9 +3,9 @@
   "package": "larena",
   "source": {
     "repository": "simai/ui-pro",
-    "revision": "9c0b7286e4410a3b06f8e09902bd4e02ff45712d",
+    "revision": "0905ea5a358b442b669148c32044235447541230",
     "path": "components",
-    "tree": "ac5c23debce9ed881f343993dfcaa8611c84f316"
+    "tree": "0d5152c8c9c1e9aa6bccc83d1a65548adba28f04"
   },
   "builder": {
     "repository": "simai/ui-builder",
@@ -52,15 +52,15 @@
       },
       {
         "path": "chat-message/js/chat-message.js",
-        "sha256": "3875e270d14f5b0e927c92db4663386de69231af0a56d6938c97b2d1b74b2c65"
+        "sha256": "4525ecbc5bb4fd0427a38ce8107d80804d59cead14c76ffe8e0ada970348260d"
       },
       {
         "path": "chat-message/css/chat-message.css",
-        "sha256": "da2b7ec448f4d6d575f90af569b53e13a931d9786df2e63880bc4ca65e6d26fb"
+        "sha256": "b8d672e1aafaefdc6f5079af17cc169a455b369289a212462a4314f86a1ed804"
       },
       {
         "path": "chat-window/js/chat-window.js",
-        "sha256": "5a40842cf10f6148f4fb17b0c75a5bd418b0a4f8fa7b3b3064276385bdd5d5bc"
+        "sha256": "1bb0312a13b5da9b76ba8359c9da8b5fb1e2f419428b1d957836c08e9fd48ccf"
       },
       {
         "path": "chat-window/css/chat-window.css",
@@ -84,7 +84,7 @@
       },
       {
         "path": "property-view/js/property-view.js",
-        "sha256": "b43903b19fe24f146844aa0f7dc4e34eaa4cded67deaac301dfca16693f08d96"
+        "sha256": "c277ea4db1edcd3ceecbab4dc46a66cb2b1d8df943215a10eb74ccf6ba25d26c"
       },
       {
         "path": "property-view/css/property-view.css",
@@ -92,7 +92,7 @@
       },
       {
         "path": "table/js/table.js",
-        "sha256": "834721eb13bdff79325d24723fc52c29648258f878743984a5236c8247d41477"
+        "sha256": "3e31b07ff74ce36daf20bd530ab3dffa07e98afa2db3df62823becd2a1450f2b"
       },
       {
         "path": "table/css/table.css",
@@ -108,10 +108,10 @@
       }
     ]
   },
-  "compatibilityId": "larena-9c0b7286e441",
+  "compatibilityId": "larena-0905ea5a358b",
   "requires": {
-    "framework": "ui-766822bf90e2"
+    "framework": "ui-68cbd8d1b560"
   },
-  "archiveSha256": "ace75955f4f09251c288b6398e2d5e5b95e8e52e21aae9cdc7c651ea2a0ab7f3",
-  "distributionIdentitySha256": "fbbabd2bb93bbedad00c55f2b2e274766e1ae1f01feb20838e6c49eb01e8dc58"
+  "archiveSha256": "5b87295ca22856b6b416a056ce0660a34266097c3875efc7202c3115158af7c3",
+  "distributionIdentitySha256": "56bc971665a09ce7ef7eea67b85311bf14672438caf37975be0dff1680e06421"
 }

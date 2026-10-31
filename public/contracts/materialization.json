@@ -75,9 +75,9 @@
     },
     {
       "id": "smart.composition-overlay",
-      "version": "1.2.5",
+      "version": "1.3.0",
       "file": "smart.composition-overlay.json",
-      "manifest_sha256": "49869cf5f9bf42c319e69ab21d49b03c4ffdb42a9a74918a81d69c6f7db68eb9"
+      "manifest_sha256": "7f8dc1aadce6c93badd4648760fcec4132d72d8b9457a95c5fadfceadbd8d59e"
     },
     {
       "id": "smart.contents",
@@ -177,9 +177,9 @@
     },
     {
       "id": "smart.inline-editor",
-      "version": "1.1.3",
+      "version": "1.2.0",
       "file": "smart.inline-editor.json",
-      "manifest_sha256": "7361757469d71e70efe210f04713138d3ccd4026c7eb16ebaa63f32092c735be"
+      "manifest_sha256": "0bf53afec26ddf23f717f9f1489c8d06fe45b88a1766585c6cb3fc2ab3097287"
     },
     {
       "id": "smart.input",
@@ -398,6 +398,6 @@
       "manifest_sha256": "6c86a097dfadb30594bfa7dd70d3da694cb6128c338adce5fef02236a95fdb9e"
     }
   ],
-  "registry_sha256": "2ef2e17a71ab2094a9a3587b25df36ef34115df895d595f8df1c3749ec0111ac",
+  "registry_sha256": "f64d7c94f9cc265d97fadbf6c9c83a9eba81477cb1bdd5280fb4bc14cf1e7626",
   "registry_schema_sha256": "d5b0a5b299fa4b044d8125a315458c37de76f0bb5c6cb686962cdec7922b14ce"
 }

@@ -3,9 +3,9 @@
   "package": "larena",
   "source": {
     "repository": "simai/ui-pro",
-    "revision": "5a2ae14a0ea04d5bcb34b20329e086dbe69608de",
+    "revision": "7bc706e9a07f920e0eb158b02319eace51bb59bb",
     "path": "components",
-    "tree": "b8048d0c555bc8702309f24a2a1bb9f4d43b8ac4"
+    "tree": "97c10ff2c55d43ce328a3a5a8756dbbd964d6d1f"
   },
   "builder": {
     "repository": "simai/ui-builder",
@@ -60,15 +60,15 @@
       },
       {
         "path": "chat-window/js/chat-window.js",
-        "sha256": "bba3814fbb9b321537bea48ed7a05a451207426939dd8b991d88f52d5913dc1b"
+        "sha256": "7de706c2b860019560f47cd8c58a66142d22750328d9d3dcb47808047c17dc3b"
       },
       {
         "path": "chat-window/css/chat-window.css",
-        "sha256": "f7b590aa3dbae061ed63ca42d82ce84f02adbe215057caa6caa6f2414057fd90"
+        "sha256": "434c1fa47dfb28fcd981d9564eb378dc9c695930c615b012a46dce765e51c242"
       },
       {
         "path": "data-view/js/data-view.js",
-        "sha256": "f232637e1f8f6ebef24e8d71f9fe70292d155444eabc9597562f352ec5c84e4c"
+        "sha256": "9c31e06ab772ab8492d895ec65c9fef3197a3ceca28ee7ad3afeb36243d38928"
       },
       {
         "path": "data-view/css/data-view.css",
@@ -76,11 +76,11 @@
       },
       {
         "path": "mail-canvas/js/mail-canvas.js",
-        "sha256": "97cf7d5e75bc009c9c9d05c316e9b5a45fdb05a6122099dcebd07fdb9a5549a0"
+        "sha256": "b8c7472177460400c639e67f4089cb171e8d2aeccc18428fc5f6abcc4bed1bf5"
       },
       {
         "path": "mail-canvas/css/mail-canvas.css",
-        "sha256": "215f92a5c502cebc8f60b342f8c89eeb8729731ee56e92b6b236e5dfc22803e3"
+        "sha256": "e73e5505f80ae5887391a9e71a927c3b7cbf6fa442306a2e50bce2314fcfb3c5"
       },
       {
         "path": "mail-inspector/js/mail-inspector.js",
@@ -148,10 +148,10 @@
       }
     ]
   },
-  "compatibilityId": "larena-5a2ae14a0ea0",
+  "compatibilityId": "larena-7bc706e9a07f",
   "requires": {
-    "framework": "ui-2194bce0e673"
+    "framework": "ui-a7c68408a293"
   },
-  "archiveSha256": "ce60d5dd9f07b9259104ab08253c88d95146d090ef5ea914e5e6d5d4580ee1e2",
-  "distributionIdentitySha256": "8a7cc99f9ff106de19c4c66d9d95a122ca8ed33230850591513b5769a9be2538"
+  "archiveSha256": "cda7cad15a4f90fa0738404a990c17a231d7376911b4edb4fecea763995ae7b9",
+  "distributionIdentitySha256": "aaff42dcc344ebdcc63ebe8df195ab6e1fa021eeeedb966de30fb551e31af745"
 }

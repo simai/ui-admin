@@ -3,9 +3,9 @@
   "package": "larena",
   "source": {
     "repository": "simai/ui-pro",
-    "revision": "9c1c945b81f53c11e6160cc6abcfbff5bc7cc2d3",
+    "revision": "5a2ae14a0ea04d5bcb34b20329e086dbe69608de",
     "path": "components",
-    "tree": "61f3061ee2f069de86a560245f10a5fdbf2aa150"
+    "tree": "b8048d0c555bc8702309f24a2a1bb9f4d43b8ac4"
   },
   "builder": {
     "repository": "simai/ui-builder",
@@ -60,11 +60,11 @@
       },
       {
         "path": "chat-window/js/chat-window.js",
-        "sha256": "7605d9a92f9bbd94a4d3a43a4552becebc7a8937e9bd1f94ece134403ad3030c"
+        "sha256": "bba3814fbb9b321537bea48ed7a05a451207426939dd8b991d88f52d5913dc1b"
       },
       {
         "path": "chat-window/css/chat-window.css",
-        "sha256": "b87d4e3d213d7cf016f33d6422b8d2197fb8421ec93a7b0a603be8f7f9e9989a"
+        "sha256": "f7b590aa3dbae061ed63ca42d82ce84f02adbe215057caa6caa6f2414057fd90"
       },
       {
         "path": "data-view/js/data-view.js",
@@ -100,7 +100,7 @@
       },
       {
         "path": "mail-library/js/mail-library.js",
-        "sha256": "3354fd768f311229599690345dd4243edfc2501d126506588b06f5eb0a082863"
+        "sha256": "93982192da4922b06c1765f8b1a6f17b1e9655d5b812a6f4f58596c6c181a6fe"
       },
       {
         "path": "mail-library/css/mail-library.css",
@@ -148,10 +148,10 @@
       }
     ]
   },
-  "compatibilityId": "larena-9c1c945b81f5",
+  "compatibilityId": "larena-5a2ae14a0ea0",
   "requires": {
-    "framework": "ui-7153f7a9c092"
+    "framework": "ui-2194bce0e673"
   },
-  "archiveSha256": "1aed16286e505d245abbd5e0f8af7b1391e6df9716e88e4515039a925ee3aa63",
-  "distributionIdentitySha256": "0aa20d7da382f2fd7f3fbebc012148d95ecd09bab58925f2841eb3f4082aff00"
+  "archiveSha256": "ce60d5dd9f07b9259104ab08253c88d95146d090ef5ea914e5e6d5d4580ee1e2",
+  "distributionIdentitySha256": "8a7cc99f9ff106de19c4c66d9d95a122ca8ed33230850591513b5769a9be2538"
 }

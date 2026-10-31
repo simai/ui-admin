@@ -69,15 +69,15 @@
     },
     {
       "id": "smart.color",
-      "version": "1.4.0",
+      "version": "1.4.1",
       "file": "smart.color.json",
-      "manifest_sha256": "1b6d720e4aa4048ad352b94e782842871d60275546257c821a53ddb5923a5639"
+      "manifest_sha256": "893aa4c4bf29a18b4fdcccb63365cb21ff07a691732dbbb5c5d1c92409c93f47"
     },
     {
       "id": "smart.composition-overlay",
-      "version": "1.2.4",
+      "version": "1.2.5",
       "file": "smart.composition-overlay.json",
-      "manifest_sha256": "7ae7acd1d045b6346d96272f4236df18b8b89ca82a54839d882ac4459d2fb811"
+      "manifest_sha256": "49869cf5f9bf42c319e69ab21d49b03c4ffdb42a9a74918a81d69c6f7db68eb9"
     },
     {
       "id": "smart.contents",
@@ -123,9 +123,9 @@
     },
     {
       "id": "smart.dropdown",
-      "version": "1.5.0",
+      "version": "1.5.1",
       "file": "smart.dropdown.json",
-      "manifest_sha256": "c5bf6ec70ca48b919852f28552c23667a5b8811906d0bf1046b9986934e54fa9"
+      "manifest_sha256": "429b3d00c5ae35d73d83d493f7835a2d9d887511242751d6f9e120b6ab50f8ab"
     },
     {
       "id": "smart.empty-state",
@@ -165,9 +165,9 @@
     },
     {
       "id": "smart.icon-button",
-      "version": "1.1.4",
+      "version": "1.2.0",
       "file": "smart.icon-button.json",
-      "manifest_sha256": "fee6e772ae76e6534d80264ddcc92384703baa9b228de48ca340a120f04c68a1"
+      "manifest_sha256": "bb039b255fbbd7cae1d0f2ebc6e20bea2958a1fa161567bff002658113a80c42"
     },
     {
       "id": "smart.image-field",
@@ -183,9 +183,9 @@
     },
     {
       "id": "smart.input",
-      "version": "1.4.1",
+      "version": "1.4.2",
       "file": "smart.input.json",
-      "manifest_sha256": "f1bf9d2ea1fcbf6d412cc7e7cb674e85306d387655b28ba2f6122184083b8dbf"
+      "manifest_sha256": "667d83c768640048a774f72d32d40de9e265ddef638d941694cde0a99deef9ca"
     },
     {
       "id": "smart.list-item",
@@ -219,9 +219,9 @@
     },
     {
       "id": "smart.pager",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "file": "smart.pager.json",
-      "manifest_sha256": "8260e88a154bc1c32141e7d4a3b7bfe155dcd06f1ab2c24d5270ab050662d54e"
+      "manifest_sha256": "ef438b9a367b984ac0576be2bbfd9dca0b92a967d2acfc5fb23106a39fedb516"
     },
     {
       "id": "smart.pagination",
@@ -339,9 +339,9 @@
     },
     {
       "id": "smart.switch",
-      "version": "1.2.0",
+      "version": "1.2.1",
       "file": "smart.switch.json",
-      "manifest_sha256": "d91bbf74fb17db08a9fdd1c9ea4ea3015d65eb90979ed033fc60064ee5d26325"
+      "manifest_sha256": "01475110deb7bfd774df07c129ba7e3b7c3487eced4040acccae3b9b18c66cf5"
     },
     {
       "id": "smart.tabs",
@@ -351,15 +351,15 @@
     },
     {
       "id": "smart.tag",
-      "version": "1.1.6",
+      "version": "1.1.7",
       "file": "smart.tag.json",
-      "manifest_sha256": "c1c0dee683d59c5ec59b362153bc9ed9965661a975bd0e7482cfb1ef50623684"
+      "manifest_sha256": "878d2e531b9d0f1b506666040d68645b4ad23e59bedf8b1531f115dc7d99c721"
     },
     {
       "id": "smart.textarea",
-      "version": "1.6.1",
+      "version": "1.6.2",
       "file": "smart.textarea.json",
-      "manifest_sha256": "6a9114aa0a42ada35e21a28aa2e6d0467d8eb1c57b7dc26541653ddc442c44f8"
+      "manifest_sha256": "2db87f7860e2e1c76071005a5aa0b78508a754775d7d76c75b63af47a37c068c"
     },
     {
       "id": "smart.theme-generator",
@@ -369,9 +369,9 @@
     },
     {
       "id": "smart.toast",
-      "version": "1.1.3",
+      "version": "1.1.4",
       "file": "smart.toast.json",
-      "manifest_sha256": "cd60aedd741de0aa4c275c691836ce1dc78602b6efec92dd1d8a868f4fc5e218"
+      "manifest_sha256": "dd58eee59846e3bbabab1eba63a0b0845338f8636fe5ba282b07858e57217290"
     },
     {
       "id": "smart.toggle",
@@ -398,6 +398,6 @@
       "manifest_sha256": "6c86a097dfadb30594bfa7dd70d3da694cb6128c338adce5fef02236a95fdb9e"
     }
   ],
-  "registry_sha256": "e085ea7dff08ddd7afa3fb4a954a85a0d94d0a827ca29223c872ea9c9c9a463f",
+  "registry_sha256": "2ef2e17a71ab2094a9a3587b25df36ef34115df895d595f8df1c3749ec0111ac",
   "registry_schema_sha256": "d5b0a5b299fa4b044d8125a315458c37de76f0bb5c6cb686962cdec7922b14ce"
 }

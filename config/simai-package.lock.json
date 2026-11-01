@@ -3,9 +3,9 @@
   "package": "larena",
   "source": {
     "repository": "simai/ui-pro",
-    "revision": "27366c53cfdfd25f1e05ae76f7d927f39b9c544e",
+    "revision": "779d07ef29e38d23dbe7e4cf0a47957cd7011e4e",
     "path": "components",
-    "tree": "0ca460349100b31486d57fc95cce23ead8dc0b6e"
+    "tree": "515f480b70ea278dc2a365746b7a6563d522a7b5"
   },
   "builder": {
     "repository": "simai/ui-builder",
@@ -16,7 +16,7 @@
     "requiredFiles": [
       {
         "path": "rule.js",
-        "sha256": "ac9964852380a033d31513f1cedd5a67bd2e42258ff3851eda4592bb300d2842"
+        "sha256": "bb1513fab38887b10fbcafa0148c86726150674b51879ab609809e8d5ec7c3ba"
       },
       {
         "path": "admin-menu/js/admin-menu.js",
@@ -68,11 +68,11 @@
       },
       {
         "path": "content-editor/js/content-editor.js",
-        "sha256": "4574010dc02e4a409444c9b3f568e51540588742347e125496a08945dac78921"
+        "sha256": "a5c87aee7d33730ef68cfc3e736499ae6d75ba3f10c86aa82afc8752b99645bd"
       },
       {
         "path": "content-editor/css/content-editor.css",
-        "sha256": "5b5d5a8c8493019976a72726dd3801d0615266531b3a3bf9fac2b5466f33bd8a"
+        "sha256": "79f76915fb04a8a8b34bb0d62dc903d42029fe566929cdd9675570603986b6c0"
       },
       {
         "path": "data-view/js/data-view.js",
@@ -156,10 +156,10 @@
       }
     ]
   },
-  "compatibilityId": "larena-27366c53cfdf",
+  "compatibilityId": "larena-779d07ef29e3",
   "requires": {
-    "framework": "ui-3b75bb31a203"
+    "framework": "ui-a823cf887c20"
   },
-  "archiveSha256": "54a36c56f5d01a9e42da945862981aa8935b2512a727ebaf8c0144eaa428971f",
-  "distributionIdentitySha256": "0b2c1816b6d5015f89935f4d54c6ee923fd1acc98a93bc2010434b05f4fc082f"
+  "archiveSha256": "cea3dc92253303c1e3c8ee5f155be7750f45cc2222510ce78b90b21c4b361b95",
+  "distributionIdentitySha256": "d9c77c047941201b6ea728885f59821c86a62a36dd81db8e1f0327c8bf984f08"
 }

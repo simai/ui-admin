@@ -3,9 +3,9 @@
   "package": "larena",
   "source": {
     "repository": "simai/ui-pro",
-    "revision": "7bc706e9a07f920e0eb158b02319eace51bb59bb",
+    "revision": "68015a3b75a0d504464529887cab7a909655c731",
     "path": "components",
-    "tree": "97c10ff2c55d43ce328a3a5a8756dbbd964d6d1f"
+    "tree": "4596a8efa3e0784d86fd7adf641223eb124371aa"
   },
   "builder": {
     "repository": "simai/ui-builder",
@@ -16,7 +16,7 @@
     "requiredFiles": [
       {
         "path": "rule.js",
-        "sha256": "e61c4dced9bb4728857f2490ac018d814dc547b83fb86d73bddb0544ac2d04e1"
+        "sha256": "ac9964852380a033d31513f1cedd5a67bd2e42258ff3851eda4592bb300d2842"
       },
       {
         "path": "admin-menu/js/admin-menu.js",
@@ -65,6 +65,14 @@
       {
         "path": "chat-window/css/chat-window.css",
         "sha256": "434c1fa47dfb28fcd981d9564eb378dc9c695930c615b012a46dce765e51c242"
+      },
+      {
+        "path": "content-editor/js/content-editor.js",
+        "sha256": "e5e1b86c6ee291b39a7fb9831361ba8c6ac6da90a85b2b008cacda8cc940ecee"
+      },
+      {
+        "path": "content-editor/css/content-editor.css",
+        "sha256": "5b5d5a8c8493019976a72726dd3801d0615266531b3a3bf9fac2b5466f33bd8a"
       },
       {
         "path": "data-view/js/data-view.js",
@@ -124,7 +132,7 @@
       },
       {
         "path": "property-view/js/property-view.js",
-        "sha256": "8fbc4f5dd83fe12764224fe1b64647c21cff59962dd57bc0212ffaad4c5fe3d0"
+        "sha256": "32895715c072313bdda6775a02c411c84439fcf39c7dcacfa6effd0641ab733b"
       },
       {
         "path": "property-view/css/property-view.css",
@@ -132,7 +140,7 @@
       },
       {
         "path": "table/js/table.js",
-        "sha256": "be0d4b0873371531ef7f116c141c6a6920d04959c42ab0ed9009d6e5b3adf715"
+        "sha256": "51b5bcf0447aa70bd724e9794a9697d7ed9841958653705973b68e0dd9555286"
       },
       {
         "path": "table/css/table.css",
@@ -148,10 +156,10 @@
       }
     ]
   },
-  "compatibilityId": "larena-7bc706e9a07f",
+  "compatibilityId": "larena-68015a3b75a0",
   "requires": {
-    "framework": "ui-a7c68408a293"
+    "framework": "ui-3b75bb31a203"
   },
-  "archiveSha256": "cda7cad15a4f90fa0738404a990c17a231d7376911b4edb4fecea763995ae7b9",
-  "distributionIdentitySha256": "aaff42dcc344ebdcc63ebe8df195ab6e1fa021eeeedb966de30fb551e31af745"
+  "archiveSha256": "c8c2e43ca62674ceb1e787eb0c1a57a31071d1deca6d3d8822bfe4c0ba891607",
+  "distributionIdentitySha256": "bec37a874374b9e46b5793d785eba62ab6155c187ceee1e7359e8a4f6c5b330e"
 }

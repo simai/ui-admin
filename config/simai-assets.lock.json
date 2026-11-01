@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "compatibilityId": "ui-a823cf887c20",
-  "pairIdentitySha256": "09f0ba169153f0e9bb1d3587183cb3775f00af57939a6bd45288111b50944cf8",
+  "compatibilityId": "ui-1232b187244c",
+  "pairIdentitySha256": "56c13336b0629c6da10eba7b6649403d9a1c91cf663c2da555c6e8a257002eb1",
   "contractSha256": "b70d02d6902345e17954eafb44f24052b7478439184286bed5a8df6c69c1fe45",
   "core": {
     "repository": "../ui",
-    "commit": "a823cf887c2035540ade6dd48ea17bbcffb11473",
+    "commit": "1232b187244c82ddfffe67b092674cb5aee6f16c",
     "sourceDir": "distr",
     "requiredFiles": [
       {
@@ -14,11 +14,11 @@
       },
       {
         "path": "core/js/core.js",
-        "sha256": "bd9eb62c38b38e9665f248fd95cd7c0710799099bb5debbe8177743da6dcd051"
+        "sha256": "dbfd97951081ea19bb879f5e2f7df1bf1f4eb48c2f4bcf20d5a6d22f4762910a"
       },
       {
         "path": "core/js/core-loader.js",
-        "sha256": "a1a80d4557d1852d9d07cb7250780e233f7b8d9da33daa9f5b9ba71564a71cf0"
+        "sha256": "7bea5c4df820768b20fc32dfea82755c711cb7bbca34cb1815909a581440d665"
       },
       {
         "path": "core/contracts/adaptive-sizing.v1.json",
@@ -36,7 +36,7 @@
   },
   "smart": {
     "repository": "../ui",
-    "commit": "76c3b120303e1fef56a536309732cfe5c0d18d00",
+    "commit": "1232b187244c82ddfffe67b092674cb5aee6f16c",
     "sourceDir": "distr/smart",
     "targetDir": "smart",
     "requiredFiles": [

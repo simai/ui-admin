@@ -1,7 +1,6 @@
 import type {
   HTMLSfTagElement,
   HTMLSfTableElement,
-  HTMLSfToggleElement,
 } from '../types/smart-components';
 import type { AdminTableMockResponse, AdminViewSettings } from './adminTable';
 import {
@@ -33,7 +32,7 @@ type TablePageRequestDetail = {
 };
 
 class AdminManager {
-  themeButton: HTMLSfToggleElement | null;
+  themeButton: HTMLElement | null;
   table: HTMLSfTableElement | null;
   pageSize: number;
   columnsLoaded: boolean;
@@ -60,10 +59,10 @@ class AdminManager {
   }
 
   async initTheme() {
-    await SF.whenDefined('sf-toggle');
+    await SF.whenDefined('sf-icon-button');
     this.themeButton = document.querySelector('#theme_toggle');
     this.applyTheme(this.detectTheme());
-    this.themeButton?.onChange(this.toggleTheme);
+    this.themeButton?.addEventListener('click', this.toggleTheme);
   }
   toggleTheme = () => {
     const next = this.detectTheme() === 'dark' ? 'light' : 'dark';
@@ -89,10 +88,7 @@ class AdminManager {
     const root = document.documentElement;
     root.classList.remove('theme-dark', 'theme-light');
     root.classList.add(theme === 'dark' ? 'theme-dark' : 'theme-light');
-    this.themeButton?.setState({
-      icon: theme !== 'dark' ? 'light_mode' : 'dark_mode',
-      checked: theme === 'dark',
-    });
+    this.themeButton?.setAttribute('icon', theme !== 'dark' ? 'light_mode' : 'dark_mode');
   };
 
   async initTable() {

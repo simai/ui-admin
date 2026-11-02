@@ -46,30 +46,6 @@ class LarenaSmokeElement extends HTMLElement {
   }
 }
 
-class LarenaSmokeToggle extends LarenaSmokeElement {
-  private changeHandler: (() => void) | null = null;
-
-  connectedCallback() {
-    super.connectedCallback();
-    this.setAttribute('role', this.getAttribute('role') || 'switch');
-    this.tabIndex = this.tabIndex || 0;
-    this.addEventListener('click', () => this.changeHandler?.());
-  }
-
-  onChange(handler: () => void) {
-    this.changeHandler = handler;
-  }
-
-  setState(state: Record<string, unknown>) {
-    if (state.icon) {
-      this.setAttribute('icon', String(state.icon));
-    }
-    if ('checked' in state) {
-      this.setAttribute('aria-checked', String(Boolean(state.checked)));
-    }
-  }
-}
-
 class LarenaSmokePagination extends LarenaSmokeElement {
   private state: Record<string, unknown> = { pageSize: 10, total: 0 };
   private rendered = false;
@@ -229,7 +205,6 @@ if (enabled) {
   defineElement('sf-pagination', LarenaSmokePagination);
   defineElement('sf-progress-scale', LarenaSmokeElement);
   defineElement('sf-tag', LarenaSmokeElement);
-  defineElement('sf-toggle', LarenaSmokeToggle);
   defineElement('sf-icon-button', LarenaSmokeElement);
 
   setTimeout(() => {

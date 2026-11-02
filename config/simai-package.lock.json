@@ -3,9 +3,9 @@
   "package": "pro",
   "source": {
     "repository": "simai/ui-pro",
-    "revision": "5d68df26ef3d34669be874d096a7bb9c62495a11",
+    "revision": "822061dc3f9f483066c6f0afae1a4dc476e16e83",
     "path": "components",
-    "tree": "14b175a232bc5d0f22e66318023c7cb8d361c0d1"
+    "tree": "62b3d3bb26b53533495f44e8ced3b08e14925f75"
   },
   "builder": {
     "repository": "simai/ui-builder",
@@ -52,19 +52,19 @@
       },
       {
         "path": "chat-message/js/chat-message.js",
-        "sha256": "b4063e7ed6f32f13b540bf3e032f7cddb2f7cd1e85f6a2aac745d9537f16e0fa"
+        "sha256": "c48ab9d56fa86b49a69d36c0fe49ff23ccaa629c5bd944a87608d60a05ffedbb"
       },
       {
         "path": "chat-message/css/chat-message.css",
-        "sha256": "5cfea653231b7760966268dee29258f56ae17cefeb3b064fe5455119a1017f23"
+        "sha256": "0553b64ead08455804caa630952bc9f91e9b97f32b6a48a9785a05cd1d028191"
       },
       {
         "path": "chat-window/js/chat-window.js",
-        "sha256": "e1bbdfcb868a352ca80f6a35747130d3b786a018b251a2e03cf0912b640b77e2"
+        "sha256": "cc4783625f75dd57d7c5f6317f070fdd335d448fbf14dcca6d759a30af6357d5"
       },
       {
         "path": "chat-window/css/chat-window.css",
-        "sha256": "434c1fa47dfb28fcd981d9564eb378dc9c695930c615b012a46dce765e51c242"
+        "sha256": "80ec78529214b1c8cdfba439450d809de7e7096cdc48d47ca37553e8c014bdb9"
       },
       {
         "path": "content-editor/js/content-editor.js",
@@ -156,10 +156,10 @@
       }
     ]
   },
-  "compatibilityId": "pro-5d68df26ef3d",
+  "compatibilityId": "pro-822061dc3f9f",
   "requires": {
     "framework": "ui-c4d39d528148"
   },
-  "archiveSha256": "0439d5525351979b4c07181343038d60a8efc7ddde20f9731a595377450b135c",
-  "distributionIdentitySha256": "d195971c2f2f4eaa9261cdf4e47eee0a3510990c28e3e252912bdb3ff2d0ab78"
+  "archiveSha256": "690b79d0723eb8293746b505866e7a46c9eadb7cab08e0e7dd4569ab3eaf6cd7",
+  "distributionIdentitySha256": "e722e092d29f730f760fadb07f922b49dd8658ee7b52f0d3bb4042d6f867065b"
 }

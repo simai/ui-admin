@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "compatibilityId": "ui-c1d81395889c",
-  "pairIdentitySha256": "a05d9207545eebf0d7df4104e1c63b9533704b0ae4ad094b9565b2c228fef4aa",
+  "compatibilityId": "ui-2d39b617a719",
+  "pairIdentitySha256": "d08ffd21647bbad4bac5ef82bcd0c4119ff359ca204085646528a59b1a4cf17a",
   "contractSha256": "b70d02d6902345e17954eafb44f24052b7478439184286bed5a8df6c69c1fe45",
   "core": {
     "repository": "../ui",
-    "commit": "c1d81395889cf5816808ad833dad8595f4d33910",
+    "commit": "2d39b617a7197dee18e4652a83321da1ca3439e6",
     "sourceDir": "distr",
     "requiredFiles": [
       {
@@ -14,11 +14,11 @@
       },
       {
         "path": "core/js/core.js",
-        "sha256": "473fc7a4d861c67f08cf7d256d9b23e91e938f8ebe00c7dce42b9e42eda7daec"
+        "sha256": "d70d73e5cda28b35e730f58d5682bb8dc3c00e894999629a9186c1a2ff8e0a09"
       },
       {
         "path": "core/js/core-loader.js",
-        "sha256": "0b87ffdecfd6bd3e333d55afcfc148e348007ce94fcc85d16e410a61b6a11c3f"
+        "sha256": "0cc94ff6b8dc047d89412e2321e039b188ba79f4206c93c7b24940d0f883b9d0"
       },
       {
         "path": "core/contracts/adaptive-sizing.v1.json",
@@ -26,7 +26,7 @@
       },
       {
         "path": "core/contracts/packages/larena.package.json",
-        "sha256": "a819fc0b4b4ba8dd44e003ea063a0186f759f2f5d0d1ebcc5567db79dd004725"
+        "sha256": "bec36cba07640607ae35941e9d7ce64963d5493e4db352f358c23d93634cd824"
       },
       {
         "path": "component/admin-menu/js/admin-menu.js",

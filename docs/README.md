@@ -1,7 +1,7 @@
 # Документация SIMAI Admin
 
 Корневой [`README.md`](../README.md) — короткая точка входа. Компоненты пакета
-`larena` живут в [`simai/ui-pro`](https://github.com/simai/ui-pro) (решение
+`pro` (до 2026-11-02 — `larena`) живут в [`simai/ui-pro`](https://github.com/simai/ui-pro) (решение
 владельца, 2026-10-23): их описание — в `components/README.md` и в документации
 у каждого компонента (`components/src/smart/*/docs*`) того репозитория. Решения
 владельца по экранам админки — здесь, в

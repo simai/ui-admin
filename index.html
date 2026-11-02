@@ -31,8 +31,8 @@
     </script>
     <script>
       // The four components this reference is built on -- sf-table,
-      // sf-data-view, sf-property-view and sf-admin-menu -- are Larena's, the
-      // component package larena, and reach the page through the Loader:
+      // sf-data-view, sf-property-view and sf-admin-menu -- are SIMAI Pro's, the
+      // component package pro, and reach the page through the Loader:
       // it fetches <base>/rule.js before its first scan and loads them from
       // that base. Their rules are gone from the free core, so a page that does
       // not declare this renders nothing. The base is a placeholder here and the
@@ -40,7 +40,7 @@
       // path no cache can answer with the previous build's bytes.
       window.SF_BOOT_CONFIG = {
         ...window.SF_BOOT_CONFIG,
-        packages: { larena: { base: '/distr-larena/' } },
+        packages: { pro: { base: '/distr-pro/' } },
       };
     </script>
     <script src="/distr/core/js/core.min.js" data-sf-script="/distr/core/js/core.min.js"></script>

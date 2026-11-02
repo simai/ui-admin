@@ -6,8 +6,8 @@ are built and tried on.
 - **The components** — `sf-table`, `sf-data-view`, `sf-property-view` and
   `sf-admin-menu` — live in [`simai/ui-pro`](https://github.com/simai/ui-pro)
   (owner, 2026-10-23; before that in this repository, and before that in
-  `simai/larena-ui`). They are published as the component package `larena`
-  (the id Larena loads them by). This site builds that package from the
+  `simai/larena-ui`). They are published as the component package `pro`
+  (the id Larena loads them by; named `larena` until 2026-11-02). This site builds that package from the
   sibling checkout `../ui-pro` and pins it
   ([Framework runtime](docs/developer/framework-runtime.md)).
 - **The reference host** — a Vite site that runs those components the way an

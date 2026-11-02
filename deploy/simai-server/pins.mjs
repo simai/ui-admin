@@ -10,7 +10,7 @@
 //   config/simai-assets.lock.json   the Framework pair: one ui clone holding
 //                                   core.commit and smart.commit, checked out
 //                                   at core.commit (the release build commit)
-//   config/simai-package.lock.json  the larena package: simai/ui-pro's
+//   config/simai-package.lock.json  the pro package: simai/ui-pro's
 //                                   components/ at source.revision, ui-builder at
 //                                   builder.revision, the archive digest
 //

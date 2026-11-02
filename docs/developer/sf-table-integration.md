@@ -12,7 +12,7 @@ host port — см. [связи компонентов](component-connections.md
 Компонент не делает HTTP-запросов сам: данные и сохранение принадлежат Admin и
 backend.
 
-Исходник компонента — пакет `larena` в репозитории
+Исходник компонента — пакет `pro` в репозитории
 [`simai/ui-pro`](https://github.com/simai/ui-pro),
 `components/src/smart/table/`; полное
 руководство — `docs/smart-table-guide.md` там же. Rule

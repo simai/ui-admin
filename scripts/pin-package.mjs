@@ -4,7 +4,9 @@
 // The pin of the component package this site serves beside the Framework, and
 // whether it agrees with the Framework pin.
 //
-// The package is `larena`: the admin components, whose source is the
+// The package is `pro` (named `larena` until 2026-11-02, owner q-4ac7d07595;
+// the name comes from config/simai-package.lock.json): the admin components,
+// whose source is the
 // `components/` folder of simai/ui-pro, read from the sibling checkout
 // ../ui-pro (standard simai.component-package; owner, 2026-10-11; moved to
 // ui-pro from this repository, owner, 2026-10-23). There is no repository of

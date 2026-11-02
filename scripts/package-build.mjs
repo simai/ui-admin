@@ -1,7 +1,8 @@
 // Building a component package the way its owner does, and reading what the
 // build says about itself.
 //
-// The admin components are the package `larena`: their source is the
+// The admin components are the package `pro` (named `larena` until
+// 2026-11-02, owner q-4ac7d07595): their source is the
 // `components/` folder of simai/ui-pro, read from the sibling checkout
 // ../ui-pro (or $SIMAI_UI_PRO). They moved there from this repository on
 // 2026-10-23 (owner; before that simai/larena-ui), and this repository became

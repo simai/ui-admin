@@ -18,7 +18,7 @@ import { fileURLToPath } from 'node:url';
 
 export const PLACEHOLDER = '/distr/';
 // A component package is served under /distr-<package>/, its own path beside
-// the Framework's: `/distr-larena/` for Larena's components.
+// the Framework's: `/distr-pro/` for the SIMAI Pro components.
 export const packagePlaceholder = (name) => `/distr-${name}/`;
 
 export const FRAMEWORK_LOCK = 'config/simai-assets.lock.json';
@@ -80,8 +80,8 @@ export const distributions = () => {
   }];
 
   // The component package is a second distribution with its own source, its
-  // own build and its own stamped path: Larena's components, package larena,
-  // since SIMAI Framework Pro was dropped. It appears here once it is pinned --
+  // own build and its own stamped path: the SIMAI Pro components, package pro
+  // (named larena until 2026-11-02, owner q-4ac7d07595). It appears here once it is pinned --
   // an unpinned lock is the state between authoring the file and taking the
   // first build, and a site with no package pin serves no package.
   const packagePath = resolve(projectRoot, PACKAGE_LOCK);
@@ -101,7 +101,7 @@ export const distributions = () => {
 
   // Each distribution is stamped by its own placeholder, so no placeholder may
   // be a prefix of another: stamping `/distr/` over a path already stamped to
-  // `/distr/larena-<12>/` would produce `/distr/ui-<12>/larena-<12>/`, which is the
+  // `/distr/pro-<12>/` would produce `/distr/ui-<12>/pro-<12>/`, which is the
   // double-stamping defect this file already carries a comment about -- one
   // level deeper and across two distributions, where no single check would see
   // the whole of it.

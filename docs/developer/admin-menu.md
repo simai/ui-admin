@@ -1,6 +1,6 @@
 # Административное меню
 
-`sf-admin-menu` — компонент пакета `larena`, исходник в
+`sf-admin-menu` — компонент пакета `pro`, исходник в
 `components/src/smart/admin-menu/` репозитория
 [`simai/ui-pro`](https://github.com/simai/ui-pro), его документация —
 `docs/docs.md` там же и

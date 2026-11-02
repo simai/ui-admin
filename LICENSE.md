@@ -11,7 +11,7 @@ no right to use them. Distributed and supported under licence by ООО «Сим
 This licence covers everything in this repository: the reference application
 that runs the SIMAI Pro components, the polygon, the mock server and their
 scripts and data. It does not cover the components themselves (the component
-package `larena`): their source and their licence are in `simai/ui-pro`
+package `pro`): their source and their licence are in `simai/ui-pro`
 (owner, 2026-10-23). Nor does it cover the SIMAI Framework this repository
 builds on (`simai/ui-source`, `simai/ui`, `@simai-studio/ui`), which is
 licensed separately under Apache-2.0, nor third-party dependencies, which keep

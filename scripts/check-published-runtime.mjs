@@ -154,7 +154,7 @@ for (const page of pages) {
 
   // Each distribution is looked for by its own placeholder. Matching one
   // pattern over `/distr/` could not see a package at all: its base is
-  // `/distr-larena/larena-<12>/`, it is handed to the Loader rather than written into
+  // `/distr-pro/pro-<12>/`, it is handed to the Loader rather than written into
   // a URL, and nothing follows it in the page -- so a check built around the
   // Framework's shape would have certified half the runtime while saying
   // nothing about the other half, which is the failure the stamping exists to

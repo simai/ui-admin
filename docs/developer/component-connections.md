@@ -2,24 +2,24 @@
 
 ## Две поставки на странице
 
-Каждая страница подключает Core Framework и объявляет пакет `larena` до
-старта Core:
+Каждая страница подключает Core Framework и объявляет пакет `pro` (до 2026-11-02 —
+`larena`) до старта Core:
 
 ```html
 <script>
   window.SF_BOOT_CONFIG = {
     ...window.SF_BOOT_CONFIG,
-    packages: { larena: { base: '/distr-larena/' } },
+    packages: { pro: { base: '/distr-pro/' } },
   };
 </script>
 <script src="/distr/core/js/core.min.js"></script>
 ```
 
-Сборка подставляет в `/distr/` и `/distr-larena/` id закреплённых выпусков
+Сборка подставляет в `/distr/` и `/distr-pro/` id закреплённых выпусков
 ([Framework runtime](framework-runtime.md)). Loader находит `sf-*` теги в
 разметке и грузит их: компоненты Framework — из `/distr/…`, четыре
 компонента пакета (`sf-table`, `sf-data-view`, `sf-property-view`,
-`sf-admin-menu`) — из `/distr-larena/…`. Loader работает по разметке: пока
+`sf-admin-menu`) — из `/distr-pro/…`. Loader работает по разметке: пока
 тега нет в документе, компонент не грузится, и
 `customElements.whenDefined()` для него не завершится.
 
@@ -65,7 +65,7 @@ index.html
 ## Порядок диагностики
 
 1. Компонент не появился — есть ли тег в разметке, загрузился ли
-   `rule.js` пакета из `/distr-larena/<id>/`, что даёт
+   `rule.js` пакета из `/distr-pro/<id>/`, что даёт
    `customElements.get('sf-…')`.
 2. Компонент появился, но пуст — получил ли он порт (`setHostPort`), и что
    хост ответил на первый intent.

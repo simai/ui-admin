@@ -1,7 +1,7 @@
 # Framework runtime и пакет компонентов
 
 Сайт отдаёт две закреплённые поставки: SIMAI Framework и пакет компонентов
-`larena`, собранный из `components/` репозитория
+`pro` (до 2026-11-02 — `larena`, решение владельца q-4ac7d07595), собранный из `components/` репозитория
 [`simai/ui-pro`](https://github.com/simai/ui-pro) — соседнего checkout
 `../ui-pro` (решение владельца, 2026-10-23; до этого компоненты лежали здесь).
 Каждая закреплена своим lock-файлом и лежит по своему пути, в имени которого
@@ -23,14 +23,14 @@ npm run pin         # закрепить последний выпуск
 показывать текущий Framework, поэтому отставание — ошибка, а не заметка.
 Закрепляется коммит, который записал `distr`, а не голова репозитория.
 
-## Пакет `larena`: `config/simai-package.lock.json`
+## Пакет `pro`: `config/simai-package.lock.json`
 
 Пакет собирается из `../ui-pro/components` командой `ui-builder` поверх
 ревизии `ui-source`, закреплённой в `components/framework.lock.json` того же
 репозитория. Lock называет репозиторий исходника (`source.repository` —
 `simai/ui-pro`), его ревизию и tree, ревизию `ui-builder`, выпуск Framework,
 поверх которого собран пакет (`requires.framework`), SHA-256 архива и
-обязательных файлов. id пакета — `larena-<12>`, по коммиту `ui-pro`, который
+обязательных файлов. id пакета — `pro-<12>`, по коммиту `ui-pro`, который
 последним менял `components/`.
 
 ```bash
@@ -57,7 +57,7 @@ checkout: `../.package-build/ui-admin/` (или `SIMAI_PACKAGE_BUILD_ROOT`).
 | Поставка | dev | build | URL на странице |
 | --- | --- | --- | --- |
 | Framework | `.runtime/` | `dist/distr/<ui-id>/` | `/distr/<ui-id>/` |
-| `larena` | `.runtime-package/` | `dist/distr-larena/<larena-id>/` | `/distr-larena/<larena-id>/` |
+| `pro` | `.runtime-package/` | `dist/distr-pro/<pro-id>/` | `/distr-pro/<pro-id>/` |
 
 id выпуска в пути (`scripts/runtime-base.mjs`) нужен потому, что после
 переиздания сайта любой кеш иначе мог отдать старую пару. Файлы по таким

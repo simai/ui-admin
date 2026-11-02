@@ -3,9 +3,9 @@
   "package": "pro",
   "source": {
     "repository": "simai/ui-pro",
-    "revision": "822061dc3f9f483066c6f0afae1a4dc476e16e83",
+    "revision": "524190c7a5a55d60fd4e6cc6549763c8065134f4",
     "path": "components",
-    "tree": "62b3d3bb26b53533495f44e8ced3b08e14925f75"
+    "tree": "a7a88a2cf11fabf4c72151efee5253fea326aba7"
   },
   "builder": {
     "repository": "simai/ui-builder",
@@ -20,7 +20,7 @@
       },
       {
         "path": "admin-menu/js/admin-menu.js",
-        "sha256": "76d917cf78f60ff4e96d16d49e1219fc546a6fa3990240215528cf24d0c08d9f"
+        "sha256": "ac849c8f3165bac1602bd43278c6cab4b6aec5d25c0c9ab98f5e8c7caab0d1eb"
       },
       {
         "path": "admin-menu/css/admin-menu.css",
@@ -76,7 +76,7 @@
       },
       {
         "path": "data-view/js/data-view.js",
-        "sha256": "df7a7c6d2112513e7066b00544c60b93c9725709e73dc0bd1253b2f6dd1f6c7c"
+        "sha256": "841bad4dd86b3564dbf0af790a92c8c377e335db130a3c2efd36d49707277c62"
       },
       {
         "path": "data-view/css/data-view.css",
@@ -132,7 +132,7 @@
       },
       {
         "path": "property-view/js/property-view.js",
-        "sha256": "29fa22e78e1c4dbebb24e738131a04ad9ad7c14e27f9180126c40c9f130e39a1"
+        "sha256": "54d4d06683dd255181dfa69bc0638ec75b38c04e014415cc4195e7d829fd84c8"
       },
       {
         "path": "property-view/css/property-view.css",
@@ -140,7 +140,7 @@
       },
       {
         "path": "table/js/table.js",
-        "sha256": "a0891affc2c9a9f86a85c73f5d3c26a496a90b2480ac62dffdee15b6a7703fa1"
+        "sha256": "2aea6749f5da56b3d96d1165a0b4137c9fc4761911cb5c7249dd339294ecc8b7"
       },
       {
         "path": "table/css/table.css",
@@ -156,10 +156,10 @@
       }
     ]
   },
-  "compatibilityId": "pro-822061dc3f9f",
+  "compatibilityId": "pro-524190c7a5a5",
   "requires": {
-    "framework": "ui-c4d39d528148"
+    "framework": "ui-de2b4437234a"
   },
-  "archiveSha256": "690b79d0723eb8293746b505866e7a46c9eadb7cab08e0e7dd4569ab3eaf6cd7",
-  "distributionIdentitySha256": "e722e092d29f730f760fadb07f922b49dd8658ee7b52f0d3bb4042d6f867065b"
+  "archiveSha256": "5d2854ddb748c26eefc26f50b8252737a995942dd53b10a07bc55613da94194d",
+  "distributionIdentitySha256": "40d4c73535794c88594fec95996aa627bc2bd2944ec9f6580df0463f25322915"
 }

@@ -3,9 +3,9 @@
   "package": "pro",
   "source": {
     "repository": "simai/ui-pro",
-    "revision": "c47fe37db37d04679ffdeb26b348f0feefcd6eb8",
+    "revision": "5c92812cf767779daa4455531d0c261bc11ae52b",
     "path": "components",
-    "tree": "2dbec2bb6f695017adc749cb23005a327a4a4a50"
+    "tree": "4bff442cdd75a7bb184f0ebd1ec803c3efb67327"
   },
   "builder": {
     "repository": "simai/ui-builder",
@@ -60,7 +60,7 @@
       },
       {
         "path": "chat-window/js/chat-window.js",
-        "sha256": "ceb226f43618e53f6f52d991a0c61d1668bd54c37081d7d873a2636afb337bb2"
+        "sha256": "6ffcccd0a363304d3c0ec6df437ce2e866122f9855f1816cab847defb7a9db2b"
       },
       {
         "path": "chat-window/css/chat-window.css",
@@ -76,7 +76,7 @@
       },
       {
         "path": "editor/js/editor.js",
-        "sha256": "0b76de31b4189f3c90b60d709b8c56d40d91c2db353f4c09473da1c5ff67dac1"
+        "sha256": "be1cbd3686528c5850f7b422460e2dc00394cb21a4c7af15f57d8319be106c34"
       },
       {
         "path": "editor/css/editor.css",
@@ -164,10 +164,10 @@
       }
     ]
   },
-  "compatibilityId": "pro-c47fe37db37d",
+  "compatibilityId": "pro-5c92812cf767",
   "requires": {
     "framework": "ui-b8e23367889f"
   },
-  "archiveSha256": "d23fe707b492c08a473d54507ab454cfa9c34af4d79863e57509222d637b0f37",
-  "distributionIdentitySha256": "6f818a47217677b4889ef380e23a73f86abee8a6872e9745d79934e4134bbb60"
+  "archiveSha256": "bdba9a4ab0e0403c799e1159ab26354ef50a5d932434377859ae47d102c9b0ba",
+  "distributionIdentitySha256": "8b6c81036fae6d256e2054bba12942e8c2110e9caeb774bf57e94de088baead9"
 }

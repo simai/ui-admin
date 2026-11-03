@@ -3,9 +3,9 @@
   "package": "pro",
   "source": {
     "repository": "simai/ui-pro",
-    "revision": "fa5f8a3d5a949ff27bddebb634f03c2e962722f2",
+    "revision": "968c4f47c3b885f5a148ac8f3e2b45f4be6e3024",
     "path": "components",
-    "tree": "e2fcf12622d95a17e23b2c62d1311eae751cbe32"
+    "tree": "a74458d479b587d6a347e644b4b0d116421f08c8"
   },
   "builder": {
     "repository": "simai/ui-builder",
@@ -68,7 +68,7 @@
       },
       {
         "path": "editor/js/editor.js",
-        "sha256": "dca02fd272ec7dd7bf99c0d6686c9df10ef921e44f4497ecd3833fb746c490bf"
+        "sha256": "b1ca53a4e10f846f7b354f8ef8b61c391d327ba951a5bb3f1a7606459b81e432"
       },
       {
         "path": "editor/css/editor.css",
@@ -156,10 +156,10 @@
       }
     ]
   },
-  "compatibilityId": "pro-fa5f8a3d5a94",
+  "compatibilityId": "pro-968c4f47c3b8",
   "requires": {
     "framework": "ui-eea8c0a97cc7"
   },
-  "archiveSha256": "266003c9d9d9674753da4fb65b72d428ad7da8a0957dd3ace175ead48419809c",
-  "distributionIdentitySha256": "a4a8f6a9eeb06fa17b2b537f4e7d419c4b2483b94f9901c586e3eb26895f5131"
+  "archiveSha256": "afd2676a8ea3871dfb6fcb434c5dc139f7bc63b8593b015a708c7e5634ba9c20",
+  "distributionIdentitySha256": "69db82aa2ad585ce6dc221ae0e63b134ad340bee8f74d30bcb961f622dbd4882"
 }

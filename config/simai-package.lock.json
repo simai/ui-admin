@@ -3,24 +3,24 @@
   "package": "pro",
   "source": {
     "repository": "simai/ui-pro",
-    "revision": "bff42cdcb4f4d3ca26d7eb2cfa48c477711c7277",
+    "revision": "fa5f8a3d5a949ff27bddebb634f03c2e962722f2",
     "path": "components",
-    "tree": "8ab80cc50a1977f580fce28cefb7907aa439f28a"
+    "tree": "e2fcf12622d95a17e23b2c62d1311eae751cbe32"
   },
   "builder": {
     "repository": "simai/ui-builder",
-    "revision": "537e51da52551c42d7c9d3f6e6b5799dfe350f7f"
+    "revision": "97ba6c8892d7053af16c28c1ebdf88028c82691f"
   },
   "smart": {
     "targetDir": "",
     "requiredFiles": [
       {
         "path": "rule.js",
-        "sha256": "29f222f44d6e1e034a7e5e03fb6c7c44d1040397e48b749ff9e44b5ff58ce2cc"
+        "sha256": "ab1a1c70aa8fe1fed69394a470ad2bd773459619b381b27cb83a39012f610baa"
       },
       {
         "path": "admin-menu/js/admin-menu.js",
-        "sha256": "ef5503f7d2fb7d468f9cd9d472baa78099a88b7f875a1e381b4591fca914ae67"
+        "sha256": "e8249864f59bdb7a32e3909c2fbb1d9fb717a144daf3f5e8cf624f81b69857b3"
       },
       {
         "path": "admin-menu/css/admin-menu.css",
@@ -44,7 +44,7 @@
       },
       {
         "path": "chat-message/js/chat-message.js",
-        "sha256": "bf1150be76f12befd45bf8c02b4486e4571f62eef469ab1e2cb23431ffac7c4c"
+        "sha256": "810fe931352b101c87bfaca4add60ef397d6ca3ec315ee89f39fc7660716c389"
       },
       {
         "path": "chat-message/css/chat-message.css",
@@ -60,23 +60,15 @@
       },
       {
         "path": "chat-window/js/chat-window.js",
-        "sha256": "6ffcccd0a363304d3c0ec6df437ce2e866122f9855f1816cab847defb7a9db2b"
+        "sha256": "9dc4aeba4fcb61f6540da5c5888c7e0cf302776888214025acbda39fe9a8878e"
       },
       {
         "path": "chat-window/css/chat-window.css",
         "sha256": "9f92f6fcea7a31029a14b3bb3eec1672c41f0cb791e6bfc56be95789e9e55c1c"
       },
       {
-        "path": "confirm-change/js/confirm-change.js",
-        "sha256": "5b5cf42b7c86463a99cd6404e9d98f6b8f695167a740080734bce4fc0be46924"
-      },
-      {
-        "path": "confirm-change/css/confirm-change.css",
-        "sha256": "de9e2c5260db29beb71f2ec8c58ae31a4b692c3c8eec0d6a5b26a11bedfff354"
-      },
-      {
         "path": "editor/js/editor.js",
-        "sha256": "e6e3a003b21c612a8e0ca4b53bb5c8e0ceab6d74214e565480fb46580f0f2d02"
+        "sha256": "dca02fd272ec7dd7bf99c0d6686c9df10ef921e44f4497ecd3833fb746c490bf"
       },
       {
         "path": "editor/css/editor.css",
@@ -84,7 +76,7 @@
       },
       {
         "path": "editor-content/js/editor-content.js",
-        "sha256": "e17716cd3d4b5872118e00df87f40978d94ab4146349a7fe78c7ea22b4f06ae3"
+        "sha256": "ced00b0b2c6bccd984da912c96887a5b2daa92872862c76fd44113f30e582988"
       },
       {
         "path": "editor-content/css/editor-content.css",
@@ -124,7 +116,7 @@
       },
       {
         "path": "mail-structure/js/mail-structure.js",
-        "sha256": "ffd425da336799e76d2b1358ac97ddbc8cc2eab2e424b2d6c2845b5c554ed137"
+        "sha256": "d868e211f55a5fb108e823de4b477c369c68508249e7bf2082139552cbef23c6"
       },
       {
         "path": "mail-structure/css/mail-structure.css",
@@ -148,7 +140,7 @@
       },
       {
         "path": "view-properties/js/view-properties.js",
-        "sha256": "837ea65f0b5de2b078ab094187ff19efb838291a230f00d9cd8c010ee36da6b9"
+        "sha256": "54ed7a02a519d604d56aa478d106d72876a14f4c6f8bafffdf4d6ef62b8bacfe"
       },
       {
         "path": "view-properties/css/view-properties.css",
@@ -156,7 +148,7 @@
       },
       {
         "path": "view-table/js/view-table.js",
-        "sha256": "f8825b50e53326e5812af49dc2b9f1a9c9c4e60f62fe577ad98bca3bb9566167"
+        "sha256": "d1f38962c35cd83267b0a629ed55911cf69b554d6331fc45a4614e7519727031"
       },
       {
         "path": "view-table/css/view-table.css",
@@ -164,10 +156,10 @@
       }
     ]
   },
-  "compatibilityId": "pro-bff42cdcb4f4",
+  "compatibilityId": "pro-fa5f8a3d5a94",
   "requires": {
-    "framework": "ui-b8e23367889f"
+    "framework": "ui-eea8c0a97cc7"
   },
-  "archiveSha256": "b997467dda17eb3becbc926d6c90e05976f7953360a94c1c9f917277d9680bcb",
-  "distributionIdentitySha256": "7eaecb94e84e9bc9ed8d0e969c38eccddecc18c954f1f5f206f620a86d1086ff"
+  "archiveSha256": "266003c9d9d9674753da4fb65b72d428ad7da8a0957dd3ace175ead48419809c",
+  "distributionIdentitySha256": "a4a8f6a9eeb06fa17b2b537f4e7d419c4b2483b94f9901c586e3eb26895f5131"
 }

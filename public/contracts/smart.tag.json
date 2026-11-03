@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.tag",
-  "version": "1.1.6",
+  "version": "1.1.9",
   "title": "Tags",
   "summary": "Compact static, selectable and removable labels with one explicit interaction owner.",
   "kind": "smart",
@@ -28,7 +28,7 @@
       "component.dot",
       "component.icon-buttons",
       "component.tags",
-      "smart.icon-button"
+      "smart.button-icon"
     ],
     "public_parts": []
   },
@@ -47,7 +47,8 @@
       },
       "root-style": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "Inline style declarations set on the root element the component draws, custom properties included."
       },
       "kind": {
         "type": "string",

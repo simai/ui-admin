@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.pager",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "title": "Pager",
   "summary": "Navigation to the neighbouring page or step by meaning: the previous and the next documentation page as two cards or one row of links, a wizard's Back and Next with its step track, a course's lesson dots and next lesson, or a record counter. Not list paging: sf-pagination keeps 1, 2, 3 ….",
   "kind": "smart",
@@ -33,8 +33,8 @@
   "composition": {
     "uses": [
       "smart.button",
-      "smart.icon",
-      "smart.icon-button"
+      "smart.button-icon",
+      "smart.icon"
     ],
     "public_parts": []
   },
@@ -48,11 +48,13 @@
       },
       "root-class": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "Classes added to the root element the component draws."
       },
       "root-style": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "Inline style declarations set on the root element the component draws, custom properties included."
       },
       "appearance": {
         "type": "string",
@@ -341,23 +343,23 @@
   },
   "provenance": {
     "source_repository": "simai/ui-source",
-    "source_revision": "b08a94f115092045a68e1c8c59356c63eea8de27",
+    "source_revision": "2c061247ed6a5bf5987c0dc2b7384dc3f44d41c2",
     "source_artifacts": [
       {
         "path": "src/smart/pager/index.js",
-        "sha256": "790e9d0779459fe0cc79be7393eae47a02c3b74eeef31e7f5a8c80c2bf211f36"
+        "sha256": "b0a92a2967721a42839990a4eb319867d0be29cdbc961189f11059deef46c218"
       },
       {
         "path": "src/smart/pager/js/templates/default.js",
-        "sha256": "96bfafe6415ea1a42a32aee66a69fca56c5e5d133c762d0577893dd5e237bebb"
+        "sha256": "4c809f1ec838a78e3f66db2457d3627ebb23c0866e77034b398ec36b9eb5d27f"
       },
       {
         "path": "src/smart/pager/scss/_smart__pager.scss",
-        "sha256": "da55065720702a63dbf8950b1105e8df28050cd5b804f188d319e3e00ab059f9"
+        "sha256": "269f212fa0d5a66e340013af542b68bafc017670f3f5f1371979e8fd284509bb"
       },
       {
         "path": "src/smart/pager/rule.js",
-        "sha256": "e116bc91c648881baa22ee57b89a241ab78980dbdf29e188968fe03c1257cb92"
+        "sha256": "1660bc5d3de3b2a2991c55af993594443f27a3cdc6552e4bad996c55d52c4db4"
       },
       {
         "path": "src/smart/pager/docs.md",

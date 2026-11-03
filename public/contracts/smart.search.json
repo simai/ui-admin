@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
   "id": "smart.search",
-  "version": "1.1.0",
+  "version": "1.2.3",
   "title": "Site search",
-  "summary": "Site search in a window: a large rounded field and a separate results card under it over a light scrim, opened by a trigger or a key (Command/Control+K, /), a full-screen sheet on a phone. The panel asks a host through simai.search-port and draws what the host announces it can answer: grouped results, scopes, recent and popular queries, commands, a correction and a preview beside the list. Each block is also a setting, so the capability says what is possible and the setting says what is wanted. A page with no host of its own gets the built-in ones: a static JSON index (index) or a provider function.",
+  "summary": "Site search in a window: a large rounded field and a separate results card under it over the shared scrim, opened by a trigger or a key (Command/Control+K, /), a full-screen sheet on a phone. The panel asks a host through simai.search-port and draws what the host announces it can answer: grouped results, scopes, recent and popular queries, commands, a correction and a preview beside the list. Each block is also a setting, so the capability says what is possible and the setting says what is wanted. A page with no host of its own gets the built-in ones: a static JSON index (index) or a provider function.",
   "kind": "smart",
   "reuse_mode": "whole",
   "lifecycle": "experimental",
@@ -32,7 +32,7 @@
     "uses": [
       "component.icons",
       "component.kbd",
-      "smart.icon-button"
+      "smart.button-icon"
     ],
     "public_parts": []
   },
@@ -46,11 +46,13 @@
       },
       "root-class": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "Classes added to the root element the component draws."
       },
       "root-style": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "Inline style declarations set on the root element the component draws, custom properties included."
       },
       "index": {
         "type": "string",
@@ -396,23 +398,23 @@
     "source_artifacts": [
       {
         "path": "src/smart/search/index.js",
-        "sha256": "436ece281d6850bdfa663e0fbf1de38830cd7d41427f7ba79cc38fc648fdfe05"
+        "sha256": "90925687132124166e020ca5dd359c6d9f69b43ae79511aba3407abcc904e73b"
       },
       {
         "path": "src/smart/search/js/templates/default.js",
-        "sha256": "536025e9682d14264b8dae578fb2c9dbaa78fce5444eda17793d98af88c8e796"
+        "sha256": "e43d355ff3b7bf13766f4946f87ecc48349d7958b395601dbf505ea5c1e3c8be"
       },
       {
         "path": "src/smart/search/scss/_smart__search.scss",
-        "sha256": "cb821dcf42738cc390d15ff6da8ca883ee9fed7788255f19c7c8ffdd01b653cc"
+        "sha256": "ed809be01f6964160be39988ed05711cfe9a4c227c03d1953eaad895afe9eced"
       },
       {
         "path": "src/smart/search/rule.js",
-        "sha256": "f69dbe82ae129a4a90e62240990cb6b7ddf30d75017d15cde0b00ac5af3afaf6"
+        "sha256": "52ed9d3dad88d61c6d1a14cc96e98a2663221c8a364d2c491a0c70820dd9f1b6"
       },
       {
         "path": "src/smart/search/docs.md",
-        "sha256": "8c6eb4f4a824c1149fbc54a588deef6b29422d41c995f4100b5167c3c20e8365"
+        "sha256": "9bdae1ed0db3ce84c3276920e1f059e90ed9162f9af8954a046df1f1b152222b"
       }
     ],
     "generated_runtime": []

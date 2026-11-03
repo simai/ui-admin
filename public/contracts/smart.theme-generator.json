@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.theme-generator",
-  "version": "1.1.5",
+  "version": "1.1.7",
   "title": "Theme generator",
   "summary": "A theme from one colour: the main colour, the generator's own hue and chroma, a preview of the eight palettes and a way back to SIMAI Framework's colour; it stores nothing and changes the page only with apply.",
   "kind": "smart",
@@ -27,10 +27,10 @@
   "composition": {
     "uses": [
       "smart.button",
-      "smart.color",
+      "smart.button-icon",
       "smart.icon",
-      "smart.icon-button",
-      "smart.input"
+      "smart.input",
+      "smart.input-color"
     ],
     "public_parts": []
   },
@@ -44,11 +44,13 @@
       },
       "root-class": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "Classes added to the root element the component draws."
       },
       "root-style": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "Inline style declarations set on the root element the component draws, custom properties included."
       },
       "value": {
         "type": "string",
@@ -449,7 +451,7 @@
       },
       {
         "path": "src/smart/theme-generator/js/templates/default.js",
-        "sha256": "efd4d96b902194e1e2aff942f264e93d7ec2b1c9547de69d86c23b619b1ad240"
+        "sha256": "a909eabf6d17011d43a1626d9f8cb2bdb904fbd31ee0776cc21a462bd6672c7a"
       },
       {
         "path": "src/smart/theme-generator/scss/_smart__theme_generator.scss",
@@ -457,7 +459,7 @@
       },
       {
         "path": "src/smart/theme-generator/rule.js",
-        "sha256": "f1be897360ac6a45aa00f56101d9edf3d75d03094dafcafb0c6de85f010e3e28"
+        "sha256": "843a03af89af020fce70a3e364808635c5834f1585d2a41b6765575955476850"
       },
       {
         "path": "src/smart/theme-generator/docs.md",

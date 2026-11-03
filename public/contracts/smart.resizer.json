@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.resizer",
-  "version": "1.1.3",
+  "version": "1.1.5",
   "title": "Resizer",
   "summary": "A handle on a panel's edge that changes the panel's width by a drag, the keyboard or a double click back to the default, within limits; optionally remembered in the browser.",
   "kind": "smart",
@@ -36,11 +36,13 @@
       },
       "root-class": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "Classes added to the root element the component draws."
       },
       "root-style": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "Inline style declarations set on the root element the component draws, custom properties included."
       },
       "min": {
         "type": "string",
@@ -301,7 +303,7 @@
       },
       {
         "path": "src/smart/resizer/docs.md",
-        "sha256": "16934e83a15220f72faf8fa83799b8d3798eca44788b5b535bf17b9664dbfe02"
+        "sha256": "6564d3a42b65f127576cb6923855472ef20079695e353b7c8d90e3c637911751"
       },
       {
         "path": "src/smart/resizer/engine.mjs",

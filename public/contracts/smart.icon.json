@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.icon",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "title": "Icons",
   "summary": "Semantic Material Symbol wrapper with exact Loader tracking, accessible decorative or informative modes and token-owned geometry.",
   "kind": "smart",
@@ -41,11 +41,13 @@
       },
       "root-class": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "Classes added to the root element the component draws."
       },
       "root-style": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "Inline style declarations set on the root element the component draws, custom properties included."
       },
       "icon": {
         "type": "string",
@@ -248,7 +250,7 @@
       },
       {
         "path": "src/smart/icon/docs.md",
-        "sha256": "257bd3a459de0c016d2caec3f7078c645172e233c5b1c24db5393b833a506923"
+        "sha256": "9ba921f14312d7cd54a961943b984f3a4d350b98a12bf86198dbb66342b63365"
       }
     ],
     "generated_runtime": [

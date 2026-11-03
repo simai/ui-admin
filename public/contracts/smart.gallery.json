@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.gallery",
-  "version": "1.1.5",
+  "version": "1.1.8",
   "title": "Gallery",
   "summary": "An ordered media collection shown in an inline Slider, with an optional Modal lightbox holding a second Slider. The gallery owns the one-based current slide and keeps both views on it.",
   "kind": "smart",
@@ -37,11 +37,13 @@
       },
       "root-class": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "Classes added to the root element the component draws."
       },
       "root-style": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "Inline style declarations set on the root element the component draws, custom properties included."
       },
       "modal-id": {
         "type": "string",
@@ -605,7 +607,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/gallery/index.js",
-        "sha256": "7a0574307d6ad8d1ed6172b8764ca554ad27b5540d9d4e7d0f2ad91564bf28f0"
+        "sha256": "e7e4817b409cde89cf407ef73a426edf697adb5b89c860055508cd6807b0d873"
       }
     ],
     "generated_runtime": [

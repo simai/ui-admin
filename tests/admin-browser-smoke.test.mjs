@@ -118,7 +118,7 @@ async function readRuntimeRoot() {
   if (process.env.SIMAI_RUNTIME_ROOT) {
     const runtimeRoot = resolve(projectRoot, process.env.SIMAI_RUNTIME_ROOT);
     await access(resolve(runtimeRoot, 'core/js/core.js'));
-    await access(resolve(runtimeRoot, 'smart/table/js/table.js'));
+    await access(resolve(runtimeRoot, 'smart/button/js/button.js'));
 
     return runtimeRoot;
   }
@@ -143,13 +143,13 @@ async function readRuntimeRoot() {
   const runtimeRoot = resolve(projectRoot, value);
   await access(resolve(runtimeRoot, 'core/js/core.js'));
 
-  // sf-table is in the component package (pro, larena before 2026-11-02) since ui-09bc6b371eca, so it is not in the
+  // sf-view-table is in the component package (pro, larena before 2026-11-02) since ui-09bc6b371eca, so it is not in the
   // Framework runtime at all; what this check is for is that the smoke test
   // does not start against a runtime nobody materialised, and both halves of
   // what the page loads have to be there for that to mean anything.
   const packageRoot = resolve(projectRoot, process.env.SIMAI_PACKAGE_RUNTIME_ROOT ?? '.runtime-package');
   await access(resolve(packageRoot, 'rule.js'));
-  await access(resolve(packageRoot, 'table/js/table.js'));
+  await access(resolve(packageRoot, 'view-table/js/view-table.js'));
 
   return runtimeRoot;
 }
@@ -234,7 +234,7 @@ test.after(async () => {
   }
 });
 
-test(`Admin loads sf-table data through Vite ${mode} and mock API`, async () => {
+test(`Admin loads sf-view-table data through Vite ${mode} and mock API`, async () => {
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
   const pageErrors = [];
   const failedRequests = [];
@@ -250,19 +250,19 @@ test(`Admin loads sf-table data through Vite ${mode} and mock API`, async () => 
 
   try {
     await page.waitForFunction(() => {
-      const table = document.querySelector('sf-table');
+      const table = document.querySelector('sf-view-table');
 
       return Boolean(
-        customElements.get('sf-table') &&
+        customElements.get('sf-view-table') &&
           table?.getTableData?.().rows?.length,
       );
     });
   } catch (error) {
     const tableState = await page.evaluate(() => {
-      const table = document.querySelector('sf-table');
+      const table = document.querySelector('sf-view-table');
 
       return {
-        defined: Boolean(customElements.get('sf-table')),
+        defined: Boolean(customElements.get('sf-view-table')),
         rows: table?.getTableData?.().rows?.length || 0,
         columns: table?.getColumns?.().length || 0,
       };
@@ -276,11 +276,11 @@ test(`Admin loads sf-table data through Vite ${mode} and mock API`, async () => 
   }
 
   const state = await page.evaluate(() => {
-    const table = document.querySelector('sf-table');
+    const table = document.querySelector('sf-view-table');
     const data = table?.getTableData?.() || {};
 
     return {
-      componentDefined: Boolean(customElements.get('sf-table')),
+      componentDefined: Boolean(customElements.get('sf-view-table')),
       rows: data.rows?.length || 0,
       columns: table?.getColumns?.().length || 0,
       apiRequests: performance
@@ -318,7 +318,7 @@ test(`Polygon palette is above the list and one delete is one intent (Vite ${mod
 
   await page.goto(new URL('/', appOrigin).href, { waitUntil: 'networkidle' });
   await page.waitForFunction(
-    () => document.querySelector('#solutions sf-table')?.getTableData?.().rows?.length > 0,
+    () => document.querySelector('#solutions sf-view-table')?.getTableData?.().rows?.length > 0,
     null,
     { timeout: 20_000 },
   );
@@ -363,7 +363,7 @@ test(`Polygon palette is above the list and one delete is one intent (Vite ${mod
   // repeated call that used to answer «record-unknown» (a006b42).
   const started = await page.evaluate(() => {
     const list = document.querySelector('#solutions');
-    const table = list.querySelector('sf-table') ?? list.shadowRoot?.querySelector('sf-table');
+    const table = list.querySelector('sf-view-table') ?? list.shadowRoot?.querySelector('sf-view-table');
     const port = list.hostPort;
     const raised = [];
     window.__deleteRaised = raised;
@@ -385,7 +385,7 @@ test(`Polygon palette is above the list and one delete is one intent (Vite ${mod
     return { id: target.id };
   });
 
-  // The confirmation is sf-modal (sf-data-view 1.7.0): the element stays in the
+  // The confirmation is sf-modal (sf-view 1.7.0): the element stays in the
   // view, its window is drawn in the modal's portal at the end of the body.
   const dialog = page.locator('[data-sf-modal-portal] [aria-modal="true"]').filter({ hasText: 'Подтвердите изменение' });
   await dialog.waitFor({ state: 'visible', timeout: 10_000 });

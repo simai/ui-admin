@@ -198,7 +198,7 @@ if (enabled) {
   defineElement('sf-admin-menu', LarenaSmokeElement);
   defineElement('sf-admin-menu-item', LarenaSmokeElement);
   defineElement('sf-breadcrumbs', LarenaSmokeElement);
-  defineElement('sf-table', LarenaSmokeTable);
+  defineElement('sf-view-table', LarenaSmokeTable);
   defineElement('sf-tree-item', LarenaSmokeElement);
   defineElement('sf-checkbox', LarenaSmokeElement);
   defineElement('sf-avatar', LarenaSmokeElement);

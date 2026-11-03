@@ -4,7 +4,7 @@
 // each with a revision and a publication per language, answered one level at
 // a time. It decides where a page may move and checks the revision; the view
 // draws and asks. scripts/check-polygon.mjs drives the 1.8.0 kit through it,
-// and site-pages.html shows it in sf-data-view.
+// and site-pages.html shows it in sf-view.
 //
 // Scenarios:
 //   default  -- pages with revisions: a stale move is a conflict;

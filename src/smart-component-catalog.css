@@ -40,8 +40,8 @@ body { margin: 0; min-width: 320px; background: var(--catalog-surface); color: v
 .data-view-demo__header h3 { display: flex; align-items: center; gap: 12px; margin: 7px 0 0; font-size: clamp(28px, 4vw, 44px); }
 .data-view-demo__header b { border-radius: 8px; background: #292c34; padding: 7px 12px; font-size: 18px; }
 .data-view-demo [data-data-view-content] { min-width: 0; overflow: hidden; }
-.data-view-demo sf-table { display: block; min-width: 0; height: 500px; }
-.data-view-demo sf-table > .sf-table { height: 100%; min-width: 0; }
+.data-view-demo sf-view-table { display: block; min-width: 0; height: 500px; }
+.data-view-demo sf-view-table > .sf-table { height: 100%; min-width: 0; }
 .data-view-demo sf-pagination { display: block; min-width: 0; margin-top: 18px; }
 .data-view-demo__state { display: grid; place-content: center; gap: 10px; min-height: 520px; border: 1px dashed #424650; border-radius: 12px; color: var(--catalog-muted); text-align: center; }
 .data-view-demo__state[hidden] { display: none; }
@@ -78,4 +78,4 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; color: #c7d7ff; font-size:
   }
 }
 @media (max-width: 1000px) { .catalog-grid, .catalog-details { grid-template-columns: 1fr; } .catalog-controls { max-height: none; } }
-@media (max-width: 640px) { .catalog-shell { padding: 16px; } .catalog-header { display: grid; } .catalog-card { padding: 12px; } .catalog-viewport { min-height: 680px; } .catalog-viewport sf-admin-menu, .catalog-viewport .sf-admin-menu { height: 680px; max-block-size: 680px; } .data-view-demo { padding: 14px; } .data-view-demo sf-table { height: 470px; } .data-view-demo .sf-table-toolbar, .data-view-demo .sf-table-toolbar-end { align-items: stretch; flex-direction: column; } .data-view-demo sf-pagination .sf-pagination-main { align-items: flex-start; flex-direction: column; gap: 12px; } }
+@media (max-width: 640px) { .catalog-shell { padding: 16px; } .catalog-header { display: grid; } .catalog-card { padding: 12px; } .catalog-viewport { min-height: 680px; } .catalog-viewport sf-admin-menu, .catalog-viewport .sf-admin-menu { height: 680px; max-block-size: 680px; } .data-view-demo { padding: 14px; } .data-view-demo sf-view-table { height: 470px; } .data-view-demo .sf-table-toolbar, .data-view-demo .sf-table-toolbar-end { align-items: stretch; flex-direction: column; } .data-view-demo sf-pagination .sf-pagination-main { align-items: flex-start; flex-direction: column; gap: 12px; } }

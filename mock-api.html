@@ -61,8 +61,8 @@
       window.sfSmartPath = '/distr/';
     </script>
     <script>
-      // The four components this reference is built on -- sf-table,
-      // sf-data-view, sf-property-view and sf-admin-menu -- are SIMAI Pro's, the
+      // The four components this reference is built on -- sf-view-table,
+      // sf-view, sf-view-properties and sf-admin-menu -- are SIMAI Pro's, the
       // component package pro, and reach the page through the Loader:
       // it fetches <base>/rule.js before its first scan and loads them from
       // that base. Their rules are gone from the free core, so a page that does
@@ -333,9 +333,9 @@
           </div>
         </section>
         <section class="p-x-4 min-w-0 flex flex-col gap-1/3 flex-1 min-h-0">
-          <sf-table
+          <sf-view-table
             pagin
-            table-settings-key="admin_table"></sf-table>
+            table-settings-key="admin_table"></sf-view-table>
           <!-- <sf-pagination
             current="1"
             total="10"

@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "compatibilityId": "ui-ca089c88c41a",
-  "pairIdentitySha256": "8ec30bc4a24532f495c5a603d6c4ffd9cfd17a5da4777c31037d6281cae1cad1",
+  "compatibilityId": "ui-8e1a016a28a0",
+  "pairIdentitySha256": "1ac992c0a48ab92a10de8cbf44037e3b01f4b3fefdd024432aee4f2736a44563",
   "contractSha256": "b70d02d6902345e17954eafb44f24052b7478439184286bed5a8df6c69c1fe45",
   "core": {
     "repository": "../ui",
-    "commit": "ca089c88c41a060919dbe9593d12e5c57b16dfa6",
+    "commit": "8e1a016a28a09f92457c78e022934406ea3af4dd",
     "sourceDir": "distr",
     "requiredFiles": [
       {
@@ -14,11 +14,11 @@
       },
       {
         "path": "core/js/core.js",
-        "sha256": "3ee06b2b4354113318031053101d9aae8b5436219cf98b5095fa81415a6e3a81"
+        "sha256": "f10293b2946cca384ae1277e1ec73bb99168e91ee70fc5f16e0134e65e66b891"
       },
       {
         "path": "core/js/core-loader.js",
-        "sha256": "b157b1a5a9d88fd8659c925b1af4b46390c8eade58948e8a5830c92e0c36ca80"
+        "sha256": "23d5f7c00d9c634488ca79879a96b13adf62175a1e69bae029eba548d853e271"
       },
       {
         "path": "core/contracts/adaptive-sizing.v1.json",
@@ -26,17 +26,17 @@
       },
       {
         "path": "core/contracts/packages/larena.package.json",
-        "sha256": "31f24efda5600013b2d57c69bc0516f75b539ed05e71fdf7529eabb20e5c2c7b"
+        "sha256": "9a16a58dd320d0bd9710b910e0a94383bb9756bc0637fa7c47caf4f90925ce8f"
       },
       {
         "path": "component/admin-menu/js/admin-menu.js",
-        "sha256": "2d0361ff4f91fbc55d79d61c92d335ce58b8d6f7ce79043e839abb11e850fbc4"
+        "sha256": "cde56c069a5ed6ac07cf5954c08e27c3d39cc80dbb0714e2436a321906887429"
       }
     ]
   },
   "smart": {
     "repository": "../ui",
-    "commit": "70676d90fe3498b41400b26b75cd1d289352ca1c",
+    "commit": "8e1a016a28a09f92457c78e022934406ea3af4dd",
     "sourceDir": "distr/smart",
     "targetDir": "smart",
     "requiredFiles": [
@@ -50,7 +50,7 @@
       },
       {
         "path": "field-renderers/js/field-renderers.js",
-        "sha256": "8e6be71f936c44efdfc09e1ebd5d147349877310a83bfdd58a37e4c297f0dfe8"
+        "sha256": "e62180ac8c0006651df0864c602121d43aa0b708d3d904e17af30f61d8dc571f"
       }
     ]
   }

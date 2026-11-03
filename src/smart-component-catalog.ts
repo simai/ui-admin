@@ -133,8 +133,8 @@ const demoRows = Array.from({length: 24}, (_, index) => {
     updated: `2026-08-${String(1 + (index % 21)).padStart(2, '0')}`,
     package: ['content', 'storage', 'dataview', 'layout'][index % 4],
     actions: [
-      {component: {type: 'icon-button', props: {icon: 'visibility', appearance: 'link', scheme: 'on-surface', ariaLabel: `Открыть проект ${id}`, value: 'view', '@click': () => emitDataView('sf-data-view-row-action', {action_id: 'view', record_ids: [id]})}}},
-      {component: {type: 'icon-button', props: {icon: 'archive', appearance: 'link', scheme: 'on-surface', ariaLabel: `Архивировать проект ${id}`, value: 'archive', '@click': () => emitDataView('sf-data-view-row-action', {action_id: 'archive', record_ids: [id]})}}},
+      {component: {type: 'button-icon', props: {icon: 'visibility', appearance: 'link', scheme: 'on-surface', ariaLabel: `Открыть проект ${id}`, value: 'view', '@click': () => emitDataView('sf-data-view-row-action', {action_id: 'view', record_ids: [id]})}}},
+      {component: {type: 'button-icon', props: {icon: 'archive', appearance: 'link', scheme: 'on-surface', ariaLabel: `Архивировать проект ${id}`, value: 'archive', '@click': () => emitDataView('sf-data-view-row-action', {action_id: 'archive', record_ids: [id]})}}},
     ],
   };
 });
@@ -201,7 +201,7 @@ const bindDataViewHost = (): void => {
 };
 
 const initializeDataView = async (): Promise<void> => {
-  await Promise.all([customElements.whenDefined('sf-table'), customElements.whenDefined('sf-pagination')]);
+  await Promise.all([customElements.whenDefined('sf-view-table'), customElements.whenDefined('sf-pagination')]);
   table?.setColumns([
     {key: 'id', label: 'ID', width: '90px'}, {key: 'title', label: 'Название', minWidth: '280px'},
     {key: 'code', label: 'Код', minWidth: '210px'}, {key: 'status', label: 'Статус', width: '150px'},

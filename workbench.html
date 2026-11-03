@@ -61,8 +61,8 @@
       window.sfSmartPath = '/distr/';
     </script>
     <script>
-      // The four components this reference is built on -- sf-table,
-      // sf-data-view, sf-property-view and sf-admin-menu -- are SIMAI Pro's, the
+      // The four components this reference is built on -- sf-view-table,
+      // sf-view, sf-view-properties and sf-admin-menu -- are SIMAI Pro's, the
       // component package pro, and reach the page through the Loader:
       // it fetches <base>/rule.js before its first scan and loads them from
       // that base. Their rules are gone from the free core, so a page that does
@@ -248,35 +248,35 @@
           карточка через свой собственный.
         </p>
 
-        <!-- The list. Not a bare sf-table: a data view that owns the query, the
+        <!-- The list. Not a bare sf-view-table: a data view that owns the query, the
              toolbar, the page row and the row actions, and slots a table in --
              which is how Larena composes it and how a consumer must. -->
         <!-- The table keeps its own toolbar, and an empty slotted one keeps the
              data view's raw fallback out. See index.html. -->
-        <sf-data-view
+        <sf-view
           id="solutions"
           aria-label="Решения">
           <span slot="toolbar"></span>
-          <sf-table
+          <sf-view-table
             slot="content"
             id="solutions-table"
             table-settings-key="admin.solutions"
-            aria-label="Решения"></sf-table>
+            aria-label="Решения"></sf-view-table>
           <sf-pagination slot="pagination"></sf-pagination>
-        </sf-data-view>
+        </sf-view>
       </section>
     </main>
 
     <!-- The record panel. It is portalled out of here when it opens, so where
          the element stands matters only for who owns it. -->
-    <sf-property-view
+    <sf-view-properties
       id="record"
       panel
       panel-width="40rem"
       collection="admin.solutions"
       collection-label="Решения"
       collection-icon="inventory_2"
-      aria-label="Карточка решения"></sf-property-view>
+      aria-label="Карточка решения"></sf-view-properties>
 
     <script
       type="module"

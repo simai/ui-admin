@@ -10,8 +10,8 @@
       window.sfSmartPath = '/distr/';
     </script>
     <script>
-      // The four components this reference is built on -- sf-table,
-      // sf-data-view, sf-property-view and sf-admin-menu -- are SIMAI Pro's, the
+      // The four components this reference is built on -- sf-view-table,
+      // sf-view, sf-view-properties and sf-admin-menu -- are SIMAI Pro's, the
       // component package pro, and reach the page through the Loader:
       // it fetches <base>/rule.js before its first scan and loads them from
       // that base. Their rules are gone from the free core, so a page that does
@@ -29,7 +29,7 @@
     <sf-admin-menu searchable collapsible aria-label="Runtime probe menu">
       <sf-admin-menu-item left-icon="home" href="/">Home</sf-admin-menu-item>
     </sf-admin-menu>
-    <sf-table pagin table-settings-key="runtime_probe"></sf-table>
+    <sf-view-table pagin table-settings-key="runtime_probe"></sf-view-table>
     <pre id="result">Waiting for Smart Components...</pre>
     <script>
       const result = document.getElementById('result');
@@ -48,7 +48,7 @@
       window.addEventListener(
         'sf-loader-init',
         async () => {
-          const table = document.querySelector('sf-table');
+          const table = document.querySelector('sf-view-table');
           const menu = document.querySelector('sf-admin-menu');
           const pageRequests = [];
           let setTableDataReturnsSelf = false;
@@ -81,7 +81,7 @@
 
           try {
             await Promise.all([
-              window.SF.whenDefined('sf-table'),
+              window.SF.whenDefined('sf-view-table'),
               window.SF.whenDefined('sf-admin-menu'),
             ]);
 

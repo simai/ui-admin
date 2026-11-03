@@ -92,7 +92,7 @@ class AdminManager {
   };
 
   async initTable() {
-    this.table = document.querySelector('sf-table');
+    this.table = document.querySelector('sf-view-table');
     if (!this.table) return false;
     this.table?.addEventListener('onTemplateSave', async (event: Event) => {
       const e = event as CustomEvent<

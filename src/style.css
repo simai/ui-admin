@@ -105,13 +105,13 @@ section {
     z-index: calc(var(--sf-z-index-9, 90) + 1);
   }
 }
-sf-table {
+sf-view-table {
   --sf-table-head--background-color: var(--sf-surface-0);
 }
 .sf-admin-menu-panel:not(.small) {
   --sf-admin-menu-panel--inline-size: var(--sf-g0);
 }
 
-sf-table .sf-pagination .sf-pagination-main {
+sf-view-table .sf-pagination .sf-pagination-main {
   --sf-pagination-main--border-bottom-width: 0;
 }

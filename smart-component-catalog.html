@@ -32,8 +32,8 @@
       window.sfSmartPath = '/distr/';
     </script>
     <script>
-      // The four components this reference is built on -- sf-table,
-      // sf-data-view, sf-property-view and sf-admin-menu -- are SIMAI Pro's, the
+      // The four components this reference is built on -- sf-view-table,
+      // sf-view, sf-view-properties and sf-admin-menu -- are SIMAI Pro's, the
       // component package pro, and reach the page through the Loader:
       // it fetches <base>/rule.js before its first scan and loads them from
       // that base. Their rules are gone from the free core, so a page that does
@@ -102,7 +102,7 @@
               <header class="data-view-demo__header"><div><span>Content collection</span><h3>Проекты <b data-data-view-count>24</b></h3></div></header>
               <div class="data-view-demo__state" data-data-view-state-message hidden></div>
               <div data-data-view-content>
-                <sf-table id="catalog-data-view" aria-label="Проекты" table-settings-key="catalog.projects" filter-text="Фильтр" clear-text="Очистить" search-placeholder="Поиск" create-text="Создать"></sf-table>
+                <sf-view-table id="catalog-data-view" aria-label="Проекты" table-settings-key="catalog.projects" filter-text="Фильтр" clear-text="Очистить" search-placeholder="Поиск" create-text="Создать"></sf-view-table>
                 <sf-pagination id="catalog-pagination" current="1" total="24" page-size="5" page-sizes="5,10,20" show-page-size top middle bottom show-actions actions="archive:Архивировать|delete:Удалить" action-apply-text="Применить" show-action-for-all action-for-all-label="Для всех"></sf-pagination>
               </div>
             </section>

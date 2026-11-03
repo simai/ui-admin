@@ -71,7 +71,7 @@ type WithPort = Element & { setHostPort?: (host: HostPort) => void; load?: () =>
 
 const start = async () => {
   await Promise.all(
-    ['sf-data-view', 'sf-table', 'sf-property-view'].map((tag) => customElements.whenDefined(tag)),
+    ['sf-view', 'sf-view-table', 'sf-view-properties'].map((tag) => customElements.whenDefined(tag)),
   );
 
   const list = document.querySelector<WithPort>('#solutions');

@@ -79,7 +79,7 @@ const api = (): LanguageApi | null =>
  */
 export const teachTurkish = () => {
   api()?.registerAll('tr', {
-    'sf-table': {
+    'sf-view-table': {
       filterText: 'Filtre', createText: 'Oluştur', searchPlaceholder: 'Ara',
       emptyText: 'Veri yok', filterApplyText: 'Filtreyi uygula',
     },
@@ -87,7 +87,7 @@ export const teachTurkish = () => {
       totalLabel: 'Toplam:', pagesLabel: 'Sayfalar:', pageSizeLabel: 'Sayfa başına:',
       showMoreText: 'Daha fazla göster',
     },
-    'sf-property-view': { closeLabel: 'Kapat', copyLinkLabel: 'Bağlantıyı kopyala' },
+    'sf-view-properties': { closeLabel: 'Kapat', copyLinkLabel: 'Bağlantıyı kopyala' },
   });
 };
 

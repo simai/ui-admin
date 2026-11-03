@@ -101,7 +101,7 @@ export type SmartComponentCreateName =
   | 'pagination'
   | 'sf-pagination'
   | 'table'
-  | 'sf-table'
+  | 'sf-view-table'
   | 'tabs'
   | 'sf-tabs'
   | 'file-upload'
@@ -169,7 +169,7 @@ export type SmartComponentCreateResult<TName extends string> = TName extends
                                                 ? HTMLSfPaginationElement
                                                 : TName extends
                                                       | 'table'
-                                                      | 'sf-table'
+                                                      | 'sf-view-table'
                                                   ? HTMLSfTableElement
                                                   : TName extends
                                                         | 'tabs'
@@ -1254,7 +1254,7 @@ declare global {
     'sf-progress-bar': HTMLSfProgressBarElement;
     'sf-progress-scale': HTMLSfProgressScaleElement;
     'sf-pagination': HTMLSfPaginationElement;
-    'sf-table': HTMLSfTableElement;
+    'sf-view-table': HTMLSfTableElement;
     'sf-tabs': HTMLSfTabsElement;
     'sf-file-upload': HTMLSfFileUploadElement;
   }

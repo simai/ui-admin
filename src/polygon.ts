@@ -66,12 +66,12 @@ const say = (text: string) => {
 const start = async () => {
   // The list's components, and not the record panel's. The Framework's loader
   // is markup-driven: it loads a component when it sees its tag, so with no
-  // `sf-property-view` in the page nothing ever loads it and waiting for it
+  // `sf-view-properties` in the page nothing ever loads it and waiting for it
   // here never returns. The whole page sat empty until this was separated --
   // the loader is why the element used to be in the markup, and the reason it
   // could not simply be deleted.
   await Promise.all(
-    ['sf-data-view', 'sf-table'].map((tag) => customElements.whenDefined(tag)),
+    ['sf-view', 'sf-view-table'].map((tag) => customElements.whenDefined(tag)),
   );
 
   // The theme and the language were applied by the page's own head script,
@@ -115,7 +115,7 @@ const start = async () => {
     // Closing is the page's decision, which is why the component only
     // announces it. Back rather than a push, so Escape undoes the press that
     // opened the record instead of adding a third entry to the history.
-    made.addEventListener('sf-property-view-close', () => {
+    made.addEventListener('sf-view-properties-close', () => {
       if (history.state?.record) history.back();
       else go({ record: null });
     });
@@ -135,7 +135,7 @@ const start = async () => {
 
   const makePanel = async (full: boolean, record: PolygonRecord) => {
     removePanel();
-    const made = document.createElement('sf-property-view') as WithPort & HTMLElement;
+    const made = document.createElement('sf-view-properties') as WithPort & HTMLElement;
     for (const [name, value] of PANEL_ATTRIBUTES) made.setAttribute(name, value);
     // Over the list it is a modeless panel; as the page it is the page.
     if (!full) made.setAttribute('panel', '');
@@ -150,7 +150,7 @@ const start = async () => {
     // Appending the tag is what makes the loader fetch the component; binding
     // the port before it is upgraded would call a method that does not exist
     // yet.
-    await customElements.whenDefined('sf-property-view');
+    await customElements.whenDefined('sf-view-properties');
     return made;
   };
 

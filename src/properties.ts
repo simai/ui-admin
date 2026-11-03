@@ -135,7 +135,7 @@ const host = {
 
 // The filter column is what a list shows: the field's chip, and on a click
 // the list's own filter window for it -- its controls, «Сбросить» and
-// «Применить» -- from a real sf-table that holds every field as a filter.
+// «Применить» -- from a real sf-view-table that holds every field as a filter.
 type FilterTable = HTMLElement & {setColumns: (c: object[]) => void; setRows: (r: object[]) => void; setFilterFields: (f: object[]) => void;
   openContextMenu: (event: object, data: object) => void; size?: string};
 const filterTable = () => document.getElementById('filters') as FilterTable | null;

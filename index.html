@@ -30,8 +30,8 @@
       window.sfSmartPath = '/distr/';
     </script>
     <script>
-      // The four components this reference is built on -- sf-table,
-      // sf-data-view, sf-property-view and sf-admin-menu -- are SIMAI Pro's, the
+      // The four components this reference is built on -- sf-view-table,
+      // sf-view, sf-view-properties and sf-admin-menu -- are SIMAI Pro's, the
       // component package pro, and reach the page through the Loader:
       // it fetches <base>/rule.js before its first scan and loads them from
       // that base. Their rules are gone from the free core, so a page that does
@@ -79,20 +79,20 @@
              — which is what this page did, and what the owner saw. Slotting an
              empty toolbar suppresses the fallback, and the TABLE's own toolbar
              does the work: search, «Фильтр», and saving a filter template. -->
-        <sf-data-view
+        <sf-view
           data-sf-skeleton="rows"
           preferences-key="polygon.solutions"
           size="1/2"
           id="solutions"
           aria-label="Решения">
           <span slot="toolbar"></span>
-          <sf-table
+          <sf-view-table
             slot="content"
             id="solutions-table"
             table-settings-key="polygon.solutions"
-            aria-label="Решения"></sf-table>
+            aria-label="Решения"></sf-view-table>
           <sf-pagination slot="pagination" actions="publish:Опубликовать|unpublish:Снять с публикации|delete:Удалить"></sf-pagination>
-        </sf-data-view>
+        </sf-view>
       </section>
     </main>
 

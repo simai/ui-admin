@@ -54,7 +54,7 @@ if (!configuredRoot) {
 }
 
 const runtimeRoot = resolve(projectRoot, configuredRoot);
-const requiredFiles = ['core/js/core.js', 'smart/table/js/table.js'];
+const requiredFiles = ['core/js/core.js', 'smart/button/js/button.js'];
 
 for (const relativePath of requiredFiles) {
   try {

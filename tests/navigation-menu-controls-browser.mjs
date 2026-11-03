@@ -41,13 +41,13 @@ const openSettingsMenu = async () => {
   if (!await gear.isVisible()) throw new Error('Settings action menu button is missing.');
   await gear.click();
   await page.waitForFunction(() => {
-    const contextMenu = document.querySelector('#sf-admin-menu-portal sf-context-menu');
+    const contextMenu = document.querySelector('#sf-admin-menu-portal sf-menu-context');
     return (contextMenu?.getProp?.('items') ?? []).some((item) => /Добавить разделитель|Add divider/i.test(item?.props?.text ?? ''));
   });
 };
 const contextAction = async (pattern) => {
   await page.waitForFunction(() => {
-    const contextMenu = document.querySelector('#sf-admin-menu-portal sf-context-menu');
+    const contextMenu = document.querySelector('#sf-admin-menu-portal sf-menu-context');
     const expected = contextMenu?.getProp?.('items')?.length ?? 0;
     const rendered = [...(contextMenu?.shadowRoot ?? contextMenu)?.querySelectorAll?.('sf-button') ?? []]
       .filter((button) => (button.shadowRoot ?? button).querySelector('button')).length;
@@ -56,7 +56,7 @@ const contextAction = async (pattern) => {
   const actionResult = await page.evaluate((matcher) => {
     const regex = new RegExp(matcher.source, matcher.flags);
     const portal = document.getElementById('sf-admin-menu-portal');
-    const contextMenu = portal?.querySelector('sf-context-menu');
+    const contextMenu = portal?.querySelector('sf-menu-context');
     const roots = [];
     const collect = (root) => {
       if (!root) return;
@@ -86,7 +86,7 @@ const contextAction = async (pattern) => {
 };
 const waitForContextMenuClosed = async () => {
   try {
-    await page.waitForFunction(() => !document.querySelector('#sf-admin-menu-portal sf-context-menu'), null, { timeout: 3000 });
+    await page.waitForFunction(() => !document.querySelector('#sf-admin-menu-portal sf-menu-context'), null, { timeout: 3000 });
   } catch (error) {
     const portal = await page.locator('#sf-admin-menu-portal').evaluate((element) => element.innerHTML);
     throw new Error(`Context menu did not close: ${portal}`, { cause: error });

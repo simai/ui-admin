@@ -59,7 +59,7 @@ class AdminManager {
   }
 
   async initTheme() {
-    await SF.whenDefined('sf-icon-button');
+    await SF.whenDefined('sf-button-icon');
     this.themeButton = document.querySelector('#theme_toggle');
     this.applyTheme(this.detectTheme());
     this.themeButton?.addEventListener('click', this.toggleTheme);

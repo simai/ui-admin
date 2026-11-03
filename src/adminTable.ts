@@ -883,7 +883,7 @@ export class AdminTableRenderer {
       case 'select':
         return SF.create('sf-checkbox', { value: String(row.id) });
       case 'handle':
-        return SF.create('sf-icon-button', {
+        return SF.create('sf-button-icon', {
           size: '1',
           appearance: 'link',
           scheme: 'on-surface',
@@ -963,7 +963,7 @@ function renderActions(row: AdminTableRow) {
   wrap.className = 'flex items-cross-center gap-1/3';
   wrap.append(
     ...row.actions.map((action) =>
-      SF.create('sf-icon-button', {
+      SF.create('sf-button-icon', {
         kind: 'icon',
         size: '1',
         appearance: 'link',

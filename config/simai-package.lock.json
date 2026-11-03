@@ -3,24 +3,24 @@
   "package": "pro",
   "source": {
     "repository": "simai/ui-pro",
-    "revision": "10072073b2b3a35170cefc5e8982bb15c787e82f",
+    "revision": "2e5218385ab703496d8fac28fdaaa8d47460124f",
     "path": "components",
-    "tree": "a27a0919165469186aaaaa447f7ffe92f4a48cd6"
+    "tree": "acd384d7cf07024622f6065e6da438c50010eb7a"
   },
   "builder": {
     "repository": "simai/ui-builder",
-    "revision": "a89508ce28acf00ca5b987059a424bfe1039f187"
+    "revision": "6cc875b8ba59f35092ec71ecf6af567eea61f537"
   },
   "smart": {
     "targetDir": "",
     "requiredFiles": [
       {
         "path": "rule.js",
-        "sha256": "d2c865d0dbb47000cbfe7a99987c133b519c4553df9aeeaaa8c6524cb9c059e4"
+        "sha256": "45f63dcf7f9caebf1d10fd7807d3607fd53aa8ea05d51d064cc2f25f30889d0a"
       },
       {
         "path": "admin-menu/js/admin-menu.js",
-        "sha256": "7f296789cda47f74fdc08d00b8f3fde397599fd5f0ab1dd218b17c2db557650e"
+        "sha256": "218f6a856030030e64a32004fa01ba3ce32d5da1e2f086e9691afe77a8d4d273"
       },
       {
         "path": "admin-menu/css/admin-menu.css",
@@ -44,7 +44,7 @@
       },
       {
         "path": "chat-interlocutor/js/chat-interlocutor.js",
-        "sha256": "e4b438bd997a0745e9fde64d715fa93a7541192ba1090e1843937014352e4d3b"
+        "sha256": "7bea313a99dd32260a7cda6693e7f57cfb3314e48a71f8237370bd868661c0d9"
       },
       {
         "path": "chat-interlocutor/css/chat-interlocutor.css",
@@ -52,7 +52,7 @@
       },
       {
         "path": "chat-message/js/chat-message.js",
-        "sha256": "b663316d33caecaf85f25bddc188b976c3f00d0512e5a126d35d175d4c4b12de"
+        "sha256": "0582076cc837c5c5b176d77181d60c1c7b50e8ab920ba5295840e2a0eade4cb4"
       },
       {
         "path": "chat-message/css/chat-message.css",
@@ -60,7 +60,7 @@
       },
       {
         "path": "chat-window/js/chat-window.js",
-        "sha256": "e7e1f23d790bac5b49a8c7ab694df52736cf9eb0473d1a48f32b66e16b11e008"
+        "sha256": "787bb326d25f0b4aca61976013ace70c2616f08f59db51878e0626fb233f4f61"
       },
       {
         "path": "chat-window/css/chat-window.css",
@@ -68,15 +68,15 @@
       },
       {
         "path": "content-editor/js/content-editor.js",
-        "sha256": "72d0260583a735dfa850ea9f62cb424bdb0eba554f637488ea2c03df7a382778"
+        "sha256": "4ebc645933b11c30ec5bc8703a298a5b9a2d7c0221a1302cb12e18daa02fee65"
       },
       {
         "path": "content-editor/css/content-editor.css",
-        "sha256": "e16e2f29cc355670d46f8108166e8126d8c071c8f4bd2298c6dff423a5ef4319"
+        "sha256": "6794471bc5d950e0062c2d58333bf9623dc3145db6f8254d8a9bf8cf02e67629"
       },
       {
         "path": "data-view/js/data-view.js",
-        "sha256": "da1c01ed96583db4f7bf9d5024bd03983e7c0f12a431c74f6107335769220d82"
+        "sha256": "8921ffb23988d81f22f1580fbf4cb936fafb63079b419abc4f714eb3ddb69f7f"
       },
       {
         "path": "data-view/css/data-view.css",
@@ -84,7 +84,7 @@
       },
       {
         "path": "mail-canvas/js/mail-canvas.js",
-        "sha256": "b8c7472177460400c639e67f4089cb171e8d2aeccc18428fc5f6abcc4bed1bf5"
+        "sha256": "9d71cdd80a8bdeb9539d518f588602cc4c00a2ebaf11d4a7a7bfaa58e28b7073"
       },
       {
         "path": "mail-canvas/css/mail-canvas.css",
@@ -92,7 +92,7 @@
       },
       {
         "path": "mail-inspector/js/mail-inspector.js",
-        "sha256": "71109ab51b32f93dc3056fb27ccc8bf674959a3ac063534340a8dc5e659ea9a1"
+        "sha256": "78b18dffd6df35398fe0049146d2c0162c5f112f87a0223e1f0be8da61d02572"
       },
       {
         "path": "mail-inspector/css/mail-inspector.css",
@@ -100,7 +100,7 @@
       },
       {
         "path": "mail-letters/js/mail-letters.js",
-        "sha256": "534d3739b383c366b1126cd2885ca6a98e2ea5f86e462ca41bd2e650b931111b"
+        "sha256": "90ec47ead3c69d506576dbe346b585f5596f73b4e3dca09ee04841eb63c4de0e"
       },
       {
         "path": "mail-letters/css/mail-letters.css",
@@ -116,7 +116,7 @@
       },
       {
         "path": "mail-structure/js/mail-structure.js",
-        "sha256": "b39ee54c63895a8c8851f8421b59ae1c2cdfafe3998c99d0d63364a1f8af7864"
+        "sha256": "ffd425da336799e76d2b1358ac97ddbc8cc2eab2e424b2d6c2845b5c554ed137"
       },
       {
         "path": "mail-structure/css/mail-structure.css",
@@ -124,31 +124,31 @@
       },
       {
         "path": "message-log/js/message-log.js",
-        "sha256": "fc3202f60d3ee112213c3d39ed6362f4078a1a6c8f9cf954e8bf3a2bf50e2928"
+        "sha256": "9c1155a78f410452f7ddb8771c85fa444daa102e5cd8fe1b319e8a83a80a5900"
       },
       {
         "path": "message-log/css/message-log.css",
-        "sha256": "cc62943ebd27fe9f78b6618a8d448bad564d4b782d1286642a33c94d0a82c3f1"
+        "sha256": "f885f1fc531d15795af1c1aaeabcad17ec8f52817584c2e926a1b0e6163ac31c"
       },
       {
         "path": "property-view/js/property-view.js",
-        "sha256": "af395ad56f47849e5a0aa8d8c500b2d48c7691e79cc0ffdf1ae52ef42ef18f30"
+        "sha256": "a253f1246ed3f8b5e314baebea806a7cb3afec777c5ec2b7fc79690ff7b2290b"
       },
       {
         "path": "property-view/css/property-view.css",
-        "sha256": "a5585c616cd71d783f10c29bb2a31c8315bfc8f04d2b7e25c83dd683125bff99"
+        "sha256": "d063bc5e0aad2917087e83082811f59f193cc00557890af8e3f4cee572e9d2bc"
       },
       {
         "path": "table/js/table.js",
-        "sha256": "2aea6749f5da56b3d96d1165a0b4137c9fc4761911cb5c7249dd339294ecc8b7"
+        "sha256": "1d8c56ebbf09e264f393d1cadca8929479252871b8dc16885f1f96c84414ca48"
       },
       {
         "path": "table/css/table.css",
-        "sha256": "d58396b0bb91f2a86d94f47440b5e6b2c3184060d61b2d0c5ca6125de37bf0b4"
+        "sha256": "9acf722fa21b37e1463ba20217922336efb17acd705f1aa1c64480d7eb6a6c26"
       },
       {
         "path": "thread-list/js/thread-list.js",
-        "sha256": "d4e760675eb1d938852fb8798b68247ae6ec7ca8c66c652529c7a284fae10719"
+        "sha256": "5a8278dc578d27c20907abe7bf4f40677ce79acd8a6005735b180bf17676cf68"
       },
       {
         "path": "thread-list/css/thread-list.css",
@@ -156,10 +156,10 @@
       }
     ]
   },
-  "compatibilityId": "pro-10072073b2b3",
+  "compatibilityId": "pro-2e5218385ab7",
   "requires": {
-    "framework": "ui-bf406c268546"
+    "framework": "ui-ca089c88c41a"
   },
-  "archiveSha256": "b1ab1b9469b0030994d33104416247f42a04135826286b37aef9eac59e0d83c2",
-  "distributionIdentitySha256": "4bd1d7094d13ba8499086d10e697ecb1e9ab8fa58dd82efbc4dc5bc3bf608ad5"
+  "archiveSha256": "0a09bf92bad6475644e3acf5d2f3b458ab757a51d7fab74a7885ea8e5c13476c",
+  "distributionIdentitySha256": "09c291e993785d3bd8f0871102a180dc57d2fcf42897e6eb0d5610338f094f0b"
 }

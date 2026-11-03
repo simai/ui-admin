@@ -205,7 +205,7 @@ if (enabled) {
   defineElement('sf-pagination', LarenaSmokePagination);
   defineElement('sf-progress-scale', LarenaSmokeElement);
   defineElement('sf-tag', LarenaSmokeElement);
-  defineElement('sf-icon-button', LarenaSmokeElement);
+  defineElement('sf-button-icon', LarenaSmokeElement);
 
   setTimeout(() => {
     window.dispatchEvent(new CustomEvent('sf-loader-init'));

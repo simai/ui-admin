@@ -45,14 +45,14 @@ const start = async () => {
   // The page header's star is the same favourite as the menu's: the header says
   // it was pressed, the host keeps it, and the menu reads the menu again so the
   // favourites block agrees with the star.
-  const header = document.querySelector('sf-page-header');
+  const header = document.querySelector('sf-header-page');
   const menu = document.querySelector<MenuElement & { refresh?: () => Promise<unknown> }>('sf-admin-menu');
   const starred = async () => {
     const answer = await host!.raise('navigation.load', { reason: 'requested', site: null }) as { favourites?: Array<{ key: string }> };
     return (answer.favourites ?? []).some((entry) => entry.key === PAGE_KEY);
   };
   header?.setAttribute('star', (await starred()) ? 'on' : 'off');
-  header?.addEventListener('sf-page-header-star', async (event) => {
+  header?.addEventListener('sf-page-header-toggle', async (event) => {
     event.preventDefault();
     const { on } = (event as CustomEvent<{ on: boolean }>).detail;
     const answer = await host!.raise('favourite.toggle', { key: PAGE_KEY, on }) as { answer: string };

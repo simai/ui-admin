@@ -41,13 +41,13 @@ const clickVisibleButton = async (pattern) => {
 };
 
 const contextItems = () => page.evaluate(() => {
-  const element = document.querySelector('#sf-admin-menu-portal sf-context-menu');
+  const element = document.querySelector('#sf-admin-menu-portal sf-menu-context');
   return (element?.getProp?.('items') ?? []).map((item) => item?.props?.text ?? '');
 });
 
 const clickContextAction = async (pattern) => {
   await page.waitForFunction(() => {
-    const element = document.querySelector('#sf-admin-menu-portal sf-context-menu');
+    const element = document.querySelector('#sf-admin-menu-portal sf-menu-context');
     const expected = element?.getProp?.('items')?.length ?? 0;
     const rendered = [...(element?.shadowRoot ?? element)?.querySelectorAll?.('sf-button') ?? []]
       .filter((button) => (button.shadowRoot ?? button).querySelector('button')).length;
@@ -55,7 +55,7 @@ const clickContextAction = async (pattern) => {
   });
   const result = await page.evaluate(({ source, flags }) => {
     const matcher = new RegExp(source, flags);
-    const element = document.querySelector('#sf-admin-menu-portal sf-context-menu');
+    const element = document.querySelector('#sf-admin-menu-portal sf-menu-context');
     const items = element?.getProp?.('items') ?? [];
     const index = items.findIndex((item) => matcher.test(item?.props?.text ?? ''));
     const buttons = [];
@@ -78,7 +78,7 @@ await clickVisibleButton(/Настройки меню|Menu settings/i);
 const ordinarySettings = menu.locator('li[data-panel-id="demo.orders"] [data-settings]');
 await ordinarySettings.click();
 await page.waitForFunction(() => {
-  const element = document.querySelector('#sf-admin-menu-portal sf-context-menu');
+  const element = document.querySelector('#sf-admin-menu-portal sf-menu-context');
   return (element?.getProp?.('items')?.length ?? 0) === 2;
 });
 const currentItemActions = await contextItems();
@@ -114,7 +114,7 @@ await mobileItemSettings.scrollIntoViewIfNeeded();
 await mobileItemSettings.click();
 await page.waitForTimeout(300);
 const popup = await page.evaluate(() => {
-  const element = document.querySelector('#sf-admin-menu-portal sf-context-menu');
+  const element = document.querySelector('#sf-admin-menu-portal sf-menu-context');
   const surface = (element?.shadowRoot ?? element)?.querySelector('.sf-context-menu') ?? element;
   const rect = surface?.getBoundingClientRect();
   return rect ? {

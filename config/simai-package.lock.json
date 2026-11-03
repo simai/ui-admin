@@ -3,20 +3,20 @@
   "package": "pro",
   "source": {
     "repository": "simai/ui-pro",
-    "revision": "04b7726e91a3e4a155a6f3973f98604a9c3626eb",
+    "revision": "c47fe37db37d04679ffdeb26b348f0feefcd6eb8",
     "path": "components",
-    "tree": "0a4855af03ed733ffe0799b2371999d9fb0b48cf"
+    "tree": "2dbec2bb6f695017adc749cb23005a327a4a4a50"
   },
   "builder": {
     "repository": "simai/ui-builder",
-    "revision": "abdb160129902b5827500044a63f0c11f974a937"
+    "revision": "537e51da52551c42d7c9d3f6e6b5799dfe350f7f"
   },
   "smart": {
     "targetDir": "",
     "requiredFiles": [
       {
         "path": "rule.js",
-        "sha256": "f3a10611972f0223e7bdf19634bc0d5db9d14d9038513960d7bf73c5fa500287"
+        "sha256": "29f222f44d6e1e034a7e5e03fb6c7c44d1040397e48b749ff9e44b5ff58ce2cc"
       },
       {
         "path": "admin-menu/js/admin-menu.js",
@@ -24,7 +24,7 @@
       },
       {
         "path": "admin-menu/css/admin-menu.css",
-        "sha256": "c112e771954867f42d3bd60c71d27e3531011a01c56e8bda7f881dd123b681e2"
+        "sha256": "88e240e809a18ce674470f279662d1f3e40e68e9d18450adec525e575e75d2cb"
       },
       {
         "path": "chat-composer/js/chat-composer.js",
@@ -32,7 +32,7 @@
       },
       {
         "path": "chat-composer/css/chat-composer.css",
-        "sha256": "3af22ebf3ab52e1eaacc8c887984d0216cd379fe054e1e418c019ed07b16c883"
+        "sha256": "cd3df6db3f84bf201cdd3c90fd986d8653524e544fbeb60b0bab345a1aa6b68d"
       },
       {
         "path": "chat-interlocutor/js/chat-interlocutor.js",
@@ -48,7 +48,7 @@
       },
       {
         "path": "chat-message/css/chat-message.css",
-        "sha256": "0553b64ead08455804caa630952bc9f91e9b97f32b6a48a9785a05cd1d028191"
+        "sha256": "148bfe43e50c0ef2f0f1a66b7551e5421367e2ff1bd7c877cfe6ca55c89e43d8"
       },
       {
         "path": "chat-threads/js/chat-threads.js",
@@ -64,7 +64,7 @@
       },
       {
         "path": "chat-window/css/chat-window.css",
-        "sha256": "de4458a048ca3cc36c608b94a43de5ee5e51bebca45e59910a5b366a6dd4f23d"
+        "sha256": "9f92f6fcea7a31029a14b3bb3eec1672c41f0cb791e6bfc56be95789e9e55c1c"
       },
       {
         "path": "confirm-change/js/confirm-change.js",
@@ -75,8 +75,16 @@
         "sha256": "de9e2c5260db29beb71f2ec8c58ae31a4b692c3c8eec0d6a5b26a11bedfff354"
       },
       {
+        "path": "editor/js/editor.js",
+        "sha256": "0b76de31b4189f3c90b60d709b8c56d40d91c2db353f4c09473da1c5ff67dac1"
+      },
+      {
+        "path": "editor/css/editor.css",
+        "sha256": "42a4a85d9409d49e38dd74d8bda8f5b4836ef538afda04d2dcfa8d28b678b97c"
+      },
+      {
         "path": "editor-content/js/editor-content.js",
-        "sha256": "e7f26aafae7a050e3740da47b34809c45be91ae19876f0b0a8424eec0bcccc7f"
+        "sha256": "e17716cd3d4b5872118e00df87f40978d94ab4146349a7fe78c7ea22b4f06ae3"
       },
       {
         "path": "editor-content/css/editor-content.css",
@@ -152,14 +160,14 @@
       },
       {
         "path": "view-table/css/view-table.css",
-        "sha256": "819199ca6e155d884ae2e83abcdaaa07182481658727cab46b4409e7e858a482"
+        "sha256": "76c3d99ad868c3a228d64b7ad7527f7cfb47e70e5eb3fc4ecd9585833cf76a27"
       }
     ]
   },
-  "compatibilityId": "pro-04b7726e91a3",
+  "compatibilityId": "pro-c47fe37db37d",
   "requires": {
-    "framework": "ui-8e1a016a28a0"
+    "framework": "ui-b8e23367889f"
   },
-  "archiveSha256": "405fbf183540a128c000799dc0d3e55af1a55e0ee3fdf309a5d987ee62d89630",
-  "distributionIdentitySha256": "3cdbacd0e2beab1448215460342d83b3ab9525be02be05d1b6866f9734b637f6"
+  "archiveSha256": "d23fe707b492c08a473d54507ab454cfa9c34af4d79863e57509222d637b0f37",
+  "distributionIdentitySha256": "6f818a47217677b4889ef380e23a73f86abee8a6872e9745d79934e4134bbb60"
 }

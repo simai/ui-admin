@@ -385,10 +385,12 @@ test(`Polygon palette is above the list and one delete is one intent (Vite ${mod
     return { id: target.id };
   });
 
-  const dialog = page.locator('#solutions dialog.sf-data-view-dialog');
+  // The confirmation is sf-modal (sf-data-view 1.7.0): the element stays in the
+  // view, its window is drawn in the modal's portal at the end of the body.
+  const dialog = page.locator('[data-sf-modal-portal] [aria-modal="true"]').filter({ hasText: 'Подтвердите изменение' });
   await dialog.waitFor({ state: 'visible', timeout: 10_000 });
   const asked = await page.evaluate((id) => ({
-    dialogText: document.querySelector('#solutions dialog.sf-data-view-dialog')?.innerText ?? '',
+    dialogText: [...document.querySelectorAll('[data-sf-modal-portal] [aria-modal="true"]')].map((node) => node.innerText).join('\n'),
     stillThere: document.querySelector('#solutions').records.some((record) => record.id === id),
     raised: [...window.__deleteRaised],
   }), started.id);
@@ -399,7 +401,8 @@ test(`Polygon palette is above the list and one delete is one intent (Vite ${mod
     { ids: [started.id], action: 'delete', confirmed: false, answer: 'refused', reason: 'confirm_required' },
   ], 'the first call asks for confirmation and deletes nothing');
 
-  await dialog.locator('[data-apply]').last().click();
+  // sf-button hands its data-* to the button it draws.
+  await page.locator('[data-sf-modal-portal] button[data-apply]').last().click();
   await page.waitForFunction(
     (id) => !document.querySelector('#solutions').records.some((record) => record.id === id),
     started.id,
@@ -412,7 +415,7 @@ test(`Polygon palette is above the list and one delete is one intent (Vite ${mod
       id,
       raised: window.__deleteRaised,
       gone: !document.querySelector('#solutions').records.some((record) => record.id === id),
-      dialogs: document.querySelectorAll('#solutions dialog.sf-data-view-dialog').length,
+      dialogs: document.querySelectorAll('#solutions sf-modal.sf-data-view-dialog').length,
       state: document.querySelector('#state')?.textContent ?? '',
       text: document.body.innerText,
     };

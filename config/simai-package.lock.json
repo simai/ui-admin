@@ -3,9 +3,9 @@
   "package": "pro",
   "source": {
     "repository": "simai/ui-pro",
-    "revision": "f7f575752c6123f247e0b7ff4eabab60c29066c0",
+    "revision": "10072073b2b3a35170cefc5e8982bb15c787e82f",
     "path": "components",
-    "tree": "164333d72797d3e896d07e796ee438516a62d55a"
+    "tree": "a27a0919165469186aaaaa447f7ffe92f4a48cd6"
   },
   "builder": {
     "repository": "simai/ui-builder",
@@ -20,11 +20,11 @@
       },
       {
         "path": "admin-menu/js/admin-menu.js",
-        "sha256": "f2698f56e2ce7d7d1cec0dd20ab78018d610c64dc73650efe09fe2870f033006"
+        "sha256": "7f296789cda47f74fdc08d00b8f3fde397599fd5f0ab1dd218b17c2db557650e"
       },
       {
         "path": "admin-menu/css/admin-menu.css",
-        "sha256": "8e38ffc59506ecc3b1517007d861b1843ba048d432fc7d010ceae133e33bda4d"
+        "sha256": "c112e771954867f42d3bd60c71d27e3531011a01c56e8bda7f881dd123b681e2"
       },
       {
         "path": "change-confirm/js/change-confirm.js",
@@ -52,7 +52,7 @@
       },
       {
         "path": "chat-message/js/chat-message.js",
-        "sha256": "822e7b68b6a652d34edb8e468457fd2c1a6be811bee4bcae8fb7fc823ccfd9f3"
+        "sha256": "b663316d33caecaf85f25bddc188b976c3f00d0512e5a126d35d175d4c4b12de"
       },
       {
         "path": "chat-message/css/chat-message.css",
@@ -60,7 +60,7 @@
       },
       {
         "path": "chat-window/js/chat-window.js",
-        "sha256": "5d0c2b874c9b948f470c83d1c3c141cdb01bea40c57ebd9ffffdd31aece6b6b1"
+        "sha256": "e7e1f23d790bac5b49a8c7ab694df52736cf9eb0473d1a48f32b66e16b11e008"
       },
       {
         "path": "chat-window/css/chat-window.css",
@@ -76,7 +76,7 @@
       },
       {
         "path": "data-view/js/data-view.js",
-        "sha256": "841bad4dd86b3564dbf0af790a92c8c377e335db130a3c2efd36d49707277c62"
+        "sha256": "da1c01ed96583db4f7bf9d5024bd03983e7c0f12a431c74f6107335769220d82"
       },
       {
         "path": "data-view/css/data-view.css",
@@ -132,7 +132,7 @@
       },
       {
         "path": "property-view/js/property-view.js",
-        "sha256": "54d4d06683dd255181dfa69bc0638ec75b38c04e014415cc4195e7d829fd84c8"
+        "sha256": "af395ad56f47849e5a0aa8d8c500b2d48c7691e79cc0ffdf1ae52ef42ef18f30"
       },
       {
         "path": "property-view/css/property-view.css",
@@ -156,10 +156,10 @@
       }
     ]
   },
-  "compatibilityId": "pro-f7f575752c61",
+  "compatibilityId": "pro-10072073b2b3",
   "requires": {
     "framework": "ui-bf406c268546"
   },
-  "archiveSha256": "6328e57a3beea1cb870be8d758b3dddf98f5766bd8142ae97758ececdc8c53df",
-  "distributionIdentitySha256": "2f16c953a0d1c136acbe5741582406368443e42f402959089ccc9083158bbe96"
+  "archiveSha256": "b1ab1b9469b0030994d33104416247f42a04135826286b37aef9eac59e0d83c2",
+  "distributionIdentitySha256": "4bd1d7094d13ba8499086d10e697ecb1e9ab8fa58dd82efbc4dc5bc3bf608ad5"
 }

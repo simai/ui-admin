@@ -39,9 +39,9 @@
     },
     {
       "id": "smart.button",
-      "version": "1.3.0",
+      "version": "1.4.0",
       "file": "smart.button.json",
-      "manifest_sha256": "3de5a307eb2e369f589467b583f5f6cef829af536d24bbbd94e89bb75cc379c1"
+      "manifest_sha256": "55cf1240a5648ed3fd1d8f2c910cf235cf69c21fe2eec14713ec21aad8746039"
     },
     {
       "id": "smart.button-close",
@@ -410,6 +410,6 @@
       "manifest_sha256": "9939690917a40471f0e6aa18442bbc8e974aa8aa7b4fb4b9687127f580472b0c"
     }
   ],
-  "registry_sha256": "c51e2d4431711a4e5c207ff604951f17db7d75965b060ee5ac0433c09e2600c1",
+  "registry_sha256": "854202ff91ab78b6e4ba7365d9b4e91d4fe2747046249fbc0b09ac695fa8e7bd",
   "registry_schema_sha256": "d5b0a5b299fa4b044d8125a315458c37de76f0bb5c6cb686962cdec7922b14ce"
 }

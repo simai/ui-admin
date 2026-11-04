@@ -3,13 +3,13 @@
   "package": "pro",
   "source": {
     "repository": "simai/ui-pro",
-    "revision": "968c4f47c3b885f5a148ac8f3e2b45f4be6e3024",
+    "revision": "978d513cf4bf331e0f89aa201aefe608b90e9d1c",
     "path": "components",
-    "tree": "a74458d479b587d6a347e644b4b0d116421f08c8"
+    "tree": "712d4230cd94bc93d61fe3c0dcd3e27e4e3c2e4a"
   },
   "builder": {
     "repository": "simai/ui-builder",
-    "revision": "97ba6c8892d7053af16c28c1ebdf88028c82691f"
+    "revision": "9c9c1b1510393b24adb98ea2ca523b26474cf0cf"
   },
   "smart": {
     "targetDir": "",
@@ -68,15 +68,15 @@
       },
       {
         "path": "editor/js/editor.js",
-        "sha256": "b1ca53a4e10f846f7b354f8ef8b61c391d327ba951a5bb3f1a7606459b81e432"
+        "sha256": "873c32ae547024d45f10b6a68db40e9aafcd3bb238198ea9242b419c4a6bd671"
       },
       {
         "path": "editor/css/editor.css",
-        "sha256": "17b27625d5fb93b71e8647b233fb1d0904590cfcf2181183dbe3ec8b4bf313ae"
+        "sha256": "cdae76773ee840d2d9c16e3100363d87c1863ff03e57a11eeecd7dcd7f5b257e"
       },
       {
         "path": "editor-content/js/editor-content.js",
-        "sha256": "ced00b0b2c6bccd984da912c96887a5b2daa92872862c76fd44113f30e582988"
+        "sha256": "eaf3706dfa2e5110a07ddf10aa54f45526ad0067e3c7fc4e36a986bd4f227e7a"
       },
       {
         "path": "editor-content/css/editor-content.css",
@@ -156,10 +156,10 @@
       }
     ]
   },
-  "compatibilityId": "pro-968c4f47c3b8",
+  "compatibilityId": "pro-978d513cf4bf",
   "requires": {
-    "framework": "ui-eea8c0a97cc7"
+    "framework": "ui-c3015f76bcc2"
   },
-  "archiveSha256": "afd2676a8ea3871dfb6fcb434c5dc139f7bc63b8593b015a708c7e5634ba9c20",
-  "distributionIdentitySha256": "69db82aa2ad585ce6dc221ae0e63b134ad340bee8f74d30bcb961f622dbd4882"
+  "archiveSha256": "c32337ffaf509155d55a9db57d94d2fab0322e7056b52b9bfca2d129504643a3",
+  "distributionIdentitySha256": "5b3c1437caabe25c3195809db989bd074ed6866fe5367c81a8df0b7aad227e7c"
 }

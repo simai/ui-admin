@@ -3,9 +3,9 @@
   "package": "pro",
   "source": {
     "repository": "simai/ui-pro",
-    "revision": "ce48954dd94b93738e0594197925d11e9bf179fd",
+    "revision": "df23a325418a99693c62634a1ea948324bbaece8",
     "path": "components",
-    "tree": "b2d72750ad96477941b74294da46cd0878fff005"
+    "tree": "f546411bfd1d212c542bc4c53324e839ce14ab18"
   },
   "builder": {
     "repository": "simai/ui-builder",
@@ -20,7 +20,7 @@
       },
       {
         "path": "admin-menu/js/admin-menu.js",
-        "sha256": "08f8afe247c5db0c1052f936af91cf2402f49fbc52964c31a95360e1514a8bd3"
+        "sha256": "426076bfce7595070a8c1fbdeafcfc7df5c3b156fc4dbc17f9a45d14fe179f2e"
       },
       {
         "path": "admin-menu/css/admin-menu.css",
@@ -76,11 +76,11 @@
       },
       {
         "path": "editor-content/js/editor-content.js",
-        "sha256": "7336e61b60cd756ed47353ab2ef3606414990d98bade7a2dbdaf2993f76b3959"
+        "sha256": "edb3890b60fa3d13998a1f473553bdf2b225b3929cb89ef5d3ed796132458e07"
       },
       {
         "path": "editor-content/css/editor-content.css",
-        "sha256": "26353fe09d8812aeb1b89fa5074188bd04422c99635333d0d4ba05757756fe32"
+        "sha256": "3b5f126a6ce14a1cf79b911fdadde8f3810652fae868a1bb5140e4205eeffce2"
       },
       {
         "path": "mail-canvas/js/mail-canvas.js",
@@ -156,10 +156,10 @@
       }
     ]
   },
-  "compatibilityId": "pro-ce48954dd94b",
+  "compatibilityId": "pro-df23a325418a",
   "requires": {
     "framework": "ui-4cd23cd8b490"
   },
-  "archiveSha256": "cc7060911af475eb2ca302cd0e371044786586e4c6e23beb68a3156b0fe9bed9",
-  "distributionIdentitySha256": "a4dacb45b59f4afbf5a9e57e8aaf16e2359edf39ae96da220937e4820592b723"
+  "archiveSha256": "a0dd1710a290eba35e38c513a4e84c0c729cb095219e20c5f4e51020b839d465",
+  "distributionIdentitySha256": "3a144ce2d4e672e9a20e4eeabec0835121514f61f3bf043e6feccf5bda45ce96"
 }

@@ -159,6 +159,7 @@ const FIELDS = [
   { key: 'budget', label: 'Бюджет, ₽', property_type: 'number', width: 'half' },
   { key: 'released', label: 'Выпущено', property_type: 'date', width: 'half' },
   { key: 'checked_at', label: 'Проверено', property_type: 'datetime', width: 'half' },
+  { key: 'review_time', label: 'Время проверки', property_type: 'time', width: 'half' },
   { key: 'public', label: 'Доступно всем', property_type: 'boolean', width: 'half' },
   { key: 'deprecated', label: 'Снято с поддержки', property_type: 'boolean', width: 'half' },
 
@@ -180,7 +181,7 @@ const SECTIONS_LAYOUT = [
     key: 'main', label: 'Общее',
     groups: [
       { key: 'main', label: 'Основное', columns: 2, fields: ['code', 'title', 'section', 'owner', 'status', 'licence', 'tags', 'summary', 'body'] },
-      { key: 'numbers', label: 'Числа и сроки', columns: 2, fields: ['version', 'priority', 'budget', 'released', 'checked_at', 'public', 'deprecated'] },
+      { key: 'numbers', label: 'Числа и сроки', columns: 2, fields: ['version', 'priority', 'budget', 'released', 'checked_at', 'review_time', 'public', 'deprecated'] },
     ],
   },
   {
@@ -224,6 +225,7 @@ const LIST_COLUMNS = [
   { key: 'budget', sortable: true, align: 'end' },
   { key: 'released', sortable: true },
   { key: 'checked_at', sortable: true },
+  { key: 'review_time', sortable: true },
   { key: 'public' },
   { key: 'accent' },
   { key: 'cover' },
@@ -304,6 +306,8 @@ const buildRecord = (index) => {
     budget: index % 7 === 3 ? 0 : Math.round((random() * 4_800_000 + 12_000) / 100) * 100,
     released: dateAt(index, 120),
     checked_at: dateTimeAt(index),
+    // hh:mm, from the index alone, so the generator's random sequence is unchanged.
+    review_time: `${pad((index * 7) % 24)}:${pad((index * 15) % 60)}`,
     public: index % 3 !== 2,
     deprecated: index % 10 === 4,
 

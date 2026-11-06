@@ -3,9 +3,9 @@
   "package": "pro",
   "source": {
     "repository": "simai/ui-pro",
-    "revision": "22376674af4e107b4501e48811eb7d1724f1687b",
+    "revision": "ff58cea49d9abdcd67f1de98ba9e250aec5edccb",
     "path": "components",
-    "tree": "c4f758fddb6d16541b8cfcb423c7e25ebda9cec2"
+    "tree": "89d99dbad534414c5909277d2d342689c940f705"
   },
   "builder": {
     "repository": "simai/ui-builder",
@@ -156,10 +156,10 @@
       }
     ]
   },
-  "compatibilityId": "pro-22376674af4e",
+  "compatibilityId": "pro-ff58cea49d9a",
   "requires": {
-    "framework": "ui-1e5ec795a1ce"
+    "framework": "ui-1ec283e856cd"
   },
   "archiveSha256": "768bd72adcccdeb91136c700f67fec66eba7f03ffc70520a9d1d6a478c8d48c3",
-  "distributionIdentitySha256": "e965a0707211a1ae3fbdfbb6818cd3d59c61d3e01afed4379065c35175677870"
+  "distributionIdentitySha256": "bd9545693f95d27b7979c5f98c9ba83b8b47976f56b27a0669446c75d693efb7"
 }

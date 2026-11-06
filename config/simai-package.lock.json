@@ -3,9 +3,9 @@
   "package": "pro",
   "source": {
     "repository": "simai/ui-pro",
-    "revision": "db5cc2a375bd411397a45826c038ff94172d2893",
+    "revision": "22376674af4e107b4501e48811eb7d1724f1687b",
     "path": "components",
-    "tree": "99742c42df08694da2d0e3cb8c9dfe39d5169dcc"
+    "tree": "c4f758fddb6d16541b8cfcb423c7e25ebda9cec2"
   },
   "builder": {
     "repository": "simai/ui-builder",
@@ -68,7 +68,7 @@
       },
       {
         "path": "editor/js/editor.js",
-        "sha256": "4e8649671c8ac4375d15b5a6898edf180d260b984a0b653787a50a3cff10a00a"
+        "sha256": "01b7969d40bc5f5c3639c56de2d7e2714f7a994ad7ad35708eb03cc254ab44a1"
       },
       {
         "path": "editor/css/editor.css",
@@ -92,7 +92,7 @@
       },
       {
         "path": "mail-inspector/js/mail-inspector.js",
-        "sha256": "78b18dffd6df35398fe0049146d2c0162c5f112f87a0223e1f0be8da61d02572"
+        "sha256": "23604c979b79083226a4fa89ec498c90336a538fc7129626b7325886f353e27e"
       },
       {
         "path": "mail-inspector/css/mail-inspector.css",
@@ -100,7 +100,7 @@
       },
       {
         "path": "mail-letters/js/mail-letters.js",
-        "sha256": "aa4a94fd8e2aecb9f0c97b66e8c5d76fa7ea1a7e14456630f30e45b78ecd56e9"
+        "sha256": "54173e7b227ba1a876ec893ed0824f587fd24a6a6c822d99a28af52f5d4d7c5c"
       },
       {
         "path": "mail-letters/css/mail-letters.css",
@@ -132,7 +132,7 @@
       },
       {
         "path": "view/js/view.js",
-        "sha256": "e4dbc7272dc3f12d33f159a3dc0230c1f213a656f4da7e0cfc994f62bf9add08"
+        "sha256": "57f625d07cf4d3b8175048bcd7c4545cc3b672f33af7a5f49e92b9cf601abf38"
       },
       {
         "path": "view/css/view.css",
@@ -140,7 +140,7 @@
       },
       {
         "path": "view-properties/js/view-properties.js",
-        "sha256": "b0b96da9ffc63d80607acd68d07eb8ab3364072c859f4b6fe3dd9cb3eb54e7e8"
+        "sha256": "9f43cdb328bc379b99873a853b38f94f80ae6ee4c0645b3d97c118fc5ae18678"
       },
       {
         "path": "view-properties/css/view-properties.css",
@@ -148,7 +148,7 @@
       },
       {
         "path": "view-table/js/view-table.js",
-        "sha256": "dba17cf9c61e3d370bb6202e4bd2946706169c9ada4af0bbc601bb316a961f66"
+        "sha256": "e936c6c9a95774cf46baa4acc5045ecce67e1c9257523aea67e85ef10506cd97"
       },
       {
         "path": "view-table/css/view-table.css",
@@ -156,10 +156,10 @@
       }
     ]
   },
-  "compatibilityId": "pro-db5cc2a375bd",
+  "compatibilityId": "pro-22376674af4e",
   "requires": {
-    "framework": "ui-e7b79c3a9e05"
+    "framework": "ui-1e5ec795a1ce"
   },
-  "archiveSha256": "24dfdf292c70f41d614b5306a41d8e501f47458657d46cb44f72cbecf08d88c2",
-  "distributionIdentitySha256": "bc4b557f2d761e09efca089ccc93063c7292efa9aa22c3d7bd3af249efaeb919"
+  "archiveSha256": "768bd72adcccdeb91136c700f67fec66eba7f03ffc70520a9d1d6a478c8d48c3",
+  "distributionIdentitySha256": "e965a0707211a1ae3fbdfbb6818cd3d59c61d3e01afed4379065c35175677870"
 }

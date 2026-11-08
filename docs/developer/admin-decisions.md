@@ -15,16 +15,30 @@ Framework's Loader fetches minified bundles by itself; a page being debugged
 asks for the readable ones with `?sf-debug` or `data-sf-debug` on `<html>`.
 
 **Versioned paths are cached for good.** Every Framework pair and package build
-has a directory of its own (`/distr/ui-<id>/`, `/distr-larena/larena-<id>/`),
-so their files never change. Serve them with
-`Cache-Control: public, max-age=31536000, immutable`; HTML pages keep no long
-cache. Without it a warm load revalidates about a hundred files. The polygon
-does this in its Caddy site block:
+has a directory of its own, named by its release id (`/distr/ui-<id>/`,
+`/distr-pro/pro-<id>/`; `/distr-larena/larena-<id>/` before 2026-11-02), and
+Vite names its bundles by content hash (`/assets/<name>-<hash>.<ext>`), so
+those files never change. Serve them with
+`Cache-Control: public, max-age=31536000, immutable`; HTML pages, unversioned
+paths and manifests that change in place keep `no-cache`. Without it a warm
+load revalidates about 120 files.
 
-```
-@versioned path /distr/ui-* /distr-larena/* /assets/*
-header @versioned Cache-Control "public, max-age=31536000, immutable"
-```
+The polygon does this in `server.js` (corrected 2026-11-09: an earlier text
+here described a Caddy matcher that was never in effect). admin.simai.io runs
+nginx in front of the Node server, and nginx passes the server's header
+through; nginx sets no cache header of its own for this site. `server.js`
+sets the header in `express.static`'s `setHeaders` for files under `dist/`:
+
+- `^/distr/ui-<12 hex>[-<name>-<12 hex>]/…` and
+  `^/distr-<pkg>/<pkg>-<12 hex>[-<name>-<12 hex>]/…` are immutable;
+- `^/assets/<name>-<8 chars>.<ext>` (Vite's hashed names, top level only) is
+  immutable;
+- everything else, and the SPA fallback page, is `no-cache`.
+
+The match is on the release id itself: an id-less or "latest"-style path
+(`/distr/ui/`, `/distr/ui-latest/`, `/distr-pro/pro/`) never gets the long
+cache. A Larena host serving the same directories applies the same rule in
+its own web server.
 
 **A list's first load shows skeleton rows** -- the Framework's `sf-skeleton` --
 until the host answers; a re-query over rows on screen dims them as before.

@@ -18,13 +18,28 @@ asks for the readable ones with `?sf-debug` or `data-sf-debug` on `<html>`.
 has a directory of its own (`/distr/ui-<id>/`, `/distr-larena/larena-<id>/`),
 so their files never change. Serve them with
 `Cache-Control: public, max-age=31536000, immutable`; HTML pages keep no long
-cache. Without it a warm load revalidates about a hundred files. The polygon
-does this in its Caddy site block:
+cache. Without it a warm load revalidates about a hundred files.
 
-```
-@versioned path /distr/ui-* /distr-larena/* /assets/*
-header @versioned Cache-Control "public, max-age=31536000, immutable"
-```
+The polygon does not do this today (checked 2026-11-08); the decision stands,
+the configuration is missing. The package directory is `/distr-pro/pro-<id>/`
+since the rename, `/distr-larena/larena-<id>/` before it.
+
+- `admin.simai.io`: nginx proxies to `server.js`, whose `express.static`
+  mounts set no `maxAge`, so every file -- `/distr/ui-<id>/`,
+  `/distr-pro/pro-<id>/` and Vite's `/assets/` alike -- is served with
+  Express's default `Cache-Control: public, max-age=0` and a weak ETag. The
+  nginx site is generated on the server by simai-env and is not in this
+  repository.
+- `ui-admin.test`: ServBay's Caddy serves the published release with a plain
+  `file_server`, with no `Cache-Control` at all (ETag and Last-Modified only).
+  A matcher of this kind was once added to that Caddyfile by hand
+  (`@versioned path /distr/ui-* /distr-larena/* /assets/*` with
+  `header @versioned Cache-Control "public, max-age=31536000, immutable"`);
+  ServBay rewrites the Caddyfile and it is gone.
+
+To put the decision in effect on the polygon, `server.js` would give the
+versioned mounts `maxAge: '1y', immutable: true` (and keep HTML pages without
+a long cache); a Larena host does the same in its own web server.
 
 **A list's first load shows skeleton rows** -- the Framework's `sf-skeleton` --
 until the host answers; a re-query over rows on screen dims them as before.

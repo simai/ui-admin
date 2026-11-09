@@ -3,28 +3,28 @@
   "package": "pro",
   "source": {
     "repository": "simai/ui-pro",
-    "revision": "abe29151620b0ef7004473ffcd4ee8049cbbccf1",
+    "revision": "a046f296acd004487ae65015524a6231b006fdbc",
     "path": "components",
-    "tree": "9a78582f04dd3908da985cdd9c7647496cca79aa"
+    "tree": "969289cd8332ab9f70777c0cbf1c5c3283317636"
   },
   "builder": {
     "repository": "simai/ui-builder",
-    "revision": "9c9c1b1510393b24adb98ea2ca523b26474cf0cf"
+    "revision": "27517723418c021ee9a4c741024414ce0911f095"
   },
   "smart": {
     "targetDir": "",
     "requiredFiles": [
       {
         "path": "rule.js",
-        "sha256": "3db0f9b9d862d31697813353fa998171208c1c402ecf35573443a6b7e299e461"
+        "sha256": "ec91b0a76bf19dfb54ea9c0d404b5d25339f36f3094df3ff6ee8c53fda9bba0e"
       },
       {
         "path": "admin-menu/js/admin-menu.js",
-        "sha256": "f284ddb85f731d74b237d883f5663995cfc9b21359478a67b00b875589f50424"
+        "sha256": "6e0ade9f1e2eab475e56670cf862cb0721901a40e079c4e64b4ce52608592562"
       },
       {
         "path": "admin-menu/css/admin-menu.css",
-        "sha256": "8d9bcc6b21f2a12fc77b9c794e1b47182cc6ee8a1d9fde2381d3c20a1f43e62e"
+        "sha256": "35b41521f963d49995ebd03a24535009b7ff9c509ffdce63c99fbb1287872037"
       },
       {
         "path": "chat-composer/js/chat-composer.js",
@@ -36,7 +36,7 @@
       },
       {
         "path": "chat-interlocutor/js/chat-interlocutor.js",
-        "sha256": "ce70788238ed5de6ea5eab1a9923647f76a829d3aba02ed9583669f1af45276a"
+        "sha256": "534a040c187389053383b8efb946080f71a251b48f172b094d310515de3f280d"
       },
       {
         "path": "chat-interlocutor/css/chat-interlocutor.css",
@@ -44,7 +44,7 @@
       },
       {
         "path": "chat-message/js/chat-message.js",
-        "sha256": "65c46f45b1a347dc3c765424c7677f97c0eaf963b4cd23843c517105f5589d27"
+        "sha256": "8633b46e70a1b9f09e74b34af990f47eb6014797edbe7419103fb1868d0ddbf3"
       },
       {
         "path": "chat-message/css/chat-message.css",
@@ -52,15 +52,15 @@
       },
       {
         "path": "chat-threads/js/chat-threads.js",
-        "sha256": "d09719b0e8351f2c3f3b326376c444cfb3ec8265c0fb132ea79392ef8c766be8"
+        "sha256": "fff3b53f995c8bd3d4babeda97c300e60c215984be66881282bbbfe30cd394a3"
       },
       {
         "path": "chat-threads/css/chat-threads.css",
-        "sha256": "d202b4e3993d87f9b6bb0641d4428a1e4918573c7dc6b33caa16f6bbf2e12c25"
+        "sha256": "a1a7c543e57168ccdbaf12ce29c4ce2245deb7d1742130e7f0e568cd3e88834a"
       },
       {
         "path": "chat-window/js/chat-window.js",
-        "sha256": "fed9f6bd8991e19a216d6796d595b2ea991e56bf0c5aa8705396649180c3179f"
+        "sha256": "24dc8f7f7f48af40e03953839c5123ec213efa9d0d62bc92811c016a794ea897"
       },
       {
         "path": "chat-window/css/chat-window.css",
@@ -68,7 +68,7 @@
       },
       {
         "path": "editor/js/editor.js",
-        "sha256": "5f51724db26297c6a1adba132f49ea6992f90c0eb3f9809e493aca889e74d8d9"
+        "sha256": "7f6f607dd312f9d902012c5721086f0ecc856f2858b22e6030d23b8255df4d49"
       },
       {
         "path": "editor/css/editor.css",
@@ -76,7 +76,7 @@
       },
       {
         "path": "editor-content/js/editor-content.js",
-        "sha256": "2fbe17b5f3aa2ca7c60b87659de008feafc0b13cb158fe7f968d2bb49a09f0ed"
+        "sha256": "454bc0897e6a6178f3038751e533a432badddcc9dcd985c7fd1c8488892054b5"
       },
       {
         "path": "editor-content/css/editor-content.css",
@@ -84,7 +84,7 @@
       },
       {
         "path": "mail-canvas/js/mail-canvas.js",
-        "sha256": "9d71cdd80a8bdeb9539d518f588602cc4c00a2ebaf11d4a7a7bfaa58e28b7073"
+        "sha256": "1f3617ac2b9d025c9509581ecbe495a7091b390e08acd27429da17cdc8d55b92"
       },
       {
         "path": "mail-canvas/css/mail-canvas.css",
@@ -92,7 +92,7 @@
       },
       {
         "path": "mail-inspector/js/mail-inspector.js",
-        "sha256": "0bb360c82f3dd2d2162a35aace7b8cb583dfbd6345678397cbe26312fc641373"
+        "sha256": "43e673d2a0cdee04eb884ba81d5f99362429650e89334a1f6511f88984f06a94"
       },
       {
         "path": "mail-inspector/css/mail-inspector.css",
@@ -100,7 +100,7 @@
       },
       {
         "path": "mail-letters/js/mail-letters.js",
-        "sha256": "9ab10383790ab8f9294b44a1437491f3a46bf7b68f9ce3d4f8a3182315546d24"
+        "sha256": "d7924e5ea3e6bf1ea2ad0f588147131a566f45c463d964f6276504b7fc339ffd"
       },
       {
         "path": "mail-letters/css/mail-letters.css",
@@ -108,7 +108,7 @@
       },
       {
         "path": "mail-library/js/mail-library.js",
-        "sha256": "93982192da4922b06c1765f8b1a6f17b1e9655d5b812a6f4f58596c6c181a6fe"
+        "sha256": "f0a264175fb4bfc766649293f6d757fc42c3dd86266165cdf84a51ec3407d2e2"
       },
       {
         "path": "mail-library/css/mail-library.css",
@@ -116,7 +116,7 @@
       },
       {
         "path": "mail-structure/js/mail-structure.js",
-        "sha256": "d868e211f55a5fb108e823de4b477c369c68508249e7bf2082139552cbef23c6"
+        "sha256": "d819f781ba6ffb0a8924205e74b761f63f47f9f206bc25c9f0e2bb2b28c0cbe9"
       },
       {
         "path": "mail-structure/css/mail-structure.css",
@@ -124,7 +124,7 @@
       },
       {
         "path": "message-log/js/message-log.js",
-        "sha256": "74b017136866e3091cf94b571a87d44c86b3e148be91002437347735f2426581"
+        "sha256": "0b1c1efa71b2dd9d073e7c594c8b27b151c092c93e4143ad0451efc794a8efed"
       },
       {
         "path": "message-log/css/message-log.css",
@@ -140,7 +140,7 @@
       },
       {
         "path": "view-properties/js/view-properties.js",
-        "sha256": "10c82af96e8a0ce4cf305f891e1497ecf0540c71929280c3b1c12d79b1f62f84"
+        "sha256": "a9bfae6eed865efaa64128cfe4568d9bc3082db46095a9bfffb4b41b43ba5e92"
       },
       {
         "path": "view-properties/css/view-properties.css",
@@ -148,7 +148,7 @@
       },
       {
         "path": "view-table/js/view-table.js",
-        "sha256": "a9ccb354fe584d707c05c3a755ce55106a3dfc7027ebc9cc1f16186039b77c4b"
+        "sha256": "dd944b3da7130efe77071833213ece51eeb882c90602c14c37c987e6134ab670"
       },
       {
         "path": "view-table/css/view-table.css",
@@ -156,10 +156,10 @@
       }
     ]
   },
-  "compatibilityId": "pro-abe29151620b",
+  "compatibilityId": "pro-a046f296acd0",
   "requires": {
-    "framework": "ui-0c23f6a0af12"
+    "framework": "ui-d6f01121baca"
   },
-  "archiveSha256": "5a9f4c8bdfd1e1323115bdfccdf6115d078393d2b93a510c12deedaf8153203d",
-  "distributionIdentitySha256": "822f079fa5047b6718763d42f8cd9dbbc9ce529c73ab4a40d21df60aa21c54a8"
+  "archiveSha256": "75e8a8f1b4558c05e628a0ec2339915db6dd2a740434b0f8d8e97b2d1ae4b3a0",
+  "distributionIdentitySha256": "e4b372b38abe1b89f15f3c69d3f7394e5ea5f67d86e015ca7e177c81d7226dad"
 }

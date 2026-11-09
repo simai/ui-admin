@@ -3,10 +3,10 @@ import { watchForStalePage } from './stale-page-notice';
 type Manifest = {
   id: string; title: string; summary: string; reuse_mode: string; custom_element: string;
   inputs: {properties: Record<string, JsonSchema>}; composition: {uses: string[]; public_parts: string[]};
-  events: Record<string, {summary: string}>; scenarios: Array<{id: string; viewport: string; assertions: string[]}>;
+  events: Record<string, {summary: string}>; scenarios?: Array<{id: string; viewport: string; assertions: string[]}>;
   ai_guidance: unknown;
 };
-type Registry = {entries: Array<{id: string}>};
+type Materialization = {contracts: Array<{id: string}>};
 type AdminMenuElement = HTMLElement & {
   applyExternalSettingsState: (state: object, target: 'user' | 'system') => void;
   applySettingsResult: (result: object) => void;
@@ -22,12 +22,14 @@ type DataViewElement = HTMLElement & {
 };
 type PaginationElement = HTMLElement & {setState: (state: object) => PaginationElement};
 
-const supportedContracts = new Set(['smart.admin-menu', 'smart.data-view']);
-const registry = await fetch('/contracts/smart-component-contract-registry.json', {cache: 'no-store'}).then((response) => {
-  if (!response.ok) throw new Error(`Contract registry load failed: ${response.status}`);
-  return response.json() as Promise<Registry>;
+const supportedContracts = new Set(['smart.admin-menu', 'smart.view-table']);
+// What the build materialised: the Framework registry's contracts and the
+// pinned package's (sf-admin-menu and sf-view-table come from the package).
+const materialization = await fetch('/contracts/materialization.json', {cache: 'no-store'}).then((response) => {
+  if (!response.ok) throw new Error(`Contract materialization load failed: ${response.status}`);
+  return response.json() as Promise<Materialization>;
 });
-const availableContracts = registry.entries.map(({id}) => id).filter((id) => supportedContracts.has(id));
+const availableContracts = materialization.contracts.map(({id}) => id).filter((id) => supportedContracts.has(id));
 const requestedContract = new URL(location.href).searchParams.get('component') ?? 'smart.admin-menu';
 let activeContractId = availableContracts.includes(requestedContract) ? requestedContract : 'smart.admin-menu';
 let manifest: Manifest;
@@ -110,9 +112,9 @@ const renderManifest = (): void => {
   document.querySelector<HTMLElement>('[data-contract-title]')!.textContent = `${manifest.id} · ${manifest.reuse_mode}`;
   document.querySelector<HTMLElement>('[data-contract-summary]')!.textContent = manifest.summary;
   document.querySelector<HTMLElement>('[data-contract-guidance]')!.textContent = JSON.stringify(manifest.ai_guidance, null, 2);
-  document.querySelector<HTMLElement>('[data-contract-composition]')!.innerHTML = manifest.composition.uses
+  document.querySelector<HTMLElement>('[data-contract-composition]')!.innerHTML = (manifest.composition?.uses ?? [])
     .map((dependency) => `<div class="composition-node"><strong>${dependency}</strong><span>internal dependency</span></div>`).join('');
-  document.querySelector<HTMLElement>('[data-contract-scenarios]')!.innerHTML = manifest.scenarios
+  document.querySelector<HTMLElement>('[data-contract-scenarios]')!.innerHTML = (manifest.scenarios ?? [])
     .map((scenario) => `<div class="scenario-item"><strong>${scenario.id} · ${scenario.viewport}</strong><span>${scenario.assertions.join(' · ')}</span></div>`).join('');
   if (eventLog) eventLog.innerHTML = '<p>Событий пока нет.</p>';
   renderControls();
@@ -238,12 +240,13 @@ const loadContract = async (id: string): Promise<void> => {
   activeContractId = id;
   document.querySelectorAll<HTMLElement>('[data-contract-fixture]').forEach((fixture) => { fixture.hidden = fixture.dataset.contractFixture !== id; });
   activeElement = document.querySelector<HTMLElement>(`[data-contract-fixture="${id}"] ${manifest.custom_element}`);
-  viewport?.classList.toggle('catalog-viewport--data-view', id === 'smart.data-view');
+  viewport?.classList.toggle('catalog-viewport--data-view', id === 'smart.view-table');
   document.querySelector<HTMLElement>('[data-persistence-controls]')!.hidden = id !== 'smart.admin-menu';
-  document.querySelector<HTMLElement>('[data-data-view-states]')!.hidden = id !== 'smart.data-view';
+  document.querySelector<HTMLElement>('[data-data-view-states]')!.hidden = id !== 'smart.view-table';
   if (selector) selector.value = id;
   const url = new URL(location.href); url.searchParams.set('component', id); history.replaceState({}, '', url);
   await customElements.whenDefined(manifest.custom_element);
+  if (id === 'smart.view-table') await dataViewReady;
   renderManifest();
   document.documentElement.dataset.smartCatalogComponent = id;
   document.documentElement.dataset.smartCatalogReady = 'true';
@@ -291,7 +294,12 @@ document.querySelector<HTMLButtonElement>('[data-action="viewport"]')?.addEventL
   (event.currentTarget as HTMLButtonElement).textContent = mobile ? 'Desktop' : 'Mobile';
 });
 
-await initializeDataView();
+// The table's fixture starts hidden, and the Loader fetches nothing inside a
+// closed container until it opens (standard simai.smart-component 1.3.8
+// §7.2.1). So the data view is set up whenever its fixture first opens, not
+// awaited before the first contract loads: awaiting it here held the whole
+// page until someone opened a fixture nobody could open yet.
+const dataViewReady = initializeDataView();
 await loadContract(activeContractId);
 
 export {};

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {readFile} from 'node:fs/promises';
+import {readdir, readFile} from 'node:fs/promises';
 import test from 'node:test';
 
 const root = new URL('../', import.meta.url);
@@ -14,7 +14,7 @@ test('catalog switches between canonical whole-component contracts', async () =>
   assert.match(html, /data-event-log/);
   assert.match(html, /persistence-mode="external"/);
   assert.match(html, /data-contract-select/);
-  assert.match(html, /data-contract-fixture="smart\.data-view"/);
+  assert.match(html, /data-contract-fixture="smart\.view-table"/);
   assert.match(html, /id="catalog-data-view"/);
   assert.match(html, /id="catalog-pagination"/);
   assert.match(source, /fetch\(`\/contracts\/\$\{id\}\.json`/);
@@ -26,6 +26,7 @@ test('catalog switches between canonical whole-component contracts', async () =>
   assert.match(materializer, /entry\.manifest_sha256 !== hash\(manifestContent\)/);
   assert.match(materializer, /registry_sha256: hash\(registryContent\)/);
   assert.match(materializer, /smart-component-manifest\.schema\.json/);
+  assert.match(materializer, /smart\.manifest\.json/);
   assert.doesNotMatch(source, /const\s+manifest\s*=\s*\{/);
 });
 
@@ -39,10 +40,16 @@ test('materialized catalog is traceable to the canonical registry and schema', a
   assert.equal(materialization.schema, 'simai.ui-admin.contract-materialization.v1');
   assert.equal(materialization.registry_sha256, hash(registryContent));
   assert.equal(materialization.registry_schema_sha256, hash(schemaContent));
-  assert.equal(materialization.contracts.length, 44);
-  assert.ok(materialization.contracts.some(({id, version}) => id === 'smart.admin-menu' && version === '1.0.0'));
-  assert.ok(materialization.contracts.some(({id, version}) => id === 'smart.data-view' && version === '1.0.0'));
-  assert.ok(materialization.contracts.some(({id}) => id === 'smart.button-group'));
+  const fromPackage = ({source}) => typeof source === 'string' && source.startsWith('package:');
+  assert.equal(materialization.contracts.filter((contract) => !fromPackage(contract)).length, registry.entries.length);
+  assert.ok(materialization.contracts.some(({id, source}) => id === 'smart.admin-menu' && fromPackage({source})));
+  assert.ok(materialization.contracts.some(({id, source}) => id === 'smart.view-table' && fromPackage({source})));
+  assert.ok(!materialization.contracts.some(({id}) => id === 'smart.data-view'));
+  assert.ok(materialization.contracts.some(({id}) => id === 'smart.button'));
+  const files = new Set(materialization.contracts.map(({file}) => file));
+  for (const name of await readdir(new URL('public/contracts/', root))) {
+    if (/^smart\.[a-z0-9-]+\.json$/.test(name)) assert.ok(files.has(name), `${name} is not materialised by anything`);
+  }
 
   for (const contract of materialization.contracts) {
     const manifestContent = await readFile(new URL(`public/contracts/${contract.file}`, root));
@@ -50,8 +57,9 @@ test('materialized catalog is traceable to the canonical registry and schema', a
     assert.equal(contract.manifest_sha256, hash(manifestContent));
     assert.equal(manifest.id, contract.id);
     assert.equal(manifest.version, contract.version);
-    const registryEntry = registry.entries.find(({id}) => id === contract.id);
     assert.ok([1, 2].includes(manifest.compatibility.contract_schema.version));
+    if (fromPackage(contract)) continue;
+    const registryEntry = registry.entries.find(({id}) => id === contract.id);
     assert.equal(registryEntry?.contract_schema.version, 2);
     assert.equal(registryEntry?.manifest_sha256, contract.manifest_sha256);
   }

@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
-  "compatibilityId": "ui-d6f01121baca",
-  "pairIdentitySha256": "3467557c2badf0392dc0bab40ab86ec8012fc539a376cf89fad98a258c44e004",
-  "contractSha256": "855724522691bc6ab9a601389fb129518398f774eb553f6a8d560a150457f3fa",
+  "compatibilityId": "ui-cb287da78ab1",
+  "pairIdentitySha256": "27c776e40e7f643646f9e0a26b737a211e317e8e2922176c9a1075ecd72415fe",
+  "contractSha256": "9d8fb9a4ffb9ac8581e6e9e448babec1f752b139fea730e40968022907bed28c",
   "core": {
     "repository": "../ui",
-    "commit": "d6f01121bacac28bc9200d51f46f7389b38920c6",
+    "commit": "cb287da78ab1130641d5a628654dabc3d29e1f7a",
     "sourceDir": "distr",
     "requiredFiles": [
       {
         "path": "core/css/core.css",
-        "sha256": "6cde6b14ac844db01a61ddc24054452a0e8ef942ebbe82ac85c6bf7fada9aa23"
+        "sha256": "d092e599759b3f9de3c28bcd647e1ccda6a72fbbb6857a7860c6de059a30ecce"
       },
       {
         "path": "core/js/core.js",
-        "sha256": "dcaa85a3d8078abe4feb07fa0d95aaea04642bfb21b59a188ee2f57d00ac47a4"
+        "sha256": "9d8e9a7dc69e05712dd555d48d38073318ad311248eebe7a28557efb8da6f915"
       },
       {
         "path": "core/js/core-loader.js",
@@ -22,7 +22,7 @@
       },
       {
         "path": "core/contracts/adaptive-sizing.v1.json",
-        "sha256": "855724522691bc6ab9a601389fb129518398f774eb553f6a8d560a150457f3fa"
+        "sha256": "9d8fb9a4ffb9ac8581e6e9e448babec1f752b139fea730e40968022907bed28c"
       },
       {
         "path": "core/contracts/packages/larena.package.json",
@@ -36,13 +36,13 @@
   },
   "smart": {
     "repository": "../ui",
-    "commit": "d6f01121bacac28bc9200d51f46f7389b38920c6",
+    "commit": "cb287da78ab1130641d5a628654dabc3d29e1f7a",
     "sourceDir": "distr/smart",
     "targetDir": "smart",
     "requiredFiles": [
       {
         "path": "button-icon/smart.manifest.json",
-        "sha256": "cb3622e0b744da871b6c6713bce00e377e0f29aaac52f19cb1c4b07b310a2a55"
+        "sha256": "81bc5efcfaede611f701e1a6258e8e7ca7909a288250cddb8359ff8d572737b8"
       },
       {
         "path": "icon-buttons/js/icon-buttons.js",
@@ -50,7 +50,7 @@
       },
       {
         "path": "field-renderers/js/field-renderers.js",
-        "sha256": "5bd835b3bd6d8d49fdcbc55f877d615ddaa945322628ba2014b53f187ecb01e0"
+        "sha256": "373913dc36d4de44863e30808b4aad819be5bb7f21f03b8d46c8b0c17c9eecae"
       }
     ]
   }

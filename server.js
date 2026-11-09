@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import fs from 'fs/promises';
 import {existsSync} from 'fs';
-import {resolve} from 'path';
+import {relative, resolve, sep} from 'path';
 import {faker} from '@faker-js/faker/locale/ru';
 
 const app = express();
@@ -273,10 +273,36 @@ const fieldTypeRegistry = [
     },
 ];
 
+// Cache policy for the built app. A Framework pair and a package build each
+// have a directory named by their release id (/distr/ui-<12 hex>/,
+// /distr-pro/pro-<12 hex>/), and Vite names its bundles by content hash
+// (/assets/<name>-<8>.<ext>): those files never change, so a browser keeps them
+// for a year without asking again. Everything else -- HTML, unversioned paths,
+// manifests that change in place -- is revalidated on every load. The match is
+// on the release id itself, so an id-less or "latest"-style path
+// (/distr/ui/, /distr/ui-latest/) never gets the long cache.
+const IMMUTABLE = 'public, max-age=31536000, immutable';
+const REVALIDATE = 'no-cache';
+const RELEASE_DIR = '[0-9a-f]{12}(?:-[a-z][a-z0-9]*-[0-9a-f]{12})?';
+const VERSIONED_PATHS = [
+    new RegExp(`^/distr/ui-${RELEASE_DIR}/.`, 'u'),
+    new RegExp(`^/distr-([a-z][a-z0-9]*)/\\1-${RELEASE_DIR}/.`, 'u'),
+    /^\/assets\/[^/]+-[A-Za-z0-9_-]{8}\.[a-z0-9]+$/u,
+];
+const cacheControlFor = (urlPath) =>
+    VERSIONED_PATHS.some((pattern) => pattern.test(urlPath)) ? IMMUTABLE : REVALIDATE;
+
 // The app's own files come first: dist/assets holds Vite's bundles, which the
 // legacy /assets mount below would otherwise shadow.
 if (SERVES_APP) {
-    app.use(express.static(DIST_DIR, {extensions: ['html'], index: 'index.html'}));
+    app.use(express.static(DIST_DIR, {
+        extensions: ['html'],
+        index: 'index.html',
+        setHeaders: (res, filePath) => {
+            const urlPath = relative(DIST_DIR, filePath).split(sep).join('/');
+            res.setHeader('Cache-Control', cacheControlFor(`/${urlPath}`));
+        },
+    }));
 }
 
 app.use(`${ASSET_PUBLIC_BASE}/avatars`, express.static(AVATAR_DIR));
@@ -4880,7 +4906,8 @@ if (SERVES_APP) {
             return;
         }
 
-        res.sendFile(`${DIST_DIR}/index.html`);
+        res.setHeader('Cache-Control', REVALIDATE);
+        res.sendFile(`${DIST_DIR}/index.html`, {cacheControl: false});
     });
 }
 

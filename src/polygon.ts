@@ -93,13 +93,15 @@ const start = async () => {
 
   const list = element<WithPort>('#solutions');
 
-  // The record panel is made when it is wanted and removed when it is not. A
-  // property view carrying `panel` is open from the moment it is in the
-  // document -- the drawer portals its content out, so `hidden` on the element
-  // leaves the panel painted -- and the composite has no closed state of its
-  // own: its own comment says closing is the host's decision. This is that
-  // decision. The attributes are set before the port is bound, because binding
-  // is what triggers the read.
+  // The record panel is made the first time a record is wanted (the loader
+  // fetches the component when the tag appears) and then kept: closing it is
+  // the page's decision, and since sf-view-properties 1.13.1 (simai/ui-pro#4)
+  // `hidden` on the element closes the panel and removing it opens it again,
+  // so the page toggles `hidden` instead of removing and re-making the
+  // element. Only a change between the panel over the list and the record as
+  // the page makes a new one: `panel` is read when the element connects. The
+  // attributes are set before the port is bound, because binding is what
+  // triggers the read; afterwards a new record-id reads the record.
   const PANEL_ATTRIBUTES: Array<[string, string]> = [
     ['id', 'record'],
     ['panel-width', '44rem'],
@@ -110,6 +112,7 @@ const start = async () => {
   ];
 
   let panel: (WithPort & HTMLElement) | null = null;
+  let panelFull = false;
 
   const listen = (made: HTMLElement) => {
     // Closing is the page's decision, which is why the component only
@@ -125,28 +128,45 @@ const start = async () => {
       const id = String((event as CustomEvent).detail?.record_id ?? '');
       if (id && host.records.some((item) => item.record_id === id)) go({ record: id });
     });
+
+    // A record saved in the panel is a row in the list. The panel says so
+    // itself since sf-view-properties 1.13.1 (simai/ui-pro#4): once per
+    // applied save, never after a conflict or a refusal. A deleted record
+    // leaves the list the same way.
+    made.addEventListener('sf-view-properties-saved', () => { list?.refresh?.(); });
+    made.addEventListener('sf-view-properties-delete', (event) => {
+      if ((event as CustomEvent).detail?.answer === 'applied') list?.refresh?.();
+    });
   };
 
-  const removePanel = () => {
-    panel?.remove();
-    panel = null;
-    panelPort = null;
+  const hidePanel = () => {
+    panel?.setAttribute('hidden', '');
   };
 
   const makePanel = async (full: boolean, record: PolygonRecord) => {
-    removePanel();
-    const made = document.createElement('sf-view-properties') as WithPort & HTMLElement;
-    for (const [name, value] of PANEL_ATTRIBUTES) made.setAttribute(name, value);
-    // Over the list it is a modeless panel; as the page it is the page.
-    if (!full) made.setAttribute('panel', '');
+    if (panel && panelFull !== full) {
+      panel.remove();
+      panel = null;
+      panelPort = null;
+    }
+    const made = panel ?? document.createElement('sf-view-properties') as WithPort & HTMLElement;
+    if (!panel) {
+      for (const [name, value] of PANEL_ATTRIBUTES) made.setAttribute(name, value);
+      // Over the list it is a modeless panel; as the page it is the page.
+      if (!full) made.setAttribute('panel', '');
+      listen(made);
+    }
     made.setAttribute('record-id', record.record_id);
     // The head carries what the port does not: which collection this is and
     // what the record is called. A host knows both; the panel would otherwise
     // guess a title from a field, and guess wrong.
     made.setAttribute('panel-label', String(record.label ?? record.record_id));
-    listen(made);
-    document.body.append(made);
-    panel = made;
+    made.removeAttribute('hidden');
+    if (!panel) {
+      document.body.append(made);
+      panel = made;
+      panelFull = full;
+    }
     // Appending the tag is what makes the loader fetch the component; binding
     // the port before it is upgraded would call a method that does not exist
     // yet.
@@ -201,7 +221,7 @@ const start = async () => {
 
     if (!record) {
       listSection?.removeAttribute('hidden');
-      removePanel();
+      hidePanel();
       say(summary());
       return;
     }
@@ -223,9 +243,13 @@ const start = async () => {
 
     const made = await makePanel(Boolean(full), found);
     // The address may have changed again while the component was loading.
-    if (panel !== made) return;
-    panelPort = watchSaves(host.propertyView() as unknown as HostPort);
-    made.setHostPort?.(panelPort);
+    if (panel !== made || made.hasAttribute('hidden')) return;
+    // Bound once per element: binding reads the record, and a later record-id
+    // reads the new one.
+    if (!panelPort) {
+      panelPort = host.propertyView() as unknown as HostPort;
+      made.setHostPort?.(panelPort);
+    }
   };
 
   // Said only when the page is not in its ordinary state. An admin does not
@@ -253,10 +277,6 @@ const start = async () => {
     return ALL_CAPABILITIES.filter((name) => asked.includes(name));
   };
 
-  // The dropdown's own word for the chosen option is `selectedValue`; `value`
-  // on it is an object. Reading the wrong one gave every scenario as
-  // «[object Object]», which is the sort of thing that only shows up in a
-  // browser.
   const SCENARIOS: PolygonScenario[] = ['default', 'empty', 'forbidden', 'unavailable'];
   // The dropdown's own word for the chosen option is `selectedValue`; `value`
   // on it is an object. Reading the wrong one gave every scenario as
@@ -289,7 +309,6 @@ const start = async () => {
     // wanted (owner, 2026-10-10).
     panelPort = null;
     list?.refresh?.();
-    list?.refresh?.();
 
     say(summary());
   };
@@ -302,10 +321,13 @@ const start = async () => {
   // a second time, so one delete reached the host twice and the second answer,
   // «delete: refused (record-unknown)», was what the person was shown
   // (docs review, 2026-10-19).
-  list?.addEventListener('sf-table-action-intent', (event) => {
+  // sf-view-table-apply (vocabulary §5 apply {action, scope, ids,
+  // revisions}); the former sf-table-action-intent is a dated alias that
+  // leaves on 2026-12-01.
+  list?.addEventListener('sf-view-table-apply', (event) => {
     const detail = (event as CustomEvent).detail ?? {};
-    const action = String(detail.action_id ?? '');
-    const id = String(detail.record_ids?.[0] ?? '');
+    const action = String(detail.action ?? '');
+    const id = String(detail.ids?.[0] ?? '');
     if (!id) return;
 
     if (action.includes('view') || action.includes('edit')) {
@@ -315,21 +337,6 @@ const start = async () => {
       // is expected to do and what this page did not do at all.
       go({ record: id });
     }
-  });
-
-  // A record saved in the panel is a row in the list. The panel emits no
-  // «saved» event of its own -- it has `sf-property-view-state`, which says
-  // loading, populated or empty and nothing about a write -- so the write is
-  // noticed where it actually happens: in the port the panel is holding. The
-  // panel host is wrapped rather than the list polled, because polling would
-  // redraw the list on every keystroke.
-  const watchSaves = (port: HostPort): HostPort => ({
-    ...port,
-    async raise(intent, payload) {
-      const answer = await port.raise(intent, payload);
-      if (intent === 'group.save' && answer.answer === 'applied') list?.refresh?.();
-      return answer;
-    },
   });
 
   // No count beside the heading: the table's own footer already reports the

@@ -52,7 +52,7 @@ const start = async () => {
     return (answer.favourites ?? []).some((entry) => entry.key === PAGE_KEY);
   };
   header?.setAttribute('star', (await starred()) ? 'on' : 'off');
-  header?.addEventListener('sf-page-header-toggle', async (event) => {
+  header?.addEventListener('sf-header-page-toggle', async (event) => {
     event.preventDefault();
     const { on } = (event as CustomEvent<{ on: boolean }>).detail;
     const answer = await host!.raise('favourite.toggle', { key: PAGE_KEY, on }) as { answer: string };

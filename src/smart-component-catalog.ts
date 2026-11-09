@@ -162,17 +162,17 @@ const applyDataViewPage = (append = false): void => {
 const queryIntent = (): object => ({search: dataViewQuery.search, filters: dataViewQuery.filters, sort: dataViewQuery.sort, page: dataViewQuery.page, page_size: dataViewQuery.pageSize});
 
 const bindDataViewHost = (): void => {
-  table?.addEventListener('onSearchEnd', (event) => {
-    dataViewQuery.search = String((event as CustomEvent).detail ?? ''); dataViewQuery.page = 1;
+  // sf-view-table-search-change {search}: the former onSearchEnd is a dated alias until 2026-12-01.
+  table?.addEventListener('sf-view-table-search-change', (event) => {
+    dataViewQuery.search = String((event as CustomEvent).detail?.search ?? ''); dataViewQuery.page = 1;
     emitDataView('sf-data-view-query-change', queryIntent()); applyDataViewPage();
   });
   table?.addEventListener('onFilterUpdate', (event) => {
     dataViewQuery.filters = (event as CustomEvent).detail?.values ?? {}; dataViewQuery.page = 1;
     emitDataView('sf-data-view-query-change', queryIntent()); applyDataViewPage();
   });
-  table?.addEventListener('onTemplateSave', (event) => {
-    const value = (event as CustomEvent).detail;
-    emitDataView('sf-data-view-template-save', {templates: Array.isArray(value) ? value : [value]});
+  table?.addEventListener('sf-view-table-template-save', (event) => {
+    emitDataView('sf-data-view-template-save', {templates: (event as CustomEvent).detail?.templates ?? []});
   });
   table?.addEventListener('onColumnSettingsChange', (event) => {
     const detail = (event as CustomEvent).detail ?? {};

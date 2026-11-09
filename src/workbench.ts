@@ -84,10 +84,12 @@ const start = async () => {
   // behaviour that makes these two composites a page rather than two widgets.
   // The data view re-raises the table's own action intent rather than inventing
   // a second name for it, so this is the event to listen for.
-  list?.addEventListener('sf-table-action-intent', (event) => {
+  // sf-view-table-apply {action, scope, ids, revisions}; the former
+  // sf-table-action-intent is a dated alias that leaves on 2026-12-01.
+  list?.addEventListener('sf-view-table-apply', (event) => {
     const detail = (event as CustomEvent).detail ?? {};
-    if (!String(detail.action_id ?? '').includes('view')) return;
-    const id = String(detail.record_ids?.[0] ?? 'r-1');
+    if (!String(detail.action ?? '').includes('view')) return;
+    const id = String(detail.ids?.[0] ?? 'r-1');
     // The panel's head carries what the port does not: which collection this
     // is and what the record is called. A host knows both; the panel would
     // otherwise have to guess at a title from a field, and guess wrong.

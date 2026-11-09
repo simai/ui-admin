@@ -1,32 +1,32 @@
 {
   "schemaVersion": 1,
-  "compatibilityId": "ui-cb287da78ab1",
-  "pairIdentitySha256": "27c776e40e7f643646f9e0a26b737a211e317e8e2922176c9a1075ecd72415fe",
-  "contractSha256": "9d8fb9a4ffb9ac8581e6e9e448babec1f752b139fea730e40968022907bed28c",
+  "compatibilityId": "ui-b4a77681f0a7",
+  "pairIdentitySha256": "90778286626872e5f60367de03042108fbc954801c719d92ccdbe318d95ca0d3",
+  "contractSha256": "e67f7a53848281ea891dcb2ace865afd32a44f3cd9f9790649bd1b613612a8aa",
   "core": {
     "repository": "../ui",
-    "commit": "cb287da78ab1130641d5a628654dabc3d29e1f7a",
+    "commit": "b4a77681f0a7f1c540566e5abac2a4f9d3082a3d",
     "sourceDir": "distr",
     "requiredFiles": [
       {
         "path": "core/css/core.css",
-        "sha256": "d092e599759b3f9de3c28bcd647e1ccda6a72fbbb6857a7860c6de059a30ecce"
+        "sha256": "372b462b4e309665f42db891ad5a400aa854094fdaae011b9ad97047cceb6103"
       },
       {
         "path": "core/js/core.js",
-        "sha256": "9d8e9a7dc69e05712dd555d48d38073318ad311248eebe7a28557efb8da6f915"
+        "sha256": "de8f2e93ed6681a1cdb35ccd44e3f1c65caa4df2a016d5712785df7df02935a9"
       },
       {
         "path": "core/js/core-loader.js",
-        "sha256": "5709e63c8a88f63f988bcd20f4b47d05841d92e2616c9283da55e622e2d21719"
+        "sha256": "91062965f76e2b38f4792a8aeccaab7928928433054bf630a89b370c951f0af4"
       },
       {
         "path": "core/contracts/adaptive-sizing.v1.json",
-        "sha256": "9d8fb9a4ffb9ac8581e6e9e448babec1f752b139fea730e40968022907bed28c"
+        "sha256": "e67f7a53848281ea891dcb2ace865afd32a44f3cd9f9790649bd1b613612a8aa"
       },
       {
         "path": "core/contracts/packages/larena.package.json",
-        "sha256": "e2cf49a731e91c015d73bd0f4636954a24432915fe543a9f0dd9efe038588e91"
+        "sha256": "b6bb80e07dcf27e08373d0c84ad5e889e754ae4c384e2e08b59aff313d8f88b8"
       },
       {
         "path": "component/admin-menu/js/admin-menu.js",
@@ -36,7 +36,7 @@
   },
   "smart": {
     "repository": "../ui",
-    "commit": "cb287da78ab1130641d5a628654dabc3d29e1f7a",
+    "commit": "b4a77681f0a7f1c540566e5abac2a4f9d3082a3d",
     "sourceDir": "distr/smart",
     "targetDir": "smart",
     "requiredFiles": [

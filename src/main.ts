@@ -94,12 +94,11 @@ class AdminManager {
   async initTable() {
     this.table = document.querySelector('sf-view-table');
     if (!this.table) return false;
-    this.table?.addEventListener('onTemplateSave', async (event: Event) => {
-      const e = event as CustomEvent<
-        { [key: string]: any } | { [key: string]: any }[]
-      >;
-      console.log('Template saved with values:', e.detail);
-      await saveTemplate(e.detail);
+    // sf-view-table 1.16.0 (view 1.5.0): the save names its templates in
+    // detail.templates, one saved from the form or several applied at once.
+    this.table?.addEventListener('sf-view-table-template-save', async (event: Event) => {
+      const { templates } = (event as CustomEvent<{ templates: { [key: string]: any }[] }>).detail;
+      await saveTemplate(templates.length === 1 ? templates[0] : templates);
     });
     this.table.addEventListener('onFilterUpdate', async (event: Event) => {
       const e = event as CustomEvent<{ [key: string]: any }>;
@@ -107,9 +106,11 @@ class AdminManager {
       this.filters = filters.values;
       await this.updateTable({ page: 1, mode: 'replace' });
     });
-    this.table.addEventListener('onSearchEnd', async (event) => {
-      const e = event as CustomEvent<string>;
-      this.searchText = e.detail;
+    // sf-view-table-search-change {search}; the former onSearchEnd (detail the
+    // text) is a dated alias that leaves on 2026-12-01.
+    this.table.addEventListener('sf-view-table-search-change', async (event) => {
+      const e = event as CustomEvent<{ search: string }>;
+      this.searchText = String(e.detail?.search ?? '');
       await this.updateTable({ page: 1, mode: 'replace' });
     });
     this.table.addEventListener('sf-table:page-request', async (event) => {

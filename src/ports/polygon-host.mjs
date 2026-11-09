@@ -836,6 +836,24 @@ export const createPolygonHost = ({
             return answerFor(found);
           }
 
+          // Port 1.15.0 record.delete: the panel raises it only when the
+          // record's actions name it (this polygon names none, so no Delete is
+          // drawn), but a host that leaves it to `unknown-intent` answers a
+          // listed act with a hole (simai/ui-admin#1). A record that moved on
+          // is a conflict; a locked one is refused; else it is gone.
+          if (intent === 'record.delete') {
+            const found = record(id);
+            if (!found) return { answer: 'refused', reason: 'record-unknown', message: 'Запись не найдена' };
+            if (found.editable === false) {
+              return { answer: 'refused', reason: 'access-denied', message: LOCKED_RECORD };
+            }
+            if (payload.revision != null && String(payload.revision) !== String(found.revision)) {
+              return { answer: 'conflict', reason: 'stale-revision', revision: found.revision, message: 'Запись изменилась, обновите её' };
+            }
+            state.records = state.records.filter((item) => item !== found);
+            return { answer: 'applied', record_id: found.record_id };
+          }
+
           if (intent === 'record.load') {
             const found = record(id);
             if (!found) return { answer: 'refused', reason: 'record-unknown', message: 'Запись не найдена' };

@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.dropdown",
-  "version": "1.5.3",
+  "version": "1.7.4",
   "title": "Dropdown",
   "summary": "Accessible single or multiple selection control with searchable options and optional portal projection.",
   "kind": "smart",
@@ -100,7 +100,7 @@
       },
       "placeholder": {
         "type": "string",
-        "default": ""
+        "description": "What the field reads while nothing is chosen. Empty: the text of the page's language (\"Not selected\" in English, «Не выбрано» in Russian). Nothing is chosen for the person: the value stays empty until they pick."
       },
       "portal": {
         "type": "boolean",
@@ -451,7 +451,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/dropdown/index.js",
-        "sha256": "d90648a12c25d9adb5e31ef09ddeda2a8d4dd0ffa96a24ce775e425c90fb8da8"
+        "sha256": "bda9dcdedfc778448aff5e5ce7bdd88d85632c0ffee76514d7506b74fe8990d0"
       },
       {
         "path": "src/smart/dropdown/rule.js",
@@ -459,15 +459,15 @@
       },
       {
         "path": "src/smart/dropdown/js/templates/default.js",
-        "sha256": "a3a4777eb96859fee1cf55e3dee478954c4a8bddab1f4c1fa3898f1b04996297"
+        "sha256": "47984df026287328469c4c2e781e73537b8baac267ba0d239bde7ac420dbd83a"
       },
       {
         "path": "src/smart/helpers/inherited-value.js",
-        "sha256": "767ea28b693f62589ff7c213b256623140cac4767e8a06428b8712554505152d"
+        "sha256": "311549a390cbb399282967b2506ed5875d23e127542960f207386ba3c3191d68"
       },
       {
         "path": "src/smart/helpers/inherited-value.css",
-        "sha256": "25f80e71f8aa3df55503690bc4d28aeae44c8937e07416d4e2a2b3fbae58458c"
+        "sha256": "742bb92a4cd39b2882da5038aa5d3c364b0b30c2cdf10a8e211e251ff62b7d37"
       }
     ],
     "generated_runtime": [

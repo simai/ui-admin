@@ -1,0 +1,430 @@
+{
+  "schema_version": 2,
+  "id": "smart.editor-inline",
+  "version": "1.6.1",
+  "title": "Inline editor",
+  "summary": "Edits a content.heading or content.paragraph in place on the canvas -- strong, em, code, links and the inline component atoms -- and gives the host the normalised content model, never HTML.",
+  "kind": "smart",
+  "reuse_mode": "whole",
+  "lifecycle": "experimental",
+  "tags": [
+    "composition",
+    "editor",
+    "inline",
+    "text"
+  ],
+  "capabilities": [
+    "interaction",
+    "keyboard",
+    "theme"
+  ],
+  "custom_element": "sf-editor-inline",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [],
+    "public_parts": []
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "template": {
+        "type": "string",
+        "default": "default",
+        "description": "Template variant name for SfBaseElement external templates."
+      },
+      "root-class": {
+        "type": "string",
+        "default": "",
+        "description": "Classes added to the root element the component draws."
+      },
+      "root-style": {
+        "type": "string",
+        "default": "",
+        "description": "Inline style declarations set on the root element the component draws, custom properties included."
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {},
+  "contracts": {
+    "start": {
+      "type": "object",
+      "description": "SF.Composition.startInlineEdit(element, {content, nodeId, label, marks, links, messages}) or element.edit(target, options) returns {element, commit(), cancel(), value()}. Before the component is loaded startInlineEdit throws inline_editor_not_loaded. Also exposed as SF.InlineEditor {INLINE_EVENTS, readInlineDom, renderInlineDom, startInlineEdit, textOffset}.",
+      "properties": {
+        "marks": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "strong",
+              "em",
+              "code"
+            ]
+          }
+        },
+        "links": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "links": {
+      "type": "object",
+      "description": "http, https, mailto, tel, relative and fragment links only; protocol-relative and backslash addresses are refused, as in Document validation."
+    }
+  },
+  "methods": {
+    "edit": {
+      "summary": "Starts editing an element of the canvas (SF.Composition.startInlineEdit): options content, nodeId, label, marks, links, messages, toolbar (session: the bar for the whole edit, over the element, the default; selection: only while text is selected, over the selection)",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "element": {
+                "type": "object"
+              },
+              "options": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "element",
+              "options"
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "type": "object",
+        "description": "the session {element, commit(), cancel(), value()}"
+      }
+    }
+  },
+  "events": {
+    "sf-editor-inline-input": {
+      "summary": "The text changed while it is edited; sent on the edited element",
+      "payload": {
+        "type": "object",
+        "required": [
+          "id",
+          "content"
+        ],
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "content": {
+            "type": "array"
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-editor-inline-change": {
+      "summary": "The edit was committed (Enter, or the focus left): the content to save; sent on the edited element",
+      "payload": {
+        "type": "object",
+        "required": [
+          "id",
+          "content"
+        ],
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "content": {
+            "type": "array"
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-editor-inline-cancel": {
+      "summary": "The edit was put back (Escape): the element shows its HTML from before; sent on the edited element",
+      "payload": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-inline-edit-input": {
+      "summary": "Dated alias of sf-inline-editor-input until 2026-12-01: Live normalized content after a change. Dispatched on the edited element; bubbles to document. Its detail is the former one, {node_id, content}, not sf-inline-editor-input's {id, content}.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "node_id",
+          "content"
+        ],
+        "properties": {
+          "node_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "content": {
+            "type": "array"
+          }
+        }
+      },
+      "alias_of": "sf-editor-inline-input"
+    },
+    "sf-inline-edit-commit": {
+      "summary": "Dated alias of sf-inline-editor-change until 2026-12-01: Editing finished with Enter or focus leaving; the host saves. Dispatched on the edited element; bubbles to document. Its detail is the former one, {node_id, content}, not sf-inline-editor-change's {id, content}.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "node_id",
+          "content"
+        ],
+        "properties": {
+          "node_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "content": {
+            "type": "array"
+          }
+        }
+      },
+      "alias_of": "sf-editor-inline-change"
+    },
+    "sf-inline-edit-cancel": {
+      "summary": "Dated alias of sf-inline-editor-cancel until 2026-12-01: Editing was cancelled with Escape; the original HTML is restored. Dispatched on the edited element; bubbles to document. Its detail is the former one, {node_id}, not sf-inline-editor-cancel's {id}.",
+      "payload": {
+        "type": "object",
+        "properties": {
+          "node_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "alias_of": "sf-editor-inline-cancel"
+    },
+    "sf-inline-editor-input": {
+      "summary": "Dated alias of sf-editor-inline-input until 2027-01-01 (same-detail).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-editor-inline-input"
+    },
+    "sf-inline-editor-change": {
+      "summary": "Dated alias of sf-editor-inline-change until 2027-01-01 (same-detail).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-editor-inline-change"
+    },
+    "sf-inline-editor-cancel": {
+      "summary": "Dated alias of sf-editor-inline-cancel until 2027-01-01 (same-detail).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-editor-inline-cancel"
+    }
+  },
+  "state": {
+    "machines": {
+      "edit": [
+        "idle",
+        "editing",
+        "committed",
+        "cancelled"
+      ]
+    },
+    "visual_states": [
+      "default",
+      "active"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "host",
+    "network_owner": "none",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-source",
+    "data": "host",
+    "effects": "host",
+    "forbidden_client_responsibilities": [
+      "backend access decisions",
+      "host route invention",
+      "saving or reordering host data"
+    ]
+  },
+  "security": {
+    "permissions_owner": "host",
+    "untrusted_inputs": [
+      "props",
+      "children"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": "none",
+    "accessible_name": "internal",
+    "keyboard": [
+      "Mod+B",
+      "Mod+I",
+      "Mod+E",
+      "Mod+K",
+      "Mod+Z",
+      "Mod+Shift+Z",
+      "Mod+Y",
+      "Enter",
+      "Escape"
+    ],
+    "focus": "The sf-inline-editor carrier is hidden and has no role. While editing, the edited element becomes a labelled role=textbox with a visible outline; the formatting toolbar has aria-pressed states and aria-keyshortcuts. Enter commits, Escape cancels, focus leaving commits; IME composition is never interrupted."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "ru",
+      "en"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile",
+      "ltr",
+      "rtl",
+      "reduced-motion"
+    ],
+    "skeleton": {
+      "shape": "block",
+      "while_loading": "none"
+    }
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [
+      "studio.fixture.json"
+    ],
+    "scenarios": [
+      "studio.scenario.json"
+    ]
+  },
+  "readiness": {
+    "level": "runnable",
+    "required_checks": [
+      "manifest",
+      "fixture",
+      "runtime-upgrade",
+      "scenario-smoke",
+      "keyboard",
+      "responsive",
+      "a11y"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
+      "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
+    },
+    "aliases": [
+      "<sf-inline-editor>"
+    ],
+    "deprecations": [
+      {
+        "path": "<sf-inline-editor>",
+        "since": "1.4.0",
+        "replacement": "<sf-editor-inline>"
+      }
+    ],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-source",
+    "source_revision": "ae623308b55789be87e4cbcf4e444a5567f66e4f",
+    "source_artifacts": [
+      {
+        "path": "src/smart/editor-inline/index.js",
+        "sha256": "5456d63f8a4b3bd980c2c884df4e30842b757e79abeea4188eb2e93bf393a936"
+      },
+      {
+        "path": "src/smart/editor-inline/scss/_smart__inline-editor.scss",
+        "sha256": "ad605ee51b010f5756aaed6c375582303d794be8d30d2a549941bb41d619042d"
+      },
+      {
+        "path": "src/smart/editor-inline/rule.js",
+        "sha256": "b186d6138620a9f5992b538e6a585543c57f388658701504bcfb16cf6a0f0c2d"
+      },
+      {
+        "path": "src/smart/editor-inline/docs.md",
+        "sha256": "b7ed02f586bc9adec87474c7dcd1e544707ec83ae01285a76b7085a790ae7681"
+      },
+      {
+        "path": "src/core/js/composition/inline-editor.mjs",
+        "sha256": "76c4e5dc10f00e4c8054539f3076e504fdbe7a6e1f2de7cfe16bfc16ffb807b6"
+      },
+      {
+        "path": "src/core/js/composition/inline-model.mjs",
+        "sha256": "2c723569aeab51c90311b90208f52990b3a5abd6a03ef2f2b813ad76e7544663"
+      }
+    ],
+    "generated_runtime": []
+  },
+  "ai_guidance": {
+    "use_when": "Use the inline editor for text of content.heading and content.paragraph on an editor page. Save the committed content through the host Property contract, validate the Document and re-render.",
+    "do_not": [
+      "Do not copy generated ui-smart code",
+      "Do not save HTML; events carry the content model",
+      "Do not offer lists; the content model has none",
+      "Do not call startInlineEdit before sf-editor-inline is defined"
+    ],
+    "required_reads": [
+      "contracts",
+      "methods",
+      "events",
+      "ownership",
+      "provenance"
+    ],
+    "minimal_example": "<sf-editor-inline></sf-editor-inline><script>await customElements.whenDefined('sf-editor-inline'); SF.Composition.startInlineEdit(paragraph, {content, nodeId: 'p1', label: 'Paragraph'});</script>",
+    "owner_commands": [
+      "npm run contract:verify",
+      "npm test"
+    ]
+  }
+}

@@ -1,0 +1,421 @@
+{
+  "schema_version": 2,
+  "id": "smart.input-color",
+  "version": "1.5.5",
+  "title": "Color",
+  "summary": "A colour control: a swatch that opens the platform picker, the colours a product already has as presets, and a way back to an inherited colour. Built as a general part because a colour is set in a theme, in a site look, on a label and on a chart series, not only on a record.",
+  "kind": "smart",
+  "reuse_mode": "both",
+  "lifecycle": "experimental",
+  "tags": [
+    "input",
+    "color",
+    "property"
+  ],
+  "capabilities": [
+    "render",
+    "theme",
+    "responsive"
+  ],
+  "custom_element": "sf-input-color",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [
+      "component.icons",
+      "smart.button-icon"
+    ],
+    "public_parts": [
+      "swatch",
+      "chip",
+      "text",
+      "swatches",
+      "preset"
+    ]
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "template": {
+        "type": "string",
+        "default": "default",
+        "description": "Which template draws it."
+      },
+      "root-class": {
+        "type": "string",
+        "default": "",
+        "description": "Classes added to the root element the component draws."
+      },
+      "root-style": {
+        "type": "string",
+        "default": "",
+        "description": "Inline style declarations set on the root element the component draws, custom properties included."
+      },
+      "size": {
+        "type": "string",
+        "default": "1",
+        "description": "The size ladder step, so a colour beside a text field lines up with it.",
+        "enum": [
+          "1/2",
+          "1",
+          "2"
+        ]
+      },
+      "appearance": {
+        "type": "string",
+        "default": "bordered",
+        "description": "How the swatch is bounded.",
+        "enum": [
+          "bordered",
+          "outlined",
+          "plain"
+        ]
+      },
+      "variant": {
+        "type": "string",
+        "default": "field",
+        "description": "What the control is. field: the swatch, the hex and the presets, a colour that is a value of something. theme: one icon-only primary button (icon palette) that opens the platform picker and rebuilds the page theme from the colour while it moves (SF.ThemePalette on <html>), committing it on the picker's change.",
+        "enum": [
+          "field",
+          "theme"
+        ]
+      },
+      "swatches": {
+        "type": "string",
+        "default": "",
+        "description": "The colours a product already has, comma separated, each #hex or #hex|Name; a name may hold spaces. A piece without a name may list several colours by spaces. A person picks the brand colour rather than matching a hex by eye."
+      },
+      "clearable": {
+        "type": "boolean",
+        "default": false,
+        "description": "Whether a chosen colour can be returned to the inherited one. With variant theme: a second button takes the theme back to what the page had before the control changed it (the Framework colour unless the page set its own)."
+      },
+      "disabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "name": {
+        "type": "string",
+        "default": "",
+        "description": "The form name. A hidden input carries the value under it, empty while the inherited colour applies."
+      },
+      "label": {
+        "type": "string",
+        "default": "",
+        "description": "The accessible name of the control. With variant theme it names the icon button; unset, the page's language says \"Theme colour\"."
+      },
+      "choose-label": {
+        "type": "string",
+        "description": "The words on the swatch. Unset, the component answers in the page's language (\"Choose a colour\" in English)."
+      },
+      "clear-label": {
+        "type": "string",
+        "description": "The words on the control that returns to the inherited colour. Unset, it follows the page's language; with variant theme the default is the theme words (\"Use the original theme colour\")."
+      },
+      "value": {
+        "type": "string",
+        "default": "",
+        "description": "The colour, as #rgb, #rrggbb or #rrggbbaa. Empty means nothing is chosen and the inherited colour applies."
+      },
+      "inherited-value": {
+        "type": "string",
+        "default": "",
+        "description": "The colour that applies while nothing is chosen. Shown as inherited rather than drawn as the value: a control that drew it as the value would make «not set» and «set to the same colour» look identical, and only one of them follows the theme when the theme changes."
+      },
+      "inherited-text": {
+        "type": "string",
+        "default": "",
+        "description": "What is read in place of a value while nothing is chosen. Unset, it follows the page's language."
+      },
+      "reset-label": {
+        "type": "string",
+        "default": "",
+        "description": "The accessible name of the button that returns to the inherited colour; `clear-label` still names it. Unset, it follows the page's language («Reset to inherited», «Сбросить к наследуемому»)."
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {},
+  "contracts": {},
+  "methods": {
+    "clear": {
+      "summary": "Return to the inherited colour; the same as setValue(\"\"). Returns whether it changed.",
+      "arguments": [],
+      "returns": {
+        "type": "boolean"
+      }
+    },
+    "setValue": {
+      "summary": "Set and commit the colour as a person would: normalised, reflected to value, input and then change dispatched when it differs from the committed one. Returns whether the value changed.",
+      "arguments": [
+        {
+          "name": "value",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "returns": {
+        "type": "boolean"
+      }
+    },
+    "resetToInherited": {
+      "summary": "Returns the field to its inherited value, as the reset button does: fires the cancellable sf-field-reset, then empties the own value and focuses the control. Returns whether it was reset (false without an inherited value, without an own value, while disabled or readonly, or when the event was prevented).",
+      "arguments": [],
+      "returns": {
+        "type": "boolean",
+        "description": "Whether the field was reset."
+      }
+    }
+  },
+  "events": {
+    "change": {
+      "summary": "A colour was committed: once when the platform picker closes or a swatch or clear is pressed, not on every step of a drag. Carries the value and the form name; an empty value means the inherited colour applies again. The picker's own change does not leave the host.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "value",
+          "name"
+        ],
+        "properties": {
+          "value": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "input": {
+      "summary": "The colour moved, on every step of a drag across the platform picker and before each change. Carries the value and the form name.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "value",
+          "name"
+        ],
+        "properties": {
+          "value": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-field-reset": {
+      "summary": "The person pressed the reset back to the inherited value. The event of the trait field-inherit@1: one name for every field of the family, so a form hears them all at once and tells them apart by detail.tag. Fired before the field is emptied and cancellable: preventDefault keeps the value. When it is not prevented the field empties, says so with its ordinary change, shows the inherited value again and takes focus back.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "tag",
+          "value",
+          "inheritedValue",
+          "name"
+        ],
+        "properties": {
+          "tag": {
+            "type": "string",
+            "description": "The element that was reset, as a tag name."
+          },
+          "value": {
+            "type": "string",
+            "description": "The field's own value before the reset."
+          },
+          "inheritedValue": {
+            "type": "string",
+            "description": "The inherited value it returns to."
+          },
+          "name": {
+            "type": "string",
+            "description": "The form name, empty when the field has none."
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-field:reset": {
+      "summary": "The person pressed the reset back to the inherited value. Fired before the field is emptied and cancellable: preventDefault keeps the value. When it is not prevented the field empties, says so with its ordinary change, shows the inherited value again and takes focus back.",
+      "payload": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "description": "The field's own value before the reset."
+          },
+          "inheritedValue": {
+            "type": "string",
+            "description": "The inherited value it returns to."
+          },
+          "name": {
+            "type": "string",
+            "description": "The form name, empty when the field has none."
+          }
+        }
+      },
+      "alias_of": "sf-field-reset"
+    }
+  },
+  "state": {
+    "machines": {
+      "surface": [
+        "closed",
+        "open"
+      ]
+    },
+    "visual_states": [
+      "default",
+      "open",
+      "disabled"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "component",
+    "network_owner": "none",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-source",
+    "data": "fixture",
+    "effects": "component",
+    "forbidden_client_responsibilities": [
+      "backend access decisions",
+      "host route invention"
+    ]
+  },
+  "security": {
+    "permissions_owner": "none",
+    "untrusted_inputs": [
+      "props",
+      "children"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": "group",
+    "accessible_name": "recommended",
+    "keyboard": [
+      "Tab",
+      "Enter",
+      "Space"
+    ],
+    "focus": "The platform colour input, each swatch and the clear button take focus in order and keep a visible focus ring. Swatches say whether they are the chosen colour by aria-pressed. After a reset back to the inherited value, focus returns to the control; while the value is inherited, the control carries it as aria-description and the visible marker is aria-hidden."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "ru",
+      "en"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile"
+    ],
+    "skeleton": {
+      "shape": "block",
+      "while_loading": "none"
+    }
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [],
+    "scenarios": []
+  },
+  "readiness": {
+    "level": "described",
+    "required_checks": [
+      "manifest",
+      "fixture",
+      "runtime-upgrade",
+      "scenario-smoke"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
+      "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
+    },
+    "aliases": [
+      "<sf-color>"
+    ],
+    "deprecations": [
+      {
+        "path": "<sf-color>",
+        "since": "1.5.0",
+        "replacement": "<sf-input-color>"
+      }
+    ],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-source",
+    "source_revision": "0d9999504a77d3dbbedc0b7fe881b9152a8a1830",
+    "source_artifacts": [
+      {
+        "path": "src/smart/input-color/index.js",
+        "sha256": "c5f4932847aba6b9d2bcd29e51d8004c6338b08186d310e219c0322f5d8fdbcd"
+      },
+      {
+        "path": "src/smart/input-color/rule.js",
+        "sha256": "9f227d89726e47268b67f49ed2dec0c1bb2cd4225681aaa9908d430db1867a1e"
+      },
+      {
+        "path": "src/smart/input-color/js/templates/default.js",
+        "sha256": "10c18efa13ad9d5c2c8393125ea5a8e794f96ab8c9c65125bb8c739665113167"
+      },
+      {
+        "path": "src/smart/input-color/js/templates/default.css",
+        "sha256": "7b232e0dc96cad9055835a72a39bc41b0bb45fef24f0fe7a42d547d3ee4f0167"
+      },
+      {
+        "path": "src/smart/helpers/inherited-value.js",
+        "sha256": "311549a390cbb399282967b2506ed5875d23e127542960f207386ba3c3191d68"
+      },
+      {
+        "path": "src/smart/helpers/inherited-value.css",
+        "sha256": "742bb92a4cd39b2882da5038aa5d3c364b0b30c2cdf10a8e211e251ff62b7d37"
+      }
+    ],
+    "generated_runtime": []
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-input-color wherever a colour is set -- a theme, a site look, a label, a chart series -- and especially when the colour may be left unset to inherit one.",
+    "do_not": [
+      "Do not draw the inherited colour as the value: pass it as inherited-value so «not set» stays distinguishable",
+      "Do not listen to input for saving; save on change, which fires once per committed colour",
+      "Do not copy generated ui-smart code",
+      "Do not move host data or access decisions into the component"
+    ],
+    "required_reads": [
+      "inputs",
+      "methods",
+      "events",
+      "ownership",
+      "provenance"
+    ],
+    "minimal_example": "<sf-input-color label=\"Brand colour\" clearable inherited-value=\"#1f6feb\" swatches=\"#1f6feb|Brand blue, #e5534b|Alert\"></sf-input-color>",
+    "owner_commands": [
+      "npm run contract:verify",
+      "npm test"
+    ]
+  }
+}

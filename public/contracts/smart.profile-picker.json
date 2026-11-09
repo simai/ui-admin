@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.profile-picker",
-  "version": "1.1.10",
+  "version": "1.3.1",
   "title": "Profile picker",
   "summary": "One way to choose, make, rename, remove and reset a profile: a field-like button naming the profile in use, and a panel where every act happens inline. The profiles and the rights are the host's; the component says what was asked.",
   "kind": "smart",
@@ -463,15 +463,15 @@
     "source_artifacts": [
       {
         "path": "src/smart/profile-picker/index.js",
-        "sha256": "3221830d44ff678e7f2829ae3cc13cc5b5e4299c9c5e55f13bea6458ce88b86a"
+        "sha256": "b7fb349765dd96f2d5a7bde40c630b57515523345083dcb309188305881dc952"
       },
       {
         "path": "src/smart/profile-picker/js/templates/default.js",
-        "sha256": "84fa873e071748348ef683c3bbd27805d6fde888d52a0141aaa0627d4333b706"
+        "sha256": "5729bae083d72c4a81bf3274706cdfef649961e1f481fb021649d0ee14948b5a"
       },
       {
         "path": "src/smart/profile-picker/scss/_smart__profile_picker.scss",
-        "sha256": "b7824cec00422bc083f6bbff9e0cf561c63ba75c8ef6548f06453aecb081a307"
+        "sha256": "4c7ac2e4dceb8407b7615d5ba51c0b2ff566b083ba2842d467f92ba9cc9dee28"
       },
       {
         "path": "src/smart/profile-picker/rule.js",
@@ -479,7 +479,7 @@
       },
       {
         "path": "src/smart/profile-picker/docs.md",
-        "sha256": "b86f768fcc4300aa488d65f8794b3045446898df6ae55abd28449db18844341b"
+        "sha256": "967f39cf2b99c6f1a13974942a546583ad9c78463f35e6d3ce25fe31b0e258bd"
       }
     ],
     "generated_runtime": []

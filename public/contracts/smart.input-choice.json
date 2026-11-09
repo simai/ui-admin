@@ -1,0 +1,368 @@
+{
+  "schema_version": 2,
+  "id": "smart.input-choice",
+  "version": "1.1.0",
+  "title": "Choice",
+  "summary": "A form field that picks one option, or several, from cards in three layouts: list (one frame of rows, delivery and payment), tile (plans, modules) and picture (templates with an image). Each card has a name, a badge, a description, a price and term, and the real radio or checkbox on its name line. One option is a radio group the arrow keys move through; several are checkboxes. A chosen card has a 2 px primary edge over the lowest primary fill; invalid cards an error edge and a message under them.",
+  "kind": "smart",
+  "reuse_mode": "whole",
+  "lifecycle": "experimental",
+  "tags": [
+    "choice",
+    "cards",
+    "radio",
+    "checkbox",
+    "options",
+    "picker",
+    "field",
+    "form"
+  ],
+  "capabilities": [
+    "render",
+    "interaction",
+    "keyboard",
+    "form",
+    "validation",
+    "selection",
+    "theme",
+    "responsive",
+    "i18n"
+  ],
+  "custom_element": "sf-input-choice",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [
+      "component.checkbox",
+      "component.icons",
+      "component.radio",
+      "smart.badge"
+    ],
+    "public_parts": []
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "template": {
+        "type": "string",
+        "default": "default",
+        "description": "Template variant name for SfBaseElement external templates."
+      },
+      "root-class": {
+        "type": "string",
+        "default": "",
+        "description": "Classes added to the root element the component draws."
+      },
+      "root-style": {
+        "type": "string",
+        "default": "",
+        "description": "Inline style declarations set on the root element the component draws, custom properties included."
+      },
+      "multiple": {
+        "type": "boolean",
+        "default": false,
+        "description": "Several options: the cards are checkboxes in a group. Without it one option is chosen, the cards are a radio group."
+      },
+      "layout": {
+        "type": "string",
+        "default": "tile",
+        "description": "How the cards stand (owner decision C28). tile: cards in the grid, the control at the end of the name line, name, description and price on one left edge, the price at the foot after a divider (plans, modules). list: one frame of rows divided by lines, the control at the start, price and term a column at the end of the name line (delivery, payment); columns does not apply. picture: tiles whose image runs to the edges, the caption under it and the control at the end of the caption's name line; in a field narrower than 30rem (a phone) each tile is a row, the image at its start.",
+        "enum": [
+          "tile",
+          "list",
+          "picture"
+        ]
+      },
+      "columns": {
+        "type": "string",
+        "default": "auto",
+        "description": "The grid of tile and picture: auto fills the width with cards no narrower than --sf-choice-min-inline-size (15rem); a number is the most columns, fewer where a card would be narrower than that, so a phone stacks them. A list is one column.",
+        "enum": [
+          "auto",
+          "1",
+          "2",
+          "3",
+          "4"
+        ]
+      },
+      "label": {
+        "type": "string",
+        "default": "",
+        "description": "The visible name of the field over the cards; it names the group. Without it the host's aria-label does."
+      },
+      "hint": {
+        "type": "string",
+        "default": "",
+        "description": "The line under the cards; it describes the group."
+      },
+      "name": {
+        "type": "string",
+        "default": "",
+        "description": "The form name: one entry with the chosen value, or one entry per chosen value when multiple."
+      },
+      "required": {
+        "type": "boolean",
+        "default": false,
+        "description": "The form is not sent while nothing is chosen (value-missing)."
+      },
+      "disabled": {
+        "type": "boolean",
+        "default": false,
+        "description": "No card can be chosen or focused, and nothing is sent with the form; a disabled fieldset does the same. An option's own disabled turns off its card alone."
+      },
+      "invalid": {
+        "type": "boolean",
+        "default": false,
+        "description": "The page's verdict: the cards not chosen take the error edge, aria-invalid is set, and error-message shows under them."
+      },
+      "error-message": {
+        "type": "string",
+        "default": "",
+        "description": "Shown in place of the hint while invalid."
+      },
+      "value": {
+        "type": "string",
+        "default": "",
+        "description": "The chosen option's value; multiple, the chosen values joined by commas in the order of the options ('' when nothing is). The value attribute is the default a form reset returns to; set from code (a string, or a list of values) it says nothing. The property selected gives the values as a list."
+      },
+      "aria-label": {
+        "type": "string",
+        "default": ""
+      },
+      "items": {
+        "type": "array",
+        "default": [],
+        "description": "The options, [{value, label, caption?, icon?, badge?, price?, term?, image?, disabled?}]: each a card with its name (label, or title), a description under it (caption), an icon on the name line, a short badge (sf-badge) beside the name, a price and its term (list: a column at the end of the name line; tile and picture: the foot of the card, after a divider) and an image (picture: to the card's edges, over the caption). A property, the JSON island or the attribute as JSON. An option without a value or repeating one is left out.",
+        "examples": [
+          [
+            {
+              "value": "courier",
+              "label": "Курьером",
+              "caption": "Привезём в удобный интервал",
+              "price": "350 ₽",
+              "term": "2–3 дня"
+            },
+            {
+              "value": "pickup",
+              "label": "Пункт выдачи",
+              "caption": "Больше 2 000 пунктов по стране",
+              "price": "150 ₽",
+              "term": "1–2 дня",
+              "badge": "Выгодно"
+            }
+          ]
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {},
+  "contracts": {},
+  "methods": {},
+  "events": {
+    "input": {
+      "summary": "A person chose an option or, multiple, turned one off. Sent before change, with the same detail; the inner inputs' own events do not leave the host.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "value",
+          "values",
+          "item",
+          "checked"
+        ],
+        "properties": {
+          "value": {
+            "type": "string"
+          },
+          "values": {
+            "type": "array"
+          },
+          "item": {
+            "type": "object"
+          },
+          "checked": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "change": {
+      "summary": "The value changed by the person, once per press, as a native radio group's or checkbox's: detail.value is the new value, detail.values the chosen values, detail.item the option pressed, detail.checked whether it is chosen now. A value set from code, a form reset and a restore say nothing.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "value",
+          "values",
+          "item",
+          "checked"
+        ],
+        "properties": {
+          "value": {
+            "type": "string"
+          },
+          "values": {
+            "type": "array"
+          },
+          "item": {
+            "type": "object"
+          },
+          "checked": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "state": {
+    "machines": {
+      "value": [
+        "empty",
+        "filled"
+      ]
+    },
+    "visual_states": [
+      "default",
+      "selected",
+      "disabled",
+      "error"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "host",
+    "network_owner": "host",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-source",
+    "data": "host",
+    "effects": "component",
+    "forbidden_client_responsibilities": [
+      "drawing cards of its own over the field",
+      "trusting the submitted values without checking them on the server"
+    ]
+  },
+  "security": {
+    "permissions_owner": "host",
+    "untrusted_inputs": [
+      "props"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": "radiogroup",
+    "accessible_name": "required",
+    "keyboard": [
+      "Single: Tab reaches the chosen card (or the first); the arrow keys move to the next or previous card and choose it, wrapping at the ends",
+      "Multiple: Tab reaches each card; Space turns it on or off"
+    ],
+    "focus": "The focus ring is drawn on the card whose input has keyboard focus; a press draws none."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "ru",
+      "en"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile"
+    ],
+    "skeleton": {
+      "shape": "block",
+      "while_loading": "none"
+    }
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [
+      "studio.fixture.json"
+    ],
+    "scenarios": [
+      "studio.scenario.json"
+    ]
+  },
+  "readiness": {
+    "level": "described",
+    "required_checks": [
+      "manifest",
+      "fixture",
+      "runtime-upgrade",
+      "scenario-smoke"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
+      "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
+    },
+    "aliases": [],
+    "deprecations": [],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-source",
+    "source_revision": "4638e4ffb789fa3f57dbcf765eb230972bd1aec9",
+    "source_artifacts": [
+      {
+        "path": "src/smart/input-choice/index.js",
+        "sha256": "eeb75fdea5fb701a24ce505ec4fb80ce44a99e9330929a96e094e9008886f133"
+      },
+      {
+        "path": "src/smart/input-choice/js/templates/default.js",
+        "sha256": "301014ab34aeed8a30e3cf696703b7e8368584434513358e20d2f0a56955d589"
+      },
+      {
+        "path": "src/smart/input-choice/js/choice-model.mjs",
+        "sha256": "eb72ae4d188ca33ec685d608edbe4d60e5ad8b9f78a9a8ede62d679020d1a219"
+      },
+      {
+        "path": "src/smart/input-choice/scss/_smart__choice.scss",
+        "sha256": "e4912facbd0b0671bc1e3cd4217465cc9cb944751ec99b14ac89190d1046219c"
+      },
+      {
+        "path": "src/smart/input-choice/rule.js",
+        "sha256": "8bef1d6848be2e826d9720f4140e18f218fbcc044d07036d5fa63f19706f5a9a"
+      },
+      {
+        "path": "src/smart/input-choice/docs.md",
+        "sha256": "34dada8f2da7fb613083794a7f41d9d8c15c37296a459606a480804b1bb7d6a4"
+      }
+    ],
+    "generated_runtime": []
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-input-choice to pick one or several of a few options that need words to tell apart -- a site's kind, a page type, a template, a field type, a backup target, a plan -- shown all at once as cards.",
+    "do_not": [
+      "Do not use it for a long list; use sf-input-select or sf-input-lookup",
+      "Do not use it for two or three short words; use sf-button-group (segmented) or sf-radio",
+      "Do not draw cards of your own with radios inside; give the options to the field"
+    ],
+    "required_reads": [
+      "inputs",
+      "events",
+      "ownership"
+    ],
+    "minimal_example": "<sf-input-choice label=\"Тип сайта\" name=\"kind\" items='[{\"value\": \"site\", \"label\": \"Сайт\", \"caption\": \"Страницы и разделы\", \"icon\": \"language\"}, {\"value\": \"shop\", \"label\": \"Магазин\", \"caption\": \"Каталог и заказы\", \"icon\": \"storefront\"}]'></sf-input-choice>",
+    "owner_commands": [
+      "npm run contract:verify",
+      "npm test"
+    ]
+  }
+}

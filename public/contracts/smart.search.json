@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.search",
-  "version": "1.2.3",
+  "version": "1.7.2",
   "title": "Site search",
   "summary": "Site search in a window: a large rounded field and a separate results card under it over the shared scrim, opened by a trigger or a key (Command/Control+K, /), a full-screen sheet on a phone. The panel asks a host through simai.search-port and draws what the host announces it can answer: grouped results, scopes, recent and popular queries, commands, a correction and a preview beside the list. Each block is also a setting, so the capability says what is possible and the setting says what is wanted. A page with no host of its own gets the built-in ones: a static JSON index (index) or a provider function.",
   "kind": "smart",
@@ -135,14 +135,24 @@
       "summary": "Closes the window; refused when it is closed already or a page cancels sf-search-close",
       "arguments": [
         {
-          "name": "reason",
+          "name": "args",
+          "type": "object",
+          "required": true,
           "schema": {
-            "enum": [
-              "close",
-              "escape",
-              "outside",
-              "cancelled",
-              "api"
+            "type": "object",
+            "properties": {
+              "reason": {
+                "enum": [
+                  "close",
+                  "escape",
+                  "outside",
+                  "cancelled",
+                  "api"
+                ]
+              }
+            },
+            "required": [
+              "reason"
             ]
           }
         }
@@ -398,15 +408,15 @@
     "source_artifacts": [
       {
         "path": "src/smart/search/index.js",
-        "sha256": "90925687132124166e020ca5dd359c6d9f69b43ae79511aba3407abcc904e73b"
+        "sha256": "c19e91b5e687ee39f75dcb9e21750bc841775b61f997de9ce8207de87ed939a7"
       },
       {
         "path": "src/smart/search/js/templates/default.js",
-        "sha256": "e43d355ff3b7bf13766f4946f87ecc48349d7958b395601dbf505ea5c1e3c8be"
+        "sha256": "8f9ef934195776ccc64c354d725d767b35db27fc37995b5eeb3a9a8f315e5f2e"
       },
       {
         "path": "src/smart/search/scss/_smart__search.scss",
-        "sha256": "ed809be01f6964160be39988ed05711cfe9a4c227c03d1953eaad895afe9eced"
+        "sha256": "86e96de785c9b01462daeb1ad2cc689bd7d3075c63c2b89dc4f85a3d01728ff3"
       },
       {
         "path": "src/smart/search/rule.js",
@@ -414,7 +424,7 @@
       },
       {
         "path": "src/smart/search/docs.md",
-        "sha256": "9bdae1ed0db3ce84c3276920e1f059e90ed9162f9af8954a046df1f1b152222b"
+        "sha256": "34168216650d5c951db28301403cdf54589b110fad56867e5a6cda49bbeba41a"
       }
     ],
     "generated_runtime": []

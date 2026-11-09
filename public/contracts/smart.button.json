@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
   "id": "smart.button",
-  "version": "1.4.0",
+  "version": "1.10.0",
   "title": "Buttons",
-  "summary": "A native button with Framework presentation: size, appearance, colour role or status, optional start and end icons, spacing and radius. loading sets aria-busy and disables it against repeated activation.",
+  "summary": "A native button with Framework presentation: size, appearance, colour role or status, optional start and end icons, height and radius. loading sets aria-busy and disables it against repeated activation.",
   "kind": "smart",
   "reuse_mode": "whole",
   "lifecycle": "experimental",
@@ -38,6 +38,7 @@
       "props": [
         "template",
         "size",
+        "height",
         "appearance",
         "scheme",
         "status",
@@ -53,11 +54,18 @@
         "loading",
         "disabled",
         "native-type",
+        "form",
+        "name",
+        "value",
         "href",
+        "target",
+        "rel",
         "shortcut",
         "shortcut-listen",
         "expanded",
         "pressed",
+        "text-pressed",
+        "theme-cycle",
         "aria-label"
       ],
       "presentation": {
@@ -98,7 +106,7 @@
       "size": {
         "type": "string",
         "default": "1",
-        "description": "Button size token.",
+        "description": "Button size.",
         "enum": [
           "1/3",
           "1/2",
@@ -107,15 +115,26 @@
           "3"
         ]
       },
+      "height": {
+        "type": "string",
+        "default": "default",
+        "description": "The control height (owner decision C27), separate from size: size sets the text, the icons and the inner scale, height picks the control height from the size's tightness steps of the adaptive-sizing contract -- low, default, high, highest, the size's usual step and its neighbours on the UI height ladder. Desktop 1/3 24/28/32/40, 1/2 28/32/40/48, 1 32/40/48/56, 2 40/48/56/68, 3 48/56/68/80; phone 1/3 20/24/28/36, 1/2 24/28/36/44, 1 28/36/44/52, 2 36/44/52/64, 3 44/52/64/76. The side padding grows with the height by half of what the height adds, so the gap from the end to the icon stays the same. A compact region (data-sf-density) shifts the steps one down and height picks the neighbour there. A value outside the list reads as default, with one console warning.",
+        "enum": [
+          "low",
+          "default",
+          "high",
+          "highest"
+        ]
+      },
       "appearance": {
         "type": "string",
         "default": "default",
-        "description": "How the button looks. Surface reads the neutral alpha ramp: a faint fill and a border. ghost is the link appearance under its old name (compat until 2026-12-01).",
+        "description": "How the button looks: default (filled), tonal, outline, ghost (no fill or edge until hovered; rule C15) or surface (a faint fill on the neutral alpha ramp and a border). link is ghost's former name; a link is made by href, not by the look.",
         "enum": [
           "default",
           "tonal",
           "outline",
-          "link",
+          "ghost",
           "surface"
         ]
       },
@@ -133,10 +152,10 @@
       "status": {
         "type": "string",
         "default": "",
-        "description": "What the control is about, in the shared status vocabulary. The only one a control paints today is `error`, the destructive one: a control that deletes, discards or cannot be undone.",
+        "description": "What the control is about (rule C13): danger, a control that deletes, discards or cannot be undone. It paints with the error roles -- the red of an error -- and behaves exactly like a primary control. error is its former name on a control.",
         "enum": [
           "",
-          "error"
+          "danger"
         ]
       },
       "text-position": {
@@ -217,7 +236,7 @@
       "spacing": {
         "type": "string",
         "default": "normal",
-        "description": "Semantic internal spacing profile.",
+        "description": "Deprecated (decision C27, until 2027-01-01): the side padding only -- compact, normal, comfortable or spacious -- at the same height. It keeps working as before with a console warning and is not turned into height; write height for a lower or higher button.",
         "enum": [
           "compact",
           "normal",
@@ -239,32 +258,57 @@
       "loading": {
         "type": "boolean",
         "default": false,
-        "description": "Loading state: the spinner at the icon's size in place of the start icon (else the end icon); without an icon it lies over the label, which keeps its place, so the width does not change. The spinner takes the page's look (data-sf-spinner). Sets aria-busy and disables the native button."
+        "description": "Loading state: the spinner at the icon's size in place of the start icon (else the end icon); without an icon it lies over the label, which keeps its place, so the width does not change. The spinner takes the page's look (data-sf-spinner). The inner button is unavailable while it loads."
       },
       "disabled": {
         "type": "boolean",
         "default": false,
-        "description": "Disabled state flag."
+        "description": "The button is unavailable."
       },
       "native-type": {
         "type": "string",
         "default": "button",
-        "description": "Native button type attribute.",
+        "description": "The inner button's type attribute.",
         "enum": [
           "button",
           "submit",
           "reset"
         ]
       },
+      "form": {
+        "type": "string",
+        "default": "",
+        "description": "The id of the form the inner button submits or resets, as a native button's form attribute: a button outside the form (a wizard's footer) submits it. Not written on a link."
+      },
+      "name": {
+        "type": "string",
+        "default": "",
+        "description": "The name the inner button submits its value under, as a native button's name."
+      },
+      "value": {
+        "type": "string",
+        "default": "",
+        "description": "The value the inner button submits under name when it is the submitter (next, skip); for a cycle, the current item's value, which a press moves to the next one."
+      },
       "href": {
         "type": "string",
         "default": "",
         "description": "An address: the button draws a link (an <a href>) with the button's look; role link, Enter and the browser's link keys follow it. A relative address, a fragment, http(s), mailto or tel; any other scheme draws a button. native-type, expanded and pressed do not apply; disabled or loading, the link has no href and says aria-disabled."
       },
+      "target": {
+        "type": "string",
+        "default": "",
+        "description": "Where a link (href) opens, as an <a target>: _blank opens a new tab. Not written on a button."
+      },
+      "rel": {
+        "type": "string",
+        "default": "",
+        "description": "The link's relation, as an <a rel>. A link that opens in a new tab (target _blank) with no rel says noopener noreferrer, so the new page cannot reach this one. Not written on a button."
+      },
       "shortcut": {
         "type": "string",
         "default": "",
-        "description": "A key combination drawn at the end of the button as keys, muted: words joined by +, e.g. mod+k (Cmd K on a Mac, Ctrl K elsewhere), shift+/, / or escape. mod is Cmd on Apple platforms and Ctrl elsewhere. Also written as aria-keyshortcuts on the native button. Empty: no keys"
+        "description": "A key combination drawn at the end of the button as the kbd component's soft caps in the label's ink: words joined by +, e.g. mod+k (⌘K on a Mac, Ctrl K elsewhere), shift+mod+p (⇧⌘P, Ctrl Shift P), shift+/, / or escape. mod is Cmd on Apple platforms and Ctrl elsewhere. The only input: a page never styles the keys. Also written as aria-keyshortcuts on the inner button. Empty: no keys"
       },
       "shortcut-listen": {
         "type": "boolean",
@@ -274,12 +318,22 @@
       "expanded": {
         "type": "boolean",
         "default": false,
-        "description": "Whether the panel this button opens is open: aria-expanded on the native button; absent says nothing"
+        "description": "Whether the panel this button opens is open: aria-expanded on the inner button; absent says nothing"
       },
       "pressed": {
         "type": "boolean",
         "default": false,
-        "description": "Whether this toggle button is on: aria-pressed on the native button and the selected look (the class sheet's active state); pressed=\"false\" says off; absent, the button is not a toggle and nothing is said"
+        "description": "Whether this toggle button is on: aria-pressed on the inner button and the pressed look -- the primary container fill, its ink, no visible edge and the icon filled (rule C12); pressed=\"false\" says off; absent, the button is not a toggle and nothing is said"
+      },
+      "text-pressed": {
+        "type": "string",
+        "default": "",
+        "description": "The label while the toggle is on, for a toggle whose label changes («В избранное» → «В избранном»). Set, the label says the state and aria-pressed is not written; the pressed look still follows pressed. Empty: the label stays the same and aria-pressed says the state"
+      },
+      "theme-cycle": {
+        "type": "string",
+        "default": "",
+        "description": "A ready theme switch over SF.Loader's theme (the contract of sf-segmented's theme-switch: themePreference, setTheme, sf-theme-change). Present and empty: three values, «as the system», light and dark, in the owner's order -- first the theme opposite to the visible one, then the other, then «as the system» (rule D11d); \"light dark\": two values, every press flips the visible theme. The icons are contrast, light_mode and dark_mode; the words are the page language's («Тема: светлая. Нажмите — тёмная»). cycle is ignored beside it."
       },
       "aria-label": {
         "type": "string",
@@ -294,7 +348,7 @@
           "default",
           "tonal",
           "outline",
-          "link",
+          "ghost",
           "surface"
         ]
       },
@@ -332,6 +386,32 @@
           "low",
           "high",
           "highest"
+        ]
+      },
+      "cycle": {
+        "type": "array",
+        "default": [],
+        "description": "One button, several values (rule D11d): the items {value, label, icon, pressed?} a press steps through, wrapping at the end. value is the current item. The name and the icon say the current value («Скорость: 1,5×»), the tooltip says the current and the next, and a polite live region says the new value after a press; change {previous, value, item} follows. Not a toggle: pressed and text-pressed are ignored beside it, with one console warning.",
+        "examples": [
+          [
+            {
+              "value": "off",
+              "label": "выключен",
+              "icon": "repeat"
+            },
+            {
+              "value": "all",
+              "label": "весь список",
+              "icon": "repeat",
+              "pressed": true
+            },
+            {
+              "value": "one",
+              "label": "один трек",
+              "icon": "repeat_one",
+              "pressed": true
+            }
+          ]
         ]
       }
     },
@@ -467,11 +547,38 @@
   },
   "events": {
     "sf-button-press": {
-      "summary": "press (vocabulary).",
+      "summary": "A press: a click, Enter or Space on the inner button or link, or the shortcut-listen key; the detail is an empty object. Not sent by click() on the host, nor by a disabled or loading button.",
       "payload": {
         "type": "object",
         "required": [],
         "properties": {},
+        "additionalProperties": true
+      }
+    },
+    "change": {
+      "summary": "A cycle (cycle or theme-cycle) moved to its next value after a person's press; dispatched on the host, bubbles and is composed, after press on sf-button. A theme cycle sends it after SF.Loader.setTheme has drawn the theme. Not sent by a button that is not a cycle.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "previous",
+          "value",
+          "item"
+        ],
+        "properties": {
+          "previous": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "item": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "The item now current: {value, label, icon, lang, pressed}."
+          }
+        },
         "additionalProperties": true
       }
     }
@@ -509,7 +616,9 @@
     "role": "button",
     "accessible_name": "recommended",
     "keyboard": [
-      "Tab"
+      "Tab",
+      "Enter",
+      "Space"
     ],
     "focus": "Keep visible focus on the active control."
   },
@@ -563,8 +672,8 @@
       "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
     },
     "aliases": [
-      "appearance=ghost",
-      "status=danger",
+      "appearance=link",
+      "status=error",
       "status=critical",
       "spacing=low",
       "spacing=high",
@@ -582,7 +691,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/button/index.js",
-        "sha256": "b0b8d753d59611ae781a4f1e0af76dee36af8c75dfeb5b79075f08099cbe6740"
+        "sha256": "2a2ed4f209dd7fb8ac6508642d65e596eb0a8b7b558c7afc4549bb69335ed1e7"
       }
     ],
     "generated_runtime": [

@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.admin-menu",
-  "version": "1.1.0",
+  "version": "1.8.0",
   "title": "Admin menu",
   "summary": "Searchable nested admin navigation with compact mode and editable personal or system preferences.",
   "kind": "composite",
@@ -31,26 +31,128 @@
       "component.badges",
       "component.icons",
       "component.inputs",
-      "smart.badges",
-      "smart.buttons",
-      "smart.context-menu",
-      "smart.icon-buttons",
-      "smart.icons",
-      "smart.inputs"
+      "smart.badge",
+      "smart.button",
+      "smart.button-icon",
+      "smart.dropdown",
+      "smart.empty-state",
+      "smart.icon",
+      "smart.input",
+      "smart.menu-context",
+      "smart.profile-picker",
+      "smart.resizer",
+      "smart.sortable"
     ],
-    "public_parts": []
+    "public_parts": [],
+    "declarative": {
+      "standard": "simai.composition.document.v1",
+      "type": "smart.admin-menu",
+      "mode": "leaf",
+      "profiles": [
+        "ui-layout"
+      ],
+      "props": [
+        "template",
+        "brand",
+        "logo",
+        "logo-href",
+        "searchable",
+        "collapsible",
+        "settings",
+        "settings-title",
+        "persistence-mode",
+        "settings-mode",
+        "settings-revision",
+        "system-settings-revision",
+        "allow-system-settings",
+        "search-placeholder",
+        "toggle-label",
+        "panel-class",
+        "search-mode",
+        "search-label",
+        "search-shortcut",
+        "search-hint",
+        "search-keys-hint",
+        "search-title",
+        "current",
+        "source",
+        "expected-columns",
+        "open",
+        "compact",
+        "aria-label"
+      ],
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": []
+      },
+      "slots": {},
+      "renderer": {
+        "kind": "custom-element",
+        "name": "sf-admin-menu"
+      },
+      "assets": [
+        "smart/admin-menu"
+      ],
+      "data": {},
+      "events": [
+        "sf-admin-menu-compact-change",
+        "sf-admin-menu-query",
+        "sf-admin-menu-settings-cancel",
+        "sf-admin-menu-settings-mode-change",
+        "sf-admin-menu-settings-refresh",
+        "sf-admin-menu-settings-save",
+        "sf-admin-menu-reset",
+        "sf-admin-menu-navigate",
+        "sf-admin-menu-refresh",
+        "sf-admin-menu-open",
+        "sf-admin-menu-toggle",
+        "sf-admin-menu-save",
+        "sf-admin-menu-create",
+        "sf-admin-menu-rename",
+        "sf-admin-menu-delete",
+        "sf-admin-menu-read",
+        "sf-admin-menu-sign-out"
+      ],
+      "persistence": {
+        "settings_key_prop": null,
+        "revision_prop": null
+      },
+      "host_port": {
+        "port": "simai.admin-navigation-port",
+        "version": "1.1.0",
+        "path": "src/core/contracts/ports/simai.admin-navigation-port/1.1.0/port.json",
+        "sha256": "6280add7a969ea06ff92183b95bc845f2d3ffc0d959f742ca81b96e22623a324",
+        "supported_versions": [
+          "1.0.0",
+          "1.1.0"
+        ]
+      }
+    }
   },
   "inputs": {
     "type": "object",
-    "additionalProperties": false,
     "required": [
       "aria-label"
     ],
     "properties": {
       "template": {
         "type": "string",
-        "const": "default",
-        "default": "default"
+        "default": "default",
+        "description": "Template variant name for SfBaseElement external templates.",
+        "const": "default"
+      },
+      "root-class": {
+        "type": "string",
+        "default": "",
+        "description": "Classes added to the root element the component draws."
+      },
+      "root-style": {
+        "type": "string",
+        "default": "",
+        "description": "Inline style declarations set on the root element the component draws, custom properties included."
       },
       "brand": {
         "type": "string",
@@ -63,11 +165,6 @@
       "logo-href": {
         "type": "string",
         "default": "#"
-      },
-      "aria-label": {
-        "type": "string",
-        "minLength": 1,
-        "default": "Admin menu"
       },
       "searchable": {
         "type": "boolean",
@@ -82,71 +179,59 @@
         "default": true
       },
       "settings-title": {
-        "type": "string",
-        "default": "Menu settings"
-      },
-      "compact": {
-        "type": "boolean",
-        "default": false
+        "type": "string"
       },
       "persistence-mode": {
         "type": "string",
+        "default": "local",
         "enum": [
           "local",
           "external"
-        ],
-        "default": "local"
+        ]
       },
       "settings-mode": {
         "type": "string",
+        "default": "user",
         "enum": [
           "user",
           "system"
-        ],
-        "default": "user"
+        ]
       },
       "settings-revision": {
         "type": "integer",
-        "minimum": 0,
-        "default": 0
+        "default": 0,
+        "minimum": 0
       },
       "system-settings-revision": {
         "type": "integer",
-        "minimum": 0,
-        "default": 0
+        "default": 0,
+        "minimum": 0
       },
       "allow-system-settings": {
         "type": "boolean",
         "default": false
       },
       "search-placeholder": {
-        "type": "string",
-        "default": "Search sections"
+        "type": "string"
       },
       "toggle-label": {
-        "type": "string",
-        "default": "Menu"
+        "type": "string"
       },
       "panel-class": {
         "type": "string",
         "default": ""
       },
-      "root-class": {
-        "type": "string",
-        "default": ""
-      },
       "search-mode": {
         "type": "string",
+        "default": "row",
+        "description": "Where the search lives: a row under the header, or a panel opened from a magnifier in the header.",
         "enum": [
           "row",
           "panel"
-        ],
-        "default": "row",
-        "description": "Where the search lives: a row under the header, or a panel opened from a magnifier in the header."
+        ]
       },
       "search-label": {
         "type": "string",
-        "default": "Search the admin (Ctrl+K)",
         "description": "Accessible name and tooltip of the magnifier that opens the search panel."
       },
       "search-shortcut": {
@@ -156,20 +241,61 @@
       },
       "search-hint": {
         "type": "string",
-        "default": "",
         "description": "A short line shown under an empty query, when the host has one."
       },
       "search-keys-hint": {
         "type": "string",
-        "default": "↑↓ select · Enter open · Esc close",
         "description": "The line of key hints at the bottom of the search panel."
       },
       "search-title": {
         "type": "string",
-        "default": "",
         "description": "Heading shown above the search field in the navigation panel."
+      },
+      "current": {
+        "type": "string",
+        "default": "",
+        "description": "The row the page is on, by its key; empty: the row whose address the page is at."
+      },
+      "source": {
+        "type": "string",
+        "default": "items",
+        "description": "Where the entries come from: items (the setting and the children) or port (simai.admin-navigation-port, connected by the host). With port the menu is its navigation skeleton until the host answers.",
+        "enum": [
+          "items",
+          "port"
+        ]
+      },
+      "expected-columns": {
+        "type": "integer",
+        "default": 2,
+        "description": "How many columns the navigation skeleton draws on a wide screen before the host answers: 1 where the page's row has no open root (a dashboard), 2 where it has. The server knows which; with the right number the menu is as wide before the answer as after it. Never a limit: the answered menu takes the columns its rows need.",
+        "minimum": 1,
+        "maximum": 2
+      },
+      "open": {
+        "type": "boolean",
+        "default": false,
+        "description": "Written by a page that opens the menu from its own button: on a narrow screen the menu is folded away while false (data-open). Not written: no change."
+      },
+      "compact": {
+        "type": "boolean",
+        "default": false
+      },
+      "aria-label": {
+        "type": "string",
+        "default": "Admin menu",
+        "minLength": 1
+      },
+      "recent-results": {
+        "type": "array",
+        "default": []
+      },
+      "first-answer": {
+        "type": "object",
+        "description": "The host's first navigation.load answer printed with the page (the data-sf-settings island). With source port the menu is drawn from it at once, with no skeleton; the port answers behind it."
       }
-    }
+    },
+    "additionalProperties": false
   },
   "item_contract": {
     "stable_id_attribute": "item-id",
@@ -177,7 +303,7 @@
       "item-id",
       "label",
       "href",
-      "icon",
+      "left-icon",
       "badge",
       "access"
     ],
@@ -194,6 +320,10 @@
       "active",
       "current",
       "disabled"
+    ],
+    "notes": [
+      "An sf-admin-menu-item takes its glyph from the left-icon attribute; an icon attribute on the item is not read. right-icon is read into the item data but no template draws it.",
+      "A navigation node from the host (applyExternalSettingsState, simai.admin-navigation-port) carries the glyph as its icon property, which becomes the item's left icon. That is the host's data field, not an alias of the markup attribute."
     ]
   },
   "contracts": {
@@ -243,17 +373,25 @@
       "summary": "Apply backend-resolved state and tree.",
       "arguments": [
         {
-          "name": "state",
+          "name": "args",
+          "type": "object",
+          "required": true,
           "schema": {
-            "type": "object"
-          }
-        },
-        {
-          "name": "target",
-          "schema": {
-            "enum": [
-              "user",
-              "system"
+            "type": "object",
+            "properties": {
+              "state": {
+                "type": "object"
+              },
+              "target": {
+                "enum": [
+                  "user",
+                  "system"
+                ]
+              }
+            },
+            "required": [
+              "state",
+              "target"
             ]
           }
         }
@@ -266,9 +404,19 @@
       "summary": "Commit a successful external save response.",
       "arguments": [
         {
-          "name": "result",
+          "name": "args",
+          "type": "object",
+          "required": true,
           "schema": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+              "result": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "result"
+            ]
           }
         }
       ],
@@ -280,14 +428,94 @@
       "summary": "Keep the draft and expose error or conflict state.",
       "arguments": [
         {
-          "name": "error",
+          "name": "args",
+          "type": "object",
+          "required": true,
           "schema": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+              "error": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "error"
+            ]
           }
         }
       ],
       "returns": {
         "type": "null"
+      }
+    },
+    "toggleMenuSettings": {
+      "summary": "Enter or leave the settings editor.",
+      "arguments": [],
+      "returns": {
+        "type": "null"
+      }
+    },
+    "refresh": {
+      "summary": "Read the navigation menu again from its host, after something outside the menu changed what it shows (a star in the page header). No effect on the items menu.",
+      "arguments": [],
+      "returns": {
+        "type": "object",
+        "description": "A promise that settles when the host has answered."
+      }
+    },
+    "setSearchResults": {
+      "summary": "The host answers one search request with its own groups of results. An answer to a query the person has moved on from is dropped.",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string"
+              },
+              "groups": {
+                "type": "array"
+              }
+            },
+            "required": [
+              "requestId"
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "type": "boolean",
+        "description": "Whether the answer was for the current query and was shown."
+      }
+    },
+    "toggle": {
+      "summary": "Add a row to the person's favourites or take it out (favourite.toggle). The items menu refuses.",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "id": {},
+              "on": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "id",
+              "on"
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "type": "object",
+        "description": "A promise of the outcome: applied, refused or unavailable."
       }
     },
     "setCompact": {
@@ -304,11 +532,47 @@
         "type": "boolean"
       }
     },
-    "toggleMenuSettings": {
-      "summary": "Enter or leave the settings editor.",
-      "arguments": [],
+    "setHostPort": {
+      "summary": "Bind the host of simai.admin-navigation-port; the menu then draws the navigation shell instead of the items menu.",
+      "arguments": [
+        {
+          "name": "host",
+          "type": "object",
+          "required": true
+        }
+      ],
       "returns": {
-        "type": "null"
+        "type": "object",
+        "description": "The outcome of connect-port, whose alias this is: {outcome: \"applied\"}, or refused with no-port, other-port or port-unsupported."
+      }
+    },
+    "setRecentResults": {
+      "summary": "What the host offers an empty search field: a recent list, standing until it sets another. Deprecated: the setting recent-results (until 2026-12-01).",
+      "arguments": [
+        {
+          "name": "groups",
+          "type": "array",
+          "required": false
+        }
+      ],
+      "returns": {
+        "type": "boolean",
+        "description": "Always true."
+      }
+    },
+    "connectPort": {
+      "summary": "The Framework's base action connect-port {port} (standard 1.3.8 §4.1, §4.9): hands the navigation port, kept as sfPort; answers an outcome (refused other-port for another port, port-unsupported for a version the menu does not take). setHostPort is its alias.",
+      "arguments": [
+        {
+          "name": "port",
+          "required": true,
+          "schema": {
+            "type": "object"
+          }
+        }
+      ],
+      "returns": {
+        "type": "object"
       }
     }
   },
@@ -326,29 +590,69 @@
             "type": "boolean"
           },
           "source": {
-            "type": "string"
+            "enum": [
+              "toggle",
+              "api"
+            ]
           }
-        }
+        },
+        "additionalProperties": true
       }
     },
-    "sf-admin-menu-search": {
-      "summary": "Runtime event sf-admin-menu-search.",
+    "sf-admin-menu-query": {
+      "summary": "a query: kind menu (the items menu), site or search (vocabulary 1.1.5).",
       "payload": {
-        "type": "object"
-      }
+        "type": "object",
+        "required": [
+          "kind",
+          "query"
+        ],
+        "properties": {
+          "kind": {
+            "enum": [
+              "menu",
+              "site",
+              "search"
+            ]
+          },
+          "query": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string"
+          },
+          "payload": {
+            "type": "object"
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
     },
     "sf-admin-menu-settings-cancel": {
       "summary": "Discard the local draft.",
       "payload": {
         "type": "object",
+        "required": [
+          "target",
+          "baseRevision"
+        ],
         "properties": {
           "target": {
             "enum": [
               "user",
               "system"
             ]
+          },
+          "baseRevision": {
+            "type": "integer",
+            "minimum": 0
           }
-        }
+        },
+        "additionalProperties": true
       }
     },
     "sf-admin-menu-settings-mode-change": {
@@ -365,7 +669,8 @@
               "system"
             ]
           }
-        }
+        },
+        "additionalProperties": true
       }
     },
     "sf-admin-menu-settings-refresh": {
@@ -374,7 +679,7 @@
         "type": "object",
         "required": [
           "target",
-          "base_revision",
+          "baseRevision",
           "profile"
         ],
         "properties": {
@@ -384,18 +689,373 @@
               "system"
             ]
           },
-          "base_revision": {
+          "baseRevision": {
             "type": "integer",
             "minimum": 0
           },
           "profile": {
+            "type": "object",
             "$ref": "#/contracts/settings_profile"
           }
-        }
+        },
+        "additionalProperties": true
       }
     },
+    "sf-admin-menu-settings-save": {
+      "summary": "Request persistence of the current delta.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "target",
+          "baseRevision",
+          "profile"
+        ],
+        "properties": {
+          "target": {
+            "enum": [
+              "user",
+              "system"
+            ]
+          },
+          "baseRevision": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "profile": {
+            "type": "object",
+            "$ref": "#/contracts/settings_profile"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-admin-menu-reset": {
+      "summary": "kind settings (the items menu) or view (vocabulary 1.1.5).",
+      "payload": {
+        "type": "object",
+        "required": [
+          "kind"
+        ],
+        "properties": {
+          "kind": {
+            "enum": [
+              "settings",
+              "view"
+            ]
+          },
+          "target": {
+            "type": "string"
+          },
+          "baseRevision": {
+            "type": "number"
+          },
+          "id": {},
+          "intent": {
+            "type": "string"
+          },
+          "payload": {
+            "type": "object"
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-admin-menu-navigate": {
+      "summary": "The host answered item.open applied: the page belongs to this row now. For a host that navigates in its own router rather than through the address it answered with.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "id",
+          "key",
+          "href"
+        ],
+        "properties": {
+          "id": {},
+          "key": {
+            "type": "string"
+          },
+          "href": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "region": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-admin-menu-refresh": {
+      "summary": "navigation.load / notifications.load asked of the host (vocabulary 1.1.5).",
+      "payload": {
+        "type": "object",
+        "required": [
+          "kind",
+          "intent",
+          "payload"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string"
+          },
+          "payload": {
+            "type": "object"
+          },
+          "reason": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "site": {}
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-admin-menu-open": {
+      "summary": "item.open, site.switch, view.profile or search.choose asked (vocabulary 1.1.5).",
+      "payload": {
+        "type": "object",
+        "required": [
+          "kind",
+          "intent",
+          "payload",
+          "id"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string"
+          },
+          "payload": {
+            "type": "object"
+          },
+          "id": {},
+          "href": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "group": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-admin-menu-toggle": {
+      "summary": "favourite.toggle asked (vocabulary 1.1.5).",
+      "payload": {
+        "type": "object",
+        "required": [
+          "kind",
+          "intent",
+          "payload",
+          "id",
+          "on"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string"
+          },
+          "payload": {
+            "type": "object"
+          },
+          "id": {},
+          "on": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-admin-menu-save": {
+      "summary": "a preference or view.save asked (vocabulary 1.1.5).",
+      "payload": {
+        "type": "object",
+        "required": [
+          "kind",
+          "intent",
+          "payload"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string"
+          },
+          "payload": {
+            "type": "object"
+          },
+          "values": {
+            "type": "object"
+          },
+          "id": {},
+          "revision": {
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-admin-menu-create": {
+      "summary": "view.create asked (vocabulary 1.1.5).",
+      "payload": {
+        "type": "object",
+        "required": [
+          "kind",
+          "intent",
+          "payload"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string"
+          },
+          "payload": {
+            "type": "object"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-admin-menu-rename": {
+      "summary": "view.rename asked (vocabulary 1.1.5).",
+      "payload": {
+        "type": "object",
+        "required": [
+          "kind",
+          "intent",
+          "payload",
+          "id",
+          "title"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string"
+          },
+          "payload": {
+            "type": "object"
+          },
+          "id": {},
+          "title": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-admin-menu-delete": {
+      "summary": "view.delete asked (vocabulary 1.1.5).",
+      "payload": {
+        "type": "object",
+        "required": [
+          "kind",
+          "intent",
+          "payload",
+          "ids"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string"
+          },
+          "payload": {
+            "type": "object"
+          },
+          "ids": {
+            "type": "array"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-admin-menu-read": {
+      "summary": "notifications.read asked (vocabulary 1.1.5).",
+      "payload": {
+        "type": "object",
+        "required": [
+          "kind",
+          "intent",
+          "payload",
+          "ids"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string"
+          },
+          "payload": {
+            "type": "object"
+          },
+          "ids": {
+            "type": "array"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-admin-menu-sign-out": {
+      "summary": "session.sign-out asked (vocabulary 1.1.5).",
+      "payload": {
+        "type": "object",
+        "required": [
+          "kind",
+          "intent",
+          "payload"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string"
+          },
+          "payload": {
+            "type": "object"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-admin-menu-search": {
+      "summary": "1.0 name of sf-admin-menu-query {kind: menu, query, requestId}; follows it until 2026-12-01.",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-admin-menu-query"
+    },
     "sf-admin-menu-settings-reset": {
-      "summary": "Request reset of the selected preference level.",
+      "summary": "1.0 name of sf-admin-menu-reset {kind: settings, target, base_revision, baseRevision}; follows it until 2026-12-01.",
       "payload": {
         "type": "object",
         "required": [
@@ -414,33 +1074,65 @@
             "minimum": 0
           }
         }
-      }
+      },
+      "alias_of": "sf-admin-menu-reset"
     },
-    "sf-admin-menu-settings-save": {
-      "summary": "Request persistence of the current delta.",
+    "sf-host-port-request": {
+      "summary": "Ask the page for a host port when connecting. A page that answers with simai.admin-navigation-port gets the navigation shell; a page that answers nothing gets the items menu, unchanged. Retired: the page hands the port with connectPort({port}); still sent until 2026-12-01.",
       "payload": {
         "type": "object",
         "required": [
-          "target",
-          "base_revision",
-          "profile"
+          "component",
+          "context"
         ],
         "properties": {
-          "target": {
-            "enum": [
-              "user",
-              "system"
-            ]
+          "component": {
+            "type": "object"
           },
-          "base_revision": {
-            "type": "integer",
-            "minimum": 0
-          },
-          "profile": {
-            "$ref": "#/contracts/settings_profile"
+          "context": {
+            "type": "object",
+            "required": [
+              "owner",
+              "record",
+              "group"
+            ],
+            "properties": {
+              "owner": {
+                "type": "string",
+                "const": "admin-menu"
+              },
+              "record": {
+                "type": "null"
+              },
+              "group": {
+                "type": "null"
+              }
+            }
           }
         }
       }
+    },
+    "sf-admin-menu-intent": {
+      "summary": "1.0: what a person asked of the host. Since 1.2.0 each intent is told by its verb (sf-admin-menu-refresh, -open, -toggle, -save, -query, -create, -rename, -delete, -read, -reset, -sign-out: {kind, ..., intent, payload}); this name follows each until 2026-12-01.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "intent",
+          "payload"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "intent": {
+            "type": "string",
+            "description": "The port intent, e.g. navigation.load or favourite.add."
+          },
+          "payload": {
+            "type": "object",
+            "description": "The intent's payload as the port declares it."
+          }
+        }
+      },
+      "alias_of": "sf-admin-menu-refresh"
     }
   },
   "state": {
@@ -460,6 +1152,7 @@
       ]
     },
     "visual_states": [
+      "default",
       "loading",
       "empty",
       "saving",
@@ -467,9 +1160,7 @@
       "error",
       "conflict",
       "disabled",
-      "compact",
-      "nested",
-      "mobile"
+      "open"
     ]
   },
   "persistence": {
@@ -479,7 +1170,7 @@
     "revision_field": "base_revision"
   },
   "ownership": {
-    "source": "simai/ui-source",
+    "source": "simai/ui-admin",
     "data": "host",
     "effects": "host",
     "forbidden_client_responsibilities": [
@@ -520,6 +1211,10 @@
     "focus": "Context menus focus their first available native item after rendering. Escape returns to the native opener; Tab/Shift+Tab close and continue from the opener. Outside focus is preserved. If save/cancel removes the opener, abandoned body focus returns to the settings control or another available control in this Admin Menu. Shared portal ownership and stale callbacks are guarded. Popup geometry follows the native opener, including display-contents Smart hosts, LTR/RTL, responsive movement, content, font and viewport changes; --sf-context-menu-viewport-space derives from the spacing scale. Internal scrolling preserves the menu; outside document scrolling dismisses it. Search and nested drill-down layers make inactive panels inert. Opening a nested layer focuses its localized Back control; Back restores the corresponding tree trigger. Compact search focuses the revealed input. Search placement and directional chevrons follow LTR or RTL."
   },
   "presentation": {
+    "skeleton": {
+      "shape": "menu",
+      "while_loading": "none"
+    },
     "themes": [
       "light",
       "dark"
@@ -532,7 +1227,8 @@
       "desktop-expanded",
       "desktop-compact",
       "mobile-full-width",
-      "viewport-bounded-context-menu"
+      "viewport-bounded-context-menu",
+      "nested-columns"
     ]
   },
   "adapter": {
@@ -564,8 +1260,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "1d3f0eb63761e5e94883243e66007bfe38cccd7e",
-      "ui_smart_revision": "4e3e58aa1e6aa20b0434f334ea30e0f1a3c16319"
+      "ui_revision": "89834691fb9dce692be5353f3214df7aee3a7e27",
+      "ui_smart_revision": "89834691fb9dce692be5353f3214df7aee3a7e27"
     },
     "aliases": [],
     "deprecations": [],
@@ -579,24 +1275,144 @@
           "The conformance scenarios left the manifest (v2 keeps scenarios in artifacts) and are documented in docs/docs.md; studio.fixture.json and studio.scenario.json are the declared artifacts.",
           "No runtime behaviour changes."
         ]
+      },
+      {
+        "from": "1.1.0",
+        "to": "1.1.1",
+        "changes": [
+          "Follows SIMAI Framework release ui-92b4661762ca (standard 1.3.8 display groups A and B): the Loader relations and the composition name the renamed bundles and registry ids (cl-button, cl-badge, cl-icon, cl-icon-button, cl-input; smart.button, smart.badge, smart.icon, smart.icon-button, smart.input).",
+          "The navigation listens to sf-profile-picker-* and sf-resizer-resize, and to sf-context-menu-closed for a menu it opened; the search field takes icon-start and the edit form's cancel button the appearance link. No public attribute, property or event of sf-admin-menu changes."
+        ]
+      },
+      {
+        "from": "1.1.1",
+        "to": "1.2.0",
+        "changes": [
+          "standard simai.smart-component 1.3.8: the element is made from component.json; dated aliases in aliases.json",
+          "sf-admin-menu-intent -> sf-admin-menu-refresh until 2026-12-01 (event)",
+          "sf-admin-menu-intent -> sf-admin-menu-open until 2026-12-01 (event)",
+          "sf-admin-menu-intent -> sf-admin-menu-toggle until 2026-12-01 (event)",
+          "sf-admin-menu-intent -> sf-admin-menu-save until 2026-12-01 (event)",
+          "sf-admin-menu-intent -> sf-admin-menu-query until 2026-12-01 (event)",
+          "sf-admin-menu-intent -> sf-admin-menu-create until 2026-12-01 (event)",
+          "sf-admin-menu-intent -> sf-admin-menu-rename until 2026-12-01 (event)",
+          "sf-admin-menu-intent -> sf-admin-menu-delete until 2026-12-01 (event)",
+          "sf-admin-menu-intent -> sf-admin-menu-read until 2026-12-01 (event)",
+          "sf-admin-menu-intent -> sf-admin-menu-reset until 2026-12-01 (event)",
+          "sf-admin-menu-intent -> sf-admin-menu-sign-out until 2026-12-01 (event)",
+          "sf-admin-menu-search -> sf-admin-menu-query until 2026-12-01 (event)",
+          "sf-admin-menu-settings-reset -> sf-admin-menu-reset until 2026-12-01 (event)"
+        ]
+      },
+      {
+        "from": "1.6.3",
+        "to": "1.6.4",
+        "changes": [
+          "The standard menu and sf-dropdown are asked for through SF.Loader.ensure; needs core.runtime >= 1.19.0. Nothing to change for a host on a pair from core.runtime 1.19.0 on."
+        ]
+      },
+      {
+        "from": "1.6.4",
+        "to": "1.6.5",
+        "changes": [
+          "The ⌘K palette joins the layer stack: Escape, Tab, the press on the scrim, the page lock, focus return and its height are the stack's, its scrim the shared --sf-scrim-* (black at 60, as before); needs core.runtime >= 1.19.0. New: the page no longer scrolls under the open palette, and Tab stays inside it. A page that tinted the palette through --sf-drawer-overlay-* sets --sf-scrim-color/--sf-scrim-opacity instead."
+        ]
+      },
+      {
+        "from": "1.6.5",
+        "to": "1.6.6",
+        "changes": [
+          "Draws and finds the renamed Framework elements by their new tags (the navigation menu and the row menus are sf-menu-context, the icon buttons sf-button-icon); the rule relations name cl-<new>. Needs the SIMAI Framework pair with the tag renames (core.runtime 1.21.0). No visible change. Nothing to change for a host on that pair; a host that writes the former tags keeps working until 2027-01-01."
+        ]
+      },
+      {
+        "from": "1.6.6",
+        "to": "1.6.7",
+        "changes": [
+          "The icon choices of the edit panel are read from the view properties folder, view-properties since rename plan R2 (was property-view). No visible change."
+        ]
+      },
+      {
+        "from": "1.6.8",
+        "to": "1.7.0",
+        "changes": [
+          "The second column follows the page: it shows the page's object menu (navigation.context) or the root that holds the page's row, and is closed on a page that has neither; it no longer shows the root left open on another page. A root clicked in the first column is shown until a page is opened. Whether the column is open is kept once for the person, not per site.",
+          "navigation.load carries `page`, the page's path and query, and is asked again after a region swap; a host answers `context`, the object menu of that page, or leaves it out.",
+          "New setting first-answer: a server prints the first navigation.load answer in the menu's data-sf-settings island and the menu is drawn from it at once, without a skeleton; the port answers behind it."
+        ]
+      },
+      {
+        "from": "1.7.0",
+        "to": "1.7.1",
+        "changes": [
+          "The caption «Общее для всех сайтов» under a section of the install level is drawn only when the host offers the site switch (capabilities include site-switch). Nothing to change for a host."
+        ]
       }
     ]
   },
   "provenance": {
-    "source_repository": "simai/ui-source",
-    "source_revision": "300cf1a3f1b8edf0d4cadc6016a82402de39c1f7",
+    "source_repository": "simai/ui-pro",
+    "source_revision": "a5ac53753d95b49e2e70078c94fd89ccd3045993",
     "source_artifacts": [
       {
         "path": "src/smart/admin-menu/index.js",
-        "sha256": "7bda369cf1ec82479dc1edc34f329ec5fb6b88d89f10c33cb0236fc4b4b22751"
+        "sha256": "8db34b4de36be764fb061d185e6a143516e3654eda4787636bd924f70cf197bb"
       },
       {
         "path": "src/smart/admin-menu/js/templates/default.js",
-        "sha256": "ffdd2942234ee52fc37b03b840e7e01a7e2244680e4334193c4e4f249e7404eb"
+        "sha256": "8ce28e69aaa4a594a51bf3cd208bd7de49a76c246c858fa431eecafdebf620d8"
+      },
+      {
+        "path": "src/smart/admin-menu/js/navigation/navigation.css",
+        "sha256": "901260e0da5dd50a5e0bc6d9f00b8bd1542f37d72b959e4726b09b8e0cf5e26a"
+      },
+      {
+        "path": "src/smart/admin-menu/js/navigation/template.js",
+        "sha256": "c1abee79233512bf372ceb5c9db6d9df97fb05505dc46bc3e8571f9fba3010c9"
+      },
+      {
+        "path": "src/smart/admin-menu/js/navigation/palette.js",
+        "sha256": "a22c2f2a482302f047e11ba93719523ee71cbdb52f695d7e7975408412bdfa04"
+      },
+      {
+        "path": "src/smart/admin-menu/js/navigation/account.js",
+        "sha256": "f002851030eb623cd5a05d501b4f7aad993a3224602834d97cf0142af981daef"
+      },
+      {
+        "path": "src/smart/admin-menu/js/navigation/edit.js",
+        "sha256": "962c3ef657b79e5a686bb0229d8e313b4bf940aed69d24d81ca155c4c30ef6d7"
+      },
+      {
+        "path": "src/smart/admin-menu/js/navigation/controller.js",
+        "sha256": "fcc3247bdb14e738d32dd3a66ff58443339a9a152e5c39c691dad77c59693bbc"
+      },
+      {
+        "path": "src/smart/admin-menu/js/navigation/menu.js",
+        "sha256": "e41fa922f041de29696157ea29a99bb5ae6cd381acfe74402e2426e342590b57"
       },
       {
         "path": "src/component/admin-menu/scss/_css__admin_menu.scss",
-        "sha256": "a7bbfb0907d1f6b29b29126ee4e53f9ce23c5fd619c38438d71f15eba53b788a"
+        "sha256": "df615a4ada0c700c83571a141940e96b8bd072d9c5b7dab92c03605405255a3c"
+      },
+      {
+        "path": "src/smart/admin-menu/component.json",
+        "sha256": "cbb044ee585d581bd69e006b8dc0a741ea59eda00c1ccd335ab46ac880803842"
+      },
+      {
+        "path": "src/smart/admin-menu/aliases.json",
+        "sha256": "4bc759ba8a5cdc77295e1c0150a526e358361860ca191d6d51cb3bee85d5f953"
+      },
+      {
+        "path": "src/smart/admin-menu/lang/en.json",
+        "sha256": "c38a89e9e8af685469222342e493e7b2c6d7bac291d92a29720d1f24e561da96"
+      },
+      {
+        "path": "src/smart/admin-menu/lang/ru.json",
+        "sha256": "1d614841239a5cee9f71962ea483437260df40e1000660a771c2bc1b31ea77e2"
+      },
+      {
+        "path": "src/smart/admin-menu/js/words.js",
+        "sha256": "12dd02ee8dae0725a09de24436d5efb65a50758849180c55a20d8f2c472c6275"
       }
     ],
     "generated_runtime": [
@@ -623,13 +1439,10 @@
       "backend",
       "scenarios"
     ],
-    "minimal_example": "<sf-admin-menu aria-label=\"Admin menu\" searchable collapsible persistence-mode=\"external\"></sf-admin-menu>"
-  },
-  "public_abi": {
-    "methods": {
-      "setSearchResults": {
-        "summary": "The host answers one search request with its own groups of results."
-      }
-    }
+    "minimal_example": "<sf-admin-menu aria-label=\"Admin menu\" searchable collapsible persistence-mode=\"external\"></sf-admin-menu>",
+    "owner_commands": [
+      "node scripts/test.mjs",
+      "node scripts/run-browser-probes.mjs <free output> <package output>"
+    ]
   }
 }

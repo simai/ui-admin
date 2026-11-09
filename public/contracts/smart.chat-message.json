@@ -1,0 +1,814 @@
+{
+  "schema_version": 2,
+  "id": "smart.chat-message",
+  "version": "1.7.7",
+  "title": "Chat message",
+  "summary": "One chat message: an assistant's answer with its markup, sources, verification, notices, proposal, rating and task brief, or its wait; a person's question with its files; or, in the template person, a message of a conversation between people. It reports what a person does; the host decides what it means.",
+  "kind": "smart",
+  "reuse_mode": "whole",
+  "lifecycle": "experimental",
+  "tags": [
+    "chat",
+    "message",
+    "conversation"
+  ],
+  "capabilities": [
+    "content",
+    "keyboard",
+    "responsive"
+  ],
+  "custom_element": "sf-chat-message",
+  "templates": [
+    "default",
+    "person"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [
+      "component.buttons",
+      "component.icon-buttons",
+      "component.inputs",
+      "smart.avatar",
+      "smart.badge",
+      "smart.confirm-change",
+      "smart.icon",
+      "smart.menu-context",
+      "smart.view-properties"
+    ],
+    "public_parts": []
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "template": {
+        "type": "string",
+        "default": "default",
+        "description": "default: an assistant's answer or a person's question (API.md Message); person: a message of a conversation between people."
+      },
+      "root-class": {
+        "type": "string",
+        "default": "",
+        "description": "Classes added to the root element the component draws."
+      },
+      "root-style": {
+        "type": "string",
+        "default": "",
+        "description": "Inline style declarations set on the root element the component draws, custom properties included."
+      },
+      "view": {
+        "type": "string",
+        "default": {},
+        "description": "Dated alias of display until 2026-12-01."
+      },
+      "message": {
+        "type": "object",
+        "description": "The message, a property or the JSON island; texts are drawn as text, html is sanitized. Among people (1.4.0): reactions, reply_to; for a document speaker, asked_by."
+      },
+      "display": {
+        "type": "object",
+        "default": {},
+        "description": "What the host knows that the server does not (the 0.3 view): wait, busy, feedback, retried, note, code, sources_open, steps_open, brief, brief_draft; for person own, first, last, showName, editing, askDelete, conflict (1.2.0); divider (1.2.0); day, editLimit (1.3.0). Among people (1.4.0): canReact, canReply, reacting, picker, replyLoaded, replyDeleted; document, showAuthor, canStop, askDelete, fold_open."
+      },
+      "features": {
+        "type": "object",
+        "default": {
+          "feedback": true,
+          "proposals": true,
+          "memory": true,
+          "brief": false
+        },
+        "description": "What the surface offers: rating, proposals, memory notices, the task brief."
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {},
+  "contracts": {
+    "message": {
+      "const": "API.md Message for the template default: {id, role: user|assistant, status: queued|running|completed|partial|failed|refused|withheld|limit, stage, html, text, sources [{n, kind, title, url, excerpt, read_at}], verification, notices, proposal {code, title, state, expires_at, changes}, brief (v1.2 {decision: ask|card, lead, questions|card}), feedback, summary {text}, limit_resets_at, finished_at, attachments [{id, name, bytes, href}]; proposed as v1.3 (all optional): steps [{code, label, state: running|done|failed, started_at, finished_at}], sources[].preview_url (same origin), locator {from, to} (or {page}), mime, and an answer's attachments [{id, name, bytes, mime, href, preview_url}]}. For the template person: {id, body, authorName, createdAt, isEdited, isDeleted, canEdit, canDelete, files [{id, key, name, size, state, downloadUrl}], local {state, action, clientKey, body}}. Among people (1.4.0), either template: reactions [{emoji, count, mine}], reply_to {id, author: {name}, text, is_deleted}. With display.document: speaker {kind: assistant|agent|bot, name}, asked_by {name}, canDelete, is_deleted."
+    },
+    "sanitize": {
+      "const": "message.html is cleaned by SF.sanitizeHtml (codeLanguage), Core's, with the allow-list: p br strong em code pre ul ol li blockquote a table thead tbody tr th td h2 h3 h4 del; links http, https, mailto or root-relative, with rel=noopener noreferrer nofollow and target=_blank."
+    },
+    "brief": {
+      "const": "Live (display.brief.live) the brief asks: one question sends its option or own words at once; several are answered together, joined by «; » with «—» for a skipped optional one; the card sends its confirm word. Not live it is a record, the taken option marked from display.brief.answer. The lead, when given, stands for the html."
+    },
+    "css_variables": {
+      "type": "object",
+      "properties": {
+        "--sf-chat-message-width": {
+          "type": "string"
+        },
+        "--sf-chat-message-text-color": {
+          "type": "string"
+        },
+        "--sf-chat-message-muted-color": {
+          "type": "string"
+        },
+        "--sf-chat-message-bubble-color": {
+          "type": "string"
+        },
+        "--sf-chat-message-border-color": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "methods": {
+    "focus": {
+      "summary": "The base's focus.",
+      "arguments": [
+        {
+          "name": "options",
+          "required": false,
+          "schema": {
+            "type": "object"
+          }
+        }
+      ],
+      "returns": {
+        "type": "null"
+      }
+    },
+    "focusField": {
+      "summary": "Bring a card's field into view with the focus (x-blocks, 1.7.0): what a document lacks names it by the card's block id and the field's key. Answers whether the card is on this message.",
+      "arguments": [
+        {
+          "name": "blockId",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "key",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "returns": {
+        "type": "boolean"
+      }
+    },
+    "settleBlock": {
+      "summary": "The host's answer to a card's submit (x-blocks, 1.6.0): applied {block}, conflict, or refused with errors by field, reason closed (the card loses its buttons) or the host's message. The window calls it; the card shows the answer.",
+      "arguments": [
+        {
+          "name": "blockId",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "result",
+          "required": true,
+          "schema": {
+            "type": "object"
+          }
+        }
+      ],
+      "returns": {
+        "type": "null"
+      }
+    }
+  },
+  "events": {
+    "sf-chat-message-retry": {
+      "summary": "«Повторить» (vocabulary §5 retry): a failed answer {id}; a person's unsent message {key} (its client key); a person's failed file {id, key, kind: file}. The 0.3 sf-chat-action {action: retry, id} follows it until 2026-12-01.",
+      "payload": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {},
+          "key": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-chat-message-check": {
+      "summary": "«Обновить» on a stopped, delayed or lost wait: ask the host whether the answer came (the chat's own check, vocabulary 1.1.3 §5.1). The 0.3 sf-chat-action {action: check} follows it until 2026-12-01.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {}
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-chat-message-rate": {
+      "summary": "«Полезно» or «Не полезно» {id, value: up|down} (vocabulary §5 rate); «Отправить» in the «why» card {id, value: down, reason, note}. The buttons show the rating at once; the host keeps it in display.feedback. The 0.3 sf-chat-action {action: feedback / feedback-send} follows it until 2026-12-01.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "id",
+          "value"
+        ],
+        "properties": {
+          "id": {},
+          "value": {
+            "type": "string"
+          },
+          "reason": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-chat-message-cancel": {
+      "summary": "«Не сейчас» or Escape in the «why» card {id, kind: rate} (vocabulary §5 cancel): the plain «not helpful» stays. The 0.3 sf-chat-action {action: feedback-skip} follows it until 2026-12-01.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "id",
+          "kind"
+        ],
+        "properties": {
+          "id": {},
+          "kind": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-chat-message-drafted": {
+      "summary": "The «why» card's choice or note changed {id, reason, note} (a fact; the draft is also kept in display.feedback.draft). The 0.3 sf-chat-action {action: feedback-draft} follows it until 2026-12-01.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "id",
+          "reason",
+          "note"
+        ],
+        "properties": {
+          "id": {},
+          "reason": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-chat-message-toggle": {
+      "summary": "A local part opened or closed (vocabulary §5 toggle): the sources list {kind: sources} (the host remembers it as display.sources_open), an answer's steps {kind: steps} (display.steps_open, 1.1.0); for the template person the editor {kind: edit} and the delete question {kind: delete}, which the host holds as display.editing and display.askDelete. The 0.3 sf-chat-action {action: sources} follows it until 2026-12-01. Among people (1.4.0): the picker {kind: react} and a long text's fold {kind: fold}.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "id",
+          "kind",
+          "open"
+        ],
+        "properties": {
+          "id": {},
+          "kind": {
+            "type": "string"
+          },
+          "open": {
+            "type": "boolean"
+          },
+          "quiet": {
+            "type": "boolean",
+            "description": "kind react: the picker closed by a press elsewhere; the focus stays where that press put it."
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-chat-message-open": {
+      "summary": "A source or an answer's file asks for its preview: {id, kind: preview, source}. A host that shows it cancels the event; otherwise the footnote opens the sources list (a file, a new tab). A press on a quote: {id, kind: quote, target}. A message's discussion asked for: {id, kind: thread}. A document's «Открыть»: {id, kind: document, document}.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "id",
+          "kind"
+        ],
+        "properties": {
+          "id": {},
+          "kind": {
+            "enum": [
+              "preview",
+              "quote",
+              "thread",
+              "document"
+            ]
+          },
+          "source": {
+            "type": "object",
+            "description": "What to show: {n?, title, kind, preview_url, locator, mime, href?}, the source's or file's own fields as js/view/proposed.js reads them; preview_url is always of the page's origin."
+          },
+          "target": {
+            "description": "kind quote: the id of the message the quote leads to."
+          },
+          "document": {
+            "type": "object",
+            "description": "kind document (1.7.0): {id, document_id, title, revision, state, preview_url, downloads [{format, label, href}], form_block, missing [{field, label, block}], checks}, as js/blocks.js documentOf reads the block; addresses are the page's own."
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-chat-message-copied": {
+      "summary": "The answer was copied, with its sources as a list {id, done}; the action row says it politely. The 0.3 sf-chat-action {action: copy} follows it until 2026-12-01.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "id",
+          "done"
+        ],
+        "properties": {
+          "id": {},
+          "done": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-chat-message-submit": {
+      "summary": "A brief's answer goes out as a message (vocabulary §5 submit; API.md v1.2): an option, the person's own words, several answers joined by «; » with «—» for a skipped one, or the card's «Да». The 0.3 sf-chat-action {action: brief-answer} follows it until 2026-12-01. Or a card's save or cancel (1.6.0, x-blocks): {id, kind: block, block_id, action, revision, values}, values the changed fields only, a number field's as a string; the window answers through settleBlock.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "id",
+          "text",
+          "kind",
+          "block_id",
+          "action",
+          "revision",
+          "values"
+        ],
+        "properties": {
+          "id": {},
+          "text": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "block_id": {},
+          "action": {
+            "type": "string"
+          },
+          "revision": {
+            "type": "string"
+          },
+          "values": {
+            "type": "object"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-chat-message-save": {
+      "summary": "The template person: an edited message {id, values: {body}} (vocabulary §5 save, port message.edit). Unchanged or empty text is a toggle {kind: edit, open: false} instead.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "id",
+          "values"
+        ],
+        "properties": {
+          "id": {},
+          "values": {
+            "type": "object"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-chat-message-delete": {
+      "summary": "The template person: «Удалить» confirmed {ids: [id]} (vocabulary §5 delete, port message.delete).",
+      "payload": {
+        "type": "object",
+        "required": [
+          "ids"
+        ],
+        "properties": {
+          "ids": {
+            "type": "array"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-chat-message-react": {
+      "summary": "A reaction's pill or the picker: {id, emoji, on}. The count is the host's; display.reacting says it is on its way.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "id",
+          "emoji",
+          "on"
+        ],
+        "properties": {
+          "id": {},
+          "emoji": {
+            "type": "string"
+          },
+          "on": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-chat-message-reply": {
+      "summary": "«Ответить»: {id}. The host says what the field answers.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {}
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-chat-message-stop": {
+      "summary": "Stop on a document's wait, where display.canStop allows it: {id}.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {}
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-chat-action": {
+      "summary": "Dated alias of sf-chat-message-retry until 2026-12-01 (split).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-chat-message-retry"
+    }
+  },
+  "state": {
+    "machines": {
+      "message": [
+        "queued",
+        "running",
+        "completed",
+        "partial",
+        "failed",
+        "refused",
+        "withheld",
+        "limit"
+      ],
+      "wait": [
+        "none",
+        "delayed",
+        "stopped",
+        "network"
+      ],
+      "brief": [
+        "none",
+        "live",
+        "record"
+      ],
+      "steps": [
+        "none",
+        "running",
+        "done",
+        "failed"
+      ],
+      "preview": [
+        "none",
+        "asked"
+      ]
+    },
+    "visual_states": [
+      "default",
+      "loading",
+      "error"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "host",
+    "network_owner": "host",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-pro",
+    "data": "host",
+    "effects": "host",
+    "forbidden_client_responsibilities": [
+      "fetching or polling the chat API",
+      "sending a rating, an answer or an edit",
+      "deciding a proposal",
+      "access decisions"
+    ]
+  },
+  "security": {
+    "permissions_owner": "host",
+    "untrusted_inputs": [
+      "message html (sanitized: SF.sanitizeHtml)",
+      "message texts, source titles and excerpts (drawn as text)",
+      "source URLs (http and https only)",
+      "file names (drawn as text)",
+      "download addresses (the host's, used as given)"
+    ],
+    "network_policy": "host-only"
+  },
+  "accessibility": {
+    "role": "article",
+    "accessible_name": "internal",
+    "keyboard": [
+      "Tab",
+      "Enter",
+      "Escape",
+      "Shift+Enter"
+    ],
+    "focus": "A message is an article named «Помощник» or «Вы» (the template person: the author or «Вы»); a pending answer is aria-busy. Copy, rating, sources and footnotes are native buttons with names; a footnote opens the sources at its source and focuses it; the result of copy and rating is said by a polite region in the action row; a failure and a lost connection are role=alert. In the «why» card Enter sends and Escape puts it away; in a brief Enter in «Свой вариант» answers; in the editor of the template person Enter saves, Shift+Enter breaks the line and Escape cancels; the delete question takes the focus on «Отмена»."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "en",
+      "ru"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile"
+    ]
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [
+      "studio.fixture.json"
+    ],
+    "scenarios": [
+      "studio.scenario.json"
+    ]
+  },
+  "readiness": {
+    "level": "host-required",
+    "required_checks": [
+      "manifest",
+      "loader-rule",
+      "chat-message-probe"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "0edd49be08f802b60ed92f176b68911a42a12f3f",
+      "ui_smart_revision": "0edd49be08f802b60ed92f176b68911a42a12f3f"
+    },
+    "aliases": [],
+    "deprecations": [],
+    "replacement": null,
+    "migrations": [
+      {
+        "from": "0.3.1",
+        "to": "1.0.0",
+        "changes": [
+          "moved from simai/ui-chat to ui-pro (D31): standard simai.smart-component 1.3.9, the element is made from component.json; the view (render.js, people.js as the template person, sanitize.js as a fallback) is the component's js/view; words in lang/; dated aliases in aliases.json; nothing imported from ui-chat",
+          "property view -> the setting display until 2026-12-01 (setting alias)",
+          "sf-chat-action {action, ...} -> sf-chat-message-retry, -check, -rate, -cancel, -drafted, -toggle, -copied, -submit until 2026-12-01 (event, split aliases)",
+          "a file chip is sf-chat-composer's; a sent file keeps its download link and the «Файл удалён» check"
+        ]
+      },
+      {
+        "from": "1.0.1",
+        "to": "1.0.2",
+        "changes": [
+          "The first-paint snapshot's sheets.json lists the utility sheets its markup uses (retaken on ui-source 5ba9399); no behaviour changed. Nothing to change for a host."
+        ]
+      },
+      {
+        "from": "1.0.3",
+        "to": "1.1.0",
+        "changes": [
+          "An answer's steps (API.md v1.3, proposed: steps): a compact line «Работаю · время · N шагов» while it is written, «Сделано за … · N шагов» after it, each opening the list; the event toggle {kind: steps} and display.steps_open. Without steps nothing changes.",
+          "A source with a same-origin preview_url asks for its preview from its footnote and its title: the new cancelable event open {id, kind: preview, source}; a host that shows it cancels it. Without preview_url nothing changes.",
+          "An answer's files (attachments on an assistant message): «Что готово» with a card per file, «Просмотр» and «Скачать».",
+          "A downloaded file found gone says «Файл недоступен» instead of «Файл удалён» (attachment-deleted). A host that looked for the old words looks for the new ones."
+        ]
+      },
+      {
+        "from": "1.1.0",
+        "to": "1.2.0",
+        "changes": [
+          "Template person: display.conflict {deleted} shows «Сообщение уже изменили» with the message as it is now over the kept typed text, «Оставить их» and «Заменить своим»; message.authorAvatar beside the first of a run; Escape cancels the delete question.",
+          "Both templates: display.divider unread draws «Новые» before the message. Without the new fields a message draws as before."
+        ]
+      },
+      {
+        "from": "1.2.0",
+        "to": "1.3.0",
+        "changes": [
+          "Template person: display.editLimit, the editor's limit: the count past 80 %, past the limit a save refused with a line and the typed text kept.",
+          "Both templates: display.day draws the words of a new day before the message, above «Новые»; both are role=separator (sf-chat-divider--day, sf-chat-divider--unread)."
+        ]
+      },
+      {
+        "from": "1.3.0",
+        "to": "1.4.0",
+        "changes": [
+          "Template person: the avatar is the Framework's sf-avatar when the element draws it (the view without a runtime keeps the plain initials).",
+          "Both templates among people: message.reactions as pills, message.reply_to as a quote at the top; display.canReact and canReply replace the two buttons with reply, reaction and «⋯»; the events react, reply, open {kind: quote}, toggle {kind: react}.",
+          "Template default with display.document: a document without a bubble, who speaks (speaker, asked_by), a long text folded, stop on the message (canStop). Without these a message draws as before."
+        ]
+      },
+      {
+        "from": "1.4.0",
+        "to": "1.4.1",
+        "changes": [
+          "Initials in a muted tone picked from the name (sf-avatar 1.2.0, tone auto). Additive."
+        ]
+      },
+      {
+        "from": "1.4.2",
+        "to": "1.5.0",
+        "changes": [
+          "A message's discussion (sf-chat-window x-threads): view.replies draws «N ответов» under the message and view.canDiscuss adds «Обсудить» to «⋯»; either raises open {id, kind: thread}. Additive: without them a message draws as before."
+        ]
+      },
+      {
+        "from": "1.5.0",
+        "to": "1.5.1",
+        "changes": [
+          "Times, dates and copying through core's format and clipboard helpers, the person template's initials through helpers/text getInitials; needs core.runtime >= 1.20.0. Visible: a name of several words gives the initials of its words («Анна-Мария Смирнова» → АС, was АМ). Nothing to change for a host on a pair from core.runtime 1.20.0 on."
+        ]
+      },
+      {
+        "from": "1.5.1",
+        "to": "1.5.2",
+        "changes": [
+          "The picker's press elsewhere through the layer stack; needs core.runtime >= 1.19.0. No visible change. Nothing to change for a host on a pair from core.runtime 1.19.0 on."
+        ]
+      },
+      {
+        "from": "1.5.2",
+        "to": "1.5.3",
+        "changes": [
+          "Draws and finds the renamed Framework elements by their new tags (the «⋯» menu is sf-menu-context); the rule relations name cl-<new>. Needs the SIMAI Framework pair with the tag renames (core.runtime 1.21.0). No visible change. Nothing to change for a host on that pair; a host that writes the former tags keeps working until 2027-01-01."
+        ]
+      },
+      {
+        "from": "1.5.3",
+        "to": "1.5.4",
+        "changes": [
+          "Draws a proposal as sf-confirm-change (was sf-change-confirm); the rule relation names cl-confirm-change. Needs the SIMAI Framework pair with the R2 tag aliases (core.runtime 1.22.0). No visible change."
+        ]
+      },
+      {
+        "from": "1.5.5",
+        "to": "1.6.0",
+        "changes": [
+          "An answer's cards (x-blocks; Mirai24 API v1.4, BLOCKS.md §2): message.blocks of kind card drawn under the answer as sf-view-properties in full, view or edit, with the block's own «Сохранить» and «Не сейчас»; a save or cancel is sf-chat-message-submit {kind: block}, answered through settleBlock. features.blocks is off unless given, so a host without it draws as before."
+        ]
+      },
+      {
+        "from": "1.6.0",
+        "to": "1.7.0",
+        "changes": [
+          "x-blocks: a document is drawn as a strip under the answer (name, what is left to fill in, «Открыть», downloads); open {kind: document} asks the host's panel; a missing field brings the form card's field (focusField). A saved card with the host's «Изменить» stays editable. Additive."
+        ]
+      },
+      {
+        "from": "1.7.0",
+        "to": "1.7.1",
+        "changes": [
+          "The reaction picker stays under the top of SIMAI Framework's sf-list-feed (the conversation of chat-window 1.13.0, and of sf-message-log, its dated alias). No visible change."
+        ]
+      },
+      {
+        "from": "1.7.1",
+        "to": "1.7.2",
+        "changes": [
+          "Inline code in an answer's markup takes SIMAI Framework's plate for code in running text (tokens.typography 1.1.0, the pair ui-c4d39d528148 and later): the message's own rule is gone. The same surface container, padding, radius, size and mono face; code in a block, in the highlighter or with an sf- class is untouched. Needs the SIMAI Framework pair with tokens.typography >= 1.1.0."
+        ]
+      },
+      {
+        "from": "1.7.2",
+        "to": "1.7.3",
+        "changes": [
+          "Inline code in a table cell of an answer keeps SIMAI Framework's plate (the cell rule that took it away is gone), and inline code in the markup wraps inside a narrow bubble rather than staying on one line as the Framework's running text keeps it (tokens.typography 1.3.0, the pair ui-5edc71bd6936). Settings, values and events are unchanged."
+        ]
+      }
+    ]
+  },
+  "provenance": {
+    "source_repository": "simai/ui-pro",
+    "source_revision": "bb895919cf9ce423e78f064845b90c4a19de11c5",
+    "source_artifacts": [
+      {
+        "path": "src/smart/chat-message/index.js",
+        "sha256": "8c334d59b84ebef40cfce21c824b7e26083b771904dd3d3c1981bef9969b141a"
+      },
+      {
+        "path": "src/smart/chat-message/js/templates/default.js",
+        "sha256": "0a95fefab8383f9975c8ff69d85e52e7f1a81472ae0dd1afa71710e3d565635b"
+      },
+      {
+        "path": "src/smart/chat-message/js/templates/person.js",
+        "sha256": "9ee1b98623c90d4716090be24e9969985f4c67a982f7c515be15e1dcdd3a61b5"
+      },
+      {
+        "path": "src/smart/chat-message/js/view/message.js",
+        "sha256": "d74814ba590d7a9c6500df5977710ffd810efc5e84d28c4cdeb4a2338aa3635f"
+      },
+      {
+        "path": "src/smart/chat-message/js/view/person.js",
+        "sha256": "f727ff4223b435b162da27a66b959748c44146dfad22fdeb193515a2bafc81be"
+      },
+      {
+        "path": "src/smart/chat-message/js/view/proposed.js",
+        "sha256": "7a4493c9a2acede694c82c701d7cd7147c2fc5b7a0a20e74c7e895579b8c9d39"
+      },
+      {
+        "path": "src/smart/chat-message/js/view/social.js",
+        "sha256": "a784b525e1ebca7a6ef9e0442cba5eb42e2e1b18fed99dd2f3a01506d4a6b1f2"
+      },
+      {
+        "path": "src/smart/chat-message/js/templates/default.css",
+        "sha256": "a77925c431dd87397f16f69b4494e2514bbd724d53474cb803df91504b09ae1c"
+      },
+      {
+        "path": "src/smart/chat-message/rule.js",
+        "sha256": "90893f5212999745164827779d00d5d5a5e451f95c0d49a59557c3f629807337"
+      },
+      {
+        "path": "src/smart/chat-message/docs.md",
+        "sha256": "df566fdc9b790b12f1717d0392d4ca0d8fc39d6cf4e733d125f95365472c36e5"
+      },
+      {
+        "path": "src/smart/chat-message/component.json",
+        "sha256": "d836388fb93dc0b44cec81cf52176b3b794823a1760f126ca5511ea855f92aed"
+      },
+      {
+        "path": "src/smart/chat-message/aliases.json",
+        "sha256": "da94ebcf9f8623abc57956b57056c8b0c9b2e2526e0a122a93b4fe5569dd9a0e"
+      },
+      {
+        "path": "src/smart/chat-message/lang/en.json",
+        "sha256": "86f43c7eda76879b415fe8eb7f523e22eff099509cd0630b39152b447ab74d20"
+      },
+      {
+        "path": "src/smart/chat-message/lang/ru.json",
+        "sha256": "df50f78675a67343cb9a9ee072664bc85b13b73a89a78f48533c30237f2ae2be"
+      }
+    ],
+    "generated_runtime": []
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-chat-message for one chat message: a window places it in sf-list-feed (SIMAI Framework) through the feed's renderItem hook; a page that shows one message (a preview) places it alone. The template person draws a conversation between people.",
+    "do_not": [
+      "Do not stack sf-chat-message elements into a conversation yourself; sf-list-feed keeps the reading position and the announcements",
+      "Do not put trusted markup into message.html; it is sanitized, and only the allow-list survives",
+      "Do not decide a proposal in the message; answer sf-change-confirm-answer in the window"
+    ],
+    "required_reads": [
+      "inputs",
+      "contracts",
+      "events",
+      "accessibility"
+    ],
+    "minimal_example": "<sf-chat-message></sf-chat-message> with element.message = {id: 'msg_03', role: 'assistant', status: 'completed', text: 'Ежегодный отпуск — 28 календарных дней.'}",
+    "owner_commands": [
+      "node scripts/test.mjs",
+      "node scripts/run-manifest-probes.mjs <free output> <package output> chat-message"
+    ]
+  }
+}

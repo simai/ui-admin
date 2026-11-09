@@ -1,0 +1,515 @@
+{
+  "schema_version": 2,
+  "id": "smart.input-textarea",
+  "version": "1.7.4",
+  "title": "Text area",
+  "summary": "A native multiline form control with Framework presentation, validation messaging and safe vertical resizing.",
+  "kind": "smart",
+  "reuse_mode": "both",
+  "lifecycle": "experimental",
+  "tags": [
+    "input-textarea"
+  ],
+  "capabilities": [
+    "render",
+    "theme",
+    "responsive"
+  ],
+  "custom_element": "sf-input-textarea",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [
+      "component.icon-buttons",
+      "component.icons",
+      "component.textarea"
+    ],
+    "public_parts": [
+      "native-textarea",
+      "label",
+      "hint"
+    ]
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "template": {
+        "type": "string",
+        "default": "default",
+        "description": "Template variant name for SfBaseElement external templates."
+      },
+      "root-class": {
+        "type": "string",
+        "default": "",
+        "description": "Classes added to the root element the component draws."
+      },
+      "root-style": {
+        "type": "string",
+        "default": "",
+        "description": "Inline style declarations set on the root element the component draws, custom properties included."
+      },
+      "size": {
+        "type": "string",
+        "default": "1",
+        "enum": [
+          "1/2",
+          "1",
+          "2"
+        ]
+      },
+      "appearance": {
+        "type": "string",
+        "default": "bordered",
+        "description": "How the field looks: a bordered box, a filled one, or flush -- no box of its own, inside a composite control that draws the box and the focus.",
+        "enum": [
+          "bordered",
+          "filled",
+          "flush"
+        ]
+      },
+      "label": {
+        "type": "string",
+        "default": ""
+      },
+      "required": {
+        "type": "boolean",
+        "default": false
+      },
+      "placeholder": {
+        "type": "string",
+        "default": ""
+      },
+      "autocomplete": {
+        "type": "string",
+        "default": ""
+      },
+      "inputmode": {
+        "type": "string",
+        "default": "",
+        "enum": [
+          "",
+          "none",
+          "text",
+          "tel",
+          "url",
+          "email",
+          "numeric",
+          "decimal",
+          "search"
+        ]
+      },
+      "minlength": {
+        "type": "number"
+      },
+      "maxlength": {
+        "type": "number"
+      },
+      "spell-check": {
+        "type": "boolean",
+        "default": true
+      },
+      "wrap": {
+        "type": "string",
+        "default": "soft",
+        "enum": [
+          "soft",
+          "hard"
+        ]
+      },
+      "hint": {
+        "type": "string",
+        "default": ""
+      },
+      "name": {
+        "type": "string",
+        "default": ""
+      },
+      "rows": {
+        "type": "number",
+        "default": 3
+      },
+      "auto-grow": {
+        "type": "boolean",
+        "default": false,
+        "description": "The field follows its text between min-rows and max-rows and scrolls inside past max-rows. CSS field-sizing where supported, a script fallback elsewhere; rows is then ignored."
+      },
+      "min-rows": {
+        "type": "number",
+        "default": 1,
+        "description": "With auto-grow: the fewest rows the field shows. One row is the height of an input of the same size."
+      },
+      "max-rows": {
+        "type": "number",
+        "description": "With auto-grow: the most rows before the field scrolls inside. Unset means no cap; a value below min-rows is min-rows."
+      },
+      "disabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "readonly": {
+        "type": "boolean",
+        "default": false
+      },
+      "invalid": {
+        "type": "boolean",
+        "default": false
+      },
+      "error-message": {
+        "type": "string",
+        "default": ""
+      },
+      "mask": {
+        "type": "boolean",
+        "default": false
+      },
+      "mask-pattern": {
+        "type": "string",
+        "default": ""
+      },
+      "mask-options": {
+        "type": "string",
+        "default": ""
+      },
+      "value": {
+        "type": "string",
+        "default": ""
+      },
+      "aria-label": {
+        "type": "string",
+        "default": "",
+        "description": "Accessible name for a textarea drawn without a visible label; it lands on the native textarea. A visible label wins."
+      },
+      "spellcheck": {
+        "type": "boolean",
+        "default": true,
+        "description": "Dated alias of spell-check until 2026-12-01."
+      },
+      "error": {
+        "type": "boolean",
+        "default": false,
+        "description": "Dated alias of invalid until 2026-12-01."
+      },
+      "type": {
+        "type": "string",
+        "default": "bordered",
+        "description": "Legacy name for appearance, still honoured. See contracts/public-api-axes.json.",
+        "enum": [
+          "bordered",
+          "filled",
+          "flush"
+        ]
+      },
+      "aria-labelledby": {
+        "type": "string",
+        "default": "",
+        "description": "Ids of the elements that name the textarea; it lands on the native textarea."
+      },
+      "inherited-value": {
+        "type": "string",
+        "default": "",
+        "description": "What the field falls back to while it holds no value of its own. Shown as inherited, in the placeholder's ink with an «inherited» marker under the field, never as the value: the form value stays empty. Once the field holds a value of its own, a reset button returns it here."
+      },
+      "inherited-text": {
+        "type": "string",
+        "default": "",
+        "description": "The words of the marker shown while the inherited value applies. Unset, it follows the page's language («inherited», «наследуется»)."
+      },
+      "reset-label": {
+        "type": "string",
+        "default": "",
+        "description": "The accessible name of the button that returns the field to the inherited value. Unset, it follows the page's language («Reset to inherited», «Сбросить к наследуемому»)."
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {},
+  "contracts": {
+    "state_owner": {
+      "const": "native_textarea"
+    },
+    "value_owner": {
+      "const": "native_textarea"
+    },
+    "form_owner": {
+      "const": "native_form"
+    },
+    "reset": {
+      "const": "native_form_reset"
+    },
+    "resize_default": {
+      "const": "vertical"
+    },
+    "auto_grow": {
+      "const": "field_sizing_content_with_script_fallback"
+    },
+    "mask_owner": {
+      "const": "optional_sf_mask_adapter"
+    },
+    "field_states": {
+      "type": "string",
+      "enum": [
+        "empty",
+        "filled",
+        "hover",
+        "focus-visible",
+        "readonly",
+        "disabled",
+        "invalid"
+      ]
+    }
+  },
+  "methods": {
+    "setState": {
+      "summary": "Applies disabled, error or invalid, errorMessage and value to the inner textarea and resyncs its field semantics; setting value dispatches input. Returns false when the textarea is not rendered.",
+      "arguments": [
+        {
+          "name": "nextState",
+          "type": "object",
+          "required": true
+        }
+      ],
+      "returns": {
+        "type": "boolean"
+      }
+    },
+    "resetToInherited": {
+      "summary": "Returns the field to its inherited value, as the reset button does: fires the cancellable sf-field-reset, then empties the own value and focuses the control. Returns whether it was reset (false without an inherited value, without an own value, while disabled or readonly, or when the event was prevented).",
+      "arguments": [],
+      "returns": {
+        "type": "boolean",
+        "description": "Whether the field was reset."
+      }
+    }
+  },
+  "events": {
+    "change": {
+      "summary": "The value was committed; the native event bubbles from the inner textarea, which is its target.",
+      "payload": {
+        "type": "null",
+        "description": "A native Event: there is no detail."
+      },
+      "canonical": true
+    },
+    "input": {
+      "summary": "The value changed while typing; the native event bubbles from the inner textarea, which is its target.",
+      "payload": {
+        "type": "null",
+        "description": "A native Event: there is no detail."
+      }
+    },
+    "sf-field-reset": {
+      "summary": "The person pressed the reset back to the inherited value. The event of the trait field-inherit@1: one name for every field of the family, so a form hears them all at once and tells them apart by detail.tag. Fired before the field is emptied and cancellable: preventDefault keeps the value. When it is not prevented the field empties, says so with its ordinary change, shows the inherited value again and takes focus back.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "tag",
+          "value",
+          "inheritedValue",
+          "name"
+        ],
+        "properties": {
+          "tag": {
+            "type": "string",
+            "description": "The element that was reset, as a tag name."
+          },
+          "value": {
+            "type": "string",
+            "description": "The field's own value before the reset."
+          },
+          "inheritedValue": {
+            "type": "string",
+            "description": "The inherited value it returns to."
+          },
+          "name": {
+            "type": "string",
+            "description": "The form name, empty when the field has none."
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-field:reset": {
+      "summary": "The person pressed the reset back to the inherited value. Fired before the field is emptied and cancellable: preventDefault keeps the value. When it is not prevented the field empties, says so with its ordinary change, shows the inherited value again and takes focus back.",
+      "payload": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "description": "The field's own value before the reset."
+          },
+          "inheritedValue": {
+            "type": "string",
+            "description": "The inherited value it returns to."
+          },
+          "name": {
+            "type": "string",
+            "description": "The form name, empty when the field has none."
+          }
+        }
+      },
+      "alias_of": "sf-field-reset"
+    }
+  },
+  "state": {
+    "machines": {},
+    "visual_states": [
+      "default",
+      "active",
+      "disabled",
+      "error"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "component",
+    "network_owner": "none",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-source",
+    "data": "fixture",
+    "effects": "component",
+    "forbidden_client_responsibilities": [
+      "backend access decisions",
+      "host route invention"
+    ]
+  },
+  "security": {
+    "permissions_owner": "none",
+    "untrusted_inputs": [
+      "props",
+      "children"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": "textbox",
+    "accessible_name": "required",
+    "keyboard": [
+      "Tab",
+      "native multiline text editing"
+    ],
+    "focus": "Keep visible focus on the active control. After a reset back to the inherited value, focus returns to the control; while the value is inherited, the control carries it as aria-description and the visible marker is aria-hidden."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "ru",
+      "en"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile"
+    ],
+    "skeleton": {
+      "shape": "block",
+      "while_loading": "none"
+    }
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [
+      "studio.fixture.json"
+    ],
+    "scenarios": [
+      "studio.scenario.json"
+    ]
+  },
+  "readiness": {
+    "level": "described",
+    "required_checks": [
+      "manifest",
+      "fixture",
+      "runtime-upgrade",
+      "scenario-smoke"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
+      "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
+    },
+    "aliases": [
+      "<sf-textarea>"
+    ],
+    "deprecations": [
+      {
+        "path": "<sf-textarea>",
+        "since": "1.7.0",
+        "replacement": "<sf-input-textarea>"
+      }
+    ],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-source",
+    "source_revision": "15634edbb04334b53609d27fa6b98e602b5bf315",
+    "source_artifacts": [
+      {
+        "path": "src/smart/input-textarea/index.js",
+        "sha256": "8aee6f68994d29a60fef929c814146d8febffc7c582b7b3f18a90d4e81de7753"
+      },
+      {
+        "path": "src/smart/input-textarea/rule.js",
+        "sha256": "53361350a98629446cb8e162ac08e171592a85342efa3b4254096ae601e49ba3"
+      },
+      {
+        "path": "src/smart/input-textarea/js/templates/default.js",
+        "sha256": "a8232c0d6f93295422e59c06e0c47bf0a34ce5133b933f681d3d7968fc0ad65f"
+      },
+      {
+        "path": "src/smart/helpers/inherited-value.js",
+        "sha256": "311549a390cbb399282967b2506ed5875d23e127542960f207386ba3c3191d68"
+      },
+      {
+        "path": "src/smart/helpers/inherited-value.css",
+        "sha256": "742bb92a4cd39b2882da5038aa5d3c364b0b30c2cdf10a8e211e251ff62b7d37"
+      }
+    ],
+    "generated_runtime": [
+      {
+        "repository": "simai/ui-smart",
+        "revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c",
+        "path": "smart/input-textarea/js/input-textarea.js",
+        "sha256": "35dd882e7250d617d3b4880d148f26a351b4880ae6f076e5d1245d0281e378fd"
+      }
+    ]
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-input-textarea for comments, descriptions and other free text that may contain multiple lines and must participate in a native form.",
+    "do_not": [
+      "Do not use Textarea for short single-line values, rich text or code editing",
+      "Do not enable horizontal resizing inside responsive layouts without an explicit layout decision",
+      "Do not put Enter-to-send into the textarea: in a form Enter is a newline; a chat composer handles it itself",
+      "Do not copy generated ui-smart code",
+      "Do not move host data or access decisions into the component"
+    ],
+    "required_reads": [
+      "inputs",
+      "methods",
+      "events",
+      "ownership",
+      "provenance"
+    ],
+    "minimal_example": "<sf-input-textarea label=\"Comment\" name=\"comment\" rows=\"4\" maxlength=\"500\"></sf-input-textarea>",
+    "owner_commands": [
+      "npm run contract:verify",
+      "npm test"
+    ]
+  }
+}

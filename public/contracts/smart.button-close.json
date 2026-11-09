@@ -1,0 +1,258 @@
+{
+  "schema_version": 2,
+  "id": "smart.button-close",
+  "version": "1.2.0",
+  "title": "Close",
+  "summary": "The close button of the SIMAI Framework: a real button (focus, Enter and Space, the name «Закрыть» by default) drawing the cross with a 2px line, in three looks -- ghost, plain and media. Inside a native button it stays the decorative cross it was before 1.2.0.",
+  "kind": "smart",
+  "reuse_mode": "whole",
+  "lifecycle": "experimental",
+  "tags": [
+    "button-close"
+  ],
+  "capabilities": [
+    "render",
+    "theme",
+    "responsive"
+  ],
+  "custom_element": "sf-button-close",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [
+      "component.close",
+      "component.icon-buttons"
+    ],
+    "public_parts": []
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "template": {
+        "type": "string",
+        "default": "default",
+        "description": "Template variant name for SfBaseElement external templates."
+      },
+      "root-class": {
+        "type": "string",
+        "default": "",
+        "description": "Classes added to the root element the component draws."
+      },
+      "root-style": {
+        "type": "string",
+        "default": "",
+        "description": "Inline style declarations set on the root element the component draws, custom properties included."
+      },
+      "size": {
+        "type": "string",
+        "default": "1/3",
+        "description": "Size on the ladder: as a button the box is the control ladder (1/3 24px, 1/2 32, 1 40, 2 48, 3 56; 24-52 on a phone) and the cross its step; 1/4 and 4-7 are glyph sizes only, drawn by a button at the nearest ladder step. The line is 2px at every size.",
+        "enum": [
+          "1/4",
+          "1/3",
+          "1/2",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7"
+        ]
+      },
+      "appearance": {
+        "type": "string",
+        "default": "ghost",
+        "description": "How the close looks (owner decision C14). ghost, the default: a plain cross in the ink of its place, and a spot of --sf-surface-container-hover / -active under it on hover and press, shaped by radius. plain: no spot ever; the cross steps up from the ink step 64 to full, and the keyboard ring stands around the cross -- tags, a field's clear, an inline remove. media: over a photo or a video, a black circle at the ink steps 48 / 64 / 80 with a white cross, the same in both themes.",
+        "enum": [
+          "ghost",
+          "plain",
+          "media"
+        ]
+      },
+      "radius": {
+        "type": "string",
+        "default": "default",
+        "description": "The shape of the ghost spot, as the icon buttons beside it: default is the rounded square of controls, rounded a circle. plain has no spot; media is always a circle.",
+        "enum": [
+          "default",
+          "rounded"
+        ]
+      },
+      "scheme": {
+        "type": "string",
+        "default": "on-surface",
+        "description": "The cross's ink: the text colour, or one step quieter (it comes up to on-surface on hover). media is always white.",
+        "enum": [
+          "on-surface",
+          "on-surface-variant"
+        ]
+      },
+      "backdrop": {
+        "type": "string",
+        "default": "surface",
+        "description": "What the close stands on. surface, the default: a page, a card, a dialog. color: a coloured banner or bar; the cross takes the place's ink (currentColor) and the ghost spot is that ink at the state steps 8 / 12.",
+        "enum": [
+          "surface",
+          "color"
+        ]
+      },
+      "disabled": {
+        "type": "boolean",
+        "default": false,
+        "description": "Disables the button: no spot, the cross in the disabled ink, out of the tab order."
+      },
+      "aria-label": {
+        "type": "string",
+        "default": ""
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {},
+  "contracts": {},
+  "methods": {},
+  "events": {},
+  "state": {
+    "machines": {},
+    "visual_states": [
+      "default"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "component",
+    "network_owner": "none",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-source",
+    "data": "fixture",
+    "effects": "component",
+    "forbidden_client_responsibilities": [
+      "backend access decisions",
+      "host route invention"
+    ]
+  },
+  "security": {
+    "permissions_owner": "none",
+    "untrusted_inputs": [
+      "props",
+      "children"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": "button",
+    "accessible_name": "recommended",
+    "keyboard": [
+      "Tab",
+      "Enter",
+      "Space"
+    ],
+    "focus": "The native button is focusable and in the tab order; its name is aria-label, else the runtime word close («Закрыть»). Inside a containing button the cross is decorative and never focusable."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "ru",
+      "en"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile"
+    ],
+    "skeleton": {
+      "shape": "none",
+      "while_loading": "none"
+    }
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [
+      "studio.fixture.json"
+    ],
+    "scenarios": [
+      "studio.scenario.json"
+    ]
+  },
+  "readiness": {
+    "level": "described",
+    "required_checks": [
+      "manifest",
+      "fixture",
+      "runtime-upgrade",
+      "scenario-smoke"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
+      "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
+    },
+    "aliases": [
+      "<sf-close>"
+    ],
+    "deprecations": [
+      {
+        "path": "<sf-close>",
+        "since": "1.1.0",
+        "replacement": "<sf-button-close>"
+      }
+    ],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-source",
+    "source_revision": "c60ff12ac0400f367634bdf0404bf401faf98724",
+    "source_artifacts": [
+      {
+        "path": "src/smart/button-close/index.js",
+        "sha256": "8ffd52d7f53b40149cc271099cb4046e8e6f9fb77d068ba9c097283434f4df47"
+      }
+    ],
+    "generated_runtime": [
+      {
+        "repository": "simai/ui-smart",
+        "revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c",
+        "path": "smart/button-close/js/button-close.js",
+        "sha256": "2df0d31a6acd4ec1b432c2f29667cd4d57da14a5acf17bfc7567859e7b34cb18"
+      }
+    ]
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-button-close for every close or remove action: dialogs, drawers, toasts, banners (ghost), tags, a field's clear and inline remove (plain), over photos and video (media).",
+    "do_not": [
+      "Do not copy generated ui-smart code",
+      "Do not move host data or access decisions into the component",
+      "Do not put sf-button-close inside another button for a new page: it is the button",
+      "Do not draw a bordered or filled square or circle around the cross"
+    ],
+    "required_reads": [
+      "inputs",
+      "methods",
+      "events",
+      "ownership",
+      "provenance"
+    ],
+    "minimal_example": "<sf-button-close aria-label=\"Закрыть уведомление\"></sf-button-close>",
+    "owner_commands": [
+      "npm run contract:verify",
+      "npm test"
+    ]
+  }
+}

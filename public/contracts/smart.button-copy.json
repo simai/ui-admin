@@ -1,0 +1,394 @@
+{
+  "schema_version": 2,
+  "id": "smart.button-copy",
+  "version": "1.3.0",
+  "title": "Copy button",
+  "summary": "Copies a value or a target's text, confirms with a check and a polite announcement, and selects the text for Ctrl+C when the browser refuses the clipboard.",
+  "kind": "smart",
+  "reuse_mode": "whole",
+  "lifecycle": "experimental",
+  "tags": [
+    "copy",
+    "clipboard",
+    "button"
+  ],
+  "capabilities": [
+    "interaction",
+    "keyboard",
+    "responsive"
+  ],
+  "custom_element": "sf-button-copy",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [
+      "smart.button",
+      "smart.button-icon",
+      "smart.icon"
+    ],
+    "public_parts": []
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "template": {
+        "type": "string",
+        "default": "default",
+        "description": "Template variant name for SfBaseElement external templates."
+      },
+      "root-class": {
+        "type": "string",
+        "default": "",
+        "description": "Classes added to the root element the component draws."
+      },
+      "root-style": {
+        "type": "string",
+        "default": "",
+        "description": "Inline style declarations set on the root element the component draws, custom properties included."
+      },
+      "value": {
+        "type": "string",
+        "default": "",
+        "description": "The text to copy."
+      },
+      "target": {
+        "type": "string",
+        "default": "",
+        "description": "#id of an input (its value) or an element (its text; a numbered code block without its numbers). value and target together are an error."
+      },
+      "text": {
+        "type": "string",
+        "default": "",
+        "description": "A visible label; empty draws an icon-only button."
+      },
+      "label": {
+        "type": "string",
+        "default": "",
+        "description": "The accessible name, saying what is copied («Скопировать команду»); «Копировать» / Copy by default."
+      },
+      "size": {
+        "type": "string",
+        "default": "1",
+        "description": "The control ladder's step: 1 by default, the step of a field and a button beside it (decision C22). A compact region (data-sf-density=\"compact\") moves it down a step by itself; never a smaller size by hand.",
+        "enum": [
+          "1/3",
+          "1/2",
+          "1",
+          "2"
+        ]
+      },
+      "appearance": {
+        "type": "string",
+        "default": "ghost",
+        "description": "ghost (default): no fill, a fill under the pointer; outline; tonal. link is ghost's former name (decision C15), read as ghost until 2027-01-01.",
+        "enum": [
+          "ghost",
+          "outline",
+          "tonal"
+        ]
+      },
+      "icon": {
+        "type": "string",
+        "default": "content_copy",
+        "description": "The resting glyph: link, key, ..."
+      },
+      "success-icon": {
+        "type": "string",
+        "default": "check"
+      },
+      "success-text": {
+        "type": "string",
+        "default": ""
+      },
+      "error-text": {
+        "type": "string",
+        "default": ""
+      },
+      "duration": {
+        "type": "integer",
+        "default": 2000,
+        "description": "Milliseconds the result stays shown",
+        "minimum": 0
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {},
+  "contracts": {},
+  "methods": {
+    "copy": {
+      "summary": "Copies as a press would; a press while a copy is in flight is ignored.",
+      "arguments": [],
+      "returns": {
+        "type": "object",
+        "description": "A promise of {text, method}, or null on failure."
+      }
+    }
+  },
+  "events": {
+    "sf-button-copy-copied": {
+      "summary": "copied (vocabulary).",
+      "payload": {
+        "type": "object",
+        "required": [
+          "text",
+          "method"
+        ],
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "method": {
+            "enum": [
+              "native",
+              "legacy"
+            ]
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-button-copy-copy-failed": {
+      "summary": "copy-failed (vocabulary).",
+      "payload": {
+        "type": "object",
+        "required": [
+          "code"
+        ],
+        "properties": {
+          "code": {
+            "enum": [
+              "empty_source",
+              "missing_target",
+              "ambiguous_source",
+              "denied"
+            ]
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-copy": {
+      "summary": "The value was copied.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "text",
+          "method"
+        ],
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "method": {
+            "enum": [
+              "native",
+              "legacy"
+            ]
+          }
+        }
+      },
+      "alias_of": "sf-button-copy-copied"
+    },
+    "sf-copy-error": {
+      "summary": "The value was not copied; on denied the text was selected for Ctrl+C.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "code"
+        ],
+        "properties": {
+          "code": {
+            "enum": [
+              "empty_source",
+              "missing_target",
+              "ambiguous_source",
+              "denied"
+            ]
+          }
+        }
+      },
+      "alias_of": "sf-button-copy-copy-failed"
+    },
+    "sf-copy-button-copied": {
+      "summary": "Dated alias of sf-button-copy-copied until 2027-01-01 (same-detail).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-button-copy-copied"
+    },
+    "sf-copy-button-copy-failed": {
+      "summary": "Dated alias of sf-button-copy-copy-failed until 2027-01-01 (same-detail).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-button-copy-copy-failed"
+    }
+  },
+  "state": {
+    "machines": {
+      "copy": [
+        "idle",
+        "pending",
+        "success",
+        "error"
+      ]
+    },
+    "visual_states": [
+      "default",
+      "success",
+      "error"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "host",
+    "network_owner": "none",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-source",
+    "data": "host",
+    "effects": "host",
+    "forbidden_client_responsibilities": [
+      "backend access decisions",
+      "saving the width on a server"
+    ]
+  },
+  "security": {
+    "permissions_owner": "host",
+    "untrusted_inputs": [
+      "props",
+      "children"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": "button",
+    "accessible_name": "recommended",
+    "keyboard": [
+      "Tab",
+      "Enter",
+      "Space"
+    ],
+    "focus": "An ordinary button named by label (what is copied); the result is announced in a polite status; a refused clipboard selects the text and says to press Ctrl+C (⌘C on macOS)."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "ru",
+      "en"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile",
+      "ltr",
+      "rtl",
+      "reduced-motion"
+    ],
+    "skeleton": {
+      "shape": "none",
+      "while_loading": "none"
+    }
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [
+      "studio.fixture.json"
+    ],
+    "scenarios": [
+      "studio.scenario.json"
+    ]
+  },
+  "readiness": {
+    "level": "runnable",
+    "required_checks": [
+      "manifest",
+      "fixture",
+      "runtime-upgrade",
+      "scenario-smoke",
+      "keyboard",
+      "responsive",
+      "a11y"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
+      "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
+    },
+    "aliases": [
+      "appearance=link",
+      "<sf-copy-button>"
+    ],
+    "deprecations": [
+      {
+        "path": "<sf-copy-button>",
+        "since": "1.2.0",
+        "replacement": "<sf-button-copy>"
+      }
+    ],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-source",
+    "source_revision": "b26e52222c029f1caa6258d719d93b101a2d3b5d",
+    "source_artifacts": [
+      {
+        "path": "src/smart/button-copy/index.js",
+        "sha256": "f11354f72e5953edd6e0ea166494d93a2a8b707321c43924f6ee932520fc7614"
+      },
+      {
+        "path": "src/smart/button-copy/js/templates/default.js",
+        "sha256": "721e611dbbcb741725854454a649a66611dd37a2d056b64e0d2ec8776b67df42"
+      },
+      {
+        "path": "src/smart/button-copy/scss/_smart__copy_button.scss",
+        "sha256": "18f0a1c6cdec509d89d5bac957a93a7971e4db704a5e1e914ff629b8d45ece5d"
+      },
+      {
+        "path": "src/smart/button-copy/rule.js",
+        "sha256": "a75be26a863ab4c8755421410701036c28dde8d35975d40d16cca498ca0d1469"
+      },
+      {
+        "path": "src/smart/button-copy/docs.md",
+        "sha256": "b5913ca7afea36bc138a687a15974e2da741d8bd999587eb78b3fd5056ee4321"
+      }
+    ],
+    "generated_runtime": []
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-button-copy to copy an identifier, a key, a command or a code block, naming each button by what it copies.",
+    "do_not": [
+      "Do not copy generated ui-smart code",
+      "Do not leave several icon-only copy buttons named only «Копировать»"
+    ],
+    "required_reads": [
+      "inputs",
+      "events",
+      "accessibility",
+      "provenance"
+    ],
+    "minimal_example": "<sf-button-copy value=\"npm i @simai-studio/ui\" label=\"Скопировать команду\"></sf-button-copy>",
+    "owner_commands": [
+      "npm run contract:verify",
+      "npm test"
+    ]
+  }
+}

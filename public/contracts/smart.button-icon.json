@@ -1,0 +1,641 @@
+{
+  "schema_version": 2,
+  "id": "smart.button-icon",
+  "version": "1.7.1",
+  "title": "Icon Buttons",
+  "summary": "Native icon-only action with token geometry, accessible naming and shared loading semantics.",
+  "kind": "smart",
+  "reuse_mode": "whole",
+  "lifecycle": "experimental",
+  "tags": [
+    "icon-buttons"
+  ],
+  "capabilities": [
+    "render",
+    "theme",
+    "responsive"
+  ],
+  "custom_element": "sf-button-icon",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [
+      "component.badges",
+      "component.icon-buttons",
+      "component.spinner",
+      "smart.button-close",
+      "smart.icon"
+    ],
+    "public_parts": []
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "template": {
+        "type": "string",
+        "default": "default",
+        "description": "Template variant name for SfBaseElement external templates."
+      },
+      "root-class": {
+        "type": "string",
+        "default": "",
+        "description": "Extra classes applied to the inner icon button element."
+      },
+      "root-style": {
+        "type": "string",
+        "default": "",
+        "description": "Inline style declarations set on the root element the component draws, custom properties included."
+      },
+      "kind": {
+        "type": "string",
+        "default": "icon",
+        "description": "What the icon button is: an ordinary icon action or a close control.",
+        "enum": [
+          "icon",
+          "close"
+        ]
+      },
+      "size": {
+        "type": "string",
+        "default": "1",
+        "description": "Icon button size token.",
+        "enum": [
+          "1/3",
+          "1/2",
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      "appearance": {
+        "type": "string",
+        "default": "default",
+        "description": "How the icon button looks, one ladder from the strongest (rule C15): default (filled), tonal, outline, ghost (no fill or edge until a pointer or the keyboard reaches it). link is ghost's former name; surface was retired and is drawn as tonal with the on-surface scheme.",
+        "enum": [
+          "default",
+          "tonal",
+          "outline",
+          "ghost"
+        ]
+      },
+      "scheme": {
+        "type": "string",
+        "default": "primary",
+        "description": "Which colour family the control takes (rule C15): primary, on-surface (the neutral, the text colour) or on-surface-variant (the quiet neutral: a window's head, a table row, a field's clear; under a pointer its glyph darkens to on-surface). A filled (default) control keeps on-surface's inverse glyph with on-surface-variant: on a dark fill there is no quieter step. secondary was retired and is drawn as on-surface-variant. What the control is about is the status axis; a status set there wins over this.",
+        "enum": [
+          "primary",
+          "on-surface",
+          "on-surface-variant"
+        ]
+      },
+      "status": {
+        "type": "string",
+        "default": "",
+        "description": "What the control is about (rule C13): danger, a control that deletes, discards or cannot be undone. It paints with the error roles -- the red of an error -- and behaves exactly like a primary control. error is its former name on a control.",
+        "enum": [
+          "",
+          "danger"
+        ]
+      },
+      "segment": {
+        "type": "string",
+        "default": "",
+        "description": "Joined-control position owned by Button Group composition.",
+        "enum": [
+          "",
+          "start",
+          "middle",
+          "end"
+        ]
+      },
+      "icon": {
+        "type": "string",
+        "default": "add",
+        "description": "Material icon name."
+      },
+      "filled": {
+        "type": "boolean",
+        "default": false,
+        "description": "Use the filled glyph axis for the standard icon variant."
+      },
+      "spacing": {
+        "type": "string",
+        "default": "normal",
+        "description": "Semantic internal spacing profile.",
+        "enum": [
+          "compact",
+          "normal",
+          "comfortable",
+          "spacious"
+        ]
+      },
+      "radius": {
+        "type": "string",
+        "default": "",
+        "description": "Border radius modifier.",
+        "enum": [
+          "",
+          "default",
+          "square",
+          "rounded"
+        ]
+      },
+      "loading": {
+        "type": "boolean",
+        "default": false,
+        "description": "Loading state: the spinner in place of the icon, at the icon's size, in the page's look (data-sf-spinner). Sets aria-busy and disables the native button."
+      },
+      "disabled": {
+        "type": "boolean",
+        "default": false,
+        "description": "Disabled state flag."
+      },
+      "native-type": {
+        "type": "string",
+        "default": "button",
+        "description": "Native button type attribute.",
+        "enum": [
+          "button",
+          "submit",
+          "reset"
+        ]
+      },
+      "badge-count": {
+        "type": "string",
+        "default": "",
+        "description": "A count on the icon button (simai/ui-source#12): a whole number above 0 shows, 0 or empty hides the badge. Above badge-cap it reads «<cap>+»; the exact number joins the icon button's accessible name («Уведомления, 5 непрочитанных») and the badge's tooltip. On an anchor of size 1/3 or 1/2 a count is drawn as a dot."
+      },
+      "badge-dot": {
+        "type": "boolean",
+        "default": false,
+        "description": "A dot on the icon button, a count with no number: something new. Shown when badge-count is not set; with a count, the count is drawn as a dot. Its text equivalent («есть новое» / «new» by default, badge-label to change it) joins the accessible name."
+      },
+      "badge-cap": {
+        "type": "integer",
+        "default": 99,
+        "description": "The largest count drawn as a number; a larger one reads «<cap>+».",
+        "minimum": 1
+      },
+      "badge-label": {
+        "type": "string",
+        "default": "",
+        "description": "The words the badge adds to the accessible name and its tooltip, in place of the page language's default: for a dot the whole text equivalent; for a count the phrase in plural forms separated by «|» (one|few|many in Russian, one|other in English) with {count} where the number goes."
+      },
+      "pressed": {
+        "type": "boolean",
+        "default": false,
+        "description": "Whether this toggle button is on: aria-pressed on the native button and the pressed look -- the primary container fill, its ink, no visible edge and the icon filled (rule C12); pressed=\"false\" says off; absent, the button is not a toggle and nothing is said"
+      },
+      "label-pressed": {
+        "type": "string",
+        "default": "",
+        "description": "The accessible name while the toggle is on, for a toggle whose name changes («Добавить в избранное» → «Убрать из избранного»). Set, the name says the state and aria-pressed is not written; the pressed look still follows pressed. Empty: aria-label stays the name and aria-pressed says the state"
+      },
+      "theme-cycle": {
+        "type": "string",
+        "default": "",
+        "description": "A ready theme switch over SF.Loader's theme (the contract of sf-segmented's theme-switch: themePreference, setTheme, sf-theme-change). Present and empty: three values, «as the system», light and dark, in the owner's order -- first the theme opposite to the visible one, then the other, then «as the system» (rule D11d); \"light dark\": two values, every press flips the visible theme. The icons are contrast, light_mode and dark_mode; the words are the page language's («Тема: светлая. Нажмите — тёмная»). cycle is ignored beside it."
+      },
+      "value": {
+        "type": "string",
+        "default": "",
+        "description": "The current item of a cycle (its value); a press writes the next one. Read it from the attribute or from change: the value property keeps the settings object it has always given."
+      },
+      "aria-label": {
+        "type": "string",
+        "default": "",
+        "description": "Accessible label."
+      },
+      "type": {
+        "type": "string",
+        "default": "default",
+        "description": "Legacy name for appearance, still honoured. See contracts/public-api-axes.json.",
+        "enum": [
+          "default",
+          "tonal",
+          "outline",
+          "ghost"
+        ]
+      },
+      "variant": {
+        "type": "string",
+        "default": "icon",
+        "description": "Legacy name for kind, still honoured. See contracts/public-api-axes.json.",
+        "enum": [
+          "icon",
+          "close"
+        ]
+      },
+      "tightness": {
+        "type": "string",
+        "default": "",
+        "description": "Compatibility alias for spacing.",
+        "enum": [
+          "low",
+          "high",
+          "highest"
+        ]
+      },
+      "button-attributes": {
+        "type": "object",
+        "description": "Attributes an external project template may put on its button; the built-in template does not read them"
+      },
+      "cycle": {
+        "type": "array",
+        "default": [],
+        "description": "One button, several values (rule D11d): the items {value, label, icon, pressed?} a press steps through, wrapping at the end. value is the current item. The name and the icon say the current value («Повтор: один трек»), the tooltip says the current and the next, and a polite live region says the new value after a press; change {previous, value, item} follows. Not a toggle: pressed and label-pressed are ignored beside it, with one console warning.",
+        "examples": [
+          [
+            {
+              "value": "off",
+              "label": "выключен",
+              "icon": "repeat"
+            },
+            {
+              "value": "all",
+              "label": "весь список",
+              "icon": "repeat",
+              "pressed": true
+            },
+            {
+              "value": "one",
+              "label": "один трек",
+              "icon": "repeat_one",
+              "pressed": true
+            }
+          ]
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {},
+  "contracts": {
+    "visual_pairings": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "examples": [
+        [
+          {
+            "type": "default",
+            "schemes": [
+              "primary",
+              "on-surface"
+            ]
+          },
+          {
+            "type": "tonal",
+            "schemes": [
+              "secondary",
+              "on-surface"
+            ]
+          },
+          {
+            "type": "outline",
+            "schemes": [
+              "primary",
+              "on-surface"
+            ]
+          },
+          {
+            "type": "link",
+            "schemes": [
+              "primary",
+              "on-surface"
+            ]
+          }
+        ]
+      ]
+    },
+    "interaction_states": {
+      "type": "string",
+      "enum": [
+        "hover",
+        "active"
+      ]
+    }
+  },
+  "methods": {
+    "setButtonAttributes": {
+      "summary": "Passes the object to setState() as buttonAttributes; the built-in template does not read it, so it only reaches an external project template. Returns the element.",
+      "arguments": [
+        {
+          "name": "attributes",
+          "type": "object",
+          "required": false
+        }
+      ],
+      "returns": {
+        "type": "object",
+        "description": "The element, for chaining."
+      }
+    },
+    "onClick": {
+      "summary": "Adds a listener for click on the host. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
+      "returns": {
+        "type": "object",
+        "description": "The element, for chaining."
+      }
+    },
+    "onFocus": {
+      "summary": "Adds a listener for focusin on the host. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
+      "returns": {
+        "type": "object",
+        "description": "The element, for chaining."
+      }
+    },
+    "onBlur": {
+      "summary": "Adds a listener for focusout on the host. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
+      "returns": {
+        "type": "object",
+        "description": "The element, for chaining."
+      }
+    },
+    "onMouseEnter": {
+      "summary": "Adds a listener for mouseenter on the host. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
+      "returns": {
+        "type": "object",
+        "description": "The element, for chaining."
+      }
+    },
+    "onMouseLeave": {
+      "summary": "Adds a listener for mouseleave on the host. Returns the element.",
+      "arguments": [
+        {
+          "name": "handler",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "options",
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "required": false
+        }
+      ],
+      "returns": {
+        "type": "object",
+        "description": "The element, for chaining."
+      }
+    },
+    "setDisabled": {
+      "summary": "Sets the disabled attribute when nextValue is truthy and removes it otherwise. Returns the element.",
+      "arguments": [
+        {
+          "name": "nextValue",
+          "type": "boolean",
+          "required": false
+        }
+      ],
+      "returns": {
+        "type": "object",
+        "description": "The element, for chaining."
+      }
+    }
+  },
+  "events": {
+    "change": {
+      "summary": "A cycle (cycle or theme-cycle) moved to its next value after a person's press; dispatched on the host, bubbles and is composed, after press on sf-button. A theme cycle sends it after SF.Loader.setTheme has drawn the theme. Not sent by a button that is not a cycle.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "previous",
+          "value",
+          "item"
+        ],
+        "properties": {
+          "previous": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "item": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "The item now current: {value, label, icon, lang, pressed}."
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "state": {
+    "machines": {},
+    "visual_states": [
+      "default",
+      "active",
+      "loading",
+      "disabled"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "component",
+    "network_owner": "none",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-source",
+    "data": "fixture",
+    "effects": "component",
+    "forbidden_client_responsibilities": [
+      "backend access decisions",
+      "host route invention"
+    ]
+  },
+  "security": {
+    "permissions_owner": "none",
+    "untrusted_inputs": [
+      "props",
+      "children"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": "button",
+    "accessible_name": "required",
+    "keyboard": [
+      "Tab",
+      "Enter",
+      "Space"
+    ],
+    "focus": "The inner native button is the only focus owner. Pointer activation does not show the ring; keyboard focus uses focus-visible, with an inset ring inside joined controls."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "ru",
+      "en"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile"
+    ],
+    "skeleton": {
+      "shape": "none",
+      "while_loading": "none"
+    }
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [
+      "studio.fixture.json"
+    ],
+    "scenarios": [
+      "studio.scenario.json"
+    ]
+  },
+  "readiness": {
+    "level": "described",
+    "required_checks": [
+      "manifest",
+      "fixture",
+      "runtime-upgrade",
+      "scenario-smoke"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
+      "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
+    },
+    "aliases": [
+      "spacing=low",
+      "spacing=high",
+      "spacing=highest",
+      "appearance=link",
+      "scheme=secondary",
+      "status=error",
+      "<sf-icon-button>"
+    ],
+    "deprecations": [
+      {
+        "path": "<sf-icon-button>",
+        "since": "1.3.0",
+        "replacement": "<sf-button-icon>"
+      }
+    ],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-source",
+    "source_revision": "0d9999504a77d3dbbedc0b7fe881b9152a8a1830",
+    "source_artifacts": [
+      {
+        "path": "src/smart/button-icon/index.js",
+        "sha256": "164732cb9a9bc348b0972d0e94769a2ad6d4ac93590623a11cbebe03e2761240"
+      }
+    ],
+    "generated_runtime": [
+      {
+        "repository": "simai/ui-smart",
+        "revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c",
+        "path": "smart/icon-buttons/js/icon-buttons.js",
+        "sha256": "3b982e120ef4246f6bb412eb25640e3bff11435a5cd103bb255b6f81336a1fca"
+      }
+    ]
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-button-icon for a compact action that is unambiguous from one familiar icon and has a concise accessible name.",
+    "do_not": [
+      "Do not copy generated ui-smart code",
+      "Do not move host data or access decisions into the component",
+      "Do not omit aria-label when no visible text names the action",
+      "Do not use the large-surface radius as a normal control variation",
+      "Do not keep a loading action enabled"
+    ],
+    "required_reads": [
+      "inputs",
+      "methods",
+      "events",
+      "ownership",
+      "provenance"
+    ],
+    "minimal_example": "<sf-button-icon icon=\"add\" aria-label=\"Add item\"></sf-button-icon>",
+    "owner_commands": [
+      "npm run contract:verify",
+      "npm test"
+    ]
+  }
+}

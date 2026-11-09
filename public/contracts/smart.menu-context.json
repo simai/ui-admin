@@ -1,0 +1,999 @@
+{
+  "schema_version": 2,
+  "id": "smart.menu-context",
+  "version": "1.13.6",
+  "title": "Context Menu",
+  "summary": "The Framework's action menu and its settings panel: data entries with icon, caption, value, shortcut, check, submenu, separator and heading, and the value rows a setting needs (switch, range, choice, a group of rows or tiles) with one change event and the set-value, set-all, reset and show actions, opened by openFor() into the top layer, anchored, with keyboard, typeahead and focus return. A host may still render its own items and own the lifecycle.",
+  "kind": "smart",
+  "reuse_mode": "whole",
+  "lifecycle": "experimental",
+  "tags": [
+    "menu-context"
+  ],
+  "capabilities": [
+    "render",
+    "theme",
+    "responsive"
+  ],
+  "custom_element": "sf-menu-context",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [
+      "component.context-menu",
+      "component.kbd",
+      "smart.button",
+      "smart.button-icon",
+      "smart.tabs"
+    ],
+    "public_parts": []
+  },
+  "inputs": {
+    "type": "object",
+    "required": [
+      "aria-label"
+    ],
+    "properties": {
+      "template": {
+        "type": "string",
+        "default": "default",
+        "description": "Template variant name for SfBaseElement external templates."
+      },
+      "root-class": {
+        "type": "string",
+        "default": "",
+        "description": "Classes added to the root element the component draws."
+      },
+      "root-style": {
+        "type": "string",
+        "default": "",
+        "description": "Inline style declarations set on the root element the component draws, custom properties included."
+      },
+      "position": {
+        "type": "string",
+        "default": "",
+        "description": "Deprecated: a menu has no tail since 1.3.0 (owner, 2026-10-12); the value is kept for its class and draws nothing.",
+        "enum": [
+          "",
+          "inline-start",
+          "inline-start-top",
+          "inline-start-bottom",
+          "inline-end",
+          "inline-end-top",
+          "inline-end-bottom",
+          "top",
+          "top-inline-start",
+          "top-inline-end",
+          "bottom",
+          "bottom-inline-start",
+          "bottom-inline-end",
+          "start",
+          "end",
+          "top-start",
+          "top-end",
+          "bottom-start",
+          "bottom-end",
+          "left",
+          "left-top",
+          "left-bottom",
+          "right",
+          "right-top",
+          "right-bottom",
+          "top-left",
+          "top-center",
+          "top-right",
+          "bottom-left",
+          "bottom-center",
+          "bottom-right",
+          "left-start",
+          "left-end",
+          "right-start",
+          "right-end",
+          "inline-start-start",
+          "inline-start-end",
+          "inline-end-start",
+          "inline-end-end"
+        ]
+      },
+      "tooltip": {
+        "type": "boolean",
+        "default": true,
+        "description": "Deprecated: a menu has no tail since 1.3.0 (owner, 2026-10-12); the value is kept for its class and draws nothing."
+      },
+      "text": {
+        "type": "string",
+        "default": ""
+      },
+      "content-class": {
+        "type": "string",
+        "default": ""
+      },
+      "popup": {
+        "type": "boolean",
+        "default": false,
+        "description": "Not drawn until opened through openFor(). A menu without it is drawn in place, as before."
+      },
+      "submenu": {
+        "type": "string",
+        "default": "flyout",
+        "description": "How a row's submenu opens: flyout (a second panel beside the row, the default) or drill (the same panel shows the submenu instead of its own rows, with the way back and the parent's label in a head). A drilling panel's width never grows with the depth.",
+        "enum": [
+          "flyout",
+          "drill"
+        ]
+      },
+      "size": {
+        "type": "string",
+        "default": "1/2",
+        "description": "The menu's size: rows as tall as a field of that size (32px at 1/2, 40px at 1), its text, insets, search and footer. A submenu takes its parent's size.",
+        "enum": [
+          "1/2",
+          "1"
+        ]
+      },
+      "width": {
+        "type": "string",
+        "default": "content",
+        "description": "How wide openFor() opens the menu: content (its longest line, between --sf-context-menu--min-inline-size and --sf-context-menu--max-inline-size), trigger (exactly the control that opened it; a long line ends in an ellipsis) or a CSS length. openFor(anchor, {width}) overrides it."
+      },
+      "tabs": {
+        "type": [
+          "string",
+          "array"
+        ],
+        "default": "",
+        "description": "A panel with tabs: labels separated by |, or [{id, label}] as a property. The head (tabs and the close button) and the footer never scroll, the body does, and the panel keeps a fixed width (a ladder step, or width) whatever a tab holds."
+      },
+      "active-tab": {
+        "type": "string",
+        "default": "",
+        "description": "The chosen tab's id or index; the host renders that tab's rows into the content slot."
+      },
+      "closable": {
+        "type": "boolean",
+        "default": false,
+        "description": "A close button at the end of the panel's head."
+      },
+      "aria-label": {
+        "type": "string",
+        "default": ""
+      },
+      "role": {
+        "type": "string",
+        "default": "menu"
+      },
+      "items": {
+        "type": "array",
+        "default": [],
+        "items": {
+          "type": "object"
+        }
+      },
+      "entries": {
+        "type": "array",
+        "default": [],
+        "description": "The menu as data (set as a property, or JSON in the attribute). See item_contract. When present, it replaces items and the content slot.",
+        "items": {
+          "type": "object"
+        }
+      },
+      "search": {
+        "type": "object",
+        "description": "{placeholder, empty, remote}: a search field above the rows (set as a property). Local by default; with remote: true the menu raises sf-context-menu-search {query} and shows the entries the host sets. A submenu entry passes it with `search`."
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {
+    "summary": "One entry of `entries`.",
+    "kinds": {
+      "item": {
+        "fields": {
+          "id": "string, returned in sf-context-menu-select",
+          "text": "string, the label",
+          "icon": "string, a Material Symbols name",
+          "caption": "string, a second line under the label",
+          "value": "string, read-only value at the row's end; on a drilling row it is drawn under the label, where a long value is cut instead of widening the panel",
+          "shortcut": "string, a key combination shown at the row's end as plain glyphs: written as sf-button's (mod+c, shift+mod+z, F2) and drawn in the platform's words; other text as written",
+          "kind": "'check' | 'radio' for a checkable row",
+          "checked": "boolean",
+          "danger": "boolean, a destructive action",
+          "status": "'danger' (or its alias 'error'), the same as danger: true -- the controls' status word (C13)",
+          "disabled": "boolean",
+          "current": "boolean, the place the person is",
+          "href": "string, a link row",
+          "submenu": "entries: opened beside the row, or in place of the panel's own rows when the menu says submenu=\"drill\"",
+          "keepOpen": "boolean, a choice does not close the menu",
+          "lang": "string, the language the label is written in",
+          "search": "{placeholder, empty}, a field above the submenu that narrows its rows by label, caption and keywords",
+          "keywords": "string, extra words a search matches",
+          "avatar": "string, a picture URL drawn in the lead (a site's logo, a person)",
+          "initials": "string, drawn in the lead when there is no picture"
+        }
+      },
+      "separator": {
+        "fields": {
+          "type": "'separator'"
+        }
+      },
+      "heading": {
+        "fields": {
+          "type": "'heading'",
+          "text": "string, names the items under it"
+        }
+      },
+      "header": {
+        "fields": {
+          "type": "'header'",
+          "text": "string, the name",
+          "caption": "string or string[], the lines under it",
+          "avatar": "string, a picture URL",
+          "initials": "string, drawn without a picture (from the name by default)"
+        }
+      },
+      "choice": {
+        "fields": {
+          "type": "'choice'",
+          "id": "string, reported as group",
+          "text": "string, the group's name, drawn at the start of the row",
+          "icon": "string, a Material Symbols name in the lead",
+          "caption": "string, a second line under the name",
+          "view": "'quiet' (the default: the options at the row's end, sized to their content, no frame and no dividers, the chosen one on a soft fill), 'band' (the framed full-width band, for a row that must show every option across the panel) or 'drill' (the chosen option under the label and a chevron; the options open as a level of the panel, a check mark on the chosen one, and choosing goes back -- for a list too long or too wordy to stand at the row's end). A drilling view needs a drilling panel: in a flyout menu the row stays the quiet one",
+          "options": "[{id, text, icon, checked, disabled}], side by side; a choice is marked at once and the menu stays open unless keepOpen is false"
+        }
+      },
+      "switch": {
+        "fields": {
+          "type": "'switch'",
+          "id": "string, the setting's own name, reported as id in change",
+          "text": "string, the label",
+          "caption": "string, a second line under the label",
+          "icon": "string, a Material Symbols name in the lead",
+          "value": "boolean, the setting's own value and its only home; the row is a menuitemcheckbox and the switch at its end is drawn, not a second control",
+          "disabled": "boolean",
+          "keepOpen": "boolean, false closes the menu on a change; a setting is tried rather than committed, so the menu stays open by default"
+        }
+      },
+      "range": {
+        "fields": {
+          "type": "'range'",
+          "id": "string, the setting's own name, reported as id in change",
+          "text": "string, the label",
+          "caption": "string, a second line under the label",
+          "icon": "string, a Material Symbols name in the lead",
+          "value": "number, the setting's own value and its only home",
+          "min": "number, the lowest value (0 by default)",
+          "max": "number, the highest value (100 by default)",
+          "step": "number, how far one key or one notch moves it (1 by default)",
+          "unit": "string, written after the number (%, px)",
+          "disabled": "boolean"
+        }
+      },
+      "group": {
+        "fields": {
+          "type": "'group'",
+          "text": "string, names the block for a screen reader",
+          "view": "'rows' (the default: a block of rows) or 'tiles' (a grid of tiles, each an icon, a name and the current value)",
+          "items": "entries: the rows of the block, of any row kind -- a switch, a range, a choice, a command row or a row with a submenu"
+        }
+      },
+      "note": {
+        "fields": {
+          "type": "'note'",
+          "text": "string, a line of explanation"
+        }
+      }
+    }
+  },
+  "contracts": {},
+  "methods": {
+    "openFor": {
+      "summary": "Open beside an element: top layer, anchored by SF.Position with flip and shift, focus on the first item (or 'last', or 'none'). The menu then owns its lifecycle: Escape, Tab, a press outside and a choice close it and return the focus -- to where it was, or to the anchor's own control when it was nowhere.",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "anchor": {
+                "type": "object"
+              },
+              "options": {
+                "type": "object",
+                "properties": {
+                  "side": {
+                    "type": "string",
+                    "default": "block-end"
+                  },
+                  "align": {
+                    "type": "string",
+                    "default": "start"
+                  },
+                  "focus": {
+                    "type": "string",
+                    "enum": [
+                      "first",
+                      "last",
+                      "none"
+                    ],
+                    "default": "first"
+                  },
+                  "offset": {
+                    "type": "string",
+                    "summary": "The gap between the anchor and the menu: a token (var(--sf-space-1\\/3)), a CSS length, or a number of pixels. Left out, --sf-space-1/4."
+                  }
+                }
+              }
+            },
+            "required": [
+              "anchor"
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "type": "Promise<object>",
+        "description": "Resolves once the menu is rendered and open, to an outcome: {outcome: applied, value: true}; refused with prevented (a listener kept it closed) or invalid (the anchor is not an element); unavailable with no-surface."
+      }
+    },
+    "toggleFor": {
+      "summary": "Close when already open for this anchor, otherwise openFor().",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "anchor": {
+                "type": "object"
+              },
+              "options": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "anchor"
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "type": "Promise<object>",
+        "description": "Resolves to an outcome whose value says whether the menu is open afterwards: {outcome: applied, value: false} when it closed, openFor()'s outcome when it opened; refused with prevented when a listener kept it open."
+      }
+    },
+    "close": {
+      "summary": "Close this menu and any submenu.",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "reason": {
+                "enum": [
+                  "close",
+                  "escape",
+                  "outside",
+                  "cancelled",
+                  "api"
+                ]
+              }
+            },
+            "required": [
+              "reason"
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "type": "boolean",
+        "description": "Whether it was open."
+      }
+    },
+    "chooseTab": {
+      "summary": "Choose a tab by index and emit sf-context-menu-tab.",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "index": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "index"
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "requestClose": {
+      "summary": "Close an owned menu; for a menu its host placed, emit sf-context-menu-close for the host to close it.",
+      "arguments": [],
+      "returns": {
+        "type": "boolean"
+      }
+    },
+    "setValue": {
+      "summary": "Write a setting's value into its own entry: the host's answer to change, or a value restored on load. The value lives in the entry and nowhere else, so there is no second map to disagree with it; the menu raises nothing. Refused when no entry carries that id.",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "value": {}
+            },
+            "required": [
+              "id",
+              "value"
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "type": "object",
+        "description": "{outcome}: applied, or refused with not-found when no entry carries that id."
+      }
+    },
+    "setAll": {
+      "summary": "Write a whole map of settings at once -- {id: value} -- into the entries that carry those ids: a panel restored from storage in one call rather than one set-value per row. The menu raises nothing. Refused when no id in the map is an entry's.",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "values": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "values"
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "type": "object",
+        "description": "{outcome, count}: how many entries were written; refused with not-found when none was."
+      }
+    },
+    "show": {
+      "summary": "Go straight to one setting: in a drilling menu the panel opens the levels down to it (its own submenu when it has one, otherwise the level its row stands on) and the focus goes to the row. Refused when no entry carries that id; unavailable in a flyout menu, which has no level to go to.",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object|string",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "type": "object",
+        "description": "{outcome}: applied; refused with not-found; unavailable with no-levels in a flyout menu."
+      }
+    },
+    "reset": {
+      "summary": "Put the declared values back -- the values the entries carried when the host set them -- and raise reset. A listener that cancels reset keeps the current values.",
+      "arguments": [],
+      "returns": {
+        "type": "object",
+        "description": "{outcome}: applied, or cancelled when a listener cancelled reset."
+      }
+    },
+    "focus": {
+      "summary": "Focus the current available item. A host that renders the menu itself waits for rendering and owns opening and dismissal.",
+      "arguments": [
+        {
+          "name": "options",
+          "schema": {
+            "type": "object"
+          },
+          "required": false
+        }
+      ],
+      "returns": {
+        "type": "null"
+      }
+    }
+  },
+  "events": {
+    "sf-menu-context-select": {
+      "summary": "An entry was chosen, at any depth. Cancel it to keep the menu open.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "id",
+          "entry",
+          "checked",
+          "group"
+        ],
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "entry": {
+            "type": "object"
+          },
+          "checked": {
+            "type": [
+              "boolean",
+              "null"
+            ],
+            "description": "The state a check or radio row asks for; null for a plain item."
+          },
+          "group": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The choice row's id when an option of it was chosen."
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-menu-context-change": {
+      "summary": "A person asks to change a value row's setting: the request, sent before the value is written. Raised after select and only when select was not cancelled; a command row raises select alone. Cancelled, nothing changes and the row keeps the value it had -- the view never shows a value its host did not take.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "id",
+          "value",
+          "previous",
+          "entry"
+        ],
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The setting's own name: a value row's id."
+          },
+          "value": {
+            "description": "The value the setting now has: a boolean for a switch row, a number for a range row, the chosen option's id for a choice row."
+          },
+          "previous": {
+            "description": "The value it had."
+          },
+          "entry": {
+            "type": "object"
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-menu-context-changed": {
+      "summary": "The fact of change: the value is written into its entry and the row shows it. A host that only persists what a person did listens to this one and nothing else. reset raises it once for each row it moved; set-value and set-all raise nothing, as a value set from outside is not reported back (standard §8).",
+      "payload": {
+        "type": "object",
+        "required": [
+          "id",
+          "value",
+          "previous",
+          "entry"
+        ],
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The setting's own name: a value row's id."
+          },
+          "value": {
+            "description": "The value the setting now has: a boolean for a switch row, a number for a range row, the chosen option's id for a choice row."
+          },
+          "previous": {
+            "description": "The value it had."
+          },
+          "entry": {
+            "type": "object"
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-menu-context-reset": {
+      "summary": "The person asked for the declared values back: the request. Cancelled, the current values stay; otherwise the menu shows the declared ones, says changed once for each row that moved, and waits for the host to persist them, as sf-tabs-settings-reset does.",
+      "payload": {
+        "type": "object",
+        "required": [],
+        "properties": {},
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-menu-context-open": {
+      "summary": "Opened through openFor(). Bubbles and is composed; carries no detail.",
+      "payload": {
+        "type": "object",
+        "required": [],
+        "properties": {},
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-menu-context-opened": {
+      "summary": "opened (vocabulary).",
+      "payload": {
+        "type": "object",
+        "required": [],
+        "properties": {},
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-menu-context-close": {
+      "summary": "A menu opened through openFor() was closed. Bubbles and is composed; carries no detail.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "reason",
+          "unsaved"
+        ],
+        "properties": {
+          "reason": {
+            "enum": [
+              "close",
+              "escape",
+              "outside",
+              "cancelled",
+              "api"
+            ]
+          },
+          "unsaved": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-menu-context-closed": {
+      "summary": "closed (vocabulary).",
+      "payload": {
+        "type": "object",
+        "required": [
+          "reason"
+        ],
+        "properties": {
+          "reason": {
+            "enum": [
+              "close",
+              "escape",
+              "outside",
+              "cancelled",
+              "api"
+            ]
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-menu-context-search": {
+      "summary": "The query of a search the host answers (search.remote).",
+      "payload": {
+        "type": "object",
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-menu-context-tab": {
+      "summary": "A tab of the panel was chosen; the host shows its rows.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "id",
+          "index"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "index": {
+            "type": "number"
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-context-menu-select": {
+      "summary": "Dated alias of sf-menu-context-select until 2027-01-01 (same-detail).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-menu-context-select"
+    },
+    "sf-context-menu-change": {
+      "summary": "Dated alias of sf-menu-context-change until 2027-01-01 (same-detail).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-menu-context-change"
+    },
+    "sf-context-menu-changed": {
+      "summary": "Dated alias of sf-menu-context-changed until 2027-01-01 (same-detail).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-menu-context-changed"
+    },
+    "sf-context-menu-reset": {
+      "summary": "Dated alias of sf-menu-context-reset until 2027-01-01 (same-detail).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-menu-context-reset"
+    },
+    "sf-context-menu-open": {
+      "summary": "Dated alias of sf-menu-context-open until 2027-01-01 (same-detail).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-menu-context-open"
+    },
+    "sf-context-menu-opened": {
+      "summary": "Dated alias of sf-menu-context-opened until 2027-01-01 (same-detail).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-menu-context-opened"
+    },
+    "sf-context-menu-close": {
+      "summary": "Dated alias of sf-menu-context-close until 2027-01-01 (same-detail).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-menu-context-close"
+    },
+    "sf-context-menu-closed": {
+      "summary": "Dated alias of sf-menu-context-closed until 2027-01-01 (same-detail).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-menu-context-closed"
+    },
+    "sf-context-menu-search": {
+      "summary": "Dated alias of sf-menu-context-search until 2027-01-01 (same-detail).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-menu-context-search"
+    },
+    "sf-context-menu-tab": {
+      "summary": "Dated alias of sf-menu-context-tab until 2027-01-01 (same-detail).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-menu-context-tab"
+    }
+  },
+  "state": {
+    "machines": {},
+    "visual_states": [
+      "default"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "component",
+    "network_owner": "none",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-source",
+    "data": "fixture",
+    "effects": "component",
+    "forbidden_client_responsibilities": [
+      "backend access decisions",
+      "host route invention"
+    ]
+  },
+  "security": {
+    "permissions_owner": "none",
+    "untrusted_inputs": [
+      "props",
+      "children"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": "menu",
+    "accessible_name": "required",
+    "keyboard": [
+      "ArrowDown",
+      "ArrowUp",
+      "Home",
+      "End",
+      "ArrowRight",
+      "ArrowLeft",
+      "Enter",
+      "Space",
+      "Escape",
+      "Tab",
+      "typeahead"
+    ],
+    "focus": "Rows rendered from entries carry menuitem, menuitemcheckbox or menuitemradio with aria-checked, and aria-haspopup/aria-expanded for a submenu; one roving tab stop. Opened through openFor(): the anchor gets aria-haspopup=menu and aria-expanded; Escape closes one level and returns the focus to its row or the anchor; in a drilling menu Escape and the outward arrow first go one level back, to the row the level was opened from, and close the menu only at the top level; Tab closes the whole chain; a letter moves to the next item it starts. A host that renders the menu itself owns opening, Escape/Tab dismissal and focus return, as before. A header and a note are text. The options of a choice row are menuitemradio in a group, walked by the side arrows. A searchable menu opens on its field, which keeps the letters and the side arrows; ArrowDown goes on to the rows. A switch row is the menuitemcheckbox itself, with aria-checked for its value and Enter or Space to turn it; a range row's slider is the platform's, named by the label, announced with its unit and moved by the side arrows, Home and End, while ArrowUp and ArrowDown stay the menu's walk; a group is a group with its own name, and a tile of it is a row of the menu with the row's role."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "ru",
+      "en"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile",
+      "semantic-surface-radius",
+      "unclipped-tail-with-scrollable-content",
+      "logical-position-aliases",
+      "forced-colors-boundary"
+    ],
+    "skeleton": {
+      "shape": "none",
+      "while_loading": "none"
+    }
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [
+      "studio.fixture.json"
+    ],
+    "scenarios": [
+      "studio.scenario.json"
+    ]
+  },
+  "readiness": {
+    "level": "described",
+    "required_checks": [
+      "manifest",
+      "fixture",
+      "runtime-upgrade",
+      "scenario-smoke"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
+      "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
+    },
+    "aliases": [
+      "<sf-context-menu>"
+    ],
+    "deprecations": [
+      {
+        "path": "position",
+        "since": "1.3.0",
+        "replacement": "openFor(anchor, {side, align}) places the menu; no tail is drawn"
+      },
+      {
+        "path": "tooltip",
+        "since": "1.3.0",
+        "replacement": "none: a menu has no tail"
+      },
+      {
+        "path": "<sf-context-menu>",
+        "since": "1.6.0",
+        "replacement": "<sf-menu-context>"
+      }
+    ],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-source",
+    "source_revision": "c2b654290ec4475b15f51e869fda4d351ee020b2",
+    "source_artifacts": [
+      {
+        "path": "src/smart/menu-context/index.js",
+        "sha256": "71c2f1f39b26000233945595351e3be3fd2fbcc09aa1bc8ff7025b8284c5a2f4"
+      },
+      {
+        "path": "src/smart/menu-context/js/templates/default.js",
+        "sha256": "084813ad1e5f744efbe5c43f566e1b276c43ad124b816f0c9f38dc883e3a94a8"
+      },
+      {
+        "path": "src/component/context-menu/scss/_css__context_menu.scss",
+        "sha256": "0de1d63cda52cd8247af8e221dc4823be49d20f4b7631d5da451050064f76519"
+      },
+      {
+        "path": "src/component/context-menu/scss/_css__context_menu_custom.scss",
+        "sha256": "cd24ec55d1c4ae77bac1c1fb1820b7f3efa0975d7d706c8e98706fd1625c2f29"
+      }
+    ],
+    "generated_runtime": [
+      {
+        "repository": "simai/ui-smart",
+        "revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c",
+        "path": "smart/menu-context/js/menu-context.js",
+        "sha256": "35d99046348af776c3273085fb93a488e6097023d64b65245d34e6334579d3c8"
+      }
+    ]
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-context-menu for every action menu: give it entries and open it with openFor(anchor). It opens below and start-aligned by default, with no tail, in the top layer, on the profile menu's surface. A profile menu is one: a header for the person, a choice row for the theme, a submenu with search for the language. A settings panel is one too, and is this component rather than a tag of its own: submenu=\"drill\" with value rows (switch, range, choice, a group of tiles), listening to sf-context-menu-change alone.",
+    "do_not": [
+      "Do not copy generated ui-smart code",
+      "Do not move host data or access decisions into the component",
+      "Do not hand-make a menu of divs and buttons: the row geometry, roles, keyboard and focus return are this component's",
+      "Do not ask for a tail: position and tooltip are deprecated and draw nothing",
+      "Do not keep a second map of the settings' values: a value lives in its entry, and set-value writes it there",
+      "Do not store a setting yourself: the menu shows it and raises change; the host persists it"
+    ],
+    "required_reads": [
+      "inputs",
+      "methods",
+      "events",
+      "ownership",
+      "provenance"
+    ],
+    "minimal_example": "<button id=\"more\" type=\"button\">Ещё</button><sf-menu-context id=\"menu\" popup aria-label=\"Действия\"></sf-menu-context><script>menu.entries=[{id:\"rename\",text:\"Переименовать\",icon:\"edit\"},{type:\"separator\"},{id:\"delete\",text:\"Удалить\",icon:\"delete\",danger:true}];more.onclick=()=>menu.toggleFor(more);</script>",
+    "owner_commands": [
+      "npm run contract:verify",
+      "npm test"
+    ]
+  }
+}

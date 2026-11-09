@@ -1,35 +1,46 @@
 {
   "schema": "simai.ui-admin.contract-materialization.v1",
+  "package": {
+    "name": "pro",
+    "compatibility_id": "pro-7a2900066a50",
+    "archive_sha256": "c74f3ec7e914dbcf1df8f05cd28d74c42bbf108984326d0134916b09ae4dd11e"
+  },
   "contracts": [
     {
       "id": "smart.accordion",
-      "version": "1.1.5",
+      "version": "1.1.7",
       "file": "smart.accordion.json",
-      "manifest_sha256": "ae6274e8b8735eccc96e831fb2489e00f7246a67428d5bb78f7040466a4a6a29"
+      "manifest_sha256": "e7d8ed054ca9e848106ba561e676b8519f85b4d4e67a2e603742cd14f9209281"
     },
     {
       "id": "smart.alert",
-      "version": "1.1.8",
+      "version": "1.1.11",
       "file": "smart.alert.json",
-      "manifest_sha256": "0119d957d3998aca094717ff98789ddd1f07ce638debb8189a98501166d88d66"
+      "manifest_sha256": "87391c14f2d8298820d0ecc71c9b8be4226e6dcbf1ca22f03c5397d7b91807d1"
+    },
+    {
+      "id": "smart.alert-bar",
+      "version": "1.3.1",
+      "file": "smart.alert-bar.json",
+      "manifest_sha256": "c17d0a5310946e2600e50f0981a0483a036353b313e12b82ce5387e076380ce9"
     },
     {
       "id": "smart.avatar",
-      "version": "1.2.2",
+      "version": "1.3.0",
       "file": "smart.avatar.json",
-      "manifest_sha256": "83b11dad6bd3aec2ee999dd96f62ff1a645bffb386fa6d6a49e043fe70dd64f9"
+      "manifest_sha256": "78c5704698c8b54d4a236b4b4c79153e64d29b97b2480fe42f417cd031db91a1"
     },
     {
       "id": "smart.avatar-group",
-      "version": "1.2.0",
+      "version": "1.2.1",
       "file": "smart.avatar-group.json",
-      "manifest_sha256": "e56d8777f4b15be4c3005af40f09ab7727c0f7735a58c55dcae31e5f3dcbd4d2"
+      "manifest_sha256": "5951bfd98a6a99f14aba12ed2218a3f500ebbe85d5f9436f4812f3651ad31825"
     },
     {
       "id": "smart.badge",
-      "version": "1.2.1",
+      "version": "1.3.1",
       "file": "smart.badge.json",
-      "manifest_sha256": "14a71e4f2f9a28099c7b43478329ac891f943017d03d3c166c782489146bf4ff"
+      "manifest_sha256": "49c9d03c3f64f42354d70006e2af42dcfd6eb4b6a042d8d6d3f1a270deab74af"
     },
     {
       "id": "smart.breadcrumbs",
@@ -39,33 +50,27 @@
     },
     {
       "id": "smart.button",
-      "version": "1.4.0",
+      "version": "1.10.0",
       "file": "smart.button.json",
-      "manifest_sha256": "55cf1240a5648ed3fd1d8f2c910cf235cf69c21fe2eec14713ec21aad8746039"
+      "manifest_sha256": "f6c98ae69f8586c5de19aec641a88c5f4d98f5fcbd2cab474186f8b1402ab1f4"
     },
     {
       "id": "smart.button-close",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "file": "smart.button-close.json",
-      "manifest_sha256": "e3bb89150273a2052b89c4c3c275c3c62ac80ef4550174da619c9a3f185daf21"
+      "manifest_sha256": "39865e7ef68b4da9b0f9acdd61a922324706850453c5ae9ee463e5c4660ecccb"
     },
     {
       "id": "smart.button-copy",
-      "version": "1.2.0",
+      "version": "1.3.0",
       "file": "smart.button-copy.json",
-      "manifest_sha256": "041004853b6482a35c7db30c22cf26a1bd1e219e92b990926a161937fa9de463"
-    },
-    {
-      "id": "smart.button-group",
-      "version": "1.1.5",
-      "file": "smart.button-group.json",
-      "manifest_sha256": "25766d22407cc010015ad2d08d19e00d7c2a3a30c6a45265551e0db844c82763"
+      "manifest_sha256": "5fea7cd5bfa42e4555de39718dd4758d45f2c60b9bf874a2fc00cbf21ac536fd"
     },
     {
       "id": "smart.button-icon",
-      "version": "1.4.0",
+      "version": "1.7.1",
       "file": "smart.button-icon.json",
-      "manifest_sha256": "258c76a36665bd8fbf170eebb1521e8d73ac93cd3c18a0c2a6fbe42a8908c820"
+      "manifest_sha256": "81bc5efcfaede611f701e1a6258e8e7ca7909a288250cddb8359ff8d572737b8"
     },
     {
       "id": "smart.checkbox",
@@ -75,57 +80,57 @@
     },
     {
       "id": "smart.confirm",
-      "version": "1.0.0",
+      "version": "1.1.1",
       "file": "smart.confirm.json",
-      "manifest_sha256": "c46467c62d694ab6808dee63765c703718ebfe41da4c3ed6fa280a8c599519cb"
+      "manifest_sha256": "453dcb37c1229152b1a281c6897a44ef1e9858af42141e3130b0762850cbffe1"
     },
     {
       "id": "smart.confirm-change",
-      "version": "1.4.0",
+      "version": "1.5.1",
       "file": "smart.confirm-change.json",
-      "manifest_sha256": "0fb3161ec1000d938399067aab38842c8fd9bc682ed4efe5611d1dc9142eeb0e"
+      "manifest_sha256": "0b1961b0fca22427647e7841009689fd125699eb1ec13558edfd2d0a0872953a"
     },
     {
       "id": "smart.contents",
-      "version": "1.1.3",
+      "version": "1.4.0",
       "file": "smart.contents.json",
-      "manifest_sha256": "39b5358ddb8fabd33e1b01c52d543dd72694ae085786938e2d26ef7171a0626a"
+      "manifest_sha256": "a185016a0c2b6952671e7a4cde7dcf311b34a205def7837d44ea55642d2c4052"
     },
     {
       "id": "smart.drawer",
-      "version": "1.8.7",
+      "version": "1.10.1",
       "file": "smart.drawer.json",
-      "manifest_sha256": "289fefb726a475e82104f64fab15090a1a219bc7ee0264fa7f2ddc4441cfe45a"
+      "manifest_sha256": "6f7952f44465738d0be67282d25f6de6e0c010a771f09d1a97156372f31e54d9"
     },
     {
       "id": "smart.dropdown",
-      "version": "1.5.3",
+      "version": "1.7.4",
       "file": "smart.dropdown.json",
-      "manifest_sha256": "54ce8f42bfcdb2c72b58f3fcdcf1a3a530bf46055283455d7345e127b65e4e33"
+      "manifest_sha256": "d2f64b10fac022cf54f9d3f4e8fc76ec177dfbca54baa1c6b35d8c6f438ab57c"
     },
     {
       "id": "smart.editor-inline",
-      "version": "1.4.0",
+      "version": "1.6.1",
       "file": "smart.editor-inline.json",
-      "manifest_sha256": "aa47aa00636b863d860108a736dcfe1848e324c927956782c4f35bda8bb38275"
+      "manifest_sha256": "edaa4ec8768ce584518185f8ae2fce3760b398f42965206d52d2d7f0b8348025"
     },
     {
       "id": "smart.editor-overlay",
-      "version": "1.4.0",
+      "version": "1.7.1",
       "file": "smart.editor-overlay.json",
-      "manifest_sha256": "1e1aca944a6b47c5996958995fdb2cab58fb97c1daf4f27bef19b3c5ab7909e9"
+      "manifest_sha256": "41932e4462137651de0f0b8b5ff299de20ed2b2616e935dbabbf8e0a1e97c784"
     },
     {
       "id": "smart.empty-state",
-      "version": "1.1.6",
+      "version": "1.1.10",
       "file": "smart.empty-state.json",
-      "manifest_sha256": "d7734d8abab28436c995e30d090d5bd6ed3fb64ec0dc75e9853d1ebf504d3a7c"
+      "manifest_sha256": "bb29e1b45507c446122bb481fa51b929a50abe378626adb7310050a85b649d70"
     },
     {
       "id": "smart.file-download",
-      "version": "1.2.0",
+      "version": "1.3.0",
       "file": "smart.file-download.json",
-      "manifest_sha256": "06f26639b2d78602d42c4e384bf0f96d5a84d67e58b0640a0428103f880c51f0"
+      "manifest_sha256": "2fc956e6b234b7e4cc5cef0dbd19522af83d04da5eab75a1af372f5c26d3889c"
     },
     {
       "id": "smart.file-preview",
@@ -135,51 +140,57 @@
     },
     {
       "id": "smart.file-upload",
-      "version": "1.1.6",
+      "version": "1.1.8",
       "file": "smart.file-upload.json",
-      "manifest_sha256": "80b6945723140a975d31ee8a8343d3b0ae12ecc8f6f67ee588030e3a95c6a496"
+      "manifest_sha256": "65421e9ab66d21942e63e439062763fd40798daad71d31d40b5653cd7a16c055"
     },
     {
       "id": "smart.gallery",
-      "version": "1.1.8",
+      "version": "1.1.11",
       "file": "smart.gallery.json",
-      "manifest_sha256": "06ca2c8ba86bb75a631cfa8f2c92c5cffa53503ff0fcc9c41be3cad8a1758fc8"
+      "manifest_sha256": "4b0577596aa2419b29e12621e3dc2fff0c5bc6427003fcda2bb9d348a0519685"
     },
     {
       "id": "smart.header-page",
-      "version": "1.2.1",
+      "version": "1.2.5",
       "file": "smart.header-page.json",
-      "manifest_sha256": "85db4192f2cab02ce397841853d1dcc50a3cc9ecce86a1e716ab0b65a1a09537"
+      "manifest_sha256": "7b90aeac8e3dd31ee5b5a78927af6ff6965d37f489048118081cfac4137a0e95"
     },
     {
       "id": "smart.header-site",
-      "version": "1.3.1",
+      "version": "1.7.2",
       "file": "smart.header-site.json",
-      "manifest_sha256": "104481a6f843c55d5e1cfd4bb058cfb7ca71dd0f081cdccd37687414786d77f9"
+      "manifest_sha256": "d1e4d847d8ec1a836b2dd1664fe0148e0a2a3a8df85ba5b6b5c8d37f7313bc16"
     },
     {
       "id": "smart.help-mark",
-      "version": "1.1.8",
+      "version": "1.3.0",
       "file": "smart.help-mark.json",
-      "manifest_sha256": "827f9941822178cc84b0c2560da52594c68abbf1669a245aabd60d3919175a67"
+      "manifest_sha256": "d5823b4f4d87da8678810619248d4ec25d5edd78dcef8d03d5a1f4aee9b8cc8a"
     },
     {
       "id": "smart.icon",
-      "version": "1.1.5",
+      "version": "1.1.6",
       "file": "smart.icon.json",
-      "manifest_sha256": "1f3168cf24d7f5b48b07b64869b13e26c64b8d2221525f5184b8072e5c735a9c"
+      "manifest_sha256": "ea5c87bc682cc86705b302ea1e0d29550b21e6178a53cd9e5fb6c11f85b03f7e"
     },
     {
       "id": "smart.include",
-      "version": "1.0.1",
+      "version": "1.0.4",
       "file": "smart.include.json",
-      "manifest_sha256": "18e0c32a304801a878a1bef6c2d05aed939abbdecd3c8d3e898fa21a11b47839"
+      "manifest_sha256": "d006d0f40a3c3d1908252d5906bec11df9eb7a4b9b609b2f9ef25aea41e500fd"
     },
     {
       "id": "smart.input",
-      "version": "1.4.4",
+      "version": "1.6.1",
       "file": "smart.input.json",
-      "manifest_sha256": "e4bc827c55fcd0617ba9871372ffe062f730d28629c7f3e98b5ed829798896f9"
+      "manifest_sha256": "1110a5c8fd416f8c78a4565dc9bab4020641eb04e54f5f7f152718bb0247c74a"
+    },
+    {
+      "id": "smart.input-choice",
+      "version": "1.1.0",
+      "file": "smart.input-choice.json",
+      "manifest_sha256": "3552ced32dcf9db790002902dafe154cee3e807642581fe06e45a367dc82bee6"
     },
     {
       "id": "smart.input-code",
@@ -189,51 +200,81 @@
     },
     {
       "id": "smart.input-color",
-      "version": "1.5.0",
+      "version": "1.5.5",
       "file": "smart.input-color.json",
-      "manifest_sha256": "9b122c5a52c9e591ebbc7b2fcc7ed7041ed333b504d62be49550e87f12dfa893"
+      "manifest_sha256": "e3f6f2019ef4258df60c47fd1269be0f114d7cea3475754f1b2645d59b0835a7"
     },
     {
       "id": "smart.input-country",
-      "version": "1.2.0",
+      "version": "1.2.1",
       "file": "smart.input-country.json",
-      "manifest_sha256": "7f64805049f679ae223f87cd7b42fd214f84fd8c608077c0ab9368ee4305b98f"
+      "manifest_sha256": "99a4183754f771c880b4bc8a11fb697c04870a76604238b22cb8705790338507"
     },
     {
       "id": "smart.input-date",
-      "version": "1.3.0",
+      "version": "1.4.4",
       "file": "smart.input-date.json",
-      "manifest_sha256": "2da81fb25a9d86cb1d30670492e8df62fa0307df5b46b198954d72f34313f3a0"
+      "manifest_sha256": "b7fef2d68ff5aeab1392129548e2f73df975473a309558d552818539fdb8a82a"
     },
     {
       "id": "smart.input-image",
-      "version": "1.2.0",
+      "version": "1.3.1",
       "file": "smart.input-image.json",
-      "manifest_sha256": "69849f9fda5f0a789d1ab5bc1128373beeecbc1a277ce9e010d6247cd6d79f9a"
+      "manifest_sha256": "e98c859c46238765cbccdc09ef943b32dc96fa4912b4ba5e3f27618c733fc112"
     },
     {
       "id": "smart.input-lookup",
-      "version": "1.2.0",
+      "version": "1.4.1",
       "file": "smart.input-lookup.json",
-      "manifest_sha256": "c1c73313277a0585cae5e28f2243578805d23d299a5ca7a0e77887f3eb95aee5"
+      "manifest_sha256": "44e583c4ae25e049b98a0e44e0d14f3e5ac7f2386489dcc67b3ab8241624c667"
     },
     {
       "id": "smart.input-quantity",
-      "version": "1.3.0",
+      "version": "1.3.3",
       "file": "smart.input-quantity.json",
-      "manifest_sha256": "25127ec8a81688b87950953a025cd8717219ac178c149c3ce85efdb84fa4a2ca"
+      "manifest_sha256": "467e34d761ae0c3bc4eb82a6da1c608dbdcd780a4f663d161028c0c1b2cdc0e7"
     },
     {
       "id": "smart.input-rich",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "file": "smart.input-rich.json",
-      "manifest_sha256": "62dae6c3d4af07d5e0aa935d84401771a99a95cd21eac7cdd57183ca01de43f8"
+      "manifest_sha256": "10790e95e9774990c1195e07691280d772cf32771743a763ba9d91a796372315"
     },
     {
       "id": "smart.input-textarea",
-      "version": "1.7.0",
+      "version": "1.7.4",
       "file": "smart.input-textarea.json",
-      "manifest_sha256": "63b5140472e5d080b2b548f27f5cc96197e32434504892ef25e409e962bc972e"
+      "manifest_sha256": "1f7998cc7efcdb01e287aa9fdb1b15911d6ba93cbdb2840bc3bd0f9625d1b70d"
+    },
+    {
+      "id": "smart.language",
+      "version": "1.2.2",
+      "file": "smart.language.json",
+      "manifest_sha256": "7d2188a986a11fabaa63c34f429fd4f09dcd365a847d82fd2e4d94093c312c3d"
+    },
+    {
+      "id": "smart.list",
+      "version": "1.3.2",
+      "file": "smart.list.json",
+      "manifest_sha256": "b051a390a361167566abf35f3897bea0273c860e45ed1f54fa129ee9841e46b4"
+    },
+    {
+      "id": "smart.list-attention",
+      "version": "1.1.1",
+      "file": "smart.list-attention.json",
+      "manifest_sha256": "b0771574f1e491590daa4a74a33215527520b13b8567045e6d8e949667287f2a"
+    },
+    {
+      "id": "smart.list-description",
+      "version": "1.0.3",
+      "file": "smart.list-description.json",
+      "manifest_sha256": "8441a15a1866ce17e3e4889df445d43e215b078e7f6f77fd08ae0517e511a22c"
+    },
+    {
+      "id": "smart.list-feed",
+      "version": "1.1.1",
+      "file": "smart.list-feed.json",
+      "manifest_sha256": "1cb5ad9c9295e4ff1f2099c5869cb913221f370250b84f508ca8fa5bba4dad30"
     },
     {
       "id": "smart.list-item",
@@ -242,64 +283,76 @@
       "manifest_sha256": "0845173ffa904241743a594d1633e1745b7425b1cc967147e1a0391bd6c44460"
     },
     {
+      "id": "smart.list-timeline",
+      "version": "1.0.2",
+      "file": "smart.list-timeline.json",
+      "manifest_sha256": "2fe15977fca8c687e2bb268e2f85a842285575552e77a8560831b8e408c0b1e2"
+    },
+    {
       "id": "smart.menu",
-      "version": "1.2.3",
+      "version": "1.4.1",
       "file": "smart.menu.json",
-      "manifest_sha256": "261572c9f909e893c771d091261a24d2d27170c81150ee3392dfdfacf80b2160"
+      "manifest_sha256": "c5d72dbc4131e35beffb1ba7ebdbd088a203ce796b772291fa5c406766550dfc"
     },
     {
       "id": "smart.menu-context",
-      "version": "1.6.0",
+      "version": "1.13.6",
       "file": "smart.menu-context.json",
-      "manifest_sha256": "4a089e1a11b2b7e2625d90b82ca4cbce9691d0fc661606f03f86528ea6aa5d34"
+      "manifest_sha256": "732c682622ba9be669b59e5707559b32f0c11c18c98e54a7f977af8f674127a4"
     },
     {
       "id": "smart.modal",
-      "version": "1.4.6",
+      "version": "1.5.6",
       "file": "smart.modal.json",
-      "manifest_sha256": "208ed35c758ca12f31b329ae03410f925d9f94b49246eaa1c78eb1337abb764b"
+      "manifest_sha256": "6463fc2041d94198824aae835714e23a47a0c58f0d10a36de2ada3b1dfc074fc"
     },
     {
       "id": "smart.pager",
-      "version": "1.0.4",
+      "version": "1.2.1",
       "file": "smart.pager.json",
-      "manifest_sha256": "a8f0871ad300165b17145b6f2cb519ed9065aa7e3b22236cdc5b7ac0c736b66a"
+      "manifest_sha256": "475cd161711e65491a3b421433390d0a7e282d9f3a3a04d5514cd4f353f72587"
     },
     {
       "id": "smart.pagination",
-      "version": "1.3.6",
+      "version": "1.3.11",
       "file": "smart.pagination.json",
-      "manifest_sha256": "de9e50a95a7b930940353c090135a49ba374bbbb6298522666107eaf8819508e"
+      "manifest_sha256": "b9832a1beb7c19ae0cd774240b9d79abb0131aed46046befffdef2f8c73f1673"
     },
     {
       "id": "smart.popover",
-      "version": "1.1.5",
+      "version": "1.4.1",
       "file": "smart.popover.json",
-      "manifest_sha256": "7583fd59a2720754e902804b23d963e0ac07dbd47a50048bf570b7ddae98cf95"
+      "manifest_sha256": "c95159b6afc521d3bd0c44d8b94b58bcb9e8b8fcfb268f6c4433c20b7b3ed492"
     },
     {
       "id": "smart.profile-picker",
-      "version": "1.1.10",
+      "version": "1.3.1",
       "file": "smart.profile-picker.json",
-      "manifest_sha256": "876d288b0b556cb408b1648aee109947507f3af20c596834650385483137d3e7"
+      "manifest_sha256": "7aca18beb11f5183980fa48f522b94f52e9a786d3b744fb5c061fa897ce3b177"
     },
     {
       "id": "smart.progress-bar",
-      "version": "1.1.3",
+      "version": "1.2.1",
       "file": "smart.progress-bar.json",
-      "manifest_sha256": "d4cd464b1ea4c1f733043096caba9530777f7bceac89de4b0bc97498ca9f7de9"
+      "manifest_sha256": "96147421daea0e6dd2bcb5b32524c28c2cc61fe01c644171e0ec0baee63827b1"
     },
     {
       "id": "smart.progress-ring",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "file": "smart.progress-ring.json",
-      "manifest_sha256": "163013c5f24eef06e1a5787c7a43ab9aaaccd2200a215784fabe3d6ba5096ced"
+      "manifest_sha256": "94a447776334882933f0232721039e08ffa80d2363a86d4e349b216688fe4e8f"
+    },
+    {
+      "id": "smart.progress-run",
+      "version": "1.2.2",
+      "file": "smart.progress-run.json",
+      "manifest_sha256": "30eebfe5234283ae46f62ad1b9bc43df6aa558afad9a0f367cc4a8027890c898"
     },
     {
       "id": "smart.progress-scale",
-      "version": "1.1.3",
+      "version": "1.1.4",
       "file": "smart.progress-scale.json",
-      "manifest_sha256": "35b63622b5733579498689fdbdbab91e111296ed16b5cdbd5a1bc551b41e2357"
+      "manifest_sha256": "d80162c676e555a6a64a525839438bb27bfb8062a6d1e19b0c972444c558624a"
     },
     {
       "id": "smart.radio",
@@ -321,9 +374,21 @@
     },
     {
       "id": "smart.search",
-      "version": "1.2.3",
+      "version": "1.7.2",
       "file": "smart.search.json",
-      "manifest_sha256": "a74786be1592dd155c17c8d931a6015bbf7941335af07744ef56fc612bd3ee37"
+      "manifest_sha256": "39351273055178d342283d25253e76a0127d1e51113c4ac75ed1c5c7e38ffa49"
+    },
+    {
+      "id": "smart.segmented",
+      "version": "1.4.2",
+      "file": "smart.segmented.json",
+      "manifest_sha256": "4454578b43f08ae5ef4cb2b93aef9f6e0de908b040177c75bf75a0a7d51ea200"
+    },
+    {
+      "id": "smart.settings",
+      "version": "1.0.5",
+      "file": "smart.settings.json",
+      "manifest_sha256": "c9e4e1e0d23546197cceba75351c4d641ce1398be3462c5be5f5082b847ed0d0"
     },
     {
       "id": "smart.skeleton",
@@ -333,9 +398,9 @@
     },
     {
       "id": "smart.slider",
-      "version": "1.1.7",
+      "version": "1.1.9",
       "file": "smart.slider.json",
-      "manifest_sha256": "613aa3875c2c78863c1a38f3c5b9cf81e346ce8c49a590fcb8ba5d34246d56cf"
+      "manifest_sha256": "e2cd71084fe0842ff45f5fc54bd3fbde5e4b09600f743e4edff398f212dde82f"
     },
     {
       "id": "smart.slider-range",
@@ -345,71 +410,208 @@
     },
     {
       "id": "smart.sortable",
-      "version": "1.1.7",
+      "version": "1.2.1",
       "file": "smart.sortable.json",
-      "manifest_sha256": "c8d3423597cfa64ceac44477f04556511d4e9b9b2b3b77fbcccca776425ea6d8"
+      "manifest_sha256": "c3193ed050c60705f808a3696a4ec574b0fda2518289199047687781e3bbd3ed"
     },
     {
       "id": "smart.spinner",
-      "version": "1.2.3",
+      "version": "1.2.4",
       "file": "smart.spinner.json",
-      "manifest_sha256": "8c8ff61ed80c662011b9639d8c80fcc83f1bce391ec74859bc12aba442320d20"
+      "manifest_sha256": "a084c4078f13f63cf3feacfc5e78d193b7da9ff7b088f5f5fb420733db1ff1d9"
     },
     {
       "id": "smart.steps",
-      "version": "1.1.5",
+      "version": "1.2.1",
       "file": "smart.steps.json",
-      "manifest_sha256": "f924b767da18008d3e6e185a760de80ae10ebad5c526df8227b9f4c3e6562d56"
+      "manifest_sha256": "14a230bc449f63e64324bd8d8974195067a556b2b9844f326d263fc21665fadf"
     },
     {
       "id": "smart.switch",
-      "version": "1.2.3",
+      "version": "1.3.4",
       "file": "smart.switch.json",
-      "manifest_sha256": "39cbb99efd0bc6e62a98ef0924241ea576b876082ac6e185093ae744b0a2d4da"
+      "manifest_sha256": "6c3b5cc94b4bedf2b289cfb2df34ca267a65e988b3000faa4e2eb362f2d95c80"
     },
     {
       "id": "smart.tabs",
-      "version": "1.1.11",
+      "version": "1.1.16",
       "file": "smart.tabs.json",
-      "manifest_sha256": "6730461263f1a33a48c1de5ba54e3a9b0f59478a3f93deb452446ff3da9964c0"
+      "manifest_sha256": "97986c8e3a0eb718598568a2228da1426d69ba8df6d9170064144244cd5954bf"
     },
     {
       "id": "smart.tag",
-      "version": "1.1.9",
+      "version": "1.3.1",
       "file": "smart.tag.json",
-      "manifest_sha256": "57bd182dbf27bf2c5f2797e9f6787070574179b0ff3bc3c9fec6f7fc1faa17b9"
+      "manifest_sha256": "73853d16a628905895d73cceddb22a5fbd86e879ff8dd5648b66890a86f24a8f"
     },
     {
       "id": "smart.theme-generator",
-      "version": "1.1.7",
+      "version": "1.1.11",
       "file": "smart.theme-generator.json",
-      "manifest_sha256": "6dde2ffad5c804ec6ce2e8851d5a8e75fb076db6d314dda9dc1f56d52396afc8"
+      "manifest_sha256": "f4e169e53993128d0b68f36202e22fa2ad36a86920fbdb131d92d3b2db968716"
+    },
+    {
+      "id": "smart.tile-metric",
+      "version": "1.2.1",
+      "file": "smart.tile-metric.json",
+      "manifest_sha256": "16e914e07f7727a41028550600f63623a10cb97e31e4210217ef3356591b7cfd"
     },
     {
       "id": "smart.toast",
-      "version": "1.1.7",
+      "version": "1.1.11",
       "file": "smart.toast.json",
-      "manifest_sha256": "0cff593e01a39c3becd8c3fb338f9c59d16701360a35cefde4e4e484fb8fea49"
+      "manifest_sha256": "5653840cf454c0d31ae04cc7d92a846f3d69dce05695928e68b1e6a96317b90e"
     },
     {
       "id": "smart.tooltip",
-      "version": "1.1.3",
+      "version": "1.2.0",
       "file": "smart.tooltip.json",
-      "manifest_sha256": "66b9508070f635a503733afe3ecfed7ae4709bbbd9abe9cb3b867d925acfeae1"
+      "manifest_sha256": "4671995ecdead18f6c51d813fe21fc1c4c634c434be3cda8d21093e3eb400075"
     },
     {
       "id": "smart.tree",
-      "version": "2.0.8",
+      "version": "2.1.1",
       "file": "smart.tree.json",
-      "manifest_sha256": "0191075d694e76989c9ebe8fbbdbd0067acafab27b17e816b717a67c21281947"
+      "manifest_sha256": "7a3a054972e9c173a00a8b965472de7fdf3d8cd861b5c2a6e0a996a0bb7c8569"
     },
     {
       "id": "smart.tree-item",
       "version": "1.1.5",
       "file": "smart.tree-item.json",
       "manifest_sha256": "9939690917a40471f0e6aa18442bbc8e974aa8aa7b4fb4b9687127f580472b0c"
+    },
+    {
+      "id": "smart.wizard",
+      "version": "1.2.2",
+      "file": "smart.wizard.json",
+      "manifest_sha256": "27abacfdf32a576a6229f8795faa8e8743d63293855b585442836b962ce5b6b4"
+    },
+    {
+      "id": "smart.wizard-step",
+      "version": "1.0.2",
+      "file": "smart.wizard-step.json",
+      "manifest_sha256": "053686cd6f62f28550955c14098da7f8dd9c31474cf9231e3ea31352957a293e"
+    },
+    {
+      "id": "smart.admin-menu",
+      "version": "1.8.0",
+      "file": "smart.admin-menu.json",
+      "manifest_sha256": "c5aad1a79bd0b7ddaf502ce09786d091b85ca90a3f18a3db29b6ed6ab540fad6",
+      "source": "package:pro"
+    },
+    {
+      "id": "smart.chat-composer",
+      "version": "1.2.3",
+      "file": "smart.chat-composer.json",
+      "manifest_sha256": "315f5d4d50f74233c82061fee08ab7966139996ee19dab9d6255ea7e295057bd",
+      "source": "package:pro"
+    },
+    {
+      "id": "smart.chat-interlocutor",
+      "version": "1.0.7",
+      "file": "smart.chat-interlocutor.json",
+      "manifest_sha256": "6491be8b37152a09e934ffc35110e6cf661f772fbc1b720e1f447fdb340a2c83",
+      "source": "package:pro"
+    },
+    {
+      "id": "smart.chat-message",
+      "version": "1.7.7",
+      "file": "smart.chat-message.json",
+      "manifest_sha256": "5f74c60d8aaff539bb538b17dab1d2015e09e69d8a7f3c9694873acf7fc7650f",
+      "source": "package:pro"
+    },
+    {
+      "id": "smart.chat-threads",
+      "version": "2.0.2",
+      "file": "smart.chat-threads.json",
+      "manifest_sha256": "78a2d2c2eee99d0a2c977a8ec9fa6a20ef6785ca1be5687df40888a828478f55",
+      "source": "package:pro"
+    },
+    {
+      "id": "smart.chat-window",
+      "version": "1.14.2",
+      "file": "smart.chat-window.json",
+      "manifest_sha256": "f47a9e6c9f4e4900253e52949150be08e13a96c424177ff56628cca0a13bb0d3",
+      "source": "package:pro"
+    },
+    {
+      "id": "smart.editor",
+      "version": "1.2.3",
+      "file": "smart.editor.json",
+      "manifest_sha256": "36bd42cf26619d005260e632b92550aacbf1fe3f4846684c0540ce59ec31c422",
+      "source": "package:pro"
+    },
+    {
+      "id": "smart.editor-content",
+      "version": "1.4.7",
+      "file": "smart.editor-content.json",
+      "manifest_sha256": "2ae03e00a9b2beb23a52b37a28d61bb61fe4014e8085d190325407a7facd0a68",
+      "source": "package:pro"
+    },
+    {
+      "id": "smart.mail-canvas",
+      "version": "1.1.5",
+      "file": "smart.mail-canvas.json",
+      "manifest_sha256": "a0dc1ac7cb50bb3225103fc9a90bfefb7b1343a98eef788dbabd4deb9fa848a0",
+      "source": "package:pro"
+    },
+    {
+      "id": "smart.mail-inspector",
+      "version": "1.0.5",
+      "file": "smart.mail-inspector.json",
+      "manifest_sha256": "e10c06f3211b2b71229b3f09e473f91fadbb65cdfe44a5aef27ab75bbb114282",
+      "source": "package:pro"
+    },
+    {
+      "id": "smart.mail-letters",
+      "version": "1.0.6",
+      "file": "smart.mail-letters.json",
+      "manifest_sha256": "129b34d5a2a810cd3d5fa3ba454403186f62443a0f0fd2dc307436fd1e5c46e0",
+      "source": "package:pro"
+    },
+    {
+      "id": "smart.mail-library",
+      "version": "1.0.4",
+      "file": "smart.mail-library.json",
+      "manifest_sha256": "c0a5e929cf54d48e0617b93d9cfa71b654de75ae866bcbf3ced969437ad90074",
+      "source": "package:pro"
+    },
+    {
+      "id": "smart.mail-structure",
+      "version": "1.0.5",
+      "file": "smart.mail-structure.json",
+      "manifest_sha256": "3ef6b8337285be7b9a1b6062ff7f80308bd39b4eb6b5f93f1f990ae69fb2057e",
+      "source": "package:pro"
+    },
+    {
+      "id": "smart.message-log",
+      "version": "2.0.2",
+      "file": "smart.message-log.json",
+      "manifest_sha256": "5f5a87721655c2fe4584e2f1f5b0e02606541469f08b98e386ac424ced8b7b16",
+      "source": "package:pro"
+    },
+    {
+      "id": "smart.view",
+      "version": "1.10.0",
+      "file": "smart.view.json",
+      "manifest_sha256": "7603e2d31b92e91e6b8a625d7269bdeb4276334649886d15a5b2bd7a3480e6e2",
+      "source": "package:pro"
+    },
+    {
+      "id": "smart.view-properties",
+      "version": "1.13.2",
+      "file": "smart.view-properties.json",
+      "manifest_sha256": "cf34e8d626fa740ed3bfb470434b6a9d54bb176f708d5e56e3099fb5505d3fd5",
+      "source": "package:pro"
+    },
+    {
+      "id": "smart.view-table",
+      "version": "1.16.1",
+      "file": "smart.view-table.json",
+      "manifest_sha256": "b8cb2743d46e6f29eeebc0f9e2e4af072a815192ee78d223b70cf514ef68ebb4",
+      "source": "package:pro"
     }
   ],
-  "registry_sha256": "854202ff91ab78b6e4ba7365d9b4e91d4fe2747046249fbc0b09ac695fa8e7bd",
+  "registry_sha256": "2699a97ad99d726e6ce6aa1633f2fc8790b3731a28d022b062b77a3f0b5e99da",
   "registry_schema_sha256": "d5b0a5b299fa4b044d8125a315458c37de76f0bb5c6cb686962cdec7922b14ce"
 }

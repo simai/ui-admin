@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.popover",
-  "version": "1.1.5",
+  "version": "1.4.1",
   "title": "Popover",
   "summary": "A surface anchored to a control the consumer supplies, with its own open state, dismissal and returned focus. Built as a general part because the Framework had the surface and not the behaviour: two composites wrote it by hand within a week, the second copying the first.",
   "kind": "smart",
@@ -68,6 +68,11 @@
         "default": "",
         "description": "A width of its own. Left to its content a surface takes the width of its longest line, which a list of names makes wide and ragged."
       },
+      "offset": {
+        "type": "string",
+        "default": "",
+        "description": "The gap between the trigger and the surface: a token (var(--sf-space-1\\/3)) or a CSS length. Left empty, the surface touches the trigger as before."
+      },
       "dismissible": {
         "type": "boolean",
         "default": true,
@@ -116,9 +121,16 @@
       "summary": "Open or close it; a boolean forces one or the other.",
       "arguments": [
         {
-          "name": "force",
+          "name": "args",
+          "type": "object|boolean",
+          "required": false,
           "schema": {
-            "type": "boolean"
+            "type": "object",
+            "properties": {
+              "force": {
+                "type": "boolean"
+              }
+            }
           }
         }
       ],
@@ -139,15 +151,22 @@
       "summary": "Close it.",
       "arguments": [
         {
-          "name": "reason",
+          "name": "args",
+          "type": "object",
+          "required": false,
           "schema": {
-            "enum": [
-              "close",
-              "escape",
-              "outside",
-              "cancelled",
-              "api"
-            ]
+            "type": "object",
+            "properties": {
+              "reason": {
+                "enum": [
+                  "close",
+                  "escape",
+                  "outside",
+                  "cancelled",
+                  "api"
+                ]
+              }
+            }
           }
         }
       ],
@@ -331,7 +350,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/popover/index.js",
-        "sha256": "3d5e23246aa29a16b82daec87ec261e343a378c98a5f7f7243cf8d94d32d3f3f"
+        "sha256": "508388ecca460e943450c06d0bd995ba3c3a1770fdbef4ebf8419a4f4c261c2f"
       },
       {
         "path": "src/smart/popover/rule.js",
@@ -343,7 +362,7 @@
       },
       {
         "path": "src/smart/popover/js/templates/default.css",
-        "sha256": "a875e07234779d925bd2ce53744bedd2d237bda5a09f5a73790de37c8242a15c"
+        "sha256": "90d09ac745c36d2dcd2f02368e7497ab129dfbd18b010889ab885d68f0533007"
       }
     ],
     "generated_runtime": []

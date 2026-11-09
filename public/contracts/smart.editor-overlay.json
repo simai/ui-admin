@@ -1,0 +1,995 @@
+{
+  "schema_version": 2,
+  "id": "smart.editor-overlay",
+  "version": "1.7.1",
+  "title": "Composition overlay",
+  "summary": "The editor's layer over a rendered Composition Document: hover and selection frames, a toolbar of the node's actions, insertion places, moves by pointer and keyboard and a structure tree; the canvas is never changed and the host performs every change.",
+  "kind": "smart",
+  "reuse_mode": "whole",
+  "lifecycle": "experimental",
+  "tags": [
+    "composition",
+    "editor",
+    "overlay"
+  ],
+  "capabilities": [
+    "interaction",
+    "keyboard",
+    "responsive",
+    "theme"
+  ],
+  "custom_element": "sf-editor-overlay",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [
+      "smart.button-icon",
+      "smart.sortable",
+      "smart.tooltip"
+    ],
+    "public_parts": []
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "template": {
+        "type": "string",
+        "default": "default",
+        "description": "Template variant name for SfBaseElement external templates."
+      },
+      "root-class": {
+        "type": "string",
+        "default": "",
+        "description": "Classes added to the root element the component draws."
+      },
+      "root-style": {
+        "type": "string",
+        "default": "",
+        "description": "Inline style declarations set on the root element the component draws, custom properties included."
+      },
+      "for": {
+        "type": "string",
+        "default": "",
+        "description": "The id of the canvas element the overlay draws over"
+      },
+      "frame": {
+        "type": "string",
+        "default": "",
+        "description": "The id of a same-origin iframe canvas (framed mode, fed by setNodes)"
+      },
+      "accepts": {
+        "type": "string",
+        "default": "",
+        "description": "sf-sortable groups whose items may be dropped on the canvas, separated by spaces"
+      },
+      "label": {
+        "type": "string",
+        "default": "",
+        "description": "The structure tree's name; the language file's runtime.tree otherwise"
+      },
+      "placement": {
+        "type": "string",
+        "default": "top",
+        "description": "Where the toolbar stands: top, above the block and right-aligned, the default; side, beside the block on a host with room beside it, above the block where there is none",
+        "enum": [
+          "top",
+          "side"
+        ]
+      },
+      "passive": {
+        "type": "boolean",
+        "default": false,
+        "description": "Takes no input on the canvas while on: clicks, double clicks, keys, hover and drops reach the page (an editor the host placed in a chosen block), the selection is kept and the selected frame stays drawn; the toolbar, insertion points and move handle step aside and the tree leaves the Tab order. Off again, the overlay reads input as before"
+      },
+      "actions": {
+        "type": "array",
+        "default": [],
+        "description": "The selected node's actions: up to 16 {id, label} with optional icon, shortcut, disabled and tone; written through the same check as setActions"
+      },
+      "messages": {
+        "type": "object",
+        "default": {},
+        "description": "The host's own words over the language file's; written through setMessages"
+      },
+      "insertion-target": {
+        "type": "object",
+        "default": {},
+        "description": "The insertion place the host keeps marked {parent_id, slot, index}; written through setInsertionTarget"
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {},
+  "contracts": {
+    "canvas": {
+      "type": "object",
+      "description": "The canvas holds host-rendered Composition HTML with data-sf-composition-id; the overlay never writes into it, so published HTML and digests are identical with the editor open or closed. Place the overlay before the canvas, inside the scroller that scrolls it: its tree comes first in Tab order and its parts travel with the content."
+    },
+    "actions": {
+      "type": "array",
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "label"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]{0,63}$"
+          },
+          "label": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{0,63}$"
+          },
+          "shortcut": {
+            "type": "string"
+          },
+          "disabled": {
+            "type": "boolean"
+          },
+          "tone": {
+            "type": "string",
+            "enum": [
+              "danger"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "browser_api": {
+      "type": "object",
+      "description": "Once loaded, SF.CompositionOverlay exposes OVERLAY_EVENTS, overlayNodes(document), checkOverlayActions(actions) and checkOverlayNodes(nodes)."
+    },
+    "frame_canvas": {
+      "type": "object",
+      "description": "Framed mode: the canvas is a same-origin iframe (sandbox allow-same-origin is enough; the frame needs no script). The overlay reads the frame's document, listens to its pointer, key, scroll and resize events and maps frame coordinates to the host through the iframe's position, border, padding, transform or zoom and the frame's scroll. It writes nothing into the frame except a temporary contenteditable on the element being edited. A frame that reloads (srcdoc) is listened to again on load; the host then calls setNodes with the new document's elements."
+    },
+    "nodes": {
+      "type": "array",
+      "description": "Framed mode's flat node list, in selection order. element is a node inside the frame document; rect is in frame-document coordinates (viewport box plus the frame's scroll). parent names another node of the list (siblings share a parent; the top level has none). editable allows plain-string inline editing of the element.",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "kind"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "type": "string",
+            "minLength": 1
+          },
+          "rect": {
+            "type": "object",
+            "required": [
+              "x",
+              "y",
+              "width",
+              "height"
+            ],
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "width": {
+                "type": "number",
+                "minimum": 0
+              },
+              "height": {
+                "type": "number",
+                "minimum": 0
+              }
+            },
+            "additionalProperties": false
+          },
+          "element": {
+            "type": "object",
+            "description": "Element of the frame document"
+          },
+          "label": {
+            "type": "string"
+          },
+          "parent": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "editable": {
+            "type": "boolean",
+            "description": "Requires element"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "methods": {
+    "attach": {
+      "summary": "Draws over a canvas element; the canvas is never modified",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "canvas": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "canvas"
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "attachFrame": {
+      "summary": "Draws over a same-origin iframe canvas fed by set-nodes",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "iframe": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "iframe"
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "setDocument": {
+      "summary": "Reads a Composition Document's nodes",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "document": {
+                "type": "object"
+              },
+              "options": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "document",
+              "options"
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "setNodes": {
+      "summary": "Reads a flat node list (framed mode)",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nodes": {
+                "type": "array"
+              },
+              "options": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "nodes",
+              "options"
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "setDropFilter": {
+      "summary": "filter({parent_id, slot, index}, item) hides the places a drop may not take",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "filter": {
+                "type": "object",
+                "description": "A function (place, item) => boolean; place is {parent_id, slot, index}"
+              }
+            },
+            "required": [
+              "filter"
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "setActions": {
+      "summary": "Writes the selected node's actions (the actions setting)",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "actions": {
+                "type": "array"
+              }
+            },
+            "required": [
+              "actions"
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "setMessages": {
+      "summary": "Writes the host's own words (the messages setting)",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "messages": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "messages"
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "setInsertionTarget": {
+      "summary": "Writes the marked insertion place (the insertion-target setting)",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "target": {
+                "type": [
+                  "object",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "target"
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "select": {
+      "summary": "Selects a node; {focus, emit}",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "id": {},
+              "options": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "id",
+              "options"
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "edit": {
+      "summary": "Starts a plain-string edit of an editable node",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "type": "boolean"
+      }
+    },
+    "refresh": {
+      "summary": "Measures the canvas again",
+      "arguments": [],
+      "returns": {
+        "type": [
+          "object",
+          "boolean",
+          "null"
+        ]
+      }
+    }
+  },
+  "events": {
+    "sf-editor-overlay-select": {
+      "summary": "A node was selected (or the selection cleared): vocabulary 1.1.5 §5 select; the detail keeps node_id for the composition host",
+      "payload": {
+        "type": "object",
+        "required": [
+          "ids",
+          "id",
+          "node_id"
+        ],
+        "properties": {
+          "ids": {
+            "type": "array"
+          },
+          "id": {},
+          "node_id": {
+            "description": "The selected node id, null when the selection cleared; kept for the composition host (the Document mode reads it)"
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-editor-overlay-apply": {
+      "summary": "An action of the toolbar was chosen for the selected node: one entry's own action (vocabulary §5 apply, standard §18.3)",
+      "payload": {
+        "type": "object",
+        "required": [
+          "action",
+          "scope",
+          "ids"
+        ],
+        "properties": {
+          "action": {
+            "type": "string"
+          },
+          "scope": {
+            "const": "entry"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-editor-overlay-insert": {
+      "summary": "An insertion point was chosen, or a library item dropped on the canvas: the place {parent, slot, index} and the item when one was dragged; the detail keeps parent_id for the composition host",
+      "payload": {
+        "type": "object",
+        "required": [
+          "parent",
+          "slot",
+          "index",
+          "parent_id"
+        ],
+        "properties": {
+          "parent": {},
+          "slot": {
+            "type": "string"
+          },
+          "index": {
+            "type": "integer"
+          },
+          "item": {
+            "type": "string"
+          },
+          "from": {
+            "type": "string"
+          },
+          "mode": {
+            "enum": [
+              "move",
+              "copy"
+            ]
+          },
+          "parent_id": {
+            "description": "The parent node of the place; kept for the composition host (the Document mode reads it)"
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-editor-overlay-move": {
+      "summary": "A node was moved to a place by pointer or keyboard: one manual move (vocabulary §5 move, {id, parent, position}); the detail keeps node_id, parent_id and index for the composition host",
+      "payload": {
+        "type": "object",
+        "required": [
+          "ids",
+          "id",
+          "parent",
+          "position",
+          "slot",
+          "node_id",
+          "parent_id",
+          "index"
+        ],
+        "properties": {
+          "ids": {
+            "type": "array"
+          },
+          "id": {},
+          "parent": {},
+          "position": {
+            "type": "number"
+          },
+          "slot": {
+            "type": "string"
+          },
+          "node_id": {
+            "description": "The moved node; kept for the composition host (the Document mode reads it)"
+          },
+          "parent_id": {
+            "description": "The new parent node; kept for the composition host (the Document mode reads it)"
+          },
+          "index": {
+            "type": "integer",
+            "description": "The place among the parent slot children; kept for the composition host (the Document mode reads it)"
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-editor-overlay-change": {
+      "summary": "A plain-string edit was committed; cancelled, the text shows what it showed before",
+      "payload": {
+        "type": "object",
+        "required": [
+          "id",
+          "value",
+          "previous"
+        ],
+        "properties": {
+          "id": {},
+          "value": {
+            "type": "string"
+          },
+          "previous": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-editor-overlay-open": {
+      "summary": "The person asked to open a node: a second click on the chosen node, a double click on a node, or Enter on the chosen node in the tree (vocabulary 1.1.5 §5 open). Sent once per gesture and never while passive; an editable node of a framed canvas opens by its own plain-string edit instead",
+      "payload": {
+        "type": "object",
+        "required": [
+          "ids",
+          "id",
+          "node",
+          "point",
+          "trigger"
+        ],
+        "properties": {
+          "ids": {
+            "type": "array"
+          },
+          "id": {},
+          "node": {
+            "description": "The node to open; the same id as id"
+          },
+          "point": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "{x, y} in canvas coordinates: from the canvas element's border box corner, or a framed canvas's viewport (the frame document's client coordinates); the pointer for a click or a double click, the centre of the node's box for Enter; null when it cannot be measured"
+          },
+          "trigger": {
+            "enum": [
+              "click",
+              "dblclick",
+              "enter"
+            ],
+            "description": "What asked: a second click on the chosen node, a double click, or Enter in the tree"
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-composition-overlay-action": {
+      "summary": "Dated alias of sf-composition-overlay-apply until 2026-12-01: A toolbar action was chosen. Its detail is the former one, {action_id, node_id}, not sf-composition-overlay-apply's {action, scope, ids}.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "action_id",
+          "node_id"
+        ],
+        "properties": {
+          "action_id": {
+            "type": "string"
+          },
+          "node_id": {
+            "type": "string"
+          }
+        }
+      },
+      "alias_of": "sf-editor-overlay-apply"
+    },
+    "sf-composition-overlay-edit": {
+      "summary": "Dated alias of sf-composition-overlay-change until 2026-12-01: A plain-string inline edit was committed with a changed value (framed mode). Cancelable: preventDefault puts the previous text back. Its detail is the former one, {node_id, value, previous}, not sf-composition-overlay-change's {id, value, previous}.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "node_id",
+          "value",
+          "previous"
+        ],
+        "properties": {
+          "node_id": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "previous": {
+            "type": "string"
+          }
+        }
+      },
+      "alias_of": "sf-editor-overlay-change"
+    },
+    "sf-composition-overlay-select": {
+      "summary": "Dated alias of sf-editor-overlay-select until 2027-01-01 (same-detail).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-editor-overlay-select"
+    },
+    "sf-composition-overlay-apply": {
+      "summary": "Dated alias of sf-editor-overlay-apply until 2027-01-01 (same-detail).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-editor-overlay-apply"
+    },
+    "sf-composition-overlay-insert": {
+      "summary": "Dated alias of sf-editor-overlay-insert until 2027-01-01 (same-detail).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-editor-overlay-insert"
+    },
+    "sf-composition-overlay-move": {
+      "summary": "Dated alias of sf-editor-overlay-move until 2027-01-01 (same-detail).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-editor-overlay-move"
+    },
+    "sf-composition-overlay-change": {
+      "summary": "Dated alias of sf-editor-overlay-change until 2027-01-01 (same-detail).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-editor-overlay-change"
+    },
+    "sf-composition-overlay-open": {
+      "summary": "Dated alias of sf-editor-overlay-open until 2027-01-01 (same-detail).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-editor-overlay-open"
+    }
+  },
+  "state": {
+    "machines": {
+      "move": [
+        "idle",
+        "picking",
+        "dropped",
+        "cancelled"
+      ],
+      "edit": [
+        "idle",
+        "editing",
+        "committed",
+        "cancelled"
+      ]
+    },
+    "visual_states": [
+      "default",
+      "selected",
+      "active"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "host",
+    "network_owner": "none",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-source",
+    "data": "host",
+    "effects": "host",
+    "forbidden_client_responsibilities": [
+      "backend access decisions",
+      "host route invention",
+      "saving or reordering host data"
+    ]
+  },
+  "security": {
+    "permissions_owner": "host",
+    "untrusted_inputs": [
+      "props",
+      "children"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": "tree",
+    "accessible_name": "recommended",
+    "keyboard": [
+      "ArrowUp",
+      "ArrowDown",
+      "ArrowLeft",
+      "ArrowRight",
+      "Home",
+      "End",
+      "Enter",
+      "Space",
+      "Escape"
+    ],
+    "focus": "The tree has one treeitem per node; arrows move in document order and between parent and child, Enter opens the toolbar and sends open for the chosen node, Escape returns or clears. Space starts a keyboard move, arrows choose a place, Enter drops, Escape cancels. Selection and moves are announced. In framed mode the tree follows the node list order, pointer and keys inside the frame select too, Enter on an editable node starts plain-text editing in the frame (Enter commits, Escape cancels, focus returns to the tree), and Escape gives way to an inner open surface. While passive the tree is out of the Tab order and reads no key."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "ru",
+      "en"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile",
+      "ltr",
+      "rtl",
+      "reduced-motion"
+    ],
+    "skeleton": {
+      "shape": "none",
+      "while_loading": "none"
+    }
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [
+      "studio.fixture.json"
+    ],
+    "scenarios": [
+      "studio.scenario.json"
+    ]
+  },
+  "readiness": {
+    "level": "runnable",
+    "required_checks": [
+      "manifest",
+      "fixture",
+      "runtime-upgrade",
+      "scenario-smoke",
+      "keyboard",
+      "responsive",
+      "a11y"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
+      "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
+    },
+    "aliases": [
+      "<sf-composition-overlay>"
+    ],
+    "deprecations": [
+      {
+        "path": "<sf-composition-overlay>",
+        "since": "1.4.0",
+        "replacement": "<sf-editor-overlay>"
+      }
+    ],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-source",
+    "source_revision": "38559ce2a0e50b559ede7c7030676e11862d62d2",
+    "source_artifacts": [
+      {
+        "path": "src/smart/editor-overlay/index.js",
+        "sha256": "1e1369185c9e31e038f27e73b5f19ea02c0811608b26299023e7d1de305c7d57"
+      },
+      {
+        "path": "src/smart/editor-overlay/scss/_smart__composition-overlay.scss",
+        "sha256": "fcc81e231fe669eec782bbb43306e8388f6b5740f25c4fd4d2c39a4cc9e0f76a"
+      },
+      {
+        "path": "src/smart/editor-overlay/rule.js",
+        "sha256": "9d3ac5228b1ba97fb462a0fa9570a9265fd4391ef5938648b71142fb41bdec83"
+      },
+      {
+        "path": "src/smart/editor-overlay/docs.md",
+        "sha256": "87ded8e0180d50aa906cbcc743001f64c9374a8b93c8f8b20127a2fc00d43625"
+      },
+      {
+        "path": "src/core/js/composition/overlay.mjs",
+        "sha256": "b7a7e3433c4c7a31b2d8e9495ef9cf4440f711802269e7294255b79a68337cf8"
+      },
+      {
+        "path": "src/core/js/composition/sortable.mjs",
+        "sha256": "86ea4556fdcbccd34fc235f7caed26da558399694049e5dde13ec089ad277b56"
+      },
+      {
+        "path": "src/core/js/composition/canonical.mjs",
+        "sha256": "aa6b44b2b81fc71040a32c6d8521201b7b8f23881ba2844c5a749b2e6ba3587c"
+      },
+      {
+        "path": "src/core/js/open-surface-mark.js",
+        "sha256": "31e76ae99e3e8085e1a05a24e84a68b9518f02567fce56f2fc68133db09fac57"
+      },
+      {
+        "path": "src/core/js/layer-stack.js",
+        "sha256": "3d3886c944241ff09940f7adbbeca903508a5737036e25c6e775c988f581f617"
+      }
+    ],
+    "generated_runtime": []
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-composition-overlay on an editor page over SF.Composition.render output. Treat every event as intent: the host changes the Document, saves it with an expected revision, validates and re-renders. For a canvas isolated in a same-origin iframe (a mail letter), use attachFrame (or frame=\"id\") and setNodes with a flat node list; edits arrive as sf-composition-overlay-edit.",
+    "do_not": [
+      "Do not copy generated ui-smart code",
+      "Do not write editor markup into the canvas HTML",
+      "Do not treat setDropFilter as validation; Document validation stays authoritative",
+      "Do not put the overlay after the canvas in Tab order",
+      "Do not expect the overlay to keep an edited text: it raises the intent, the host updates its model and re-renders the frame",
+      "Do not point the framed mode at a cross-origin frame"
+    ],
+    "required_reads": [
+      "inputs",
+      "contracts",
+      "methods",
+      "events",
+      "ownership",
+      "provenance"
+    ],
+    "minimal_example": "<sf-editor-overlay id=\"overlay\" for=\"canvas\" accepts=\"blocks\"></sf-editor-overlay><div id=\"canvas\"></div>",
+    "owner_commands": [
+      "npm run contract:verify",
+      "npm test"
+    ]
+  }
+}

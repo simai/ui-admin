@@ -1,0 +1,2835 @@
+{
+  "schema_version": 2,
+  "id": "smart.chat-window",
+  "version": "1.14.2",
+  "title": "Chat window",
+  "summary": "A whole chat window on the host port simai.chat-port 1.0.0: the conversations (archive, paging, search, pinning), the open conversation with its messages, proposals, ratings and task briefs, the field with its files and the questions queued while an answer is awaited, the search within the conversation, whom one talks to, and «Мои файлы». It never talks to a server: the host gives the data and answers each intent, through the port or the settle action.",
+  "kind": "smart",
+  "reuse_mode": "whole",
+  "lifecycle": "experimental",
+  "tags": [
+    "chat",
+    "messaging",
+    "assistant",
+    "composite"
+  ],
+  "capabilities": [
+    "conversation",
+    "keyboard",
+    "responsive",
+    "host-port"
+  ],
+  "custom_element": "sf-chat-window",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [
+      "component.avatars",
+      "component.buttons",
+      "component.icon-buttons",
+      "component.inputs",
+      "smart.avatar",
+      "smart.button",
+      "smart.chat-composer",
+      "smart.chat-interlocutor",
+      "smart.chat-message",
+      "smart.chat-threads",
+      "smart.confirm-change",
+      "smart.empty-state",
+      "smart.icon",
+      "smart.input",
+      "smart.input-lookup",
+      "smart.list-feed",
+      "smart.menu-context",
+      "smart.progress-bar"
+    ],
+    "public_parts": [],
+    "declarative": {
+      "standard": "simai.composition.document.v1",
+      "type": "smart.chat-window",
+      "mode": "leaf",
+      "profiles": [
+        "ui-layout"
+      ],
+      "props": [
+        "template",
+        "capabilities",
+        "landmark",
+        "heading-level",
+        "embedded",
+        "no-queue",
+        "feed-state"
+      ],
+      "data": {},
+      "events": [
+        "sf-chat-window-open",
+        "sf-chat-window-load-more",
+        "sf-chat-window-submit",
+        "sf-chat-window-retry",
+        "sf-chat-window-save",
+        "sf-chat-window-delete",
+        "sf-chat-window-read",
+        "sf-chat-window-rate",
+        "sf-chat-window-answer",
+        "sf-chat-window-check",
+        "sf-chat-window-stop",
+        "sf-chat-window-create",
+        "sf-chat-window-rename",
+        "sf-chat-window-archive",
+        "sf-chat-window-restore",
+        "sf-chat-window-select",
+        "sf-chat-window-query",
+        "sf-chat-window-pin",
+        "sf-chat-window-attach",
+        "sf-chat-window-detach",
+        "sf-chat-window-settled",
+        "sf-chat-window-toggle",
+        "sf-chat-window-react",
+        "sf-chat-window-apply"
+      ],
+      "persistence": {
+        "settings_key_prop": null,
+        "revision_prop": null
+      },
+      "presentation": {
+        "views": [
+          "default"
+        ],
+        "presets": [],
+        "modifiers": []
+      },
+      "slots": {},
+      "renderer": {
+        "kind": "custom-element",
+        "name": "sf-chat-window"
+      },
+      "assets": [
+        "smart/chat-window"
+      ],
+      "host_port": {
+        "port": "simai.chat-port",
+        "version": "1.0.0",
+        "path": "src/core/contracts/ports/simai.chat-port/1.0.0/port.json",
+        "sha256": "010590422d484a734e07155142c3e14e8a592d57310547e76209889e4feff09f",
+        "supported_versions": [
+          "1.0.0"
+        ]
+      }
+    }
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "template": {
+        "type": "string",
+        "default": "default",
+        "description": "Template variant name for SfBaseElement external templates."
+      },
+      "root-class": {
+        "type": "string",
+        "default": "",
+        "description": "Classes added to the root element the component draws."
+      },
+      "root-style": {
+        "type": "string",
+        "default": "",
+        "description": "Inline style declarations set on the root element the component draws, custom properties included."
+      },
+      "capabilities": {
+        "type": "string",
+        "default": "",
+        "description": "The port capabilities the host offers, space-separated (assistant, people, files, edit, delete, feedback, proposals, conversation-create, conversation-manage, interlocutors, read), and the window extensions (x-archive-view, x-conversations-paging, x-conversations-search, x-conversation-pin, x-early-upload, x-my-files, x-brief, x-conversation-start, x-members, x-members-manage, x-reactions, x-reply, x-threads, x-blocks). What is not declared is not offered, and its intent is answered unavailable without an event. The property also takes an array."
+      },
+      "landmark": {
+        "type": "string",
+        "default": "main",
+        "description": "main when the window is the page; section inside a page that has its own main.",
+        "enum": [
+          "main",
+          "section"
+        ]
+      },
+      "heading-level": {
+        "type": "integer",
+        "default": 1,
+        "description": "The level of the window's own headings (the conversation, the greeting): 2 inside someone else's page.",
+        "minimum": 1,
+        "maximum": 2
+      },
+      "embedded": {
+        "type": "boolean",
+        "default": false,
+        "description": "Embedded in a host page: the window takes the container's height and draws its own edge."
+      },
+      "no-queue": {
+        "type": "boolean",
+        "default": false,
+        "description": "Turns the queue off: while an answer is awaited the field sends nothing and says why, as before 1.1.0."
+      },
+      "feed-state": {
+        "type": "string",
+        "default": "ready",
+        "description": "port data feed_state: loading draws the column anew, revoked clears the feed, the draft and anything unsent; set as a property (feedState, or the port's feed_state)",
+        "enum": [
+          "ready",
+          "loading",
+          "revoked"
+        ]
+      },
+      "me": {
+        "type": "object",
+        "description": "port data me {id, name}: who reads"
+      },
+      "conversations": {
+        "type": "array",
+        "default": [],
+        "description": "port data conversations [{id, title, type, interlocutor, unread_count, updated_at, archived, pinned}], newest first; pinned is x-conversation-pin's"
+      },
+      "conversation": {
+        "type": "object",
+        "description": "port data conversation: the open one {id, title, interlocutor, can_send, archived, revoked}, null when none is open"
+      },
+      "messages": {
+        "type": "array",
+        "default": [],
+        "description": "port data messages: the open conversation's, oldest first (kind person|assistant, body, html, files, status, stage, wait, sources, verification, notices, proposal, feedback, summary, limit_resets_at, brief, local)"
+      },
+      "history": {
+        "type": "object",
+        "default": {
+          "has_older": false
+        },
+        "description": "port data history {has_older}"
+      },
+      "limits": {
+        "type": "object",
+        "default": {},
+        "description": "port data limits {body_chars, files_per_message, file_bytes, file_types}; with x-conversation-start the window's own group {title_chars, members_max, search_min, search_max, query_chars?}, by default 120, 49, 2, 20, 80 Between people (1.5.0) limits.message_chars, the module's name for it, is read before body_chars; both the field and the editor take the one limit, 4000 when neither is given."
+      },
+      "interlocutors": {
+        "type": "array",
+        "default": [],
+        "description": "port data interlocutors [{id, title, greeting, suggestions, capabilities {attachments, proposals, memory}}]: the first is the usual one"
+      },
+      "notice": {
+        "type": "object",
+        "description": "port data notice {kind: info|error, text, retry}: a line above the field, an error with «Повторить» when retry is a function"
+      },
+      "conversation-list": {
+        "type": "object",
+        "default": {
+          "archived": false,
+          "has_more": false,
+          "loading": false
+        },
+        "description": "the window's data (x-archive-view, x-conversations-paging, x-conversations-search) {archived, has_more, loading, query}: which list is shown, whether it has a next page, whether it loads, what it was searched for"
+      },
+      "composer-files": {
+        "type": "array",
+        "default": [],
+        "description": "the window's data (x-early-upload): the field's chips in the port's file form {key, id, name, size, state: uploading|ready|failed, progress, reason}"
+      },
+      "my-files": {
+        "type": "object",
+        "description": "the window's data (x-my-files) {files [{id, name, size, type, created_at, saved_to_base, download_url}], used_bytes, quota_bytes}; download_url is the host's, never built here"
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {},
+  "contracts": {
+    "port": {
+      "const": "simai.chat-port 1.0 (ui-source's src/core/contracts/ports/simai.chat-port/1.0.0/port.json); the window's own capabilities x-archive-view, x-conversations-paging, x-conversations-search, x-conversation-pin, x-early-upload, x-my-files, x-brief, x-reactions, x-reply and data conversation_list, composer_files, my_files beside it, not in it"
+    }
+  },
+  "methods": {
+    "setData": {
+      "summary": "several of the port's data at once, by the port's names or the settings'; unknown keys are ignored (the 0.3 applyData(partial), kept as the method) (action set-data; answers an outcome)",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "data"
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "settle": {
+      "summary": "a host without a port answers an intent: result {answer, reason, text, data, current}; refused unknown-request when nothing waits under that id (the 0.3 answer(request_id, result), kept as the method) (action settle; answers an outcome)",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string"
+              },
+              "result": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "requestId",
+              "result"
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "startConversation": {
+      "summary": "«Новый разговор» from the page's own button (port conversation.create); answers once the host did (action start-conversation; answers an outcome)",
+      "arguments": [],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "openConversation": {
+      "summary": "open a conversation (port conversation.open) (action open-conversation; answers an outcome)",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object|string",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "id": {}
+            },
+            "required": [
+              "id"
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "focusComposer": {
+      "summary": "the field (the page's skip link); from «Мои файлы» it is the way back (action focus-composer; answers an outcome)",
+      "arguments": [],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "openFiles": {
+      "summary": "«Мои файлы» in place of the conversation (x-my-files); refused capability-not-provided without it (action open-files; answers an outcome)",
+      "arguments": [],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "closeFiles": {
+      "summary": "back to the conversation; focus false leaves the focus where it is (action close-files; answers an outcome)",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object",
+          "required": false,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "focus": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      ],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "setListFooter": {
+      "summary": "what the page shows under the list of conversations, after «Мои файлы» (Mirai24: the spending); null takes it away (action set-list-footer; answers an outcome)",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "node": {
+                "type": [
+                  "object",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "node"
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "openFind": {
+      "summary": "Open the search in the conversation, focus in its field; query searches at once (action open-find; answers an outcome).",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object",
+          "required": false,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "closeFind": {
+      "summary": "Close the search in the conversation; the focus returns to what opened it (action close-find; answers an outcome).",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object",
+          "required": false,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "focus": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      ],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "openPreview": {
+      "summary": "Open the source preview beside the conversation (action open-preview; answers an outcome).",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "source": {
+                "type": "object",
+                "description": "{title, kind, preview_url, locator, mime, n?}: preview_url of the page's origin; locator {from, to} characters of the text, or {page} of a PDF."
+              }
+            },
+            "required": [
+              "source"
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "closePreview": {
+      "summary": "Close the source preview; the focus returns to what opened it (action close-preview; answers an outcome).",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object",
+          "required": false,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "focus": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      ],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "openStart": {
+      "summary": "the form of a new conversation or group in place of the conversation (x-conversation-start); kind private, the default, or group; refused capability-not-provided without it (action open-start; answers an outcome)",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object|string",
+          "required": false,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "enum": [
+                  "private",
+                  "group"
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "closeStart": {
+      "summary": "closes the form; focus false leaves the focus where it is, else it returns to the command that opened it (action close-start; answers an outcome)",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object",
+          "required": false,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "focus": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      ],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "openMembers": {
+      "summary": "a group's members in place of the conversation (x-members); refused capability-not-provided without it, no-members when the open conversation is no group (action open-members; answers an outcome)",
+      "arguments": [],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "closeMembers": {
+      "summary": "closes the members; focus false leaves the focus where it is, else it returns to the command that opened it (action close-members; answers an outcome)",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object",
+          "required": false,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "focus": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      ],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "focus": {
+      "summary": "The base's focus.",
+      "arguments": [
+        {
+          "name": "options",
+          "required": false,
+          "schema": {
+            "type": "object"
+          }
+        }
+      ],
+      "returns": {
+        "type": "null"
+      }
+    },
+    "applyData": {
+      "summary": "Set several of the port's data at once (and the extension data); unknown keys are ignored. Each datum is also a property of its own name. Kept from 0.3; the action set-data is its manifest form.",
+      "arguments": [
+        {
+          "name": "partial",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "description": "Any of the port data (me, conversations, conversation, messages, history, feed_state, limits, interlocutors, notice) and the extension data (conversation_list, composer_files, my_files).",
+            "properties": {
+              "me": {
+                "type": "object",
+                "required": [
+                  "id"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "type": [
+                      "integer",
+                      "string"
+                    ]
+                  },
+                  "name": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              },
+              "conversations": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "id",
+                    "title"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": [
+                        "integer",
+                        "string"
+                      ]
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "enum": [
+                        "assistant",
+                        "private",
+                        "group"
+                      ]
+                    },
+                    "interlocutor": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "unread_count": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "updated_at": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "archived": {
+                      "type": "boolean"
+                    },
+                    "pinned": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              },
+              "conversation": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "id",
+                      "can_send"
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": [
+                          "integer",
+                          "string"
+                        ]
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "enum": [
+                          "assistant",
+                          "private",
+                          "group"
+                        ]
+                      },
+                      "role": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "can_send": {
+                        "type": "boolean"
+                      },
+                      "can_manage": {
+                        "type": "boolean"
+                      },
+                      "can_leave": {
+                        "type": "boolean"
+                      },
+                      "revoked": {
+                        "type": "boolean",
+                        "description": "Access is gone: the component clears the feed, the draft and anything unsent."
+                      }
+                    }
+                  }
+                ]
+              },
+              "messages": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "id",
+                    "kind",
+                    "author"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": [
+                        "integer",
+                        "string",
+                        "null"
+                      ],
+                      "description": "null only for a send not yet stored (then local is required)."
+                    },
+                    "kind": {
+                      "enum": [
+                        "person",
+                        "assistant"
+                      ],
+                      "description": "person: written by a person (the reader or another); assistant: an answer of an AI assistant."
+                    },
+                    "author": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "id"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": [
+                            "integer",
+                            "string"
+                          ]
+                        },
+                        "name": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "avatar_url": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "own": {
+                          "type": "boolean",
+                          "description": "The reader wrote it."
+                        }
+                      }
+                    },
+                    "body": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": "Plain text; shown as text, line breaks kept."
+                    },
+                    "html": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": "assistant only: server HTML, sanitized again by the component."
+                    },
+                    "created_at": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "format": "date-time",
+                      "description": "Omitted when the host does not know it; the component never invents a time."
+                    },
+                    "status": {
+                      "enum": [
+                        "queued",
+                        "running",
+                        "completed",
+                        "partial",
+                        "refused",
+                        "withheld",
+                        "failed",
+                        "limit"
+                      ],
+                      "description": "assistant only."
+                    },
+                    "stage": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "sources": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "verification": {
+                      "type": [
+                        "object",
+                        "null"
+                      ]
+                    },
+                    "notices": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "proposal": {
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "description": "capability proposals: a change applied only on the confirmed command."
+                    },
+                    "files": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "name"
+                        ],
+                        "properties": {
+                          "id": {
+                            "type": [
+                              "integer",
+                              "string"
+                            ]
+                          },
+                          "key": {
+                            "type": "string",
+                            "description": "Local opaque key of a file not yet stored (a failed upload); never sent to download or delete."
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "size": {
+                            "type": [
+                              "integer",
+                              "null"
+                            ]
+                          },
+                          "mime": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "download_url": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "description": "The host's own protected link, as given; the component never builds one."
+                          },
+                          "state": {
+                            "enum": [
+                              "uploading",
+                              "failed",
+                              "ready"
+                            ]
+                          },
+                          "progress": {
+                            "type": [
+                              "number",
+                              "null"
+                            ],
+                            "minimum": 0,
+                            "maximum": 1
+                          }
+                        }
+                      }
+                    },
+                    "is_edited": {
+                      "type": "boolean"
+                    },
+                    "is_deleted": {
+                      "type": "boolean",
+                      "description": "A tombstone: no body, no files."
+                    },
+                    "revision": {
+                      "type": [
+                        "integer",
+                        "string"
+                      ]
+                    },
+                    "can_edit": {
+                      "type": "boolean"
+                    },
+                    "can_delete": {
+                      "type": "boolean"
+                    },
+                    "command": {
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "description": "A message sent for a button (a proposal's command): {kind: confirm|cancel, code}."
+                    },
+                    "local": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "client_key",
+                        "action",
+                        "state"
+                      ],
+                      "properties": {
+                        "client_key": {
+                          "type": "string"
+                        },
+                        "action": {
+                          "enum": [
+                            "send",
+                            "edit",
+                            "delete"
+                          ]
+                        },
+                        "state": {
+                          "enum": [
+                            "pending",
+                            "failed",
+                            "sent"
+                          ]
+                        },
+                        "body": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "description": "An edit's typed text; kept on failure and conflict."
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "history": {
+                "type": "object",
+                "required": [
+                  "has_older"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "has_older": {
+                    "type": "boolean"
+                  },
+                  "loading": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "feed_state": {
+                "enum": [
+                  "loading",
+                  "ready",
+                  "error",
+                  "revoked"
+                ]
+              },
+              "limits": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "body_chars": {
+                    "type": "integer"
+                  },
+                  "files_per_message": {
+                    "type": "integer"
+                  },
+                  "file_bytes": {
+                    "type": "integer"
+                  },
+                  "file_types": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "interlocutors": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "title"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "kind": {
+                      "type": "string"
+                    },
+                    "greeting": {
+                      "type": "string"
+                    },
+                    "suggestions": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "notice": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "error",
+                      "info"
+                    ]
+                  },
+                  "text": {
+                    "type": "string"
+                  }
+                }
+              },
+              "conversation_list": {
+                "type": "object",
+                "description": "Extension: which list the side shows, whether a next page exists, and the search it holds (x-conversations-search).",
+                "properties": {
+                  "archived": {
+                    "type": "boolean"
+                  },
+                  "has_more": {
+                    "type": "boolean"
+                  },
+                  "loading": {
+                    "type": "boolean"
+                  },
+                  "query": {
+                    "type": "string",
+                    "description": "The title searched for; empty when the list is not searched."
+                  }
+                }
+              },
+              "composer_files": {
+                "type": "array",
+                "description": "Extension (x-early-upload): the composer's chips as port files, with `reason` for a refused one.",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "key",
+                    "name"
+                  ],
+                  "properties": {
+                    "key": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": [
+                        "integer",
+                        "string"
+                      ]
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "size": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "state": {
+                      "enum": [
+                        "uploading",
+                        "failed",
+                        "ready"
+                      ]
+                    },
+                    "progress": {
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    "reason": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "my_files": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "description": "Extension (x-my-files): the person's kept files, newest first, with the space used and allowed as the host counts them; each file's download_url is the host's own.",
+                "properties": {
+                  "files": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "id",
+                        "name"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": [
+                            "integer",
+                            "string"
+                          ]
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "size": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ]
+                        },
+                        "type": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "created_at": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "saved_to_base": {
+                          "type": "boolean"
+                        },
+                        "download_url": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "used_bytes": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  },
+                  "quota_bytes": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "answer": {
+      "summary": "The host's answer to an intent: {answer, reason, text, data, current}. An applied answer's data is applied as data. Returns false for an unknown request_id. Kept from 0.3 for a host without a port; the action settle is its manifest form.",
+      "arguments": [
+        {
+          "name": "request_id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "result",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "required": [
+              "answer"
+            ],
+            "properties": {
+              "answer": {
+                "enum": [
+                  "applied",
+                  "conflict",
+                  "refused",
+                  "unavailable"
+                ]
+              },
+              "reason": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              },
+              "data": {
+                "type": "object"
+              },
+              "current": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "id",
+                  "kind",
+                  "author"
+                ],
+                "properties": {
+                  "id": {
+                    "type": [
+                      "integer",
+                      "string",
+                      "null"
+                    ],
+                    "description": "null only for a send not yet stored (then local is required)."
+                  },
+                  "kind": {
+                    "enum": [
+                      "person",
+                      "assistant"
+                    ],
+                    "description": "person: written by a person (the reader or another); assistant: an answer of an AI assistant."
+                  },
+                  "author": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "id"
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": [
+                          "integer",
+                          "string"
+                        ]
+                      },
+                      "name": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "avatar_url": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "own": {
+                        "type": "boolean",
+                        "description": "The reader wrote it."
+                      }
+                    }
+                  },
+                  "body": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": "Plain text; shown as text, line breaks kept."
+                  },
+                  "html": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": "assistant only: server HTML, sanitized again by the component."
+                  },
+                  "created_at": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "format": "date-time",
+                    "description": "Omitted when the host does not know it; the component never invents a time."
+                  },
+                  "status": {
+                    "enum": [
+                      "queued",
+                      "running",
+                      "completed",
+                      "partial",
+                      "refused",
+                      "withheld",
+                      "failed",
+                      "limit"
+                    ],
+                    "description": "assistant only."
+                  },
+                  "stage": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "sources": {
+                    "type": "array",
+                    "items": {
+                      "type": "object"
+                    }
+                  },
+                  "verification": {
+                    "type": [
+                      "object",
+                      "null"
+                    ]
+                  },
+                  "notices": {
+                    "type": "array",
+                    "items": {
+                      "type": "object"
+                    }
+                  },
+                  "proposal": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "description": "capability proposals: a change applied only on the confirmed command."
+                  },
+                  "files": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "name"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": [
+                            "integer",
+                            "string"
+                          ]
+                        },
+                        "key": {
+                          "type": "string",
+                          "description": "Local opaque key of a file not yet stored (a failed upload); never sent to download or delete."
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "size": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ]
+                        },
+                        "mime": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "download_url": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "description": "The host's own protected link, as given; the component never builds one."
+                        },
+                        "state": {
+                          "enum": [
+                            "uploading",
+                            "failed",
+                            "ready"
+                          ]
+                        },
+                        "progress": {
+                          "type": [
+                            "number",
+                            "null"
+                          ],
+                          "minimum": 0,
+                          "maximum": 1
+                        }
+                      }
+                    }
+                  },
+                  "is_edited": {
+                    "type": "boolean"
+                  },
+                  "is_deleted": {
+                    "type": "boolean",
+                    "description": "A tombstone: no body, no files."
+                  },
+                  "revision": {
+                    "type": [
+                      "integer",
+                      "string"
+                    ]
+                  },
+                  "can_edit": {
+                    "type": "boolean"
+                  },
+                  "can_delete": {
+                    "type": "boolean"
+                  },
+                  "command": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "description": "A message sent for a button (a proposal's command): {kind: confirm|cancel, code}."
+                  },
+                  "local": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "client_key",
+                      "action",
+                      "state"
+                    ],
+                    "properties": {
+                      "client_key": {
+                        "type": "string"
+                      },
+                      "action": {
+                        "enum": [
+                          "send",
+                          "edit",
+                          "delete"
+                        ]
+                      },
+                      "state": {
+                        "enum": [
+                          "pending",
+                          "failed",
+                          "sent"
+                        ]
+                      },
+                      "body": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "An edit's typed text; kept on failure and conflict."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "returns": {
+        "type": "boolean"
+      }
+    },
+    "request": {
+      "summary": "Raise an intent by the port's name: the event sf-chat-window-<verb>, then the port's raise or the host's settle; resolves with the answer. An undeclared capability resolves unavailable without an event, a cancelled event refused (prevented).",
+      "arguments": [
+        {
+          "name": "intent",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "payload",
+          "required": false,
+          "schema": {
+            "type": "object"
+          }
+        }
+      ],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "connectPort": {
+      "summary": "The base action connect-port {port} (§4.1, §4.9; setHostPort its alias): an adapter {port: 'simai.chat-port', version, capabilities, raise(intent, payload)} that answers each intent.",
+      "arguments": [
+        {
+          "name": "port",
+          "required": true,
+          "schema": {
+            "type": "object"
+          }
+        }
+      ],
+      "returns": {
+        "type": "object"
+      }
+    }
+  },
+  "events": {
+    "sf-chat-window-open": {
+      "summary": "A conversation opened from the list (port conversation.open {conversation_id}, kind conversation), the archive or the current list shown (x-archive-view conversations.view {archived}, kind list), or «Мои файлы» asked for (x-my-files files.list, kind files), or a source's preview about to open beside the conversation (1.2.0: kind preview, intent preview.open, payload {source}; the window's own, nothing is raised to the host; cancel it to keep the preview closed, and the footnote then opens the sources list). Was chat-port:open, chat-window:view, chat-window:files. Or a group's members asked for (1.4.0, x-members members.list {conversation_id}, kind members; no former name). The 0.3 chat-port:open, chat-window:view, chat-window:files {request_id, ...payload} follow it until 2026-12-01. Or a message's discussion (x-threads thread.open, kind thread). A document about to open in the same panel (1.12.0, x-blocks): kind document, intent document.open, payload {document}.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "requestId",
+          "intent",
+          "payload"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string",
+            "description": "The port's intent (or the window's own, x-…) this event raises."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Which of the verb's intents, where a verb carries more than one."
+          },
+          "payload": {
+            "type": "object",
+            "description": "The intent's payload, in the port's own field names; see the port contract."
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-chat-window-load-more": {
+      "summary": "Earlier messages (port history.older {conversation_id, before_id}, kind history) or the list's next page (x-conversations-paging conversations.more {archived}, kind conversations). Was chat-port:older, chat-window:more. The 0.3 chat-port:older, chat-window:more {request_id, ...payload} follow it until 2026-12-01.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "requestId",
+          "intent",
+          "payload"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string",
+            "description": "The port's intent (or the window's own, x-…) this event raises."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Which of the verb's intents, where a verb carries more than one."
+          },
+          "payload": {
+            "type": "object",
+            "description": "The intent's payload, in the port's own field names; see the port contract."
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-chat-window-submit": {
+      "summary": "A message sent (port message.send {conversation_id, body, files, client_key, interlocutor}): the field's, a suggestion, a brief's answer or a question asked again. Was chat-port:send. The 0.3 chat-port:send {request_id, ...payload} follows it until 2026-12-01. A send that answers a message (x-reply) is message.reply, kind reply, the same payload plus reply_to_id. A card's save or cancel (1.11.0, x-blocks) is block.submit, kind block {conversation_id, message_id, block_id, action, revision, values}; no former name.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "requestId",
+          "intent",
+          "payload"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string",
+            "description": "The port's intent (or the window's own, x-…) this event raises."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Which of the verb's intents, where a verb carries more than one."
+          },
+          "payload": {
+            "type": "object",
+            "description": "The intent's payload, in the port's own field names; see the port contract."
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-chat-window-retry": {
+      "summary": "The same message again under its client_key (port message.retry, kind message) or a message's failed file (port file.retry {conversation_id, message_id, file_key}, kind file). Was chat-port:retry, chat-port:file-retry. The 0.3 chat-port:retry, chat-port:file-retry {request_id, ...payload} follow it until 2026-12-01.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "requestId",
+          "intent",
+          "payload"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string",
+            "description": "The port's intent (or the window's own, x-…) this event raises."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Which of the verb's intents, where a verb carries more than one."
+          },
+          "payload": {
+            "type": "object",
+            "description": "The intent's payload, in the port's own field names; see the port contract."
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-chat-window-save": {
+      "summary": "A message edited against its revision (port message.edit); 1.3.0: raised from the editor of a person's message, again against the current revision after a conflict («Заменить своим»). Was chat-port:edit. The 0.3 chat-port:edit {request_id, ...payload} follows it until 2026-12-01.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "requestId",
+          "intent",
+          "payload"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string",
+            "description": "The port's intent (or the window's own, x-…) this event raises."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Which of the verb's intents, where a verb carries more than one."
+          },
+          "payload": {
+            "type": "object",
+            "description": "The intent's payload, in the port's own field names; see the port contract."
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-chat-window-delete": {
+      "summary": "A message deleted against its revision (port message.delete, kind message; 1.3.0: after the question in the message's place) or a kept file deleted (x-my-files files.remove {file_id}, kind file). Was chat-port:delete, chat-window:file-remove. The 0.3 chat-port:delete, chat-window:file-remove {request_id, ...payload} follow it until 2026-12-01.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "requestId",
+          "intent",
+          "payload"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string",
+            "description": "The port's intent (or the window's own, x-…) this event raises."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Which of the verb's intents, where a verb carries more than one."
+          },
+          "payload": {
+            "type": "object",
+            "description": "The intent's payload, in the port's own field names; see the port contract."
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-chat-window-read": {
+      "summary": "The last message actually seen (port message.read); 1.3.0: when the end of the conversation is in view, at most once in 2 s, only for a later message. Was chat-port:read. The 0.3 chat-port:read {request_id, ...payload} follows it until 2026-12-01.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "requestId",
+          "intent",
+          "payload"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string",
+            "description": "The port's intent (or the window's own, x-…) this event raises."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Which of the verb's intents, where a verb carries more than one."
+          },
+          "payload": {
+            "type": "object",
+            "description": "The intent's payload, in the port's own field names; see the port contract."
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-chat-window-rate": {
+      "summary": "An answer rated (port message.rate {message_id, value, reason, note}). Was chat-port:rate. The 0.3 chat-port:rate {request_id, ...payload} follows it until 2026-12-01.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "requestId",
+          "intent",
+          "payload"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string",
+            "description": "The port's intent (or the window's own, x-…) this event raises."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Which of the verb's intents, where a verb carries more than one."
+          },
+          "payload": {
+            "type": "object",
+            "description": "The intent's payload, in the port's own field names; see the port contract."
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-chat-window-answer": {
+      "summary": "A proposal answered: the host sends exactly its command (port proposal.decide {message_id, code, decision: confirm|cancel}). Was chat-port:decide. The 0.3 chat-port:decide {request_id, ...payload} follows it until 2026-12-01.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "requestId",
+          "intent",
+          "payload"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string",
+            "description": "The port's intent (or the window's own, x-…) this event raises."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Which of the verb's intents, where a verb carries more than one."
+          },
+          "payload": {
+            "type": "object",
+            "description": "The intent's payload, in the port's own field names; see the port contract."
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-chat-window-check": {
+      "summary": "Whether a stopped or delayed answer came (port wait.check {message_id}). Was chat-port:check. The 0.3 chat-port:check {request_id, ...payload} follows it until 2026-12-01.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "requestId",
+          "intent",
+          "payload"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string",
+            "description": "The port's intent (or the window's own, x-…) this event raises."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Which of the verb's intents, where a verb carries more than one."
+          },
+          "payload": {
+            "type": "object",
+            "description": "The intent's payload, in the port's own field names; see the port contract."
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-chat-window-stop": {
+      "summary": "Stop waiting for the answer (port wait.stop {conversation_id}). Was chat-port:stop. The 0.3 chat-port:stop {request_id, ...payload} follows it until 2026-12-01.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "requestId",
+          "intent",
+          "payload"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string",
+            "description": "The port's intent (or the window's own, x-…) this event raises."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Which of the verb's intents, where a verb carries more than one."
+          },
+          "payload": {
+            "type": "object",
+            "description": "The intent's payload, in the port's own field names; see the port contract."
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-chat-window-create": {
+      "summary": "A new conversation (port conversation.create {interlocutor}; was chat-port:create), or a new one with a person or a group (1.4.0, x-conversation-start conversation.start, kind private {kind, user_id} or group {kind, title, member_ids, client_key}; no former name). The 0.3 chat-port:create {request_id, ...payload} follows conversation.create until 2026-12-01.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "requestId",
+          "intent",
+          "payload"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string",
+            "description": "The port's intent (or the window's own, x-…) this event raises."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Which of the verb's intents, where a verb carries more than one."
+          },
+          "payload": {
+            "type": "object",
+            "description": "The intent's payload, in the port's own field names; see the port contract."
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-chat-window-rename": {
+      "summary": "A conversation renamed (port conversation.rename {conversation_id, title}). Was chat-port:rename. The 0.3 chat-port:rename {request_id, ...payload} follows it until 2026-12-01.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "requestId",
+          "intent",
+          "payload"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string",
+            "description": "The port's intent (or the window's own, x-…) this event raises."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Which of the verb's intents, where a verb carries more than one."
+          },
+          "payload": {
+            "type": "object",
+            "description": "The intent's payload, in the port's own field names; see the port contract."
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-chat-window-archive": {
+      "summary": "A conversation put in the archive (port conversation.archive {conversation_id, archived: true}). Was chat-port:archive. The 0.3 chat-port:archive {request_id, ...payload} follows it until 2026-12-01.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "requestId",
+          "intent",
+          "payload"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string",
+            "description": "The port's intent (or the window's own, x-…) this event raises."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Which of the verb's intents, where a verb carries more than one."
+          },
+          "payload": {
+            "type": "object",
+            "description": "The intent's payload, in the port's own field names; see the port contract."
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-chat-window-restore": {
+      "summary": "A conversation brought back from the archive (port conversation.archive {conversation_id, archived: false}). Was chat-port:archive. The 0.3 chat-port:archive {request_id, ...payload} follows it until 2026-12-01.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "requestId",
+          "intent",
+          "payload"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string",
+            "description": "The port's intent (or the window's own, x-…) this event raises."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Which of the verb's intents, where a verb carries more than one."
+          },
+          "payload": {
+            "type": "object",
+            "description": "The intent's payload, in the port's own field names; see the port contract."
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-chat-window-select": {
+      "summary": "Another interlocutor chosen; a choice starts a new conversation (port interlocutor.choose {interlocutor}). Was chat-port:interlocutor. The 0.3 chat-port:interlocutor {request_id, ...payload} follows it until 2026-12-01.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "requestId",
+          "intent",
+          "payload"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string",
+            "description": "The port's intent (or the window's own, x-…) this event raises."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Which of the verb's intents, where a verb carries more than one."
+          },
+          "payload": {
+            "type": "object",
+            "description": "The intent's payload, in the port's own field names; see the port contract."
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-chat-window-query": {
+      "summary": "The list searched by title (x-conversations-search conversations.search {query}), after a pause in typing, on Enter, or emptied by Escape; was chat-window:search. Or people found for a new conversation (1.4.0, x-conversation-start recipients.search {query}, kind recipients; no former name). The 0.3 chat-window:search {request_id, ...payload} follows conversations.search until 2026-12-01.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "requestId",
+          "intent",
+          "payload"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string",
+            "description": "The port's intent (or the window's own, x-…) this event raises."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Which of the verb's intents, where a verb carries more than one."
+          },
+          "payload": {
+            "type": "object",
+            "description": "The intent's payload, in the port's own field names; see the port contract."
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-chat-window-pin": {
+      "summary": "A conversation pinned or unpinned from its row's actions (x-conversation-pin conversation.pin {conversation_id, pinned}); the chat's own verb (vocabulary §5.1), its word events.pin.label. Was chat-window:pin. The 0.3 chat-window:pin {request_id, ...payload} follows it until 2026-12-01.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "requestId",
+          "intent",
+          "payload"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string",
+            "description": "The port's intent (or the window's own, x-…) this event raises."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Which of the verb's intents, where a verb carries more than one."
+          },
+          "payload": {
+            "type": "object",
+            "description": "The intent's payload, in the port's own field names; see the port contract."
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-chat-window-attach": {
+      "summary": "Files picked, dropped or pasted, to upload at once (x-early-upload file.attach {files, conversation_id, interlocutor}). Was chat-window:attach. The 0.3 chat-window:attach {request_id, ...payload} follows it until 2026-12-01.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "requestId",
+          "intent",
+          "payload"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string",
+            "description": "The port's intent (or the window's own, x-…) this event raises."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Which of the verb's intents, where a verb carries more than one."
+          },
+          "payload": {
+            "type": "object",
+            "description": "The intent's payload, in the port's own field names; see the port contract."
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-chat-window-detach": {
+      "summary": "A chip removed from the field (x-early-upload file.detach {key}). Was chat-window:detach. The 0.3 chat-window:detach {request_id, ...payload} follows it until 2026-12-01.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "requestId",
+          "intent",
+          "payload"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string",
+            "description": "The port's intent (or the window's own, x-…) this event raises."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Which of the verb's intents, where a verb carries more than one."
+          },
+          "payload": {
+            "type": "object",
+            "description": "The intent's payload, in the port's own field names; see the port contract."
+          }
+        },
+        "additionalProperties": true
+      },
+      "canonical": true
+    },
+    "sf-chat-window-settled": {
+      "summary": "The fact of a host's answer, from the port or from settle: {request-id, intent, payload, answer, reason}, said after the answer's data is applied and before the window's own follow-up (the focus). Was sf-chat-window-answer. The 0.3 sf-chat-window-answer {request_id, ...payload} follows it until 2026-12-01.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "requestId",
+          "intent",
+          "payload",
+          "answer"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string"
+          },
+          "payload": {
+            "type": "object"
+          },
+          "answer": {
+            "enum": [
+              "applied",
+              "conflict",
+              "refused",
+              "unavailable"
+            ]
+          },
+          "reason": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-chat-window-toggle": {
+      "summary": "The search in the conversation, the source preview, the form of a new conversation or a group's members opened or closed: {kind: find|preview|start|members, open, form?}. The host states data-find-open, data-preview-open, data-start-open and data-members-open say the same.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "kind",
+          "open"
+        ],
+        "properties": {
+          "kind": {
+            "enum": [
+              "find",
+              "preview",
+              "start",
+              "members"
+            ]
+          },
+          "open": {
+            "type": "boolean"
+          },
+          "form": {
+            "enum": [
+              "private",
+              "group"
+            ],
+            "description": "Which form, when kind start opens."
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-chat-window-react": {
+      "summary": "A reaction (x-reactions): message.react {conversation_id, message_id, emoji, on}. Answered applied with data {message}, merged by revision.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "requestId",
+          "intent",
+          "payload"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string",
+            "description": "The port's intent (or the window's own, x-…) this event raises."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Which of the verb's intents, where a verb carries more than one."
+          },
+          "payload": {
+            "type": "object",
+            "description": "The intent's payload, in the port's own field names; see the port contract."
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-chat-window-apply": {
+      "summary": "A group's members managed (x-members-manage): member.add, member.remove, member.role, member.transfer, member.leave, kind member; the buttons follow the host's flags (canRemove, canChangeRole, canTransfer; can_manage, can_leave).",
+      "payload": {
+        "type": "object",
+        "required": [
+          "requestId",
+          "intent",
+          "payload"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string",
+            "description": "The port's intent (or the window's own, x-…) this event raises."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Which of the verb's intents, where a verb carries more than one."
+          },
+          "payload": {
+            "type": "object",
+            "description": "The intent's payload, in the port's own field names; see the port contract."
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "chat-port:open": {
+      "summary": "Dated alias of sf-chat-window-open until 2026-12-01 (split).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-chat-window-open"
+    },
+    "chat-port:older": {
+      "summary": "Dated alias of sf-chat-window-load-more until 2026-12-01 (split).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-chat-window-load-more"
+    },
+    "chat-port:send": {
+      "summary": "Dated alias of sf-chat-window-submit until 2026-12-01 (split).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-chat-window-submit"
+    },
+    "chat-port:retry": {
+      "summary": "Dated alias of sf-chat-window-retry until 2026-12-01 (split).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-chat-window-retry"
+    },
+    "chat-port:edit": {
+      "summary": "Dated alias of sf-chat-window-save until 2026-12-01 (split).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-chat-window-save"
+    },
+    "chat-port:delete": {
+      "summary": "Dated alias of sf-chat-window-delete until 2026-12-01 (split).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-chat-window-delete"
+    },
+    "chat-port:read": {
+      "summary": "Dated alias of sf-chat-window-read until 2026-12-01 (split).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-chat-window-read"
+    },
+    "chat-port:rate": {
+      "summary": "Dated alias of sf-chat-window-rate until 2026-12-01 (split).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-chat-window-rate"
+    },
+    "chat-port:file-retry": {
+      "summary": "Dated alias of sf-chat-window-retry until 2026-12-01 (split).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-chat-window-retry"
+    },
+    "chat-port:decide": {
+      "summary": "Dated alias of sf-chat-window-answer until 2026-12-01 (split).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-chat-window-answer"
+    },
+    "chat-port:check": {
+      "summary": "Dated alias of sf-chat-window-check until 2026-12-01 (split).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-chat-window-check"
+    },
+    "chat-port:stop": {
+      "summary": "Dated alias of sf-chat-window-stop until 2026-12-01 (split).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-chat-window-stop"
+    },
+    "chat-port:create": {
+      "summary": "Dated alias of sf-chat-window-create until 2026-12-01 (split).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-chat-window-create"
+    },
+    "chat-port:rename": {
+      "summary": "Dated alias of sf-chat-window-rename until 2026-12-01 (split).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-chat-window-rename"
+    },
+    "chat-port:archive": {
+      "summary": "Dated alias of sf-chat-window-archive until 2026-12-01 (split).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-chat-window-archive"
+    },
+    "chat-port:interlocutor": {
+      "summary": "Dated alias of sf-chat-window-select until 2026-12-01 (split).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-chat-window-select"
+    },
+    "chat-window:view": {
+      "summary": "Dated alias of sf-chat-window-open until 2026-12-01 (split).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-chat-window-open"
+    },
+    "chat-window:more": {
+      "summary": "Dated alias of sf-chat-window-load-more until 2026-12-01 (split).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-chat-window-load-more"
+    },
+    "chat-window:search": {
+      "summary": "Dated alias of sf-chat-window-query until 2026-12-01 (split).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-chat-window-query"
+    },
+    "chat-window:pin": {
+      "summary": "Dated alias of sf-chat-window-pin until 2026-12-01 (split).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-chat-window-pin"
+    },
+    "chat-window:attach": {
+      "summary": "Dated alias of sf-chat-window-attach until 2026-12-01 (split).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-chat-window-attach"
+    },
+    "chat-window:detach": {
+      "summary": "Dated alias of sf-chat-window-detach until 2026-12-01 (split).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-chat-window-detach"
+    },
+    "chat-window:files": {
+      "summary": "Dated alias of sf-chat-window-open until 2026-12-01 (split).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-chat-window-open"
+    },
+    "chat-window:file-remove": {
+      "summary": "Dated alias of sf-chat-window-delete until 2026-12-01 (split).",
+      "payload": {
+        "type": "object"
+      },
+      "alias_of": "sf-chat-window-delete"
+    }
+  },
+  "state": {
+    "machines": {
+      "feed": [
+        "loading",
+        "ready",
+        "error",
+        "revoked"
+      ],
+      "composer": [
+        "idle",
+        "sending",
+        "waiting"
+      ],
+      "conversation": [
+        "none",
+        "open"
+      ],
+      "queue": [
+        "empty",
+        "waiting",
+        "held"
+      ],
+      "find": [
+        "closed",
+        "open"
+      ],
+      "preview": [
+        "closed",
+        "beside",
+        "sheet"
+      ],
+      "message": [
+        "shown",
+        "editing",
+        "asking",
+        "saving",
+        "conflict",
+        "deleted"
+      ],
+      "unread": [
+        "none",
+        "divider"
+      ],
+      "start": [
+        "closed",
+        "private",
+        "group",
+        "sending"
+      ],
+      "members": [
+        "closed",
+        "loading",
+        "ready",
+        "denied",
+        "error"
+      ]
+    },
+    "visual_states": [
+      "default",
+      "empty",
+      "loading"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "host",
+    "network_owner": "host",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-pro",
+    "data": "host",
+    "effects": "host",
+    "forbidden_client_responsibilities": [
+      "fetching or polling the chat API",
+      "uploading files",
+      "storing drafts",
+      "deciding rights from authorship",
+      "sending a proposal's command other than the host's",
+      "access decisions"
+    ]
+  },
+  "security": {
+    "permissions_owner": "host",
+    "untrusted_inputs": [
+      "conversation titles and captions (drawn as text)",
+      "message data (drawn by sf-chat-message: html sanitized, texts as text)",
+      "interlocutor greetings and suggestions (drawn as text)",
+      "file names (drawn as text)",
+      "download addresses (the host's, used as given)",
+      "the host's refusal words (drawn as text)",
+      "a source's preview (fetched from a same-origin preview_url only, drawn sanitized: SF.sanitizeHtml)"
+    ],
+    "network_policy": "host-only"
+  },
+  "accessibility": {
+    "role": "region",
+    "accessible_name": "internal",
+    "keyboard": [
+      "Tab",
+      "Enter",
+      "Shift+Enter",
+      "Escape",
+      "ArrowUp",
+      "ArrowDown",
+      "Home",
+      "End",
+      "F2",
+      "Shift+F10",
+      "Mod+F"
+    ],
+    "focus": "The parts keep their own keyboard (the list's roving focus, the field's Enter). After a new conversation or another interlocutor the focus goes to the field; when the last awaited answer of the conversation ends it returns there without scrolling. When what held the focus is gone (an archived row), the way back above the field takes it, never the page. A passing line leaves only when no pointer or focus is on it and hands the focus back to the field. The queue's «Изменить» puts the question back in the field and the focus there; «Убрать» moves the focus to the card in its place, else to the field. The search in the conversation takes the focus when opened and gives it back to what opened it when closed."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "en",
+      "ru"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile"
+    ]
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [
+      "studio.fixture.json"
+    ],
+    "scenarios": [
+      "studio.scenario.json"
+    ]
+  },
+  "readiness": {
+    "level": "host-required",
+    "required_checks": [
+      "manifest",
+      "loader-rule",
+      "chat-window-probe"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "0edd49be08f802b60ed92f176b68911a42a12f3f",
+      "ui_smart_revision": "0edd49be08f802b60ed92f176b68911a42a12f3f"
+    },
+    "aliases": [],
+    "deprecations": [],
+    "replacement": null,
+    "migrations": [
+      {
+        "from": "0.3.1",
+        "to": "1.0.0",
+        "changes": [
+          "moved from simai/ui-chat to ui-pro (D31): standard simai.smart-component 1.3.9, the element is made from component.json; words in lang/; dated aliases in aliases.json; nothing imported from ui-chat; the parts are placed by tag",
+          "chat-port:<name> and chat-window:<name> {request_id, ...payload} -> sf-chat-window-<verb> {request-id, intent, kind, payload} until 2026-12-01 (event, split aliases); sf-chat-window-answer -> sf-chat-window-settled",
+          "the port is handed with connect-port {port} (raise(intent, payload)); a host without one answers with settle (answer(request_id, result) kept)",
+          "the port's data are settings (feed-state, conversation-list, composer-files, my-files with their port-named properties kept); applyData kept, set-data its action",
+          "a message is drawn by sf-chat-message (renderMessage), the window listens to the new names of sf-chat-composer, sf-chat-interlocutor and sf-chat-message"
+        ]
+      },
+      {
+        "from": "1.0.2",
+        "to": "1.0.3",
+        "changes": [
+          "The first-paint snapshot's sheets.json lists the utility sheets its markup uses (retaken on ui-source 5ba9399); no behaviour changed. Nothing to change for a host."
+        ]
+      },
+      {
+        "from": "1.0.4",
+        "to": "1.1.0",
+        "changes": [
+          "The queue: a question sent while an answer is awaited waits above the field as a card («Отправлю после ответа», «Изменить», «Убрать») and goes as an ordinary message.send after a successful answer, one at a time; an answer that ended otherwise holds the queue for «Отправить» by hand. Per conversation, on this page only. The setting no-queue turns it off. No new intent and no change for a host.",
+          "The search in the open conversation: the actions open-find {query} and close-find {focus}, Ctrl/Cmd+F inside the window, the event toggle {kind: find, open} and the host state data-find-open. It searches the loaded messages only and asks the host nothing."
+        ]
+      },
+      {
+        "from": "1.1.0",
+        "to": "1.2.0",
+        "changes": [
+          "The source preview (API.md v1.3, proposed): a footnote or a source title with a same-origin preview_url opens the source beside the conversation (a sheet over it on a narrow window), with the passage {from, to} marked; the actions open-preview {source} and close-preview {focus}, the event toggle {kind: preview, open}, the cancelable open {kind: preview} and the host state data-preview-open. Without preview_url nothing changes.",
+          "An assistant message's steps and an answer's files (mime, preview_url) are passed to sf-chat-message 1.1.0, and while there are steps the announcer says the step at work. No new intent: the host answers nothing new."
+        ]
+      },
+      {
+        "from": "1.2.0",
+        "to": "1.3.0",
+        "changes": [
+          "Between people: with the capability people a person's message draws as sf-chat-message's template person (author, avatar, own on the end side, runs of one author within 5 minutes on one day, time, «изменено», files, tombstone). Without it nothing changes.",
+          "edit and delete: «Изменить» and «Удалить» on a person's message the host allows (can_edit, can_delete) raise message.edit and message.delete with the revision and a client_key; a conflict shows the current message with «Сообщение уже изменили», «Оставить их» and «Заменить своим»; data.message of an applied answer is merged (a newer revision wins).",
+          "read: «Новые» before the first unread message (from the conversation's unread_count) when a conversation opens, and message.read for the last message seen at the bottom, at most once in 2 s.",
+          "Between people the field says «Напишите сообщение». No new intent and no new port field.",
+          "The source preview marks the passage named by preview_url's #fragment (the element of that id, e.g. <mark id=\"cite\">) when the locator has no {from, to}."
+        ]
+      },
+      {
+        "from": "1.3.0",
+        "to": "1.4.0",
+        "changes": [
+          "x-conversation-start: the list head offers «Новый диалог» and «Новая группа» (sf-thread-list 1.5.0 create-commands) and the form stands in the conversation's place; intents recipients.search (query, kind recipients) and conversation.start (create, kind private or group), limits.group from the host. After applied the host supplies conversations by set-data, before or after; the window opens data.conversation itself, raising conversation.open when no messages came.",
+          "x-members: a read-only «Участники» view for an open group or channel; intent members.list (open, kind members), roles owner, manager, member, observer.",
+          "Actions open-start, close-start, open-members, close-members; toggle kinds start and members; host states data-start-open and data-members-open. Without the capabilities nothing changes; simai.chat-port 1.0 is unchanged."
+        ]
+      },
+      {
+        "from": "1.4.0",
+        "to": "1.5.0",
+        "changes": [
+          "Between people with edit: ArrowUp in the empty field opens the editor on the newest own message the host allows; Escape or a save from there returns to the field.",
+          "The editor takes the field's limit: past 80 % the count, past the limit saving is refused with a line and the typed text stays. Between people limits.message_chars is read before body_chars, for the field too.",
+          "Between people: a day's divider before the first message of each calendar day with a created_at («Сегодня», «Вчера», a date in the page's language); no created_at, no divider. A divider restarts a run. «Новые» is now role=separator with the class sf-chat-divider--unread added. Needs sf-chat-message 1.3.0.",
+          "Without people and edit nothing changes; simai.chat-port 1.0 is unchanged."
+        ]
+      },
+      {
+        "from": "1.5.0",
+        "to": "1.5.1",
+        "changes": [
+          "The source of the narrow-your-search probe says what the generated file says; no behaviour changed. Nothing to change for a host."
+        ]
+      },
+      {
+        "from": "1.5.1",
+        "to": "1.6.0",
+        "changes": [
+          "Between people: a message by its author (author.kind or kind assistant): a person a bubble with sf-avatar, an assistant, agent or bot a document with its sign, name and word; one to one no sign or name in the feed.",
+          "Between people an assistant's wait neither blocks nor queues the field; Stop is on the message where can_stop allows it.",
+          "x-reactions: pills and the picker, message.react. x-reply: quotes, the strip over the field, message.reply {…message.send's payload, reply_to_id}.",
+          "Needs sf-chat-message 1.4.0 and sf-chat-composer 1.2.0. Without people, x-reactions and x-reply nothing changes; simai.chat-port 1.0 is unchanged."
+        ]
+      },
+      {
+        "from": "1.6.0",
+        "to": "1.6.1",
+        "changes": [
+          "Initials in a muted tone picked from the name (sf-avatar 1.2.0, tone auto). Additive."
+        ]
+      },
+      {
+        "from": "1.6.1",
+        "to": "1.7.0",
+        "changes": [
+          "The layout is the Framework's workspace (core.css .sf-workspace, core/js/workspace.js, docs/developer/workspace-layout.md). The shell keeps the class chat-shell and gains sf-workspace with the wide step sf-workspace--wide-h8; the side is also .sf-workspace-list, the conversation .sf-workspace-main, the source preview .sf-workspace-panel. A page's rail must carry .sf-workspace-rail and be the first child of parts.shell.",
+          "The window says the state in attributes and measures nothing: data-sf-workspace-panel=\"open\" while the preview is open, data-sf-workspace-view=\"main\" when a conversation or a view that takes its place opens and \"list\" when the conversations' own view changes. The reader's way back on a narrow container is .sf-workspace-back, in main, which the Framework shows, hides and answers.",
+          "Removed, with the grid they placed: the classes chat-shell--preview, chat-shell--preview-sheet, chat-shell--side-hidden and chat-shell--side-open, the ResizeObserver behind the preview's placement (PREVIEW_DOCK_MIN) and the window's own inert, Escape, scrim and focus return for the panel as a drawer, which are the Framework's layer stack now. A page that toggled chat-shell--side-hidden sets data-sf-workspace-list=\"hidden\"; one that toggled chat-shell--side-open, or drew a scrim and juggled inert for the list, drops all of it. Escape still closes the panel standing as a column, where no layer is open. The nodes' own classes (chat-shell__*, chat-files__*) are unchanged.",
+          "A page stops bringing the grid, the slide-over, the backdrop and the preview columns; it keeps its furniture. The region widths are the workspace's public variables, set here from the window's own: --sf-workspace-list from --sf-chat-window-side-width, --sf-workspace-panel from the preview's measure, --sf-workspace-divider-color from --sf-chat-window-border-color."
+        ]
+      },
+      {
+        "from": "1.7.0",
+        "to": "1.8.0",
+        "changes": [
+          "Nothing open (no conversation, no interlocutor to greet): the field steps aside and the place says «Выберите разговор слева или начните новый». Additive: a host with a greeting is unchanged."
+        ]
+      },
+      {
+        "from": "1.8.0",
+        "to": "1.9.0",
+        "changes": [
+          "Managing a group's members (x-members-manage): «Добавить» and «Выйти» in the members view, and per row a «⋯» with role, remove and hand over, each only with the host's flag; remove, hand over and leave are asked in place first. Additive: without the capability the view stays read only."
+        ]
+      },
+      {
+        "from": "1.9.1",
+        "to": "1.10.0",
+        "changes": [
+          "A message's discussion (x-threads): «N ответов» under a message with answers and «Обсудить» in its «⋯» for one who may write; thread.open, then the discussion opens in place of the conversation with «В чат» and the message it discusses above the feed. Additive: without the capability nothing changes."
+        ]
+      },
+      {
+        "from": "1.10.0",
+        "to": "1.10.1",
+        "changes": [
+          "Day dividers, the midnight refresh and the file list's date through core's format helpers, initials through helpers/text getInitials; needs core.runtime >= 1.20.0. Visible: one hyphenated name gives the initials of its parts («Жан-Поль» → ЖП, was Ж). Nothing to change for a host on a pair from core.runtime 1.20.0 on."
+        ]
+      },
+      {
+        "from": "1.10.1",
+        "to": "1.10.2",
+        "changes": [
+          "Draws and finds the renamed Framework elements by their new tags (the people are found with sf-input-lookup); the rule relations name cl-<new>. Needs the SIMAI Framework pair with the tag renames (core.runtime 1.21.0). No visible change. Nothing to change for a host on that pair; a host that writes the former tags keeps working until 2027-01-01."
+        ]
+      },
+      {
+        "from": "1.10.2",
+        "to": "1.10.3",
+        "changes": [
+          "Places and hears the renamed package parts by their new tags: the list is sf-chat-threads (its sf-chat-threads-* events), a proposal sf-confirm-change (sf-confirm-change-answer); the rule relations name cl-chat-threads and cl-confirm-change. Needs the SIMAI Framework pair with the R2 tag aliases (core.runtime 1.22.0). No visible change. Nothing to change for a host on that pair; a host that writes the former tags keeps working until 2027-01-01."
+        ]
+      },
+      {
+        "from": "1.10.5",
+        "to": "1.11.0",
+        "changes": [
+          "x-blocks: an answer's cards (message.blocks of kind card) are drawn and saved in place; the host answers block.submit. Additive: without the capability nothing changes."
+        ]
+      },
+      {
+        "from": "1.11.0",
+        "to": "1.12.0",
+        "changes": [
+          "x-blocks: a document (message.blocks of kind document) opens in the preview panel from its preview_url, in a frame that runs nothing; a place still to fill in brings the form card's field (focusDocumentField); a new revision of the open document reloads it where it was read. block.submit's result may carry the whole message, which replaces the drawn one. Additive."
+        ]
+      },
+      {
+        "from": "1.12.0",
+        "to": "1.13.0",
+        "changes": [
+          "The conversation is SIMAI Framework's sf-list-feed (sf-message-log is now its dated alias): the window places <sf-list-feed>, hears sf-list-feed-load-more and draws through renderItem and announceItem. No visible change. A page that styled .sf-message-log, .sf-message-log__item or set --sf-message-log--* inside the window moves to .sf-list-feed, .sf-list-feed__item and --sf-list-feed--*. Needs a SIMAI Framework pair with sf-list-feed (ui-62b1d9b6dc8d or later)."
+        ]
+      },
+      {
+        "from": "1.13.0",
+        "to": "1.14.0",
+        "changes": [
+          "sf-chat-threads 2.0.0: the list's rows are the Framework's sf-list. The window finds a row by .sf-list__row[data-id] and its «⋯» by .sf-list__actions (per-row Pin or Unpin, the focus after pinning, restoring and archiving); its words for a row's rename and menu (threads-rename, threads-rename-label, threads-actions), the day headings (threads-today, threads-yesterday, threads-earlier) and threads-loading are gone: the rows speak sf-list's. Nothing to change for a host."
+        ]
+      }
+    ]
+  },
+  "provenance": {
+    "source_repository": "simai/ui-pro",
+    "source_revision": "a06ad1d291c2084c83242b29d28caee454504bd3",
+    "source_artifacts": [
+      {
+        "path": "src/smart/chat-window/index.js",
+        "sha256": "25093b20e3017593b8429b5004a654536beddc58ee93cb03aae1fb65dcc61f96"
+      },
+      {
+        "path": "src/smart/chat-window/js/port.js",
+        "sha256": "aa0113bd1b4e994f1ae881f854a8d938b202c8171b2300db16798399d1511fb0"
+      },
+      {
+        "path": "src/smart/chat-window/js/files-view.js",
+        "sha256": "94ec4d39cdc810de6edb31b87e61e33c94078752dec42ebe78c0b30b8ff3958a"
+      },
+      {
+        "path": "src/smart/chat-window/js/part-words.js",
+        "sha256": "5534fd3ebfa71785e139adceedad81b399928de64263048460622bd23dc1b1b7"
+      },
+      {
+        "path": "src/smart/chat-window/js/preview-view.js",
+        "sha256": "9aef05457379a1c58567d99e95c97971a297b564c3772a548b13d4e5f8ebaf18"
+      },
+      {
+        "path": "src/smart/chat-window/js/people.js",
+        "sha256": "67c9d08f8ea60bee421f7e6a16ae25fe7fca55b898cdc1786d6f68027a8df828"
+      },
+      {
+        "path": "src/smart/chat-window/js/members-view.js",
+        "sha256": "71f4fded39bfd39fa8d483280ec21afc3f83bad549b7cf34deed328d1252fe5c"
+      },
+      {
+        "path": "src/smart/chat-window/js/members-model.js",
+        "sha256": "24888a8a601c0a930f867a0978fd603066ec8bf47829bf764796f26aaefacb16"
+      },
+      {
+        "path": "src/smart/chat-window/js/start-view.js",
+        "sha256": "9255cf690df6841c9c02e0ba62d59ef66e2bb280e33bd97a57358ef134ed5669"
+      },
+      {
+        "path": "src/smart/chat-window/js/start-model.js",
+        "sha256": "9edcca977fc4de17fc22b929017e50b7cb8aec0457ae5ad05b70302b381faea8"
+      },
+      {
+        "path": "src/smart/chat-window/js/templates/default.js",
+        "sha256": "897c1a50992ceaf9906535324230e487cf9a4a1d9ed7d4c893aeff2ade092013"
+      },
+      {
+        "path": "src/smart/chat-window/js/templates/default.css",
+        "sha256": "530677b9bd1660bd47283170cf9d4d4b79166858ff16c5c63f632ad03e571ba2"
+      },
+      {
+        "path": "src/smart/chat-window/rule.js",
+        "sha256": "1336e06255572313d4cc5f5f7fc80bb6c8c13bac38a7b1fded4cc3e3dfe8f21e"
+      },
+      {
+        "path": "src/smart/chat-window/docs.md",
+        "sha256": "74f48ca201129c16b49e2f8c0bd9f9f8d0625bea9e55c9103438942018c0f4a9"
+      },
+      {
+        "path": "src/smart/chat-window/component.json",
+        "sha256": "88b20b033121c3102a3d3d8c831849f0fd7fa2139da1eb5ee7e3e4f74065f4e4"
+      },
+      {
+        "path": "src/smart/chat-window/aliases.json",
+        "sha256": "06c0c54c3b440d013e6a1de0f79907245759b8e81906b48eb8a882f16171e5b0"
+      },
+      {
+        "path": "src/smart/chat-window/lang/en.json",
+        "sha256": "91dd4835d3feb7e58d08a5bd137c065487c968fb74133818da2599b91ddcae36"
+      },
+      {
+        "path": "src/smart/chat-window/lang/ru.json",
+        "sha256": "076cce20780e9efda75bf08ac9c45bf4e318a3bc283f2221d93efd02ae14934f"
+      }
+    ],
+    "generated_runtime": []
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-chat-window for a whole chat: conversations, the open conversation and the field, on a host that implements simai.chat-port 1.0.0 (Mirai24's assistant, simai.chat).",
+    "do_not": [
+      "Do not fetch from the element: hand it a port (connect-port) or answer its events with settle",
+      "Do not answer an intent both through a port and through settle",
+      "Do not decide what a person may do from who wrote a message; give can_edit and can_delete",
+      "Do not build a second list of conversations beside it; the window's sf-thread-list is the one",
+      "Do not keep a queue of your own for messages sent while an answer is awaited; the window queues and sends them after the answer (no-queue turns it off)"
+    ],
+    "required_reads": [
+      "settings",
+      "events",
+      "actions",
+      "port",
+      "accessibility"
+    ],
+    "minimal_example": "<sf-chat-window capabilities=\"assistant feedback proposals conversation-create conversation-manage\"></sf-chat-window> with element.connectPort({port: 'simai.chat-port', version: '1.0.0', capabilities: [], raise: (intent, payload) => host.answer(intent, payload)}) and element.setData({me, conversations, conversation: null, messages: []})",
+    "owner_commands": [
+      "node scripts/test.mjs",
+      "node scripts/run-manifest-probes.mjs <free output> <package output> chat-window",
+      "node scripts/run-first-paint.mjs gate <free output> <package output> chat-window"
+    ]
+  }
+}

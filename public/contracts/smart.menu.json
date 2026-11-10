@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.menu",
-  "version": "1.4.1",
+  "version": "1.6.0",
   "title": "Menu",
   "summary": "Site navigation built from data -- nested sections, the current page, groups that open and close -- or from a nested list of links in the markup, drawn as the class menu: a column whose branches open in place, or a row whose branches open as panels placed by SF.Position, which becomes a button opening the same links when it does not fit. The WAI-ARIA disclosure navigation pattern, not an application menu.",
   "kind": "smart",
@@ -33,7 +33,8 @@
       "component.dot",
       "component.icon-buttons",
       "component.icons",
-      "component.menu"
+      "component.menu",
+      "smart.input"
     ],
     "public_parts": []
   },
@@ -83,12 +84,44 @@
       "collapse": {
         "type": "string",
         "default": "auto",
-        "description": "auto: a row that does not fit its width becomes a button opening the same links as a column, and a row again when the width is back; always: the button whatever the orientation; narrow: the button while the page is narrower than the md breakpoint (a phone), and then a selector -- its words and icon are the current item's; none: never.",
+        "description": "auto: a row that does not fit its width becomes a button opening the same links as a column (with overflow collapse, the default), and a row again when the width is back; always: the button whatever the orientation; narrow: the button while the page is narrower than the md breakpoint (a phone), and then a selector -- its words and icon are the current item's; none: never.",
         "enum": [
           "auto",
           "always",
           "narrow",
           "none"
+        ]
+      },
+      "overflow": {
+        "type": "string",
+        "default": "collapse",
+        "description": "What a row does when its first level does not fit (the values of sf-tabs' overflow where they mean the same): more, priority+ -- the items that do not fit leave the row from its end for a trailing «Ещё» branch (more-label), the section that holds the current page stays while it fits beside it, and with no item left «Ещё» reads «Меню» (toggle-label); collapse, the row becomes the button (collapse auto); none, the row stays whole. sf-menu-overflow says which items left.",
+        "enum": [
+          "more",
+          "collapse",
+          "none"
+        ]
+      },
+      "more-label": {
+        "type": "string",
+        "description": "The words of the «Ещё» branch of a row with overflow more; «Ещё» / «More» in the page language when not set."
+      },
+      "open-on": {
+        "type": "string",
+        "default": "hover",
+        "description": "How a row's branch opens with a mouse: hover (the default), a mouse resting on a branch opens it after 300 ms -- a region after 500 ms -- and it closes 500 ms after the mouse has left the branch and its panel (NN/g, WCAG 1.4.13); click, only a press. Touch, a pen and the keyboard always go through the branch's chevron: a section that is a page is a split control, its name a link and the chevron beside it a button «<раздел>: подразделы» (C30, APG disclosure navigation with top-level links).",
+        "enum": [
+          "click",
+          "hover"
+        ]
+      },
+      "indicator": {
+        "type": "string",
+        "default": "line",
+        "description": "How a row marks its first-level section that is the current page or holds it (C30, R060): line (the default), a 2 px primary line under the whole control lying on the header's bottom border, as the tabs do (sf-header-site publishes that edge), and a medium label; fill, the C23 plate, for a header with no bottom border (over a photo, transparent). An open section has the neutral select plate, never primary.",
+        "enum": [
+          "line",
+          "fill"
         ]
       },
       "label": {
@@ -105,6 +138,20 @@
         "default": false,
         "description": "The menu stays in sight while the page scrolls (position sticky at --sf-menu-sticky-top, 0 by default), and scrolls inside itself when it is taller than the view. For a section navigation beside a long page."
       },
+      "bordered": {
+        "type": "boolean",
+        "default": false,
+        "description": "A column with a border of its own (C30 amended 2026-11-09, R072 e): a hairline of outline-variant at the surface radius, the plates space-1/4 in from it on every side, and the path to the current page marked by a 2 px primary line on its start border at the closed branch that holds it, besides the medium label. Without it a column has no frame and marks the path with the medium label alone (R065 a). A row ignores it: its panels always have the line (R084)."
+      },
+      "search": {
+        "type": "boolean",
+        "default": false,
+        "description": "A search field over a column (C30 amended 2026-11-09, R071 a; off by default, never by the number of items): the rows are filtered as the field is typed in -- without case, ё as е, on the items' words and the group headings; a match keeps its parents, opened, a matching item keeps its children, closed, a matching heading keeps its group -- and the matched words are highlighted (::highlight(sf-menu-match), --sf-mark). Down from the field enters the results, Down and Up walk them, Up from the first goes back; Escape clears the field, or goes back to it from the results. A polite live region says how many matched; «Ничего не найдено» when none. The field stands still and the rows scroll when the host gives the menu a height. A row ignores it."
+      },
+      "search-placeholder": {
+        "type": "string",
+        "description": "The words in the search field, and its name; «Поиск» / «Search» in the page language when not set."
+      },
       "current": {
         "type": "string",
         "default": "",
@@ -117,7 +164,7 @@
       "items": {
         "type": "array",
         "default": [],
-        "description": "The items, [{id, label, href?, icon?, badge?, count?, status?, current?, disabled?, open?, children?}] and first-level groups {group: true, label, collapsible?, open?, items}: an array in the property, the same array as JSON in the attribute. Without items the element reads the nested <ul><li><a> written inside it (data-group, data-collapsible and data-status on an <li>).",
+        "description": "The items, [{id, label, href?, icon?, badge?, count?, status?, current?, disabled?, open?, region?, target?, external?, children?}] and first-level groups {group: true, label, collapsible?, open?, items}: an array in the property, the same array as JSON in the attribute. Without items the element reads the nested <ul><li><a> written inside it (data-group, data-collapsible and data-status on an <li>).",
         "examples": [
           [
             {
@@ -221,6 +268,10 @@
               "items": {
                 "type": "object"
               }
+            },
+            "region": {
+              "type": "string",
+              "description": "A row's first-level branch opens a region (a mega menu) instead of a panel: the name of a <template slot=\"region-<name>\"> inside the element, else its children drawn as columns."
             }
           },
           "required": [
@@ -255,6 +306,21 @@
         "type": "string",
         "description": "A whole number is the class counter (capped at 99+, hidden at 0, its phrase ends the link's name); other text is a short label after the words."
       },
+      "count": {
+        "type": "number",
+        "description": "A count by its own name: the same as a badge holding a whole number (the class counter)."
+      },
+      "status": {
+        "type": "string",
+        "enum": [
+          "success",
+          "warning",
+          "error",
+          "info",
+          "neutral"
+        ],
+        "description": "A status dot of that tone at the row's end, before the counter; its word ends the link's name."
+      },
       "current": {
         "type": "boolean",
         "description": "The item is the current page, unless the element's current names another or current-from-location finds one."
@@ -270,6 +336,33 @@
       "children": {
         "type": "array",
         "description": "Nested items, the same shape: an item with them is a branch. The class menu draws four levels; a deeper one is drawn as the fourth.",
+        "items": {
+          "type": "object"
+        }
+      },
+      "region": {
+        "type": "string",
+        "description": "A row's first-level branch opens a region (a mega menu) instead of a panel: the name of a <template slot=\"region-<name>\"> inside the element, else its children drawn as columns."
+      },
+      "target": {
+        "type": "string",
+        "description": "The link's target (_blank for a new tab, with rel noopener). A target other than _self draws ↗ after the words; _blank says in the link's name that it opens in a new tab."
+      },
+      "external": {
+        "type": "boolean",
+        "description": "A link that leaves the site without a target of its own: ↗ after the words."
+      },
+      "group": {
+        "type": "boolean",
+        "description": "A first-level item that is a group: a heading over its items, never a destination. A row and the compact rail draw the items in the group's place, without the heading."
+      },
+      "collapsible": {
+        "type": "boolean",
+        "description": "A group whose heading is a button that opens and closes it (aria-expanded); a group is open unless open is false."
+      },
+      "items": {
+        "type": "array",
+        "description": "A group's items, the same as children.",
         "items": {
           "type": "object"
         }
@@ -437,6 +530,40 @@
       },
       "canonical": true
     },
+    "sf-menu-overflow": {
+      "summary": "A row with overflow more changed which first-level items it shows: hidden, the ids of the items now in «Ещё», in their order (empty when all fit again).",
+      "payload": {
+        "type": "object",
+        "required": [
+          "hidden"
+        ],
+        "properties": {
+          "hidden": {
+            "type": "array"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-menu-search": {
+      "summary": "The search field's words changed: query, the words trimmed (empty when cleared), and count, how many item words and group headings match.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "query",
+          "count"
+        ],
+        "properties": {
+          "query": {
+            "type": "string"
+          },
+          "count": {
+            "type": "number"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
     "sf-menu:navigate": {
       "summary": "A link of the menu is followed, before the browser goes. Cancellable: preventDefault() stops the navigation so a host that routes itself (a SPA) changes the page. A press with a modifier key, the middle button or a link to another window is the browser's and sends none.",
       "payload": {
@@ -542,7 +669,7 @@
       "Space",
       "Escape"
     ],
-    "focus": "A <nav> named by label, of native links and, for each branch, a native button with aria-expanded and aria-controls; a branch that is also a page has its link and its button side by side in the row. Tab walks the links and the buttons in order; Enter and Space open and close a branch; Escape closes the innermost open panel only -- a row's deepest open panel, the one the focus is in first, else the panel of the collapsed menu's button -- and gives the focus back to its button, holding the shared open-surface mark so a drawer or a modal behind stands back. Focus leaving a row closes its panels. The current page's link has aria-current=\"page\". No role=menu."
+    "focus": "A <nav> named by label, of native links and, for each branch, a native button with aria-expanded and aria-controls; a branch that is also a page has its link and its button side by side in the row. Tab walks the links and the buttons in order; Enter and Space open and close a branch; Escape closes the innermost open panel only -- a row's deepest open panel, the one the focus is in first, else the panel of the collapsed menu's button -- and gives the focus back to its button, holding the shared open-surface mark so a drawer or a modal behind stands back. Focus leaving a row closes its panels. In a row the arrows are the optional keys of the pattern: Left and Right walk the first level, Home and End go to its ends, Down and Up open a branch and enter its panel; in a panel Down and Up walk its rows, Right opens a side panel, Left closes it and gives the focus back; in a region Down and Up walk its links, Left and Right its columns. A column has no arrows. The current page's link has aria-current=\"page\". No role=menu."
   },
   "presentation": {
     "themes": [
@@ -609,27 +736,27 @@
     "source_artifacts": [
       {
         "path": "src/smart/menu/index.js",
-        "sha256": "708bc90ec44e08f5016192c95c0a6a1c954170e8e9fb634f033d6a7ba7b1980c"
+        "sha256": "4a2a948fa333b6cb677fee2c61dd54c87e93d03bd97f019b41c39a955f354fe6"
       },
       {
         "path": "src/smart/menu/items.mjs",
-        "sha256": "f3232527824027592b8704ff9269798c146059fae44e68962b6cd33074d79828"
+        "sha256": "291327b87089fe8c2bc35090ccdc2877fe0f941cb2554154919762552a583343"
       },
       {
         "path": "src/smart/menu/js/templates/default.js",
-        "sha256": "a1416638bcb3c45c4c00da4a05056bd923d79e38e4429afc1cbdd9d8ebcebe16"
+        "sha256": "1c9f83cec51c7e79e8b3532e3714eafb8b269d120581e41857ad3de57a9efdc5"
       },
       {
         "path": "src/smart/menu/scss/_smart__menu.scss",
-        "sha256": "a7ef268840cecd1e2ea95826117ae11b85367041179c00de22a66c392bf09bb1"
+        "sha256": "a611eeda93c2d73e9a391ebf5eb0bd81ea47bc5d9a9cab6fcd131f15cdc51c4c"
       },
       {
         "path": "src/smart/menu/rule.js",
-        "sha256": "96ba69705bd2bf74a8c997be5563a906d0e9bcc615b8aef05bfaff07b491efe0"
+        "sha256": "af826cccf11d4689a4d761491e4718b4fd25999f4abf1d21cf3a45ef3c12cd96"
       },
       {
         "path": "src/smart/menu/docs.md",
-        "sha256": "1f6c67b310b1d80e3df63e0f36c483526034d0987cb8924bde4867aa741367cb"
+        "sha256": "647b336526fea97b91ee78ff9ebb0bcc487b7b2f556ad788ac22d236946d22bc"
       }
     ],
     "generated_runtime": []
@@ -642,7 +769,8 @@
       "Do not add role=menu: it is navigation, a list of links",
       "Do not put markup in label: it is shown as text",
       "Do not restyle its rows: they are the class menu's, set its public variables",
-      "Do not use sf-admin-menu for site navigation: it is the Pro admin menu"
+      "Do not use sf-admin-menu for site navigation: it is the Pro admin menu",
+      "Do not make a mega menu of a column: region is a row's first level only"
     ],
     "required_reads": [
       "inputs",

@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.button",
-  "version": "1.10.0",
+  "version": "1.12.1",
   "title": "Buttons",
   "summary": "A native button with Framework presentation: size, appearance, colour role or status, optional start and end icons, height and radius. loading sets aria-busy and disables it against repeated activation.",
   "kind": "smart",
@@ -51,6 +51,7 @@
         "icon-position",
         "spacing",
         "radius",
+        "full-width",
         "loading",
         "disabled",
         "native-type",
@@ -141,7 +142,7 @@
       "scheme": {
         "type": "string",
         "default": "primary",
-        "description": "Which colour family the control takes. on-surface-variant is the on-surface family one step quieter: the fill and the edge of on-surface, the label and the icons in --sf-on-surface-variant (a search trigger that reads like a field). What the control is about is the status axis; a status set there wins over this.",
+        "description": "Which colour family the control takes. on-surface-variant is the on-surface family one step quieter: the fill and the edge of on-surface, the label and the icons in --sf-on-surface-variant (a search trigger that reads like a field). With appearance surface on-surface-variant is retired (1.11.0, as on the icon buttons, C15): it draws as on-surface until 2027-01-01 and warns once. What the control is about is the status axis; a status set there wins over this.",
         "enum": [
           "primary",
           "secondary",
@@ -255,10 +256,15 @@
           "rounded"
         ]
       },
+      "full-width": {
+        "type": "boolean",
+        "default": false,
+        "description": "The control fills its container, as sf-segmented's full-width does, and its content stays in the middle; without it the button is as wide as its content (owner decision C36). The height does not change."
+      },
       "loading": {
         "type": "boolean",
         "default": false,
-        "description": "Loading state: the spinner at the icon's size in place of the start icon (else the end icon); without an icon it lies over the label, which keeps its place, so the width does not change. The spinner takes the page's look (data-sf-spinner). The inner button is unavailable while it loads."
+        "description": "Loading state: the spinner at the icon's size in place of the start icon (else the end icon); without an icon it lies over the label, which keeps its place, so the width does not change. The spinner takes the page's look (data-sf-spinner) and the label's ink. The inner button is unavailable while it loads but keeps its scheme colour (owner decision C36); a button that is also disabled wears the disabled look."
       },
       "disabled": {
         "type": "boolean",
@@ -691,7 +697,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/button/index.js",
-        "sha256": "2a2ed4f209dd7fb8ac6508642d65e596eb0a8b7b558c7afc4549bb69335ed1e7"
+        "sha256": "80695ad037d407d51e9a6f8f34829b1b6023b910b31b59ded8a925d91e32b663"
       }
     ],
     "generated_runtime": [

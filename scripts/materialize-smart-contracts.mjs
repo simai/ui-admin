@@ -5,7 +5,12 @@ import {dirname, resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const loaderRoot = resolve(projectRoot, process.env.SIMAI_UI_SOURCE_REPO || process.env.SIMAI_UI_LOADER_REPO || '../ui-source');
+// The registry comes from the ui-source checkout the package is built against:
+// SIMAI_UI_SOURCE_REPO, else SIMAI_UI_SOURCE (scripts/package-build.mjs reads
+// the same), else ../ui-source. On 2026-11-10 the shared ../ui-source stood on
+// another thread's branch while the build named a worktree, and the pin dropped
+// seven contracts the pair has.
+const loaderRoot = resolve(projectRoot, process.env.SIMAI_UI_SOURCE_REPO || process.env.SIMAI_UI_SOURCE || process.env.SIMAI_UI_LOADER_REPO || '../ui-source');
 const registrySource = resolve(loaderRoot, 'contracts/generated/smart-component-contract-registry.json');
 const target = resolve(projectRoot, 'public/contracts');
 // The pinned component package, as `npm run prepare:runtime` materialised it

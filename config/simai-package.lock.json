@@ -3,9 +3,9 @@
   "package": "pro",
   "source": {
     "repository": "simai/ui-pro",
-    "revision": "dc13c0f724009847add06c25bf98a6c033c037db",
+    "revision": "db490626ba74caeed832352c7bc005410ca825e2",
     "path": "components",
-    "tree": "c2b6f5d518a6f6dfc55dc5f608abdb7b1f65a8a0"
+    "tree": "008fbd001e97e69a108d695c42d15d6fdbd18c01"
   },
   "builder": {
     "repository": "simai/ui-builder",
@@ -20,7 +20,7 @@
       },
       {
         "path": "admin-menu/js/admin-menu.js",
-        "sha256": "dc8e5b017e265eaf4552d00b686ee4e9fbbe524e0302e0a2afaf707dbfb2864b"
+        "sha256": "bddf836cabf1ea8cbed701a1526a7219d0eec7ef333e89010b7ef76f2d39ec5e"
       },
       {
         "path": "admin-menu/css/admin-menu.css",
@@ -68,7 +68,7 @@
       },
       {
         "path": "editor/js/editor.js",
-        "sha256": "9a9e36091af7476797880625a2f7b130bd0e543cfb26957dfffcf110a5848e4c"
+        "sha256": "516754858e67b197fc103797f6a3c9aa3042340bc3543dd4099bdffd2d665dfe"
       },
       {
         "path": "editor/css/editor.css",
@@ -76,7 +76,7 @@
       },
       {
         "path": "editor-content/js/editor-content.js",
-        "sha256": "24eec572fc9bcab2775ceecc029fea47786289f2a77b33f966d2d4c5aa9a7967"
+        "sha256": "47e0f6ef300a7b4ca53487614dfca38fc70fae5e760199b877120a7dfde1aa8a"
       },
       {
         "path": "editor-content/css/editor-content.css",
@@ -140,7 +140,7 @@
       },
       {
         "path": "view-properties/js/view-properties.js",
-        "sha256": "9a9318bff304dfccce847b288fe0c3a74c3f6c35b74551382bfec1713ce26af5"
+        "sha256": "2f8dc656e7e194467f61b22605bb9bcdc413d87cffd6ee6961cfe5102104f4b1"
       },
       {
         "path": "view-properties/css/view-properties.css",
@@ -148,18 +148,18 @@
       },
       {
         "path": "view-table/js/view-table.js",
-        "sha256": "6e73573b935bc6c8d9cfa8e00aac27c6ec3dc607cd8e4f2d6aae6d26472ca48b"
+        "sha256": "a819c1a9ec135608194de9ab8a31411e7566148a3eea07a4b47d3344dc70bc84"
       },
       {
         "path": "view-table/css/view-table.css",
-        "sha256": "923e201167fc40f869384eb862e49885776be2160f7e5840db1c372daf2188c1"
+        "sha256": "31c9c7a3a377a338d208638d666153de050d6b6008ead2d052e659c9b9d47ce9"
       }
     ]
   },
-  "compatibilityId": "pro-dc13c0f72400",
+  "compatibilityId": "pro-db490626ba74",
   "requires": {
-    "framework": "ui-2bd5a3ab478a"
+    "framework": "ui-7fb26d395af2"
   },
-  "archiveSha256": "83741f606b625975963c4dc6324ef956a4003cf79e2f93096cc089cb8120aac0",
-  "distributionIdentitySha256": "c58991eff1871b95991c636b2924790e35baa0dcec638fcbad363640ee4e03b5"
+  "archiveSha256": "9cffcfbf010d3087ca750375b19c4adbed9d4e6efe7d02a1e895a5de7ebfc0f2",
+  "distributionIdentitySha256": "dce035056f4dac4334778c2ad70a7c527bc8f09bb11548f81a738647aab0905c"
 }

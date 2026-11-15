@@ -1,0 +1,7 @@
+# The overlay and probe outputs of the set scripts (scripts/test.mjs, run-*-probes.mjs)
+.overlay/
+.overlay.package/
+.probe-output/
+# The staged npm package (scripts/stage-npm.mjs)
+stage/
+node_modules/

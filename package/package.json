@@ -1,0 +1,38 @@
+{
+  "name": "@simai-studio/admin",
+  "version": "1.0.0",
+  "description": "SIMAI Admin, the component set admin of SIMAI Framework: the admin menu sf-admin-menu.",
+  "license": "PolyForm-Small-Business-1.0.0 OR PolyForm-Noncommercial-1.0.0 OR LicenseRef-SIMAI-Commercial",
+  "author": "Rim Zabarov",
+  "homepage": "https://admin.simai.io/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simai/ui-admin.git",
+    "directory": "package"
+  },
+  "keywords": [
+    "simai-framework",
+    "component-set",
+    "admin",
+    "navigation",
+    "web-components"
+  ],
+  "files": [
+    "dist/",
+    "LICENSE.md"
+  ],
+  "simai": {
+    "set": "admin",
+    "base": "dist/smart"
+  },
+  "scripts": {
+    "test": "node scripts/test.mjs",
+    "test:browser": "node scripts/run-browser-probes.mjs",
+    "test:manifest": "node scripts/run-manifest-probes.mjs",
+    "test:first-paint": "node scripts/run-first-paint.mjs",
+    "stage": "node scripts/stage-npm.mjs"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

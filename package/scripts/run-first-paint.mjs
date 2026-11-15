@@ -23,8 +23,8 @@
 // (core/core, smart/smart, ...) or the `distr` of the ui distribution; a
 // distr is laid out as a product root with symbolic links.
 import {spawnSync} from 'node:child_process';
-import {cpSync, existsSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync} from 'node:fs';
-import {join, resolve} from 'node:path';
+import {cpSync, existsSync, mkdirSync, readFileSync, realpathSync, rmSync, symlinkSync, writeFileSync} from 'node:fs';
+import {dirname, join, resolve} from 'node:path';
 import {PACKAGE_COMPONENTS, PACKAGE_ROOT, materializeOverlay, packageNameOf} from './overlay.mjs';
 
 const args = process.argv.slice(2);
@@ -39,6 +39,16 @@ const built = resolve(packageInput);
 if (!existsSync(join(built, 'smart', 'rule.js'))) throw new Error(`the package output has no smart/rule.js: ${built}`);
 if (!existsSync(overlay)) materializeOverlay(overlay);
 if (!existsSync(join(overlay, 'scripts', 'first-paint-lib.mjs'))) throw new Error(`${overlay} holds no ui-source first-paint tools`);
+// ui-source's snapshot tool imports playwright only from the overlay's own
+// node_modules (scripts/playwright-local.mjs), at the version its package.json
+// declares. The overlay is a git archive and has none; this checkout's
+// package/node_modules/playwright (ignored, a link to an install of that
+// version) gives it one: the overlay's node_modules becomes a link to the
+// folder that really holds it, so the tool's own-copy check holds.
+const ownPlaywright = join(PACKAGE_ROOT, 'node_modules', 'playwright');
+if (!existsSync(join(overlay, 'node_modules')) && existsSync(ownPlaywright)) {
+  symlinkSync(dirname(realpathSync(ownPlaywright)), join(overlay, 'node_modules'), 'dir');
+}
 const own = folders.length ? folders : PACKAGE_COMPONENTS;
 for (const folder of own) if (!PACKAGE_COMPONENTS.includes(folder)) throw new Error(`${folder} is not a package component`);
 

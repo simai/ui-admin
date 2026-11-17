@@ -308,8 +308,9 @@ test(`Admin loads sf-view-table data through Vite ${mode} and mock API`, async (
 //   palette and its rows could not be clicked. The probe asks the browser what
 //   is under the middle of every palette row. Since sf-admin-menu 1.12.0 the
 //   palette is SIMAI Framework's sf-search (owner decisions C162, C175): its
-//   field is .sf-search-query and its rows .sf-search-row, inside the menu's
-//   sf-search.sf-admin-nav-search.
+//   field is .sf-search-query and its rows .sf-search-row, in the window
+//   (.sf-search-window) the menu's sf-search.sf-admin-nav-search lays over
+//   the page, outside the element itself.
 // - One delete reached the host twice -- the data view applies row actions
 //   itself and the page raised `record.mutate` again -- and the second answer,
 //   «refused (record-unknown)», was shown to the person. The probe counts the
@@ -329,7 +330,7 @@ test(`Polygon palette is above the list and one delete is one intent (Vite ${mod
   await page.locator('sf-admin-menu [aria-haspopup="dialog"]').first().click();
   await page.keyboard.type('по');
   await page.waitForFunction(() => {
-    const find = (root) => root.querySelector('.sf-admin-nav-search .sf-search-row')
+    const find = (root) => root.querySelector('.sf-search-window .sf-search-row')
       || [...root.querySelectorAll('*')].map((node) => node.shadowRoot && find(node.shadowRoot)).find(Boolean);
     return Boolean(find(document));
   }, null, { timeout: 10_000 });
@@ -348,7 +349,7 @@ test(`Polygon palette is above the list and one delete is one intent (Vite ${mod
       }
       return hit;
     };
-    return findAll(document, '.sf-admin-nav-search .sf-search-query, .sf-admin-nav-search .sf-search-row').map((row) => {
+    return findAll(document, '.sf-search-window .sf-search-query, .sf-search-window .sf-search-row').map((row) => {
       const box = row.getBoundingClientRect();
       const hit = deepHit(box.x + box.width / 2, box.y + box.height / 2);
       return { row: row.className, onTop: row.contains(hit), hit: hit ? `${hit.tagName}.${hit.className}` : null };

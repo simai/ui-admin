@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.change",
-  "version": "1.0.1",
+  "version": "1.2.3",
   "title": "Change",
   "summary": "A field change as text: «Собран → Передан в доставку», the old value quiet, the new one in the text colour and medium weight, no badges and no strikethrough; inline in a sentence, as a list of several fields, or, for a long text, revealed in place as «Было» and «Стало».",
   "kind": "smart",
@@ -55,12 +55,12 @@
       "before": {
         "type": "string",
         "default": "",
-        "description": "The value as it was, text. Empty reads «пусто»"
+        "description": "The value as it was, text. Empty reads «пусто». Attribute only (owner decision C279): element.before is the browser's own ChildNode method, so a script and a server's data-sf-settings island pass the shared changes list (one change is a list of one); the island leaves before out with a console warning"
       },
       "after": {
         "type": "string",
         "default": "",
-        "description": "The value as it became, text. Empty reads «пусто»"
+        "description": "The value as it became, text. Empty reads «пусто». Attribute only (owner decision C279): element.after is the browser's own ChildNode method, so a script and a server's data-sf-settings island pass the shared changes list (one change is a list of one); the island leaves after out with a console warning"
       },
       "label": {
         "type": "string",
@@ -204,15 +204,15 @@
     "source_artifacts": [
       {
         "path": "src/smart/change/index.js",
-        "sha256": "5f7cc5744b8250a3ff2fd102872bd93895b0d4809ecefcab1b669132c0400d05"
+        "sha256": "1768dbd6c06efb4963406ce9cd9e3cd473affc6d56e87c572cb213089889f84e"
       },
       {
         "path": "src/smart/change/js/templates/default.js",
-        "sha256": "9d17f24d7197ba1601659925f13ff61b07ba1fc618203a6a8fd4de5b87c2ceb3"
+        "sha256": "077c180416c92aaf0c0955e4de0ceb304735a782b1afff77ac68fbd35e1b7609"
       },
       {
         "path": "src/smart/change/scss/_smart__change.scss",
-        "sha256": "92fe03319a606b4abcea6428fdbd85e528a90ad217592adac519aee1477cbaef"
+        "sha256": "3082c2995ec91c4f4c5dd1e70f43b2a7c18a8b355ef85ead8613d6fecce1dd37"
       },
       {
         "path": "src/smart/change/rule.js",
@@ -220,7 +220,7 @@
       },
       {
         "path": "src/smart/change/docs.md",
-        "sha256": "ec218689601be27c6d50bc9a6df072eaff30d275f036b56bb877dd710d5fc951"
+        "sha256": "151ed0194ada733e51351abe9244c88f9e42d0efa2bebdd130e38b92833e911d"
       }
     ],
     "generated_runtime": []

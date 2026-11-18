@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.dropdown",
-  "version": "1.9.0",
+  "version": "1.20.4",
   "title": "Dropdown",
   "summary": "Accessible single or multiple selection control with searchable options and optional portal projection.",
   "kind": "smart",
@@ -26,6 +26,7 @@
       "component.icon-buttons",
       "component.inputs",
       "smart.button-icon",
+      "smart.help-mark",
       "smart.icon",
       "smart.input",
       "smart.list-item"
@@ -52,11 +53,11 @@
       },
       "appearance": {
         "type": "string",
-        "default": "outlined",
-        "description": "How the dropdown looks: a filled field or an outlined one.",
+        "default": "bordered",
+        "description": "How the field looks: bordered (the default, the field look of every field, FM-9) or filled. outlined, the former name of bordered, draws the same until 2027-01-01 (a dated alias, SF.deprecations).",
         "enum": [
           "filled",
-          "outlined"
+          "bordered"
         ]
       },
       "columns": {
@@ -81,6 +82,16 @@
       "label": {
         "type": "string",
         "default": ""
+      },
+      "hint": {
+        "type": "string",
+        "default": "",
+        "description": "The help line under the field, as sf-input's hint (field parity): the hint's ink, a step below the value, and the trigger's description (aria-describedby); on an error the error message takes its place."
+      },
+      "help": {
+        "type": "string",
+        "default": "",
+        "description": "The explanation behind a «?» (sf-help-mark, C133's look) after the label text (C153 (8)): a step below the value as the label; the label row keeps its height. The mark is named by its subject («Подробнее: <label>»). Empty: no mark."
       },
       "layout": {
         "type": "string",
@@ -133,10 +144,13 @@
       "size": {
         "type": "string",
         "default": "1",
+        "description": "The step of the field ladder, as sf-input's (1/3, 1/2, 1, 2, 3): the field as tall as sf-input, sf-button and sf-button-icon of the size (28 / 32 / 40 / 48 / 56 on a desktop), the value on the size's text, the label, help and message a step below, the open list's rows a control of the size.",
         "enum": [
+          "1/3",
           "1/2",
           "1",
-          "2"
+          "2",
+          "3"
         ]
       },
       "value": {
@@ -150,11 +164,11 @@
       },
       "type": {
         "type": "string",
-        "default": "outlined",
+        "default": "bordered",
         "description": "Legacy name for appearance, still honoured. See contracts/public-api-axes.json.",
         "enum": [
           "filled",
-          "outlined"
+          "bordered"
         ]
       },
       "options": {
@@ -412,11 +426,13 @@
       "ArrowUp",
       "Home",
       "End",
+      "PageDown",
+      "PageUp",
       "Enter",
       "Space",
       "Escape"
     ],
-    "focus": "The toggle is the primary Tab stop. Arrow keys open and move through available options; Home and End move within the list; Enter or Space selects; Escape closes and restores the toggle; Tab closes and continues native traversal. The searchbox keeps native text-editing Home and End behavior. After a reset back to the inherited value, focus returns to the control; while the value is inherited, the control carries it as aria-description and the visible marker is aria-hidden."
+    "focus": "The toggle is the primary Tab stop. Arrow keys open and move through available options; Home and End move within the list, PageDown and PageUp by what it shows, and typed letters to the option they begin; the focused option is brought into view; Enter or Space selects; Escape closes and restores the toggle; Tab closes and continues native traversal. The searchbox keeps native text-editing Home and End behavior. After a reset back to the inherited value, focus returns to the control; while the value is inherited, the control carries it as aria-description and the visible marker is aria-hidden."
   },
   "presentation": {
     "themes": [
@@ -467,7 +483,9 @@
       "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
       "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
     },
-    "aliases": [],
+    "aliases": [
+      "appearance=outlined"
+    ],
     "deprecations": [],
     "replacement": null,
     "migrations": [
@@ -487,23 +505,23 @@
     "source_artifacts": [
       {
         "path": "src/smart/dropdown/index.js",
-        "sha256": "56c19a5d738b6aa656184a62c0fe7775cf0bc9b517fe7f60f70cb0468a617e92"
+        "sha256": "7f0eba4c6556068907ee231121670c87553fc0a5321768d1218c2218c8ced007"
       },
       {
         "path": "src/smart/dropdown/rule.js",
-        "sha256": "2b4d4f6f7673b009586e9691819c8091a4228b0c2428a76d0421db55cdc7fe96"
+        "sha256": "a0d34f8ec653f2168e93b79a46a2c0466a42b21465187fe9c6a51f1fa7b07f2c"
       },
       {
         "path": "src/smart/dropdown/js/templates/default.js",
-        "sha256": "a1bfad263c4b2027f43cb48e6286321b4019941edd639a5b9178c9ee60da166e"
+        "sha256": "58e31c9ac014875e479ea8f4e479ecb13a6617b40930a923c64f956cccac080b"
       },
       {
         "path": "src/smart/helpers/inherited-value.js",
-        "sha256": "311549a390cbb399282967b2506ed5875d23e127542960f207386ba3c3191d68"
+        "sha256": "0aea0587899d9e416b5266035f71ce87b541f496bece03b0fef9a10e15381358"
       },
       {
         "path": "src/smart/helpers/inherited-value.css",
-        "sha256": "742bb92a4cd39b2882da5038aa5d3c364b0b30c2cdf10a8e211e251ff62b7d37"
+        "sha256": "1db5b90ef0022b25a865e9f792771b7d19e2704e429bffcebdc7898fcbbf9a1a"
       }
     ],
     "generated_runtime": [

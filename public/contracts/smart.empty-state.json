@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
   "id": "smart.empty-state",
-  "version": "1.1.11",
+  "version": "1.6.5",
   "title": "Empty state",
-  "summary": "What a list, a panel or a page says when it has nothing to show: no data, nothing found, no access or an error, with an icon, a real heading, a sentence and actions.",
+  "summary": "What a list, a panel or a page says when it has nothing to show: no data, the first time, nothing found, no access, an error, no connection or work being prepared, with an icon, a real heading, a sentence and actions.",
   "kind": "smart",
   "reuse_mode": "whole",
   "lifecycle": "experimental",
@@ -25,8 +25,11 @@
   "composition": {
     "uses": [
       "component.featured-icon",
+      "component.placeholder",
       "smart.button",
-      "smart.icon"
+      "smart.icon",
+      "smart.progress-ring",
+      "smart.spinner"
     ],
     "public_parts": []
   },
@@ -51,18 +54,21 @@
       "kind": {
         "type": "string",
         "default": "no-data",
-        "description": "The reason, which picks the default icon, title and text, and for error a «Повторить» action.",
+        "description": "The reason, which picks the default icon, tone, title and text: first-use offers a primary «Создать» (id create), error and offline «Повторить» (id retry), offline also retries by itself when the network returns, and processing draws a spinner in the icon's circle for work that finishes without the person, or with value a ring with the percentage.",
         "enum": [
           "no-data",
+          "first-use",
           "nothing-found",
           "no-access",
-          "error"
+          "error",
+          "offline",
+          "processing"
         ]
       },
       "size": {
         "type": "string",
         "default": "1",
-        "description": "1/3 is always the inline form; 1/2 inside a table or panel, 2 for a whole page: the icon, title role, text and gaps follow.",
+        "description": "1/3 is always the inline form; 1/2 inside a table or panel, 2 for a whole page: the icon, title role and text follow (the gaps are sf-placeholder's at every size).",
         "enum": [
           "1/3",
           "1/2",
@@ -72,11 +78,18 @@
       },
       "icon": {
         "type": "string",
-        "default": ""
+        "default": "",
+        "description": "The section's icon (the one of its menu entry) for no-data and first-use, inbox without one; for nothing-found by filters pass filter_alt_off. The other reasons keep their own glyph unless this is set."
       },
       "heading": {
         "type": "string",
         "default": ""
+      },
+      "value": {
+        "type": "number",
+        "description": "processing only: the share done in per cent, 0 to 100 (clamped, whole). Set, the circle is an sf-progress-ring with the percentage; unset, the spinner turns. The inline form keeps the spinner. Provisional name (C120 (2) names no attribute).",
+        "minimum": 0,
+        "maximum": 100
       },
       "text": {
         "type": "string",
@@ -108,6 +121,11 @@
           "off"
         ]
       },
+      "expressive": {
+        "type": "boolean",
+        "default": false,
+        "description": "The decorative level (owner decision C91, level 2): one soft circle of the primary colour behind the icon of a whole-page state (size 2) for no-data and nothing-found; a list, a table or a card stays plain. Off by default, a strict state; data-sf-style=\"expressive\" on the root or a container turns it on for every state under it, and data-sf-style=\"strict\" turns it off again."
+      },
       "title": {
         "type": "string",
         "default": "",
@@ -123,21 +141,25 @@
   "contracts": {
     "actions": {
       "type": "array",
-      "description": "Set as a property: [{id, text, appearance}], drawn at the component's size; each raises sf-empty-state-action {id}. Slot `actions` takes the host's own buttons instead."
+      "description": "Set as a property: [{id, text, appearance}], drawn at the component's size; each raises sf-empty-state-action {id}. Slot `actions` takes the host's own buttons instead. Unset: error and offline offer retry, first-use a primary create."
     }
   },
   "methods": {},
   "events": {
     "sf-empty-state-action": {
-      "summary": "The person pressed one of the actions (retry for an error without actions of its own).",
+      "summary": "The person pressed one of the actions (retry for an error or offline without actions of their own, create for first-use); for offline also sent by itself with auto: true when the window's online event says the network is back.",
       "payload": {
         "type": "object",
         "required": [
-          "id"
+          "id",
+          "auto"
         ],
         "properties": {
           "id": {
             "type": "string"
+          },
+          "auto": {
+            "type": "boolean"
           }
         },
         "additionalProperties": true
@@ -148,9 +170,12 @@
     "machines": {
       "kind": [
         "no-data",
+        "first-use",
         "nothing-found",
         "no-access",
-        "error"
+        "error",
+        "offline",
+        "processing"
       ]
     },
     "visual_states": [
@@ -189,7 +214,7 @@
       "Enter",
       "Space"
     ],
-    "focus": "The block title is a heading at heading-level; the inline form has no heading. With live=auto nothing-found and error are announced politely (role=status), the others are not; live=alert makes it an alert, live=off silent. The icon is decorative; the actions are ordinary buttons in the tab order. Inside a listbox or menu, place it outside the list element so it is never an item."
+    "focus": "The block title is a heading at heading-level; the inline form has no heading. With live=auto nothing-found, error, offline and processing are announced politely (role=status), the others are not; live=alert makes it an alert, live=off silent. The icon and the processing spinner are decorative; the processing ring (value set) is a progressbar named «Готово» with the share as its value; the actions are ordinary buttons in the tab order. Inside a listbox or menu, place it outside the list element so it is never an item."
   },
   "presentation": {
     "themes": [
@@ -257,33 +282,34 @@
     "source_artifacts": [
       {
         "path": "src/smart/empty-state/index.js",
-        "sha256": "168c639aee526fcbe3de35ddf54f80725e535aa3ee4a932389e03de02788e49b"
+        "sha256": "64fb6fb3e4e6bf3d15a31a0c055978ca2621ba44a570578095e4ebab6fd5deb7"
       },
       {
         "path": "src/smart/empty-state/js/templates/default.js",
-        "sha256": "d370303f6a51e27b381cb3c093e378bac583bf1b894ee14ee13114aa69a453cc"
+        "sha256": "59b634c9b8bec9f9b9449e9d812a3e35ffd13617a7d9e61238b2ee8e997a0f93"
       },
       {
         "path": "src/smart/empty-state/scss/_smart__empty_state.scss",
-        "sha256": "8b7bcbcc297fbca4a24ebb15262ef01d67158b80a512d81e1c9d6c09ac06560d"
+        "sha256": "4b9e2806aefd180e882eb73629102cfb1f935748a7e589c174bd570a73440b6e"
       },
       {
         "path": "src/smart/empty-state/rule.js",
-        "sha256": "5e8ae1ecb89ce8192d82dc822e0072b76b3b296fca823d52d572b1cdfc17cd80"
+        "sha256": "4ab82daae3af411654301209ad205de35290f454e29d7f6e52aec120a1f4b7d2"
       },
       {
         "path": "src/smart/empty-state/docs.md",
-        "sha256": "2adce0364f3f75b34e00c12dbf6588f538978758fe013ff3755c8549ef81faf6"
+        "sha256": "2fddb6ea822f5ec8a99c684a226447e911f544efa4adc077cef6425aad20f3e0"
       }
     ],
     "generated_runtime": []
   },
   "ai_guidance": {
-    "use_when": "Use sf-empty-state wherever a list, panel or page has nothing to show, choosing the kind for the reason.",
+    "use_when": "Use sf-empty-state wherever a list, panel or page has nothing to show, choosing the kind for the reason; processing for work that finishes later without the person (minutes), not for a load the person waits for.",
     "do_not": [
       "Do not copy generated ui-smart code",
       "Do not show an empty state while data is still loading; that is the skeleton's",
-      "Do not hand-build an empty message with a paragraph"
+      "Do not hand-build an empty message with a paragraph",
+      "Do not use processing for a wait of seconds; that is sf-skeleton, sf-spinner or a progress bar"
     ],
     "required_reads": [
       "inputs",

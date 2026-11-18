@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.chat-window",
-  "version": "1.14.3",
+  "version": "1.16.1",
   "title": "Chat window",
   "summary": "A whole chat window on the host port simai.chat-port 1.0.0: the conversations (archive, paging, search, pinning), the open conversation with its messages, proposals, ratings and task briefs, the field with its files and the questions queued while an answer is awaited, the search within the conversation, whom one talks to, and «Мои файлы». It never talks to a server: the host gives the data and answers each intent, through the port or the settle action.",
   "kind": "smart",
@@ -2736,7 +2736,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/chat-window/index.js",
-        "sha256": "25093b20e3017593b8429b5004a654536beddc58ee93cb03aae1fb65dcc61f96"
+        "sha256": "0e4e36febb8007405ac49dbef8580faa7d3a281ec10550f1e50294de9bea5f28"
       },
       {
         "path": "src/smart/chat-window/js/port.js",
@@ -2752,7 +2752,7 @@
       },
       {
         "path": "src/smart/chat-window/js/preview-view.js",
-        "sha256": "9aef05457379a1c58567d99e95c97971a297b564c3772a548b13d4e5f8ebaf18"
+        "sha256": "21373525723faec16376b006400e30a3851a2dc91a0387077d33f5c54878a58a"
       },
       {
         "path": "src/smart/chat-window/js/people.js",
@@ -2768,7 +2768,7 @@
       },
       {
         "path": "src/smart/chat-window/js/start-view.js",
-        "sha256": "9255cf690df6841c9c02e0ba62d59ef66e2bb280e33bd97a57358ef134ed5669"
+        "sha256": "5a164c1f2420855dbfc8c71b2bedd48a8a64e35a1648cc81de2c0aaf300688d1"
       },
       {
         "path": "src/smart/chat-window/js/start-model.js",
@@ -2780,7 +2780,7 @@
       },
       {
         "path": "src/smart/chat-window/js/templates/default.css",
-        "sha256": "530677b9bd1660bd47283170cf9d4d4b79166858ff16c5c63f632ad03e571ba2"
+        "sha256": "01207b2166374e820bbe603223a5a96acad337eb37438d74d2b6b692360a6c1b"
       },
       {
         "path": "src/smart/chat-window/rule.js",
@@ -2792,7 +2792,7 @@
       },
       {
         "path": "src/smart/chat-window/component.json",
-        "sha256": "1417fa803d48cefed3b0a7bb808a4384c9ccd4be6b43426a0bb9a3fdda225631"
+        "sha256": "b18ba04479bad0de8f4c9262ff232664cc782107590329f6810332c0dc3cec8a"
       },
       {
         "path": "src/smart/chat-window/aliases.json",

@@ -3,163 +3,163 @@
   "package": "pro",
   "source": {
     "repository": "simai/ui-pro",
-    "revision": "db490626ba74caeed832352c7bc005410ca825e2",
+    "revision": "a57887949f9a93ec59120c341d935cd0914b8807",
     "path": "components",
-    "tree": "008fbd001e97e69a108d695c42d15d6fdbd18c01"
+    "tree": "6556b3196033743f70c152972e0f996365369749"
   },
   "builder": {
     "repository": "simai/ui-builder",
-    "revision": "16e9a81c1f2838f7cfeebbbd19654016743c9672"
+    "revision": "ba79e739d1f9e2568d27e030606e8f95ce91b380"
   },
   "smart": {
     "targetDir": "",
     "requiredFiles": [
       {
         "path": "rule.js",
-        "sha256": "1041e1461b04f01b190fbdd0c04ee5391bb8d2d3baab53995005732b704bd6fe"
+        "sha256": "2e4c92b02671776f430399974d94222de28c4df9e8cc9738be153ecf04dd687f"
       },
       {
         "path": "admin-menu/js/admin-menu.js",
-        "sha256": "bddf836cabf1ea8cbed701a1526a7219d0eec7ef333e89010b7ef76f2d39ec5e"
+        "sha256": "eb729bc7ca2a0795894ceefc5e1b52015565e06d39fbd314ed8847f8c24b40bd"
       },
       {
         "path": "admin-menu/css/admin-menu.css",
-        "sha256": "d1b9039854f4be90d7a41efb95421d697bf55cdea2e5a275d25c095e075b2aa1"
+        "sha256": "8f402e28eeb781b0ecfabd287ce4bea333afb3043b68d53a8e59d51ca906159e"
       },
       {
         "path": "chat-composer/js/chat-composer.js",
-        "sha256": "4e67f696279e1cb27c3a9eaeb1a00ff3dce5c33f2b929b234af787cf2e58f460"
+        "sha256": "863b7b2a93fd3d391605cb8a3dbc62be9af687fec2826e07f8fbbfb4b11bf30a"
       },
       {
         "path": "chat-composer/css/chat-composer.css",
-        "sha256": "2cd0b1c2aae2af8bfbd466488f292683cb236cb428a25d4d0914e8a9d6695503"
+        "sha256": "ae4cfafa915528b53fbfc21f66272080ea366c9d47d3ea2c4d666a5ecd61606c"
       },
       {
         "path": "chat-interlocutor/js/chat-interlocutor.js",
-        "sha256": "7a744b55a420eee008f584ae25ba4f174718b189af73204f03f376d43cc4a0d8"
+        "sha256": "b999d7bc26b8a99486d13f22f09e9c78fd3e7ee4d8cce6cd2a8250defaddc4f8"
       },
       {
         "path": "chat-interlocutor/css/chat-interlocutor.css",
-        "sha256": "94900015d10100a3768cadedc40bdedb979005049aeb5270dbbbb0c370fad034"
+        "sha256": "1e0f2f81161b04f3e38b4a241fd3cfbab7cec30b4929b378048c8c16ca068c68"
       },
       {
         "path": "chat-message/js/chat-message.js",
-        "sha256": "41d185c9bfa70df14f9c8b0c92d25e1cc91cbaf6887ce02eb6349c20ba993d4f"
+        "sha256": "84dd2077598cab84fe8acca00c18836fef75155b8f46e18712010320a21d878e"
       },
       {
         "path": "chat-message/css/chat-message.css",
-        "sha256": "d733f24e62ff2817cc170509d4669cbf03480c8e87680fedae718c36ab503730"
+        "sha256": "b9dfeb662f32ce272d59e5974fd53332033780276a968f7fe03b093759d78ce5"
       },
       {
         "path": "chat-threads/js/chat-threads.js",
-        "sha256": "447c113f12af2af4c16046b219518e850bc3dc4ec47cb548a9818b456993d2ff"
+        "sha256": "da2127eb7446b23304f7840c090e85ddf198a7cbe9092f8f80361fac17a65799"
       },
       {
         "path": "chat-threads/css/chat-threads.css",
-        "sha256": "a1a7c543e57168ccdbaf12ce29c4ce2245deb7d1742130e7f0e568cd3e88834a"
+        "sha256": "ad23de962e88ac88be65dfad3bc2f0eb08f504c84fa2308f7f7ead1c13ff70d4"
       },
       {
         "path": "chat-window/js/chat-window.js",
-        "sha256": "dd6b9c16fb0af17d53e95b60efe1935ea3637029c7bbdf9b946cb3cfbd4041b4"
+        "sha256": "d1ced9af0ceb17d84e251d58e94545974c6944a3674cafc68a45257e27023880"
       },
       {
         "path": "chat-window/css/chat-window.css",
-        "sha256": "3083526eada9f1e56346947df9df2abd4dd9d35c118cbb2ec47b70393d4bafb1"
+        "sha256": "a453324305d843d28231732e458be63d77cbe77806b6a56f6d76bd393757161a"
       },
       {
         "path": "editor/js/editor.js",
-        "sha256": "516754858e67b197fc103797f6a3c9aa3042340bc3543dd4099bdffd2d665dfe"
+        "sha256": "a4b077c2c2ec9c5663861f2cd485f706bf4c1436e1af7df5640892fce9f473eb"
       },
       {
         "path": "editor/css/editor.css",
-        "sha256": "5ab9ddb40118c0b03f49dc00b796a157f455ef25a71a98a248279cd3e613a969"
+        "sha256": "5776f5e1192c007e4f00daa03dc75bde0ae757819a43999ba447ed1538ec513a"
       },
       {
         "path": "editor-content/js/editor-content.js",
-        "sha256": "47e0f6ef300a7b4ca53487614dfca38fc70fae5e760199b877120a7dfde1aa8a"
+        "sha256": "f02399b6950dd5633cdb09eab18fb2e6d956da4363317b737d5ba8b221cf84ed"
       },
       {
         "path": "editor-content/css/editor-content.css",
-        "sha256": "c296208eefe76c422d5eedec5b344e1ab851d664ef094dd6012ff0e79034d55b"
+        "sha256": "ed63bc684977051ca293124fd1d1ee120b761c47a74dea8404b4976c7f6865ed"
       },
       {
         "path": "mail-canvas/js/mail-canvas.js",
-        "sha256": "bba853fff5a57d4c038a14f795788cb27eaaac9bbbf3088d2cd3e291ae28a0f9"
+        "sha256": "03c240768107a4419d5f329ff686820607c87d339c53b09995b371fd4a67ea8e"
       },
       {
         "path": "mail-canvas/css/mail-canvas.css",
-        "sha256": "e73e5505f80ae5887391a9e71a927c3b7cbf6fa442306a2e50bce2314fcfb3c5"
+        "sha256": "63ddf6f28de06ce1d878836d26d96d8bf605ca668e3f4e9c4e9f8e14b0427802"
       },
       {
         "path": "mail-inspector/js/mail-inspector.js",
-        "sha256": "74ff1bf4ebc4f1e839ca15f6c6842222cf819bd28a9b99815efdf0ae88dcd4e7"
+        "sha256": "6513759bd7c298ae9f2639f76843a3c87dcf663dfb11c6ae26f90e0cc3efedf1"
       },
       {
         "path": "mail-inspector/css/mail-inspector.css",
-        "sha256": "5ab2fd0a2e52d334d1b2752b262ce7af4e251fa2f63457bf3e1529e440f4ced5"
+        "sha256": "76290c02bfde76920e41d957f6b4ed5ab65c8d197bc6691e50837e0adf58f149"
       },
       {
         "path": "mail-letters/js/mail-letters.js",
-        "sha256": "11dd19bf674940743df35f4480f2f80982d865d31ad363d7280fc189f7d5cdb0"
+        "sha256": "e175d8fef0a0a642216af3419abe6e13ff50a3b7eae46896af4b6c5adbd94a41"
       },
       {
         "path": "mail-letters/css/mail-letters.css",
-        "sha256": "59cd1472542e52b7ac1fc5ca983337b7b9fb271ee0a50d4f049e849963901d87"
+        "sha256": "27bd3bd403903024024222fed7afd8637957963626e0631518d69ee5c5a535a9"
       },
       {
         "path": "mail-library/js/mail-library.js",
-        "sha256": "9020eec9f2b5a33273f9c57fce4f89198e11fe624ebc4152f614faad79f039e5"
+        "sha256": "43aa1d170f3701cec36f7c836b5995a9a820e053e43c553068d7d98b0cbc1ccc"
       },
       {
         "path": "mail-library/css/mail-library.css",
-        "sha256": "06ae4f5e9233f8f35ed7a8f2ed007d8ff49746f524b8e8a65fdc53208bd1eda4"
+        "sha256": "cccdb642cc8ba7c787514bdc7119f2d43a2bb47f066102d77f6fd353d6d7dcb6"
       },
       {
         "path": "mail-structure/js/mail-structure.js",
-        "sha256": "b4ba62e24483c0dfc0953757f56e11c8bcb6f72ba4e077d4adcdc4fc8d0195b5"
+        "sha256": "f7f21ed57eb1bfdd9360c85b7ad3b0009a5fac1ce1d213be1c7b9f0ff6f20a3e"
       },
       {
         "path": "mail-structure/css/mail-structure.css",
-        "sha256": "8a25372810ae08c5411be207c067b4cc311848958ded48031e2451b9b4136deb"
+        "sha256": "4428e4c28760991bcb19de3eff3952f3de2cbffe3b413e38ba8817b80bac3da7"
       },
       {
         "path": "message-log/js/message-log.js",
-        "sha256": "eb19d4095aa69fca558b994fff4f8fee1659b04e9b1df0503b6714ddff78babb"
+        "sha256": "23c8d9fbfb5f1cd259b8d7146d55719e9d5292ed333ea5ad4d826fbe610bfed4"
       },
       {
         "path": "message-log/css/message-log.css",
-        "sha256": "84973f60051bcc3fc72380b4fac4d2f6b11ba11fad3367405bc4b31e2f59ca39"
+        "sha256": "d927659ccd39e3fd11cbcd44e01e430fc3d0384e57f1c894fc2f173a52c646e6"
       },
       {
         "path": "view/js/view.js",
-        "sha256": "8923d9082f95bd70d5ab50330a0bb301de529237ec39ac31e59a38e77a0bc486"
+        "sha256": "18df2a2a99611016140ab56cb45130c09ce6545479807c239f66bdcf563de896"
       },
       {
         "path": "view/css/view.css",
-        "sha256": "9cb66ecd760f68b38e76eb0817b5b9e48afba2a7db501872844550edb25460a0"
+        "sha256": "0c4e61e50093611b448d6f05c71de0175a178da5196f83cc11f10aaba2861c26"
       },
       {
         "path": "view-properties/js/view-properties.js",
-        "sha256": "2f8dc656e7e194467f61b22605bb9bcdc413d87cffd6ee6961cfe5102104f4b1"
+        "sha256": "889ce7f25179436a2b983f39113566d4db1e47edf39a9c82d0bdba7f8cf58080"
       },
       {
         "path": "view-properties/css/view-properties.css",
-        "sha256": "62dd4e6afef5946e9aaf4de46ce25b7957a7325ccbd66376ad4817e30786fced"
+        "sha256": "63ef01d7843ec529db60c47f91b79e1724c89bae0c1e07673aa94e96338bc806"
       },
       {
         "path": "view-table/js/view-table.js",
-        "sha256": "a819c1a9ec135608194de9ab8a31411e7566148a3eea07a4b47d3344dc70bc84"
+        "sha256": "9c5c94c6a5ea6e9b0866e93359058f85e61ff83e9d4febdd68db96a1dc88cfed"
       },
       {
         "path": "view-table/css/view-table.css",
-        "sha256": "31c9c7a3a377a338d208638d666153de050d6b6008ead2d052e659c9b9d47ce9"
+        "sha256": "8c85cebaaaf61808445c71eb7dcf0a2545496b1e24f93ac2dd2dc1ace2885f6f"
       }
     ]
   },
-  "compatibilityId": "pro-db490626ba74",
+  "compatibilityId": "pro-a57887949f9a",
   "requires": {
-    "framework": "ui-7fb26d395af2"
+    "framework": "ui-dc9fc39aeb26"
   },
-  "archiveSha256": "9cffcfbf010d3087ca750375b19c4adbed9d4e6efe7d02a1e895a5de7ebfc0f2",
-  "distributionIdentitySha256": "dce035056f4dac4334778c2ad70a7c527bc8f09bb11548f81a738647aab0905c"
+  "archiveSha256": "7dcf56e071fbf01069ced1c54501598f2ce7b86384cbc9ec0006a7b7b0cc72f5",
+  "distributionIdentitySha256": "c81a995495fe05ff8647b713903bba160bfed332024f0157b5537b40a37948cf"
 }

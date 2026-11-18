@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.alert",
-  "version": "1.2.1",
+  "version": "1.5.3",
   "title": "Alert",
   "summary": "Persistent inline notice with semantic roles, optional actions and dismiss behavior.",
   "kind": "smart",
@@ -24,7 +24,7 @@
     "uses": [
       "component.alerts",
       "component.buttons",
-      "smart.button-icon",
+      "smart.button-close",
       "smart.icon"
     ],
     "public_parts": []
@@ -62,7 +62,7 @@
       "appearance": {
         "type": "string",
         "default": "default",
-        "description": "How the alert looks: a filled surface, an outline, or flat.",
+        "description": "How the alert looks, one of the three notice looks (owner decision C110): default the border and the status fill, outlined the border only, flat the status fill without a border, lifted by the card's shadow.",
         "enum": [
           "default",
           "outlined",
@@ -102,6 +102,15 @@
         "type": "string",
         "default": "secondary",
         "description": "Stable secondary action value emitted in sf-alert-action."
+      },
+      "actions-layout": {
+        "type": "string",
+        "default": "auto",
+        "description": "Where the actions stand: auto puts them in the row with the text while the alert is wide enough and under the text when narrower (layout L3a); under keeps them under the text at every width, for a long text. Any other word is auto.",
+        "enum": [
+          "auto",
+          "under"
+        ]
       },
       "closable": {
         "type": "boolean",
@@ -377,7 +386,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/alert/index.js",
-        "sha256": "5d9d6633430146c1527dadded95515fe86dd7c7155ec7c6c3aeb10541b33a469"
+        "sha256": "117052f5419264ab02545086af4d6c451f06f08887b4e1510fe794e1e9c7f7ae"
       }
     ],
     "generated_runtime": [

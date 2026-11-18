@@ -157,6 +157,9 @@ const FIELDS = [
   { key: 'version', label: 'Версия', property_type: 'string', width: 'half' },
   { key: 'priority', label: 'Приоритет', property_type: 'integer', width: 'half' },
   { key: 'budget', label: 'Бюджет, ₽', property_type: 'number', width: 'half' },
+  // Money and a percent (port 1.18.0, C294): the pair ui-dc9fc39aeb26's renderer set draws both.
+  { key: 'price', label: 'Цена', property_type: 'money', width: 'half' },
+  { key: 'discount', label: 'Скидка', property_type: 'percent', width: 'half' },
   { key: 'released', label: 'Выпущено', property_type: 'date', width: 'half' },
   { key: 'checked_at', label: 'Проверено', property_type: 'datetime', width: 'half' },
   { key: 'review_time', label: 'Время проверки', property_type: 'time', width: 'half' },
@@ -181,7 +184,7 @@ const SECTIONS_LAYOUT = [
     key: 'main', label: 'Общее',
     groups: [
       { key: 'main', label: 'Основное', columns: 2, fields: ['code', 'title', 'section', 'owner', 'status', 'licence', 'tags', 'summary', 'body'] },
-      { key: 'numbers', label: 'Числа и сроки', columns: 2, fields: ['version', 'priority', 'budget', 'released', 'checked_at', 'review_time', 'public', 'deprecated'] },
+      { key: 'numbers', label: 'Числа и сроки', columns: 2, fields: ['version', 'priority', 'budget', 'price', 'discount', 'released', 'checked_at', 'review_time', 'public', 'deprecated'] },
     ],
   },
   {
@@ -223,6 +226,8 @@ const LIST_COLUMNS = [
   { key: 'owner', sortable: true },
   { key: 'priority', sortable: true, align: 'end' },
   { key: 'budget', sortable: true, align: 'end' },
+  { key: 'price', align: 'end' },
+  { key: 'discount', align: 'end' },
   { key: 'released', sortable: true },
   { key: 'checked_at', sortable: true },
   { key: 'review_time', sortable: true },
@@ -304,6 +309,9 @@ const buildRecord = (index) => {
     // or loses a minus sign is a defect nobody sees in data that avoids both.
     priority: index % 19 === 7 ? 0 : (index % 23 === 13 ? -2 : (index % 9) + 1),
     budget: index % 7 === 3 ? 0 : Math.round((random() * 4_800_000 + 12_000) / 100) * 100,
+    // Decimal strings from the index alone, so the random sequence is unchanged.
+    price: { amount: `${(index * 137) % 9000 + 990}.${pad((index * 7) % 100)}`, currency: index % 3 ? 'RUB' : 'USD' },
+    discount: String((index * 5) % 40),
     released: dateAt(index, 120),
     checked_at: dateTimeAt(index),
     // hh:mm, from the index alone, so the generator's random sequence is unchanged.

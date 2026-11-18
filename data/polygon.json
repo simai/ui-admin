@@ -143,6 +143,18 @@
         "width": "half"
       },
       {
+        "key": "price",
+        "label": "Цена",
+        "property_type": "money",
+        "width": "half"
+      },
+      {
+        "key": "discount",
+        "label": "Скидка",
+        "property_type": "percent",
+        "width": "half"
+      },
+      {
         "key": "released",
         "label": "Выпущено",
         "property_type": "date",
@@ -261,6 +273,8 @@
               "version",
               "priority",
               "budget",
+              "price",
+              "discount",
               "released",
               "checked_at",
               "review_time",
@@ -359,6 +373,14 @@
         {
           "key": "budget",
           "sortable": true,
+          "align": "end"
+        },
+        {
+          "key": "price",
+          "align": "end"
+        },
+        {
+          "key": "discount",
           "align": "end"
         },
         {
@@ -702,6 +724,11 @@
         "version": "1.0.0",
         "priority": 1,
         "budget": 1474500,
+        "price": {
+          "amount": "990.00",
+          "currency": "USD"
+        },
+        "discount": "0",
         "released": "2026-03-24",
         "checked_at": "2026-11-24T21:51:00+03:00",
         "review_time": "00:00",
@@ -770,6 +797,11 @@
         "version": "2.1.1",
         "priority": 2,
         "budget": 2114300,
+        "price": {
+          "amount": "1127.07",
+          "currency": "RUB"
+        },
+        "discount": "5",
         "released": "2026-02-25",
         "checked_at": "2026-06-10T11:04:00+03:00",
         "review_time": "07:15",
@@ -835,6 +867,11 @@
         "version": "3.2.2",
         "priority": 3,
         "budget": 609200,
+        "price": {
+          "amount": "1264.14",
+          "currency": "RUB"
+        },
+        "discount": "10",
         "released": "2026-02-12",
         "checked_at": "2026-07-06T07:16:00+03:00",
         "review_time": "14:30",
@@ -911,6 +948,11 @@
         "version": "4.3.3",
         "priority": 4,
         "budget": 0,
+        "price": {
+          "amount": "1401.21",
+          "currency": "USD"
+        },
+        "discount": "15",
         "released": "2026-03-27",
         "checked_at": "2027-02-14T22:57:00+03:00",
         "review_time": "21:45",
@@ -982,6 +1024,11 @@
         "version": "5.4.0",
         "priority": 5,
         "budget": 2818300,
+        "price": {
+          "amount": "1538.28",
+          "currency": "RUB"
+        },
+        "discount": "20",
         "released": "2026-02-05",
         "checked_at": "2027-01-02T19:22:00+03:00",
         "review_time": "04:00",
@@ -1050,6 +1097,11 @@
         "version": "6.5.1",
         "priority": 6,
         "budget": null,
+        "price": {
+          "amount": "1675.35",
+          "currency": "RUB"
+        },
+        "discount": "25",
         "released": "2026-03-23",
         "checked_at": null,
         "review_time": "11:15",
@@ -1105,6 +1157,11 @@
         "version": "1.6.2",
         "priority": 7,
         "budget": 752400,
+        "price": {
+          "amount": "1812.42",
+          "currency": "USD"
+        },
+        "discount": "30",
         "released": "2026-02-18",
         "checked_at": "2026-03-19T18:52:00+03:00",
         "review_time": "18:30",
@@ -1166,6 +1223,11 @@
         "version": "2.7.3",
         "priority": 0,
         "budget": 3984600,
+        "price": {
+          "amount": "1949.49",
+          "currency": "RUB"
+        },
+        "discount": "35",
         "released": "2026-05-14",
         "checked_at": "2026-03-26T01:25:00+03:00",
         "review_time": "01:45",
@@ -1243,6 +1305,11 @@
         "version": "3.8.0",
         "priority": 9,
         "budget": 1560800,
+        "price": {
+          "amount": "2086.56",
+          "currency": "RUB"
+        },
+        "discount": "0",
         "released": "2026-04-15",
         "checked_at": "2027-01-14T21:42:00+03:00",
         "review_time": "08:00",
@@ -1313,6 +1380,11 @@
         "version": "4.9.1",
         "priority": 1,
         "budget": 4402300,
+        "price": {
+          "amount": "2223.63",
+          "currency": "USD"
+        },
+        "discount": "5",
         "released": "2026-05-19",
         "checked_at": "2027-03-25T06:42:00+03:00",
         "review_time": "15:15",
@@ -1390,6 +1462,11 @@
         "version": "5.0.2",
         "priority": 2,
         "budget": 0,
+        "price": {
+          "amount": "2360.70",
+          "currency": "RUB"
+        },
+        "discount": "10",
         "released": "2026-04-15",
         "checked_at": "2026-09-13T19:32:00+03:00",
         "review_time": "22:30",
@@ -1455,6 +1532,11 @@
         "version": "6.1.3",
         "priority": 3,
         "budget": 951800,
+        "price": {
+          "amount": "2497.77",
+          "currency": "RUB"
+        },
+        "discount": "15",
         "released": "2026-04-28",
         "checked_at": "2026-05-03T01:39:00+03:00",
         "review_time": "05:45",
@@ -1539,6 +1621,11 @@
         "version": "1.2.0",
         "priority": 4,
         "budget": 492800,
+        "price": {
+          "amount": "2634.84",
+          "currency": "USD"
+        },
+        "discount": "20",
         "released": "2026-07-07",
         "checked_at": "2026-07-12T07:03:00+03:00",
         "review_time": "12:00",
@@ -1615,6 +1702,11 @@
         "version": "2.3.1",
         "priority": -2,
         "budget": 2789400,
+        "price": {
+          "amount": "2771.91",
+          "currency": "RUB"
+        },
+        "discount": "25",
         "released": "2026-04-26",
         "checked_at": "2026-06-08T01:58:00+03:00",
         "review_time": "19:15",
@@ -1679,6 +1771,11 @@
         "version": "3.4.2",
         "priority": 6,
         "budget": 4045400,
+        "price": {
+          "amount": "2908.98",
+          "currency": "RUB"
+        },
+        "discount": "30",
         "released": "2026-07-20",
         "checked_at": "2027-01-08T16:53:00+03:00",
         "review_time": "02:30",
@@ -1745,6 +1842,11 @@
         "version": "4.5.3",
         "priority": 7,
         "budget": 3649100,
+        "price": {
+          "amount": "3045.05",
+          "currency": "USD"
+        },
+        "discount": "35",
         "released": "2026-04-27",
         "checked_at": "2026-07-15T02:24:00+03:00",
         "review_time": "09:45",
@@ -1819,6 +1921,11 @@
         "version": "5.6.0",
         "priority": 8,
         "budget": null,
+        "price": {
+          "amount": "3182.12",
+          "currency": "RUB"
+        },
+        "discount": "0",
         "released": "2026-07-18",
         "checked_at": null,
         "review_time": "16:00",
@@ -1874,6 +1981,11 @@
         "version": "6.7.1",
         "priority": 9,
         "budget": 0,
+        "price": {
+          "amount": "3319.19",
+          "currency": "RUB"
+        },
+        "discount": "5",
         "released": "2026-07-02",
         "checked_at": "2027-05-16T06:56:00+03:00",
         "review_time": "23:15",
@@ -1939,6 +2051,11 @@
         "version": "1.8.2",
         "priority": 1,
         "budget": 1035300,
+        "price": {
+          "amount": "3456.26",
+          "currency": "USD"
+        },
+        "discount": "10",
         "released": "2026-06-22",
         "checked_at": "2026-08-30T06:46:00+03:00",
         "review_time": "06:30",
@@ -1999,6 +2116,11 @@
         "version": "2.9.3",
         "priority": 2,
         "budget": 1858000,
+        "price": {
+          "amount": "3593.33",
+          "currency": "RUB"
+        },
+        "discount": "15",
         "released": "2026-05-28",
         "checked_at": "2027-02-11T07:47:00+03:00",
         "review_time": "13:45",
@@ -2082,6 +2204,11 @@
         "version": "3.0.0",
         "priority": 3,
         "budget": 3227300,
+        "price": {
+          "amount": "3730.40",
+          "currency": "RUB"
+        },
+        "discount": "20",
         "released": "2026-08-05",
         "checked_at": "2027-05-04T15:48:00+03:00",
         "review_time": "20:00",
@@ -2157,6 +2284,11 @@
         "version": "4.1.1",
         "priority": 4,
         "budget": 367000,
+        "price": {
+          "amount": "3867.47",
+          "currency": "USD"
+        },
+        "discount": "25",
         "released": "2026-06-18",
         "checked_at": "2027-03-30T22:30:00+03:00",
         "review_time": "03:15",
@@ -2226,6 +2358,11 @@
         "version": "5.2.2",
         "priority": 5,
         "budget": 1242000,
+        "price": {
+          "amount": "4004.54",
+          "currency": "RUB"
+        },
+        "discount": "30",
         "released": "2026-09-16",
         "checked_at": "2026-08-28T15:05:00+03:00",
         "review_time": "10:30",
@@ -2297,6 +2434,11 @@
         "version": "6.3.3",
         "priority": 6,
         "budget": 3854800,
+        "price": {
+          "amount": "4141.61",
+          "currency": "RUB"
+        },
+        "discount": "35",
         "released": "2026-09-28",
         "checked_at": "2027-06-20T11:06:00+03:00",
         "review_time": "17:45",
@@ -2363,6 +2505,11 @@
         "version": "1.4.0",
         "priority": 7,
         "budget": 0,
+        "price": {
+          "amount": "4278.68",
+          "currency": "USD"
+        },
+        "discount": "0",
         "released": "2026-08-11",
         "checked_at": "2027-03-27T15:37:00+03:00",
         "review_time": "00:00",
@@ -2444,6 +2591,11 @@
         "version": "2.5.1",
         "priority": 8,
         "budget": 3788500,
+        "price": {
+          "amount": "4415.75",
+          "currency": "RUB"
+        },
+        "discount": "5",
         "released": "2026-10-19",
         "checked_at": "2026-07-14T03:11:00+03:00",
         "review_time": "07:15",
@@ -2519,6 +2671,11 @@
         "version": "3.6.2",
         "priority": 0,
         "budget": 1579000,
+        "price": {
+          "amount": "4552.82",
+          "currency": "RUB"
+        },
+        "discount": "10",
         "released": "2026-07-14",
         "checked_at": "2026-09-15T03:31:00+03:00",
         "review_time": "14:30",
@@ -2574,6 +2731,11 @@
         "version": "4.7.3",
         "priority": 1,
         "budget": null,
+        "price": {
+          "amount": "4689.89",
+          "currency": "USD"
+        },
+        "discount": "15",
         "released": "2026-09-14",
         "checked_at": null,
         "review_time": "21:45",
@@ -2628,6 +2790,11 @@
         "version": "5.8.0",
         "priority": 2,
         "budget": 1796600,
+        "price": {
+          "amount": "4826.96",
+          "currency": "RUB"
+        },
+        "discount": "20",
         "released": "2026-09-06",
         "checked_at": "2027-01-03T05:06:00+03:00",
         "review_time": "04:00",
@@ -2692,6 +2859,11 @@
         "version": "6.9.1",
         "priority": 3,
         "budget": 1760700,
+        "price": {
+          "amount": "4963.03",
+          "currency": "RUB"
+        },
+        "discount": "25",
         "released": "2026-10-17",
         "checked_at": "2026-08-05T08:31:00+03:00",
         "review_time": "11:15",
@@ -2768,6 +2940,11 @@
         "version": "1.0.2",
         "priority": 4,
         "budget": 2221000,
+        "price": {
+          "amount": "5100.10",
+          "currency": "USD"
+        },
+        "discount": "30",
         "released": "2026-09-15",
         "checked_at": "2026-11-11T13:01:00+03:00",
         "review_time": "18:30",
@@ -2829,6 +3006,11 @@
         "version": "2.1.3",
         "priority": 5,
         "budget": 0,
+        "price": {
+          "amount": "5237.17",
+          "currency": "RUB"
+        },
+        "discount": "35",
         "released": "2026-09-27",
         "checked_at": "2027-05-18T07:26:00+03:00",
         "review_time": "01:45",
@@ -2904,6 +3086,11 @@
         "version": "3.2.0",
         "priority": 6,
         "budget": 2723700,
+        "price": {
+          "amount": "5374.24",
+          "currency": "RUB"
+        },
+        "discount": "0",
         "released": "2026-09-15",
         "checked_at": "2026-12-17T01:53:00+03:00",
         "review_time": "08:00",
@@ -2969,6 +3156,11 @@
         "version": "4.3.1",
         "priority": 7,
         "budget": 1697400,
+        "price": {
+          "amount": "5511.31",
+          "currency": "USD"
+        },
+        "discount": "5",
         "released": "2026-11-01",
         "checked_at": "2026-12-27T09:12:00+03:00",
         "review_time": "15:15",
@@ -3035,6 +3227,11 @@
         "version": "5.4.2",
         "priority": 8,
         "budget": 754100,
+        "price": {
+          "amount": "5648.38",
+          "currency": "RUB"
+        },
+        "discount": "10",
         "released": "2026-12-07",
         "checked_at": "2027-08-31T02:03:00+03:00",
         "review_time": "22:30",
@@ -3094,6 +3291,11 @@
         "version": "6.5.3",
         "priority": 9,
         "budget": 3205100,
+        "price": {
+          "amount": "5785.45",
+          "currency": "RUB"
+        },
+        "discount": "15",
         "released": "2026-10-07",
         "checked_at": "2026-12-19T17:28:00+03:00",
         "review_time": "05:45",
@@ -3175,6 +3377,11 @@
         "version": "1.6.0",
         "priority": -2,
         "budget": 4100300,
+        "price": {
+          "amount": "5922.52",
+          "currency": "USD"
+        },
+        "discount": "20",
         "released": "2026-12-20",
         "checked_at": "2027-03-09T12:34:00+03:00",
         "review_time": "12:00",
@@ -3253,6 +3460,11 @@
         "version": "2.7.1",
         "priority": 2,
         "budget": 4144700,
+        "price": {
+          "amount": "6059.59",
+          "currency": "RUB"
+        },
+        "discount": "25",
         "released": "2026-10-09",
         "checked_at": "2026-11-07T03:39:00+03:00",
         "review_time": "19:15",
@@ -3328,6 +3540,11 @@
         "version": "3.8.2",
         "priority": 3,
         "budget": null,
+        "price": {
+          "amount": "6196.66",
+          "currency": "RUB"
+        },
+        "discount": "30",
         "released": "2027-01-03",
         "checked_at": null,
         "review_time": "02:30",
@@ -3380,6 +3597,11 @@
         "version": "4.9.3",
         "priority": 4,
         "budget": 911800,
+        "price": {
+          "amount": "6333.73",
+          "currency": "USD"
+        },
+        "discount": "35",
         "released": "2026-10-13",
         "checked_at": "2027-08-13T04:02:00+03:00",
         "review_time": "09:45",
@@ -3460,6 +3682,11 @@
         "version": "5.0.0",
         "priority": 5,
         "budget": 3537200,
+        "price": {
+          "amount": "6470.80",
+          "currency": "RUB"
+        },
+        "discount": "0",
         "released": "2026-12-05",
         "checked_at": "2027-09-24T16:54:00+03:00",
         "review_time": "16:00",
@@ -3530,6 +3757,11 @@
         "version": "6.1.1",
         "priority": 6,
         "budget": 1078300,
+        "price": {
+          "amount": "6607.87",
+          "currency": "RUB"
+        },
+        "discount": "5",
         "released": "2026-10-28",
         "checked_at": "2027-03-27T07:43:00+03:00",
         "review_time": "23:15",
@@ -3600,6 +3832,11 @@
         "version": "1.2.2",
         "priority": 7,
         "budget": 4362100,
+        "price": {
+          "amount": "6744.94",
+          "currency": "USD"
+        },
+        "discount": "10",
         "released": "2026-11-09",
         "checked_at": "2027-04-26T04:27:00+03:00",
         "review_time": "06:30",
@@ -3667,6 +3904,11 @@
         "version": "2.3.3",
         "priority": 8,
         "budget": 1351600,
+        "price": {
+          "amount": "6881.01",
+          "currency": "RUB"
+        },
+        "discount": "15",
         "released": "2026-12-04",
         "checked_at": "2026-12-07T10:59:00+03:00",
         "review_time": "13:45",
@@ -3747,6 +3989,11 @@
         "version": "3.4.0",
         "priority": 9,
         "budget": 4215100,
+        "price": {
+          "amount": "7018.08",
+          "currency": "RUB"
+        },
+        "discount": "20",
         "released": "2027-02-05",
         "checked_at": "2026-02-21T17:39:00+03:00",
         "review_time": "20:00",
@@ -3810,6 +4057,11 @@
         "version": "4.5.1",
         "priority": 0,
         "budget": 0,
+        "price": {
+          "amount": "7155.15",
+          "currency": "USD"
+        },
+        "discount": "25",
         "released": "2026-12-21",
         "checked_at": "2027-01-11T11:36:00+03:00",
         "review_time": "03:15",
@@ -3877,6 +4129,11 @@
         "version": "5.6.2",
         "priority": 2,
         "budget": 714300,
+        "price": {
+          "amount": "7292.22",
+          "currency": "RUB"
+        },
+        "discount": "30",
         "released": "2026-12-01",
         "checked_at": "2026-03-05T23:50:00+03:00",
         "review_time": "10:30",
@@ -3937,6 +4194,11 @@
         "version": "6.7.3",
         "priority": 3,
         "budget": 920900,
+        "price": {
+          "amount": "7429.29",
+          "currency": "RUB"
+        },
+        "discount": "35",
         "released": "2027-02-01",
         "checked_at": "2026-01-02T17:32:00+03:00",
         "review_time": "17:45",
@@ -4018,6 +4280,11 @@
         "version": "1.8.0",
         "priority": 4,
         "budget": 1217900,
+        "price": {
+          "amount": "7566.36",
+          "currency": "USD"
+        },
+        "discount": "0",
         "released": "2027-01-19",
         "checked_at": "2026-01-27T17:58:00+03:00",
         "review_time": "00:00",
@@ -4074,6 +4341,11 @@
         "version": "2.9.1",
         "priority": 5,
         "budget": null,
+        "price": {
+          "amount": "7703.43",
+          "currency": "RUB"
+        },
+        "discount": "5",
         "released": "2027-01-03",
         "checked_at": null,
         "review_time": "07:15",
@@ -4130,6 +4402,11 @@
         "version": "3.0.2",
         "priority": 6,
         "budget": 4327100,
+        "price": {
+          "amount": "7840.50",
+          "currency": "RUB"
+        },
+        "discount": "10",
         "released": "2027-03-24",
         "checked_at": "2026-12-19T05:57:00+03:00",
         "review_time": "14:30",
@@ -4193,6 +4470,11 @@
         "version": "4.1.3",
         "priority": 7,
         "budget": 4452800,
+        "price": {
+          "amount": "7977.57",
+          "currency": "USD"
+        },
+        "discount": "15",
         "released": "2026-12-29",
         "checked_at": "2027-01-28T02:42:00+03:00",
         "review_time": "21:45",
@@ -4275,6 +4557,11 @@
         "version": "5.2.0",
         "priority": 8,
         "budget": 0,
+        "price": {
+          "amount": "8114.64",
+          "currency": "RUB"
+        },
+        "discount": "20",
         "released": "2027-03-28",
         "checked_at": "2027-08-08T06:15:00+03:00",
         "review_time": "04:00",
@@ -4351,6 +4638,11 @@
         "version": "6.3.1",
         "priority": 9,
         "budget": 1095900,
+        "price": {
+          "amount": "8251.71",
+          "currency": "RUB"
+        },
+        "discount": "25",
         "released": "2027-01-18",
         "checked_at": "2027-07-05T04:52:00+03:00",
         "review_time": "11:15",
@@ -4418,6 +4710,11 @@
         "version": "1.4.2",
         "priority": 1,
         "budget": 3729100,
+        "price": {
+          "amount": "8388.78",
+          "currency": "USD"
+        },
+        "discount": "30",
         "released": "2027-01-23",
         "checked_at": "2026-01-27T19:05:00+03:00",
         "review_time": "18:30",
@@ -4477,6 +4774,11 @@
         "version": "2.5.3",
         "priority": 2,
         "budget": 2926100,
+        "price": {
+          "amount": "8525.85",
+          "currency": "RUB"
+        },
+        "discount": "35",
         "released": "2027-03-12",
         "checked_at": "2027-05-20T00:47:00+03:00",
         "review_time": "01:45",
@@ -4551,6 +4853,11 @@
         "version": "3.6.0",
         "priority": 3,
         "budget": 4754100,
+        "price": {
+          "amount": "8662.92",
+          "currency": "RUB"
+        },
+        "discount": "0",
         "released": "2027-05-03",
         "checked_at": "2027-09-13T03:28:00+03:00",
         "review_time": "08:00",
@@ -4631,6 +4938,11 @@
         "version": "4.7.1",
         "priority": 4,
         "budget": 1471300,
+        "price": {
+          "amount": "8799.99",
+          "currency": "USD"
+        },
+        "discount": "5",
         "released": "2027-04-05",
         "checked_at": "2026-02-14T18:18:00+03:00",
         "review_time": "15:15",
@@ -4707,6 +5019,11 @@
         "version": "5.8.2",
         "priority": 5,
         "budget": 3248900,
+        "price": {
+          "amount": "8936.06",
+          "currency": "RUB"
+        },
+        "discount": "10",
         "released": "2027-02-28",
         "checked_at": "2026-05-11T07:54:00+03:00",
         "review_time": "22:30",
@@ -4772,6 +5089,11 @@
         "version": "6.9.3",
         "priority": -2,
         "budget": 0,
+        "price": {
+          "amount": "9073.13",
+          "currency": "RUB"
+        },
+        "discount": "15",
         "released": "2027-06-15",
         "checked_at": "2026-04-30T10:47:00+03:00",
         "review_time": "05:45",
@@ -4840,6 +5162,11 @@
         "version": "1.0.0",
         "priority": 7,
         "budget": null,
+        "price": {
+          "amount": "9210.20",
+          "currency": "USD"
+        },
+        "discount": "20",
         "released": "2027-03-14",
         "checked_at": null,
         "review_time": "12:00",
@@ -4892,6 +5219,11 @@
         "version": "2.1.1",
         "priority": 8,
         "budget": 2602000,
+        "price": {
+          "amount": "9347.27",
+          "currency": "RUB"
+        },
+        "discount": "25",
         "released": "2027-06-09",
         "checked_at": "2027-05-16T23:28:00+03:00",
         "review_time": "19:15",
@@ -4969,6 +5301,11 @@
         "version": "3.2.2",
         "priority": 9,
         "budget": 2001800,
+        "price": {
+          "amount": "9484.34",
+          "currency": "RUB"
+        },
+        "discount": "30",
         "released": "2027-03-12",
         "checked_at": "2026-02-27T02:48:00+03:00",
         "review_time": "02:30",
@@ -5038,6 +5375,11 @@
         "version": "4.3.3",
         "priority": 1,
         "budget": 139500,
+        "price": {
+          "amount": "9621.41",
+          "currency": "USD"
+        },
+        "discount": "35",
         "released": "2027-04-09",
         "checked_at": "2027-08-02T21:02:00+03:00",
         "review_time": "09:45",
@@ -5102,6 +5444,11 @@
         "version": "5.4.0",
         "priority": 0,
         "budget": 1697500,
+        "price": {
+          "amount": "9758.48",
+          "currency": "RUB"
+        },
+        "discount": "0",
         "released": "2027-05-09",
         "checked_at": "2027-05-07T22:32:00+03:00",
         "review_time": "16:00",
@@ -5178,6 +5525,11 @@
         "version": "6.5.1",
         "priority": 3,
         "budget": 3924000,
+        "price": {
+          "amount": "9895.55",
+          "currency": "RUB"
+        },
+        "discount": "5",
         "released": "2027-04-11",
         "checked_at": "2027-10-02T11:01:00+03:00",
         "review_time": "23:15",
@@ -5250,6 +5602,11 @@
         "version": "1.6.2",
         "priority": 4,
         "budget": 0,
+        "price": {
+          "amount": "1032.62",
+          "currency": "USD"
+        },
+        "discount": "10",
         "released": "2027-07-06",
         "checked_at": "2026-04-17T14:17:00+03:00",
         "review_time": "06:30",
@@ -5317,6 +5674,11 @@
         "version": "2.7.3",
         "priority": 5,
         "budget": 417900,
+        "price": {
+          "amount": "1169.69",
+          "currency": "RUB"
+        },
+        "discount": "15",
         "released": "2027-07-03",
         "checked_at": "2027-05-31T07:21:00+03:00",
         "review_time": "13:45",
@@ -5390,6 +5752,11 @@
         "version": "3.8.0",
         "priority": 6,
         "budget": 4168000,
+        "price": {
+          "amount": "1306.76",
+          "currency": "RUB"
+        },
+        "discount": "20",
         "released": "2027-07-26",
         "checked_at": "2026-08-18T02:27:00+03:00",
         "review_time": "20:00",
@@ -5455,6 +5822,11 @@
         "version": "4.9.1",
         "priority": 7,
         "budget": 1130300,
+        "price": {
+          "amount": "1443.83",
+          "currency": "USD"
+        },
+        "discount": "25",
         "released": "2027-08-05",
         "checked_at": "2026-08-15T06:40:00+03:00",
         "review_time": "03:15",
@@ -5532,6 +5904,11 @@
         "version": "5.0.2",
         "priority": 8,
         "budget": 4092800,
+        "price": {
+          "amount": "1580.90",
+          "currency": "RUB"
+        },
+        "discount": "30",
         "released": "2027-06-07",
         "checked_at": "2027-07-17T20:06:00+03:00",
         "review_time": "10:30",
@@ -5583,6 +5960,11 @@
         "version": "6.1.3",
         "priority": 9,
         "budget": null,
+        "price": {
+          "amount": "1717.97",
+          "currency": "RUB"
+        },
+        "discount": "35",
         "released": "2027-07-03",
         "checked_at": null,
         "review_time": "17:45",
@@ -5635,6 +6017,11 @@
         "version": "1.2.0",
         "priority": 1,
         "budget": 4483900,
+        "price": {
+          "amount": "1854.04",
+          "currency": "USD"
+        },
+        "discount": "0",
         "released": "2027-07-15",
         "checked_at": "2027-09-03T10:50:00+03:00",
         "review_time": "00:00",
@@ -5713,6 +6100,11 @@
         "version": "2.3.1",
         "priority": 2,
         "budget": 0,
+        "price": {
+          "amount": "1991.11",
+          "currency": "RUB"
+        },
+        "discount": "5",
         "released": "2027-08-27",
         "checked_at": "2027-07-25T03:17:00+03:00",
         "review_time": "07:15",
@@ -5778,6 +6170,11 @@
         "version": "3.4.2",
         "priority": 3,
         "budget": 1799700,
+        "price": {
+          "amount": "2128.18",
+          "currency": "RUB"
+        },
+        "discount": "10",
         "released": "2027-09-04",
         "checked_at": "2026-10-03T00:41:00+03:00",
         "review_time": "14:30",
@@ -5855,6 +6252,11 @@
         "version": "4.5.3",
         "priority": 4,
         "budget": 3793100,
+        "price": {
+          "amount": "2265.25",
+          "currency": "USD"
+        },
+        "discount": "15",
         "released": "2027-06-28",
         "checked_at": "2026-07-06T23:04:00+03:00",
         "review_time": "21:45",
@@ -5922,6 +6324,11 @@
         "version": "5.6.0",
         "priority": 5,
         "budget": 798700,
+        "price": {
+          "amount": "2402.32",
+          "currency": "RUB"
+        },
+        "discount": "20",
         "released": "2027-09-09",
         "checked_at": "2027-06-22T07:12:00+03:00",
         "review_time": "04:00",
@@ -5998,6 +6405,11 @@
         "version": "6.7.1",
         "priority": 6,
         "budget": 716400,
+        "price": {
+          "amount": "2539.39",
+          "currency": "RUB"
+        },
+        "discount": "25",
         "released": "2027-09-06",
         "checked_at": "2026-09-28T12:48:00+03:00",
         "review_time": "11:15",
@@ -6077,6 +6489,11 @@
         "version": "1.8.2",
         "priority": 7,
         "budget": 2268000,
+        "price": {
+          "amount": "2676.46",
+          "currency": "USD"
+        },
+        "discount": "30",
         "released": "2026-01-18",
         "checked_at": "2026-01-06T14:18:00+03:00",
         "review_time": "18:30",
@@ -6161,6 +6578,11 @@
         "version": "2.9.3",
         "priority": 8,
         "budget": 565700,
+        "price": {
+          "amount": "2813.53",
+          "currency": "RUB"
+        },
+        "discount": "35",
         "released": "2026-01-10",
         "checked_at": "2027-08-02T06:02:00+03:00",
         "review_time": "01:45",
@@ -6242,6 +6664,11 @@
         "version": "3.0.0",
         "priority": 9,
         "budget": 0,
+        "price": {
+          "amount": "2950.60",
+          "currency": "RUB"
+        },
+        "discount": "0",
         "released": "2026-01-27",
         "checked_at": "2026-05-16T14:32:00+03:00",
         "review_time": "08:00",
@@ -6318,6 +6745,11 @@
         "version": "4.1.1",
         "priority": 1,
         "budget": 2909400,
+        "price": {
+          "amount": "3087.67",
+          "currency": "USD"
+        },
+        "discount": "5",
         "released": "2026-01-14",
         "checked_at": "2026-10-23T05:07:00+03:00",
         "review_time": "15:15",
@@ -6379,6 +6811,11 @@
         "version": "5.2.2",
         "priority": -2,
         "budget": null,
+        "price": {
+          "amount": "3224.74",
+          "currency": "RUB"
+        },
+        "discount": "10",
         "released": "2026-02-01",
         "checked_at": null,
         "review_time": "22:30",
@@ -6433,6 +6870,11 @@
         "version": "6.3.3",
         "priority": 0,
         "budget": 3379000,
+        "price": {
+          "amount": "3361.81",
+          "currency": "RUB"
+        },
+        "discount": "15",
         "released": "2027-09-11",
         "checked_at": "2026-06-27T14:30:00+03:00",
         "review_time": "05:45",
@@ -6498,6 +6940,11 @@
         "version": "1.4.0",
         "priority": 4,
         "budget": 1735900,
+        "price": {
+          "amount": "3498.88",
+          "currency": "USD"
+        },
+        "discount": "20",
         "released": "2027-08-26",
         "checked_at": "2026-04-07T09:02:00+03:00",
         "review_time": "12:00",
@@ -6570,6 +7017,11 @@
         "version": "2.5.1",
         "priority": 5,
         "budget": 1370500,
+        "price": {
+          "amount": "3635.95",
+          "currency": "RUB"
+        },
+        "discount": "25",
         "released": "2026-02-23",
         "checked_at": "2026-11-28T16:43:00+03:00",
         "review_time": "19:15",
@@ -6644,6 +7096,11 @@
         "version": "3.6.2",
         "priority": 6,
         "budget": 4191100,
+        "price": {
+          "amount": "3772.02",
+          "currency": "RUB"
+        },
+        "discount": "30",
         "released": "2026-01-22",
         "checked_at": "2026-03-29T21:46:00+03:00",
         "review_time": "02:30",
@@ -6705,6 +7162,11 @@
         "version": "4.7.3",
         "priority": 7,
         "budget": 0,
+        "price": {
+          "amount": "3909.09",
+          "currency": "USD"
+        },
+        "discount": "35",
         "released": "2026-03-15",
         "checked_at": "2026-11-19T18:25:00+03:00",
         "review_time": "09:45",
@@ -6773,6 +7235,11 @@
         "version": "5.8.0",
         "priority": 8,
         "budget": 4744200,
+        "price": {
+          "amount": "4046.16",
+          "currency": "RUB"
+        },
+        "discount": "0",
         "released": "2026-03-02",
         "checked_at": "2026-07-16T04:37:00+03:00",
         "review_time": "16:00",
@@ -6842,6 +7309,11 @@
         "version": "6.9.1",
         "priority": 9,
         "budget": 3551700,
+        "price": {
+          "amount": "4183.23",
+          "currency": "RUB"
+        },
+        "discount": "5",
         "released": "2026-03-27",
         "checked_at": "2026-03-07T05:09:00+03:00",
         "review_time": "23:15",
@@ -6907,6 +7379,11 @@
         "version": "1.0.2",
         "priority": 1,
         "budget": 4276800,
+        "price": {
+          "amount": "4320.30",
+          "currency": "USD"
+        },
+        "discount": "10",
         "released": "2026-04-11",
         "checked_at": "2026-09-10T02:50:00+03:00",
         "review_time": "06:30",
@@ -6971,6 +7448,11 @@
         "version": "2.1.3",
         "priority": 2,
         "budget": 1511000,
+        "price": {
+          "amount": "4457.37",
+          "currency": "RUB"
+        },
+        "discount": "15",
         "released": "2026-03-13",
         "checked_at": "2027-01-05T01:19:00+03:00",
         "review_time": "13:45",
@@ -7046,6 +7528,11 @@
         "version": "3.2.0",
         "priority": 3,
         "budget": 3606600,
+        "price": {
+          "amount": "4594.44",
+          "currency": "RUB"
+        },
+        "discount": "20",
         "released": "2026-03-17",
         "checked_at": "2026-10-16T16:01:00+03:00",
         "review_time": "20:00",
@@ -7119,6 +7606,11 @@
         "version": "4.3.1",
         "priority": 4,
         "budget": null,
+        "price": {
+          "amount": "4731.51",
+          "currency": "USD"
+        },
+        "discount": "25",
         "released": "2026-03-29",
         "checked_at": null,
         "review_time": "03:15",
@@ -7168,6 +7660,11 @@
         "version": "5.4.2",
         "priority": 5,
         "budget": 0,
+        "price": {
+          "amount": "4868.58",
+          "currency": "RUB"
+        },
+        "discount": "30",
         "released": "2026-02-22",
         "checked_at": "2026-12-17T05:15:00+03:00",
         "review_time": "10:30",
@@ -7226,6 +7723,11 @@
         "version": "6.5.3",
         "priority": 6,
         "budget": 2868200,
+        "price": {
+          "amount": "5005.65",
+          "currency": "RUB"
+        },
+        "discount": "35",
         "released": "2026-05-10",
         "checked_at": "2027-01-22T20:58:00+03:00",
         "review_time": "17:45",
@@ -7303,6 +7805,11 @@
         "version": "1.6.0",
         "priority": 7,
         "budget": 2459900,
+        "price": {
+          "amount": "5142.72",
+          "currency": "USD"
+        },
+        "discount": "0",
         "released": "2026-05-14",
         "checked_at": "2026-12-03T14:10:00+03:00",
         "review_time": "00:00",
@@ -7368,6 +7875,11 @@
         "version": "2.7.1",
         "priority": 8,
         "budget": 552800,
+        "price": {
+          "amount": "5279.79",
+          "currency": "RUB"
+        },
+        "discount": "5",
         "released": "2026-06-03",
         "checked_at": "2026-10-15T17:19:00+03:00",
         "review_time": "07:15",
@@ -7451,6 +7963,11 @@
         "version": "3.8.2",
         "priority": 9,
         "budget": 3738800,
+        "price": {
+          "amount": "5416.86",
+          "currency": "RUB"
+        },
+        "discount": "10",
         "released": "2026-05-23",
         "checked_at": "2027-02-08T17:56:00+03:00",
         "review_time": "14:30",
@@ -7511,6 +8028,11 @@
         "version": "4.9.3",
         "priority": 1,
         "budget": 2741800,
+        "price": {
+          "amount": "5553.93",
+          "currency": "USD"
+        },
+        "discount": "15",
         "released": "2026-05-16",
         "checked_at": "2026-11-15T04:21:00+03:00",
         "review_time": "21:45",
@@ -7585,6 +8107,11 @@
         "version": "5.0.0",
         "priority": 2,
         "budget": 4193300,
+        "price": {
+          "amount": "5690.00",
+          "currency": "RUB"
+        },
+        "discount": "20",
         "released": "2026-06-22",
         "checked_at": "2026-10-02T13:24:00+03:00",
         "review_time": "04:00",
@@ -7660,6 +8187,11 @@
         "version": "6.1.1",
         "priority": 3,
         "budget": 0,
+        "price": {
+          "amount": "5827.07",
+          "currency": "RUB"
+        },
+        "discount": "25",
         "released": "2026-06-02",
         "checked_at": "2026-05-02T01:32:00+03:00",
         "review_time": "11:15",
@@ -7727,6 +8259,11 @@
         "version": "1.2.2",
         "priority": 0,
         "budget": 2052700,
+        "price": {
+          "amount": "5964.14",
+          "currency": "USD"
+        },
+        "discount": "30",
         "released": "2026-07-05",
         "checked_at": "2026-07-04T12:37:00+03:00",
         "review_time": "18:30",
@@ -7790,6 +8327,11 @@
         "version": "2.3.3",
         "priority": 5,
         "budget": 3627000,
+        "price": {
+          "amount": "6101.21",
+          "currency": "RUB"
+        },
+        "discount": "35",
         "released": "2026-07-18",
         "checked_at": "2026-06-24T09:12:00+03:00",
         "review_time": "01:45",
@@ -7848,6 +8390,11 @@
         "version": "3.4.0",
         "priority": 6,
         "budget": null,
+        "price": {
+          "amount": "6238.28",
+          "currency": "RUB"
+        },
+        "discount": "0",
         "released": "2026-04-14",
         "checked_at": null,
         "review_time": "08:00",
@@ -7901,6 +8448,11 @@
         "version": "4.5.1",
         "priority": -2,
         "budget": 3730800,
+        "price": {
+          "amount": "6375.35",
+          "currency": "USD"
+        },
+        "discount": "5",
         "released": "2026-06-19",
         "checked_at": "2027-02-28T21:36:00+03:00",
         "review_time": "15:15",
@@ -7976,6 +8528,11 @@
         "version": "5.6.2",
         "priority": 8,
         "budget": 4139100,
+        "price": {
+          "amount": "6512.42",
+          "currency": "RUB"
+        },
+        "discount": "10",
         "released": "2026-07-09",
         "checked_at": "2027-02-22T14:51:00+03:00",
         "review_time": "22:30",
@@ -8046,6 +8603,11 @@
         "version": "6.7.3",
         "priority": 9,
         "budget": 1190000,
+        "price": {
+          "amount": "6649.49",
+          "currency": "RUB"
+        },
+        "discount": "15",
         "released": "2026-05-20",
         "checked_at": "2026-11-08T21:21:00+03:00",
         "review_time": "05:45",
@@ -8124,6 +8686,11 @@
         "version": "1.8.0",
         "priority": 1,
         "budget": 0,
+        "price": {
+          "amount": "6786.56",
+          "currency": "USD"
+        },
+        "discount": "20",
         "released": "2026-05-14",
         "checked_at": "2026-12-19T14:46:00+03:00",
         "review_time": "12:00",
@@ -8194,6 +8761,11 @@
         "version": "2.9.1",
         "priority": 2,
         "budget": 4245000,
+        "price": {
+          "amount": "6923.63",
+          "currency": "RUB"
+        },
+        "discount": "25",
         "released": "2026-05-04",
         "checked_at": "2026-10-31T05:48:00+03:00",
         "review_time": "19:15",
@@ -8275,6 +8847,11 @@
         "version": "3.0.2",
         "priority": 3,
         "budget": 3297400,
+        "price": {
+          "amount": "7060.70",
+          "currency": "RUB"
+        },
+        "discount": "30",
         "released": "2026-07-14",
         "checked_at": "2027-03-30T02:53:00+03:00",
         "review_time": "02:30",
@@ -8338,6 +8915,11 @@
         "version": "4.1.3",
         "priority": 4,
         "budget": 3782200,
+        "price": {
+          "amount": "7197.77",
+          "currency": "USD"
+        },
+        "discount": "35",
         "released": "2026-08-13",
         "checked_at": "2026-08-10T15:43:00+03:00",
         "review_time": "09:45",
@@ -8403,6 +8985,11 @@
         "version": "5.2.0",
         "priority": 5,
         "budget": 420100,
+        "price": {
+          "amount": "7334.84",
+          "currency": "RUB"
+        },
+        "discount": "0",
         "released": "2026-08-02",
         "checked_at": "2027-03-01T03:33:00+03:00",
         "review_time": "16:00",
@@ -8462,6 +9049,11 @@
         "version": "6.3.1",
         "priority": 6,
         "budget": 117200,
+        "price": {
+          "amount": "7471.91",
+          "currency": "RUB"
+        },
+        "discount": "5",
         "released": "2026-07-04",
         "checked_at": "2027-02-17T05:43:00+03:00",
         "review_time": "23:15",
@@ -8540,6 +9132,11 @@
         "version": "1.4.2",
         "priority": 7,
         "budget": 1488100,
+        "price": {
+          "amount": "7608.98",
+          "currency": "USD"
+        },
+        "discount": "10",
         "released": "2026-09-05",
         "checked_at": "2026-06-16T10:02:00+03:00",
         "review_time": "06:30",
@@ -8595,6 +9192,11 @@
         "version": "2.5.3",
         "priority": 8,
         "budget": null,
+        "price": {
+          "amount": "7745.05",
+          "currency": "RUB"
+        },
+        "discount": "15",
         "released": "2026-06-26",
         "checked_at": null,
         "review_time": "13:45",
@@ -8650,6 +9252,11 @@
         "version": "3.6.0",
         "priority": 9,
         "budget": 2732900,
+        "price": {
+          "amount": "7882.12",
+          "currency": "RUB"
+        },
+        "discount": "20",
         "released": "2026-10-12",
         "checked_at": "2026-12-31T18:23:00+03:00",
         "review_time": "20:00",
@@ -8725,6 +9332,11 @@
         "version": "4.7.1",
         "priority": 1,
         "budget": 414000,
+        "price": {
+          "amount": "8019.19",
+          "currency": "USD"
+        },
+        "discount": "25",
         "released": "2026-08-28",
         "checked_at": "2027-05-12T01:56:00+03:00",
         "review_time": "03:15",
@@ -8805,6 +9417,11 @@
         "version": "5.8.2",
         "priority": 2,
         "budget": 3566500,
+        "price": {
+          "amount": "8156.26",
+          "currency": "RUB"
+        },
+        "discount": "30",
         "released": "2026-10-15",
         "checked_at": "2026-10-04T13:56:00+03:00",
         "review_time": "10:30",
@@ -8859,6 +9476,11 @@
         "version": "6.9.3",
         "priority": 3,
         "budget": 991700,
+        "price": {
+          "amount": "8293.33",
+          "currency": "RUB"
+        },
+        "discount": "35",
         "released": "2026-08-30",
         "checked_at": "2027-08-09T22:07:00+03:00",
         "review_time": "17:45",

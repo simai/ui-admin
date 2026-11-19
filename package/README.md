@@ -11,10 +11,20 @@ repository is the admin demo site; the set does not depend on it.
 | `src/smart/admin-menu` | `sf-admin-menu` | none | the admin menu: a site's navigation over a host's navigation port (`simai.admin-navigation-port`), search, the object menu, edit mode, profiles and settings |
 
 The component came from `simai/ui-pro` `components/src/smart/admin-menu` at
-`2ba35fa` byte for byte (sf-admin-menu 1.11.2; the `pro` bundle keeps shipping
-it until it is rebuilt from the sets). Its history before the move is there.
-Its dated event and action aliases (`aliases.json`, until 2026-12-01) move
-with it unchanged; the tag itself has no former name.
+`2ba35fa` byte for byte (sf-admin-menu 1.11.2), was carried to ui-pro's
+1.14.2 and is 1.15.0 here: the navigation menu as the owner approved it on
+the showcase (decision C384 of 2026-11-19, order AM-1..AM-61). Its history
+before the move is in ui-pro. Its dated event and action aliases
+(`aliases.json`, until 2026-12-01) move with it unchanged; the tag itself has
+no former name.
+
+### Owner repository
+
+`simai/ui-admin` (this folder) owns `sf-admin-menu`. Every change to the menu
+is made here and nowhere else. The copy in `simai/ui-pro`
+(`components/src/smart/admin-menu`, 1.14.2) is frozen: it is dropped from the
+`pro` bundle in the first Pro release after the set `admin` is released, and
+until then gets no new work. A page takes the menu from the set `admin`.
 
 ## Built against a pinned ui-source
 
@@ -24,9 +34,10 @@ The component imports the free SIMAI Framework by relative path
 never a working tree), with this folder's `src/`, `tests/` and `docs/` laid
 over it. A file here may not replace a ui-source file.
 
-The pin is `5f130e62f87a`, the source of the released pair
-`ui-22690ab1c1dd` (core.runtime 1.57.0, npm `@simai-studio/ui@5.20261115.1622`).
-The passport names the same commit.
+The pin is `1dd18375cbc2`, the source of the released pair
+`ui-dc9fc39aeb26` (npm `@simai-studio/ui@5.20261118.1205`), with the Pro
+release `pro-a57887949f9a` beside it on the admin pages. The passport names
+the same commit.
 
 ```bash
 node scripts/test.mjs                                   # unit and contract suite in the overlay
@@ -37,7 +48,7 @@ node scripts/run-first-paint.mjs check|gate <free> <set build>
 ```
 
 `<free>` is the `distr` of the released pair (`git -C <ui> archive
-22690ab1c1dd distr`), `<set build>` the build output holding `smart/`
+dc9fc39aeb26 distr`), `<set build>` the build output holding `smart/`
 (`wave-1/output/package/admin` of the build below). `scripts/gates.sh` runs
 the whole chain: two builds, the receipt, the suite, the probes and the first
 paint.
@@ -62,7 +73,7 @@ release route (ui-builder `publish-package-release.sh`) lays it into
 ## Connecting it
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@simai-studio/ui@5.20261115.1622/distr/core/js/core.min.js" data-sf-sets="admin"></script>
+<script src="https://cdn.jsdelivr.net/npm/@simai-studio/ui@5.20261118.1205/distr/core/js/core.min.js" data-sf-sets="admin"></script>
 ```
 
 or, from a base the page serves itself:
@@ -79,3 +90,13 @@ An admin page that also shows data views declares both sets:
 Change `framework.lock.json` and `set.json` `framework.source_revision` to the
 ui-source revision of a newer released pair, run the gates against it and
 build. A set is built and tested against exactly one revision.
+
+## Кратко по-русски
+
+Здесь исходник набора компонентов `admin`: меню администратора
+`sf-admin-menu` 1.15.0 — то самое меню, которое владелец утвердил на витрине
+(решение C384, пункты AM-1..AM-61). Владелец меню — этот репозиторий
+`simai/ui-admin`; копия в `simai/ui-pro` заморожена и уйдёт из пакета `pro`
+в первом выпуске Pro после выпуска набора. Набор собирается и проверяется
+ровно против одной ревизии SIMAI Framework — сейчас это пара
+`ui-dc9fc39aeb26`.

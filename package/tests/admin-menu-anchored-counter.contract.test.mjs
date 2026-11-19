@@ -64,21 +64,20 @@ test('the free sheet still moves the compact counter onto the icon', async () =>
 test('the navigation rail anchors a row\'s counter on its icon', async () => {
   const template = await read('src/smart/admin-menu/js/navigation/template.js');
   const styles = await read('src/smart/admin-menu/js/navigation/navigation.css');
-  // The rail icon is a 1/2 step, so the counter is a danger dot, the number in
-  // the row's name (owner, 2026-10-21).
-  assert.match(template, /class="sf-badge-anchor sf-badge-anchor--size-1\/2 sf-badge-anchor--square sf-admin-nav-rail-anchor">\$\{icon\(name, "sf-admin-nav-row-icon"\)\}/);
-  assert.match(template, /<span class="sf-badge sf-badge--anchored sf-badge--error sf-badge--dot" aria-hidden="true" title=\$\{counter\.phrase\}><\/span>/);
+  // A rail row's icon is a 1/2 anchor, so its counter is a danger dot and the
+  // number goes to the row's name (owner, 2026-10-21); the bell's anchor is the
+  // 1 step, where the badge rule draws the count (C342, AM-43).
+  assert.match(template, /sf-badge-anchor sf-badge-anchor--size-\$\{count \? "1" : "1\/2"\} sf-badge-anchor--square sf-admin-nav-rail-anchor/);
+  assert.match(template, /sf-badge sf-badge--anchored sf-badge--error\$\{count && !counter\.dot \? "" : " sf-badge--dot"\}/);
+  assert.match(template, /railIcon\("notifications", counter, \{count: true\}\)/);
   // Counters take the danger role in both modes.
   const items = await read('src/smart/admin-menu/js/templates/default.js');
   assert.doesNotMatch(items, /<sf-badge[^>]*scheme="primary"/);
   assert.match(items, /sf-badge--main sf-badge--error sf-badge--size-1\/3 sf-admin-menu-item-counter/);
-  assert.doesNotMatch(template, /sf-admin-nav-attention" size="1\/3" scheme="primary"/);
   assert.match(template, /\$\{compact \? railIcon\(row\.icon, railCounter\(row\)\)/);
   assert.match(template, /aria-label=\$\{compact \? nameWithCounter\(row\.label, railCounter\(row\)\) : nothing\}/);
-  assert.match(template, /railIcon\("notifications", counterOf\(notifications\.unread\)\)/);
-  // The compact notifications row is named by hidden words, the count after them.
-  assert.match(template, /<span class="sr-only">\$\{nameWithCounter\(text\("notifications"\), counterOf\(notifications\.unread\)\)\}<\/span>/);
-  // The dot that stood at the row's corner, beside the icon, is gone.
+  // A row's count is SIMAI Framework's badge on a text line of rung 1 (AM-59).
+  assert.match(template, /<sf-badge size="1\/3" status="error" line="1"/);
   assert.doesNotMatch(template, /sf-admin-nav-dot/);
   assert.doesNotMatch(styles, /sf-admin-nav-dot/);
   // The ring is the rail's surface.

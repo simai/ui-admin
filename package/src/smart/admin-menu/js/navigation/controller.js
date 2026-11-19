@@ -26,11 +26,13 @@
 // again. Whether the column is open at all is the person's one choice, kept
 // across pages (owner, 2026-10-13: the menu must not jump open or closed).
 import {closeMenu, openMenu, removeMenu, updateMenu} from "./menu";
+import {renderNotices} from "./notices.js";
 import {getInitials} from "../../../helpers/text";
 import {pageText} from "../../../../core/js/page-language";
 import BundledPreferences from "../../../../core/js/preferences.js";
 import {wordsOf} from "../words.js";
-import {matchesShortcut, parseShortcut} from "../../../../component/kbd/js/shortcut";
+import {isEditableTarget, matchesShortcut, parseShortcut} from "../../../../component/kbd/js/shortcut";
+import {breakpointMedia} from "../../../../core/js/breakpoints.js";
 
 export const NAVIGATION_PORT = "simai.admin-navigation-port";
 
@@ -38,14 +40,17 @@ export const NAVIGATION_PORT = "simai.admin-navigation-port";
 // sf-view-properties keep theirs.
 export const SUPPORTED_NAVIGATION_VERSIONS = ["1.0.0", "1.1.0"];
 
-// The width at which two columns become two screens. The same query
-// sf-view-properties and sf-drawer switch on, written the same way, so a reader
-// grepping 48rem finds all three.
-const WIDE_MEDIA_QUERY = "(min-width: 48rem)";
+// The width at which the rail and its column become one full screen menu
+// (C322): the SIMAI Framework ladder's md step, 44rem (core/js/breakpoints.js,
+// AM-6). The menu switched at 48rem, a width of no step of the ladder; the
+// sheet (navigation.css) switches at the same step.
+export const WIDE_STEP = "md";
+let TIP_INSTANCES = 0;
 
-// «Найти в разделе» is offered once a section has more rows than fit at a
-// glance (assignment, section 3).
-const FIND_IN_SECTION_FROM = 7;
+// «Найти в разделе» is offered only above 12 pages (owner decision C364,
+// AM-45): twelve rows fit without scrolling on every screen measured (a
+// 375x667 phone holds 12), and below that ⌘K covers search.
+const FIND_IN_SECTION_ABOVE = 12;
 
 
 // The palette's keys in SIMAI Framework's shortcut notation (component kbd):
@@ -53,7 +58,18 @@ const FIND_IN_SECTION_FROM = 7;
 // platform this is, draws the keys (⌘K, Ctrl+K) and hears them (KB-2, C04):
 // the menu keeps no platform test and no key look of its own.
 export const PALETTE_SHORTCUT = "mod+k";
-const PALETTE_KEYS = parseShortcut(PALETTE_SHORTCUT);
+
+// The port may name another key for the palette (navigation `search_shortcut`,
+// AM-3), in the same notation; an empty or unreadable one keeps mod+k.
+export function paletteShortcut(navigation) {
+    const named = typeof navigation?.search_shortcut === "string" ? navigation.search_shortcut.trim() : "";
+    return named && parseShortcut(named) ? named : PALETTE_SHORTCUT;
+}
+
+// Hiding and showing the section column (owner decision C321, AM-36): the
+// key of Linear, Notion and VS Code, owned by the menu, said on its button.
+export const COLUMN_SHORTCUT = "mod+b";
+const COLUMN_KEYS = parseShortcut(COLUMN_SHORTCUT);
 
 // The id prefix of the lists sf-sortable reorders in the edit mode.
 export const LIST_ID = "sf-admin-nav-list-";
@@ -135,6 +151,37 @@ export const NAVIGATION_TEXT = wordsOf({
     newHeading: "new-heading",
     conflict: "conflict",
     personalName: "personal-name",
+    menu: "menu",
+    moveUp: "move-up",
+    moveDown: "move-down",
+    hideFromMenu: "hide-from-menu",
+    lockedHide: "locked-hide",
+    moreSections: "more-sections",
+    draftLeave: "draft-leave",
+    draftDrop: "draft-drop",
+    savedForAll: "saved-for-all",
+    saveForAll: "save-for-all",
+    lockedReason: "locked-reason",
+    lockedBy: "locked-by",
+    noticesNew: "notices-new",
+    noticesNone: "notices-none",
+    noticesReadAll: "notices-read-all",
+    noticesHistory: "notices-history",
+    noticesSettings: "notices-settings",
+    noticeOpen: "notice-open",
+    favouritesEmpty: "favourites-empty",
+    settingTitle: "setting-title",
+    levelLabel: "level-label",
+    levelPersonal: "level-personal",
+    levelEveryone: "level-everyone",
+    levelRole: "level-role",
+    noteEveryone: "note-everyone",
+    noteRole: "note-role",
+    noteDirty: "note-dirty",
+    reset: "reset",
+    finishConfigure: "finish-configure",
+    lockForAll: "lock-for-all",
+    unlock: "unlock",
 });
 
 const copy = (value) => (value === undefined ? undefined : JSON.parse(JSON.stringify(value)));
@@ -148,7 +195,6 @@ const INTENT_VERBS = {
     "navigation.load": ["refresh", "navigation", (p) => ({reason: p.reason ?? null, site: p.site ?? null})],
     "item.open": ["open", "item", (p) => ({id: p.key, href: p.href ?? null})],
     "favourite.toggle": ["toggle", "favourite", (p) => ({id: p.key, on: Boolean(p.on)})],
-    "preference.compact": ["save", "preference", (p) => ({values: {compact: p.compact}})],
     "preference.widths": ["save", "preference", (p) => ({values: {widths: p.widths}})],
     "preference.theme": ["save", "preference", (p) => ({values: {theme: p.theme}})],
     "preference.language": ["save", "preference", (p) => ({values: {language: p.language}})],
@@ -253,10 +299,11 @@ export class NavigationController {
         this.columnOpen = this.keptColumnOpen();
         this.unfolded = new Set();
         this.filter = "";
-        // Folded as the person left it, from the first paint: the host's answer
-        // came after it, and the menu opened and then folded.
-        this.compact = preferences()?.read(MENU_PREFERENCE)?.compact === true;
         this.screen = "first";
+        // The roots the rail has no room for, under «…» (AM-27): measured
+        // after a draw (fitRail), never the current page's root.
+        this.overflowRoots = [];
+        this.tipPrefix = `sf-admin-nav-tip-${++TIP_INSTANCES}`;
         this.sequence = 0;
         this.sites = {open: false, query: "", items: [], next: null, loading: false, sequence: 0};
         // The ⌘K palette is SIMAI Framework's sf-search (palette.js, K-04): the
@@ -270,14 +317,23 @@ export class NavigationController {
         // The edit mode: on or off, what is being renamed or added, the row whose
         // ⋯ is open, the profile list in the banner, and what the last save said.
         this.edit = {on: false, renaming: null, adding: null, rowMenu: null, profiles: false, naming: null, message: ""};
+        // The setting mode's level (C326 = C298): «Лично» (the personal
+        // profile, saved at once), «Для всех» and «Профиль настроек» (shared
+        // profiles: a draft here, saved only by «Сохранить для всех»), and
+        // what opened the mode, which gets the focus back when it closes.
+        this.level = {key: "personal", draft: null, dirty: false};
+        this.editOpener = null;
         this._onSortableIntent = (event) => this.onSortableIntent(event);
         element.addEventListener("sf-sortable-intent", this._onSortableIntent);
-        this._onResize = (event) => this.onColumnResize(event);
-        element.addEventListener("sf-resizer-resize", this._onResize);
+        // The rail's «…» follows the window's height (AM-27): measured again
+        // after every draw and when the window changes size.
+        this._onWindowResize = () => {
+            cancelAnimationFrame(this._fitFrame);
+            this._fitFrame = requestAnimationFrame(() => this.fitRail());
+        };
+        globalThis.addEventListener?.("resize", this._onWindowResize);
 
-        this.wideMedia = typeof globalThis.matchMedia === "function"
-            ? globalThis.matchMedia(WIDE_MEDIA_QUERY)
-            : null;
+        this.wideMedia = breakpointMedia(WIDE_STEP);
         this.wide = this.wideMedia ? this.wideMedia.matches : true;
         this._onWideChange = (event) => {
             this.wide = event.matches;
@@ -291,12 +347,28 @@ export class NavigationController {
             // ⌘K / Ctrl+K opens the palette from anywhere on the page, in every
             // arrangement of the menu -- the rail and the phone included, which
             // is the reason it is a palette over the page rather than a column.
-            if (matchesShortcut(event, PALETTE_KEYS) && this.offers("search")) {
+            // The menu is the key's one owner on the page (AM-1): its own
+            // sf-search hears no key of its own (palette.js shortcut="").
+            if (matchesShortcut(event, parseShortcut(this.paletteShortcut())) && this.offers("search")) {
                 // The key is the menu's: the open window's field does not hear
                 // it after the window has closed under it.
                 event.preventDefault();
                 event.stopPropagation();
                 this.togglePalette();
+                return;
+            }
+            // ⌘B / Ctrl+B hides and shows the section column (C321, AM-36);
+            // in a text field it is the field's (bold in an editor).
+            if (matchesShortcut(event, COLUMN_KEYS) && this.wide && !this.edit?.on && !isEditableTarget(event.target)) {
+                event.preventDefault();
+                this.toggleColumn();
+                return;
+            }
+            // Escape leaves the setting mode (AM-61), once what is open inside
+            // it -- a menu, a window, a name being typed -- has had it.
+            if (event.key === "Escape" && this.edit?.on && !event.defaultPrevented && !this.escapeTaken(event)) {
+                event.preventDefault();
+                this.exitEdit();
             }
         };
         // Escape, Tab and a press on the scrim are sf-search's while its
@@ -382,13 +454,26 @@ export class NavigationController {
         this.update("current");
     }
 
-    // A page was opened: a root the person was only looking at gives the
-    // column back to the page (owner, 2026-11-05). The edit mode keeps the
-    // root it edits.
+    // The first level is always the rail (owner decision C320): there is no
+    // «Развернуть» and no preference for it (AM-29). The rail unfolds with
+    // its names only for the time of the setting mode (C325, AM-24).
+    get compact() {
+        return !this.edit?.on;
+    }
+
+    // A page was opened. The column the person has open stays when it holds
+    // the page -- a row clicked in it only moves the current mark, the column
+    // is not drawn again (AM-58: it vanished for 2-3 frames and the page slid
+    // under it) -- else the column gives way to the page's own root (owner,
+    // 2026-11-05). The edit mode keeps the root it edits.
     pageOpened() {
         if (this.edit?.on) return;
-        this.openRoot = null;
-        this.filter = "";
+        const was = this.openRoot;
+        const keeps = was && this.wide && !this.objectMenu() && this.holdsCurrent(this.rootByKey(was) ?? {});
+        if (!keeps) {
+            this.openRoot = null;
+            this.filter = "";
+        }
         if (!this.wide) this.screen = this.objectMenu() ? "second" : "first";
     }
 
@@ -414,11 +499,21 @@ export class NavigationController {
     // On a phone the second screen holds the same, whatever the column's
     // choice on a wide screen.
     shownColumn() {
+        if (this.edit?.on) return this.openRoot;
+        if (this.wide && !this.columnOpen) return null;
         if (this.openRoot) return this.openRoot;
-        if (this.edit?.on) return null;
-        if (this.wide && (this.compact || !this.columnOpen)) return null;
         if (this.objectMenu()) return OBJECT_MENU;
         return this.pageRoot()?.key ?? null;
+    }
+
+    // What the host element says of its column (AM-49), for a page that
+    // draws «Показать колонку» in its own head line and holds the menu's
+    // width before the menu has drawn: open, hidden by the person, or none
+    // (a page with nothing for the column, or a phone).
+    columnState() {
+        if (!this.wide) return "none";
+        if (this.shownColumn()) return "open";
+        return this.pageColumn() || this.openRoot ? "hidden" : "none";
     }
 
     // What the second column would hold if it were open: the button that
@@ -430,9 +525,12 @@ export class NavigationController {
 
     dispose() {
         removeMenu(this);
+        this._notices?.remove?.();
+        this._notices = null;
         this.closePalette();
         this.element.removeEventListener("sf-sortable-intent", this._onSortableIntent);
-        this.element.removeEventListener("sf-resizer-resize", this._onResize);
+        globalThis.removeEventListener?.("resize", this._onWindowResize);
+        cancelAnimationFrame(this._fitFrame);
         this.wideMedia?.removeEventListener?.("change", this._onWideChange);
         document.removeEventListener("keydown", this._onKeyDown, true);
         document.removeEventListener("sf-region-load", this._onRegionLoad);
@@ -521,9 +619,6 @@ export class NavigationController {
             if (first && !this.wide) this.screen = this.objectMenu() ? "second" : "first";
             this.status = "ready";
             this.message = "";
-            this.compact = typeof answer.person?.compact === "boolean"
-                ? answer.person.compact
-                : this.preference.compact === true;
             // An open root the new menu does not hold closes rather than showing
             // an empty column under a heading that no longer exists.
             if (this.openRoot && this.openRoot !== FAVOURITES_ROOT && !this.roots().some((root) => root.key === this.openRoot)) {
@@ -577,13 +672,28 @@ export class NavigationController {
     // foot of the first column, its pages in the second column like any
     // section's. They were a block under the sections, in the first column,
     // where the person mostly works in the second.
+    // «Избранное» is a rail item with its own column (owner decision C327),
+    // there also while it is empty: its column then says how a page gets in
+    // -- the star at the page's title (C368, AM-48). A favourite carries the
+    // section it is in as a caption under its name, as rows from different
+    // sections meet here: the host's caption, else the root that holds it.
     favouritesRoot() {
+        if (!this.offers("favourites")) return null;
         const favourites = this.favourites();
-        if (!favourites.length) return null;
         return {
             key: FAVOURITES_ROOT, kind: "root", level: "site", label: this.text("favourites"), icon: "star",
-            children: favourites.map((entry) => ({...entry, kind: entry.kind === "divider" || entry.kind === "heading" ? entry.kind : "page"})),
+            children: favourites.map((entry) => ({
+                ...entry,
+                kind: entry.kind === "divider" || entry.kind === "heading" ? entry.kind : "page",
+                caption: entry.caption ?? this.sectionOf(entry.key)?.label ?? null,
+            })),
         };
+    }
+
+    // The root a row is in, at any depth.
+    sectionOf(key) {
+        const holds = (rows) => (rows ?? []).some((row) => row.key === key || holds(row.children));
+        return (this.navigation?.items ?? []).find((root) => root.key !== key && holds(root.children)) ?? null;
     }
 
     // The rows of the open root as they are drawn: hidden ones gone, headings
@@ -615,7 +725,7 @@ export class NavigationController {
     }
 
     offersFind(root) {
-        return this.pageCount(root) >= FIND_IN_SECTION_FROM;
+        return this.pageCount(root) > FIND_IN_SECTION_ABOVE;
     }
 
     favourites() {
@@ -635,8 +745,9 @@ export class NavigationController {
         const current = this.navigation?.current;
         if (!current) return false;
         if (root.key === current) return true;
-        return (root.children ?? []).some((row) => row.key === current
-            || (row.children ?? []).some((child) => child.key === current));
+        // At any depth (AM-13): a page three levels down keeps its root lit.
+        const holds = (rows) => (rows ?? []).some((row) => row.key === current || holds(row.children));
+        return holds(root.children);
     }
 
     // ─── what a person does ──────────────────────────────────────────────────
@@ -660,17 +771,20 @@ export class NavigationController {
             this.update("root");
             return;
         }
+        // A click on a root is «show me this section» (AM-49): its column
+        // opens, also when the person had hidden the column; a click on the
+        // root whose column is open hides it, which is hiding the column.
         const shown = this.shownColumn();
         const pageRoot = this.pageRoot()?.key ?? null;
         if (shown === key || (shown === OBJECT_MENU && this.holdsCurrent(this.rootByKey(key) ?? {}) && !this.openRoot)) {
             this.openRoot = null;
-            if (!this.compact) this.setColumnOpen(false);
-        } else if (key === pageRoot && !this.objectMenu() && !this.compact) {
+            this.setColumnOpen(false);
+        } else if (key === pageRoot && !this.objectMenu()) {
             this.openRoot = null;
             this.setColumnOpen(true);
         } else {
             this.openRoot = key;
-            if (!this.compact) this.setColumnOpen(true);
+            this.setColumnOpen(true);
         }
         this.filter = "";
         this.update("root");
@@ -685,22 +799,38 @@ export class NavigationController {
         this.update("root");
     }
 
-    // «Show the column» in the first column, while the column is closed and
-    // the page has something for it: the page's object menu or its root.
+    // «Показать колонку» (the page's head line, ⌘B, the element's
+    // showColumn): the column again, on what the page has -- its object menu
+    // or its root. With nothing for it nothing opens.
     showColumn() {
-        this.openRoot = null;
+        if (!this.pageColumn() && !this.openRoot) return false;
         this.setColumnOpen(true);
         this.update("root");
+        return true;
+    }
+
+    // ⌘B / Ctrl+B and the element's toggleColumn: hide the column that is
+    // open, show the one that is hidden (C321, AM-36).
+    toggleColumn() {
+        if (!this.wide || this.edit?.on) return false;
+        if (this.shownColumn()) {
+            this.hideColumn();
+            return true;
+        }
+        return this.showColumn();
     }
 
     setColumnOpen(open) {
-        this.columnOpen = Boolean(open);
+        const next = Boolean(open);
+        const changed = next !== this.columnOpen;
+        this.columnOpen = next;
         this.keepPreference({second: this.columnOpen});
+        if (changed) this.element.sfEmit("column-change", {open: this.columnOpen});
     }
 
     // The menu's view preference (SF.Preferences, owner 2026-10-14): whether
-    // the second column is open and whether the menu is folded to its rail,
-    // kept for the person with every other view preference.
+    // the section column is open, kept for the person with every other view
+    // preference (C321: remembered per person). The rail is not a choice.
     get preference() {
         return preferences()?.read(MENU_PREFERENCE) ?? {};
     }
@@ -808,16 +938,6 @@ export class NavigationController {
         return answer;
     }
 
-    async toggleCompact() {
-        this.compact = !this.compact;
-        if (this.compact) this.openRoot = null;
-        this.keepPreference({compact: this.compact});
-        this.update("compact");
-        if (this.offers("preferences")) await this.raise("preference.compact", {compact: this.compact});
-        // The payload the manifest has always declared for this event.
-        this.element.sfEmit("compact-change", {compact: this.compact, source: "toggle"});
-    }
-
     // ─── the site switcher ───────────────────────────────────────────────────
 
     // Whenever the host switches sites, however many there are now: with one
@@ -916,20 +1036,6 @@ export class NavigationController {
 
     // Applied at once through the Framework's own theme switch, which every page
     // on the Framework already answers; the host keeps it for the next page.
-    // A column's width is the person's, as the theme is (owner, 2026-10-14):
-    // kept by the host with preference.widths when it keeps preferences, so it
-    // is the same on any computer; the browser keeps it too, for a host that
-    // does not. A reset sends null: the column's own width again.
-    async onColumnResize(event) {
-        const phase = event.detail?.phase;
-        const column = /^admin-nav-(first|second)$/u.exec(event.target?.getAttribute?.("storage-key") ?? "")?.[1];
-        if (!column || (phase !== "end" && phase !== "reset") || !this.navigation?.person) return;
-        const width = phase === "reset" ? null : Math.round(Number(event.detail?.width) || 0) || null;
-        const widths = {...(this.navigation.person.widths ?? {}), [column]: width};
-        this.navigation = {...this.navigation, person: {...this.navigation.person, widths}};
-        if (this.offers("preferences")) await this.raise("preference.widths", {widths});
-    }
-
     async chooseTheme(theme) {
         globalThis.SF?.Loader?.setTheme?.(theme);
         this.navigation = {...this.navigation, person: {...this.navigation.person, theme}};
@@ -981,17 +1087,87 @@ export class NavigationController {
         return this.mayEdit() || Boolean(this.navigation.rights?.edit_personal);
     }
 
+    // ─── the setting mode's levels (C326 = C298, AM-28) ────────────────────
+
+    // The profiles a level stands for: «Лично» is the person's personal
+    // profile; «Для всех» the shared profile everyone starts from (the port's
+    // profiles.default, else the first shared one); «Профиль настроек» every
+    // other shared profile, one at a time (a role's, as «Операторы»).
+    personalProfile() {
+        return (this.navigation?.profiles?.list ?? []).find((entry) => entry.kind === "personal") ?? null;
+    }
+
+    everyoneProfile() {
+        const profiles = this.navigation?.profiles;
+        const shared = (profiles?.list ?? []).filter((entry) => entry.kind === "shared");
+        return shared.find((entry) => entry.key === profiles?.default) ?? shared[0] ?? null;
+    }
+
+    roleProfiles() {
+        const everyone = this.everyoneProfile()?.key;
+        return (this.navigation?.profiles?.list ?? []).filter((entry) => entry.kind === "shared" && entry.key !== everyone);
+    }
+
+    // The levels this person has: «Лично» with the right to a personal menu,
+    // the shared two with the right to change shared menus.
+    levels() {
+        const rights = this.navigation?.rights ?? {};
+        const list = [];
+        if (rights.edit_personal) list.push("personal");
+        if (rights.edit_shared && this.everyoneProfile()) list.push("everyone");
+        if (rights.edit_shared && (this.roleProfiles().length || rights.create_shared)) list.push("role");
+        return list;
+    }
+
+    levelOf(profileKey) {
+        const entry = (this.navigation?.profiles?.list ?? []).find((one) => one.key === profileKey);
+        if (!entry) return null;
+        if (entry.kind === "personal") return "personal";
+        return entry.key === this.everyoneProfile()?.key ? "everyone" : "role";
+    }
+
+    // A shared level is a draft until «Сохранить для всех».
+    isDraft() {
+        return this.edit?.on && this.level.key !== "personal";
+    }
+
+    // Whether «Сбросить» has anything to bring back (AM-61: off when nothing
+    // differs). A shared draft: its unsaved changes. «Лично»: the personal
+    // profile differs from «Для всех» -- the port says so on the profile
+    // (changed), else the menu knows it from its own saves and resets.
+    canReset() {
+        if (this.isDraft()) return this.level.dirty;
+        const personal = this.personalProfile();
+        if (typeof this.level.personalChanged === "boolean") return this.level.personalChanged;
+        return personal?.changed !== false;
+    }
+
+    // The sections an administrator locked for everyone, by name, for the
+    // lock line of the setting header (AM-42).
+    lockedNames() {
+        return (this.navigation?.items ?? []).filter((row) => row.locked).map((row) => row.label).filter(Boolean);
+    }
+
+    isLocked(row) {
+        return Boolean(row?.locked) && !this.isDraft();
+    }
+
+    // ─── the setting mode (C325, AM-22, AM-24, AM-41, AM-61) ────────────────
+
     // A shared profile this person may not change is not edited by stealth:
-    // the edit mode moves to their personal profile, made from the one they
-    // were looking at when they have none.
-    async startEdit() {
-        if (!this.canEdit()) return;
+    // the mode opens on «Лично», their personal profile, made from the one
+    // they were looking at when they have none. `opener` is what opened the
+    // mode -- "person" or a rail root's key -- and gets the focus back.
+    async startEdit(opener = null) {
+        if (!this.canEdit() || this.edit?.on) return;
         closeMenu(this);
+        this.editOpener = opener;
         // The edit mode chooses a row's glyph with the grid dropdown, which the
         // menu fetches when it is first needed rather than with every page.
-        globalThis.SF?.Loader?.ensure?.(["sf-dropdown"]);
-        if (!this.mayEdit()) {
-            let personal = this.navigation.profiles.list.find((entry) => entry.kind === "personal");
+        globalThis.SF?.Loader?.ensure?.(["sf-dropdown", "sf-segmented"]);
+        const rights = this.navigation.rights ?? {};
+        if (rights.edit_personal) {
+            let personal = this.personalProfile();
             if (!personal) {
                 const made = await this.raise("view.create", {
                     label: this.text("personalName"), shared: false, from: this.navigation.profiles.current,
@@ -999,14 +1175,114 @@ export class NavigationController {
                 if (made.answer !== "applied") return this.editMessage(made.reason);
                 personal = made.profiles?.list?.find((entry) => entry.kind === "personal");
             }
-            if (!personal || !(await this.switchProfile(personal.key))) return;
+            if (!personal) return false;
+            if (personal.key !== this.navigation.profiles.current && !(await this.switchProfile(personal.key))) return false;
+            this.level = {key: "personal", draft: null, dirty: false};
+        } else {
+            const everyone = this.everyoneProfile();
+            if (!everyone) return false;
+            if (everyone.key !== this.navigation.profiles.current && !(await this.switchProfile(everyone.key))) return false;
+            this.level = {key: "everyone", draft: everyone.key, dirty: false};
         }
         this.edit = {...this.edit, on: true, message: ""};
-        if (!this.openRoot) {
-            const first = this.siteRoots().find((root) => root.kind === "root");
-            if (first && this.wide) this.openRoot = first.key;
+        // The current section's column is open for its rows to be edited.
+        if (!this.openRoot && this.wide) {
+            this.openRoot = this.pageRoot()?.key ?? this.siteRoots().find((root) => root.kind === "root")?.key ?? null;
         }
         this.update("edit");
+        return true;
+    }
+
+    // A level chosen in the setting header. A shared draft with unsaved
+    // changes asks once before it is left.
+    async chooseLevel(level, profileKey = null) {
+        if (!this.edit?.on) return false;
+        const target = level === "personal" ? this.personalProfile()?.key
+            : level === "everyone" ? this.everyoneProfile()?.key
+                : profileKey ?? (this.level.key === "role" ? this.level.draft : null) ?? this.roleProfiles()[0]?.key;
+        if (!target) {
+            this.update("edit");
+            return false;
+        }
+        if (target === this.navigation.profiles.current && level === this.level.key) return true;
+        if (!(await this.leaveDraft())) {
+            this.update("edit");
+            return false;
+        }
+        if (!(await this.switchProfile(target))) return false;
+        this.level = {...this.level, key: level, draft: level === "personal" ? null : target, dirty: false};
+        this.edit = {...this.edit, message: ""};
+        this.update("edit");
+        return true;
+    }
+
+    // Whether an unsaved shared draft may be dropped: asked once, in the
+    // Framework's confirm when the page has it.
+    async leaveDraft() {
+        if (!this.isDraft() || !this.level.dirty) return true;
+        const question = this.text("draftLeave");
+        const confirm = globalThis.SF?.confirm;
+        const yes = typeof confirm === "function"
+            ? await confirm({text: question, confirm: this.text("draftDrop"), cancel: this.text("cancel")})
+            : globalThis.confirm?.(question) ?? true;
+        const agreed = yes === true || yes?.outcome === "applied" || yes?.confirmed === true;
+        if (agreed) this.level = {...this.level, dirty: false};
+        return agreed;
+    }
+
+    // «Сохранить для всех»: the shared draft reaches its level.
+    async saveDraft() {
+        if (!this.isDraft() || !this.level.dirty) return false;
+        const answer = await this.raise("view.save", {
+            profile: this.navigation.profiles.current,
+            revision: this.navigation.revision,
+            layout: this.layoutOf(this.navigation.items ?? []),
+        });
+        if (answer.answer === "applied") {
+            this.navigation = {...this.navigation, revision: answer.revision ?? this.navigation.revision};
+            this.level = {...this.level, dirty: false};
+            this.edit = {...this.edit, message: this.text("savedForAll")};
+            this.update("edit");
+            return true;
+        }
+        this.editMessage(answer.answer === "conflict" ? this.text("conflict") : answer.reason);
+        return false;
+    }
+
+    // «Готово», Escape and «Закончить настройку» do the same (AM-61):
+    // «Лично» is already saved, so they close; an unsaved shared draft asks
+    // once. The menu goes back to the person's own profile and the rail, and
+    // the focus to what opened the mode.
+    async exitEdit() {
+        if (!this.edit?.on) return false;
+        if (!(await this.leaveDraft())) return false;
+        const back = this.isDraft() ? this.personalProfile()?.key ?? null : null;
+        this.stopEdit();
+        if (back) await this.switchProfile(back);
+        this.level = {key: "personal", draft: null, dirty: false};
+        await this.element.updateComplete;
+        this.focusOpener();
+        return true;
+    }
+
+    focusOpener() {
+        const opener = this.editOpener;
+        this.editOpener = null;
+        const root = this.element;
+        const target = opener && opener !== "person"
+            ? root.querySelector(`.sf-admin-nav-first a.sf-admin-nav-row--first[data-key="${CSS.escape(opener)}"]`)
+            : null;
+        (target ?? root.querySelector(".sf-admin-nav-person"))?.focus({preventScroll: true});
+    }
+
+    // Escape is someone else's while a menu, a window or the notifications
+    // panel is open, or a name is being typed in the menu.
+    escapeTaken(event) {
+        if ([...document.querySelectorAll("sf-menu-context")].some((menu) => menu.isOpen)) return true;
+        if (document.querySelector("sf-search[open], sf-modal[open], sf-confirm[open]")) return true;
+        if (this._notices?.hasAttribute?.("open")) return true;
+        const target = event.composedPath?.()[0] ?? event.target;
+        return Boolean(target?.closest?.("input, textarea, [contenteditable='true']") && this.element.contains(target));
     }
 
     stopEdit() {
@@ -1060,6 +1336,9 @@ export class NavigationController {
                 // row's glyph is, so a chosen one is never dropped.
                 const chosen = "package_icon" in row ? (row.icon !== row.package_icon ? row.icon ?? null : null) : row.icon ?? null;
                 layout.items[row.key] = {parent, order, hidden: Boolean(row.hidden), label: named, icon: chosen};
+                // A section an administrator locked for everyone (AM-42): the
+                // lock rides the shared profile's layout with its reason.
+                if (row.locked) layout.items[row.key].locked = {reason: row.locked.reason ?? null};
             }
         };
         items.forEach((root, rootIndex) => {
@@ -1072,11 +1351,19 @@ export class NavigationController {
     // Every change is drawn at once and saved at once (assignment, section 7).
     // A conflict reads the menu again, with the reason said; nothing is merged
     // behind the person's back.
+    // A shared level is a draft (C326 = C298, AM-28): drawn at once, saved
+    // only by «Сохранить для всех» (saveDraft).
     async change(mutate) {
         const items = JSON.parse(JSON.stringify(this.navigation.items ?? []));
         mutate(items);
         this.navigation = {...this.navigation, items};
         this.edit = {...this.edit, message: ""};
+        if (this.isDraft()) {
+            this.level = {...this.level, dirty: true};
+            this.update("edit-change");
+            return true;
+        }
+        this.level = {...this.level, personalChanged: true};
         this.update("edit-change");
         const answer = await this.raise("view.save", {
             profile: this.navigation.profiles.current,
@@ -1105,6 +1392,52 @@ export class NavigationController {
             if (at) return {row: at, list: root.children};
         }
         return null;
+    }
+
+    // «Закрепить для всех» / «Открепить» from a row's ⋯ in a shared level
+    // (AM-42): a locked section is fixed in every person's menu, its reason
+    // said on its lock.
+    setLocked(key, on) {
+        if (!this.isDraft()) return null;
+        return this.change((items) => {
+            const found = this.findIn(items, key);
+            if (found) found.row.locked = on ? {reason: this.text("lockedReason")} : null;
+        });
+    }
+
+    // The rail's short menu (C325 В, AM-22): «Выше», «Ниже», «Скрыть из
+    // меню» on a root, saved in the person's menu at once.
+    async moveRoot(key, step) {
+        const items = this.navigation?.items ?? [];
+        const row = items.find((entry) => entry.key === key);
+        if (!row || row.locked) return false;
+        const group = items.filter((entry) => !entry.hidden && (entry.level === "install") === (row.level === "install"));
+        const at = group.indexOf(row);
+        const swap = group[at + step];
+        if (!swap) return false;
+        return this.personalChange((list) => {
+            const a = list.findIndex((entry) => entry.key === key);
+            const b = list.findIndex((entry) => entry.key === swap.key);
+            if (a >= 0 && b >= 0) [list[a], list[b]] = [list[b], list[a]];
+        });
+    }
+
+    async hideRoot(key) {
+        const row = (this.navigation?.items ?? []).find((entry) => entry.key === key);
+        if (!row || row.locked) return false;
+        return this.personalChange((list) => {
+            const found = list.find((entry) => entry.key === key);
+            if (found) found.hidden = true;
+        });
+    }
+
+    // A change outside the setting mode is the person's own (their personal
+    // profile): the menu moves to it first when another one is shown.
+    async personalChange(mutate) {
+        const personal = this.personalProfile();
+        if (!this.navigation?.rights?.edit_personal || !personal) return false;
+        if (personal.key !== this.navigation.profiles.current && !(await this.switchProfile(personal.key))) return false;
+        return this.change(mutate);
     }
 
     toggleHidden(key) {
@@ -1224,6 +1557,8 @@ export class NavigationController {
             this.moveRow(source, item, index);
             return;
         }
+        // The common sections stay among themselves.
+        if (source === "install" || target === "install") return;
         this.moveRowBetween(source, target, item, index);
     }
 
@@ -1242,6 +1577,21 @@ export class NavigationController {
     }
 
     moveRow(listKey, key, index) {
+        // The common sections move among themselves (AM-42: nothing silently
+        // fixed): their list is the install's roots, in the order they stand.
+        if (listKey === "install") {
+            return this.change((items) => {
+                const install = items.filter((row) => row.level === "install");
+                const at = install.findIndex((row) => row.key === key);
+                if (at < 0) return;
+                const [row] = install.splice(at, 1);
+                install.splice(Math.max(0, Math.min(index, install.length)), 0, row);
+                let next = 0;
+                items.forEach((entry, position) => {
+                    if (entry.level === "install") items[position] = install[next++];
+                });
+            });
+        }
         return this.change((items) => {
             const list = this.listOf(items, listKey === "roots" ? null : listKey);
             if (!list) return;
@@ -1252,7 +1602,19 @@ export class NavigationController {
         });
     }
 
+    // «Сбросить» (AM-61): a shared draft goes back to what its level holds;
+    // «Лично» goes back to «Для всех» (the host's reset of the personal
+    // profile). The mode stays; with nothing left to reset the button is off
+    // and the focus moves on to «Готово».
     async resetProfile() {
+        if (this.isDraft()) {
+            if (!this.level.dirty) return;
+            this.level = {...this.level, dirty: false};
+            await this.switchProfile(this.navigation.profiles.current);
+            this.update("edit");
+            return;
+        }
+        this.level = {...this.level, personalChanged: false};
         const answer = await this.raise("view.reset", {
             profile: this.navigation.profiles.current, revision: this.navigation.revision,
         });
@@ -1411,6 +1773,198 @@ export class NavigationController {
         this.element.sfEmit("navigate", {id: chosen.item.key, key: chosen.item.key, href});
     }
 
+    // The palette's key: the port's search_shortcut, else the element's
+    // search-shortcut setting, else mod+k (AM-3).
+    paletteShortcut() {
+        const own = String(this.element.getAttribute?.("search-shortcut") ?? "").trim();
+        const named = paletteShortcut(this.navigation);
+        if (named !== PALETTE_SHORTCUT) return named;
+        return own && parseShortcut(own) ? own : PALETTE_SHORTCUT;
+    }
+
+    // ─── notifications (C340-C342, AM-19, AM-43, AM-44) ────────────────────
+
+    // The bell opens the notifications panel on the right over the page: the
+    // Framework's sf-drawer (size 2, 30rem, not modal), its list read from
+    // the port (notifications.load) when it opens, «Прочитать все», «Вся
+    // история» (notifications.href) and «Настройки уведомлений» (the answer's
+    // settings_href). The panel lives beside the page, as the shared menu
+    // does, so a draw of the menu does not take it away.
+    async toggleNotifications(anchor) {
+        const drawer = await this.noticesDrawer();
+        if (!drawer) return;
+        if (drawer.hasAttribute("open")) {
+            drawer.close?.();
+            return;
+        }
+        this._noticesAnchor = anchor ?? null;
+        await this.loadNotices();
+        drawer.open?.();
+        this.update("notifications");
+    }
+
+    async noticesDrawer() {
+        if (!this.offers("notifications")) return null;
+        if (!customElements.get("sf-drawer")) await globalThis.SF?.Loader?.ensure?.(["sf-drawer"]);
+        if (!customElements.get("sf-drawer")) return null;
+        let drawer = this._notices;
+        if (!drawer?.isConnected) {
+            drawer = document.createElement("sf-drawer");
+            drawer.setAttribute("modal", "false");
+            drawer.setAttribute("placement", "inline-end");
+            drawer.setAttribute("size", "2");
+            drawer.className = "sf-admin-nav-notices";
+            drawer.dataset.sfAdminNavNotices = "";
+            const body = document.createElement("div");
+            body.className = "sf-admin-nav-notices-body";
+            drawer.append(body);
+            drawer.addEventListener("click", (event) => this.onNoticesClick(event));
+            new MutationObserver(() => {
+                const open = drawer.hasAttribute("open");
+                this._noticesAnchor?.setAttribute?.("aria-expanded", String(open));
+                if (!open && this._noticesOpen) this._noticesAnchor?.focus?.({preventScroll: true});
+                this._noticesOpen = open;
+            }).observe(drawer, {attributes: true, attributeFilter: ["open"]});
+            document.body.append(drawer);
+            this._notices = drawer;
+        }
+        drawer.setAttribute("heading", this.text("notifications"));
+        return drawer;
+    }
+
+    async loadNotices() {
+        const body = this._notices?.querySelector(".sf-admin-nav-notices-body");
+        if (!body) return;
+        const answer = await this.raise("notifications.load", {});
+        renderNotices(body, this, answer);
+        if (Number.isInteger(answer?.unread) && this.navigation?.notifications) {
+            this.navigation = {...this.navigation, notifications: {...this.navigation.notifications, unread: answer.unread}};
+            this.update("notifications");
+        }
+    }
+
+    async onNoticesClick(event) {
+        const all = event.target.closest?.("[data-notices-read-all]");
+        if (all) {
+            event.preventDefault();
+            await this.readNotices({all: true});
+            return;
+        }
+        const link = event.target.closest?.("a[data-notice]");
+        if (!link) return;
+        await this.readNotices({ids: [link.dataset.notice]}, {reload: false});
+        this._notices?.close?.();
+    }
+
+    async readNotices(payload, {reload = true} = {}) {
+        const answer = await this.raise("notifications.read", payload);
+        if (answer.answer !== "applied") return;
+        if (Number.isInteger(answer.unread) && this.navigation?.notifications) {
+            this.navigation = {...this.navigation, notifications: {...this.navigation.notifications, unread: answer.unread}};
+            this.update("notifications");
+        }
+        if (reload) await this.loadNotices();
+    }
+
+    // ─── the rail's «…» (AM-27) ────────────────────────────────────────────
+
+    // The roots that do not fit the rail's height go under «…», the current
+    // page's root never: measured on the drawn rail, from the end. Called
+    // after each draw and when the window changes; draws again only when the
+    // answer changes.
+    fitRail() {
+        const scroll = this.element.querySelector(".sf-admin-nav-first[data-compact='true'] .sf-admin-nav-scroll");
+        if (!scroll || !this.wide || this.edit?.on) {
+            if (this.overflowRoots.length) {
+                this.overflowRoots = [];
+                this.update("overflow");
+            }
+            return;
+        }
+        const rows = [...scroll.querySelectorAll("a.sf-admin-nav-row--first[data-key]")];
+        const step = rows[0]?.getBoundingClientRect().height ?? 0;
+        if (!step) return;
+        const room = scroll.clientHeight;
+        const style = getComputedStyle(scroll);
+        const used = scroll.scrollHeight - (parseFloat(style.paddingBlockEnd) || 0);
+        const hidden = new Set(this.overflowRoots);
+        const order = this.roots().filter((row) => row.kind !== "divider" && row.kind !== "heading").map((row) => row.key);
+        // Everything back first when there may be room again.
+        if (used <= room && hidden.size) {
+            const free = Math.floor((room - used) / step);
+            if (free <= 0) return;
+            const back = [...hidden].slice(0, free);
+            back.forEach((key) => hidden.delete(key));
+        } else if (used > room) {
+            let over = Math.ceil((used - room) / step) + (hidden.size ? 0 : 1);
+            for (const key of [...order].reverse()) {
+                if (over <= 0) break;
+                if (hidden.has(key)) continue;
+                const row = this.rootByKey(key);
+                if (!row || row.key === FAVOURITES_ROOT || this.holdsCurrent(row) || this.isCurrent(row.key)) continue;
+                hidden.add(key);
+                over--;
+            }
+        } else return;
+        const next = order.filter((key) => hidden.has(key));
+        if (next.join("\n") === this.overflowRoots.join("\n")) return;
+        this.overflowRoots = next;
+        this.update("overflow");
+    }
+
+    openOverflow(anchor) {
+        const entries = this.overflowRoots.map((key) => this.rootByKey(key)).filter(Boolean)
+            .map((row) => ({id: `root:${row.key}`, text: row.label, icon: row.icon || undefined}));
+        return openMenu(this, anchor, {
+            label: this.text("moreSections"), entries, side: "inline-end", align: "start",
+            select: (id) => {
+                const key = String(id ?? "").replace(/^root:/u, "");
+                const row = this.rootByKey(key);
+                if (row) return this.openRow(row, null);
+                return null;
+            },
+        });
+    }
+
+    // ─── the rail's short menu (C325 В, AM-22, AM-61) ──────────────────────
+
+    // A right click on a rail root, or Shift+F10 and the menu key on it:
+    // «Выше», «Ниже», «Скрыть из меню» and «Настроить меню…».
+    openRootMenu(row, anchor) {
+        if (this.edit?.on || !row || row.kind === "divider" || row.kind === "heading") return null;
+        const mayChange = Boolean(this.navigation?.rights?.edit_personal) && this.offers("menu-profiles");
+        const locked = Boolean(row.locked);
+        const entries = [{type: "heading", text: row.label}];
+        if (mayChange && row.key !== FAVOURITES_ROOT) {
+            entries.push(
+                {id: "up", text: this.text("moveUp"), icon: "arrow_upward", disabled: locked},
+                {id: "down", text: this.text("moveDown"), icon: "arrow_downward", disabled: locked},
+                {id: "hide", text: locked ? this.text("lockedHide") : this.text("hideFromMenu"), icon: locked ? "lock" : "visibility_off", disabled: locked},
+            );
+        }
+        if (this.canEdit()) entries.push({type: "separator"}, {id: "configure", text: `${this.text("configureMenu")}…`, icon: "tune"});
+        if (entries.length < 2) return null;
+        return openMenu(this, anchor, {
+            label: row.label, entries, side: "inline-end", align: "start",
+            select: (id) => {
+                if (id === "up") return this.moveRoot(row.key, -1);
+                if (id === "down") return this.moveRoot(row.key, 1);
+                if (id === "hide") return this.hideRoot(row.key);
+                if (id === "configure") return this.startEdit(row.key);
+                return null;
+            },
+        });
+    }
+
+    // After a draw: the rail's «…» is measured, and the host says whether
+    // the section column is open (data-column open | hidden | none), so a
+    // page frame reserves the rail alone when it is not (AM-49).
+    rendered() {
+        const state = this.edit?.on ? "open" : this.columnState();
+        if (this.element.getAttribute("data-column") !== state) this.element.setAttribute("data-column", state);
+        this.fitRail();
+    }
+
     shownRoot() {
         const key = this.shownColumn();
         return key && key !== OBJECT_MENU ? this.rootByKey(key) : null;
@@ -1425,16 +1979,21 @@ export class NavigationController {
             navigation: this.navigation,
             wide: this.wide,
             compact: this.compact && this.wide,
+            overflowRoots: this.overflowRoots,
+            // The rail's tooltips, collected while the template draws (template.js).
+            tips: [],
+            tipPrefix: this.tipPrefix,
+            level: this.level,
             screen: this.screen,
             openRoot: this.shownRoot(),
             objectMenu: this.shownColumn() === OBJECT_MENU ? this.objectMenu() : null,
             // The button that opens a closed column: drawn when the column is
             // closed on a wide screen and the page has something for it.
-            columnClosed: Boolean(this.wide && !this.compact && !this.edit?.on && !this.columnOpen
-                && !this.openRoot && this.pageColumn()),
+            columnClosed: this.columnState() === "hidden",
             filter: this.filter,
             sites: this.sites,
-            shortcut: PALETTE_SHORTCUT,
+            shortcut: this.paletteShortcut(),
+            columnShortcut: COLUMN_SHORTCUT,
             edit: this.edit,
             columns: skeletonColumns(this.element),
         };
@@ -1445,6 +2004,9 @@ export class NavigationController {
 // columns the answered menu will take on a wide screen, which the server
 // knows -- one where the page's row has no open root (the dashboard), two
 // where it has. The shape of the first paint, never a limit.
+// A person who hid the column has the rail alone from the first paint
+// (AM-20, AM-49): the skeleton is the rail, not two columns.
 export function skeletonColumns(element) {
-    return element?.getAttribute?.("expected-columns") === "1" ? 1 : 2;
+    if (element?.getAttribute?.("expected-columns") === "1") return 1;
+    return preferences()?.read(MENU_PREFERENCE)?.second === false ? 1 : 2;
 }

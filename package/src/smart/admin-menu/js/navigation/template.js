@@ -1,37 +1,45 @@
 import {html, nothing} from "lit";
 import "./navigation.css";
-import {getInitials} from "../../../helpers/text";
+import {avatarPicture} from "../../../avatar/js/picture";
 import {renderKeys, renderPalette, renderSearchRow} from "./palette";
-import {counterOf, dotPhrase, nameWithCounter} from "../templates/default";
+import {counterOf, dotPhrase, nameWithCounter} from "./counter.js";
 import {renderPersonButton} from "./account";
-import {renderEditBanner, renderEditRoots, renderEditRows} from "./edit";
+import {renderEditHeader, renderEditRoots, renderEditRows} from "./edit";
+import {isMenuKey} from "./context-menu.js";
+import {isEditableTarget} from "../../../../component/kbd/js/shortcut";
+import {renderTips, tip} from "./tips.js";
 
-// The two columns, drawn in the element's own light DOM like every other Smart
-// component, so the Framework's component stylesheets reach the icons, badges
-// and fields inside it.
+// The rail and the section column, drawn in the element's own light DOM like
+// every other Smart component, so the Framework's component stylesheets reach
+// the icons, badges and fields inside it.
 //
-// First column: the site, the site's roots, the install apart from them, the
-// favourites, and at the bottom only «who am I» -- notifications and the person.
-// Second column: what is about where the person is -- the menu of the object
-// the page shows (navigation.context), else the rows of the root that holds
-// the page -- or a root the person clicked, until they open a page. There is
-// no third: the page is the third, in the host's own area (assignment,
-// section 3), and never more than two menus are on screen (owner, 2026-11-05).
+// The first level is always the rail (owner decision C320): a column of
+// squares -- the place's mark, the search, the site's roots, the install's
+// apart from them, and at the foot «Избранное», the bell and the person --
+// each named by a tooltip on hover and focus. The section column beside it
+// holds what is about where the person is: the menu of the object the page
+// shows (navigation.context), else the rows of the root that holds the page,
+// or a root the person clicked, until a page outside it is opened. The person
+// hides and shows it (C321). The rail unfolds with its names only for the time
+// of the setting mode (C325); on a phone the menu is one full screen with
+// names (C322). Never more than two menus on screen (owner, 2026-11-05).
 
 const icon = (name, rootClass = "flex-none") => (name
     ? html`<sf-icon root-class=${rootClass} aria-hidden="true" icon=${name}></sf-icon>`
     : nothing);
 
-// «Требует внимания» is the only thing on the right of a row. The menu carries
-// no totals; those belong in the page header.
+// A count in a row of the column is SIMAI Framework's badge on a text line of
+// rung 1 (line="1", sf-badge--line-1; AM-59): as tall as the line, its label a
+// step down, inside the row at its end, on the middle of the first line
+// (AM-53). The menu sets no size of its own on it.
 const attention = (row) => {
     if (row.attention) {
-        return html`<sf-badge class="sf-admin-nav-attention" appearance="tonal" size="1/3"
-            status=${row.attention.tone} text=${row.attention.label}></sf-badge>`;
+        return html`<span class="sf-admin-nav-row-end"><sf-badge appearance="tonal" size="1/3" line="1"
+            status=${row.attention.tone} text=${row.attention.label}></sf-badge></span>`;
     }
     if (row.badge) {
-        return html`<sf-badge class="sf-admin-nav-attention" size="1/3" status="error"
-            text=${String(row.badge)}></sf-badge>`;
+        return html`<span class="sf-admin-nav-row-end"><sf-badge size="1/3" status="error" line="1"
+            text=${String(row.badge)}></sf-badge></span>`;
     }
     // The host writes a row's keys in the Framework's notation (mod+shift+p) or
     // as text; the kbd unit draws either (C04).
@@ -39,38 +47,50 @@ const attention = (row) => {
     return nothing;
 };
 
-// In the rail a row's counter sits on its icon, the way chat apps put one on
+// On the rail a row's counter sits on its icon, the way chat apps put one on
 // an avatar (simai/ui-source#12): the icon is wrapped in the SIMAI Framework's
-// badge anchor at the icon's own step. The rail icon is a 1/2 step, and at 1/2
-// the rule draws a dot: the number and the attention words go to the row's
-// name («Задачи, 3 непрочитанных»), nothing at 0. Counters take the danger
-// role, as in the expanded menu (owner, 2026-10-21). The
-// menu draws the counter itself, with no data-count for the Framework's badge
-// runtime to keep (counterOf in ../templates/default.js says why).
+// badge anchor. At the anchor's 1/2 step the rule draws a dot, and the number
+// and the attention words go to the row's name («Задачи, 3 непрочитанных»).
+// The bell carries the number itself (C342, AM-43): its anchor is the 1 step,
+// where the badge rule draws the count. Counters take the danger role (owner,
+// 2026-10-21).
 const railCounter = (row) => {
     if (row.attention) return {dot: true, text: "", phrase: row.attention.label || dotPhrase()};
     return counterOf(row.badge);
 };
 
-const railIcon = (name, counter) => html`<span class="sf-badge-anchor sf-badge-anchor--size-1/2 sf-badge-anchor--square sf-admin-nav-rail-anchor">${icon(name, "sf-admin-nav-row-icon")}${counter
-    ? html`<span class="sf-badge sf-badge--anchored sf-badge--error sf-badge--dot" aria-hidden="true" title=${counter.phrase}></span>`
+const railIcon = (name, counter, {count = false} = {}) => html`<span class=${`sf-badge-anchor sf-badge-anchor--size-${count ? "1" : "1/2"} sf-badge-anchor--square sf-admin-nav-rail-anchor`}>${icon(name, "sf-admin-nav-row-icon")}${counter
+    ? html`<span class=${`sf-badge sf-badge--anchored sf-badge--error${count && !counter.dot ? "" : " sf-badge--dot"}`} aria-hidden="true">${count && !counter.dot ? counter.text : nothing}</span>`
     : nothing}</span>`;
 
-const mark = (site) => html`<span class="sf-admin-nav-mark" aria-hidden="true">${site?.mark || getInitials(site?.label ?? "")}</span>`;
+// The place's mark (AM-5): SIMAI Framework's avatar picture as a square of
+// the rail -- the place's own picture (site.logo) or its letters on the
+// primary plate; a place with neither shows the product's mark
+// (navigation.product.logo) in the same square.
+function mark(context, site) {
+    const product = context.navigation?.product;
+    const imageUrl = site?.logo || (!site?.mark && product?.logo) || "";
+    return avatarPicture({
+        imageUrl, name: site?.label ?? "", text: site?.mark || "", shape: "square", size: "1",
+        rootClass: "sf-admin-nav-mark",
+    });
+}
 
 function renderSite(context) {
     const {controller, navigation, compact} = context;
     const site = navigation?.site?.current;
     if (!site) return nothing;
     const switchable = controller.canSwitchSite();
+    const tipId = tip(context, "site", site.label);
     const trigger = html`
         <button type="button" class="sf-admin-nav-site-trigger"
             aria-haspopup=${switchable ? "menu" : nothing}
             aria-expanded=${switchable ? "false" : nothing}
+            aria-label=${compact ? site.label : nothing}
+            data-tooltip=${tipId}
             ?disabled=${!switchable}
-            title=${compact ? site.label : nothing}
             @click=${(event) => controller.openSites(event.currentTarget)}>
-            ${mark(site)}
+            ${mark(context, site)}
             ${compact ? nothing : html`
                 <span class="sf-admin-nav-site-text">
                     <span class="sf-admin-nav-site-label">${site.label}</span>
@@ -81,17 +101,35 @@ function renderSite(context) {
     return html`<div class="sf-admin-nav-site">${trigger}</div>`;
 }
 
-// A row of the first column. A root with rows opens the second column and
-// carries ›; a root with none is a page and opens it (assignment, section 1).
+// The short menu of a rail root (C325 В, AM-22, AM-61): a right click, or
+// Shift+F10 and the menu key on it.
+function onRootContextMenu(context, row, event) {
+    if (!context.compact || event.shiftKey || isEditableTarget(event.target)) return;
+    const opened = context.controller.openRootMenu(row, event.currentTarget);
+    if (opened) event.preventDefault();
+}
+
+function onRootKeydown(context, row, event) {
+    if (!context.compact || !isMenuKey(event)) return;
+    const opened = context.controller.openRootMenu(row, event.currentTarget);
+    if (opened) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+}
+
+// A row of the first level. A root with rows opens its column; a root with
+// none is a page and opens it (assignment, section 1).
 function renderFirstRow(context, row) {
     const {controller, compact, openRoot, text} = context;
     // A person's own rows at the top level: a line, a heading, a link, as in a
-    // root's column. The top level had no add, so it never met them.
+    // root's column. The rail has no headings.
     if (row.kind === "divider") return html`<hr class="sf-admin-nav-divider">`;
     if (row.kind === "heading") return compact ? nothing : html`<div class="sf-admin-nav-heading">${row.label}</div>`;
+    if (compact && context.overflowRoots.includes(row.key)) return nothing;
     if (row.kind === "link") {
         return html`<a class="sf-admin-nav-row sf-admin-nav-row--first" href=${row.href ?? "#"} target="_blank" rel="noopener"
-            title=${compact ? row.label : nothing} aria-label=${compact ? row.label : nothing}>
+            data-key=${row.key} data-tooltip=${tip(context, row.key, row.label)} aria-label=${compact ? `${row.label}, ${text("external")}` : nothing}>
             ${icon(row.icon, "sf-admin-nav-row-icon")}
             ${compact ? nothing : html`<span class="sf-admin-nav-row-label">${row.label}</span>
                 ${icon("north_east", "sf-admin-nav-row-chevron")}<span class="sr-only">, ${text("external")}</span>`}
@@ -99,20 +137,25 @@ function renderFirstRow(context, row) {
     }
     const opens = row.kind === "root";
     const open = opens && openRoot?.key === row.key;
-    // A page row that is the current page takes the plate; a root whose rows
-    // hold it takes the bar (C23), as a rail row over the current page does.
+    // One current mark (AM-26): the page's own row takes the plate; a root
+    // whose rows hold the page is told as current to a screen reader
+    // (aria-current="true", AM-37) and on the rail takes the filled square
+    // (C354), unless another root's column holds the page.
     const current = !opens && controller.isCurrent(row.key);
-    const holds = opens && controller.holdsCurrent(row);
+    const holds = opens && controller.holdsCurrent(row) && !(row.key === "sf:favourites" && controller.pageRoot());
     return html`<a class="sf-admin-nav-row sf-admin-nav-row--first"
         href=${row.href ?? "#"}
         role=${opens ? "button" : nothing}
         aria-expanded=${opens ? String(open) : nothing}
-        aria-current=${current ? "page" : nothing}
+        aria-current=${current ? "page" : holds ? "true" : nothing}
+        data-key=${row.key}
         data-current=${current ? "true" : nothing}
         data-holds-current=${holds ? "true" : nothing}
         data-open=${open ? "true" : nothing}
-        title=${compact ? row.label : nothing}
+        data-tooltip=${tip(context, row.key, row.label)}
         aria-label=${compact ? nameWithCounter(row.label, railCounter(row)) : nothing}
+        @contextmenu=${(event) => onRootContextMenu(context, row, event)}
+        @keydown=${(event) => onRootKeydown(context, row, event)}
         @click=${(event) => controller.openRow(row, event)}>
         ${compact ? railIcon(row.icon, railCounter(row)) : html`
             ${icon(row.icon, "sf-admin-nav-row-icon")}
@@ -122,105 +165,61 @@ function renderFirstRow(context, row) {
     </a>`;
 }
 
-function findRow(context, key) {
-    for (const root of context.navigation?.items ?? []) {
-        if (root.key === key) return root;
-        for (const row of root.children ?? []) if (row.key === key) return row;
-    }
-    return null;
+// «…» (AM-27): the roots the rail has no room for, in a short menu; the
+// current page's root always stays on the rail.
+function renderOverflow(context) {
+    const {controller, text, compact, overflowRoots} = context;
+    if (!compact || !overflowRoots.length) return nothing;
+    return html`<button type="button" class="sf-admin-nav-row sf-admin-nav-row--first sf-admin-nav-more"
+        aria-haspopup="menu" aria-expanded="false" aria-label=${text("moreSections")}
+        data-tooltip=${tip(context, "more", text("moreSections"))}
+        @click=${(event) => controller.openOverflow(event.currentTarget)}>
+        ${railIcon("more_horiz", null)}</button>`;
 }
 
-// «Уведомления» is a link when the host names its page (notifications.href),
-// so it goes where every other row goes -- by region when the shell has it
-// (larena.test, 2026-10-16: it was a block, and a host script loaded the page
-// in full); without an address it stays the count it was.
+// «Уведомления» is a button with its panel (AM-19, C340): the bell opens the
+// notifications on the right over the page, read from the port, whether or
+// not the host names a page of their history (notifications.href is the
+// panel's «Вся история»). On the rail the bell carries the number of unread
+// (C342, AM-43).
 function renderNotifications(context, notifications) {
-    const {text, compact} = context;
-    const content = html`
+    const {text, compact, controller} = context;
+    const counter = counterOf(notifications.unread);
+    const name = nameWithCounter(text("notifications"), counter);
+    return html`<button type="button" class="sf-admin-nav-row sf-admin-nav-row--first sf-admin-nav-bell"
+        aria-haspopup="dialog" aria-expanded="false" aria-label=${compact ? name : nothing}
+        data-key="sf:notifications" data-tooltip=${tip(context, "notifications", text("notifications"))}
+        @click=${(event) => controller.toggleNotifications(event.currentTarget)}>
         ${compact
-            ? html`${railIcon("notifications", counterOf(notifications.unread))}
-                <span class="sr-only">${nameWithCounter(text("notifications"), counterOf(notifications.unread))}</span>`
+            ? railIcon("notifications", counter, {count: true})
             : html`${icon("notifications", "sf-admin-nav-row-icon")}
                 <span class="sf-admin-nav-row-label">${text("notifications")}</span>
-                ${notifications.unread ? html`<sf-badge class="sf-admin-nav-attention" size="1/3" status="error"
-                    text=${String(notifications.unread)}></sf-badge>` : nothing}`}`;
-    const href = typeof notifications.href === "string" && notifications.href ? notifications.href : null;
-    if (!href) return html`<div class="sf-admin-nav-row sf-admin-nav-row--first" title=${compact ? text("notifications") : nothing}>${content}</div>`;
-    let current = false;
-    try {
-        current = new URL(href, globalThis.location.href).pathname === globalThis.location.pathname;
-    } catch {
-        current = false;
-    }
-    return html`<a class="sf-admin-nav-row sf-admin-nav-row--first" href=${href}
-        aria-current=${current ? "page" : nothing} data-current=${current ? "true" : nothing}
-        title=${compact ? text("notifications") : nothing}>${content}</a>`;
+                ${counter ? html`<span class="sf-admin-nav-row-end"><sf-badge size="1/3" status="error" line="1"
+                    text=${counter.text}></sf-badge></span>` : nothing}`}
+    </button>`;
 }
 
 function renderBottom(context) {
-    const {navigation, text, compact, controller} = context;
-    const notifications = navigation?.notifications;
+    const {navigation, controller} = context;
+    const notifications = controller.offers("notifications") ? navigation?.notifications : null;
     const favourites = controller.edit?.on ? null : controller.favouritesRoot();
     return html`<div class="sf-admin-nav-bottom">
         ${favourites ? renderFirstRow(context, favourites) : nothing}
         ${notifications ? renderNotifications(context, notifications) : nothing}
-        <div class="sf-admin-nav-person-row">
-            ${renderPersonButton(context)}
-            ${renderShowColumn(context)}
-            ${renderCollapse(context)}
-        </div>
+        <div class="sf-admin-nav-person-row">${renderPersonButton(context)}</div>
     </div>`;
 }
 
-// Folding the first column to a rail: a small button beside the person, not
-// a row of its own under it (owner, 2026-10-14). In the rail it stands under
-// the picture.
-function renderCollapse(context) {
-    const {controller, text, compact} = context;
-    if (!context.wide || controller.edit?.on) return nothing;
-    return html`<sf-button-icon class="sf-admin-nav-collapse" size="1/2" appearance="ghost" scheme="on-surface"
-        icon=${compact ? "chevron_right" : "chevron_left"}
-        aria-label=${compact ? text("expand") : text("collapse")}
-        title=${compact ? text("expand") : text("collapse")}
-        @click=${() => controller.toggleCompact()}></sf-button-icon>`;
-}
-
-// The second column closed by the person, on a page that has something for
-// it: a small button beside the fold opens it again on what the page has --
-// its object menu or its root. A root with no rows of its own and no object
-// menu has nothing to open, so nothing is drawn.
-function renderShowColumn(context) {
-    const {text, columnClosed, controller} = context;
-    if (!columnClosed) return nothing;
-    return html`<sf-button-icon class="sf-admin-nav-show-column" size="1/2" appearance="ghost" scheme="on-surface"
-        icon="left_panel_open" aria-label=${text("showColumn")} title=${text("showColumn")}
-        @click=${() => controller.showColumn()}></sf-button-icon>`;
-}
-
-// The columns are widened and narrowed by their edges (owner, 2026-10-14),
-// within limits, the width remembered in this browser; a double click on the
-// edge gives the column its width back. Not in the rail or on a phone.
-function renderResizer(context, column) {
-    if (!context.wide || (column === "first" && context.compact)) return nothing;
-    const limits = column === "first" ? {min: "13rem", max: "24rem"} : {min: "13rem", max: "28rem"};
-    // The width the host keeps for the person, when it does.
-    const kept = context.navigation?.person?.widths?.[column];
-    return html`<sf-resizer min=${limits.min} max=${limits.max} value=${kept ? String(kept) : nothing}
-        property=${`--sf-admin-nav-${column}--inline-size`} storage-key=${`admin-nav-${column}`}
-        label=${context.text(column === "first" ? "menuWidth" : "columnWidth")}></sf-resizer>`;
-}
-
 function renderFirstColumn(context) {
-    const {controller, text, compact, edit} = context;
+    const {controller, compact, edit} = context;
     const site = controller.siteRoots();
     const install = controller.installRoots();
-    if (edit.on && !compact) {
+    if (edit.on) {
         return html`<div class="sf-admin-nav-first" data-editing="true">
             ${renderSite(context)}
-            ${renderEditBanner(context)}
+            ${renderEditHeader(context)}
             <div class="sf-admin-nav-scroll">${renderEditRoots(context, site, install)}</div>
             ${renderBottom(context)}
-            ${renderResizer(context, "first")}
         </div>`;
     }
     return html`<div class="sf-admin-nav-first" data-compact=${compact ? "true" : nothing}>
@@ -232,14 +231,21 @@ function renderFirstColumn(context) {
             </div>
             ${install.length ? html`<hr class="sf-admin-nav-divider">
                 <div class="sf-admin-nav-rows">${install.map((row) => renderFirstRow(context, row))}</div>` : nothing}
+            ${renderOverflow(context)}
         </div>
         ${renderBottom(context)}
-        ${renderResizer(context, "first")}
     </div>`;
 }
 
-// A row of the second column: a heading, a divider, a page, a section that
-// unfolds in place, or an external link.
+// A row's name, with its section under it where rows of several sections
+// meet (a favourite, C368, AM-48). A name takes up to two lines (AM-15).
+const rowLabel = (row) => (row.caption
+    ? html`<span class="sf-admin-nav-row-label" data-caption="true"><span class="sf-admin-nav-row-name">${row.label}</span><span class="sf-admin-nav-row-caption">${row.caption}</span></span>`
+    : html`<span class="sf-admin-nav-row-label">${row.label}</span>`);
+
+// A row of the section column: a heading, a divider, a page, a section that
+// unfolds in place, or an external link. Any depth: a row of the third level
+// stands one row column further in (C109, AM-14).
 function renderRow(context, row, depth = 0) {
     const {controller, text} = context;
     if (row.kind === "heading") return html`<div class="sf-admin-nav-heading">${row.label}</div>`;
@@ -247,6 +253,7 @@ function renderRow(context, row, depth = 0) {
     const section = row.kind === "section";
     const unfolded = section && controller.unfolded.has(row.key);
     const external = row.kind === "link";
+    const current = controller.isCurrent(row.key);
     return html`<div class="sf-admin-nav-item" data-depth=${depth}>
         <a class="sf-admin-nav-row"
             href=${row.href ?? "#"}
@@ -254,26 +261,23 @@ function renderRow(context, row, depth = 0) {
             rel=${external ? "noopener" : nothing}
             role=${section ? "button" : nothing}
             aria-expanded=${section ? String(unfolded) : nothing}
-            aria-current=${controller.isCurrent(row.key) ? "page" : nothing}
-            data-current=${controller.isCurrent(row.key) ? "true" : nothing}
-            data-holds-current=${section && !unfolded && !controller.isCurrent(row.key) && controller.holdsCurrent(row) ? "true" : nothing}
+            aria-current=${current ? "page" : nothing}
+            data-current=${current ? "true" : nothing}
+            data-holds-current=${section && !unfolded && !current && controller.holdsCurrent(row) ? "true" : nothing}
             @click=${(event) => controller.openRow(row, event)}>
             ${icon(row.icon, "sf-admin-nav-row-icon")}
-            <span class="sf-admin-nav-row-label">${row.label}</span>
+            ${rowLabel(row)}
+            ${attention(row)}
             ${external ? html`${icon("north_east", "sf-admin-nav-row-chevron")}<span class="sr-only">, ${text("external")}</span>` : nothing}
             ${section ? icon(unfolded ? "expand_less" : "expand_more", "sf-admin-nav-row-chevron") : nothing}
         </a>
-        <!-- No star on a row: a page is made a favourite on the page itself
-             (the record's title, a list's header), not from the menu, where a
-             star on every row was noise (owner, 2026-10-15). -->
-        ${attention(row)}
     </div>
     ${unfolded ? html`<div class="sf-admin-nav-children">${(row.children ?? []).filter((child) => !child.hidden)
         .map((child) => renderRow(context, child, depth + 1))}</div>` : nothing}`;
 }
 
 // A row of the object menu: an ordinary link with its glyph, its name and,
-// when the host gives one, its badge on the right as a row's attention is.
+// when the host gives one, its badge at its end as a row's attention is.
 // No star and no ⋯: the object menu is the page's, not the person's.
 function renderObjectRow(context, item, current) {
     const {controller} = context;
@@ -287,21 +291,32 @@ function renderObjectRow(context, item, current) {
             @click=${(event) => controller.openObjectRow(item, event)}>
             ${icon(item.icon, "sf-admin-nav-row-icon")}
             <span class="sf-admin-nav-row-label">${item.label}</span>
+            ${attention(badge)}
         </a>
-        ${attention(badge)}
     </div>`;
+}
+
+// The column's «hide» (C321, AM-51): the row's square with the row's glyph,
+// its name and ⌘B in its tooltip. Not on a phone, where the column is a
+// screen of its own with «←».
+function renderHideColumn(context) {
+    const {controller, text, wide, columnShortcut} = context;
+    if (!wide || context.edit.on) return nothing;
+    return html`<sf-button-icon class="sf-admin-nav-hide" size="1" appearance="ghost" scheme="on-surface"
+        icon="left_panel_close" aria-label=${text("hideColumn")} data-tooltip=${`${context.tipPrefix}-hide`}
+        @click=${() => controller.hideColumn()}></sf-button-icon>
+        <sf-tooltip id=${`${context.tipPrefix}-hide`} appearance="dark" arrow="top-center" text=${text("hideColumn")}
+            shortcut=${columnShortcut}></sf-tooltip>`;
 }
 
 // The object menu (navigation.context): «← back» to the list it came from,
 // the object's title, under it its status and subtitle, then its groups of
-// rows. The title has the column's whole width: a status beside it cut a
-// site's name to «demo-o…».
-// On a phone it is the screen the menu opens on, with a button to the first
-// screen beside the title.
+// rows. On a phone it is the screen the menu opens on, with a button to the
+// first screen beside the title.
 function renderObjectColumn(context, menu) {
     const {controller, text, wide} = context;
     const status = menu.status
-        ? html`<sf-badge class="sf-admin-nav-attention sf-admin-nav-object-status" appearance="tonal" size="1/3"
+        ? html`<sf-badge class="sf-admin-nav-object-status" appearance="tonal" size="1/3"
             status=${menu.status.status || ""} text=${menu.status.text}></sf-badge>`
         : nothing;
     return html`<div class="sf-admin-nav-second" data-object="true" aria-label=${menu.title || nothing}>
@@ -313,8 +328,8 @@ function renderObjectColumn(context, menu) {
             </a>
         </div>` : nothing}
         <div class="sf-admin-nav-second-head">
-            ${wide ? nothing : html`<sf-button-icon size="1/2" appearance="ghost" scheme="on-surface"
-                icon="menu" aria-label=${text("allSections")} title=${text("allSections")}
+            ${wide ? nothing : html`<sf-button-icon size="1" appearance="ghost" scheme="on-surface"
+                icon="menu" aria-label=${text("allSections")}
                 @click=${() => controller.back()}></sf-button-icon>`}
             <div class="sf-admin-nav-second-title">
                 <span class="sf-admin-nav-second-label">${menu.title}</span>
@@ -323,9 +338,7 @@ function renderObjectColumn(context, menu) {
                     ${menu.subtitle ? html`<span class="sf-admin-nav-second-caption">${menu.subtitle}</span>` : nothing}
                 </span>` : nothing}
             </div>
-            ${wide ? html`<sf-button-icon size="1/2" appearance="ghost" scheme="on-surface"
-                icon="left_panel_close" aria-label=${text("hideColumn")} title=${text("hideColumn")}
-                @click=${() => controller.hideColumn()}></sf-button-icon>` : nothing}
+            ${renderHideColumn(context)}
         </div>
         <div class="sf-admin-nav-scroll">
             ${menu.groups.map((group, index) => html`
@@ -334,84 +347,67 @@ function renderObjectColumn(context, menu) {
                     : index > 0 ? html`<hr class="sf-admin-nav-divider">` : nothing}
                 ${group.items.map((item) => renderObjectRow(context, item, menu.current))}`)}
         </div>
-        ${renderResizer(context, "second")}
     </div>`;
 }
 
+// The section column: one head line with the section's name (AM-50: no
+// scope line -- the rail's divider already parts the install's roots from
+// the site's), «Найти в разделе» above 12 pages (C364), the rows, nothing at
+// its foot (C367: creating is not the column's). «Избранное» empty says how a
+// page gets in (C368).
 function renderSecondColumn(context) {
-    const {controller, navigation, text, openRoot, filter, wide} = context;
+    const {controller, text, openRoot, filter, wide} = context;
     if (context.objectMenu) return renderObjectColumn(context, context.objectMenu);
     if (!openRoot) return nothing;
-    const install = openRoot.level === "install";
-    // «Общее для всех сайтов» says the section is not the current site's, which
-    // only means something where the menu switches sites (IA-07, Larena Panel
-    // audit 2026-11-05): a host with one site has no other site to share with.
-    const caption = install
-        ? (controller.canSwitchSite() ? text("allSites") : "")
-        : navigation?.site?.current?.label ?? "";
     const rows = controller.rowsOf(openRoot);
+    const favourites = openRoot.key === "sf:favourites";
     return html`<div class="sf-admin-nav-second" aria-label=${openRoot.label}>
         <div class="sf-admin-nav-second-head">
-            ${wide ? nothing : html`<sf-button-icon size="1/2" appearance="ghost" scheme="on-surface"
+            ${wide ? nothing : html`<sf-button-icon size="1" appearance="ghost" scheme="on-surface"
                 icon="arrow_back" aria-label=${text("back")} @click=${() => controller.back()}></sf-button-icon>`}
             <div class="sf-admin-nav-second-title">
                 <span class="sf-admin-nav-second-label">${openRoot.label}</span>
-                ${caption ? html`<span class="sf-admin-nav-second-caption"
-                    data-install=${install ? "true" : nothing}>${caption}</span>` : nothing}
             </div>
-            ${wide ? html`<sf-button-icon size="1/2" appearance="ghost" scheme="on-surface"
-                icon="left_panel_close" aria-label=${text("hideColumn")} title=${text("hideColumn")}
-                @click=${() => controller.hideColumn()}></sf-button-icon>` : nothing}
+            ${renderHideColumn(context)}
         </div>
         ${context.edit.on ? html`<div class="sf-admin-nav-scroll">${renderEditRows(context, openRoot)}</div>` : nothing}
         ${!context.edit.on && controller.offersFind(openRoot) ? html`<div class="sf-admin-nav-find">
-            <sf-input size="1/2" icon-start="search" placeholder=${text("findInSection")} value=${filter}
+            <sf-input size="1" icon-start="search" placeholder=${text("findInSection")} value=${filter}
                 @input=${(event) => controller.setFilter(event.target?.value ?? event.detail?.value ?? "")}></sf-input>
         </div>` : nothing}
         ${context.edit.on ? nothing : html`<div class="sf-admin-nav-scroll">
             ${rows.length
                 ? rows.map((row) => renderRow(context, row))
-                : html`<sf-empty-state class="sf-admin-nav-empty" layout="inline" kind="nothing-found" size="1/2"
-                    text=${text("nothingFound")}></sf-empty-state>`}
+                : html`<sf-empty-state class="sf-admin-nav-empty" layout="inline" kind=${favourites && !filter ? "empty" : "nothing-found"} size="1/2"
+                    text=${favourites && !filter ? text("favouritesEmpty") : text("nothingFound")}></sf-empty-state>`}
         </div>`}
-        ${openRoot.action ? html`<div class="sf-admin-nav-second-foot">
-            <a class="sf-admin-nav-action" href=${openRoot.action.href ?? "#"}>
-                ${icon(openRoot.action.icon || "add")}<span>${openRoot.action.label}</span></a>
-        </div>` : nothing}
-        ${renderResizer(context, "second")}
     </div>`;
 }
 
 // The menu until the host answers (and before a host is connected, for a menu
 // whose entries come from the port): its own rows with bars where the icon and
-// the name go (simai.interaction-rules, loading-is-a-skeleton), in the columns
-// the answered menu takes -- on a wide screen the first column and the open
-// root's, on a phone one column the whole width -- so the menu's box is the
-// same before and after the answer. The column fills its region; its rows
-// scroll inside it. The word is for a screen reader only.
+// the name go (simai.interaction-rules, loading-is-a-skeleton), in the boxes
+// the answered menu takes -- on a wide screen the rail and, unless the person
+// hid it, the section column; on a phone one column the whole width -- so the
+// menu's box is the same before and after the answer. The two boxes carry
+// their widths in their own style attribute from the Framework's tokens
+// (AM-18), so the box is right before this sheet has arrived; the sheet makes
+// the skeleton the whole width on a phone. The word is for a screen reader
+// only.
 export const SKELETON_ROWS = 6;
-export function renderNavigationSkeleton({text, columns = 2, compact = false}) {
+export function renderNavigationSkeleton({text, columns = 2}) {
     const widths = ["w-3/4", "w-1/2", "w-2/3", "w-1/2", "w-3/4", "w-2/5"];
-    // A compact menu is the rail: its skeleton is the rail too -- the first
-    // column at the rail's width with icons and no words -- so the box it
-    // holds is the menu's (Larena: a 256px skeleton stood over a compact
-    // menu until it answered).
     const row = (width, rail) => html`<div class="sf-admin-nav-item"><div class="sf-admin-nav-row sf-admin-nav-row--first" aria-hidden="true">
         <div class="sf-skeleton sf-skeleton--animation-pulse"><div class="sf-skeleton-circle sf-skeleton-icon"></div></div>
         ${rail ? nothing : html`<div class="sf-skeleton sf-skeleton--animation-pulse" style="flex:1"><div class="sf-skeleton-text sf-skeleton-text--size-1/2 ${width}"></div></div>`}</div></div>`;
     const column = (name) => {
-        const rail = compact && name === "first";
-        return html`<div class=${`sf-admin-nav-${name}`} data-compact=${rail ? "true" : nothing}><div class="sf-admin-nav-scroll">
+        const rail = name === "first";
+        return html`<div class=${`sf-admin-nav-${name}`} data-compact=${rail ? "true" : nothing}
+            style=${rail ? "inline-size: var(--sf-admin-nav-skeleton-rail, var(--sf-d4)); flex: none" : "inline-size: var(--sf-admin-nav-skeleton-second, var(--sf-f6)); flex: none"}><div class="sf-admin-nav-scroll">
         <div class="sf-admin-nav-rows">${Array.from({length: SKELETON_ROWS}, (_, at) => row(widths[at % widths.length], rail))}</div></div></div>`;
     };
-    // The columns the answered menu takes on a wide screen (expected-columns:
-    // one on a page whose row has no open root, as the dashboard, else two),
-    // so the menu is as wide before the answer as after it (stand 25 D4: a
-    // two-column skeleton over a one-column menu pushed the page aside and
-    // back). Both are printed when two; the stylesheet keeps one, the whole
-    // width, below 48rem (navigation.css), since a printed skeleton knows no
-    // viewport.
-    return html`<nav class="sf-admin-nav sf-admin-nav--skeleton" aria-busy="true" data-columns=${String(columns)}>
+    return html`<nav class="sf-admin-nav sf-admin-nav--skeleton" aria-busy="true" aria-label=${text("menu")} data-columns=${String(columns)}
+        style="display: flex">
         ${column("first")}${columns === 1 ? nothing : column("second")}
         <span class="sr-only" role="status">${text("loading")}</span></nav>`;
 }
@@ -422,16 +418,21 @@ export function renderNavigationTemplate(context) {
     if (status !== "ready") {
         // A menu that could not load says so as every component does, with
         // «Повторить» asking again.
-        return html`<nav class="sf-admin-nav"><div class="sf-admin-nav-first">
+        return html`<nav class="sf-admin-nav" aria-label=${text("menu")}><div class="sf-admin-nav-first">
             <sf-empty-state kind="error" size="1/2" text=${context.message || text("unavailable")}
                 @sf-empty-state-action=${(event) => { if (event.detail?.id === "retry") controller.load("requested"); }}></sf-empty-state>
         </div></nav>`;
     }
     // On a phone the two columns are two screens; the second has «←».
     const phoneSecond = !wide && screen === "second";
-    return html`<nav class="sf-admin-nav" data-wide=${wide ? "true" : "false"} data-compact=${compact ? "true" : nothing}>
-        ${phoneSecond ? nothing : renderFirstColumn(context)}
-        ${wide || phoneSecond ? renderSecondColumn(context) : nothing}
+    const first = phoneSecond ? nothing : renderFirstColumn(context);
+    const second = wide || phoneSecond ? renderSecondColumn(context) : nothing;
+    // The nav is named «Меню» (AM-37); the rail's tooltips stand after the
+    // columns, collected while they were drawn.
+    return html`<nav class="sf-admin-nav" aria-label=${text("menu")} data-wide=${wide ? "true" : "false"} data-compact=${compact ? "true" : nothing}>
+        ${first}
+        ${second}
         ${renderPalette(context)}
+        ${renderTips(context)}
     </nav>`;
 }

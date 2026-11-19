@@ -32,15 +32,17 @@
         "cl-badge",
         "cl-button",
         "cl-button-icon",
+        "cl-drawer",
         "cl-dropdown",
         "cl-empty-state",
         "cl-icon",
         "cl-input",
         "cl-menu-context",
         "cl-profile-picker",
-        "cl-resizer",
         "cl-search",
-        "cl-sortable"
+        "cl-segmented",
+        "cl-sortable",
+        "cl-tooltip"
       ]
     }
   ]

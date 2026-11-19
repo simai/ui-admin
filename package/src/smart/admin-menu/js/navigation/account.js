@@ -4,6 +4,7 @@ import {entriesFor} from "../../../settings/js/settings";
 import {languageRows, matchLanguage, normalizeLanguages, useNames} from "../../../language/js/languages";
 import languageNames from "../../../language/data/names.json";
 import {openMenu} from "./menu";
+import {tip} from "./tips.js";
 
 // The profile menu at the bottom of the first column: who is signed in, the
 // host's links, the theme and the language, the menu profile, and signing out
@@ -98,10 +99,17 @@ export function openAccountMenu(context, anchor) {
     // Configuring the menu sits with the menu profile, in the person's menu: a
     // bare pen under the person said nothing of what it edits (owner,
     // 2026-10-13).
-    const canEdit = controller.canEdit?.() && !context.compact;
+    // On the rail too (AM-22): the setting unfolds the rail for its time.
+    // While it is on, the same entry ends it (AM-61).
+    const editing = Boolean(controller.edit?.on);
+    const canEdit = controller.canEdit?.() || editing;
     const hasProfiles = controller.offers("menu-profiles") && profiles?.list?.length;
     if (canEdit || hasProfiles) entries.push({type: "separator"});
-    if (canEdit) entries.push({id: "configure-menu", text: text("configureMenu"), icon: "edit"});
+    if (canEdit) {
+        entries.push(editing
+            ? {id: "finish-configure", text: text("finishConfigure"), icon: "check"}
+            : {id: "configure-menu", text: text("configureMenu"), icon: "edit"});
+    }
     if (hasProfiles) {
         entries.push({
             id: "profile", text: text("menuProfile"), icon: "view_sidebar", value: currentProfile?.label ?? "",
@@ -129,7 +137,8 @@ export function openAccountMenu(context, anchor) {
             if (kind === "language") return controller.chooseLanguage(value);
             if (kind === "profile" && value) return controller.chooseProfile(value);
             if (kind === "sign-out") return controller.signOut();
-            if (kind === "configure-menu") return controller.startEdit();
+            if (kind === "configure-menu") return controller.startEdit("person");
+            if (kind === "finish-configure") return controller.exitEdit();
             return null;
         },
         // The theme row's choice: the menu marks it and stays open, the page
@@ -146,7 +155,7 @@ export function renderPersonButton(context) {
     return html`<button type="button" class="sf-admin-nav-person"
         aria-haspopup="menu" aria-expanded="false"
         aria-label=${compact ? `${person.name}. ${text("account")}` : nothing}
-        title=${compact ? person.name : nothing}
+        data-tooltip=${tip(context, "person", person.name)}
         @click=${(event) => openAccountMenu(context, event.currentTarget)}>
         ${avatar(person)}
         ${compact ? nothing : html`<span class="sf-admin-nav-person-text">

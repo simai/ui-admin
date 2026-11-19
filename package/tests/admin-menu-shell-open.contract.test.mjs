@@ -35,7 +35,7 @@ test('the second column follows the page, and whether it is open is the person\'
   // is open is kept once for the person (2026-10-13: the menu must not jump).
   const controller = await read('src/smart/admin-menu/js/navigation/controller.js');
   const shown = controller.match(/\n    shownColumn\(\) \{([\s\S]*?)\n    \}\n/u)?.[1] ?? '';
-  assert.match(shown, /if \(this\.wide && \(this\.compact \|\| !this\.columnOpen\)\) return null;/u, 'a closed column stays closed on every page');
+  assert.match(shown, /if \(this\.wide && !this\.columnOpen\) return null;/u, 'a closed column stays closed on every page');
   assert.match(shown, /if \(this\.objectMenu\(\)\) return OBJECT_MENU;/u, 'the object menu comes before the root');
   assert.match(shown, /return this\.pageRoot\(\)\?\.key \?\? null;/u, 'no page root: no column, never a foreign one');
   const pageRoot = controller.match(/\n    pageRoot\(\) \{([\s\S]*?)\n    \}\n/u)?.[1] ?? '';
@@ -46,9 +46,10 @@ test('the second column follows the page, and whether it is open is the person\'
   assert.match(controller, /this\.keepPreference\(\{second: this\.columnOpen\}\)/u);
 });
 
-test('the theme is a row with a submenu, and the columns are widened by their edges', async () => {
+test('the theme is a row with a submenu, and the columns have no width handle', async () => {
   // Owner, 2026-10-14: the theme is chosen as the language and the menu
-  // profile are, and the two columns take an sf-resizer within limits.
+  // profile are. Owner decision C365: the section column is 256 and has no
+  // drag resizer; the rail is the rail.
   // Owner decision C176 (1), (2), K-11 (2026-11-16): the row is the settings
   // row sf-settings makes (entriesFor, a choice in the drill look), and the
   // person menu drills; no theme list of the menu's own as radio rows.
@@ -58,8 +59,7 @@ test('the theme is a row with a submenu, and the columns are widened by their ed
   assert.match(account, /submenu: "drill"/u);
   assert.doesNotMatch(account, /\bTHEMES\b|`theme:\$\{/u);
   const template = await read('src/smart/admin-menu/js/navigation/template.js');
-  assert.match(template, /<sf-resizer min=\$\{limits\.min\} max=\$\{limits\.max\}/u);
-  assert.match(template, /property=\$\{`--sf-admin-nav-\$\{column\}--inline-size`\}/u);
-  const rule = await read('src/smart/admin-menu/rule.js');
-  assert.match(rule, /\{ name: (['"])cl-resizer\1 \}/u);
+  assert.doesNotMatch(template, /<sf-resizer/u);
+  const styles = await read('src/smart/admin-menu/js/navigation/navigation.css');
+  assert.match(styles, /inline-size: var\(--sf-admin-nav-second--inline-size, var\(--sf-f6\)\);/u);
 });

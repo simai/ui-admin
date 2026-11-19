@@ -5,6 +5,15 @@ import manifest from "./component.json";
 import aliases from "./aliases.json";
 import en from "./lang/en.json";
 import ru from "./lang/ru.json";
+import zh from "./lang/zh.json";
+import es from "./lang/es.json";
+import pt from "./lang/pt.json";
+import de from "./lang/de.json";
+import fr from "./lang/fr.json";
+import it from "./lang/it.json";
+import ja from "./lang/ja.json";
+import ko from "./lang/ko.json";
+import ar from "./lang/ar.json";
 import {renderAdminMenuTemplate} from "./js/templates/default";
 import {html, render} from "lit";
 import {setParentSpace} from "../helpers/dom";
@@ -160,7 +169,7 @@ function isSameSettings(left = {}, right = {}) {
 // each of them until 2026-12-01 (aliases.json, split by the detail's intent).
 const AdminMenuElement = elementFromManifest(manifest, {
     base: SfBaseElement,
-    lang: {en, ru},
+    lang: {en, ru, zh, es, pt, de, fr, it, ja, ko, ar},
     source: "ru",
     aliases,
     // The class writes these methods and takes their `with` fields in order
@@ -2930,7 +2939,33 @@ class SfAdminMenu extends AdminMenuElement {
         return this;
     }
 
+    // The navigation shell's interface (C321, AM-36, AM-49): the page's own
+    // «Показать колонку» calls showColumn; hideColumn and toggleColumn are
+    // the column's button and Ctrl/Cmd+B. Each answers whether the column
+    // is open after it.
+    showColumn() {
+        if (!this._navigation) return {outcome: "refused", reason: "no-port"};
+        this._navigation.showColumn();
+        return {outcome: "applied", open: this._navigation.columnState() === "open"};
+    }
+
+    hideColumn() {
+        if (!this._navigation) return {outcome: "refused", reason: "no-port"};
+        this._navigation.hideColumn();
+        return {outcome: "applied", open: this._navigation.columnState() === "open"};
+    }
+
+    toggleColumn() {
+        if (!this._navigation) return {outcome: "refused", reason: "no-port"};
+        this._navigation.toggleColumn();
+        return {outcome: "applied", open: this._navigation.columnState() === "open"};
+    }
+
     async afterRender() {
+        if (this._navigation) {
+            this._navigation.rendered();
+            return;
+        }
         const initToken = ++this._adminMenuInitToken;
         this.measureHeadHeight();
 

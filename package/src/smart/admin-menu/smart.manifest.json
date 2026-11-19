@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.admin-menu",
-  "version": "1.14.2",
+  "version": "1.15.0",
   "title": "Admin menu",
   "summary": "Searchable nested admin navigation with compact mode and editable personal or system preferences.",
   "kind": "composite",
@@ -36,15 +36,17 @@
       "smart.badge",
       "smart.button",
       "smart.button-icon",
+      "smart.drawer",
       "smart.dropdown",
       "smart.empty-state",
       "smart.icon",
       "smart.input",
       "smart.menu-context",
       "smart.profile-picker",
-      "smart.resizer",
       "smart.search",
-      "smart.sortable"
+      "smart.segmented",
+      "smart.sortable",
+      "smart.tooltip"
     ],
     "public_parts": [],
     "declarative": {
@@ -117,7 +119,8 @@
         "sf-admin-menu-rename",
         "sf-admin-menu-delete",
         "sf-admin-menu-read",
-        "sf-admin-menu-sign-out"
+        "sf-admin-menu-sign-out",
+        "sf-admin-menu-column-change"
       ],
       "persistence": {
         "settings_key_prop": null,
@@ -519,6 +522,30 @@
       "returns": {
         "type": "object",
         "description": "A promise of the outcome: applied, refused or unavailable."
+      }
+    },
+    "showColumn": {
+      "summary": "Show the section column again: the page's object menu or the root that holds the page (C321). With nothing for the column nothing opens. A page's «Показать колонку» calls it.",
+      "arguments": [],
+      "returns": {
+        "type": "object",
+        "description": "{outcome: applied, open} with whether the column is open after it; {outcome: refused, reason: no-port} before a navigation port."
+      }
+    },
+    "hideColumn": {
+      "summary": "Hide the section column; the rail stays and the column leaves no room (C321, AM-49).",
+      "arguments": [],
+      "returns": {
+        "type": "object",
+        "description": "{outcome: applied, open} with whether the column is open after it; {outcome: refused, reason: no-port} before a navigation port."
+      }
+    },
+    "toggleColumn": {
+      "summary": "Hide the column that is open or show the one that is hidden, as Ctrl/Cmd+B does (AM-36).",
+      "arguments": [],
+      "returns": {
+        "type": "object",
+        "description": "{outcome: applied, open} with whether the column is open after it; {outcome: refused, reason: no-port} before a navigation port."
       }
     },
     "setCompact": {
@@ -1050,6 +1077,21 @@
         "additionalProperties": true
       }
     },
+    "sf-admin-menu-column-change": {
+      "summary": "The section column was shown or hidden by the person or the page (C321); open says which. Kept per person (SF.Preferences sf-admin-menu/main second).",
+      "payload": {
+        "type": "object",
+        "required": [
+          "open"
+        ],
+        "properties": {
+          "open": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
     "sf-admin-menu-search": {
       "summary": "1.0 name of sf-admin-menu-query {kind: menu, query, requestId}; follows it until 2026-12-01.",
       "payload": {
@@ -1359,7 +1401,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/admin-menu/index.js",
-        "sha256": "765916a534aa198b69826c08c1d44fee65c7b8a7064ea026d0d9e1a71384dae6"
+        "sha256": "bf8b2dbde8b3c1526bb7d7c6f5384e6252e571b143871b8c5a84b4598e2ca45e"
       },
       {
         "path": "src/smart/admin-menu/js/templates/default.js",
@@ -1367,27 +1409,27 @@
       },
       {
         "path": "src/smart/admin-menu/js/navigation/navigation.css",
-        "sha256": "a07a68c5b29952cbb9058d0b5c3c2ed7e32dc7e7ff3919a446347290e195dd3a"
+        "sha256": "fe81383ce1ae97fa805e408349963d51bb9a1fe9852db5f1b2b1f7f0b1bcc9ec"
       },
       {
         "path": "src/smart/admin-menu/js/navigation/template.js",
-        "sha256": "e60ceb5ab930e7ba419133393d9c550ec2b8960cc2fb3c6623b79c2c07f1f34f"
+        "sha256": "c61e83eee95d6bd13a2b8ce58e499b0ddd06d4442ab576b4576afe8ea7b6d79b"
       },
       {
         "path": "src/smart/admin-menu/js/navigation/palette.js",
-        "sha256": "6537762084df5d4a66a3602253446c9497e797d29c2881015c6664871d72618a"
+        "sha256": "54c2da21d7cc7c065a8334f32317fbf59c85222cc829da103bd48f3528c6b203"
       },
       {
         "path": "src/smart/admin-menu/js/navigation/account.js",
-        "sha256": "114e748319ee45408054013929e495cde8015d90b6f7b9f3b40eed93fe09fad1"
+        "sha256": "7331b15a77d75a7af4ac193d5fafa2cac8df82ffd1fa29e116dcd399bb9f85f7"
       },
       {
         "path": "src/smart/admin-menu/js/navigation/edit.js",
-        "sha256": "a896169be0d028ffe00ad673306708d9ef4e733594ee90321ab02b289b149938"
+        "sha256": "bd91d99a3c508d3be1e8c2a96261dad034cb28a9980e7ccb8b38564f96c016f9"
       },
       {
         "path": "src/smart/admin-menu/js/navigation/controller.js",
-        "sha256": "7050d1e867411ad1ac518ff3469b87f6336807bb302271ef4917bfb5f0ab0fa6"
+        "sha256": "95eda7f41f1c998f121f17e4a51960e9590e8c47a95beb20c6f614cf5dceb2e8"
       },
       {
         "path": "src/smart/admin-menu/js/navigation/menu.js",
@@ -1399,7 +1441,7 @@
       },
       {
         "path": "src/smart/admin-menu/component.json",
-        "sha256": "25e832ed572fc99ef5acf5bb13e6614cafe84d5ce9df488e93724b4f859546b2"
+        "sha256": "3ac1aaf54f0235b7f10c4d6582ab93be97e969c3568e5821389d4b4a8cfdc700"
       },
       {
         "path": "src/smart/admin-menu/aliases.json",
@@ -1407,15 +1449,63 @@
       },
       {
         "path": "src/smart/admin-menu/lang/en.json",
-        "sha256": "70aaac06643a511d3431a4594006d673e6c0d5b4b247adaef4d0e1a10556812f"
+        "sha256": "13d7b9de987274a16e6266a6d1f3d67178a16fab3f4512559ae60f720896f1c7"
       },
       {
         "path": "src/smart/admin-menu/lang/ru.json",
-        "sha256": "03d07a274dd5ec78db42c2616bfd34db140f0e10ea81aa6aee2c8a4f45707588"
+        "sha256": "bd158855bddc778a6fc229c6b1c3480776fde851308c676d50d67403cd78bab4"
       },
       {
         "path": "src/smart/admin-menu/js/words.js",
-        "sha256": "12dd02ee8dae0725a09de24436d5efb65a50758849180c55a20d8f2c472c6275"
+        "sha256": "45f8e172b8fd840c481b2b9380980cbbf19fe0a3489396f4f2aa71e001c40f18"
+      },
+      {
+        "path": "src/smart/admin-menu/js/navigation/counter.js",
+        "sha256": "2d1f5e36664bc48944d01e1e562f883e05c29d16b42ff4611e0b985a9a5b6236"
+      },
+      {
+        "path": "src/smart/admin-menu/js/navigation/notices.js",
+        "sha256": "4bbe1b096abc14ce97751a98c39542d4a6adc827542d23ff2f3001caff4ca2a7"
+      },
+      {
+        "path": "src/smart/admin-menu/js/navigation/tips.js",
+        "sha256": "5e1d73c3cf9e1ebd89ec5aea56a83cc7e116c2b24782389d4b927fefa5403c8e"
+      },
+      {
+        "path": "src/smart/admin-menu/lang/zh.json",
+        "sha256": "1c03de6bab1767d0ecb7b37184de11f1c59085134249b7854bf409c9046a6936"
+      },
+      {
+        "path": "src/smart/admin-menu/lang/es.json",
+        "sha256": "588a3b8764e2fdaddf94f215dc1f253e6cdbd8ee35f38635c0049433af881da3"
+      },
+      {
+        "path": "src/smart/admin-menu/lang/pt.json",
+        "sha256": "10ff54439d6811eeee9a398df2673199928a8ab0d6eb2d33be32f8d52b1d4439"
+      },
+      {
+        "path": "src/smart/admin-menu/lang/de.json",
+        "sha256": "ff8853d54fcb3df732d7221d71edf7ec39be74b751044d6bfc131d41a72e4cd1"
+      },
+      {
+        "path": "src/smart/admin-menu/lang/fr.json",
+        "sha256": "40c13710fa37a5c6dff38c4deaeb9fbd8883a8a6ae6a28e6a1836cee2af59ed8"
+      },
+      {
+        "path": "src/smart/admin-menu/lang/it.json",
+        "sha256": "24a2d78a6d4e26c9310ae227cc72f92cc31277a74678c24762a4ec45f9fd3e9a"
+      },
+      {
+        "path": "src/smart/admin-menu/lang/ja.json",
+        "sha256": "2de5426a64963c0abe35b827eb445660d24745a4588bcff93368e617ccf048bd"
+      },
+      {
+        "path": "src/smart/admin-menu/lang/ko.json",
+        "sha256": "f4e330b917d51199a162ec6b3fc0e4eaca74388e7c08bd58b745e10841e30503"
+      },
+      {
+        "path": "src/smart/admin-menu/lang/ar.json",
+        "sha256": "c3f43461461c4d0c034da85bae7bd568bb8bbeb6a18289e08c2d8d2c3ecd40f2"
       }
     ],
     "generated_runtime": [

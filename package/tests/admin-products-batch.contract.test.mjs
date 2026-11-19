@@ -25,6 +25,6 @@ test('the person menu: the language row is SIMAI Framework\'s, «Выйти» is
 
 test('the edit mode\'s profile picker takes the page density (C22; PP-2)', async () => {
   const edit = await read('src/smart/admin-menu/js/navigation/edit.js');
-  assert.match(edit, /<sf-profile-picker label=/u);
+  assert.match(edit, /<sf-profile-picker class="sf-admin-nav-edit-role" label=/u);
   assert.doesNotMatch(edit, /<sf-profile-picker size=/u);
 });

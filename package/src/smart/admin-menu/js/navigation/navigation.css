@@ -2,11 +2,12 @@
    takes before it draws (Larena, 2026-10-28): on :root, from the tokens the
    columns are drawn with, registered as lengths so a script reads them in px
    (getComputedStyle(document.documentElement).getPropertyValue(
-   '--sf-admin-menu-two-columns-inline-size')). One column is the menu of a
-   page whose row has no open root (expected-columns="1"), two the menu with
-   its section open; compact is the rail. A width the person set with a
-   column's handle is theirs and wins (sf-resizer value or storage): the
-   reserve is then that width. */
+   '--sf-admin-menu-two-columns-inline-size')). The first level is always the
+   rail (C320): one column is the rail alone -- a page whose row has no open
+   root (expected-columns="1"), or a person who hid the column (C321) -- two
+   the rail with the section column. The columns have no width handle (C365).
+   The compact names are the same widths, kept for the hosts that read them
+   (aliases until 2026-12-01). */
 @property --sf-admin-menu-one-column-inline-size { syntax: "<length>"; inherits: true; initial-value: 0px; }
 @property --sf-admin-menu-two-columns-inline-size { syntax: "<length>"; inherits: true; initial-value: 0px; }
 @property --sf-admin-menu-compact-one-column-inline-size { syntax: "<length>"; inherits: true; initial-value: 0px; }
@@ -14,16 +15,16 @@
 
 @layer sf.components {
   :root {
-    --sf-admin-menu-one-column-inline-size: var(--sf-f6);
-    --sf-admin-menu-two-columns-inline-size: calc(var(--sf-f6) + var(--sf-f5));
+    --sf-admin-menu-one-column-inline-size: var(--sf-d4);
+    --sf-admin-menu-two-columns-inline-size: calc(var(--sf-d4) + var(--sf-f6));
     --sf-admin-menu-compact-one-column-inline-size: var(--sf-d4);
-    --sf-admin-menu-compact-two-columns-inline-size: calc(var(--sf-d4) + var(--sf-f5));
+    --sf-admin-menu-compact-two-columns-inline-size: calc(var(--sf-d4) + var(--sf-f6));
   }
 
   /* A page that opens the menu from a button of its own writes open (stand 24
      A1): on a narrow screen the menu is folded away while it is false. A page
      that never writes it has no data-open and sees the menu as it always was. */
-  @media not all and (min-width: 48rem) {
+  @media not all and (min-width: 44rem) {
     /* important: the host's own display (contents) is an inline style. */
     sf-admin-menu[data-open="false"] {
       display: none !important;
@@ -58,8 +59,18 @@
     inset-block-start: 0;
     color: var(--sf-admin-menu-color, var(--sf-on-surface));
     font-family: var(--sf-text--family);
-    font-size: var(--sf-text-size-1\/2);
-    line-height: var(--sf-text-height-1\/2);
+    /* Rows of both columns, the rail and the setting on rung 1 (C353, AM-33):
+       a row is the control height of the step, a line of text of rung 1 and
+       its vertical padding twice -- 40 normal, 32 compact; on a phone the
+       touch target, 44 (C134, AM-17, AM-34). One square of that size is every
+       control of the rail (C352, AM-32). */
+    --sf-admin-nav-row-h: var(--sf-ui-1--control-height);
+    font-size: var(--sf-text--size-1);
+    line-height: var(--sf-text--height-1);
+  }
+
+  .sf-admin-nav[data-wide="false"] {
+    --sf-admin-nav-row-h: var(--sf-hit--touch);
   }
 
   /* Each column is the box of its width handle (sf-resizer, absolutely
@@ -89,18 +100,24 @@
     background-color: var(--sf-admin-menu-first-background-color, var(--sf-surface-1));
   }
 
+  /* The rail's edge is drawn inside its 56 (AM-55), so its squares stand on
+     whole pixels. */
   .sf-admin-nav-first[data-compact="true"] {
     inline-size: var(--sf-admin-nav-rail--inline-size, var(--sf-d4));
+    border-inline-end-width: 0;
+    box-shadow: inset calc(-1 * var(--sf-px)) 0 0 var(--sf-admin-menu-border-color, var(--sf-outline-variant));
   }
 
+  /* The section column: 256 (C365, AM-46), its inset a8 (AM-52). */
   .sf-admin-nav-second {
-    inline-size: var(--sf-admin-nav-second--inline-size, var(--sf-f5));
+    inline-size: var(--sf-admin-nav-second--inline-size, var(--sf-f6));
     flex: 0 0 auto;
+    --sf-admin-menu-padding: var(--sf-a8);
   }
 
   /* The skeleton (renderNavigationSkeleton): both columns on a wide screen,
      the first the whole width on a phone, by the viewport alone. */
-  @media not all and (min-width: 48rem) {
+  @media not all and (min-width: 44rem) {
     .sf-admin-nav--skeleton {
       inline-size: 100%;
     }
@@ -117,7 +134,7 @@
      on a phone, before the code, it is the screen the code will show -- the
      object menu when the page has one, else the first column -- the whole
      width, so the box does not change when the code adopts it. */
-  @media not all and (min-width: 48rem) {
+  @media not all and (min-width: 44rem) {
     .sf-admin-nav[data-sf-static][data-wide="true"] {
       inline-size: 100%;
     }
@@ -151,12 +168,14 @@
     /* The column's inset, the same for the rows and for «Найти в разделе»
        above them, so a row's icon stays under the field's. */
     padding: var(--sf-admin-menu-padding, var(--sf-a4));
+    /* A thin bar in the outline colour, no track (AM-56). */
+    scrollbar-width: thin;
+    scrollbar-color: var(--sf-outline-variant) transparent;
   }
 
   .sf-admin-nav-rows {
     display: flex;
     flex-direction: column;
-    gap: var(--sf-px);
   }
 
   /* ─── a row ─────────────────────────────────────────────────────────────── */
@@ -172,9 +191,16 @@
     gap: var(--sf-space-1\/4);
   }
 
-  .sf-admin-nav-item[data-depth="1"] {
-    padding-inline-start: var(--sf-space-2);
+  /* A row of a deeper level starts under its parent's words (C109, AM-14):
+     one glyph and the row's gap further in per level, at any depth. */
+  .sf-admin-nav-item {
+    --sf-admin-nav-indent: calc(var(--sf-text--height-1) + var(--sf-space-1\/2));
   }
+
+  .sf-admin-nav-item[data-depth="1"] { padding-inline-start: var(--sf-admin-nav-indent); }
+  .sf-admin-nav-item[data-depth="2"] { padding-inline-start: calc(2 * var(--sf-admin-nav-indent)); }
+  .sf-admin-nav-item[data-depth="3"] { padding-inline-start: calc(3 * var(--sf-admin-nav-indent)); }
+  .sf-admin-nav-item[data-depth="4"] { padding-inline-start: calc(4 * var(--sf-admin-nav-indent)); }
 
   .sf-admin-nav-row {
     display: flex;
@@ -189,10 +215,10 @@
        with the field over it is two grids on one column. */
     /* Fixed rather than padded, so a badge -- taller than a line of text --
        sits inside the row instead of making that one row taller. */
-    min-block-size: calc(var(--sf-icon-size-2) + 2 * var(--sf-a6));
-    /* a6 above and below the words: one line is as tall as before, and a
-       second line adds one text line of the ladder. */
-    padding: var(--sf-a6) calc(var(--sf-px) + var(--sf-b4));
+    min-block-size: var(--sf-admin-nav-row-h);
+    /* The step's padding above and below the words: one line is the control
+       height, and a second line adds one text line of the ladder. */
+    padding: calc((var(--sf-admin-nav-row-h) - var(--sf-text--height-1)) / 2) calc(var(--sf-px) + var(--sf-b4));
     border-radius: var(--sf-radius--ui);
     color: inherit;
     text-decoration: none;
@@ -258,15 +284,29 @@
     font-weight: var(--sf-font-weight-medium);
   }
 
-  .sf-admin-nav-first[data-compact="true"] .sf-admin-nav-row[data-holds-current="true"]:not([data-current]) {
-    position: relative;
+  /* On the rail the root whose rows hold the page is the filled square of
+     the current row, with its ink (C354, AM-35), and the path's 2px primary
+     line on the rail's start edge beside it -- the glyph's height, centred
+     on the square, round on its inner end (AM-60) -- until the icon font
+     fills the glyph (FILL 1; a SIMAI Framework part). */
+  .sf-admin-nav-first[data-compact="true"] .sf-admin-nav-row[data-holds-current="true"],
+  .sf-admin-nav-first[data-compact="true"] .sf-admin-nav-row[data-holds-current="true"]:hover {
+    background-color: var(--sf-primary-container-active);
+    color: var(--sf-on-primary-container);
+    --sf-icon--color: var(--sf-on-primary-container);
+    --sf-badge--surface: var(--sf-primary-container-active);
   }
 
-  .sf-admin-nav-first[data-compact="true"] .sf-admin-nav-row[data-holds-current="true"]:not([data-current])::before {
+  .sf-admin-nav-first[data-compact="true"] .sf-admin-nav-row[data-holds-current="true"] .sf-admin-nav-row-icon {
+    --sf-icon--color: var(--sf-on-primary-container);
+  }
+
+  .sf-admin-nav-first[data-compact="true"] .sf-admin-nav-row[data-holds-current="true"]::before {
     content: '';
     position: absolute;
-    inset-block: var(--sf-0);
-    inset-inline-start: calc(-1 * var(--sf-admin-menu-padding, var(--sf-a4)));
+    inset-block-start: calc((var(--sf-admin-nav-row-h) - var(--sf-text--height-1)) / 2);
+    block-size: var(--sf-text--height-1);
+    inset-inline-start: calc((var(--sf-admin-nav-row-h) - var(--sf-d4)) / 2);
     inline-size: var(--sf-a2);
     border-start-start-radius: var(--sf-0);
     border-end-start-radius: var(--sf-0);
@@ -284,9 +324,19 @@
       outline-offset: calc(-1 * var(--sf-px));
     }
 
-    .sf-admin-nav-first[data-compact="true"] .sf-admin-nav-row[data-holds-current="true"]:not([data-current])::before {
+    .sf-admin-nav-first[data-compact="true"] .sf-admin-nav-row[data-holds-current="true"] {
+      outline: var(--sf-px) solid CanvasText;
+      outline-offset: calc(-1 * var(--sf-px));
+    }
+
+    .sf-admin-nav-first[data-compact="true"] .sf-admin-nav-row[data-holds-current="true"]::before {
       forced-color-adjust: none;
       background-color: Highlight;
+    }
+
+    /* The place's mark keeps its plate (AM-40): its letters are its name. */
+    .sf-admin-nav-mark {
+      forced-color-adjust: none;
     }
   }
 
@@ -303,9 +353,9 @@
      through sf-icon's own variables, because its stylesheet sizes the glyph from
      them: sizing the box from outside left a 24px glyph in the row. */
   .sf-admin-nav {
-    --sf-icon--font-size: var(--sf-icon-size-2);
-    --sf-icon--width: var(--sf-icon-size-2);
-    --sf-icon--height: var(--sf-icon-size-2);
+    --sf-icon--font-size: var(--sf-text--height-1);
+    --sf-icon--width: var(--sf-text--height-1);
+    --sf-icon--height: var(--sf-text--height-1);
   }
   .sf-admin-nav-row-icon {
     --sf-icon--color: var(--sf-on-surface-variant);
@@ -313,49 +363,50 @@
 
   /* At rest a row's label is regular: the medium label is the second cue of
      the current page and of a row on its path, besides the colour (C23). */
+  /* A name takes up to two lines (AM-15), then an ellipsis. */
   .sf-admin-nav-row-label {
     flex: 1 1 auto;
     font-weight: var(--sf-font-weight-regular);
     min-inline-size: 0;
     overflow-wrap: anywhere;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+  }
+
+  /* A favourite carries its section under its name (C368, AM-48). */
+  .sf-admin-nav-row-label[data-caption="true"] {
+    display: flex;
+    flex-direction: column;
+    -webkit-line-clamp: unset;
+    line-clamp: none;
+  }
+
+  .sf-admin-nav-row-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .sf-admin-nav-row-caption {
+    color: var(--sf-on-surface-variant);
+    font-size: var(--sf-text--size-1\/2);
+    line-height: var(--sf-text--height-1\/2);
   }
 
   .sf-admin-nav-row-chevron {
     --sf-icon--color: var(--sf-on-surface-variant);
   }
 
-  /* sf-badge is display: contents, so the box that sits in the row is the badge
-     inside it -- and that one shrinks by default, which cut «4 новых» to «4 н…».
-     What needs attention is read whole; the label gives way instead. */
-  .sf-admin-nav-attention,
-  .sf-admin-nav-attention > .sf-badge {
+  /* A count is part of its row (AM-53, AM-59): inside the row's fill at its
+     end, on the middle of the first line. It is SIMAI Framework's sf-badge on
+     a text line of rung 1 (line="1"): the badge's own geometry; the menu
+     sets no size, font or padding on it, only its place in the row. */
+  .sf-admin-nav-row-end {
     flex: none;
-  }
-
-  .sf-admin-nav-item > .sf-admin-nav-attention {
-    margin-inline-end: var(--sf-space-1\/2);
-  }
-
-  /* A badge stands on the middle of the first line: inside a row it starts at
-     the row's padding, beside a row (an object menu row) at the item's top. */
-  .sf-admin-nav-row .sf-admin-nav-attention > .sf-badge {
-    margin-block-start: calc((var(--sf-text-height-1\/2) - var(--sf-text-height-1\/3)) / 2);
-  }
-
-  .sf-admin-nav-item > .sf-admin-nav-attention > .sf-badge {
-    margin-block-start: calc(var(--sf-a6) + (var(--sf-text-height-1\/2) - var(--sf-text-height-1\/3)) / 2);
-  }
-
-  /* A count beside a row's words is a counter, not a label: its own small
-     line and no padding above or below, so it is no taller than the letters
-     beside it (owner, 2026-10-14: the «1» by «Уведомления» stood 20px tall
-     beside 14px words). */
-  .sf-admin-nav-attention .sf-badge {
-    --sf-badge--font-size: var(--sf-text-size-1\/3);
-    --sf-badge--line-height: var(--sf-text-height-1\/3);
-    --sf-badge--padding-block: 0px;
-    --sf-badge--padding-inline-start: var(--sf-a4);
-    --sf-badge--padding-inline-end: var(--sf-a4);
+    display: inline-flex;
+    align-self: flex-start;
   }
 
   /* A row's shortcut: SIMAI Framework's kbd unit draws the keys (owner
@@ -411,17 +462,75 @@
     --sf-badge--anchor-radius: var(--sf-admin-menu-item-placeholder--border-radius, var(--sf-radius-rounded));
   }
 
+  /* ─── the rail ─────────────────────────────────────────────────────────── */
+
+  /* One shape on the rail (C352, AM-32): the mark, every row, hover, the open
+     and the current root and the person are the square of the row's step
+     (40 normal, 32 compact, 44 never: a phone has no rail), radius
+     --sf-radius--ui, a2 apart; the divider is the square's width. */
+  .sf-admin-nav-first[data-compact="true"] :is(.sf-admin-nav-row--first, .sf-admin-nav-site-trigger, .sf-admin-nav-person) {
+    flex: none;
+    inline-size: var(--sf-admin-nav-row-h);
+    block-size: var(--sf-admin-nav-row-h);
+    min-inline-size: 0;
+    min-block-size: 0;
+    margin-inline: auto;
+    margin-block: var(--sf-a2);
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--sf-radius--ui);
+  }
+
+  .sf-admin-nav-first[data-compact="true"] .sf-admin-nav-rows,
+  .sf-admin-nav-first[data-compact="true"] .sf-admin-nav-bottom {
+    gap: 0;
+  }
+
+  /* The first rows of the rail and of the column start on one line (AM-57):
+     the rail's scroll box takes a6 above. */
+  .sf-admin-nav-first[data-compact="true"] .sf-admin-nav-scroll {
+    padding-block-start: var(--sf-a6);
+  }
+
+  .sf-admin-nav-first[data-compact="true"] hr.sf-admin-nav-divider {
+    inline-size: var(--sf-admin-nav-row-h);
+    margin-inline: auto;
+  }
+
+  .sf-admin-nav-first[data-compact="true"] .sf-admin-nav-row[aria-expanded="true"],
+  .sf-admin-nav-bell[aria-expanded="true"],
+  .sf-admin-nav-more[aria-expanded="true"] {
+    background-color: var(--sf-surface-state-select);
+  }
+
+  /* The rail's tooltips stand together at the menu's end; each is placed
+     fixed beside its control by SIMAI Framework's tooltip controller. */
+  .sf-admin-nav-tips {
+    display: contents;
+  }
+
+  button.sf-admin-nav-row {
+    inline-size: 100%;
+    border: 0;
+    background: none;
+    font: inherit;
+    text-align: start;
+  }
+
   .sf-admin-nav-first[data-compact="true"] .sf-admin-nav-row {
     position: relative;
     justify-content: center;
     padding-inline: 0;
   }
 
+  /* A group heading starts on the rows' icon line (AM-54). Groups are never
+     folded (C366). */
   .sf-admin-nav-heading {
-    padding: var(--sf-space-1) var(--sf-space-1) var(--sf-space-1\/4);
+    padding: var(--sf-space-1) calc(var(--sf-px) + var(--sf-b4)) var(--sf-space-1\/4);
     color: var(--sf-on-surface-variant);
-    font-size: var(--sf-text-size-1\/3);
-    line-height: var(--sf-text-height-1\/3);
+    font-size: var(--sf-text--size-1\/2);
+    line-height: var(--sf-text--height-1\/2);
   }
 
   .sf-admin-nav-divider {
@@ -445,8 +554,8 @@
      both a block twice as roomy as the rows, with their left edge on no line of
      the column's (owner, 2026-10-13). */
   .sf-admin-nav-first {
-    --sf-admin-nav-mark-size: var(--sf-c6);
-    --sf-admin-nav-mark-inset: calc(var(--sf-px) + var(--sf-b4) + (var(--sf-icon-size-2) - var(--sf-admin-nav-mark-size)) / 2);
+    --sf-admin-nav-mark-size: var(--sf-admin-nav-row-h);
+    --sf-admin-nav-mark-inset: calc(var(--sf-px) + var(--sf-b4) + (var(--sf-text--height-1) - var(--sf-admin-nav-mark-size)) / 2);
   }
 
   .sf-admin-nav-site {
@@ -454,6 +563,25 @@
     flex: none;
     padding: var(--sf-a4);
     border-block-end: var(--sf-px) solid var(--sf-outline-variant);
+  }
+
+  /* The mark's block is --sf-d4 tall, as the column's head (AM-50, AM-57):
+     the mark, the column's title and the page's path share one centre. The
+     mark stands (d4 - square) / 2 from the top; the line under it is the
+     rail's divider, the square's width. */
+  .sf-admin-nav-first[data-compact="true"] .sf-admin-nav-site {
+    box-sizing: border-box;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    block-size: var(--sf-d4);
+    padding: 0;
+    border-block-end: 0;
+    background: linear-gradient(var(--sf-outline-variant), var(--sf-outline-variant)) center bottom / var(--sf-admin-nav-row-h) var(--sf-px) no-repeat;
+  }
+
+  .sf-admin-nav-first[data-compact="true"] .sf-admin-nav-site > .sf-admin-nav-site-trigger {
+    margin-block: calc((var(--sf-d4) - var(--sf-admin-nav-row-h)) / 2) 0;
   }
 
   .sf-admin-nav-site-trigger {
@@ -488,17 +616,18 @@
     justify-content: center;
   }
 
-  .sf-admin-nav-mark {
+  /* The place's mark is SIMAI Framework's avatar picture, a square (AM-5):
+     its picture, else its letters on the primary plate, through the avatar's
+     own variables; the square of the rail's step. */
+  .sf-avatar.sf-admin-nav-mark {
     flex: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    inline-size: var(--sf-admin-nav-mark-size, var(--sf-c6));
-    block-size: var(--sf-admin-nav-mark-size, var(--sf-c6));
-    border-radius: var(--sf-radius--ui);
-    background-color: var(--sf-primary);
-    color: var(--sf-on-primary);
-    font-weight: var(--sf-font-weight-bold);
+    --sf-avatar--width: var(--sf-admin-nav-mark-size);
+    --sf-avatar--height: var(--sf-admin-nav-mark-size);
+    --sf-avatar-radius: var(--sf-radius--ui);
+    --sf-avatar-background-color: var(--sf-primary);
+    --sf-avatar-border-width: 0px;
+    --sf-avatar--color: var(--sf-on-primary);
+    --sf-avatar--font-weight: var(--sf-font-weight-bold);
   }
 
   .sf-admin-nav-site-text,
@@ -554,55 +683,7 @@
     cursor: pointer;
   }
 
-  .sf-admin-nav-action {
-    display: flex;
-    align-items: center;
-    gap: var(--sf-space-1\/2);
-    padding: var(--sf-space-1\/2) var(--sf-space-1);
-    border-radius: var(--sf-radius--ui);
-    color: var(--sf-primary);
-    text-decoration: none;
-    --sf-icon--color: var(--sf-primary);
-  }
-
-
-  .sf-admin-nav-action {
-    min-inline-size: 0;
-  }
-
-  .sf-admin-nav-action > span {
-    min-inline-size: 0;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-
-  .sf-admin-nav-action:hover {
-    background-color: var(--sf-surface-state-hover);
-  }
-
-  .sf-admin-nav-action:active {
-    background-color: var(--sf-surface-state-active);
-  }
-
   /* ─── favourites, bottom, foot ──────────────────────────────────────────── */
-
-  .sf-admin-nav-favourites {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sf-px);
-    margin-block-start: var(--sf-space-1\/2);
-  }
-
-  .sf-admin-nav-group-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: var(--sf-space-1\/2) var(--sf-space-1) 0;
-    color: var(--sf-on-surface-variant);
-    font-size: var(--sf-text-size-1\/3);
-    line-height: var(--sf-text-height-1\/3);
-  }
 
   .sf-admin-nav-bottom {
     position: relative;
@@ -672,29 +753,45 @@
     min-inline-size: 0;
   }
 
-  .sf-admin-nav-collapse {
-    flex: none;
-  }
-
   .sf-admin-nav-first[data-compact="true"] .sf-admin-nav-person-row {
     flex-direction: column;
   }
 
   /* ─── the second column ─────────────────────────────────────────────────── */
 
+  /* The column's head is one line on --sf-d4, as the rail's mark block
+     (AM-50, AM-57): the title starts on the rows' icon line and the hide
+     button ends on the rows' end line. An object's head keeps its status
+     line under the title. */
   .sf-admin-nav-second-head {
+    box-sizing: border-box;
     flex: none;
     min-inline-size: 0;
     display: flex;
     align-items: center;
     gap: var(--sf-space-1\/2);
-    padding: var(--sf-space-1) var(--sf-space-1\/2) var(--sf-space-1\/2) var(--sf-space-1);
+    min-block-size: var(--sf-d4);
+    padding-block: 0;
+    padding-inline: calc(var(--sf-admin-menu-padding, var(--sf-a8)) + var(--sf-px) + var(--sf-b4)) var(--sf-admin-menu-padding, var(--sf-a8));
   }
 
-  /* The install is not the site: its caption says so in the colour of a fact
-     worth noticing, so the two cannot be mistaken for each other. */
-  .sf-admin-nav-second-caption[data-install="true"] {
-    color: var(--sf-tertiary);
+  /* The head's buttons are the row's square with the row's glyph (AM-51):
+     one glyph box for the head, the rows and the rail. */
+  .sf-admin-nav-second-head > sf-button-icon > button,
+  .sf-admin-nav-second-head .sf-icon-button {
+    inline-size: var(--sf-admin-nav-row-h);
+    block-size: var(--sf-admin-nav-row-h);
+    min-inline-size: 0;
+    padding: 0;
+    justify-content: center;
+    border-radius: var(--sf-radius--ui);
+    --sf-icon--font-size: var(--sf-text--height-1);
+    --sf-icon--width: var(--sf-text--height-1);
+    --sf-icon--height: var(--sf-text--height-1);
+  }
+
+  .sf-admin-nav-hide {
+    flex: none;
   }
 
   /* ─── the object menu (navigation.context) ──────────────────────────────── */
@@ -736,7 +833,7 @@
   .sf-admin-nav-find {
     flex: none;
     min-inline-size: 0;
-    padding: 0 var(--sf-a4) var(--sf-a4);
+    padding: 0 var(--sf-admin-menu-padding, var(--sf-a8)) var(--sf-a4);
   }
 
   .sf-admin-nav-find > sf-input,
@@ -748,13 +845,6 @@
   .sf-admin-nav-children {
     display: flex;
     flex-direction: column;
-    gap: var(--sf-px);
-  }
-
-  .sf-admin-nav-second-foot {
-    flex: none;
-    padding: var(--sf-space-1\/2);
-    border-block-start: var(--sf-px) solid var(--sf-outline-variant);
   }
 
   /* ─── the ⌘K palette ────────────────────────────────────────────────────── */
@@ -773,49 +863,64 @@
 
   /* ─── the edit mode ─────────────────────────────────────────────────────── */
 
-  .sf-admin-nav-edit-banner {
+  /* The setting header (AM-41): inside the menu, over the rail unfolded
+     with its names; one line for the title and «Готово», the levels, the
+     one-line note, the lock line and the buttons, 8 apart (AM-30). */
+  .sf-admin-nav-edit-head {
     position: relative;
     flex: none;
     display: flex;
     flex-direction: column;
-    gap: var(--sf-a4);
-    margin: var(--sf-a4);
-    padding: var(--sf-a4) var(--sf-a4) var(--sf-a6);
-    border: var(--sf-px) solid var(--sf-warning);
-    border-radius: var(--sf-radius--surface);
-    background-color: var(--sf-warning-container);
-    color: var(--sf-on-warning-container);
+    gap: var(--sf-space-1\/3);
+    min-inline-size: 0;
+    padding: var(--sf-space-1\/2) var(--sf-a8);
+    border-block-end: var(--sf-px) solid var(--sf-outline-variant);
   }
 
-  .sf-admin-nav-edit-title,
-  .sf-admin-nav-edit-profile {
+  .sf-admin-nav-edit-title {
     display: flex;
     align-items: center;
-    gap: var(--sf-space-1\/2);
-    padding: 0 var(--sf-a4);
-    font-weight: var(--sf-font-weight-bold);
+    justify-content: space-between;
+    gap: var(--sf-space-1\/3);
+    min-block-size: var(--sf-admin-nav-row-h);
   }
 
-  .sf-admin-nav-edit-profile {
-    min-block-size: calc(var(--sf-icon-size-2) + 2 * var(--sf-a6));
-    border: var(--sf-px) solid var(--sf-outline-variant);
-    border-radius: var(--sf-radius--ui);
-    background-color: var(--sf-surface-0);
-    color: var(--sf-on-surface);
-    font: inherit;
-    text-align: start;
-    cursor: pointer;
+  .sf-admin-nav-edit-name {
+    min-inline-size: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-weight: var(--sf-font-weight-medium);
+  }
+
+  .sf-admin-nav-edit-levels,
+  .sf-admin-nav-edit-role {
+    display: block;
+    min-inline-size: 0;
   }
 
   .sf-admin-nav-edit-note,
+  .sf-admin-nav-edit-why,
   .sf-admin-nav-edit-message {
     margin: 0;
-    padding: var(--sf-a6) var(--sf-a8);
-    border-radius: var(--sf-radius--ui);
-    background-color: var(--sf-surface-0);
     color: var(--sf-on-surface-variant);
-    font-size: var(--sf-text-size-1\/3);
-    line-height: var(--sf-text-height-1\/3);
+    font-size: var(--sf-text--size-1\/2);
+    line-height: var(--sf-text--height-1\/2);
+  }
+
+  .sf-admin-nav-edit-note {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .sf-admin-nav-edit-why {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sf-space-1\/4);
+    --sf-icon--font-size: var(--sf-text--height-1\/2);
+    --sf-icon--width: var(--sf-text--height-1\/2);
+    --sf-icon--height: var(--sf-text--height-1\/2);
   }
 
   .sf-admin-nav-edit-message {
@@ -842,8 +947,8 @@
     position: relative;
     display: flex;
     align-items: center;
-    gap: var(--sf-a4);
-    min-block-size: calc(var(--sf-icon-size-2) + 2 * var(--sf-a6));
+    gap: var(--sf-a8);
+    min-block-size: var(--sf-admin-nav-row-h);
     padding: 0 var(--sf-a4);
     border-radius: var(--sf-radius--ui);
     /* The column's own colour: the first column is surface-1 and the second
@@ -872,9 +977,26 @@
   .sf-admin-nav-edit-handle {
     flex: none;
     display: inline-flex;
-    inline-size: var(--sf-icon-size-2);
+    justify-content: center;
+    inline-size: var(--sf-text--height-1);
     cursor: grab;
     --sf-icon--color: var(--sf-on-surface-variant);
+  }
+
+  /* A fixed section: its lock in the handle's place, its reason in a tooltip
+     on hover and focus (AM-42). */
+  .sf-admin-nav-edit-lock {
+    cursor: help;
+    border-radius: var(--sf-radius--ui);
+  }
+
+  .sf-admin-nav-edit-lock:focus-visible {
+    outline: var(--sf-focus--width) var(--sf-focus--style) var(--sf-focus--color);
+  }
+
+  .sf-admin-nav-edit-spacer {
+    flex: none;
+    inline-size: calc(var(--sf-text--height-1) + 2 * var(--sf-a2));
   }
 
   /* The glyph keeps its size and the name takes what is left, ending in an
@@ -884,9 +1006,22 @@
     flex: none;
   }
 
-  .sf-admin-nav-edit-row > .sf-admin-nav-row-label {
+  /* The glyph's chooser is as wide as its glyph (AM-47): its value is not
+     written beside it, so it never lies over the name. */
+  .sf-admin-nav-edit-icon :is(.sf-dropdown, .sf-dropdown-trigger) {
+    inline-size: max-content;
+    min-inline-size: max-content;
+  }
+
+  .sf-admin-nav-edit-icon .sf-dropdown-value {
+    display: none;
+  }
+
+  /* In the setting a long name is one line with an ellipsis (AM-31). */
+  .sf-admin-nav-edit-row .sf-admin-nav-row-label {
     flex: 1 1 auto;
     min-inline-size: 0;
+    display: block;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -957,7 +1092,8 @@
 
   .sf-admin-nav-edit-actions {
     display: flex;
-    gap: var(--sf-a4);
+    flex-wrap: wrap;
+    gap: var(--sf-a8);
   }
 
   .sf-admin-nav-edit-check {
@@ -965,5 +1101,99 @@
     align-items: center;
     gap: var(--sf-a4);
     font-size: var(--sf-text-size-1\/3);
+  }
+
+  /* ─── the notifications panel ───────────────────────────────────────────── */
+
+  /* The bell's panel (C340, C341, AM-44) is SIMAI Framework's sf-drawer on the
+     right over the page (controller.noticesDrawer); its list is the menu's,
+     in the panel's body. */
+  .sf-admin-nav-notices-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sf-space-1\/4);
+    min-inline-size: 0;
+    font-size: var(--sf-text--size-1\/2);
+    line-height: var(--sf-text--height-1\/2);
+  }
+
+  .sf-admin-nav-notices-head,
+  .sf-admin-nav-notices-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sf-space-1\/2);
+    margin: 0;
+  }
+
+  .sf-admin-nav-notices-foot {
+    margin-block-start: var(--sf-space-1\/2);
+  }
+
+  .sf-admin-nav-notices-count {
+    font-weight: var(--sf-font-weight-medium);
+  }
+
+  .sf-admin-nav-notices-group {
+    margin: var(--sf-space-1\/2) 0 0;
+    color: var(--sf-on-surface-variant);
+    font-size: var(--sf-text--size-1\/3);
+    line-height: var(--sf-text--height-1\/3);
+    font-weight: var(--sf-font-weight-medium);
+  }
+
+  .sf-admin-nav-notices-list {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .sf-admin-nav-notice {
+    display: grid;
+    grid-template-columns: var(--sf-a8) minmax(0, 1fr);
+    gap: var(--sf-space-1\/3);
+    padding-block: var(--sf-space-1\/3);
+    border-block-end: var(--sf-px) solid var(--sf-outline-variant);
+  }
+
+  .sf-admin-nav-notice-dot {
+    inline-size: var(--sf-a8);
+    block-size: var(--sf-a8);
+    margin-block-start: var(--sf-a6);
+    border-radius: var(--sf-radius-circle);
+  }
+
+  .sf-admin-nav-notice[data-unread="true"] .sf-admin-nav-notice-dot {
+    background-color: var(--sf-primary);
+  }
+
+  .sf-admin-nav-notice-what {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sf-a2);
+    min-inline-size: 0;
+  }
+
+  .sf-admin-nav-notice[data-unread="true"] .sf-admin-nav-notice-title {
+    font-weight: var(--sf-font-weight-medium);
+  }
+
+  .sf-admin-nav-notice[data-resolved="true"] .sf-admin-nav-notice-title {
+    color: var(--sf-on-surface-variant);
+  }
+
+  .sf-admin-nav-notice-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sf-space-1\/4) var(--sf-space-1\/3);
+    color: var(--sf-on-surface-variant);
+  }
+
+  .sf-admin-nav-notices-body a {
+    color: var(--sf-primary);
   }
 }

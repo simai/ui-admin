@@ -28,8 +28,13 @@ SF.RuleLoader['cl-admin-menu'] = {
     // The navigation shell's edit mode moves rows with sf-sortable; a tag the
     // menu renders is a tag it fetches.
     { name: 'cl-sortable', lazy: true },
-    // The columns' edges widen and narrow them.
-    { name: 'cl-resizer' },
+    // The rail's controls are named by SIMAI Framework's tooltip on hover and
+    // focus (C320, AM-25); the rail draws them with the page.
+    { name: 'cl-tooltip' },
+    // The bell's notifications panel is sf-drawer beside the page (C340, AM-44).
+    { name: 'cl-drawer', lazy: true },
+    // The setting header's levels are sf-segmented (C326 = C298, AM-41).
+    { name: 'cl-segmented', lazy: true },
     // The edit mode's profiles are the profile picker (owner, 2026-10-14).
     { name: 'cl-profile-picker', lazy: true },
     // A row's glyph is chosen in the edit mode with the grid dropdown.

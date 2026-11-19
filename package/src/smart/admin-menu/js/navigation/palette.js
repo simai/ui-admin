@@ -1,4 +1,5 @@
 import {html, nothing} from "lit";
+import {tip} from "./tips.js";
 import {ariaKeyShortcuts, parseShortcut, shortcutView} from "../../../../component/kbd/js/shortcut";
 
 // The ⌘K palette: a window over the page, so the same search is there in the
@@ -20,11 +21,6 @@ export function renderKeys(value, appearance = null) {
     return html`<kbd class="sf-kbd--group" appearance=${appearance ?? nothing}>${keys.map((key, at) => html`${at && join ? html`<span class="sf-kbd-join">+</span>` : nothing}${one(key)}`)}</kbd>`;
 }
 
-// What a combination reads as in words, for a title: «Ctrl+K», «⌘K».
-const keysText = (value) => {
-    const {keys, join} = shortcutView(value);
-    return keys.map((key) => key.text).join(join ? "+" : "");
-};
 
 const icon = (name) => (name
     ? html`<sf-icon root-class="sf-admin-nav-row-icon" aria-hidden="true" icon=${name}></sf-icon>`
@@ -50,16 +46,17 @@ export function renderPalette(context) {
 
 // The row that opens it, under the site in the first column.
 export function renderSearchRow(context) {
-    const {controller, text, compact, shortcut} = context;
+    const {controller, text, compact, shortcut, wide} = context;
     if (!controller.offers("search")) return nothing;
+    // No key hints on a phone (AM-4): there is no keyboard to press them.
     return html`<a class="sf-admin-nav-row sf-admin-nav-row--first" href="#" role="button"
         aria-haspopup="dialog"
         aria-keyshortcuts=${ariaKeyShortcuts(parseShortcut(shortcut)) || nothing}
-        title=${compact ? `${text("search")} ${keysText(shortcut)}` : nothing}
+        data-tooltip=${tip(context, "search", text("search"), shortcut)}
         aria-label=${compact ? text("search") : nothing}
         @click=${(event) => { event.preventDefault(); controller.openPalette(); }}>
         ${icon("search")}
         ${compact ? nothing : html`<span class="sf-admin-nav-row-label">${text("search")}</span>
-            <span class="sf-admin-nav-row-keys">${renderKeys(shortcut, "plain")}</span>`}
+            ${wide ? html`<span class="sf-admin-nav-row-keys">${renderKeys(shortcut, "plain")}</span>` : nothing}`}
     </a>`;
 }

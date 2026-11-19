@@ -36,27 +36,57 @@ function profilePickerEntries(controller) {
     }));
 }
 
-export function renderEditBanner(context) {
+// The setting header (owner decision C326 = C298; AM-41, AM-42, AM-61): one
+// header inside the menu, nothing in the page's content -- the title with
+// «Готово», the levels «Лично» / «Для всех» / «Профиль настроек» in the
+// words of the views, a one-line note of who sees it and how it is saved,
+// the lock line naming the sections an administrator fixed, and «Сбросить» /
+// «Сохранить для всех». «Лично» applies at once; a shared level is a draft
+// that reaches its people only by «Сохранить для всех». «Профиль настроек»
+// names the role's profile in SIMAI Framework's profile picker, where one is
+// made, renamed and removed.
+const LEVEL_WORDS = {personal: "levelPersonal", everyone: "levelEveryone", role: "levelRole"};
+const LEVEL_NOTES = {personal: "notePersonal", everyone: "noteEveryone", role: "noteRole"};
+
+function renderRolePicker(context) {
     const {controller, text, edit} = context;
-    const current = controller.currentProfile();
-    const shared = current?.kind === "shared";
     const kinds = newProfileKinds(controller);
-    return html`<div class="sf-admin-nav-edit-banner" role="region" aria-label=${text("editMenu")}>
+    const roles = new Set(controller.roleProfiles().map((entry) => entry.key));
+    return html`<sf-profile-picker class="sf-admin-nav-edit-role" label=${text("levelRole")}
+        current=${controller.navigation?.profiles?.current ?? ""} message=${edit.message || ""}
+        .profiles=${profilePickerEntries(controller).filter((entry) => roles.has(entry.id))}
+        .rights=${{create: {personal: false, shared: kinds.shared}}}
+        @sf-profile-picker-select=${(event) => controller.chooseLevel("role", event.detail.id)}
+        @sf-profile-picker-create=${(event) => controller.createProfile(event.detail.label, true)}
+        @sf-profile-picker-rename=${(event) => controller.renameProfile(event.detail.label, event.detail.id)}
+        @sf-profile-picker-delete=${(event) => controller.deleteProfile(event.detail.id)}></sf-profile-picker>`;
+}
+
+export function renderEditHeader(context) {
+    const {controller, text, edit, level} = context;
+    const levels = controller.levels();
+    const draft = controller.isDraft();
+    const note = draft && level.dirty ? text("noteDirty") : text(LEVEL_NOTES[level.key] ?? "notePersonal");
+    const locked = level.key === "personal" ? controller.lockedNames() : [];
+    const items = levels.map((key) => `${key}::${text(LEVEL_WORDS[key])}`).join("|");
+    return html`<div class="sf-admin-nav-edit-head" role="region" aria-label=${text("settingTitle")}>
         <div class="sf-admin-nav-edit-title">
-            ${icon("edit", "")}
-            <span class="sf-admin-nav-row-label">${text("editMenu")}</span>
-            <sf-button size="1/2" @click=${() => controller.stopEdit()} text=${text("done")}></sf-button>
+            <span class="sf-admin-nav-edit-name">${text("settingTitle")}</span>
+            <sf-button size="1/2" @click=${() => controller.exitEdit()} text=${text("done")}></sf-button>
         </div>
-        <sf-profile-picker label=${text("profileLabel").replace(/:\s*$/u, "")} current=${controller.navigation?.profiles?.current ?? ""}
-            resettable message=${edit.message || ""}
-            .profiles=${profilePickerEntries(controller)}
-            .rights=${{create: {personal: kinds.personal, shared: kinds.shared}}}
-            @sf-profile-picker-select=${(event) => controller.editProfile(event.detail.id)}
-            @sf-profile-picker-create=${(event) => controller.createProfile(event.detail.label, event.detail.shared)}
-            @sf-profile-picker-rename=${(event) => controller.renameProfile(event.detail.label, event.detail.id)}
-            @sf-profile-picker-delete=${(event) => controller.deleteProfile(event.detail.id)}
-            @sf-profile-picker-reset=${() => controller.resetProfile()}></sf-profile-picker>
-        <p class="sf-admin-nav-edit-note">${shared ? text("noteShared") : text("notePersonal")}</p>
+        ${levels.length > 1 ? html`<sf-segmented class="sf-admin-nav-edit-levels" size="1/2" name="level"
+            aria-label=${text("levelLabel")} value=${level.key} items=${items}
+            @change=${(event) => controller.chooseLevel(event.detail?.value ?? event.target?.value)}></sf-segmented>` : nothing}
+        ${level.key === "role" ? renderRolePicker(context) : nothing}
+        <p class="sf-admin-nav-edit-note">${note}</p>
+        ${locked.length ? html`<p class="sf-admin-nav-edit-why">${icon("lock", "")}<span>${text("lockedBy")} ${locked.map((name) => `«${name}»`).join(", ")}.</span></p>` : nothing}
+        ${edit.message && level.key !== "role" ? html`<p class="sf-admin-nav-edit-message" role="status">${edit.message}</p>` : nothing}
+        <div class="sf-admin-nav-edit-actions">
+            <sf-button size="1/2" appearance="outline" ?disabled=${!controller.canReset()} text=${text("reset")}
+                @click=${() => controller.resetProfile()}></sf-button>
+            ${draft ? html`<sf-button size="1/2" ?disabled=${!level.dirty} text=${text("saveForAll")}
+                @click=${() => controller.saveDraft()}></sf-button>` : nothing}
+        </div>
     </div>`;
 }
 
@@ -93,6 +123,10 @@ function openRowMenu(context, row, anchor, onClose = null) {
         renamed ? {id: "package-name", text: text("packageName"), icon: "undo"} : null,
         {id: "visibility", text: row.hidden ? text("show") : text("hide"), icon: row.hidden ? "visibility" : "visibility_off"},
         row.own ? {id: "delete", text: text("deleteRow"), icon: "delete", danger: true} : null,
+        // A section is fixed for everyone from a shared level only (AM-42).
+        controller.isDraft() && row.kind !== "divider" ? {type: "separator"} : null,
+        controller.isDraft() && row.kind !== "divider"
+            ? {id: "lock", text: row.locked ? text("unlock") : text("lockForAll"), icon: row.locked ? "lock_open" : "lock"} : null,
     ].filter(Boolean);
     if (!entries.length) return null;
     return openMenu(controller, anchor, {
@@ -105,6 +139,7 @@ function openRowMenu(context, row, anchor, onClose = null) {
             if (id === "package-name") return controller.returnPackageName(row.key);
             if (id === "visibility") return controller.toggleHidden(row.key);
             if (id === "delete") return controller.removeOwnRow(row.key);
+            if (id === "lock") return controller.setLocked(row.key, !row.locked);
             return null;
         },
     });
@@ -132,7 +167,7 @@ function renderIconChooser(context, row) {
         value=${current} .options=${options}
         @change=${(event) => controller.setRowIcon(row.key, event.detail?.value ?? "")}>
         <sf-button-icon slot="trigger" size="1/2" appearance="ghost" scheme="on-surface" icon=${current || "add_photo_alternate"}
-            title=${text("chooseIcon")} aria-label=${`${text("chooseIcon")}: ${row.label ?? ""}`}></sf-button-icon>
+            aria-label=${`${text("chooseIcon")}: ${row.label ?? ""}`}></sf-button-icon>
     </sf-dropdown>`;
 }
 
@@ -140,6 +175,11 @@ function renderIconChooser(context, row) {
 // line with the same controls, so it can be moved and hidden like a row.
 function renderEditRow(context, row, {draggable = true} = {}) {
     const {controller, text, edit, openRoot} = context;
+    // A section an administrator fixed for everyone keeps its place in the
+    // person's menu: its handle is a lock, its reason in a tooltip on hover
+    // and focus (AM-42). Nothing else is silently fixed.
+    const locked = controller.isLocked(row);
+    const movable = draggable && !locked;
     const name = row.kind === "divider" ? text("addDivider") : row.label;
     // A root still opens its column in the edit mode: its rows are edited there.
     const label = row.kind === "root"
@@ -150,20 +190,28 @@ function renderEditRow(context, row, {draggable = true} = {}) {
             ${icon("chevron_right", "sf-admin-nav-row-chevron")}</button>`
         : html`${row.kind === "heading" ? nothing : renderIconChooser(context, row)}
             <span class="sf-admin-nav-row-label" data-heading=${row.kind === "heading" ? "true" : nothing}>${row.label}</span>`;
-    return html`<div class="sf-admin-nav-edit-row" data-sf-sortable-item=${draggable ? row.key : nothing}
-        data-hidden=${row.hidden ? "true" : nothing} data-kind=${row.kind}
+    const lockTip = locked ? `${context.tipPrefix}-lock-${row.key}` : null;
+    const reason = row.locked?.reason || text("lockedReason");
+    return html`<div class="sf-admin-nav-edit-row" data-sf-sortable-item=${movable ? row.key : nothing}
+        data-hidden=${row.hidden ? "true" : nothing} data-kind=${row.kind} data-locked=${locked ? "true" : nothing}
         @contextmenu=${(event) => onRowContextMenu(context, row, event)}
         @keydown=${(event) => onRowKeydown(context, row, event)}>
-        ${draggable ? html`<span class="sf-admin-nav-edit-handle" data-sf-sortable-handle aria-hidden="true"
-            title=${text("drag")}>${icon("drag_indicator", "")}</span>` : html`<span class="sf-admin-nav-edit-handle"></span>`}
+        ${locked ? html`<span class="sf-admin-nav-edit-handle sf-admin-nav-edit-lock" tabindex="0" role="img"
+            aria-label=${reason} data-tooltip=${lockTip}>${icon("lock", "")}</span>
+            <sf-tooltip id=${lockTip} appearance="dark" arrow="inline-start" text=${reason}></sf-tooltip>`
+            : movable ? html`<span class="sf-admin-nav-edit-handle" data-sf-sortable-handle aria-hidden="true">${icon("drag_indicator", "")}</span>`
+                : html`<span class="sf-admin-nav-edit-handle"></span>`}
         ${edit.renaming === row.key ? renderRenaming(context, row) : row.kind === "divider"
             ? html`<hr class="sf-admin-nav-divider sf-admin-nav-edit-line" aria-label=${name}>`
             : label}
-        <!-- Showing and hiding is in the row's ⋯ (owner, 2026-10-14): an eye on
-             every row was a second way to the same thing, and a hidden row
-             already reads as hidden, struck through. -->
+        <!-- The eye on every row (AM-24): showing and hiding at one press, as
+             in the views' settings; the ⋯ keeps the rest. A fixed section
+             cannot be hidden in a personal menu. -->
+        ${row.kind === "divider" || locked ? html`<span class="sf-admin-nav-edit-spacer"></span>` : html`<button type="button" class="sf-admin-nav-edit-button sf-admin-nav-edit-eye"
+            aria-pressed=${row.hidden ? "false" : "true"} aria-label=${`${row.hidden ? text("show") : text("hide")}: ${name}`}
+            @click=${() => controller.toggleHidden(row.key)}>${icon(row.hidden ? "visibility_off" : "visibility", "")}</button>`}
         <button type="button" class="sf-admin-nav-edit-button" aria-haspopup="menu" aria-expanded="false"
-            aria-label=${`${text("more")}: ${name}`} title=${text("more")}
+            aria-label=${`${text("more")}: ${name}`}
             @click=${(event) => openRowMenu(context, row, event.currentTarget)}>
             ${icon("more_horiz", "")}</button>
     </div>`;
@@ -184,7 +232,9 @@ export function renderEditRoots(context, siteRoots, installRoots) {
     </sf-sortable>
     ${renderAdd(context, {key: "roots"})}
     ${installRoots.length ? html`<hr class="sf-admin-nav-divider">
-        ${installRoots.map((row) => renderEditRow(context, row, {draggable: false}))}` : nothing}`;
+        <sf-sortable id=${`${LIST_ID}install`} group="admin-nav-install" label=${text("editMenu")} class="sf-admin-nav-edit-list">
+            ${installRoots.map((row) => renderEditRow(context, row))}
+        </sf-sortable>` : nothing}`;
 }
 
 function renderAdd(context, root) {

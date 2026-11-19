@@ -7,15 +7,15 @@ import {html, nothing} from "lit";
 // surfaces are collected while the menu draws and stand together at its end;
 // they are placed fixed, so the rail's scroll box does not cut them. Off the
 // rail nothing has a tooltip: the names are written.
-export function tip(context, key, text, shortcut = null) {
-    if (!context.compact || !text || !Array.isArray(context.tips)) return nothing;
+export function tip(context, key, text, shortcut = null, {always = false, arrow = "inline-start"} = {}) {
+    if ((!context.compact && !always) || !text || !Array.isArray(context.tips)) return nothing;
     const id = `${context.tipPrefix}-${context.tips.length + 1}`;
-    context.tips.push({id, key, text, shortcut});
+    context.tips.push({id, key, text, shortcut, arrow});
     return id;
 }
 
 export function renderTips(context) {
     if (!context.tips?.length) return nothing;
     return html`<div class="sf-admin-nav-tips">${context.tips.map((entry) => html`<sf-tooltip id=${entry.id}
-        appearance="dark" arrow="inline-start" text=${entry.text} shortcut=${entry.shortcut || nothing}></sf-tooltip>`)}</div>`;
+        appearance="dark" arrow=${entry.arrow || "inline-start"} text=${entry.text} shortcut=${entry.shortcut || nothing}></sf-tooltip>`)}</div>`;
 }

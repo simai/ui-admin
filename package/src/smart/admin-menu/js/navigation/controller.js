@@ -1612,6 +1612,7 @@ export class NavigationController {
             this.level = {...this.level, dirty: false};
             await this.switchProfile(this.navigation.profiles.current);
             this.update("edit");
+            await this.focusDone();
             return;
         }
         this.level = {...this.level, personalChanged: false};
@@ -1621,10 +1622,19 @@ export class NavigationController {
         if (answer.answer === "applied" && answer.navigation) {
             this.accept({...answer.navigation, answer: "applied"}, this.sequence);
             this.editMessage("");
+            await this.focusDone();
             return;
         }
         this.editMessage(answer.answer === "conflict" ? this.text("conflict") : answer.reason);
         await this.load("refresh-after-conflict");
+    }
+
+    // The pressed «Сбросить» turns itself off; the focus goes on to «Готово»,
+    // not to the page (AM-61).
+    async focusDone() {
+        await this.element.updateComplete;
+        const done = this.element.querySelector(".sf-admin-nav-edit-title sf-button");
+        (done?.querySelector("button") ?? done)?.focus?.({preventScroll: true});
     }
 
     toggleEditProfiles() {

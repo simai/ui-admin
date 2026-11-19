@@ -302,11 +302,9 @@ function renderObjectRow(context, item, current) {
 function renderHideColumn(context) {
     const {controller, text, wide, columnShortcut} = context;
     if (!wide || context.edit.on) return nothing;
-    return html`<sf-button-icon class="sf-admin-nav-hide" size="1" appearance="ghost" scheme="on-surface"
-        icon="left_panel_close" aria-label=${text("hideColumn")} data-tooltip=${`${context.tipPrefix}-hide`}
-        @click=${() => controller.hideColumn()}></sf-button-icon>
-        <sf-tooltip id=${`${context.tipPrefix}-hide`} appearance="dark" arrow="top-center" text=${text("hideColumn")}
-            shortcut=${columnShortcut}></sf-tooltip>`;
+    return html`<button type="button" class="sf-admin-nav-hide" aria-label=${text("hideColumn")}
+        data-tooltip=${tip(context, "hide", text("hideColumn"), columnShortcut, {always: true, arrow: "top-center"})}
+        @click=${() => controller.hideColumn()}>${icon("left_panel_close", "sf-admin-nav-row-icon")}</button>`;
 }
 
 // The object menu (navigation.context): «← back» to the list it came from,

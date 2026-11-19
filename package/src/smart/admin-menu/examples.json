@@ -424,7 +424,7 @@
               }
             },
             {
-              "script": "(window.__expanded = [...document.querySelector('#m').querySelectorAll('.sf-admin-nav-row')].find((one) => one.querySelector('.sf-admin-nav-row-label')?.textContent.trim() === 'Данные').getAttribute('aria-expanded'), [...document.querySelector('#m').querySelectorAll('.sf-admin-nav-row')].find((one) => one.querySelector('.sf-admin-nav-row-label')?.textContent.trim() === 'Данные').focus(), true)",
+              "script": "(window.__expanded = document.querySelector('#m .sf-admin-nav-row--first[data-key=\"data\"]').getAttribute('aria-expanded'), document.querySelector('#m .sf-admin-nav-row--first[data-key=\"data\"]').focus(), true)",
               "wait": 60
             },
             {
@@ -442,13 +442,13 @@
                   }
                 ]
               },
-              "check": "[...document.querySelector('#m').querySelectorAll('.sf-admin-nav-row')].find((one) => one.querySelector('.sf-admin-nav-row-label')?.textContent.trim() === 'Данные').getAttribute('aria-expanded') !== window.__expanded"
+              "check": "document.querySelector('#m .sf-admin-nav-row--first[data-key=\"data\"]').getAttribute('aria-expanded') !== window.__expanded"
             }
           ]
         },
         {
           "id": "p3-toggle-and-save",
-          "title": "favourite.toggle is sf-admin-menu-toggle {kind: favourite, id, on}; a compact preference is sf-admin-menu-save {kind: preference, values}",
+          "title": "favourite.toggle is sf-admin-menu-toggle {kind: favourite, id, on}; a theme preference is sf-admin-menu-save {kind: preference, values}",
           "covers": "events.toggle, events.save",
           "steps": [
             {
@@ -483,7 +483,7 @@
               }
             },
             {
-              "script": "document.querySelector('#m')._navigation.raise('preference.compact', {compact: true}).then((one) => one.answer)",
+              "script": "document.querySelector('#m')._navigation.raise('preference.theme', {theme: 'dark'}).then((one) => one.answer)",
               "expect": {
                 "returns": "applied",
                 "events": [
@@ -493,7 +493,7 @@
                     "detail": {
                       "kind": "preference",
                       "values": {
-                        "compact": true
+                        "theme": "dark"
                       }
                     }
                   }

@@ -790,8 +790,36 @@
     --sf-icon--height: var(--sf-text--height-1);
   }
 
+  /* The column's «hide» is a square of the row's step with the row's glyph
+     (AM-51), on the rows' end line; the pointer lays the state family over
+     it, as over a row. */
   .sf-admin-nav-hide {
     flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: var(--sf-admin-nav-row-h);
+    block-size: var(--sf-admin-nav-row-h);
+    margin-inline-start: auto;
+    padding: 0;
+    border: 0;
+    border-radius: var(--sf-radius--ui);
+    background: none;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .sf-admin-nav-hide:hover {
+    background-color: var(--sf-surface-state-hover);
+  }
+
+  .sf-admin-nav-hide:active {
+    background-color: var(--sf-surface-state-active);
+  }
+
+  .sf-admin-nav-hide:focus-visible {
+    outline: var(--sf-focus--width) var(--sf-focus--style) var(--sf-focus--color);
+    outline-offset: calc(-1 * var(--sf-focus--width));
   }
 
   /* ─── the object menu (navigation.context) ──────────────────────────────── */

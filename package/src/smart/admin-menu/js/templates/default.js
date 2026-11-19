@@ -1,10 +1,11 @@
 import { html, nothing } from "lit";
 import { getInitials } from "../../../helpers/text";
 import {wordsOf} from "../words.js";
+import {isMenuKey} from "../navigation/context-menu.js";
+import {isEditableTarget} from "../../../../component/kbd/js/shortcut";
 
 const MENU_TRANSLATIONS = wordsOf({
   empty: "empty",
-  favorites: "favorites",
   saving: "saving",
   save: "save",
   personalSettings: "personal-settings",
@@ -223,6 +224,23 @@ export function renderAdminMenuTemplate(context) {
     settingsStatus,
     settingsError,
   } = component.state;
+
+  // A row's settings menu in the settings mode also opens on a right click,
+  // the context-menu key and Shift+F10 (decision C164 (1)(2), TL-2): the same
+  // menu as the row's ⋯, opened from it. Shift with a right click leaves the
+  // browser's own menu.
+  function openSettingsFrom(event, tempVisible) {
+    if (event.type === "keydown" ? !isMenuKey(event) : event.shiftKey) return;
+    if (isEditableTarget(event.target)) return;
+    const button = event.currentTarget.querySelector(":scope > .sf-admin-menu-item-settings, :scope > sf-button-icon[data-settings]");
+    if (!button) return;
+    component.openContextMenu({
+      currentTarget: button,
+      target: button,
+      preventDefault: () => event.preventDefault(),
+      stopPropagation: () => event.stopPropagation(),
+    }, {tempVisible});
+  }
 
   // The counter is the container's last child in both modes (renderCounter).
   // Compact, the container holds the icon alone in the flow, so it is as big as
@@ -487,7 +505,7 @@ export function renderAdminMenuTemplate(context) {
               @input=${(event) => component.search(event.target.value)}
               @keydown=${(event) => component.handleSearchKeydown(event)}
             />
-            <span class="sf-input-right"><kbd class="sf-admin-menu-search-kbd">Esc</kbd></span>
+            <span class="sf-input-right"><kbd>Esc</kbd></span>
           </span>
         </span>
       </div>
@@ -511,40 +529,64 @@ export function renderAdminMenuTemplate(context) {
     `;
   }
 
+  // A group the host answered, in the row's list: plain links as the
+  // sections are (the row has no listbox; the panel's rows are options).
+  function renderHostResults(group) {
+    return html`
+      <div class="sf-admin-menu-search-group flex flex-col">
+        <div class="sf-admin-menu-search-group-head flex items-cross-center content-main-between">
+          <span>${group.label}</span>
+          ${group.more ? html`<a href=${group.more.href}>${group.more.text}</a>` : nothing}
+        </div>
+        <ul class="sf-admin-menu-search-results p-0 m-0 gap-1/3 flex flex-col">
+          ${group.items.map((item) => html`
+            <li class="sf-admin-menu-item-wrap flex items-cross-center">
+              <a class="sf-admin-menu-item sf-admin-menu-search-host flex items-cross-center flex-1 max-w-full min-w-0" href=${item.href}>
+                <span class="sf-admin-menu-item-container max-w-full wrap-none flex items-cross-center flex-1">
+                  ${item.icon ? renderIcon(item.icon) : renderPlaceholder(item.text)}
+                  <span class="flex flex-col min-w-0">
+                    <span class="overflow-hidden whitespace-nowrap t-ellipsis">${item.text}</span>
+                    ${item.subtext
+                      ? html`<span class="sf-admin-menu-search-result-path sf-text-1/3 color-on-surface-variant overflow-hidden whitespace-nowrap t-ellipsis">${item.subtext}</span>`
+                      : nothing}
+                  </span>
+                </span>
+              </a>
+            </li>`)}
+        </ul>
+      </div>
+    `;
+  }
+
+  // The row's results (search-mode row): the menu's sections, then what the
+  // host answered for the same query, grouped as in the panel (C276).
   function renderSearchResults() {
     if (!searchQuery) return nothing;
-
-    if (!searchResults?.length) {
-      return html`
-        <div class="sf-admin-menu-search-empty p-2 color-on-surface-variant">
-          ${menuText("empty")}
-        </div>
-      `;
-    }
+    const hosted = (searchGroups || []).filter((group) => group.items.length);
 
     return html`
-      <ul class="sf-admin-menu-search-results p-0 m-0 gap-1/3 flex flex-col">
-        ${searchResults.map(renderSearchResult)}
-      </ul>
+      ${searchResults?.length
+        ? html`<ul class="sf-admin-menu-search-results p-0 m-0 gap-1/3 flex flex-col">
+            ${searchResults.map(renderSearchResult)}
+          </ul>`
+        : nothing}
+      ${hosted.map(renderHostResults)}
+      ${searchPending ? renderSearchSkeletons() : nothing}
+      ${!searchResults?.length && !hosted.length && !searchPending
+        ? html`<div class="sf-admin-menu-search-empty p-2 color-on-surface-variant">
+            ${menuText("empty")}
+          </div>`
+        : nothing}
     `;
   }
 
   function renderSettings() {
     if (!context.collapsible && !context.settings) return nothing;
+    // No «Избранное» row here (1.14.2, docs round 4 DF-11): the items menu has
+    // no favourites (favourite.toggle refuses, docs.md), so the row it drew was
+    // a button with no action. Favourites are the navigation menu's, over the
+    // port (js/navigation, the root sf:favourites).
     return html`
-      <li class="sf-admin-menu-item-wrap flex flex-col">
-        <button
-          type="button"
-          class="sf-admin-menu-item flex-1 flex items-cross-center"
-        >
-          <span
-            class="sf-admin-menu-item-container flex items-cross-center flex-1"
-          >
-            <i class="sf-icon sf-icon-loaded" aria-hidden="true">star</i>
-            <span>${menuText("favorites")}</span>
-          </span>
-        </button>
-      </li>
       <li class="sf-admin-menu-item-wrap flex flex-col">
         ${!menuSettings
           ? html` <div
@@ -741,6 +783,18 @@ export function renderAdminMenuTemplate(context) {
     `;
   }
 
+  // The name beside the logo. Collapsed, the column is one icon wide
+  // (PRO-ADM-3: «Магазин», 103 px, stood cut on both sides in the 56 px
+  // column): with a logo the logo stays alone and its alt names the menu;
+  // without one the name's first letters stand where an item's icon stands,
+  // as an item without an icon shows them, and the name is still read.
+  function renderBrand() {
+    if (!context.brand) return nothing;
+    if (!context.compact) return html`<span>${context.brand}</span>`;
+    if (context.logo) return nothing;
+    return html`<span class="sf-admin-menu-head-initials flex" aria-hidden="true">${renderPlaceholder(context.brand)}</span><span class="sr-only">${context.brand}</span>`;
+  }
+
   function renderHeader(main = true, item = null) {
     if (main) {
       if (!context.logo && !context.brand) return nothing;
@@ -760,7 +814,7 @@ export function renderAdminMenuTemplate(context) {
                   />
                 </a>`
               : nothing}
-            ${context.brand ? html`<span>${context.brand}</span>` : nothing}
+            ${renderBrand()}
           </div>
           ${context.searchMode === "panel" && !context.compact
             ? html`<sf-button-icon
@@ -831,6 +885,8 @@ export function renderAdminMenuTemplate(context) {
           ? " hidden"
           : ""}${showSettings ? " settings-on relative" : ""}"
         role="presentation"
+        @contextmenu=${showSettings ? (event) => openSettingsFrom(event, isTempVisible) : nothing}
+        @keydown=${showSettings ? (event) => openSettingsFrom(event, isTempVisible) : nothing}
       >
         ${showSettings
           ? html` <sf-button-icon
@@ -866,7 +922,7 @@ export function renderAdminMenuTemplate(context) {
               scheme="on-surface"
               aria-label="Item Settings"
               root-class="absolute sf-admin-menu-item-settings"
-              icon="more_vert"
+              icon="more_horiz"
             ></sf-button-icon>`
           : nothing}
       </li>
@@ -904,6 +960,8 @@ export function renderAdminMenuTemplate(context) {
         class="sf-admin-menu-item-wrap flex items-cross-center${hidden
           ? " hidden"
           : ""}${showSettings ? " settings-on relative" : ""}"
+        @contextmenu=${showSettings ? (event) => openSettingsFrom(event, isTempVisible) : nothing}
+        @keydown=${showSettings ? (event) => openSettingsFrom(event, isTempVisible) : nothing}
       >
         <!-- Продумать touch-action: none;-->
         ${showSettings
@@ -932,7 +990,7 @@ export function renderAdminMenuTemplate(context) {
               scheme="on-surface"
               aria-label="Item Settings"
               root-class="absolute sf-admin-menu-item-settings"
-              icon="more_vert"
+              icon="more_horiz"
             ></sf-button-icon>`
           : nothing}
       </li>

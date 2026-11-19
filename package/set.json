@@ -14,8 +14,8 @@
     "spdx": "PolyForm-Small-Business-1.0.0 OR PolyForm-Noncommercial-1.0.0 OR LicenseRef-SIMAI-Commercial"
   },
   "framework": {
-    "core_runtime": ">=1.57.0",
-    "source_revision": "5f130e62f87a30b49276147b58acfc74eadfd61b"
+    "core_runtime": ">=1.61.0",
+    "source_revision": "1dd18375cbc23cf3392576d2e046fde52a047060"
   },
   "requires_sets": [],
   "families": [
@@ -39,6 +39,7 @@
         "cl-menu-context",
         "cl-profile-picker",
         "cl-resizer",
+        "cl-search",
         "cl-sortable"
       ]
     }

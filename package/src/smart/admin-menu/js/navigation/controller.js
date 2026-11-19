@@ -325,7 +325,7 @@ export class NavigationController {
         this.level = {key: "personal", draft: null, dirty: false};
         this.editOpener = null;
         this._onSortableIntent = (event) => this.onSortableIntent(event);
-        element.addEventListener("sf-sortable-intent", this._onSortableIntent);
+        element.addEventListener("sf-sortable-move", this._onSortableIntent);
         // The rail's «…» follows the window's height (AM-27): measured again
         // after every draw and when the window changes size.
         this._onWindowResize = () => {
@@ -529,7 +529,7 @@ export class NavigationController {
         this._notices?.remove?.();
         this._notices = null;
         this.closePalette();
-        this.element.removeEventListener("sf-sortable-intent", this._onSortableIntent);
+        this.element.removeEventListener("sf-sortable-move", this._onSortableIntent);
         globalThis.removeEventListener?.("resize", this._onWindowResize);
         cancelAnimationFrame(this._fitFrame);
         this.wideMedia?.removeEventListener?.("change", this._onWideChange);

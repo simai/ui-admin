@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.admin-menu",
-  "version": "1.15.0",
+  "version": "1.15.1",
   "title": "Admin menu",
   "summary": "Admin navigation over the host's navigation port: the rail, the section column, search, favourites, notifications and the setting mode.",
   "kind": "composite",
@@ -908,7 +908,7 @@
       },
       {
         "path": "src/smart/admin-menu/js/navigation/controller.js",
-        "sha256": "e3839652f3e30e2d0fe65e3697fd850a218902fbc599d30c2789ebd835f25eff"
+        "sha256": "fbd6fe661690b78ee081eb0b6d12350d3254327665d7dbfe736a2202a0b41290"
       },
       {
         "path": "src/smart/admin-menu/js/navigation/menu.js",
@@ -920,7 +920,7 @@
       },
       {
         "path": "src/smart/admin-menu/component.json",
-        "sha256": "51a9acf0c96605ae69a71c5fc661f71be8d7b9659c20a2206d739ee2484ef67e"
+        "sha256": "7537d121b2f5ceb18e205cf5010d0ebd94bfccb7a5be40cd74e9863fa88848cd"
       },
       {
         "path": "src/smart/admin-menu/aliases.json",

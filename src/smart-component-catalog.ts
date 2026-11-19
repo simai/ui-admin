@@ -180,23 +180,23 @@ const bindDataViewHost = (): void => {
     const detail = (event as CustomEvent).detail ?? {};
     emitDataView('sf-data-view-column-settings-save', {table_settings_key: detail.tableSettingsKey ?? 'catalog.projects', column_settings: detail.columnSettings ?? {}});
   });
-  pagination?.addEventListener('sf-page-change', (event) => {
+  pagination?.addEventListener('sf-pagination-change', (event) => {
     dataViewQuery.page = Number((event as CustomEvent).detail?.current ?? 1);
     emitDataView('sf-data-view-page-change', {page: dataViewQuery.page}); applyDataViewPage();
   });
-  pagination?.addEventListener('sf-page-size-change', (event) => {
+  pagination?.addEventListener('sf-pagination-size-change', (event) => {
     dataViewQuery.pageSize = Number((event as CustomEvent).detail?.pageSize ?? 5); dataViewQuery.page = 1;
     emitDataView('sf-data-view-page-size-change', {page_size: dataViewQuery.pageSize}); applyDataViewPage();
   });
-  pagination?.addEventListener('sf-show-more', () => {
+  pagination?.addEventListener('sf-pagination-load-more', () => {
     const next = Math.min(dataViewQuery.page + 1, Math.max(1, Math.ceil(filteredRows().length / dataViewQuery.pageSize)));
     if (next === dataViewQuery.page) return;
     dataViewQuery.page = next; emitDataView('sf-data-view-show-more', {page: next}); applyDataViewPage(true);
   });
-  pagination?.addEventListener('sf-action-apply', (event) => {
+  pagination?.addEventListener('sf-pagination-apply', (event) => {
     const detail = (event as CustomEvent).detail ?? {};
     const rows = table?.getTableData?.().rows ?? [];
-    const selected = detail.actionForAll ? filteredRows().map(({id}) => id) : rows
+    const selected = detail.scope === 'filter' ? filteredRows().map(({id}) => id) : rows
       .filter((row) => row.select?.component?.props?.checked === true).map((row) => row.id);
     emitDataView('sf-data-view-bulk-action', {action_id: detail.action, record_ids: selected.length ? selected : rows.slice(0, 1).map((row) => row.id)});
   });

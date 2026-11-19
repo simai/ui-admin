@@ -380,10 +380,6 @@ export interface HTMLSfRangeSliderElement extends SmartComponentElement {
     handler: HTMLSfRangeSliderHandler,
     options?: AddEventListenerOptions | boolean,
   ): this;
-  onSliderChange(
-    handler: HTMLSfRangeSliderHandler,
-    options?: AddEventListenerOptions | boolean,
-  ): this;
   onSet(
     handler: HTMLSfRangeSliderHandler,
     options?: AddEventListenerOptions | boolean,
@@ -411,7 +407,7 @@ export interface HTMLSfRangeSliderElement extends SmartComponentElement {
   addEventListener(
     type:
       | 'sf-range-slider-update'
-      | 'sf-range-slider-change'
+      | 'change'
       | 'sf-range-slider-set'
       | 'sf-range-slider-start'
       | 'sf-range-slider-end'
@@ -431,7 +427,7 @@ export interface HTMLSfRangeSliderElement extends SmartComponentElement {
   removeEventListener(
     type:
       | 'sf-range-slider-update'
-      | 'sf-range-slider-change'
+      | 'change'
       | 'sf-range-slider-set'
       | 'sf-range-slider-start'
       | 'sf-range-slider-end'
@@ -519,7 +515,7 @@ export interface HTMLSfTagElement extends SmartComponentElement<HTMLSfTagValue> 
   ariaLabel: string;
   onClose(item: HTMLElement): void;
   addEventListener(
-    type: 'close',
+    type: 'sf-tag-close',
     listener: (event: HTMLSfTagCloseEvent) => void,
     options?: boolean | AddEventListenerOptions,
   ): void;
@@ -529,7 +525,7 @@ export interface HTMLSfTagElement extends SmartComponentElement<HTMLSfTagValue> 
     options?: boolean | AddEventListenerOptions,
   ): void;
   removeEventListener(
-    type: 'close',
+    type: 'sf-tag-close',
     listener: (event: HTMLSfTagCloseEvent) => void,
     options?: boolean | EventListenerOptions,
   ): void;

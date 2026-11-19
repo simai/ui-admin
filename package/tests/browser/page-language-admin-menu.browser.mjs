@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Usage: node this-file /absolute/path/to/smart /absolute/path/to/distr
-// sf-admin-menu speaks English by default and Russian on a Russian page. Split
+// sf-admin-menu speaks English by default and Russian on a Russian page: its
+// skeleton's name, before a port (the items menu's settings title until 1.15.0). Split
 // from ui-source tests/browser/page-language.browser.mjs when the package
 // components left ui-source; the Smart root is the free output with the package
 // output laid into it.
@@ -11,8 +12,8 @@ if (!process.argv[3]) throw new Error('Smart output root and distr root are requ
 const smartRoot = resolve(process.argv[2]);
 const distrRoot = resolve(process.argv[3]);
 const expected = {
-  '': {menu: 'Menu settings'},
-  ru: {menu: 'Настройки меню'},
+  '': {menu: 'Menu'},
+  ru: {menu: 'Меню'},
 };
 const browser = await chromium.launch();
 const failures = [];
@@ -26,11 +27,12 @@ try {
     const seen = await page.evaluate(async () => {
       document.body.innerHTML = '<sf-admin-menu></sf-admin-menu>';
       await new Promise((settle) => setTimeout(settle, 300));
-      return {menu: document.querySelector('sf-admin-menu').getProp('settingsTitle')};
+      // Before a port the menu is its skeleton, named in the page's language.
+      return {menu: document.querySelector('sf-admin-menu nav.sf-admin-nav--skeleton')?.getAttribute('aria-label')};
     });
     await page.close();
     const where = lang ? `lang="${lang}"` : 'no lang';
-    if (seen.menu !== words.menu) failures.push(`${where}: sf-admin-menu settingsTitle ${seen.menu}, expected ${words.menu}`);
+    if (seen.menu !== words.menu) failures.push(`${where}: sf-admin-menu skeleton named ${seen.menu}, expected ${words.menu}`);
   }
 } finally {
   await browser.close();

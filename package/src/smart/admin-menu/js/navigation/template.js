@@ -24,8 +24,8 @@ import {renderTips, tip} from "./tips.js";
 // of the setting mode (C325); on a phone the menu is one full screen with
 // names (C322). Never more than two menus on screen (owner, 2026-11-05).
 
-const icon = (name, rootClass = "flex-none") => (name
-    ? html`<sf-icon root-class=${rootClass} aria-hidden="true" icon=${name}></sf-icon>`
+const icon = (name, rootClass = "flex-none", {filled = false} = {}) => (name
+    ? html`<sf-icon root-class=${rootClass} aria-hidden="true" icon=${name} ?filled=${filled}></sf-icon>`
     : nothing);
 
 // A count in a row of the column is SIMAI Framework's badge on a text line of
@@ -59,7 +59,7 @@ const railCounter = (row) => {
     return counterOf(row.badge);
 };
 
-const railIcon = (name, counter, {count = false} = {}) => html`<span class=${`sf-badge-anchor sf-badge-anchor--size-${count ? "1" : "1/2"} sf-badge-anchor--square sf-admin-nav-rail-anchor`}>${icon(name, "sf-admin-nav-row-icon")}${counter
+const railIcon = (name, counter, {count = false, filled = false} = {}) => html`<span class=${`sf-badge-anchor sf-badge-anchor--size-${count ? "1" : "1/2"} sf-badge-anchor--square sf-admin-nav-rail-anchor`}>${icon(name, "sf-admin-nav-row-icon", {filled})}${counter
     ? html`<span class=${`sf-badge sf-badge--anchored sf-badge--error${count && !counter.dot ? "" : " sf-badge--dot"}`} aria-hidden="true">${count && !counter.dot ? counter.text : nothing}</span>`
     : nothing}</span>`;
 
@@ -140,7 +140,9 @@ function renderFirstRow(context, row) {
     // One current mark (AM-26): the page's own row takes the plate; a root
     // whose rows hold the page is told as current to a screen reader
     // (aria-current="true", AM-37) and on the rail takes the filled square
-    // (C354), unless another root's column holds the page.
+    // (C354), unless another root's column holds the page. Its glyph is the
+    // icon font's filled form (sf-icon filled, C354); the edge bar it stood
+    // in for until then is gone (AM-60).
     const current = !opens && controller.isCurrent(row.key);
     const holds = opens && controller.holdsCurrent(row) && !(row.key === "sf:favourites" && controller.pageRoot());
     return html`<a class="sf-admin-nav-row sf-admin-nav-row--first"
@@ -157,8 +159,8 @@ function renderFirstRow(context, row) {
         @contextmenu=${(event) => onRootContextMenu(context, row, event)}
         @keydown=${(event) => onRootKeydown(context, row, event)}
         @click=${(event) => controller.openRow(row, event)}>
-        ${compact ? railIcon(row.icon, railCounter(row)) : html`
-            ${icon(row.icon, "sf-admin-nav-row-icon")}
+        ${compact ? railIcon(row.icon, railCounter(row), {filled: current || holds}) : html`
+            ${icon(row.icon, "sf-admin-nav-row-icon", {filled: current || holds})}
             <span class="sf-admin-nav-row-label">${row.label}</span>
             ${attention(row)}
             ${opens ? icon("chevron_right", "sf-admin-nav-row-chevron") : nothing}`}

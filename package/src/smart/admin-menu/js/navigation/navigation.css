@@ -285,10 +285,9 @@
   }
 
   /* On the rail the root whose rows hold the page is the filled square of
-     the current row, with its ink (C354, AM-35), and the path's 2px primary
-     line on the rail's start edge beside it -- the glyph's height, centred
-     on the square, round on its inner end (AM-60) -- until the icon font
-     fills the glyph (FILL 1; a SIMAI Framework part). */
+     the current row, with its ink, and its glyph in the icon font's filled
+     form (sf-icon filled; C354, AM-35). The edge bar that stood in for the
+     filled glyph (AM-60) is gone. */
   .sf-admin-nav-first[data-compact="true"] .sf-admin-nav-row[data-holds-current="true"],
   .sf-admin-nav-first[data-compact="true"] .sf-admin-nav-row[data-holds-current="true"]:hover {
     background-color: var(--sf-primary-container-active);
@@ -301,23 +300,8 @@
     --sf-icon--color: var(--sf-on-primary-container);
   }
 
-  .sf-admin-nav-first[data-compact="true"] .sf-admin-nav-row[data-holds-current="true"]::before {
-    content: '';
-    position: absolute;
-    inset-block-start: calc((var(--sf-admin-nav-row-h) - var(--sf-text--height-1)) / 2);
-    block-size: var(--sf-text--height-1);
-    inset-inline-start: calc((var(--sf-admin-nav-row-h) - var(--sf-d4)) / 2);
-    inline-size: var(--sf-a2);
-    border-start-start-radius: var(--sf-0);
-    border-end-start-radius: var(--sf-0);
-    border-start-end-radius: var(--sf-a2);
-    border-end-end-radius: var(--sf-a2);
-    background-color: var(--sf-primary);
-    pointer-events: none;
-  }
-
-  /* Forced colours drop the plate: the current page keeps a frame of the
-     system's text colour, and the rail's line the system's highlight. */
+  /* Forced colours drop the plate: the current page and the rail's current
+     root keep a frame of the system's text colour. */
   @media (forced-colors: active) {
     .sf-admin-nav-row[data-current="true"] {
       outline: var(--sf-px) solid CanvasText;
@@ -327,11 +311,6 @@
     .sf-admin-nav-first[data-compact="true"] .sf-admin-nav-row[data-holds-current="true"] {
       outline: var(--sf-px) solid CanvasText;
       outline-offset: calc(-1 * var(--sf-px));
-    }
-
-    .sf-admin-nav-first[data-compact="true"] .sf-admin-nav-row[data-holds-current="true"]::before {
-      forced-color-adjust: none;
-      background-color: Highlight;
     }
 
     /* The place's mark keeps its plate (AM-40): its letters are its name. */

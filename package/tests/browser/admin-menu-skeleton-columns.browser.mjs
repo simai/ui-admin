@@ -3,9 +3,10 @@
 //
 // sf-admin-menu's navigation skeleton takes the columns the answered menu will
 // take (stand 25 D4): on a dashboard, whose row has no open root, the menu is
-// one column (256 px), and a two-column skeleton (496 px) pushed the page aside
-// and back (CLS 0.71). Measured on the built bytes, before any port, at 1280 px:
-//   - expected-columns="1": one column, as wide as the answered first column;
+// the rail alone, and a two-column skeleton pushed the page aside and back
+// (CLS 0.71). Since 1.15.0 the first column is always the rail (C320, AM-18,
+// AM-20: --sf-d4, 56). Measured on the built bytes, before any port, at 1280 px:
+//   - expected-columns="1": the rail, as wide as the answered first column;
 //   - not written: two columns, as before;
 //   - at 390 px both are one column the whole width.
 import {resolve, join} from 'node:path';
@@ -65,7 +66,7 @@ try {
   if (wide.error) throw new Error(wide.error);
   if (!wide.one.skeleton || !wide.two.skeleton) failures.push(`no navigation skeleton before a port: ${JSON.stringify(wide)}`);
   if (wide.one.second !== null) failures.push(`expected-columns="1" printed a second column: ${JSON.stringify(wide.one)}`);
-  if (wide.one.width !== wide.one.first || wide.one.width < 200 || wide.one.width > 320) failures.push(`expected-columns="1" is not one first column wide: ${JSON.stringify(wide.one)}`);
+  if (wide.one.width !== wide.one.first || wide.one.width < 40 || wide.one.width > 80) failures.push(`expected-columns="1" is not the rail: ${JSON.stringify(wide.one)}`);
   if (!(wide.two.second > 0) || wide.two.width !== wide.two.first + wide.two.second) failures.push(`the default skeleton is not two columns: ${JSON.stringify(wide.two)}`);
   if (wide.two.first !== wide.one.first) failures.push(`the first column differs: ${wide.one.first} and ${wide.two.first}`);
   const phone = await measure(390);

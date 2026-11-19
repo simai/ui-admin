@@ -85,7 +85,8 @@ const connect = (page) => page.evaluate((navigation) => {
 }, NAVIGATION);
 
 const currentRows = (page) => page.evaluate(() => [...document.querySelectorAll('#m [aria-current="page"]')]
-  .map((one) => one.getAttribute('title') || one.textContent.trim()));
+  // A rail row names itself by aria-label and its tooltip, never title (AM-25).
+  .map((one) => one.getAttribute('aria-label') || one.querySelector('.sf-admin-nav-row-label')?.textContent.trim() || one.textContent.trim()));
 
 try {
   // current, favourite and toggle on a desktop.

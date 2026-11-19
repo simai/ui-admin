@@ -10,7 +10,8 @@
 // open root gives the published one-column width; a long label wraps whole
 // onto more lines and is never cut (1.7.0, Larena Panel audit 2026-11-05; it
 // ended in «…» before);
-// a width the person set with the handle is kept.
+// the column is --sf-f6 (256) with no handle (C365, 1.15.0): a width the host
+// still sends from an older handle is not taken.
 import {resolve, join} from 'node:path';
 import {chromium} from 'playwright';
 
@@ -101,9 +102,11 @@ try {
   if (!(home.published.one > 0) || Math.abs(home.nav - home.published.one) > 0.5) failures.push(`the one-column box is not the published width: ${JSON.stringify(home)}`);
   if (!(short.published.compactOne > 0 && short.published.compactTwo > short.published.compactOne)) failures.push(`the compact widths are not published: ${JSON.stringify(short.published)}`);
   if (long.cut !== false || !(long.lines >= 2)) failures.push(`a long label is cut instead of wrapping: ${JSON.stringify(long)}`);
-  // The width the person set, as the host keeps it for them.
+  // C365: the section column is 256 (--sf-f6) and has no handle; a width an
+  // older handle left with the host does not change it.
   const resized = await measure('b', {kept: 300});
-  if (Math.abs(resized.second - 300) > 0.5) failures.push(`the width the person set is not kept: ${JSON.stringify(resized)}`);
+  if (Math.abs(resized.second - 256) > 0.5 || resized.nav !== long.nav) failures.push(`the column is not the fixed f6 width: ${JSON.stringify(resized)}`);
+  if (long.second !== 256) failures.push(`the section column is not 256: ${JSON.stringify(long)}`);
 } catch (error) {
   failures.push(error.message);
 } finally {
@@ -114,4 +117,4 @@ if (failures.length) {
   console.error(failures.join('\n'));
   process.exit(1);
 }
-console.log('admin-menu: the same box in every section, the published widths, a long label wrapped whole, the person\'s width kept');
+console.log('admin-menu: the same box in every section, the published widths, a long label wrapped whole, the column fixed at f6');

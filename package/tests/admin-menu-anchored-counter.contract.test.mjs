@@ -74,7 +74,8 @@ test('the navigation rail anchors a row\'s counter on its icon', async () => {
   const items = await read('src/smart/admin-menu/js/templates/default.js');
   assert.doesNotMatch(items, /<sf-badge[^>]*scheme="primary"/);
   assert.match(items, /sf-badge--main sf-badge--error sf-badge--size-1\/3 sf-admin-menu-item-counter/);
-  assert.match(template, /\$\{compact \? railIcon\(row\.icon, railCounter\(row\)\)/);
+  // The current section's glyph is filled (C354).
+  assert.match(template, /\$\{compact \? railIcon\(row\.icon, railCounter\(row\), \{filled: current \|\| holds\}\)/);
   assert.match(template, /aria-label=\$\{compact \? nameWithCounter\(row\.label, railCounter\(row\)\) : nothing\}/);
   // A row's count is SIMAI Framework's badge on a text line of rung 1 (AM-59).
   assert.match(template, /<sf-badge size="1\/3" status="error" line="1"/);

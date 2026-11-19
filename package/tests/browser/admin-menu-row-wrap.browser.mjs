@@ -9,7 +9,7 @@
 //   - no row name is cut: its words are all on screen (no overflow);
 //   - «Программы и обновления» is two lines in the second column, a longer
 //     name as many as it needs; a row is a text line taller per added line,
-//     and a one-line row keeps its height (icon-size-2 + 2 * a6);
+//     and a one-line row keeps its height (the row step, --sf-admin-nav-row-h);
 //   - the glyph, the chevron and the badge stand on the middle of the first
 //     line, within a pixel.
 // With --shots it also writes the screenshots (light and dark).
@@ -145,8 +145,10 @@ const measure = (page) => page.evaluate((names) => {
     });
   }
   const probe = document.createElement('div');
-  probe.style.cssText = 'position:absolute;block-size:calc(var(--sf-icon-size-2) + 2 * var(--sf-a6))';
-  document.getElementById('m').append(probe);
+  // A one-line row is the menu's row step (1.15.0, C353, AM-33): rung 1 of
+  // the control ladder, 44 on a phone (AM-17).
+  probe.style.cssText = 'position:absolute;block-size:var(--sf-admin-nav-row-h)';
+  (document.querySelector('#m .sf-admin-nav-second') ?? document.querySelector('#m .sf-admin-nav')).append(probe);
   const single = probe.getBoundingClientRect().height;
   probe.remove();
   return {rows: rows.filter((row) => row.watched), single};

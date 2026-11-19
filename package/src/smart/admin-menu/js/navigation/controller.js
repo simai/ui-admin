@@ -612,6 +612,7 @@ export class NavigationController {
             const {answer: _outcome, ...data} = answer;
             this.navigation = pageCurrent ? {...data, current: pageCurrent} : data;
             if (first) this.applyPersonPreferences(answer.person);
+            this.preloadFilledIcons();
             // The second column follows the page (owner, 2026-11-05): nothing
             // to choose here but what the page is. A root the person was
             // looking at stays only while the page is the same one.
@@ -634,6 +635,29 @@ export class NavigationController {
             this.message = answer.reason || "";
         }
         this.update("state");
+    }
+
+    // The current section's glyph is drawn filled (C354): the icon subset has
+    // the FILL axis only for glyphs the page marks filled, so every section of
+    // the first column is asked for in its filled form at once -- a section
+    // that becomes current later does not wait for another subset.
+    preloadFilledIcons() {
+        const preload = globalThis.SF?.Loader?.preloadIcons;
+        if (typeof preload !== "function") return;
+        const icons = new Set();
+        const walk = (rows) => {
+            for (const row of rows ?? []) if (row?.icon && row.kind !== "divider" && row.kind !== "heading") icons.add(row.icon);
+        };
+        walk(this.navigation?.items);
+        icons.add("star");
+        const fresh = [...icons].filter((name) => !this.filledIcons?.has(name));
+        if (!fresh.length) return;
+        this.filledIcons = new Set([...(this.filledIcons ?? []), ...fresh]);
+        try {
+            preload.call(globalThis.SF.Loader, fresh.map((name) => ({icon: name, filled: true})));
+        } catch {
+            // A Loader without the icon subset draws the glyphs as they are.
+        }
     }
 
     // The person's theme and language are the host's to keep, so the page follows

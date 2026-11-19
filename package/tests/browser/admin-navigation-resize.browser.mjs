@@ -2,9 +2,9 @@
 // Usage: node this-file /absolute/path/to/output
 // The admin menu's navigation shell (owner, 2026-10-14), measured on the built
 // bytes with a host port that answers the menu:
-// - both columns stand with an sf-resizer on their edge; dragging the first
-//   column's edge widens it within 13rem..24rem and the width is kept on the
-//   next page; a double click gives the width back;
+// - since 1.15.0 (C320, C365) the first column is the rail (--sf-d4, 56) and
+//   the section column --sf-f6 (256); neither has a handle, and a width the
+//   host still keeps for the person (person.widths) changes neither;
 // - the theme is a row of the profile menu with its choice a level deeper:
 //   sf-settings' row in the drill look, the value under the name (C176, K-11).
 import {resolve, join} from 'node:path';
@@ -25,7 +25,6 @@ const styles = [
   // menu that a real page draws whole.
   'component/component/icons/css/icons.css',
   'smart/smart/admin-menu/css/admin-menu.css',
-  'smart/smart/resizer/css/resizer.css',
   'smart/smart/profile-picker/css/profile-picker.css',
 ].map((p) => join(out, p));
 const modules = [
@@ -33,7 +32,7 @@ const modules = [
   'smart/smart/icon/js/icon.js', 'smart/smart/button/js/button.js',
   'smart/smart/button-icon/js/button-icon.js', 'smart/smart/badge/js/badge.js',
   'smart/smart/input/js/input.js', 'smart/smart/menu-context/js/menu-context.js',
-  'smart/smart/resizer/js/resizer.js', 'smart/smart/profile-picker/js/profile-picker.js', 'smart/smart/admin-menu/js/admin-menu.js',
+  'smart/smart/profile-picker/js/profile-picker.js', 'smart/smart/admin-menu/js/admin-menu.js',
 ].map((p) => join(out, p));
 
 const failures = [];
@@ -69,14 +68,26 @@ const open = async (person = {}, frame = 800) => {
   await page.setContent(`<!doctype html><html class="theme-light" lang="ru"><body style="margin:0"><div style="block-size:${frame}px;display:flex"><sf-admin-menu id="m" aria-label="Меню"></sf-admin-menu><main style="flex:1">Страница</main></div></body></html>`);
   for (const path of styles) await page.addStyleTag({path}).catch(() => {});
   for (const path of modules) await page.addScriptTag({path, type: 'module'}).catch(() => {});
-  await page.waitForFunction(() => customElements.get('sf-admin-menu') && customElements.get('sf-resizer'), null, {timeout: 8000});
+  await page.waitForFunction(() => customElements.get('sf-admin-menu'), null, {timeout: 8000});
   await page.evaluate((navigation) => {
     window.raised = [];
     document.getElementById('m').setHostPort({
-      port: 'simai.admin-navigation-port', version: '1.0.0', capabilities: ['preferences', 'menu-profiles', 'favourites'],
+      port: 'simai.admin-navigation-port', version: '1.0.0', capabilities: ['preferences', 'menu-profiles', 'favourites', 'notifications'],
       async raise(intent, payload) {
         window.raised.push({intent, payload: structuredClone(payload)});
         if (intent === 'navigation.load') return structuredClone(navigation);
+        // The setting mode's profiles: a personal one made on the first edit,
+        // a level switch answered with the menu of that profile.
+        if (intent === 'view.create') {
+          window.navigationNow = structuredClone(navigation);
+          window.navigationNow.profiles.list.push({key: 'mine', label: 'Моё', kind: 'personal'});
+          return {answer: 'applied', profiles: window.navigationNow.profiles};
+        }
+        if (intent === 'view.profile') {
+          const next = structuredClone(window.navigationNow ?? navigation);
+          next.profiles.current = payload.profile;
+          return {answer: 'applied', navigation: next};
+        }
         return {answer: 'applied'};
       },
     });
@@ -87,57 +98,43 @@ const open = async (person = {}, frame = 800) => {
 
 try {
   const page = await open();
-  const before = await page.evaluate(() => {
+  const widths = () => page.evaluate(() => {
     const first = document.querySelector('.sf-admin-nav-first');
     const second = document.querySelector('.sf-admin-nav-second');
-    const handle = first?.querySelector(':scope > sf-resizer')?.getBoundingClientRect();
     return {
       first: first ? Math.round(first.getBoundingClientRect().width) : null,
-      secondHandle: Boolean(second?.querySelector(':scope > sf-resizer')),
-      handle: handle ? {x: handle.left + handle.width / 2, y: handle.top + 300} : null,
+      second: second?.getClientRects().length ? Math.round(second.getBoundingClientRect().width) : null,
+      handles: document.querySelectorAll('sf-admin-menu sf-resizer').length,
     };
   });
-  if (!before.handle) note({case: 'the first column has a handle', got: before});
-  if (!before.secondHandle) note({case: 'the second column has a handle', got: before});
-  let widened = null;
-  if (before.handle) {
-    await page.mouse.move(before.handle.x, before.handle.y);
-    await page.mouse.down();
-    await page.mouse.move(before.handle.x + 48, before.handle.y, {steps: 6});
-    await page.mouse.up();
-    await page.waitForTimeout(100);
-    widened = await page.evaluate(() => Math.round(document.querySelector('.sf-admin-nav-first').getBoundingClientRect().width));
-    if (widened !== before.first + 48) note({case: 'a drag widens the first column', got: {before: before.first, widened}});
-    // The width is the person's: the host is told, to keep it.
-    const told = await page.evaluate(() => window.raised.filter((one) => one.intent === 'preference.widths').map((one) => one.payload));
-    if (told.length !== 1 || told[0]?.widths?.first !== widened) note({case: 'the host keeps the width', got: told, expected: {widths: {first: widened}}});
-  }
+  const before = await widths();
+  if (before.handles) note({case: 'no width handle (C365)', got: before});
+  if (before.first !== 56) note({case: 'the first column is the rail, 56', got: before});
+  if (before.second !== 256) note({case: 'the section column is 256 (--sf-f6)', got: before});
+  const told = await page.evaluate(() => window.raised.filter((one) => one.intent === 'preference.widths' || one.intent === 'preference.compact'));
+  if (told.length) note({case: 'no width or compact preference is sent (AM-29)', got: told});
 
-  // Favourites are a section of their own: a star at the foot of the first
-  // column, its pages in the second (owner, 2026-10-15).
+  // Favourites are a section of their own: a star at the foot of the rail,
+  // its pages in the section column with their section under the name (C368).
   const favourites = await page.evaluate(async () => {
-    const star = [...document.querySelectorAll('.sf-admin-nav-bottom .sf-admin-nav-row')].find((row) => row.textContent.includes('Избранное'));
-    const inScroll = Boolean(document.querySelector('.sf-admin-nav-first .sf-admin-nav-scroll .sf-admin-nav-favourites'));
+    const star = document.querySelector('.sf-admin-nav-bottom .sf-admin-nav-row[data-key="sf:favourites"]');
     star?.click();
     await new Promise((done) => setTimeout(done, 300));
     const second = document.querySelector('.sf-admin-nav-second');
-    return {star: Boolean(star), inScroll, second: second?.getAttribute('aria-label') ?? null,
-      rows: [...(second?.querySelectorAll('.sf-admin-nav-row-label') ?? [])].map((node) => node.textContent.trim())};
+    return {star: Boolean(star), second: second?.getAttribute('aria-label') ?? null,
+      rows: [...(second?.querySelectorAll('.sf-admin-nav-row-label') ?? [])].map((node) => node.textContent.replace(/\s+/gu, ' ').trim())};
   });
-  if (!favourites.star || favourites.inScroll || favourites.second !== 'Избранное' || !favourites.rows.includes('Минимальная CMS')) {
+  if (!favourites.star || favourites.second !== 'Избранное' || !favourites.rows.some((row) => row.includes('Минимальная CMS'))) {
     note({case: 'favourites are a section at the foot of the menu', got: favourites});
   }
-  await page.evaluate(() => [...document.querySelectorAll('.sf-admin-nav-bottom .sf-admin-nav-row')].find((row) => row.textContent.includes('Избранное'))?.click());
-  await page.waitForTimeout(200);
 
-  // The count beside «Уведомления» is a small counter, no taller than the
-  // letters' line.
+  // The bell carries the unread number (C342, AM-43): a numeric badge on the
+  // rail square, no taller than a counter.
   const counter = await page.evaluate(() => {
-    const badge = document.querySelector('.sf-admin-nav-attention .sf-badge');
-    const row = badge?.closest('.sf-admin-nav-row');
-    return badge ? {height: Math.round(badge.getBoundingClientRect().height), row: Math.round(row?.getBoundingClientRect().height ?? 0)} : null;
+    const badge = document.querySelector('.sf-admin-nav-bottom .sf-badge--anchored');
+    return badge ? {text: badge.textContent.trim(), height: Math.round(badge.getBoundingClientRect().height)} : null;
   });
-  if (!counter || counter.height > 16) note({case: 'the notification counter', got: counter, expected: 'at most 16px tall'});
+  if (!counter || counter.text !== '1' || counter.height > 16) note({case: 'the bell carries the unread number', got: counter});
 
   // The theme is a row with a submenu.
   const theme = await page.evaluate(async () => {
@@ -148,66 +145,39 @@ try {
     const rows = [...(menu?.querySelectorAll('.sf-context-menu-item') ?? [])];
     const row = rows.find((item) => item.querySelector('.sf-context-menu-item-label')?.textContent.trim() === 'Тема');
     const labels = [...(menu?.querySelectorAll('.sf-context-menu-item-label, .sf-context-menu-item-value, .sf-context-menu-item-under') ?? [])];
-    const surface = menu?.querySelector('.sf-context-menu-content')?.getBoundingClientRect();
     return {
-      width: surface ? Math.round(surface.width) : null,
-      button: Math.round(person?.getBoundingClientRect().width ?? 0),
       cut: labels.filter((label) => label.scrollWidth > label.clientWidth + 1).map((label) => label.textContent.trim()),
-      choice: Boolean(menu?.querySelector('.sf-context-menu-choice')),
       row: Boolean(row), value: row?.querySelector('.sf-context-menu-item-under, .sf-context-menu-item-value')?.textContent.trim() ?? null,
       submenu: row?.getAttribute('aria-haspopup') ?? null, drill: menu?.getAttribute('submenu') ?? null,
     };
   });
-  // At least the button's width, and no line cut short.
-  if (theme.width === null || theme.width < theme.button - 1 || theme.cut.length) {
-    note({case: 'the profile menu is at least as wide as its button and cuts no line', got: theme});
+  if (theme.cut.length || !theme.row || theme.value !== 'Тёмная' || theme.submenu !== 'menu' || theme.drill !== 'drill') {
+    note({case: 'the theme is a row with a submenu, no line cut', got: theme});
   }
-  if (theme.choice || !theme.row || theme.value !== 'Тёмная' || theme.submenu !== 'menu' || theme.drill !== 'drill') {
-    note({case: 'the theme is a row with a submenu', got: theme});
-  }
-  // The edit mode's profiles are the profile picker: the profiles as rows,
-  // rename and remove where the person may, a new profile inline.
+  await page.keyboard.press('Escape');
+  // The setting mode's «Профиль настроек» level is the profile picker: the
+  // role profiles as rows, rename and remove where the person may, a new one
+  // inline (C326 = C298).
   const picker = await page.evaluate(async () => {
-    await document.getElementById('m')._navigation?.startEdit();
+    const controller = document.getElementById('m')._navigation;
+    await controller?.startEdit();
+    await new Promise((done) => setTimeout(done, 400));
+    await controller?.chooseLevel('role');
     await new Promise((done) => setTimeout(done, 500));
-    const element = document.querySelector('.sf-admin-nav-edit-banner sf-profile-picker');
+    const element = document.querySelector('.sf-admin-nav-edit-head sf-profile-picker');
     element?.querySelector('.sf-profile-picker-trigger')?.click();
     await new Promise((done) => setTimeout(done, 300));
     return element ? {
-      trigger: element.querySelector('.sf-profile-picker-trigger')?.textContent.replace(/\s+/gu, ' ').trim(),
-      rows: [...element.querySelectorAll('.sf-profile-picker-row[data-id]')].map((row) => `${row.dataset.id}:${row.getAttribute('aria-checked')}:${Boolean(row.querySelector('.sf-profile-picker-actions'))}`),
+      rows: [...element.querySelectorAll('.sf-profile-picker-row[data-id]')].map((row) => row.dataset.id),
       add: Boolean(element.querySelector('.sf-profile-picker-add')),
-      oldForm: Boolean(document.querySelector('.sf-admin-nav-edit-profile, .sf-admin-nav-edit-check')),
+      levels: document.querySelector('.sf-admin-nav-edit-head sf-segmented')?.getAttribute('items') ?? null,
     } : null;
   });
-  if (!picker || !picker.trigger?.includes('Профиль: Обычный') || picker.rows.join() !== 'regular:true:false,editors:false:true' || !picker.add || picker.oldForm) {
-    note({case: "the edit mode's profiles are the profile picker", got: picker});
+  if (!picker || !picker.rows.includes('editors') || !picker.add || !String(picker.levels).includes('Профиль настроек')) {
+    note({case: "the setting mode's role level is the profile picker", got: picker});
   }
   await page.close();
 
-  const again = await open();
-  const kept = await again.evaluate(() => Math.round(document.querySelector('.sf-admin-nav-first').getBoundingClientRect().width));
-  if (widened !== null && kept !== widened) note({case: 'the width is kept on the next page', got: {widened, kept}});
-  await again.dblclick('.sf-admin-nav-first > sf-resizer');
-  await again.waitForTimeout(150);
-  const reset = await again.evaluate(() => Math.round(document.querySelector('.sf-admin-nav-first').getBoundingClientRect().width));
-  if (reset !== before.first) note({case: 'a double click gives the width back', got: {reset, expected: before.first}});
-  // At the column's own width the button is narrower than the profile
-  // menu's longest line: the menu grows to it rather than cutting it.
-  const narrow = await again.evaluate(async () => {
-    const person = document.querySelector('.sf-admin-nav-person');
-    person?.click();
-    await new Promise((done) => setTimeout(done, 400));
-    const menu = document.querySelector('sf-menu-context[data-sf-admin-nav-menu]');
-    const labels = [...(menu?.querySelectorAll('.sf-context-menu-item-label, .sf-context-menu-item-value') ?? [])];
-    const surface = menu?.querySelector('.sf-context-menu-content')?.getBoundingClientRect();
-    return {width: surface ? Math.round(surface.width) : null, button: Math.round(person?.getBoundingClientRect().width ?? 0),
-      cut: labels.filter((label) => label.scrollWidth > label.clientWidth + 1).map((label) => label.textContent.trim())};
-  });
-  if (narrow.width === null || narrow.width < narrow.button - 1 || narrow.cut.length) {
-    note({case: 'a narrow column: the profile menu grows to its longest line', got: narrow});
-  }
-  console.log(JSON.stringify({narrow}));
   // A frame as tall as a long page: the menu is the window's height and stays
   // at the top while the page scrolls (owner, 2026-10-14: it scrolled away,
   // an empty column under it).
@@ -220,12 +190,13 @@ try {
   });
   if (held.top !== 0 || held.height !== held.window) note({case: 'the menu stays in the window', got: held});
   await tall.close();
-  // A width the host keeps for the person wins over this browser's memory.
-  const third = await open({widths: {first: 320}});
-  const personal = await third.evaluate(() => Math.round(document.querySelector('.sf-admin-nav-first').getBoundingClientRect().width));
-  if (personal !== 320) note({case: "the person's width wins", got: personal, expected: 320});
+  // A width an older handle left with the host changes nothing.
+  const third = await open({widths: {first: 320, second: 300}});
+  const kept = await third.evaluate(() => ({first: Math.round(document.querySelector('.sf-admin-nav-first').getBoundingClientRect().width),
+    second: Math.round(document.querySelector('.sf-admin-nav-second')?.getBoundingClientRect().width ?? 0)}));
+  if (kept.first !== 56 || kept.second !== 256) note({case: "an old kept width is not taken", got: kept, expected: {first: 56, second: 256}});
   await third.close();
-  console.log(JSON.stringify({before, widened, theme, kept, reset, personal, counter, picker, held, favourites}));
+  console.log(JSON.stringify({before, theme, counter, picker, held, favourites, kept}));
 } finally {
   await browser.close();
 }

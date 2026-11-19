@@ -8,6 +8,7 @@
 // first time a port changed. That is how the embedded list came to draw a
 // fallback toolbar for a fortnight.
 import './style.css';
+import './navigation';
 import { createPropertyViewHost } from './ports/property-view-host.mjs';
 import { watchForStalePage } from './stale-page-notice';
 

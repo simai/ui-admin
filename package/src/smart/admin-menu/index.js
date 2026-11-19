@@ -25,7 +25,7 @@ import {renderNavigationSkeleton, renderNavigationTemplate} from "./js/navigatio
 
 // sf-admin-menu draws one menu: the navigation shell over the host's
 // navigation port (simai.admin-navigation-port). Since 1.15.0 there is no
-// other: the menu of <sf-admin-menu-item> children with its own settings
+// other: the menu of child item elements with its own settings
 // editor and search panel (the "items" path) was removed before the set's
 // first release (AM-7, owner decision C384). Until a port answers, or the page
 // prints its first answer (first-answer), the menu is its skeleton.

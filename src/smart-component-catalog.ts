@@ -1,5 +1,7 @@
 type JsonSchema = {type?: string; enum?: unknown[]; default?: unknown; const?: unknown};
 import { watchForStalePage } from './stale-page-notice';
+// @ts-expect-error -- plain JavaScript, shared with scripts/check-polygon.mjs.
+import { createNavigationHost } from './ports/navigation-host.mjs';
 type Manifest = {
   id: string; title: string; summary: string; reuse_mode: string; custom_element: string;
   inputs: {properties: Record<string, JsonSchema>}; composition: {uses: string[]; public_parts: string[]};
@@ -7,10 +9,8 @@ type Manifest = {
   ai_guidance: unknown;
 };
 type Materialization = {contracts: Array<{id: string}>};
-type AdminMenuElement = HTMLElement & {
-  applyExternalSettingsState: (state: object, target: 'user' | 'system') => void;
-  applySettingsResult: (result: object) => void;
-};
+type NavigationHost = {port: string; version: string; raise: (intent: string, payload?: unknown) => Promise<unknown>};
+type AdminMenuElement = HTMLElement & {setHostPort?: (host: NavigationHost) => unknown};
 type DataViewElement = HTMLElement & {
   setColumns: (columns: object[]) => DataViewElement;
   setRows: (rows: object[]) => DataViewElement;
@@ -241,7 +241,6 @@ const loadContract = async (id: string): Promise<void> => {
   document.querySelectorAll<HTMLElement>('[data-contract-fixture]').forEach((fixture) => { fixture.hidden = fixture.dataset.contractFixture !== id; });
   activeElement = document.querySelector<HTMLElement>(`[data-contract-fixture="${id}"] ${manifest.custom_element}`);
   viewport?.classList.toggle('catalog-viewport--data-view', id === 'smart.view-table');
-  document.querySelector<HTMLElement>('[data-persistence-controls]')!.hidden = id !== 'smart.admin-menu';
   document.querySelector<HTMLElement>('[data-data-view-states]')!.hidden = id !== 'smart.view-table';
   if (selector) selector.value = id;
   const url = new URL(location.href); url.searchParams.set('component', id); history.replaceState({}, '', url);
@@ -252,30 +251,16 @@ const loadContract = async (id: string): Promise<void> => {
   document.documentElement.dataset.smartCatalogReady = 'true';
 };
 
-const demoRevisions = {user: 0, system: 0};
-const emptyProfile = (): object => ({schema_version: 1, items: {}, layout: {compact: false}});
-const externalState = (): object => ({profiles: {user: {revision: demoRevisions.user, profile: emptyProfile()}, system: {revision: demoRevisions.system, profile: emptyProfile()}}});
-for (const eventName of ['sf-admin-menu-settings-refresh', 'sf-admin-menu-settings-mode-change']) {
-  document.addEventListener(eventName, (event) => {
-    const target = (event as CustomEvent).detail?.target === 'system' ? 'system' : 'user';
-    queueMicrotask(() => menu?.applyExternalSettingsState(externalState(), target));
-  });
-}
-document.addEventListener('sf-admin-menu-settings-save', (event) => {
-  const detail = (event as CustomEvent).detail ?? {}; const target: 'user' | 'system' = detail.target === 'system' ? 'system' : 'user';
-  demoRevisions[target] += 1; queueMicrotask(() => menu?.applySettingsResult({target, revision: demoRevisions[target], profile: detail.profile ?? emptyProfile()}));
-});
-document.addEventListener('sf-admin-menu-settings-reset', (event) => {
-  const target: 'user' | 'system' = (event as CustomEvent).detail?.target === 'system' ? 'system' : 'user';
-  demoRevisions[target] += 1; queueMicrotask(() => menu?.applySettingsResult({target, revision: demoRevisions[target], profile: emptyProfile()}));
-});
+// The menu answered by the same navigation host as every page of this site
+// (sf-admin-menu has no other path since 1.15.0, AM-7).
+void (async () => {
+  const data = await fetch('/data/navigation.json').then((response) => response.json());
+  const host = createNavigationHost({data, current: 'data.catalog'}) as NavigationHost;
+  await customElements.whenDefined('sf-admin-menu');
+  menu?.setHostPort?.(host);
+})();
 
 selector?.addEventListener('change', () => void loadContract(selector.value));
-document.querySelectorAll<HTMLButtonElement>('[data-mode]').forEach((button) => button.addEventListener('click', () => {
-  document.querySelectorAll('[data-mode]').forEach((item) => item.classList.remove('is-active'));
-  const mode = button.dataset.mode ?? 'external'; button.classList.add('is-active'); menu?.setAttribute('persistence-mode', mode);
-  const persistenceControl = controlInputs.get('persistence-mode'); if (persistenceControl) persistenceControl.value = mode;
-}));
 document.querySelectorAll<HTMLButtonElement>('[data-data-state]').forEach((button) => button.addEventListener('click', () => showDataViewState(button.dataset.dataState ?? 'populated')));
 document.querySelector<HTMLButtonElement>('[data-action="theme"]')?.addEventListener('click', (event) => {
   const light = document.documentElement.classList.toggle('theme-light'); document.documentElement.classList.toggle('theme-dark', !light);

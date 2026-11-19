@@ -18,7 +18,7 @@ before the move is in ui-pro. Its dated event aliases (`aliases.json`, until
 2026-12-01) move with it; the tag itself has no former name.
 
 Since 1.15.0 the menu has one path, the navigation over the port. The older
-menu of `<sf-admin-menu-item>` children (the "items" path: its settings
+menu of child item elements (the "items" path: its settings
 menu, search panel, compact mode, persistence, their settings, actions,
 events, words and the aliases `sf-admin-menu-search`,
 `sf-admin-menu-settings-reset` and `setRecentResults`) was removed before the
@@ -110,6 +110,6 @@ build. A set is built and tested against exactly one revision.
 `ui-dc9fc39aeb26`.
 
 С 1.15.0 у меню один путь — навигация над портом хоста: старое меню из
-дочерних `<sf-admin-menu-item>` с его окном настроек, панелью поиска и
+дочерних элементов-пунктов с его окном настроек, панелью поиска и
 компактным режимом убрано до первого выпуска набора (AM-7), без псевдонимов —
 набор с ним не выпускался.

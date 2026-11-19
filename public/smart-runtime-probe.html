@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>SIMAI Smart Runtime Probe</title>
     <link rel="stylesheet" href="/distr/core/css/core.css" />
     <script>
@@ -26,9 +27,24 @@
     <script src="/distr/core/js/core.js"></script>
   </head>
   <body>
-    <sf-admin-menu searchable collapsible aria-label="Runtime probe menu">
-      <sf-admin-menu-item left-icon="home" href="/">Home</sf-admin-menu-item>
-    </sf-admin-menu>
+    <!-- The menu over a one-row navigation port (simai.admin-navigation-port):
+         sf-admin-menu draws no rows of its own. -->
+    <sf-admin-menu aria-label="Runtime probe menu"></sf-admin-menu>
+    <script>
+      addEventListener('sf-host-port-request', (event) => {
+        if (event.detail?.context?.owner !== 'admin-menu') return;
+        event.detail.component.setHostPort?.({
+          port: 'simai.admin-navigation-port', version: '1.0.0', capabilities: [],
+          async raise(intent) {
+            if (intent !== 'navigation.load') return {answer: 'applied'};
+            return {answer: 'applied', revision: '1', current: 'home',
+              items: [{key: 'home', kind: 'page', level: 'site', label: 'Home', icon: 'home', href: '/'}],
+              site: {current: {key: 'main', label: 'Main site'}, count: 1},
+              person: {name: 'Administrator', language: 'en', languages: [{code: 'en', native: 'English', english: 'English'}]}};
+          },
+        });
+      });
+    </script>
     <sf-view-table pagin table-settings-key="runtime_probe"></sf-view-table>
     <pre id="result">Waiting for Smart Components...</pre>
     <script>

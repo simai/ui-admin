@@ -4,6 +4,7 @@
   class="max-h-screen h-full">
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link
       rel="preconnect"
       href="https://cdn.jsdelivr.net"
@@ -87,144 +88,10 @@
     </noscript>
   </head>
     <body class="flex h-full">
-    <aside style="max-width: 320px">
-      <sf-admin-menu
-        searchable
-        settings
-        logo="/public/logo.svg"
-        collapsible
-        aria-label="Admin navigation">
-        <sf-admin-menu-item
-          left-icon="home"
-          href="/"
-          active
-          >Дашборд
-          <sf-admin-menu-item
-            left-icon="location_on"
-            badge="99+"
-            href="/"
-            >Заказы</sf-admin-menu-item
-          >
-          <sf-admin-menu-item
-            left-icon="mail"
-            badge="52"
-            href="/"
-            >Чаты</sf-admin-menu-item
-          >
-          <sf-admin-menu-item
-            left-icon="light_mode"
-            href="/"
-            >Отчеты</sf-admin-menu-item
-          >
-          <sf-admin-menu-item left-icon="key">
-            Фреймворки
-            <sf-admin-menu-item href="/sf5">SF5</sf-admin-menu-item>
-            <sf-admin-menu-item href="/modules">Модули</sf-admin-menu-item>
-          </sf-admin-menu-item>
-        </sf-admin-menu-item>
-        <sf-admin-menu-item
-          left-icon="location_on"
-          badge="99+"
-          href="/"
-          >Заказы</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="mail"
-          badge="52"
-          href="/"
-          >Чаты</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="light_mode"
-          href="/"
-          >Отчеты</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="imagesmode"
-          href="/"
-          >Купоны</sf-admin-menu-item
-        >
-        <sf-admin-menu-item type="divider"></sf-admin-menu-item>
-        <sf-admin-menu-item left-icon="key">
-          Фреймворки
-          <sf-admin-menu-item href="/sf5">SF5</sf-admin-menu-item>
-          <sf-admin-menu-item href="/modules">Модули</sf-admin-menu-item>
-          <sf-admin-menu-item href="/placeholder"
-            >Тестовый пункт для провекри плейсхолдера</sf-admin-menu-item
-          >
-        </sf-admin-menu-item>
-        <sf-admin-menu-item
-          left-icon="link"
-          href="/"
-          >Вендоры</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="/public/logo.svg"
-          href="/placeholder"
-          >Кастомная иконка</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="person"
-          href="/"
-          >Модуль биллинга</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="photo_camera"
-          href="/"
-          >Модуль обновления</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="stethoscope"
-          href="/"
-          >Модуль регистраций</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="health_and_safety"
-          href="/"
-          >Главный модуль</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="home"
-          href="/"
-          >Очень очень длинное название пункта меню для
-          теста</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="home"
-          href="/"
-          >Дашборд</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="home"
-          href="/"
-          >Дашборд</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="home"
-          href="/"
-          >Дашборд</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="home"
-          href="/"
-          >Дашборд</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="home"
-          href="/"
-          >Дашборд</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="home"
-          href="/"
-          >Дашборд</sf-admin-menu-item
-        >
-        <sf-admin-menu-item
-          left-icon="home"
-          href="/"
-          >Дашборд</sf-admin-menu-item
-        >
-      </sf-admin-menu>
+    <!-- The admin menu over the navigation port (src/navigation.ts), as on
+         every page of this site: no rows in the markup, they are the host's. -->
+    <aside class="admin-navigation h-full">
+      <sf-admin-menu class="h-full" aria-label="Разделы админки" data-sf-skeleton="menu"></sf-admin-menu>
     </aside>
     <main class="flex flex-col flex-1 min-w-0 min-h-0">
       <!-- The page frame: a bar that names where you are, then the content

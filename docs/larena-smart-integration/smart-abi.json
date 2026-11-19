@@ -26,12 +26,12 @@
     },
     "sf-admin-menu": {
       "status": "SOURCE_CONFIRMED",
-      "sourceRef": "sf5/src/smart/admin-menu/index.js",
+      "sourceRef": "simai/ui-admin package/src/smart/admin-menu (set admin, sf-admin-menu 1.15.0)",
       "runtimeStatus": "UNKNOWN",
-      "attributes": ["brand", "logo", "logo-href", "aria-label", "searchable", "collapsible", "settings", "settings-title", "compact", "search-placeholder", "toggle-label", "panel-class", "root-class"],
-      "inputTree": "Nested sf-admin-menu-item elements with text/label, icons, href, badge, order and state attributes.",
-      "persistence": {"status": "SOURCE_CONFIRMED", "storageKey": "main-menu-settings", "larenaCompatibility": "Domain menu and permissions must not rely on this local storage key."},
-      "events": {"status": "UNKNOWN", "reason": "No exact runtime event reflection has been performed."}
+      "attributes": ["aria-label", "current", "expected-columns", "open", "search-shortcut", "root-class"],
+      "inputTree": "None: the rows come from the host over simai.admin-navigation-port (connectPort({port}), or the first answer printed in the data-sf-settings island as first-answer). The menu of nested child elements was removed in 1.15.0 (AM-7).",
+      "persistence": {"status": "SOURCE_CONFIRMED", "storageKey": null, "larenaCompatibility": "The host keeps every preference (preference.*, view.save through the port); the menu keeps nothing of its own."},
+      "events": {"status": "UNKNOWN", "reason": "No exact runtime event reflection has been performed; the declared events are one per verb (sf-admin-menu-refresh, -open, -toggle, -save, -query, ...), component.json."}
     }
   }
 }

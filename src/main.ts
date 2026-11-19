@@ -20,6 +20,7 @@ import {
   updateEntityField,
 } from './adminTable';
 import './larenaSmokeSmartAdapter';
+import './navigation';
 import { watchForStalePage } from './stale-page-notice';
 
 type TablePageRequestDetail = {

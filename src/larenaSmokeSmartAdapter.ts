@@ -196,7 +196,6 @@ if (enabled) {
   };
 
   defineElement('sf-admin-menu', LarenaSmokeElement);
-  defineElement('sf-admin-menu-item', LarenaSmokeElement);
   defineElement('sf-breadcrumbs', LarenaSmokeElement);
   defineElement('sf-view-table', LarenaSmokeTable);
   defineElement('sf-tree-item', LarenaSmokeElement);

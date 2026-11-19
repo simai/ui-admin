@@ -884,7 +884,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/admin-menu/index.js",
-        "sha256": "5146ebc854ed001e19f8cf7c87c5c1e70342f1974df8043b4dca8cfbc8874629"
+        "sha256": "b902c5bd81ca10563e1ffeccdc31e8ac3302d1026a40b16897fe3d322f4aa6dc"
       },
       {
         "path": "src/smart/admin-menu/js/navigation/navigation.css",
@@ -920,7 +920,7 @@
       },
       {
         "path": "src/smart/admin-menu/component.json",
-        "sha256": "855dd7dd768c5e08ce0986ac6d80ff7b046e21481fb153d00499f87c8a00853c"
+        "sha256": "51a9acf0c96605ae69a71c5fc661f71be8d7b9659c20a2206d739ee2484ef67e"
       },
       {
         "path": "src/smart/admin-menu/aliases.json",

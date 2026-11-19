@@ -304,6 +304,7 @@ export class NavigationController {
         // after a draw (fitRail), never the current page's root.
         this.overflowRoots = [];
         this.tipPrefix = `sf-admin-nav-tip-${++TIP_INSTANCES}`;
+        this.pendingFocus = null;
         this.sequence = 0;
         this.sites = {open: false, query: "", items: [], next: null, loading: false, sequence: 0};
         // The ⌘K palette is SIMAI Framework's sf-search (palette.js, K-04): the
@@ -1260,8 +1261,10 @@ export class NavigationController {
         this.stopEdit();
         if (back) await this.switchProfile(back);
         this.level = {key: "personal", draft: null, dirty: false};
-        await this.element.updateComplete;
-        this.focusOpener();
+        // The rail is drawn anew when the mode ends: the focus goes to the
+        // opener after that draw (rendered), not to the node it replaces.
+        this.pendingFocus = "opener";
+        this.update("edit");
         return true;
     }
 
@@ -1632,9 +1635,22 @@ export class NavigationController {
     // The pressed «Сбросить» turns itself off; the focus goes on to «Готово»,
     // not to the page (AM-61).
     async focusDone() {
-        await this.element.updateComplete;
-        const done = this.element.querySelector(".sf-admin-nav-edit-title sf-button");
-        (done?.querySelector("button") ?? done)?.focus?.({preventScroll: true});
+        this.pendingFocus = "done";
+        this.update("edit");
+    }
+
+    focusPending() {
+        const what = this.pendingFocus;
+        this.pendingFocus = null;
+        if (what === "opener") return this.focusOpener();
+        if (what !== "done") return;
+        // sf-button draws its own button: a frame later when it has not yet.
+        const focus = (tries) => {
+            const button = this.element.querySelector(".sf-admin-nav-edit-title sf-button button");
+            if (button) button.focus({preventScroll: true});
+            else if (tries) requestAnimationFrame(() => focus(tries - 1));
+        };
+        focus(3);
     }
 
     toggleEditProfiles() {
@@ -1973,6 +1989,7 @@ export class NavigationController {
         const state = this.edit?.on ? "open" : this.columnState();
         if (this.element.getAttribute("data-column") !== state) this.element.setAttribute("data-column", state);
         this.fitRail();
+        if (this.pendingFocus) this.focusPending();
     }
 
     shownRoot() {

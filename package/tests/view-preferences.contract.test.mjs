@@ -8,12 +8,10 @@ import test from 'node:test';
 
 // A component that keeps how it looks keeps it through SF.Preferences
 // (owner, 2026-10-14): one store, written for the person when the host keeps
-// preferences, read before the first paint. Two exceptions, both on their way
-// out: the admin menu's older `items` menu (retired when Larena has switched
-// to the navigation port) and the one-time reads of what a browser kept
-// before the standard.
+// preferences, read before the first paint. One exception, on its way out: the
+// one-time reads of what a browser kept before the standard (the admin menu's
+// older `items` menu, the other one, left in 1.15.0, AM-7).
 const LEGACY = [
-  {file: 'smart/admin-menu/index.js', why: 'the items menu, retired with it'},
   {file: 'smart/admin-menu/js/navigation/controller.js', line: /rootMemoryKey\(\)/u, why: 'a root kept before the standard, taken over once'},
 ];
 

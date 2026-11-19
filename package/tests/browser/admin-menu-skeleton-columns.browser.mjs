@@ -34,8 +34,8 @@ const browser = await chromium.launch();
 const measure = async (width) => {
   const page = await browser.newPage({viewport: {width, height: 800}});
   await page.setContent(`<!doctype html><html class="theme-light"><body style="margin:0;display:flex;gap:0">
-    <div id="one" style="display:flex;height:600px"><sf-admin-menu source="port" expected-columns="1" aria-label="Меню"></sf-admin-menu></div>
-    <div id="two" style="display:flex;height:600px"><sf-admin-menu source="port" aria-label="Меню"></sf-admin-menu></div>
+    <div id="one" style="display:flex;height:600px"><sf-admin-menu expected-columns="1" aria-label="Меню"></sf-admin-menu></div>
+    <div id="two" style="display:flex;height:600px"><sf-admin-menu aria-label="Меню"></sf-admin-menu></div>
   </body></html>`);
   for (const path of styles) await page.addStyleTag({path}).catch(() => {});
   for (const path of modules) await page.addScriptTag({path, type: 'module'}).catch(() => {});

@@ -30,27 +30,3 @@ test('Admin menu reserves disclosure space only after natural content overflows'
   assert.match(source, /if \(this\.contentFitsWithoutOverflow\(items\)\) \{[\s\S]*?this\.main\.classList\.remove\("overflow-auto", "open"\);[\s\S]*?return;/);
   assert.match(source, /const containerHeight = this\.main\.clientHeight - itemHeight;/);
 });
-
-test('Smart Admin menu tests natural fit before reserving disclosure space', async () => {
-  const source = await read('src/smart/admin-menu/index.js');
-
-  assert.match(source, /const naturalHeight = measuredItems\.reduce\(/);
-  assert.match(source, /naturalHeight <= menuPanel\.clientHeight \+ fitTolerance/);
-  assert.match(source, /getPropertyValue\("--sf-px"\)/);
-  assert.match(source, /Object\.fromEntries\(measuredItems\.map/);
-  assert.doesNotMatch(source, /menuItemHeight \|\| 56|updateMenuItemHeight\(\) \|\| 56/);
-});
-
-test('Smart Admin menu disabled rows do not render a boolean trailing value', async () => {
-  const template = await read('src/smart/admin-menu/js/templates/default.js');
-
-  assert.match(template, /if \(item\.disabled\)[\s\S]*?renderItemContent\(item, nothing, showSettings\)/);
-  assert.doesNotMatch(template, /if \(item\.disabled\)[\s\S]*?renderItemContent\(item, showSettings\)/);
-});
-
-test('Smart Admin menu owns its full-height application shell explicitly', async () => {
-  const template = await read('src/smart/admin-menu/js/templates/default.js');
-
-  assert.match(template, /sf-admin-menu-panel flex flex-col h-full overflow-hidden/);
-  assert.match(template, /sf-admin-menu flex h-full relative/);
-});

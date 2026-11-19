@@ -48,7 +48,7 @@ for (const path of [...PACKAGE_COMPONENTS.map((name) => `smart/${name}`), 'smart
 const roots = layProbeOutput({free: freeInput, built, required, target: join(overlay, '.probe-output')});
 
 // Probes that drive a served lab and take URLs; not part of a build's evidence.
-const needsLab = new Set(['admin-menu-position']);
+const needsLab = new Set([]);
 const WANTS = [
   [/Smart output root and distr root/u, () => [roots.smart, roots.core]],
   [/Core and Smart output roots/u, () => [roots.core, roots.smartParent]],

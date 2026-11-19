@@ -8,15 +8,23 @@ repository is the admin demo site; the set does not depend on it.
 
 | Folder | Element | Former tag (until 2027-01-01) | What it is |
 |:---|:---|:---|:---|
-| `src/smart/admin-menu` | `sf-admin-menu` | none | the admin menu: a site's navigation over a host's navigation port (`simai.admin-navigation-port`), search, the object menu, edit mode, profiles and settings |
+| `src/smart/admin-menu` | `sf-admin-menu` | none | the admin menu: a site's navigation over a host's navigation port (`simai.admin-navigation-port`): the rail, the section column, search, the object menu, favourites, notifications and the setting mode |
 
 The component came from `simai/ui-pro` `components/src/smart/admin-menu` at
 `2ba35fa` byte for byte (sf-admin-menu 1.11.2), was carried to ui-pro's
 1.14.2 and is 1.15.0 here: the navigation menu as the owner approved it on
 the showcase (decision C384 of 2026-11-19, order AM-1..AM-61). Its history
-before the move is in ui-pro. Its dated event and action aliases
-(`aliases.json`, until 2026-12-01) move with it unchanged; the tag itself has
-no former name.
+before the move is in ui-pro. Its dated event aliases (`aliases.json`, until
+2026-12-01) move with it; the tag itself has no former name.
+
+Since 1.15.0 the menu has one path, the navigation over the port. The older
+menu of `<sf-admin-menu-item>` children (the "items" path: its settings
+menu, search panel, compact mode, persistence, their settings, actions,
+events, words and the aliases `sf-admin-menu-search`,
+`sf-admin-menu-settings-reset` and `setRecentResults`) was removed before the
+set's first release (AM-7): the set was never released with it, so no alias
+follows it. The setting `source` is gone too; a page that still writes
+`source="port"` loses nothing, the attribute is not read.
 
 ### Owner repository
 
@@ -100,3 +108,8 @@ build. A set is built and tested against exactly one revision.
 в первом выпуске Pro после выпуска набора. Набор собирается и проверяется
 ровно против одной ревизии SIMAI Framework — сейчас это пара
 `ui-dc9fc39aeb26`.
+
+С 1.15.0 у меню один путь — навигация над портом хоста: старое меню из
+дочерних `<sf-admin-menu-item>` с его окном настроек, панелью поиска и
+компактным режимом убрано до первого выпуска набора (AM-7), без псевдонимов —
+набор с ним не выпускался.

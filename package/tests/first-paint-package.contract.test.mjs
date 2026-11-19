@@ -49,11 +49,11 @@ test('a port-fed component holds its box: it fills its region and its data scrol
   }
 });
 
-test('sf-admin-menu over a navigation port prints its skeleton, never the empty items menu', () => {
+test('sf-admin-menu prints its navigation skeleton before the port answers', () => {
   const admin = describe(smart, 'admin-menu');
-  assert.deepEqual(admin.manifest.settings.source.values, ['items', 'port']);
+  // One path since 1.15.0 (AM-7): the setting source and the items menu are gone.
+  assert.equal(admin.manifest.settings.source, undefined);
   const example = admin.examples.find((one) => one.name === 'navigation-port');
-  assert.equal(example.settings.source, 'port');
   const html = readFileSync(exampleFiles(admin, example).html, 'utf8');
   assert.match(html, /class="sf-admin-nav sf-admin-nav--skeleton" aria-busy="true"/u);
   assert.equal((html.match(/class="sf-admin-nav-item"/gu) ?? []).length, 12, 'six rows in each column');

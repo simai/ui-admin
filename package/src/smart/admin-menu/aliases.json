@@ -1,5 +1,5 @@
 {
-  "$comment": "Dated aliases of sf-admin-menu for the shim (core/js/aliases.js, standard §16 item 20). sf-admin-menu-intent splits into one event per verb (vocabulary 1.1.5 §5.1): each row sends the old name after its new one, with the old detail {intent, payload} the element's adapter makes. compact-change, settings-cancel, settings-mode-change, settings-refresh, settings-save and navigate keep their DOM names.",
+  "$comment": "Dated aliases of sf-admin-menu for the shim (core/js/aliases.js, standard §16 item 20). sf-admin-menu-intent splits into one event per verb (vocabulary 1.1.5 §5.1): each row sends the old name after its new one, with the old detail {intent, payload} the element's adapter makes. navigate keeps its DOM name. The items path's names (sf-admin-menu-search, sf-admin-menu-settings-reset, setRecentResults) left with it in 1.15.0: the set was never released with them.",
   "component": "sf-admin-menu",
   "since": "2026-10-27",
   "remove_after": "2026-12-01",
@@ -135,47 +135,6 @@
       "cancelable": false,
       "section": "§8, vocabulary 1.1.5 §5.1",
       "note": "split by detail.intent: the element's adapter (sfAliasAdapters) makes {intent, payload}; a request the port did not raise has none and sends no old name"
-    },
-    {
-      "from": "sf-admin-menu-search",
-      "to": "sf-admin-menu-query",
-      "kind": "event",
-      "component": "sf-admin-menu",
-      "since": "2026-10-27",
-      "remove_after": "2026-12-01",
-      "mode": "detail-adds",
-      "cancelable": false,
-      "section": "§8, vocabulary §5 query",
-      "note": "{query, requestId} becomes {kind: menu, query, requestId}; sent for kind menu only",
-      "when": {
-        "kind": "menu"
-      }
-    },
-    {
-      "from": "sf-admin-menu-settings-reset",
-      "to": "sf-admin-menu-reset",
-      "kind": "event",
-      "component": "sf-admin-menu",
-      "since": "2026-10-27",
-      "remove_after": "2026-12-01",
-      "mode": "detail-adds",
-      "cancelable": false,
-      "section": "§8, vocabulary §5 reset",
-      "note": "{target, base_revision} becomes {kind: settings, target, base_revision, baseRevision}; sent for kind settings only",
-      "when": {
-        "kind": "settings"
-      }
-    },
-    {
-      "from": "setRecentResults",
-      "to": null,
-      "kind": "action",
-      "component": "sf-admin-menu",
-      "since": "2026-10-27",
-      "remove_after": "2026-12-01",
-      "mode": "retired",
-      "section": "§4.4",
-      "note": "the setting recent-results; the method stays until the date and notes each call"
     },
     {
       "from": "sf-host-port-request",

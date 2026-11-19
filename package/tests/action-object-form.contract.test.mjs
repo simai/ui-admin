@@ -42,9 +42,10 @@ test('every action with parameters is one args object in an editable folder\'s m
       assert.deepEqual(Object.keys(method.arguments[0].schema.properties), fields.map(camel), `${folder}.${name}`);
     }
   }
-  // sf-admin-menu alone: five actions with parameters (25 and more across the
-  // pro package's folders before the move).
-  assert.ok(objects >= 5, `${objects} actions with parameters`);
+  // sf-admin-menu alone: toggle {id, on} since the items path left (1.15.0,
+  // AM-7); five before it, 25 and more across the pro package's folders
+  // before the move.
+  assert.ok(objects >= 1, `${objects} actions with parameters`);
 });
 
 const positionalOf = (folder) => {
@@ -54,7 +55,8 @@ const positionalOf = (folder) => {
 
 test('a class-written method with the fields in order is given the object form', () => {
   for (const [folder, expected] of [
-    ['admin-menu', ['apply-external-settings-state', 'apply-settings-result', 'apply-settings-error', 'set-search-results']],
+    // admin-menu writes no positional method since the items path left (1.15.0, AM-7).
+    ['admin-menu', []],
   ]) {
     const actions = json(folder, 'component.json').actions;
     assert.deepEqual(positionalOf(folder), expected, folder);

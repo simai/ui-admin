@@ -53,7 +53,7 @@ const browser = await chromium.launch();
 const measure = async (current, {kept = null} = {}) => {
   const page = await browser.newPage({viewport: {width: 1280, height: 800}});
   await page.setContent(`<!doctype html><html class="theme-light" lang="ru"><body style="margin:0">
-    <div id="shell" style="display:flex;block-size:600px"><sf-admin-menu id="menu" source="port" current="${current}" aria-label="Меню"></sf-admin-menu><main style="flex:1">Страница</main></div>
+    <div id="shell" style="display:flex;block-size:600px"><sf-admin-menu id="menu" current="${current}" aria-label="Меню"></sf-admin-menu><main style="flex:1">Страница</main></div>
   </body></html>`);
   for (const path of styles) await page.addStyleTag({path}).catch(() => {});
   for (const path of modules) await page.addScriptTag({path, type: 'module'}).catch(() => {});

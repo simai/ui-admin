@@ -29,7 +29,7 @@ const known = (component, from) => recorded.has(`${component}|${from}`) || recor
 // Former event names of package components the journal does not record yet,
 // by component. Each has a dated row in its aliases.json.
 const PENDING = {
-  'sf-admin-menu': ['sf-admin-menu-search', 'sf-admin-menu-settings-reset', 'sf-admin-menu-intent'],
+  'sf-admin-menu': ['sf-admin-menu-intent'],
 };
 
 // The package's folders (scripts/overlay.mjs PACKAGE_COMPONENTS; the overlay

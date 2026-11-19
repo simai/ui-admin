@@ -1,132 +1,9 @@
 {
   "examples": [
     {
-      "name": "reference",
-      "title": "Admin Menu reference",
-      "settings": {
-        "brand": "SIMAI",
-        "searchable": true,
-        "collapsible": true,
-        "persistence-mode": "external"
-      },
-      "host": {
-        "aria-label": "Разделы администрирования"
-      },
-      "children": [
-        {
-          "element": "sf-admin-menu-item",
-          "props": {
-            "item-id": "content",
-            "label": "Контент",
-            "icon-start": "description",
-            "href": "#content"
-          }
-        },
-        {
-          "element": "sf-admin-menu-item",
-          "props": {
-            "item-id": "settings",
-            "label": "Настройки",
-            "icon-start": "settings",
-            "href": "#settings"
-          }
-        }
-      ],
-      "expect": {
-        "name": "Разделы администрирования"
-      },
-      "from": "studio.fixture.json",
-      "studio": {
-        "id": "navigation-menu-reference",
-        "title": "Admin Menu reference",
-        "props": {
-          "brand": "SIMAI",
-          "aria-label": "Разделы администрирования",
-          "searchable": true,
-          "collapsible": true,
-          "persistence-mode": "external"
-        },
-        "children": [
-          {
-            "element": "sf-admin-menu-item",
-            "props": {
-              "item-id": "content",
-              "label": "Контент",
-              "icon-start": "description",
-              "href": "#content"
-            },
-            "text": "",
-            "children": []
-          },
-          {
-            "element": "sf-admin-menu-item",
-            "props": {
-              "item-id": "settings",
-              "label": "Настройки",
-              "icon-start": "settings",
-              "href": "#settings"
-            },
-            "text": "",
-            "children": []
-          }
-        ],
-        "scenario": {}
-      }
-    },
-    {
-      "name": "search-panel",
-      "title": "Поиск панелью",
-      "settings": {
-        "brand": "SIMAI",
-        "searchable": true,
-        "search-mode": "panel",
-        "recent-results": [
-          {
-            "key": "recent",
-            "label": "Недавнее",
-            "items": [
-              {
-                "key": "files",
-                "label": "Файлы",
-                "href": "#files"
-              }
-            ]
-          }
-        ]
-      },
-      "host": {
-        "aria-label": "Меню"
-      },
-      "children": [
-        {
-          "element": "sf-admin-menu-item",
-          "props": {
-            "item-id": "content",
-            "label": "Контент",
-            "icon-start": "description",
-            "href": "#content"
-          }
-        },
-        {
-          "element": "sf-admin-menu-item",
-          "props": {
-            "item-id": "settings",
-            "label": "Настройки",
-            "icon-start": "settings",
-            "href": "#settings"
-          }
-        }
-      ],
-      "expect": {
-        "name": "Меню"
-      }
-    },
-    {
       "name": "navigation-port",
       "title": "Меню над портом навигации",
-      "settings": {
-        "source": "port"
-      },
+      "settings": {},
       "host": {
         "aria-label": "Меню"
       },
@@ -181,7 +58,6 @@
       "name": "object-menu",
       "title": "Меню объекта из первого ответа страницы",
       "settings": {
-        "source": "port",
         "first-answer": {
           "revision": "1",
           "current": "sites",
@@ -296,7 +172,117 @@
         "max-bytes": 12288,
         "why": "the first paint is the drawn menu itself -- both columns, the site's menu with its rows -- and the printed answer it was drawn from, so it holds what a skeleton would only stand for"
       },
-      "x-first-paint": "A site card printed with its first answer: the menu is drawn from it at once -- the first column and the site's own menu with «← Все сайты», its title, status and rows -- with no skeleton and no port (1.7.0)."
+      "x-first-paint": "A site card printed with its first answer: the menu is drawn from it at once -- the first column and the site's own menu with «← Все сайты», its title, status and rows -- with no skeleton and no port (1.7.0).",
+      "studio": {
+        "id": "navigation-menu-reference",
+        "title": "Admin Menu reference",
+        "props": {
+          "aria-label": "Разделы администрирования",
+          "first-answer": {
+            "revision": "1",
+            "current": "sites",
+            "items": [
+              {
+                "key": "sites",
+                "kind": "page",
+                "level": "site",
+                "label": "Сайты",
+                "icon": "web",
+                "href": "/panel/sites"
+              },
+              {
+                "key": "server",
+                "kind": "root",
+                "level": "site",
+                "label": "Сервер",
+                "icon": "dns",
+                "children": [
+                  {
+                    "key": "server.services",
+                    "kind": "page",
+                    "level": "site",
+                    "label": "Службы",
+                    "icon": "settings_applications",
+                    "href": "/panel/server/services"
+                  }
+                ]
+              }
+            ],
+            "context": {
+              "title": "demo-owned.test",
+              "subtitle": "PHP 8.3",
+              "status": {
+                "text": "Работает",
+                "status": "success"
+              },
+              "back": {
+                "label": "Все сайты",
+                "href": "/panel/sites"
+              },
+              "groups": [
+                {
+                  "label": null,
+                  "items": [
+                    {
+                      "key": "site.overview",
+                      "label": "Обзор",
+                      "href": "/panel/sites/demo",
+                      "icon": "dashboard"
+                    },
+                    {
+                      "key": "site.files",
+                      "label": "Файлы",
+                      "href": "/panel/sites/demo/files",
+                      "icon": "folder"
+                    },
+                    {
+                      "key": "site.backups",
+                      "label": "Резервные копии",
+                      "href": "/panel/sites/demo/backups",
+                      "icon": "backup",
+                      "badge": {
+                        "text": "1",
+                        "status": "error"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "label": "Дополнительно",
+                  "items": [
+                    {
+                      "key": "site.php",
+                      "label": "PHP и веб-сервер",
+                      "href": "/panel/sites/demo/php",
+                      "icon": "code"
+                    }
+                  ]
+                }
+              ],
+              "current": "site.overview"
+            },
+            "site": {
+              "current": {
+                "key": "main",
+                "label": "Larena Panel"
+              },
+              "count": 1
+            },
+            "person": {
+              "name": "Administrator",
+              "language": "ru",
+              "languages": [
+                {
+                  "code": "ru",
+                  "native": "Русский",
+                  "english": "Russian"
+                }
+              ]
+            }
+          }
+        },
+        "scenario": {}
+      }
     }
   ],
   "pages": [
@@ -309,9 +295,9 @@
         "body": [
           "<main style=\"display: flex; gap: 24px; block-size: 640px\">",
           "  <sf-admin-menu id=\"m\" aria-label=\"Меню\"></sf-admin-menu>",
-          "  <sf-admin-menu id=\"s\" aria-label=\"Настройки меню\" persistence-mode=\"external\" searchable></sf-admin-menu>",
+          "  <sf-admin-menu id=\"s\" aria-label=\"Меню без порта\"></sf-admin-menu>",
           "</main>",
-          "<script>for (const [id, label, icon] of [['content', 'Контент', 'description'], ['files', 'Файлы', 'folder']]) { const item = document.createElement('sf-admin-menu-item'); item.setAttribute('item-id', id); item.setAttribute('label', label); item.setAttribute('icon-start', icon); item.setAttribute('href', '#' + id); document.querySelector('#s').append(item); }window.__port = {port: 'simai.admin-navigation-port', version: '1.0.0', capabilities: [], asked: [], async raise(intent, payload) { this.asked.push(intent); if (intent === 'navigation.load') return structuredClone({\"answer\": \"applied\", \"revision\": \"1\", \"current\": \"cms\", \"items\": [{\"key\": \"home\", \"kind\": \"page\", \"level\": \"site\", \"label\": \"Главная\", \"icon\": \"home\", \"href\": \"#home\"}, {\"key\": \"data\", \"kind\": \"root\", \"level\": \"site\", \"label\": \"Данные\", \"icon\": \"database\", \"children\": [{\"key\": \"cms\", \"kind\": \"page\", \"level\": \"site\", \"label\": \"Минимальная CMS\", \"icon\": \"table\", \"href\": \"#cms\"}, {\"key\": \"files\", \"kind\": \"page\", \"level\": \"site\", \"label\": \"Файлы\", \"icon\": \"folder\", \"href\": \"#files\"}]}], \"person\": {\"name\": \"Administrator\", \"language\": \"ru\", \"languages\": [{\"code\": \"ru\", \"native\": \"Русский\", \"english\": \"Russian\"}]}, \"site\": {\"current\": {\"key\": \"main\", \"label\": \"Main site\"}, \"count\": 1}}); if (intent === 'item.open') return {answer: 'applied', href: payload.href}; if (intent === 'favourite.toggle') return {answer: 'applied', favourites: payload.on ? [payload.key] : []}; return {answer: 'applied'}; } };customElements.whenDefined('sf-admin-menu').then(() => document.querySelector('#m').connectPort({port: window.__port}));</script>"
+          "<script>window.__port = {port: 'simai.admin-navigation-port', version: '1.0.0', capabilities: [], asked: [], async raise(intent, payload) { this.asked.push(intent); if (intent === 'navigation.load') return structuredClone({\"answer\": \"applied\", \"revision\": \"1\", \"current\": \"cms\", \"items\": [{\"key\": \"home\", \"kind\": \"page\", \"level\": \"site\", \"label\": \"Главная\", \"icon\": \"home\", \"href\": \"#home\"}, {\"key\": \"data\", \"kind\": \"root\", \"level\": \"site\", \"label\": \"Данные\", \"icon\": \"database\", \"children\": [{\"key\": \"cms\", \"kind\": \"page\", \"level\": \"site\", \"label\": \"Минимальная CMS\", \"icon\": \"table\", \"href\": \"#cms\"}, {\"key\": \"files\", \"kind\": \"page\", \"level\": \"site\", \"label\": \"Файлы\", \"icon\": \"folder\", \"href\": \"#files\"}]}], \"person\": {\"name\": \"Administrator\", \"language\": \"ru\", \"languages\": [{\"code\": \"ru\", \"native\": \"Русский\", \"english\": \"Russian\"}]}, \"site\": {\"current\": {\"key\": \"main\", \"label\": \"Main site\"}, \"count\": 1}}); if (intent === 'item.open') return {answer: 'applied', href: payload.href}; if (intent === 'favourite.toggle') return {answer: 'applied', favourites: payload.on ? [payload.key] : []}; return {answer: 'applied'}; } };customElements.whenDefined('sf-admin-menu').then(() => document.querySelector('#m').connectPort({port: window.__port}));</script>"
         ]
       },
       "checks": [
@@ -503,41 +489,37 @@
           ]
         },
         {
-          "id": "p4-settings-reset",
-          "title": "the items menu's reset of an external profile is the vocabulary's reset {kind: settings, target, baseRevision}; sf-admin-menu-settings-reset follows it once, noted; no intent is told",
-          "covers": "events.reset, aliases sf-admin-menu-settings-reset",
+          "id": "p4-view-reset",
+          "title": "view.reset is the vocabulary's reset {kind: view, id}; sf-admin-menu-intent follows it once",
+          "covers": "events.reset, aliases sf-admin-menu-intent (split)",
           "steps": [
             {
-              "script": "(document.querySelector('#s').resetMenuSettings(), true)",
+              "script": "(async () => { for (let i = 0; i < 80 && ![...document.querySelector('#m').querySelectorAll('.sf-admin-nav-row')].find((one) => one.querySelector('.sf-admin-nav-row-label')?.textContent.trim() === 'Файлы'); i += 1) await new Promise((done) => setTimeout(done, 100)); return Boolean([...document.querySelector('#m').querySelectorAll('.sf-admin-nav-row')].find((one) => one.querySelector('.sf-admin-nav-row-label')?.textContent.trim() === 'Файлы')); })()",
+              "wait": 60,
               "expect": {
+                "returns": true
+              }
+            },
+            {
+              "script": "document.querySelector('#m')._navigation.raise('view.reset', {profile: 'p1'}).then((one) => one.answer)",
+              "expect": {
+                "returns": "applied",
                 "events": [
                   {
                     "name": "sf-admin-menu-reset",
                     "count": 1,
                     "detail": {
-                      "kind": "settings",
-                      "target": "user",
-                      "baseRevision": 0,
-                      "base_revision": 0
-                    }
-                  },
-                  {
-                    "name": "sf-admin-menu-settings-reset",
-                    "count": 1,
-                    "detail": {
-                      "target": "user",
-                      "base_revision": 0
+                      "kind": "view",
+                      "id": "p1",
+                      "intent": "view.reset"
                     }
                   },
                   {
                     "name": "sf-admin-menu-intent",
-                    "count": 0
-                  }
-                ],
-                "journal": [
-                  {
-                    "from": "sf-admin-menu-settings-reset",
-                    "to": "sf-admin-menu-reset"
+                    "count": 1,
+                    "detail": {
+                      "intent": "view.reset"
+                    }
                   }
                 ]
               }
@@ -545,39 +527,37 @@
           ]
         },
         {
-          "id": "p5-menu-search",
-          "title": "the items menu asks the host for a query after a pause: sf-admin-menu-query {kind: menu, query, requestId}; sf-admin-menu-search follows it once, noted",
-          "covers": "events.query, aliases sf-admin-menu-search",
+          "id": "p5-search-query",
+          "title": "the admin search asks search.query: sf-admin-menu-query {kind: search, query}; sf-admin-menu-intent follows it once",
+          "covers": "events.query, aliases sf-admin-menu-intent (split)",
           "steps": [
             {
-              "script": "(document.querySelector('#s').requestHostSearch('файл'), true)",
-              "wait": 600,
+              "script": "(async () => { for (let i = 0; i < 80 && ![...document.querySelector('#m').querySelectorAll('.sf-admin-nav-row')].find((one) => one.querySelector('.sf-admin-nav-row-label')?.textContent.trim() === 'Файлы'); i += 1) await new Promise((done) => setTimeout(done, 100)); return Boolean([...document.querySelector('#m').querySelectorAll('.sf-admin-nav-row')].find((one) => one.querySelector('.sf-admin-nav-row-label')?.textContent.trim() === 'Файлы')); })()",
+              "wait": 60,
               "expect": {
+                "returns": true
+              }
+            },
+            {
+              "script": "document.querySelector('#m')._navigation.raise('search.query', {query: 'файл'}).then((one) => one.answer)",
+              "expect": {
+                "returns": "applied",
                 "events": [
                   {
                     "name": "sf-admin-menu-query",
                     "count": 1,
                     "detail": {
-                      "kind": "menu",
-                      "query": "файл"
-                    }
-                  },
-                  {
-                    "name": "sf-admin-menu-search",
-                    "count": 1,
-                    "detail": {
-                      "query": "файл"
+                      "kind": "search",
+                      "query": "файл",
+                      "intent": "search.query"
                     }
                   },
                   {
                     "name": "sf-admin-menu-intent",
-                    "count": 0
-                  }
-                ],
-                "journal": [
-                  {
-                    "from": "sf-admin-menu-search",
-                    "to": "sf-admin-menu-query"
+                    "count": 1,
+                    "detail": {
+                      "intent": "search.query"
+                    }
                   }
                 ]
               }
@@ -585,22 +565,15 @@
           ]
         },
         {
-          "id": "p6-settings-and-port",
-          "title": "recent-results is a setting (setRecentResults, the 1.0 setter, is noted); connect-port answers outcomes",
-          "covers": "settings.recent-results, base action connect-port",
+          "id": "p6-connect-port",
+          "title": "a menu without a port keeps its skeleton; connect-port refuses another port and a version the menu does not take",
+          "covers": "base action connect-port, settings.expected-columns",
           "steps": [
             {
-              "script": "(document.querySelector('#s').setRecentResults([{key: 'recent', label: 'Недавнее', items: [{key: 'files', label: 'Файлы', href: '#files'}]}]), document.querySelector('#s').recentResults.length)",
+              "script": "(async () => { await customElements.whenDefined('sf-admin-menu'); for (let i = 0; i < 40 && !document.querySelector('#s .sf-admin-nav--skeleton'); i += 1) await new Promise((done) => setTimeout(done, 50)); return Boolean(document.querySelector('#s .sf-admin-nav--skeleton[aria-busy=\"true\"]')); })()",
+              "wait": 200,
               "expect": {
-                "returns": 1,
-                "journal": [
-                  {
-                    "from": "setRecentResults",
-                    "kind": "action",
-                    "since": "2026-10-27",
-                    "remove_after": "2026-12-01"
-                  }
-                ]
+                "returns": true
               }
             },
             {
@@ -609,6 +582,15 @@
                 "returns": {
                   "outcome": "refused",
                   "reason": "other-port"
+                }
+              }
+            },
+            {
+              "script": "document.querySelector('#s').connectPort({port: {port: 'simai.admin-navigation-port', version: '9.0.0', raise() {}}})",
+              "expect": {
+                "returns": {
+                  "outcome": "refused",
+                  "reason": "port-unsupported"
                 }
               }
             }

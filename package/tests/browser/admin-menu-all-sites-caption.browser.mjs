@@ -77,7 +77,7 @@ const serve = async (context) => context.route('http://probe.test/**', (route) =
   }
   return route.fulfill({status: 200, contentType: 'text/html; charset=utf-8', body: `<!doctype html><html class="theme-light" lang="ru"><head><meta charset="utf-8"><title>caption</title>
     <script>window.sfPath = '/distr/'; window.SF_BOOT_CONFIG = {cacheVersion: 'all-sites', pluginListVersion: 'all-sites', preloader: {enabled: false}, icons: {enabled: false}, theme: false};</script></head>
-    <body style="margin:0"><div style="block-size:100dvh;display:flex"><sf-admin-menu id="m" source="port" aria-label="Меню"></sf-admin-menu>
+    <body style="margin:0"><div style="block-size:100dvh;display:flex"><sf-admin-menu id="m" aria-label="Меню"></sf-admin-menu>
     <main style="flex:1;padding:24px"><h1>${url.pathname}</h1></main></div><script src="/distr/core/js/core.js"></script></body></html>`});
 });
 

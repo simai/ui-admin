@@ -13,8 +13,7 @@ test('page language: no package component falls back to Russian', async () => {
     // admin-menu had its own reading of the rule -- the document's lang and
     // nothing else -- which is one rule too many and missed a region that names
     // its own language. It asks the shared helper now, like the rest.
-    'src/smart/admin-menu/index.js': [/pageText\(MENU_TRANSLATIONS, key, node/],
-    'src/smart/admin-menu/js/templates/default.js': [/documentElement\?\.lang \|\| "en"/],
+    'src/smart/admin-menu/index.js': [/pageText\(NAVIGATION_TEXT, key, this, "sf-admin-menu"\)/],
   };
   for (const [path, patterns] of Object.entries(sources)) {
     const source = await read(path);

@@ -73,10 +73,9 @@
     --sf-admin-nav-row-h: var(--sf-hit--touch);
   }
 
-  /* Each column is the box of its width handle (sf-resizer, absolutely
-     placed at its edge): relative from the first paint. The handle made its
-     column relative itself a frame after it connected, and moved from the
-     menu's edge to the column's (gate 24: layout shift 0.0017 at 1280). */
+  /* Each column is the box of what it places at its edge (the rail's current
+     mark, the tooltips): relative from the first paint (gate 24: a column
+     made relative a frame late shifted the layout by 0.0017 at 1280). */
   .sf-admin-nav-first,
   .sf-admin-nav-second {
     position: relative;
@@ -410,35 +409,6 @@
 
   .sf-admin-nav-row[data-current="true"] {
     --sf-badge--surface: var(--sf-primary-container-active);
-  }
-
-  /* ─── the items menu (no navigation port) ─────────────────────────────── */
-
-  /* An item's counter is the last child of its container (simai/ui-source#12).
-     Expanded, the words take the room between the icon and the counter, so the
-     counter stands at the row's end, and it is never squeezed. */
-  .sf-admin-menu-item-container > .sf-admin-menu-item-label {
-    flex: 1 1 auto;
-    min-inline-size: 0;
-    text-align: start;
-  }
-
-  .sf-admin-menu-item-counter,
-  .sf-admin-menu-item-counter > .sf-badge {
-    flex: none;
-  }
-
-  /* Compact, the free admin-menu sheet moves the counter onto the icon and
-     hides every span in the container but an image icon -- the initials of an
-     item without an icon among them, which left the counter nothing to stand
-     on. The initials are the item's avatar: they stay, and being round, the
-     counter's centre is on their circle at 45 degrees, not on the box's corner. */
-  .sf-admin-menu-panel.small .sf-admin-menu-item .sf-admin-menu-item-container > span.sf-admin-menu-item-placeholder {
-    display: flex;
-  }
-
-  .sf-admin-menu-panel.small .sf-admin-menu-item .sf-admin-menu-item-container:has(> .sf-admin-menu-item-placeholder) > .sf-badge {
-    --sf-badge--anchor-radius: var(--sf-admin-menu-item-placeholder--border-radius, var(--sf-radius-rounded));
   }
 
   /* ─── the rail ─────────────────────────────────────────────────────────── */

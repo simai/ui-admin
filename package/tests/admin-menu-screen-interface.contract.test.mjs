@@ -19,5 +19,6 @@ test('sf-admin-menu declares what the admin screen binds, and keeps what it had'
   assert.equal('default' in manifest.values.favourite, false, 'a value the menu reports, not a setting');
   assert.deepEqual(manifest.actions.toggle?.with, {id: 'id', on: 'boolean'});
   assert.ok(manifest.events.toggle, 'the event toggle stays');
-  assert.ok(manifest.actions.refresh && manifest.values.compact, 'the earlier interface stays');
+  assert.ok(manifest.actions.refresh, 'the earlier interface stays');
+  assert.equal(manifest.values.compact, undefined, 'compact left with the items path (1.15.0, AM-7)');
 });

@@ -2,19 +2,14 @@
 // Usage: node this-file /absolute/path/to/output
 //
 // sf-admin-menu's counters (simai/ui-source#12, second part), measured on the
-// built bytes, in the items menu and in the navigation shell:
-//   - compact (the items menu's `.small` panel, the shell's rail), at widths
-//     1000 and 390 (the rail is a desktop thing: on a phone the shell has no
-//     rail and its rows are full) and in the light theme and the dark one: the
-//     counter's centre is on its anchor's point within 1px -- the corner of a
-//     square icon, the 45-degree point of a round avatar (the initials of an
-//     item without an icon); its height is the anchored count's step-1 16px; its
-//     ring is the colour of the surface under it;
-//   - the number caps at 99+, 0 hides, a word that is not a number is a dot;
-//   - the item's accessible name, read by the browser, holds the words and the
-//     count: «Входящие, 8 непрочитанных» (before, the compact item had no name
-//     at all, and the free markup's had only «8 непрочитанных»);
-//   - expanded, the counter stands at the row's end;
+// built bytes in the navigation shell (the items menu left in 1.15.0, AM-7):
+//   - on the rail, at width 1000, in the light theme and the dark one: a row's
+//     counter is a dot on its icon's top end corner within 1px, its ring the
+//     colour of the rail; the bell carries the unread number;
+//   - 0 hides, attention is a dot;
+//   - the row's accessible name, read by the browser, holds the words and the
+//     count: «Входящие, 8 непрочитанных»;
+//   - on a phone (390) there is no rail and the counter stands at the row's end;
 //   - the counter follows the data: a host's new count is drawn and named.
 import {resolve, join} from 'node:path';
 import {chromium} from 'playwright';
@@ -51,17 +46,6 @@ const evidence = {};
 const check = (name, pass, detail = {}) => { if (!pass) failures.push({name, ...detail}); };
 const DIAGONAL = 1 - 1 / Math.SQRT2;
 const browser = await chromium.launch();
-
-const ITEMS = `
-  <sf-admin-menu id="m" brand="Larena" collapsible="true" COMPACT>
-    <sf-admin-menu-item item-id="inbox" label="Входящие" left-icon="inbox" href="/admin/inbox" badge="8"></sf-admin-menu-item>
-    <sf-admin-menu-item item-id="tasks" label="Задачи" href="/admin/tasks" badge="120"></sf-admin-menu-item>
-    <sf-admin-menu-item item-id="none" label="Главная" left-icon="home" href="/admin" badge="0"></sf-admin-menu-item>
-    <sf-admin-menu-item item-id="word" label="Обновления" left-icon="update" href="/admin/updates" badge="new"></sf-admin-menu-item>
-    <sf-admin-menu-item item-id="users" label="Пользователи" left-icon="group" badge="3">
-      <sf-admin-menu-item item-id="roles" label="Роли" href="/admin/roles"></sf-admin-menu-item>
-    </sf-admin-menu-item>
-  </sf-admin-menu>`;
 
 const NAVIGATION = {
   answer: 'applied', revision: '1', current: 'home',
@@ -156,86 +140,7 @@ try {
     for (const theme of ['light', 'dark']) {
       const where = `${width}px ${theme}`;
 
-      // 1. The items menu, compact.
-      {
-        const page = await open({width, theme, body: ITEMS.replace('COMPACT', 'compact="true"')});
-        const item = (id) => `#m .sf-admin-menu-main [data-panel-id="${id}"] .sf-admin-menu-item`;
-        const quiet = await settles(page);
-        check(`items ${where}: the page settles`, quiet.changes === 0, quiet);
-        const result = {
-          small: await page.evaluate(() => Boolean(document.querySelector('#m .sf-admin-menu-panel.small'))),
-          inbox: await measure(page, `${item('inbox')} .sf-badge`, `${item('inbox')} .sf-icon`, '#m .sf-admin-menu-panel'),
-          tasks: await measure(page, `${item('tasks')} .sf-badge`, `${item('tasks')} .sf-admin-menu-item-placeholder`, '#m .sf-admin-menu-panel'),
-          users: await measure(page, `${item('users')} .sf-badge`, `${item('users')} .sf-icon`, '#m .sf-admin-menu-panel'),
-          none: await measure(page, `${item('none')} .sf-badge`, `${item('none')} .sf-icon`, '#m .sf-admin-menu-panel'),
-          word: await measure(page, `${item('word')} .sf-badge`, `${item('word')} .sf-icon`, '#m .sf-admin-menu-panel'),
-          names: await names(page),
-        };
-        evidence[`items compact ${where}`] = result;
-        check(`items ${where}: the panel is compact`, result.small, result);
-        for (const id of ['inbox', 'users']) {
-          check(`items ${where}: ${id}'s counter is on its icon's top end corner`, on(result[id]) && result[id].radius === 0, result[id]);
-          check(`items ${where}: ${id}'s counter is a step-1 count, 16px tall`, result[id].height === 16, result[id]);
-          check(`items ${where}: ${id}'s ring is the panel's colour`, result[id].ring, result[id]);
-        }
-        check(`items ${where}: the avatar's counter is on its circle at 45 degrees`, on(result.tasks) && result.tasks.radius >= result.tasks.anchor[0] / 2, result.tasks);
-        check(`items ${where}: 120 reads 99+`, result.tasks.text === '99+', result.tasks);
-        check(`items ${where}: 0 hides`, result.none.hidden || result.none.missing?.badge === false, result.none);
-        check(`items ${where}: a word is a dot on the icon`, on(result.word) && result.word.text === '' && result.word.width === result.word.height, result.word);
-        for (const name of ['Входящие, 8 непрочитанных', 'Задачи, 120 непрочитанных', 'Главная', 'Обновления, new', 'Пользователи, 3 непрочитанных']) {
-          check(`items ${where}: an item is named «${name}»`, result.names.includes(name), {names: result.names});
-        }
-
-        // The counter follows the item's data.
-        await page.evaluate(() => {
-          const menu = document.getElementById('m');
-          menu._itemsData = menu.updateItemByPanelId('inbox', (entry) => ({...entry, badge: '5'}));
-          menu.requestComponentUpdate('items');
-        });
-        await page.waitForTimeout(300);
-        const live = {inbox: await measure(page, `${item('inbox')} .sf-badge`, `${item('inbox')} .sf-icon`, '#m .sf-admin-menu-panel'), names: await names(page)};
-        check(`items ${where}: a new count is drawn and named`, live.inbox.text === '5' && on(live.inbox) && live.names.includes('Входящие, 5 непрочитанных'), live);
-        await page.close();
-      }
-
-      // Every counter takes the danger role, compact and expanded alike
-      // (owner, 2026-10-21).
-      {
-        const fills = {};
-        for (const [mode, compact] of [['compact', 'compact="true"'], ['expanded', '']]) {
-          const page = await open({width, theme, body: ITEMS.replace('COMPACT', compact) + '<span id="ref" class="sf-badge sf-badge--main sf-badge--error">1</span>'});
-          fills[mode] = await page.evaluate(() => ({
-            counter: getComputedStyle(document.querySelector('#m .sf-admin-menu-main [data-panel-id="inbox"] .sf-badge')).backgroundColor,
-            danger: getComputedStyle(document.getElementById('ref')).backgroundColor,
-          }));
-          await page.close();
-        }
-        evidence[`items fill ${where}`] = fills;
-        check(`items ${where}: compact and expanded counters are the danger colour`, fills.compact.counter === fills.compact.danger && fills.expanded.counter === fills.expanded.danger && fills.compact.counter === fills.expanded.counter, fills);
-      }
-
-      // 2. The items menu, expanded: the counter at the row's end.
-      {
-        const page = await open({width, theme, body: ITEMS.replace('COMPACT', '')});
-        const result = await page.evaluate(() => Object.fromEntries(['inbox', 'tasks', 'users'].map((id) => {
-          const row = document.querySelector(`#m .sf-admin-menu-main [data-panel-id="${id}"] .sf-admin-menu-item-container`).getBoundingClientRect();
-          const badge = document.querySelector(`#m .sf-admin-menu-main [data-panel-id="${id}"] .sf-badge`);
-          const box = badge.getBoundingClientRect();
-          return [id, {end: +(row.right - box.right).toFixed(2), width: box.width, text: badge.textContent, position: getComputedStyle(badge).position}];
-        })));
-        result.names = await names(page);
-        evidence[`items expanded ${where}`] = result;
-        for (const id of ['inbox', 'tasks', 'users']) {
-          check(`items expanded ${where}: ${id}'s counter stands at the row's end`, Math.abs(result[id].end) <= 1 && result[id].width > 0 && result[id].position === 'static', result[id]);
-        }
-        check(`items expanded ${where}: 120 reads 99+`, result.tasks.text === '99+', result.tasks);
-        for (const name of ['Входящие, 8 непрочитанных', 'Задачи, 120 непрочитанных', 'Главная', 'Обновления, new']) {
-          check(`items expanded ${where}: an item is named «${name}»`, result.names.includes(name), {names: result.names});
-        }
-        await page.close();
-      }
-
-      // 3. The navigation shell: the rail on a desktop, full rows on a phone.
+      // The navigation shell: the rail on a desktop, full rows on a phone.
       {
         const page = await open({width, theme, body: '<sf-admin-menu id="m" aria-label="Меню"></sf-admin-menu><main style="flex:1">Страница</main>'});
         await page.evaluate((navigation) => {

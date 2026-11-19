@@ -147,7 +147,7 @@ await context.route('http://probe.test/**', (route) => {
   return route.fulfill({status: 200, contentType: 'text/html; charset=utf-8', body: `<!doctype html><html class="theme-light" lang="ru"><head><meta charset="utf-8"><title>${entry.title}</title><meta name="larena-shell-revision" content="${SHELL}">
     <script>window.sfPath = '/distr/'; window.SF_BOOT_CONFIG = {cacheVersion: 'object-menu', pluginListVersion: 'object-menu', preloader: {enabled: false}, icons: {enabled: false}, theme: false};</script></head>
     <style>@media (max-width: 47.99rem) { #larena-admin-content { display: none } #m { flex: 1 } }</style>
-    <body style="margin:0"><div style="block-size:100dvh;display:flex"><sf-admin-menu id="m" source="port" aria-label="Меню"><script type="application/json" data-sf-settings>${printed}</script></sf-admin-menu>
+    <body style="margin:0"><div style="block-size:100dvh;display:flex"><sf-admin-menu id="m" aria-label="Меню"><script type="application/json" data-sf-settings>${printed}</script></sf-admin-menu>
     <main id="larena-admin-content" style="flex:1;padding:24px"><!--larena-region:content-->${body(url.pathname)}<!--/larena-region:content--></main></div><script src="/distr/core/js/core.js"></script></body></html>`});
 });
 

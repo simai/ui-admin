@@ -8,7 +8,7 @@
 //   - value favourite: whether that row is among the person's favourites, as
 //     the host answered, read again after a change (sf-props-change);
 //   - action toggle {id, on}: favourite.toggle goes to the host and the value
-//     follows; the items menu refuses;
+//     follows; a menu without a port refuses;
 //   - setting open: a page that writes it folds the menu away on a phone while
 //     false (data-open), a page that never writes it sees no change.
 import {resolve, join} from 'node:path';
@@ -155,12 +155,15 @@ try {
     await page.close();
   }
 
-  // The items menu has no port and no favourites: toggle refuses.
+  // A menu without a port has no favourites: toggle refuses, and the menu
+  // stays its skeleton.
   {
-    const page = await open({width: 1200, body: '<sf-admin-menu id="m" aria-label="Меню"><sf-admin-menu-item item-id="a" label="A" href="/a"></sf-admin-menu-item></sf-admin-menu>'});
+    const page = await open({width: 1200, body: '<sf-admin-menu id="m" aria-label="Меню"></sf-admin-menu>'});
     await page.waitForTimeout(500);
     const refused = await page.evaluate(() => document.getElementById('m').toggle({id: 'a', on: true}));
-    check('the items menu refuses toggle', refused?.outcome === 'refused', {refused});
+    check('a menu without a port refuses toggle', refused?.outcome === 'refused' && refused?.reason === 'no-port', {refused});
+    const skeleton = await page.evaluate(() => Boolean(document.querySelector('#m .sf-admin-nav--skeleton')));
+    check('a menu without a port is its skeleton', skeleton, {skeleton});
     await page.close();
   }
 } finally {

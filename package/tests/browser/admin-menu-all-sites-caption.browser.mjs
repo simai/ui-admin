@@ -11,6 +11,9 @@
 //     name still heads the column;
 //   - a section of the site level keeps the current site's name as its
 //     caption in both cases (unchanged).
+// Since 1.15.0 the column head is one line on --sf-d4 with no scope hint
+// (AM-50): the section's name heads the column and nothing is under it, with
+// or without site-switch, at either level.
 // With --shots it also writes the screenshots.
 import {resolve, join} from 'node:path';
 import {existsSync, mkdirSync, readFileSync} from 'node:fs';
@@ -41,7 +44,6 @@ const modules = [
   'smart/smart/resizer/js/resizer.js', 'smart/smart/admin-menu/js/admin-menu.js',
 ].map((p) => join(out, p));
 
-const SHARED = 'Общее для всех сайтов';
 const ITEMS = [
   {key: 'site', kind: 'root', level: 'site', label: 'Сайт', icon: 'web', children: [
     {key: 'site.pages', kind: 'page', level: 'site', label: 'Страницы', icon: 'article', href: '/panel/pages'},
@@ -123,17 +125,13 @@ try {
     const install = await head(page);
     report[`${name}-install`] = install;
     if (install.label !== 'Сервер') note({case: `${name}: the install section heads the column`, got: install});
-    if (name === 'switch') {
-      if (install.caption !== SHARED || install.install !== 'true') note({case: 'with site-switch: «Общее для всех сайтов» under the section', got: install});
-    } else if (install.caption !== null || install.shared) {
-      note({case: 'without site-switch: no «Общее для всех сайтов» anywhere', got: install});
-    }
+    if (install.caption !== null) note({case: `${name}: the install section's head is one line, no scope hint (AM-50)`, got: install});
     if (shots) await page.screenshot({path: join(shots, `all-sites-${name}-install-1440.png`)});
 
     await open(page, '/panel/pages', capabilities, 'site.pages');
     const site = await head(page);
     report[`${name}-site`] = site;
-    if (site.label !== 'Сайт' || site.caption !== 'Larena Panel' || site.install !== null) note({case: `${name}: a site section keeps the site's name as its caption`, got: site});
+    if (site.label !== 'Сайт' || site.caption !== null) note({case: `${name}: a site section's head is one line, no scope hint (AM-50)`, got: site});
   }
 } finally {
   await browser.close();

@@ -200,7 +200,10 @@ const look = (page) => page.evaluate(() => {
     rows: second ? [...second.querySelectorAll('.sf-admin-nav-scroll a.sf-admin-nav-row')].map((row) => ({label: label(row), href: row.getAttribute('href'), role: row.getAttribute('role')})) : [],
     headings: second ? [...second.querySelectorAll('.sf-admin-nav-heading')].map((node) => node.textContent.trim()) : [],
     current: second ? [...second.querySelectorAll('[aria-current="page"]')].map(label) : [],
-    showColumn: Boolean(menu.querySelector('.sf-admin-nav-show-column')),
+    // «Показать колонку» is the page frame's since 1.15.0 (AM-49): the menu
+    // says the column is hidden on its host (data-column) and shows it by
+    // showColumn().
+    showColumn: menu.getAttribute('data-column') === 'hidden',
     shown: menu._navigation?.shownColumn?.() ?? null,
   };
 });
@@ -288,7 +291,8 @@ try {
   if (settings.title !== 'Настройки' || swapped.title !== 'Сервер' || loaded.title !== 'Сервер' || swapped.columns !== 2 || loaded.columns !== 2) note({case: '«Сервер › Службы» after «Настройки»: the column shows «Сервер»', got: report.services});
 
   // 6. A root clicked in the first column is shown until a page is opened.
-  await page.evaluate(() => [...document.querySelectorAll('#m .sf-admin-nav-first a.sf-admin-nav-row')].find((row) => row.textContent.includes('Настройки'))?.click());
+  // A rail root is named by aria-label (AM-25).
+  await page.evaluate(() => [...document.querySelectorAll('#m .sf-admin-nav-first a.sf-admin-nav-row')].find((row) => (row.getAttribute('aria-label') ?? row.textContent).includes('Настройки'))?.click());
   await page.waitForTimeout(300);
   const preview = await look(page);
   await shot(page, 'preview');
@@ -304,12 +308,12 @@ try {
 
   // 7. Closed by the person: closed on every page; «Показать колонку» opens it
   //    on what the page has.
-  await page.evaluate(() => document.querySelector('#m .sf-admin-nav-second-head sf-button-icon[icon="left_panel_close"]')?.click());
+  await page.evaluate(() => document.querySelector('#m .sf-admin-nav-second-head .sf-admin-nav-hide')?.click());
   await page.waitForTimeout(300);
   const hidden = await look(page);
   await open(page, '/panel/sites/demo');
   const stillHidden = await look(page);
-  await page.evaluate(() => document.querySelector('#m .sf-admin-nav-show-column')?.click());
+  await page.evaluate(() => document.getElementById('m').showColumn());
   await page.waitForTimeout(300);
   const reopened = await look(page);
   await navigate(page, '/panel/server/services');

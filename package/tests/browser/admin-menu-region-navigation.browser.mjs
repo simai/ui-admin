@@ -149,16 +149,19 @@ try {
   await page.waitForTimeout(600);
   const linked = await look();
   if (linked.path !== '/admin/files' || linked.marker !== 'same document' || linked.current !== 'Файлы') note({case: 'a link in the region goes the same way', got: linked});
-  // «Уведомления» at the foot is a row like the others: by region, marked.
-  await page.evaluate(() => [...document.querySelectorAll('#m .sf-admin-nav-bottom a.sf-admin-nav-row')].find((row) => row.textContent.includes('Уведомления'))?.click());
+  // «Уведомления» at the foot is the bell since 1.15.0 (C340, AM-19): a
+  // button that opens the notifications panel over the page; it moves no
+  // region and the address stays.
+  const beforeBell = await page.evaluate(() => location.pathname);
+  await page.evaluate(() => document.querySelector('#m .sf-admin-nav-bottom .sf-admin-nav-bell')?.click());
   await page.waitForTimeout(600);
-  const notices = await page.evaluate(() => ({path: location.pathname, marker: window.__marker ?? null,
-    heading: document.querySelector('#larena-admin-content h1')?.textContent ?? null,
-    marked: document.querySelector('#m .sf-admin-nav-bottom a.sf-admin-nav-row[aria-current="page"]')?.textContent.includes('Уведомления') ?? false}));
-  if (notices.path !== '/admin/notifications' || notices.marker !== 'same document' || notices.heading !== 'Уведомления' || !notices.marked) note({case: '«Уведомления» goes by region and is marked', got: notices});
-  if (regionRequests.length !== 4) note({case: 'one region request per move', got: regionRequests});
+  const notices = await page.evaluate(() => ({path: location.pathname, link: Boolean(document.querySelector('#m .sf-admin-nav-bottom a.sf-admin-nav-row[href$="/notifications"]'))}));
+  if (notices.path !== beforeBell || notices.link) note({case: '«Уведомления» is the bell: no region move, no link row', got: {beforeBell, ...notices}});
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(300);
+  if (regionRequests.length !== 3) note({case: 'one region request per move', got: regionRequests});
   const asked = await page.evaluate(() => window.__pages.slice());
-  if (!asked.includes('/admin/files') || !asked.includes('/admin/notifications')) note({case: 'each swap asks the menu again with the page\'s address', got: asked});
+  if (!asked.includes('/admin/files')) note({case: 'each swap asks the menu again with the page\'s address', got: asked});
   // The second column: «Данные» clicked open on a page of «Данные», then a
   // page of «Настройки»; and closed by the person, then another page.
   const column = async (open) => {

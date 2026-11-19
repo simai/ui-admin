@@ -241,7 +241,7 @@ try {
         await page.evaluate((navigation) => {
           window.navigationAnswer = navigation;
           document.getElementById('m').setHostPort({
-            port: 'simai.admin-navigation-port', version: '1.0.0', capabilities: ['preferences'],
+            port: 'simai.admin-navigation-port', version: '1.0.0', capabilities: ['preferences', 'notifications'],
             async raise(intent) {
               if (intent === 'navigation.load') return structuredClone(window.navigationAnswer);
               return {answer: 'applied'};
@@ -251,7 +251,9 @@ try {
         await page.waitForTimeout(900);
         const quiet = await settles(page);
         check(`navigation ${where}: the page settles`, quiet.changes === 0, quiet);
-        const row = (label) => `.sf-admin-nav-first .sf-admin-nav-row--first[title="${label}"]`;
+        // A rail row is named by aria-label (its name and count) and its
+        // tooltip, never title (AM-25).
+        const row = (label) => `.sf-admin-nav-first .sf-admin-nav-row--first[aria-label^="${label}"]`;
         const rail = await page.evaluate(() => document.querySelector('.sf-admin-nav-first')?.getAttribute('data-compact') === 'true');
         evidence[`navigation ${where} rail`] = rail;
         if (width >= 768) {
@@ -274,10 +276,13 @@ try {
           check(`navigation ${where}: the anchor is the icon's box`, result.icon.same, result.icon);
           // The rail icon is a 1/2 step: the rule draws a dot there (8px), the
           // number in the row's name (owner, 2026-10-21).
-          for (const id of ['inbox', 'tasks', 'notifications']) {
+          for (const id of ['inbox', 'tasks']) {
             check(`navigation ${where}: ${id}'s counter is a dot on its icon's top end corner`, on(result[id]) && result[id].height === 8 && result[id].width === 8 && result[id].text === '', result[id]);
             check(`navigation ${where}: ${id}'s ring is the rail's colour`, result[id].ring, result[id]);
           }
+          // The bell carries the unread number (C342, AM-43): its anchor is the
+          // 1 step, where the badge rule draws the count.
+          check(`navigation ${where}: the bell carries the unread number`, result.notifications.text === '3' && result.notifications.ring && !result.notifications.hidden, result.notifications);
           check(`navigation ${where}: 0 hides`, result.zero.hidden || result.zero.missing?.badge === false, result.zero);
           check(`navigation ${where}: attention is a dot on the icon`, on(result.data) && result.data.text === '' && result.data.width === result.data.height, result.data);
           for (const name of ['Входящие, 8 непрочитанных', 'Задачи, 120 непрочитанных', 'Платежи', 'Данные, Требует внимания', 'Уведомления, 3 непрочитанных']) {

@@ -134,12 +134,12 @@
         <h2 class="title-3">5. Загрузка содержимого</h2>
         <p class="demo-note"><code>mode="ajax"</code> с адресом или с селектором блока на странице; <code>mode="iframe"</code>; <code>preload="false"</code> — загрузка при первом открытии; методы <code>setSrc()</code> и <code>reloadContent()</code>.</p>
         <div class="demo-row">
-          <button type="button" class="sf-button sf-button--default sf-button--secondary sf-button--size-1" data-sf-modal-open="m-ajax"><span class="sf-button-text-container">Ajax по адресу</span></button>
-          <button type="button" class="sf-button sf-button--default sf-button--secondary sf-button--size-1" data-sf-modal-open="m-dom"><span class="sf-button-text-container">Ajax из блока страницы</span></button>
-          <button type="button" class="sf-button sf-button--default sf-button--secondary sf-button--size-1" data-sf-modal-open="m-iframe"><span class="sf-button-text-container">iframe</span></button>
-          <button type="button" class="sf-button sf-button--default sf-button--secondary sf-button--size-1" data-sf-modal-open="m-lazy"><span class="sf-button-text-container">preload="false"</span></button>
-          <button type="button" class="sf-button sf-button--tonal sf-button--secondary sf-button--size-1" data-demo-call="m-ajax:reloadContent"><span class="sf-button-text-container">reloadContent()</span></button>
-          <button type="button" class="sf-button sf-button--tonal sf-button--secondary sf-button--size-1" data-demo-setsrc><span class="sf-button-text-container">setSrc('#demo-hidden-2') и открыть</span></button>
+          <button type="button" class="sf-button sf-button--default sf-button--on-surface sf-button--size-1" data-sf-modal-open="m-ajax"><span class="sf-button-text-container">Ajax по адресу</span></button>
+          <button type="button" class="sf-button sf-button--default sf-button--on-surface sf-button--size-1" data-sf-modal-open="m-dom"><span class="sf-button-text-container">Ajax из блока страницы</span></button>
+          <button type="button" class="sf-button sf-button--default sf-button--on-surface sf-button--size-1" data-sf-modal-open="m-iframe"><span class="sf-button-text-container">iframe</span></button>
+          <button type="button" class="sf-button sf-button--default sf-button--on-surface sf-button--size-1" data-sf-modal-open="m-lazy"><span class="sf-button-text-container">preload="false"</span></button>
+          <button type="button" class="sf-button sf-button--tonal sf-button--on-surface sf-button--size-1" data-demo-call="m-ajax:reloadContent"><span class="sf-button-text-container">reloadContent()</span></button>
+          <button type="button" class="sf-button sf-button--tonal sf-button--on-surface sf-button--size-1" data-demo-setsrc><span class="sf-button-text-container">setSrc('#demo-hidden-2') и открыть</span></button>
         </div>
         <div id="demo-hidden" hidden><p class="m-0">Этот текст скопирован из скрытого блока <code>#demo-hidden</code> на странице.</p></div>
         <div id="demo-hidden-2" hidden><p class="m-0">А этот — из <code>#demo-hidden-2</code>, после <code>setSrc()</code>.</p></div>
@@ -170,17 +170,33 @@
       </section>
 
       <section class="demo-section">
-        <h2 class="title-3">8. Стопка окон и события</h2>
-        <p class="demo-note">Окно открывает второе поверх себя; Esc закрывает верхнее, фокус возвращается. Второе окно отменяет своё закрытие один раз — <code>preventDefault()</code> на <code>sf-modal-close</code>.</p>
+        <h2 class="title-3">8. Окно и вопрос над ним</h2>
+        <p class="demo-note">Правило SIMAI Framework C159 (7): подложка одна, окон не больше двух, и второе — только вопрос (<code>size="question"</code>). Откройте окно, в нём — вопрос «Удалить раздел?». Esc, крестик и «Отмена» закрывают верхнее окно: сначала вопрос (фокус возвращается в окно), затем само окно. «Удалить» в вопросе закрывает вопрос, а за ним окно.</p>
+        <p class="demo-note">Что Framework не откроет: обычное окно поверх окна и третье окно поверх вопроса. Метод <code>open()</code> тогда отвечает <code>{outcome: 'refused', reason: 'stacked'}</code>, а в консоли появляется предупреждение со ссылкой на C159 (7); ответ виден в журнале. Отменить закрытие может и сама страница — <code>preventDefault()</code> на <code>sf-modal-close</code>.</p>
         <div class="demo-row">
-          <button type="button" class="sf-button sf-button--default sf-button--primary sf-button--size-1" data-sf-modal-open="m-stack-1"><span class="sf-button-text-container">Открыть стопку</span></button>
-          <button type="button" class="sf-button sf-button--outline sf-button--on-surface sf-button--size-1" data-demo-clear><span class="sf-button-text-container">Очистить журнал</span></button>
+          <button type="button" class="sf-button sf-button--size-1 sf-button--default sf-button--primary" data-sf-modal-open="m-stack-1"><span class="sf-button-text-container">Открыть окно</span></button>
+          <button type="button" class="sf-button sf-button--size-1 sf-button--outline sf-button--on-surface" data-demo-refuse-once><span class="sf-button-text-container">Окно отменит своё закрытие один раз</span></button>
+          <button type="button" class="sf-button sf-button--size-1 sf-button--ghost sf-button--on-surface" data-demo-clear><span class="sf-button-text-container">Очистить журнал</span></button>
         </div>
-        <sf-modal modal-id="m-stack-1" heading="Первое окно">
-          <p class="m-0">Откройте второе окно поверх этого.</p>
-          <div slot="footer" class="flex content-main-end"><button type="button" class="sf-button sf-button--default sf-button--primary sf-button--size-1" data-sf-modal-open="m-stack-2"><span class="sf-button-text-container">Второе окно</span></button></div>
+        <sf-modal modal-id="m-stack-1" size="form" heading="Раздел «Новости»">
+          <p slot="content" class="m-0">Окно раздела. Из него можно задать вопрос — это второе окно, больше над ним ничего не откроется.</p>
+          <div slot="footer">
+            <button type="button" class="sf-button sf-button--size-1 sf-button--default sf-button--primary" data-sf-modal-close="m-stack-1"><span class="sf-button-text-container">Готово</span></button>
+            <button type="button" class="sf-button sf-button--size-1 sf-button--outline sf-button--on-surface" data-demo-open="m-stack-form"><span class="sf-button-text-container">Открыть обычное окно поверх</span></button>
+            <button type="button" class="sf-button sf-button--size-1 sf-button--ghost sf-button--on-surface" data-sf-modal-close="m-stack-1"><span class="sf-button-text-container">Отмена</span></button>
+            <button type="button" class="sf-button sf-button--size-1 sf-button--outline sf-button--danger" data-apart data-demo-open="m-stack-q"><span class="sf-button-text-container">Удалить раздел</span></button>
+          </div>
         </sf-modal>
-        <sf-modal modal-id="m-stack-2" heading="Второе окно"><p class="m-0">Первая попытка закрыть будет отменена (смотрите журнал).</p></sf-modal>
+        <sf-modal modal-id="m-stack-q" size="question" heading="Удалить раздел «Новости»?">
+          <p slot="content" class="m-0">Вместе с разделом удалятся 12 страниц. Это второе окно — третье поверх него Framework не откроет.</p>
+          <div slot="footer">
+            <button type="button" class="sf-button sf-button--size-1 sf-button--default sf-button--danger" data-demo-delete><span class="sf-button-text-container">Удалить</span></button>
+            <button type="button" class="sf-button sf-button--size-1 sf-button--outline sf-button--on-surface" data-demo-open="m-stack-third"><span class="sf-button-text-container">Открыть третье окно</span></button>
+            <button type="button" class="sf-button sf-button--size-1 sf-button--ghost sf-button--on-surface" data-sf-modal-close="m-stack-q"><span class="sf-button-text-container">Отмена</span></button>
+          </div>
+        </sf-modal>
+        <sf-modal modal-id="m-stack-form" size="form" heading="Обычное окно"><p slot="content" class="m-0">Это окно не открывается поверх другого окна (C159 (7)).</p></sf-modal>
+        <sf-modal modal-id="m-stack-third" size="question" heading="Третье окно"><p slot="content" class="m-0">Это окно не открывается третьим (C159 (7)).</p></sf-modal>
         <h3 class="title-4">Журнал событий</h3>
         <pre class="demo-log" data-demo-log aria-live="polite"></pre>
       </section>
@@ -209,16 +225,32 @@
           long.append(paragraph);
         }
 
-        var refusedOnce = false;
+        // The page refuses one close of the window when asked (preventDefault on sf-modal-close).
+        var refuseOnce = false;
         document.addEventListener('sf-modal-close', function (event) {
           var detail = event.detail || {};
           var id = detail.modalId || (event.target && event.target.getAttribute && event.target.getAttribute('modal-id'));
-          if (id === 'm-stack-2' && !refusedOnce) {
-            refusedOnce = true;
+          if (id === 'm-stack-1' && refuseOnce) {
+            refuseOnce = false;
             event.preventDefault();
-            write('  -> закрытие m-stack-2 отменено (preventDefault)');
+            write('  -> закрытие m-stack-1 отменено страницей (preventDefault), причина ' + (detail.reason || '?'));
           }
         });
+        // «Удалить» closes the question, then the window under it.
+        var deleting = false;
+        document.addEventListener('sf-modal-closed', function (event) {
+          var detail = event.detail || {};
+          var id = detail.modalId || (event.target && event.target.getAttribute && event.target.getAttribute('modal-id'));
+          if (id === 'm-stack-q' && deleting) {
+            deleting = false;
+            var window1 = modal('m-stack-1');
+            if (window1 && window1.openState) { var outcome = window1.close(); write('m-stack-1.close() -> ' + describe(outcome)); }
+          }
+        });
+        var describe = function (outcome) {
+          if (!outcome || typeof outcome !== 'object') return String(outcome);
+          return outcome.outcome + (outcome.reason ? ' (' + outcome.reason + ')' : '');
+        };
 
         var modal = function (id) { return window.SF && window.SF.Loader ? document.querySelector('sf-modal[modal-id="' + id + '"]') : null; };
         document.addEventListener('click', function (event) {
@@ -233,6 +265,23 @@
             if (dom) { dom.setSrc('#demo-hidden-2'); dom.open(); write("m-dom.setSrc('#demo-hidden-2')"); }
           }
           if (event.target.closest('[data-demo-clear]')) log.textContent = '';
+          var opener = event.target.closest('[data-demo-open]');
+          if (opener) {
+            var openId = opener.getAttribute('data-demo-open');
+            var toOpen = modal(openId);
+            if (toOpen) {
+              var opened = toOpen.open();
+              write(openId + '.open() -> ' + describe(opened));
+            }
+          }
+          if (event.target.closest('[data-demo-refuse-once]')) {
+            refuseOnce = true;
+            write('m-stack-1 отменит следующее закрытие');
+          }
+          if (event.target.closest('[data-demo-delete]')) {
+            var question = modal('m-stack-q');
+            if (question) { deleting = true; write('m-stack-q.close() -> ' + describe(question.close())); }
+          }
           if (event.target.closest('[data-demo-theme]')) {
             var root = document.documentElement;
             var dark = !root.classList.contains('theme-dark');

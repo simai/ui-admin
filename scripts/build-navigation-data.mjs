@@ -185,16 +185,13 @@ const LAYOUTS = {
   },
 };
 
+// The registry's eleven languages (owner decision C278, AM-11): no CIS
+// language but Russian is named in the demo data.
 const LANGUAGES = [
-  ['ru', 'Русский', 'Russian'], ['en', 'English', 'English'], ['de', 'Deutsch', 'German'],
-  ['fr', 'Français', 'French'], ['es', 'Español', 'Spanish'], ['it', 'Italiano', 'Italian'],
-  ['pt', 'Português', 'Portuguese'], ['pl', 'Polski', 'Polish'], ['uk', 'Українська', 'Ukrainian'],
-  ['be', 'Беларуская', 'Belarusian'], ['kk', 'Қазақ тілі', 'Kazakh'], ['uz', 'Oʻzbekcha', 'Uzbek'],
-  ['az', 'Azərbaycan dili', 'Azerbaijani'], ['hy', 'Հայերեն', 'Armenian'], ['ka', 'ქართული', 'Georgian'],
-  ['tr', 'Türkçe', 'Turkish'], ['nl', 'Nederlands', 'Dutch'], ['sv', 'Svenska', 'Swedish'],
-  ['fi', 'Suomi', 'Finnish'], ['cs', 'Čeština', 'Czech'], ['el', 'Ελληνικά', 'Greek'],
-  ['ar', 'العربية', 'Arabic'], ['he', 'עברית', 'Hebrew'], ['hi', 'हिन्दी', 'Hindi'],
-  ['zh', '中文', 'Chinese'], ['ja', '日本語', 'Japanese'], ['ko', '한국어', 'Korean'],
+  ['ru', 'Русский', 'Russian'], ['en', 'English', 'English'], ['zh', '中文', 'Chinese'],
+  ['es', 'Español', 'Spanish'], ['pt', 'Português', 'Portuguese'], ['de', 'Deutsch', 'German'],
+  ['fr', 'Français', 'French'], ['it', 'Italiano', 'Italian'], ['ja', '日本語', 'Japanese'],
+  ['ko', '한국어', 'Korean'], ['ar', 'العربية', 'Arabic'],
 ].map(([code, native, english]) => ({ code, native, english }));
 
 const PERSON = {

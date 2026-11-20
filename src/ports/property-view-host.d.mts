@@ -14,7 +14,14 @@ export type PropertyViewHost = {
 
 export declare const RECORD: Record<string, unknown>;
 
+export declare const NEIGHBOURS: string[];
+
 export declare function createPropertyViewHost(options?: {
   record?: Record<string, unknown>;
   capabilities?: string[];
+  profiles?: Array<Record<string, unknown>>;
+  confirms?: string[];
+  sealed?: string[];
+  neighbours?: string[];
+  movedRefusal?: boolean;
 }): PropertyViewHost;

@@ -239,6 +239,30 @@ const panelReaches = [
     undefined, 'group-save-after-group-load-stale-is-a-conflict',
     [['group.load', { record_id: editable?.record_id, collection, section: 'main', group: 'main', reason: 'started' }],
       ['group.save', { record_id: editable?.record_id, collection, section: 'main', group: 'numbers', values: { priority: 3 }, revision: editable?.revision }]]],
+  // Port 1.21.0: a host like Larena's refuses a save over a moved revision
+  // with revision_moved and the current revision, nothing written.
+  ['group.save', 'refused', ALL_PANEL, 'default', { record_id: editable?.record_id, collection, section: 'main', group: 'main', values: { title: 'Новое' }, revision: 'stale' },
+    { movedRefusal: true }, 'group-save-revision-moved-is-a-conflict'],
+  // The history a page at a time (the password always sealed, the budget by
+  // the reader's rights here), and the neighbours over the list's own query.
+  ['record.history', 'applied', [...ALL_PANEL, 'record-history'], 'default', { record_id: editable?.record_id, collection, cursor: null, kinds: null, limit: 2 },
+    undefined, 'history-is-a-page-newest-first'],
+  ['record.history', 'applied', [...ALL_PANEL, 'record-history'], 'default', { record_id: editable?.record_id, collection, cursor: null, kinds: ['update'] },
+    { sealed: ['budget'] }, 'history-names-a-sealed-field-without-values'],
+  ['record.history', 'unavailable', ALL_PANEL, 'default', { record_id: editable?.record_id, collection, cursor: null },
+    undefined, 'history-without-the-capability'],
+  ['record.neighbours', 'applied', [...ALL_PANEL, 'record-neighbours'], 'default', { record_id: editable?.record_id, collection, query: { sort: [{ key: 'title', direction: 'asc' }], include_archived: false } },
+    undefined, 'neighbours-name-the-previous-and-the-next'],
+  ['record.neighbours', 'unavailable', ALL_PANEL, 'default', { record_id: editable?.record_id, collection },
+    undefined, 'neighbours-without-the-capability'],
+  // Port 1.22.0: the personal layer published for everyone, and a lock,
+  // against the fresh panel's revisions.
+  ['view.publish', 'applied', ALL_PANEL, 'default', { record_id: null, collection, profile: 'default', personal_revision: 'personal-1', shared_revision: 'shared-1' },
+    undefined, 'view-publish-merges-personal-into-shared'],
+  ['view.publish', 'conflict', ALL_PANEL, 'default', { record_id: null, collection, profile: 'default', personal_revision: 'personal-1', shared_revision: 'shared-0' },
+    undefined, 'view-publish-against-a-newer-shared-layer-is-a-conflict'],
+  ['view.lock', 'applied', ALL_PANEL, 'default', { record_id: null, collection, profile: 'default', path: 'fields.status.hidden', locked: true, revision: 'shared-1' },
+    undefined, 'view-lock-answers-the-locked-paths'],
 ];
 
 const drive = async (label, kit, reaches, build) => {
@@ -343,9 +367,11 @@ const list = await drive('simai.dataview-port', listKit, listReaches,
   ({ capabilities, scenario }) => (capabilities.includes('tree')
     ? createTreeHost({ capabilities, scenario })
     : createPolygonHost({ dataset, capabilities, scenario })));
+// A row's sixth place is the panel's starting profiles, or an object of the
+// panel's other options (sealed fields, a host that refuses revision_moved).
 const panel = await drive('simai.property-view-port', panelKit, panelReaches,
   ({ capabilities, scenario, profiles }) => createPolygonHost({ dataset, scenario })
-    .propertyView({ capabilities, profiles }));
+    .propertyView({ capabilities, ...(Array.isArray(profiles) ? { profiles } : (profiles ?? {})) }));
 const navigation = await drive('simai.admin-navigation-port', navigationKit, navigationReaches,
   ({ capabilities, scenario }) => createNavigationHost({ data: navigationData, capabilities, scenario }));
 

@@ -110,7 +110,13 @@ export type PolygonHost = PolygonPort & {
   /** The records as they now are, after whatever has been saved or deleted. */
   readonly records: PolygonRecord[];
   /** The record panel's port, over the same records the list is reading. */
-  propertyView(options?: { capabilities?: string[] }): PolygonPort;
+  propertyView(options?: {
+    capabilities?: string[];
+    profiles?: Array<Record<string, unknown>>;
+    recordAddress?: (id: string) => string;
+    sealed?: string[];
+    movedRefusal?: boolean;
+  }): PolygonPort;
 };
 
 /** What the host can be made to answer like, so the hard states are reachable. */

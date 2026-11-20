@@ -137,6 +137,28 @@ const reaches = [
     undefined, 'group-save-after-group-load-stale-is-a-conflict',
     [['group.load', { ...base, section: 'main', group: 'main', reason: 'started' }],
       ['group.save', { ...base, section: 'main', group: 'dates', values: { public: false }, revision: 7 }]]],
+  // Port 1.21.0: a host like Larena's refuses a save over a moved revision
+  // with revision_moved and the current revision, nothing written.
+  ['group.save', 'refused', ALL, { ...base, section: 'main', group: 'main', values: { title: 'Новое' }, revision: 1 },
+    { movedRefusal: true }, 'group-save-revision-moved-is-a-conflict'],
+  // The history a page at a time, a sealed field said without its values,
+  // and the neighbours over the view; neither is answered unannounced.
+  ['record.history', 'applied', [...ALL, 'record-history'], { ...base, cursor: null, kinds: null, limit: 2 },
+    undefined, 'history-is-a-page-newest-first'],
+  ['record.history', 'applied', [...ALL, 'record-history'], { ...base, cursor: null, kinds: ['update'] },
+    { sealed: ['summary'] }, 'history-names-a-sealed-field-without-values'],
+  ['record.history', 'unavailable', ALL, { ...base, cursor: null }, undefined, 'history-without-the-capability'],
+  ['record.neighbours', 'applied', [...ALL, 'record-neighbours'], { ...base, query: { include_archived: false } },
+    undefined, 'neighbours-name-the-previous-and-the-next'],
+  ['record.neighbours', 'unavailable', ALL, { ...base }, undefined, 'neighbours-without-the-capability'],
+  // Port 1.22.0: the personal layer published for everyone, and a lock; the
+  // revisions are the fresh host's own (v1 for both layers).
+  ['view.publish', 'applied', ALL, { record_id: null, collection: base.collection, profile: 'default', personal_revision: 'v1', shared_revision: 'v1' },
+    undefined, 'view-publish-merges-personal-into-shared'],
+  ['view.publish', 'conflict', ALL, { record_id: null, collection: base.collection, profile: 'default', personal_revision: 'v1', shared_revision: 'v-old' },
+    undefined, 'view-publish-against-a-newer-shared-layer-is-a-conflict'],
+  ['view.lock', 'applied', ALL, { record_id: null, collection: base.collection, profile: 'default', path: 'fields.status.hidden', locked: true, revision: 'v1' },
+    undefined, 'view-lock-answers-the-locked-paths'],
 ];
 
 const failures = [];

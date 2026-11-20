@@ -169,7 +169,7 @@ const FIELDS = [
   { key: 'deprecated', label: 'Снято с поддержки', property_type: 'boolean', width: 'half' },
 
   { key: 'accent', label: 'Акцентный цвет', property_type: 'color', width: 'half', inheritedValue: '#2f6feb' },
-  { key: 'cover', label: 'Обложка', property_type: 'file', width: 'half', variant: 'image-card' },
+  { key: 'cover', label: 'Обложка', property_type: 'file', width: 'half', template: 'image_card' },
   { key: 'attachments', label: 'Вложения', property_type: 'file', width: 'full', multiple: true },
 
   { key: 'parent', label: 'Родительское решение', property_type: 'record', width: 'half' },

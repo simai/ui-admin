@@ -7,8 +7,16 @@
 // values are the polygon's own where it has one of that kind, made up where
 // it does not.
 type Entry = {type: string; label: {ru: string; en: string}; variants: Array<{id: string; label: {ru: string}}>; params: string[];
+  templates?: Array<{id: string; default?: boolean; label: {ru: string}}>;
   modes: {view: boolean; edit: boolean; cell: string; filter: string}};
-type Field = Record<string, any> & {key: string; label: string; property_type: string; variant?: string};
+type Field = Record<string, any> & {key: string; label: string; property_type: string; template?: string; variant?: string};
+// A field's template: `template` since C302, the former `variant` in data written before it.
+const templateOf = (field: Field): string => String(field.template ?? field.variant ?? '');
+// The templates a type has besides its default (C302); the former variant list
+// where a set has no templates yet.
+const otherTemplates = (entry: Entry): string[] => (entry.templates
+  ? entry.templates.filter((one) => !one.default).map((one) => one.id)
+  : entry.variants.map((one) => one.id));
 type Renderers = {
   renderViewField: (field: object, value: unknown, host: object, options?: object) => unknown;
   renderEditField: (field: object, value: unknown, host: object, options?: object) => unknown;
@@ -47,7 +55,7 @@ const LONG: Record<string, unknown> = {
   'text': 'Очень длинный текст. '.repeat(12), 'integer': 9876543210, 'number': '123456789012.75',
 };
 const polygonValue = (type: string, variant: string) => {
-  const field = polygonFields.find((one) => one.property_type === type && String(one.variant ?? '') === variant);
+  const field = polygonFields.find((one) => one.property_type === type && templateOf(one) === variant);
   if (!field) return undefined;
   for (const record of dataset.records) {
     const value = record.values?.[field.key];
@@ -77,11 +85,11 @@ const searches = new Map<string, string>();
 
 const fieldOf = (entry: Entry, variant: string): Field => {
   const key = variant ? `${entry.type}-${variant}` : entry.type;
-  const label = variant ? `${entry.label.ru} · ${entry.variants.find((one) => one.id === variant)?.label.ru ?? variant}` : entry.label.ru;
+  const label = variant ? `${entry.label.ru} · ${(entry.templates ?? entry.variants).find((one) => one.id === variant)?.label.ru ?? variant}` : entry.label.ru;
   const options = OPTIONS[entry.type] ?? [];
   // The polygon's own field of this kind lends its parameters: a palette, a
   // language, a unit.
-  const own = polygonFields.find((one) => one.property_type === entry.type && String(one.variant ?? '') === variant)
+  const own = polygonFields.find((one) => one.property_type === entry.type && templateOf(one) === variant)
     ?? polygonFields.find((one) => one.property_type === entry.type);
   const lent = Object.fromEntries(Object.entries(own ?? {}).filter(([name]) => entry.params.includes(name) && name !== 'options'));
   // A colour with no palette of its own gets one, so its filter is shown.
@@ -90,7 +98,7 @@ const fieldOf = (entry: Entry, variant: string): Field => {
   }
   return {
     ...lent,
-    key, label, property_type: entry.type, propertyType: entry.type, ...(variant ? {variant} : {}), options,
+    key, label, property_type: entry.type, propertyType: entry.type, ...(variant ? {template: variant} : {}), options,
     readonly: stateControl.value === 'readonly',
     ...(entry.type === 'number' && variant === 'scale' ? {constraints: {min: 0, max: 100}} : {}),
     filter: {options, defaultOperator: 'in'},
@@ -164,7 +172,7 @@ function draw(): void {
   if (!fieldRenderers?.registry) return;
   const query = search.value.trim().toLowerCase();
   const size = sizeControl.value;
-  const kinds = fieldRenderers.registry.flatMap((entry) => ['', ...entry.variants.map((variant) => variant.id)].map((variant) => ({entry, variant})));
+  const kinds = fieldRenderers.registry.flatMap((entry) => ['', ...otherTemplates(entry)].map((variant) => ({entry, variant})));
   const shown = kinds.filter(({entry, variant}) => !query || `${entry.label.ru} ${entry.type} ${variant}`.toLowerCase().includes(query));
   syncFilterTable(kinds.map(({entry, variant}) => fieldOf(entry, variant)));
   render(html`${shown.map(({entry, variant}) => {

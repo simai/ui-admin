@@ -197,7 +197,7 @@
         "label": "Обложка",
         "property_type": "file",
         "width": "half",
-        "variant": "image-card"
+        "template": "image_card"
       },
       {
         "key": "attachments",

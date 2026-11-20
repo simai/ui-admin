@@ -39,12 +39,12 @@ const OPTIONS: Record<string, Array<Record<string, any>>> = {
 // A value of each kind: the polygon's, or a made-up one.
 const MADE_UP: Record<string, unknown> = {
   'string': 'simai.payments.v1', 'string:phone': '+7 916 123-45-67', 'text': 'Приём платежей, возвраты и сверка с банком.',
-  'integer': 42, 'number': 1474500.5, 'number:scale': 64, 'date': '2026-10-15', 'datetime': '2026-10-15T10:30:00+03:00',
+  'integer': 42, 'number': '1474500.5', 'number:scale': 64, 'date': '2026-10-15', 'datetime': '2026-10-15T10:30:00+03:00',
   'boolean': true, 'color': '#2f6feb', 'include': '<div class="banner">Привет</div>',
 };
 const LONG: Record<string, unknown> = {
   'string': 'Очень длинное значение строки, которое не помещается в одну строку и проверяет перенос и обрезку текста в каждом режиме',
-  'text': 'Очень длинный текст. '.repeat(12), 'integer': 9876543210, 'number': 123456789012.75,
+  'text': 'Очень длинный текст. '.repeat(12), 'integer': 9876543210, 'number': '123456789012.75',
 };
 const polygonValue = (type: string, variant: string) => {
   const field = polygonFields.find((one) => one.property_type === type && String(one.variant ?? '') === variant);

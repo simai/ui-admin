@@ -155,7 +155,9 @@ const FIELDS = [
   { key: 'body', label: 'Текст страницы', property_type: 'html', width: 'full' },
 
   { key: 'version', label: 'Версия', property_type: 'string', width: 'half' },
-  { key: 'priority', label: 'Приоритет', property_type: 'integer', width: 'half' },
+  // A whole number is a number with no decimals: the renderer set reads the
+  // former type `integer` as exactly that and says so in the console.
+  { key: 'priority', label: 'Приоритет', property_type: 'number', decimals: 0, width: 'half' },
   { key: 'budget', label: 'Бюджет, ₽', property_type: 'number', width: 'half' },
   // Money and a percent (port 1.18.0, C294): the pair ui-dc9fc39aeb26's renderer set draws both.
   { key: 'price', label: 'Цена', property_type: 'money', width: 'half' },
@@ -173,6 +175,14 @@ const FIELDS = [
   { key: 'parent', label: 'Родительское решение', property_type: 'record', width: 'half' },
   { key: 'depends_on', label: 'Зависит от', property_type: 'relation', width: 'half' },
   { key: 'reviewer', label: 'Проверяющий', property_type: 'user', width: 'half' },
+
+  // The four text types of a type of their own (owner decision C302 (1)):
+  // a telephone stored as E.164, a password the host never sends (only
+  // whether one is set), an address, and a link with its words.
+  { key: 'phone', label: 'Телефон поддержки', property_type: 'phone', width: 'half' },
+  { key: 'site', label: 'Сайт решения', property_type: 'url', width: 'half' },
+  { key: 'docs', label: 'Документация', property_type: 'link', width: 'half' },
+  { key: 'api_password', label: 'Пароль API', property_type: 'password', width: 'half' },
 
   { key: 'head_script', label: 'Скрипт в head', property_type: 'include', width: 'full', language: 'html' },
   { key: 'theme_css', label: 'Правила темы', property_type: 'include', width: 'full', language: 'css' },
@@ -197,6 +207,7 @@ const SECTIONS_LAYOUT = [
     key: 'links', label: 'Связи',
     groups: [
       { key: 'links', label: 'Связи', columns: 2, fields: ['parent', 'depends_on', 'reviewer'] },
+      { key: 'contacts', label: 'Контакты', columns: 2, fields: ['phone', 'site', 'docs', 'api_password'] },
     ],
   },
   {
@@ -235,6 +246,10 @@ const LIST_COLUMNS = [
   { key: 'accent' },
   { key: 'cover' },
   { key: 'depends_on' },
+  { key: 'phone' },
+  { key: 'site' },
+  { key: 'docs' },
+  { key: 'api_password' },
   { key: 'head_script' },
   { key: 'summary', width: '20rem' },
   { key: 'body', width: '20rem' },
@@ -326,6 +341,12 @@ const buildRecord = (index) => {
     parent: index % 5 === 3 ? null : pick(SECTIONS),
     depends_on: pick(RELATIONS),
     reviewer: index % 6 === 4 ? null : pick(USERS),
+
+    // From the index alone, so the random sequence (and every value above) is unchanged.
+    phone: index % 7 === 6 ? null : `+7916${String(1000000 + ((index * 7919) % 9000000)).padStart(7, '0')}`,
+    site: index % 5 === 4 ? null : `https://${slug}.simai.io/`,
+    docs: index % 6 === 1 ? null : { href: `/docs/${slug}/`, text: `Руководство: ${subject}` },
+    api_password: { set: index % 3 !== 1 },
 
     head_script: index % 8 === 1 ? SCRIPT : '',
     theme_css: index % 12 === 7 ? STYLE : '',

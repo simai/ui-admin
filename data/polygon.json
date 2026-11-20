@@ -133,7 +133,8 @@
       {
         "key": "priority",
         "label": "Приоритет",
-        "property_type": "integer",
+        "property_type": "number",
+        "decimals": 0,
         "width": "half"
       },
       {
@@ -221,6 +222,30 @@
         "key": "reviewer",
         "label": "Проверяющий",
         "property_type": "user",
+        "width": "half"
+      },
+      {
+        "key": "phone",
+        "label": "Телефон поддержки",
+        "property_type": "phone",
+        "width": "half"
+      },
+      {
+        "key": "site",
+        "label": "Сайт решения",
+        "property_type": "url",
+        "width": "half"
+      },
+      {
+        "key": "docs",
+        "label": "Документация",
+        "property_type": "link",
+        "width": "half"
+      },
+      {
+        "key": "api_password",
+        "label": "Пароль API",
+        "property_type": "password",
         "width": "half"
       },
       {
@@ -312,6 +337,17 @@
               "parent",
               "depends_on",
               "reviewer"
+            ]
+          },
+          {
+            "key": "contacts",
+            "label": "Контакты",
+            "columns": 2,
+            "fields": [
+              "phone",
+              "site",
+              "docs",
+              "api_password"
             ]
           }
         ]
@@ -406,6 +442,18 @@
         },
         {
           "key": "depends_on"
+        },
+        {
+          "key": "phone"
+        },
+        {
+          "key": "site"
+        },
+        {
+          "key": "docs"
+        },
+        {
+          "key": "api_password"
         },
         {
           "key": "head_script"
@@ -756,6 +804,15 @@
           "label": "Мария Волкова",
           "avatarText": "МВ"
         },
+        "phone": "+79161000000",
+        "site": "https://payments.simai.io/",
+        "docs": {
+          "href": "/docs/payments/",
+          "text": "Руководство: Платежи"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -828,6 +885,12 @@
           "value": "u-elena",
           "label": "Елена Кузнецова",
           "avatarText": "ЕК"
+        },
+        "phone": "+79161007919",
+        "site": "https://notify.simai.io/",
+        "docs": null,
+        "api_password": {
+          "set": false
         },
         "head_script": "<script>\n  window.addEventListener('DOMContentLoaded', () => {\n    document.documentElement.dataset.ready = 'true';\n  });\n</script>",
         "theme_css": "",
@@ -907,6 +970,15 @@
           "label": "Игорь Смирнов",
           "avatarText": "ИС"
         },
+        "phone": "+79161015838",
+        "site": "https://billing.simai.io/",
+        "docs": {
+          "href": "/docs/billing/",
+          "text": "Руководство: Биллинг"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -983,6 +1055,15 @@
           "value": "u-igor",
           "label": "Игорь Смирнов",
           "avatarText": "ИС"
+        },
+        "phone": "+79161023757",
+        "site": "https://filebackup.simai.io/",
+        "docs": {
+          "href": "/docs/filebackup/",
+          "text": "Руководство: Резервные копии"
+        },
+        "api_password": {
+          "set": true
         },
         "head_script": "",
         "theme_css": "",
@@ -1065,6 +1146,15 @@
           "label": "Отчётность"
         },
         "reviewer": null,
+        "phone": "+79161031676",
+        "site": null,
+        "docs": {
+          "href": "/docs/cart/",
+          "text": "Руководство: Корзина"
+        },
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -1116,6 +1206,15 @@
         },
         "depends_on": null,
         "reviewer": null,
+        "phone": "+79161039595",
+        "site": "https://catalog.simai.io/",
+        "docs": {
+          "href": "/docs/catalog/",
+          "text": "Руководство: Каталог"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": null
@@ -1182,6 +1281,15 @@
           "value": "u-dmitry",
           "label": "Дмитрий Орлов",
           "avatarText": "ДО"
+        },
+        "phone": null,
+        "site": "https://search.simai.io/",
+        "docs": {
+          "href": "/docs/search/",
+          "text": "Руководство: Поиск"
+        },
+        "api_password": {
+          "set": true
         },
         "head_script": "",
         "theme_css": "",
@@ -1263,6 +1371,12 @@
           "label": "Мария Волкова",
           "avatarText": "МВ"
         },
+        "phone": "+79161055433",
+        "site": "https://forms.simai.io/",
+        "docs": null,
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": ".sf-admin-shell {\n  --sf-admin-accent: var(--sf-primary);\n}",
         "notes": ""
@@ -1340,6 +1454,15 @@
           "value": "u-elena",
           "label": "Елена Кузнецова",
           "avatarText": "ЕК"
+        },
+        "phone": "+79161063352",
+        "site": "https://stock.simai.io/",
+        "docs": {
+          "href": "/docs/stock/",
+          "text": "Руководство: Склад"
+        },
+        "api_password": {
+          "set": true
         },
         "head_script": "",
         "theme_css": "",
@@ -1420,6 +1543,15 @@
           "label": "Игорь Смирнов",
           "avatarText": "ИС"
         },
+        "phone": "+79161071271",
+        "site": null,
+        "docs": {
+          "href": "/docs/delivery/",
+          "text": "Руководство: Доставка"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "<script>\n  window.addEventListener('DOMContentLoaded', () => {\n    document.documentElement.dataset.ready = 'true';\n  });\n</script>",
         "theme_css": "",
         "notes": ""
@@ -1491,6 +1623,15 @@
           "label": "Очереди"
         },
         "reviewer": null,
+        "phone": "+79161079190",
+        "site": "https://reports.simai.io/",
+        "docs": {
+          "href": "/docs/reports/",
+          "text": "Руководство: Отчёты"
+        },
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -1578,6 +1719,15 @@
           "label": "Сергей Ильин",
           "avatarText": "СИ"
         },
+        "phone": "+79161087109",
+        "site": "https://acl.simai.io/",
+        "docs": {
+          "href": "/docs/acl/",
+          "text": "Руководство: Права"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -1661,6 +1811,15 @@
           "label": "Мария Волкова",
           "avatarText": "МВ"
         },
+        "phone": "+79161095028",
+        "site": "https://import.simai.io/",
+        "docs": {
+          "href": "/docs/import/",
+          "text": "Руководство: Импорт"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -1730,6 +1889,12 @@
           "value": "u-igor",
           "label": "Игорь Смирнов",
           "avatarText": "ИС"
+        },
+        "phone": null,
+        "site": "https://integrations.simai.io/",
+        "docs": null,
+        "api_password": {
+          "set": false
         },
         "head_script": "",
         "theme_css": "",
@@ -1803,6 +1968,15 @@
           "value": "u-sergey",
           "label": "Сергей Ильин",
           "avatarText": "СИ"
+        },
+        "phone": "+79161110866",
+        "site": null,
+        "docs": {
+          "href": "/docs/media/",
+          "text": "Руководство: Медиа"
+        },
+        "api_password": {
+          "set": true
         },
         "head_script": "",
         "theme_css": "",
@@ -1887,6 +2061,15 @@
           "label": "Мария Волкова",
           "avatarText": "МВ"
         },
+        "phone": "+79161118785",
+        "site": "https://payments.simai.io/",
+        "docs": {
+          "href": "/docs/payments/",
+          "text": "Руководство: Платежи"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -1940,6 +2123,15 @@
         },
         "depends_on": null,
         "reviewer": null,
+        "phone": "+79161126704",
+        "site": "https://notify.simai.io/",
+        "docs": {
+          "href": "/docs/notify/",
+          "text": "Руководство: Уведомления"
+        },
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": "",
         "notes": null
@@ -2013,6 +2205,15 @@
           "label": "Дмитрий Орлов",
           "avatarText": "ДО"
         },
+        "phone": "+79161134623",
+        "site": "https://billing.simai.io/",
+        "docs": {
+          "href": "/docs/billing/",
+          "text": "Руководство: Биллинг"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "<script>\n  window.addEventListener('DOMContentLoaded', () => {\n    document.documentElement.dataset.ready = 'true';\n  });\n</script>",
         "theme_css": "",
         "notes": "Демо: у вас нет прав на эту запись — правка и удаление запрещены намеренно."
@@ -2073,6 +2274,15 @@
           "value": "u-elena",
           "label": "Елена Кузнецова",
           "avatarText": "ЕК"
+        },
+        "phone": "+79161142542",
+        "site": "https://filebackup.simai.io/",
+        "docs": {
+          "href": "/docs/filebackup/",
+          "text": "Руководство: Резервные копии"
+        },
+        "api_password": {
+          "set": true
         },
         "head_script": "",
         "theme_css": "",
@@ -2162,6 +2372,12 @@
           "label": "Дмитрий Орлов",
           "avatarText": "ДО"
         },
+        "phone": "+79161150461",
+        "site": null,
+        "docs": null,
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": ".sf-admin-shell {\n  --sf-admin-accent: var(--sf-primary);\n}",
         "notes": ""
@@ -2243,6 +2459,15 @@
           "label": "Мария Волкова",
           "avatarText": "МВ"
         },
+        "phone": null,
+        "site": "https://catalog.simai.io/",
+        "docs": {
+          "href": "/docs/catalog/",
+          "text": "Руководство: Каталог"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -2315,6 +2540,15 @@
           "value": "u-elena",
           "label": "Елена Кузнецова",
           "avatarText": "ЕК"
+        },
+        "phone": "+79161166299",
+        "site": "https://search.simai.io/",
+        "docs": {
+          "href": "/docs/search/",
+          "text": "Руководство: Поиск"
+        },
+        "api_password": {
+          "set": true
         },
         "head_script": "",
         "theme_css": "",
@@ -2393,6 +2627,15 @@
           "label": "Авторизация"
         },
         "reviewer": null,
+        "phone": "+79161174218",
+        "site": "https://forms.simai.io/",
+        "docs": {
+          "href": "/docs/forms/",
+          "text": "Руководство: Формы"
+        },
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -2462,6 +2705,15 @@
           "value": "u-dmitry",
           "label": "Дмитрий Орлов",
           "avatarText": "ДО"
+        },
+        "phone": "+79161182137",
+        "site": "https://stock.simai.io/",
+        "docs": {
+          "href": "/docs/stock/",
+          "text": "Руководство: Склад"
+        },
+        "api_password": {
+          "set": true
         },
         "head_script": "",
         "theme_css": "",
@@ -2550,6 +2802,15 @@
           "label": "Дмитрий Орлов",
           "avatarText": "ДО"
         },
+        "phone": "+79161190056",
+        "site": null,
+        "docs": {
+          "href": "/docs/delivery/",
+          "text": "Руководство: Доставка"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -2630,6 +2891,12 @@
           "label": "Дмитрий Орлов",
           "avatarText": "ДО"
         },
+        "phone": "+79161197975",
+        "site": "https://reports.simai.io/",
+        "docs": null,
+        "api_password": {
+          "set": false
+        },
         "head_script": "<script>\n  window.addEventListener('DOMContentLoaded', () => {\n    document.documentElement.dataset.ready = 'true';\n  });\n</script>",
         "theme_css": "",
         "notes": ""
@@ -2697,6 +2964,15 @@
           "label": "Дмитрий Орлов",
           "avatarText": "ДО"
         },
+        "phone": "+79161205894",
+        "site": "https://acl.simai.io/",
+        "docs": {
+          "href": "/docs/acl/",
+          "text": "Руководство: Права"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -2750,6 +3026,15 @@
         },
         "depends_on": null,
         "reviewer": null,
+        "phone": null,
+        "site": "https://import.simai.io/",
+        "docs": {
+          "href": "/docs/import/",
+          "text": "Руководство: Импорт"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": null
@@ -2823,6 +3108,15 @@
           "label": "Очереди"
         },
         "reviewer": null,
+        "phone": "+79161221732",
+        "site": "https://integrations.simai.io/",
+        "docs": {
+          "href": "/docs/integrations/",
+          "text": "Руководство: Интеграции"
+        },
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -2899,6 +3193,15 @@
           "label": "Елена Кузнецова",
           "avatarText": "ЕК"
         },
+        "phone": "+79161229651",
+        "site": null,
+        "docs": {
+          "href": "/docs/media/",
+          "text": "Руководство: Медиа"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -2965,6 +3268,15 @@
           "value": "u-maria",
           "label": "Мария Волкова",
           "avatarText": "МВ"
+        },
+        "phone": "+79161237570",
+        "site": "https://payments.simai.io/",
+        "docs": {
+          "href": "/docs/payments/",
+          "text": "Руководство: Платежи"
+        },
+        "api_password": {
+          "set": true
         },
         "head_script": "",
         "theme_css": "",
@@ -3045,6 +3357,12 @@
           "label": "Дмитрий Орлов",
           "avatarText": "ДО"
         },
+        "phone": "+79161245489",
+        "site": "https://notify.simai.io/",
+        "docs": null,
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": ".sf-admin-shell {\n  --sf-admin-accent: var(--sf-primary);\n}",
         "notes": ""
@@ -3118,6 +3436,15 @@
           "label": "Игорь Смирнов",
           "avatarText": "ИС"
         },
+        "phone": "+79161253408",
+        "site": "https://billing.simai.io/",
+        "docs": {
+          "href": "/docs/billing/",
+          "text": "Руководство: Биллинг"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": "Перенесено из SF4, сверить права перед включением."
@@ -3185,6 +3512,15 @@
           "label": "Елена Кузнецова",
           "avatarText": "ЕК"
         },
+        "phone": "+79161261327",
+        "site": "https://filebackup.simai.io/",
+        "docs": {
+          "href": "/docs/filebackup/",
+          "text": "Руководство: Резервные копии"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "<script>\n  window.addEventListener('DOMContentLoaded', () => {\n    document.documentElement.dataset.ready = 'true';\n  });\n</script>",
         "theme_css": "",
         "notes": ""
@@ -3249,6 +3585,15 @@
           "label": "Авторизация"
         },
         "reviewer": null,
+        "phone": null,
+        "site": null,
+        "docs": {
+          "href": "/docs/cart/",
+          "text": "Руководство: Корзина"
+        },
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -3336,6 +3681,15 @@
           "label": "Елена Кузнецова",
           "avatarText": "ЕК"
         },
+        "phone": "+79161277165",
+        "site": "https://catalog.simai.io/",
+        "docs": {
+          "href": "/docs/catalog/",
+          "text": "Руководство: Каталог"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -3422,6 +3776,15 @@
           "label": "Игорь Смирнов",
           "avatarText": "ИС"
         },
+        "phone": "+79161285084",
+        "site": "https://search.simai.io/",
+        "docs": {
+          "href": "/docs/search/",
+          "text": "Руководство: Поиск"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -3506,6 +3869,12 @@
           "label": "Дмитрий Орлов",
           "avatarText": "ДО"
         },
+        "phone": "+79161293003",
+        "site": "https://forms.simai.io/",
+        "docs": null,
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -3556,6 +3925,15 @@
         "parent": null,
         "depends_on": null,
         "reviewer": null,
+        "phone": "+79161300922",
+        "site": "https://stock.simai.io/",
+        "docs": {
+          "href": "/docs/stock/",
+          "text": "Руководство: Склад"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": null
@@ -3642,6 +4020,15 @@
           "label": "Игорь Смирнов",
           "avatarText": "ИС"
         },
+        "phone": "+79161308841",
+        "site": null,
+        "docs": {
+          "href": "/docs/delivery/",
+          "text": "Руководство: Доставка"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -3717,6 +4104,15 @@
           "label": "Очереди"
         },
         "reviewer": null,
+        "phone": "+79161316760",
+        "site": "https://reports.simai.io/",
+        "docs": {
+          "href": "/docs/reports/",
+          "text": "Руководство: Отчёты"
+        },
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -3788,6 +4184,15 @@
           "value": "u-dmitry",
           "label": "Дмитрий Орлов",
           "avatarText": "ДО"
+        },
+        "phone": null,
+        "site": "https://acl.simai.io/",
+        "docs": {
+          "href": "/docs/acl/",
+          "text": "Руководство: Права"
+        },
+        "api_password": {
+          "set": true
         },
         "head_script": "<script>\n  window.addEventListener('DOMContentLoaded', () => {\n    document.documentElement.dataset.ready = 'true';\n  });\n</script>",
         "theme_css": "",
@@ -3865,6 +4270,15 @@
           "value": "u-dmitry",
           "label": "Дмитрий Орлов",
           "avatarText": "ДО"
+        },
+        "phone": "+79161332598",
+        "site": "https://import.simai.io/",
+        "docs": {
+          "href": "/docs/import/",
+          "text": "Руководство: Импорт"
+        },
+        "api_password": {
+          "set": true
         },
         "head_script": "",
         "theme_css": "",
@@ -3947,6 +4361,12 @@
           "label": "Игорь Смирнов",
           "avatarText": "ИС"
         },
+        "phone": "+79161340517",
+        "site": "https://integrations.simai.io/",
+        "docs": null,
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": ".sf-admin-shell {\n  --sf-admin-accent: var(--sf-primary);\n}",
         "notes": ""
@@ -4021,6 +4441,15 @@
           "label": "Елена Кузнецова",
           "avatarText": "ЕК"
         },
+        "phone": "+79161348436",
+        "site": null,
+        "docs": {
+          "href": "/docs/media/",
+          "text": "Руководство: Медиа"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -4089,6 +4518,15 @@
           "label": "Анна Петрова",
           "avatarText": "АП"
         },
+        "phone": "+79161356355",
+        "site": "https://payments.simai.io/",
+        "docs": {
+          "href": "/docs/payments/",
+          "text": "Руководство: Платежи"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -4151,6 +4589,15 @@
           "label": "Авторизация"
         },
         "reviewer": null,
+        "phone": "+79161364274",
+        "site": "https://notify.simai.io/",
+        "docs": {
+          "href": "/docs/notify/",
+          "text": "Руководство: Уведомления"
+        },
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": "",
         "notes": "Демо: у вас нет прав на эту запись — правка и удаление запрещены намеренно."
@@ -4240,6 +4687,15 @@
           "label": "Дмитрий Орлов",
           "avatarText": "ДО"
         },
+        "phone": "+79161372193",
+        "site": "https://billing.simai.io/",
+        "docs": {
+          "href": "/docs/billing/",
+          "text": "Руководство: Биллинг"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -4309,6 +4765,15 @@
           "label": "Анна Петрова",
           "avatarText": "АП"
         },
+        "phone": null,
+        "site": "https://filebackup.simai.io/",
+        "docs": {
+          "href": "/docs/filebackup/",
+          "text": "Руководство: Резервные копии"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -4360,6 +4825,12 @@
         },
         "depends_on": null,
         "reviewer": null,
+        "phone": "+79161388031",
+        "site": null,
+        "docs": null,
+        "api_password": {
+          "set": false
+        },
         "head_script": "<script>\n  window.addEventListener('DOMContentLoaded', () => {\n    document.documentElement.dataset.ready = 'true';\n  });\n</script>",
         "theme_css": "",
         "notes": null
@@ -4427,6 +4898,15 @@
           "value": "u-igor",
           "label": "Игорь Смирнов",
           "avatarText": "ИС"
+        },
+        "phone": "+79161395950",
+        "site": "https://catalog.simai.io/",
+        "docs": {
+          "href": "/docs/catalog/",
+          "text": "Руководство: Каталог"
+        },
+        "api_password": {
+          "set": true
         },
         "head_script": "",
         "theme_css": "",
@@ -4515,6 +4995,15 @@
           "label": "Дмитрий Орлов",
           "avatarText": "ДО"
         },
+        "phone": "+79161403869",
+        "site": "https://search.simai.io/",
+        "docs": {
+          "href": "/docs/search/",
+          "text": "Руководство: Поиск"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -4598,6 +5087,15 @@
           "label": "Ядро платформы"
         },
         "reviewer": null,
+        "phone": "+79161411788",
+        "site": "https://forms.simai.io/",
+        "docs": {
+          "href": "/docs/forms/",
+          "text": "Руководство: Формы"
+        },
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -4667,6 +5165,15 @@
           "label": "Мария Волкова",
           "avatarText": "МВ"
         },
+        "phone": "+79161419707",
+        "site": "https://stock.simai.io/",
+        "docs": {
+          "href": "/docs/stock/",
+          "text": "Руководство: Склад"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -4735,6 +5242,15 @@
           "value": "u-igor",
           "label": "Игорь Смирнов",
           "avatarText": "ИС"
+        },
+        "phone": "+79161427626",
+        "site": null,
+        "docs": {
+          "href": "/docs/delivery/",
+          "text": "Руководство: Доставка"
+        },
+        "api_password": {
+          "set": true
         },
         "head_script": "",
         "theme_css": "",
@@ -4812,6 +5328,12 @@
           "value": "u-maria",
           "label": "Мария Волкова",
           "avatarText": "МВ"
+        },
+        "phone": null,
+        "site": "https://reports.simai.io/",
+        "docs": null,
+        "api_password": {
+          "set": false
         },
         "head_script": "",
         "theme_css": ".sf-admin-shell {\n  --sf-admin-accent: var(--sf-primary);\n}",
@@ -4898,6 +5420,15 @@
           "label": "Игорь Смирнов",
           "avatarText": "ИС"
         },
+        "phone": "+79161443464",
+        "site": "https://acl.simai.io/",
+        "docs": {
+          "href": "/docs/acl/",
+          "text": "Руководство: Права"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -4978,6 +5509,15 @@
           "label": "Елена Кузнецова",
           "avatarText": "ЕК"
         },
+        "phone": "+79161451383",
+        "site": "https://import.simai.io/",
+        "docs": {
+          "href": "/docs/import/",
+          "text": "Руководство: Импорт"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "<script>\n  window.addEventListener('DOMContentLoaded', () => {\n    document.documentElement.dataset.ready = 'true';\n  });\n</script>",
         "theme_css": "",
         "notes": ""
@@ -5046,6 +5586,15 @@
           "label": "Очереди"
         },
         "reviewer": null,
+        "phone": "+79161459302",
+        "site": "https://integrations.simai.io/",
+        "docs": {
+          "href": "/docs/integrations/",
+          "text": "Руководство: Интеграции"
+        },
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -5128,6 +5677,15 @@
           "label": "Игорь Смирнов",
           "avatarText": "ИС"
         },
+        "phone": "+79161467221",
+        "site": null,
+        "docs": {
+          "href": "/docs/media/",
+          "text": "Руководство: Медиа"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": "Перенесено из SF4, сверить права перед включением."
@@ -5181,6 +5739,15 @@
         },
         "depends_on": null,
         "reviewer": null,
+        "phone": "+79161475140",
+        "site": "https://payments.simai.io/",
+        "docs": {
+          "href": "/docs/payments/",
+          "text": "Руководство: Платежи"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": null
@@ -5258,6 +5825,12 @@
           "label": "Анна Петрова",
           "avatarText": "АП"
         },
+        "phone": "+79161483059",
+        "site": "https://notify.simai.io/",
+        "docs": null,
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -5334,6 +5907,15 @@
           "label": "Игорь Смирнов",
           "avatarText": "ИС"
         },
+        "phone": null,
+        "site": "https://billing.simai.io/",
+        "docs": {
+          "href": "/docs/billing/",
+          "text": "Руководство: Биллинг"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -5403,6 +5985,15 @@
           "value": "u-maria",
           "label": "Мария Волкова",
           "avatarText": "МВ"
+        },
+        "phone": "+79161498897",
+        "site": "https://filebackup.simai.io/",
+        "docs": {
+          "href": "/docs/filebackup/",
+          "text": "Руководство: Резервные копии"
+        },
+        "api_password": {
+          "set": true
         },
         "head_script": "",
         "theme_css": "",
@@ -5485,6 +6076,15 @@
           "label": "Хранилище"
         },
         "reviewer": null,
+        "phone": "+79161506816",
+        "site": null,
+        "docs": {
+          "href": "/docs/cart/",
+          "text": "Руководство: Корзина"
+        },
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -5564,6 +6164,15 @@
           "label": "Анна Петрова",
           "avatarText": "АП"
         },
+        "phone": "+79161514735",
+        "site": "https://catalog.simai.io/",
+        "docs": {
+          "href": "/docs/catalog/",
+          "text": "Руководство: Каталог"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "<script>\n  window.addEventListener('DOMContentLoaded', () => {\n    document.documentElement.dataset.ready = 'true';\n  });\n</script>",
         "theme_css": "",
         "notes": ""
@@ -5635,6 +6244,15 @@
           "value": "u-sergey",
           "label": "Сергей Ильин",
           "avatarText": "СИ"
+        },
+        "phone": "+79161522654",
+        "site": "https://search.simai.io/",
+        "docs": {
+          "href": "/docs/search/",
+          "text": "Руководство: Поиск"
+        },
+        "api_password": {
+          "set": true
         },
         "head_script": "",
         "theme_css": "",
@@ -5714,6 +6332,12 @@
           "label": "Игорь Смирнов",
           "avatarText": "ИС"
         },
+        "phone": "+79161530573",
+        "site": "https://forms.simai.io/",
+        "docs": null,
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": ".sf-admin-shell {\n  --sf-admin-accent: var(--sf-primary);\n}",
         "notes": ""
@@ -5780,6 +6404,15 @@
           "value": "u-elena",
           "label": "Елена Кузнецова",
           "avatarText": "ЕК"
+        },
+        "phone": "+79161538492",
+        "site": "https://stock.simai.io/",
+        "docs": {
+          "href": "/docs/stock/",
+          "text": "Руководство: Склад"
+        },
+        "api_password": {
+          "set": true
         },
         "head_script": "",
         "theme_css": "",
@@ -5861,6 +6494,15 @@
           "label": "Мария Волкова",
           "avatarText": "МВ"
         },
+        "phone": null,
+        "site": null,
+        "docs": {
+          "href": "/docs/delivery/",
+          "text": "Руководство: Доставка"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -5926,6 +6568,15 @@
           "label": "Авторизация"
         },
         "reviewer": null,
+        "phone": "+79161554330",
+        "site": "https://reports.simai.io/",
+        "docs": {
+          "href": "/docs/reports/",
+          "text": "Руководство: Отчёты"
+        },
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -5979,6 +6630,15 @@
         },
         "depends_on": null,
         "reviewer": null,
+        "phone": "+79161562249",
+        "site": "https://acl.simai.io/",
+        "docs": {
+          "href": "/docs/acl/",
+          "text": "Руководство: Права"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": null
@@ -6062,6 +6722,15 @@
           "label": "Мария Волкова",
           "avatarText": "МВ"
         },
+        "phone": "+79161570168",
+        "site": "https://import.simai.io/",
+        "docs": {
+          "href": "/docs/import/",
+          "text": "Руководство: Импорт"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -6128,6 +6797,12 @@
           "value": "u-maria",
           "label": "Мария Волкова",
           "avatarText": "МВ"
+        },
+        "phone": "+79161578087",
+        "site": "https://integrations.simai.io/",
+        "docs": null,
+        "api_password": {
+          "set": false
         },
         "head_script": "<script>\n  window.addEventListener('DOMContentLoaded', () => {\n    document.documentElement.dataset.ready = 'true';\n  });\n</script>",
         "theme_css": "",
@@ -6209,6 +6884,15 @@
           "label": "Игорь Смирнов",
           "avatarText": "ИС"
         },
+        "phone": "+79161586006",
+        "site": null,
+        "docs": {
+          "href": "/docs/media/",
+          "text": "Руководство: Медиа"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -6283,6 +6967,15 @@
           "value": "u-elena",
           "label": "Елена Кузнецова",
           "avatarText": "ЕК"
+        },
+        "phone": "+79161593925",
+        "site": "https://payments.simai.io/",
+        "docs": {
+          "href": "/docs/payments/",
+          "text": "Руководство: Платежи"
+        },
+        "api_password": {
+          "set": true
         },
         "head_script": "",
         "theme_css": "",
@@ -6365,6 +7058,15 @@
           "label": "Ядро платформы"
         },
         "reviewer": null,
+        "phone": null,
+        "site": "https://notify.simai.io/",
+        "docs": {
+          "href": "/docs/notify/",
+          "text": "Руководство: Уведомления"
+        },
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -6450,6 +7152,15 @@
           "value": "u-anna",
           "label": "Анна Петрова",
           "avatarText": "АП"
+        },
+        "phone": "+79161609763",
+        "site": "https://billing.simai.io/",
+        "docs": {
+          "href": "/docs/billing/",
+          "text": "Руководство: Биллинг"
+        },
+        "api_password": {
+          "set": true
         },
         "head_script": "",
         "theme_css": "",
@@ -6538,6 +7249,15 @@
           "label": "Сергей Ильин",
           "avatarText": "СИ"
         },
+        "phone": "+79161617682",
+        "site": "https://filebackup.simai.io/",
+        "docs": {
+          "href": "/docs/filebackup/",
+          "text": "Руководство: Резервные копии"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -6624,6 +7344,12 @@
           "label": "Анна Петрова",
           "avatarText": "АП"
         },
+        "phone": "+79161625601",
+        "site": null,
+        "docs": null,
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": ".sf-admin-shell {\n  --sf-admin-accent: var(--sf-primary);\n}",
         "notes": ""
@@ -6709,6 +7435,15 @@
           "label": "Елена Кузнецова",
           "avatarText": "ЕК"
         },
+        "phone": "+79161633520",
+        "site": "https://catalog.simai.io/",
+        "docs": {
+          "href": "/docs/catalog/",
+          "text": "Руководство: Каталог"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -6777,6 +7512,15 @@
           "label": "Игорь Смирнов",
           "avatarText": "ИС"
         },
+        "phone": "+79161641439",
+        "site": "https://search.simai.io/",
+        "docs": {
+          "href": "/docs/search/",
+          "text": "Руководство: Поиск"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "<script>\n  window.addEventListener('DOMContentLoaded', () => {\n    document.documentElement.dataset.ready = 'true';\n  });\n</script>",
         "theme_css": "",
         "notes": ""
@@ -6830,6 +7574,15 @@
         },
         "depends_on": null,
         "reviewer": null,
+        "phone": "+79161649358",
+        "site": "https://forms.simai.io/",
+        "docs": {
+          "href": "/docs/forms/",
+          "text": "Руководство: Формы"
+        },
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": "",
         "notes": null
@@ -6898,6 +7651,15 @@
           "value": "u-dmitry",
           "label": "Дмитрий Орлов",
           "avatarText": "ДО"
+        },
+        "phone": null,
+        "site": "https://stock.simai.io/",
+        "docs": {
+          "href": "/docs/stock/",
+          "text": "Руководство: Склад"
+        },
+        "api_password": {
+          "set": true
         },
         "head_script": "",
         "theme_css": "",
@@ -6979,6 +7741,15 @@
           "label": "Игорь Смирнов",
           "avatarText": "ИС"
         },
+        "phone": "+79161665196",
+        "site": null,
+        "docs": {
+          "href": "/docs/delivery/",
+          "text": "Руководство: Доставка"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -7056,6 +7827,12 @@
           "label": "Дмитрий Орлов",
           "avatarText": "ДО"
         },
+        "phone": "+79161673115",
+        "site": "https://reports.simai.io/",
+        "docs": null,
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -7121,6 +7898,15 @@
           "value": "u-maria",
           "label": "Мария Волкова",
           "avatarText": "МВ"
+        },
+        "phone": "+79161681034",
+        "site": "https://acl.simai.io/",
+        "docs": {
+          "href": "/docs/acl/",
+          "text": "Руководство: Права"
+        },
+        "api_password": {
+          "set": true
         },
         "head_script": "",
         "theme_css": "",
@@ -7193,6 +7979,15 @@
           "value": "u-igor",
           "label": "Игорь Смирнов",
           "avatarText": "ИС"
+        },
+        "phone": "+79161688953",
+        "site": "https://import.simai.io/",
+        "docs": {
+          "href": "/docs/import/",
+          "text": "Руководство: Импорт"
+        },
+        "api_password": {
+          "set": true
         },
         "head_script": "",
         "theme_css": "",
@@ -7273,6 +8068,15 @@
           "label": "Очереди"
         },
         "reviewer": null,
+        "phone": "+79161696872",
+        "site": "https://integrations.simai.io/",
+        "docs": {
+          "href": "/docs/integrations/",
+          "text": "Руководство: Интеграции"
+        },
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -7341,6 +8145,15 @@
           "label": "Елена Кузнецова",
           "avatarText": "ЕК"
         },
+        "phone": "+79161704791",
+        "site": null,
+        "docs": {
+          "href": "/docs/media/",
+          "text": "Руководство: Медиа"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "<script>\n  window.addEventListener('DOMContentLoaded', () => {\n    document.documentElement.dataset.ready = 'true';\n  });\n</script>",
         "theme_css": "",
         "notes": ""
@@ -7404,6 +8217,15 @@
           "value": "u-igor",
           "label": "Игорь Смирнов",
           "avatarText": "ИС"
+        },
+        "phone": null,
+        "site": "https://payments.simai.io/",
+        "docs": {
+          "href": "/docs/payments/",
+          "text": "Руководство: Платежи"
+        },
+        "api_password": {
+          "set": true
         },
         "head_script": "",
         "theme_css": "",
@@ -7487,6 +8309,12 @@
           "value": "u-dmitry",
           "label": "Дмитрий Орлов",
           "avatarText": "ДО"
+        },
+        "phone": "+79161720629",
+        "site": "https://notify.simai.io/",
+        "docs": null,
+        "api_password": {
+          "set": false
         },
         "head_script": "",
         "theme_css": ".sf-admin-shell {\n  --sf-admin-accent: var(--sf-primary);\n}",
@@ -7574,6 +8402,15 @@
           "label": "Сергей Ильин",
           "avatarText": "СИ"
         },
+        "phone": "+79161728548",
+        "site": "https://billing.simai.io/",
+        "docs": {
+          "href": "/docs/billing/",
+          "text": "Руководство: Биллинг"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -7622,6 +8459,15 @@
         "parent": null,
         "depends_on": null,
         "reviewer": null,
+        "phone": "+79161736467",
+        "site": "https://filebackup.simai.io/",
+        "docs": {
+          "href": "/docs/filebackup/",
+          "text": "Руководство: Резервные копии"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": null
@@ -7682,6 +8528,15 @@
           "label": "Отчётность"
         },
         "reviewer": null,
+        "phone": "+79161744386",
+        "site": null,
+        "docs": {
+          "href": "/docs/cart/",
+          "text": "Руководство: Корзина"
+        },
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -7763,6 +8618,15 @@
           "label": "Дмитрий Орлов",
           "avatarText": "ДО"
         },
+        "phone": "+79161752305",
+        "site": "https://catalog.simai.io/",
+        "docs": {
+          "href": "/docs/catalog/",
+          "text": "Руководство: Каталог"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": "Перенесено из SF4, сверить права перед включением."
@@ -7836,6 +8700,15 @@
           "value": "u-anna",
           "label": "Анна Петрова",
           "avatarText": "АП"
+        },
+        "phone": "+79161760224",
+        "site": "https://search.simai.io/",
+        "docs": {
+          "href": "/docs/search/",
+          "text": "Руководство: Поиск"
+        },
+        "api_password": {
+          "set": true
         },
         "head_script": "",
         "theme_css": "",
@@ -7921,6 +8794,12 @@
           "label": "Сергей Ильин",
           "avatarText": "СИ"
         },
+        "phone": null,
+        "site": "https://forms.simai.io/",
+        "docs": null,
+        "api_password": {
+          "set": false
+        },
         "head_script": "<script>\n  window.addEventListener('DOMContentLoaded', () => {\n    document.documentElement.dataset.ready = 'true';\n  });\n</script>",
         "theme_css": "",
         "notes": ""
@@ -7985,6 +8864,15 @@
           "value": "u-sergey",
           "label": "Сергей Ильин",
           "avatarText": "СИ"
+        },
+        "phone": "+79161776062",
+        "site": "https://stock.simai.io/",
+        "docs": {
+          "href": "/docs/stock/",
+          "text": "Руководство: Склад"
+        },
+        "api_password": {
+          "set": true
         },
         "head_script": "",
         "theme_css": "",
@@ -8066,6 +8954,15 @@
           "value": "u-dmitry",
           "label": "Дмитрий Орлов",
           "avatarText": "ДО"
+        },
+        "phone": "+79161783981",
+        "site": null,
+        "docs": {
+          "href": "/docs/delivery/",
+          "text": "Руководство: Доставка"
+        },
+        "api_password": {
+          "set": true
         },
         "head_script": "",
         "theme_css": "",
@@ -8149,6 +9046,15 @@
           "label": "Отчётность"
         },
         "reviewer": null,
+        "phone": "+79161791900",
+        "site": "https://reports.simai.io/",
+        "docs": {
+          "href": "/docs/reports/",
+          "text": "Руководство: Отчёты"
+        },
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -8219,6 +9125,15 @@
           "label": "Елена Кузнецова",
           "avatarText": "ЕК"
         },
+        "phone": "+79161799819",
+        "site": "https://acl.simai.io/",
+        "docs": {
+          "href": "/docs/acl/",
+          "text": "Руководство: Права"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -8284,6 +9199,15 @@
           "value": "u-elena",
           "label": "Елена Кузнецова",
           "avatarText": "ЕК"
+        },
+        "phone": "+79161807738",
+        "site": "https://import.simai.io/",
+        "docs": {
+          "href": "/docs/import/",
+          "text": "Руководство: Импорт"
+        },
+        "api_password": {
+          "set": true
         },
         "head_script": "",
         "theme_css": "",
@@ -8356,6 +9280,12 @@
           "label": "Анна Петрова",
           "avatarText": "АП"
         },
+        "phone": "+79161815657",
+        "site": "https://integrations.simai.io/",
+        "docs": null,
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": ".sf-admin-shell {\n  --sf-admin-accent: var(--sf-primary);\n}",
         "notes": ""
@@ -8409,6 +9339,15 @@
         },
         "depends_on": null,
         "reviewer": null,
+        "phone": null,
+        "site": null,
+        "docs": {
+          "href": "/docs/media/",
+          "text": "Руководство: Медиа"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": "Демо: у вас нет прав на эту запись — правка и удаление запрещены намеренно."
@@ -8487,6 +9426,15 @@
           "label": "Игорь Смирнов",
           "avatarText": "ИС"
         },
+        "phone": "+79161831495",
+        "site": "https://payments.simai.io/",
+        "docs": {
+          "href": "/docs/payments/",
+          "text": "Руководство: Платежи"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "<script>\n  window.addEventListener('DOMContentLoaded', () => {\n    document.documentElement.dataset.ready = 'true';\n  });\n</script>",
         "theme_css": "",
         "notes": ""
@@ -8563,6 +9511,15 @@
           "label": "Отчётность"
         },
         "reviewer": null,
+        "phone": "+79161839414",
+        "site": "https://notify.simai.io/",
+        "docs": {
+          "href": "/docs/notify/",
+          "text": "Руководство: Уведомления"
+        },
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -8648,6 +9605,15 @@
           "label": "Сергей Ильин",
           "avatarText": "СИ"
         },
+        "phone": "+79161847333",
+        "site": "https://billing.simai.io/",
+        "docs": {
+          "href": "/docs/billing/",
+          "text": "Руководство: Биллинг"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -8722,6 +9688,15 @@
           "value": "u-anna",
           "label": "Анна Петрова",
           "avatarText": "АП"
+        },
+        "phone": "+79161855252",
+        "site": "https://filebackup.simai.io/",
+        "docs": {
+          "href": "/docs/filebackup/",
+          "text": "Руководство: Резервные копии"
+        },
+        "api_password": {
+          "set": true
         },
         "head_script": "",
         "theme_css": "",
@@ -8806,6 +9781,12 @@
           "label": "Игорь Смирнов",
           "avatarText": "ИС"
         },
+        "phone": "+79161863171",
+        "site": null,
+        "docs": null,
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -8872,6 +9853,15 @@
           "value": "u-dmitry",
           "label": "Дмитрий Орлов",
           "avatarText": "ДО"
+        },
+        "phone": "+79161871090",
+        "site": "https://catalog.simai.io/",
+        "docs": {
+          "href": "/docs/catalog/",
+          "text": "Руководство: Каталог"
+        },
+        "api_password": {
+          "set": true
         },
         "head_script": "",
         "theme_css": "",
@@ -8947,6 +9937,15 @@
           "label": "Игорь Смирнов",
           "avatarText": "ИС"
         },
+        "phone": null,
+        "site": "https://search.simai.io/",
+        "docs": {
+          "href": "/docs/search/",
+          "text": "Руководство: Поиск"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -9013,6 +10012,15 @@
           "label": "Хранилище"
         },
         "reviewer": null,
+        "phone": "+79161886928",
+        "site": "https://forms.simai.io/",
+        "docs": {
+          "href": "/docs/forms/",
+          "text": "Руководство: Формы"
+        },
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -9092,6 +10100,15 @@
           "label": "Анна Петрова",
           "avatarText": "АП"
         },
+        "phone": "+79161894847",
+        "site": "https://stock.simai.io/",
+        "docs": {
+          "href": "/docs/stock/",
+          "text": "Руководство: Склад"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "<script>\n  window.addEventListener('DOMContentLoaded', () => {\n    document.documentElement.dataset.ready = 'true';\n  });\n</script>",
         "theme_css": "",
         "notes": "Перенесено из SF4, сверить права перед включением."
@@ -9158,6 +10175,15 @@
           "label": "Елена Кузнецова",
           "avatarText": "ЕК"
         },
+        "phone": "+79161902766",
+        "site": null,
+        "docs": {
+          "href": "/docs/delivery/",
+          "text": "Руководство: Доставка"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -9211,6 +10237,12 @@
         },
         "depends_on": null,
         "reviewer": null,
+        "phone": "+79161910685",
+        "site": "https://reports.simai.io/",
+        "docs": null,
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": ".sf-admin-shell {\n  --sf-admin-accent: var(--sf-primary);\n}",
         "notes": null
@@ -9290,6 +10322,15 @@
           "value": "u-elena",
           "label": "Елена Кузнецова",
           "avatarText": "ЕК"
+        },
+        "phone": "+79161918604",
+        "site": "https://acl.simai.io/",
+        "docs": {
+          "href": "/docs/acl/",
+          "text": "Руководство: Права"
+        },
+        "api_password": {
+          "set": true
         },
         "head_script": "",
         "theme_css": "",
@@ -9377,6 +10418,15 @@
           "label": "Игорь Смирнов",
           "avatarText": "ИС"
         },
+        "phone": "+79161926523",
+        "site": "https://import.simai.io/",
+        "docs": {
+          "href": "/docs/import/",
+          "text": "Руководство: Импорт"
+        },
+        "api_password": {
+          "set": true
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -9436,6 +10486,15 @@
           "label": "Очереди"
         },
         "reviewer": null,
+        "phone": null,
+        "site": "https://integrations.simai.io/",
+        "docs": {
+          "href": "/docs/integrations/",
+          "text": "Руководство: Интеграции"
+        },
+        "api_password": {
+          "set": false
+        },
         "head_script": "",
         "theme_css": "",
         "notes": ""
@@ -9507,6 +10566,15 @@
           "value": "u-elena",
           "label": "Елена Кузнецова",
           "avatarText": "ЕК"
+        },
+        "phone": "+79161942361",
+        "site": null,
+        "docs": {
+          "href": "/docs/media/",
+          "text": "Руководство: Медиа"
+        },
+        "api_password": {
+          "set": true
         },
         "head_script": "",
         "theme_css": "",

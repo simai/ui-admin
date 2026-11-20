@@ -23,7 +23,8 @@ type Renderers = {
   renderFilterField: (field: object, host: object) => unknown;
   registry?: Entry[];
 };
-type SFGlobal = {fieldRenderers?: Renderers; html: (strings: TemplateStringsArray, ...values: unknown[]) => unknown; render: (what: unknown, where: Element) => void; nothing: unknown};
+type SFGlobal = {fieldRenderers?: Renderers; html: (strings: TemplateStringsArray, ...values: unknown[]) => unknown; render: (what: unknown, where: Element) => void; nothing: unknown;
+  whenFieldRenderers?: () => Promise<Renderers>; language?: {onChange?: (listener: () => void) => () => void}};
 
 const sf = () => (window as unknown as {SF: SFGlobal}).SF;
 const rows = document.querySelector<HTMLElement>('[data-rows]')!;
@@ -151,7 +152,7 @@ let filtersKey = '';
 function syncFilterTable(fields: Field[]): void {
   const table = filterTable();
   if (!table || typeof table.setFilterFields !== 'function') return;
-  const key = `${sizeControl.value}|${fields.map((field) => field.key).join(',')}`;
+  const key = `${sizeControl.value}|${fields.map((field) => `${field.key}:${field.label}`).join(',')}`;
   if (key === filtersKey) return;
   filtersKey = key;
   table.setAttribute('size', sizeControl.value);
@@ -211,6 +212,21 @@ document.querySelector('[data-theme]')?.addEventListener('click', () => {
 // for the element on the page.
 const ready = () => Boolean(sf()?.fieldRenderers && sf()?.html);
 for (let wait = 0; !ready() && wait < 200; wait += 1) await new Promise((done) => setTimeout(done, 50));
+// The property names are the registry's `label.ru`, read when a row is drawn:
+// English until the set's Russian words (core/lang/ru/field-renderers.json)
+// are on the page. The set asks for them only when the bundle publishes it,
+// so drawing as soon as SF.fieldRenderers appeared showed «Phone»,
+// «Password» on some loads and nothing drew the rows again. Wait for the set
+// with its words (SF.whenFieldRenderers, at most SF_BOOT_CONFIG.languageWait),
+// and draw again whenever the page's words change (SF.language.onChange), for
+// words that come later than that.
+if (ready()) await sf().whenFieldRenderers?.().catch(() => null);
 if (!ready()) rows.textContent = 'Рендереры полей не загрузились.';
 else if (!sf().fieldRenderers?.registry) rows.textContent = 'В этой паре Framework ещё нет реестра свойств.';
-else draw();
+else {
+  draw();
+  let again = 0;
+  sf().language?.onChange?.(() => {
+    if (!again) again = requestAnimationFrame(() => { again = 0; draw(); });
+  });
+}

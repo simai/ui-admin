@@ -187,9 +187,9 @@ function draw(): void {
       <div class="properties-name" role="cell"><strong>${field.label}</strong>
         <code>${entry.type}${variant ? ` · ${variant}` : nothing}</code>
         <span class="properties-params">${entry.params.join(', ')}</span></div>
-      <div class="properties-cell" role="cell" data-mode="view">${view ?? none}</div>
-      <div class="properties-cell" role="cell" data-mode="edit">${edit ?? none}</div>
-      <div class="properties-cell properties-filter" role="cell" data-mode="filter" data-filter=${entry.modes.filter}>
+      <div class="properties-cell" role="cell" data-mode="view" data-caption="Просмотр">${view ?? none}</div>
+      <div class="properties-cell" role="cell" data-mode="edit" data-caption="Редактирование">${edit ?? none}</div>
+      <div class="properties-cell properties-filter" role="cell" data-mode="filter" data-caption="Фильтр" data-filter=${entry.modes.filter}>
         <sf-tag type="default" size=${size} text=${field.label} interactive
                 @click=${(event: Event) => openFilter(event, field)}></sf-tag>
         ${textFilter ? html`<span class="properties-note">Своего фильтра нет — поиск по тексту</span>` : nothing}</div>

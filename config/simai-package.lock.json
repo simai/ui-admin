@@ -3,28 +3,28 @@
   "package": "pro",
   "source": {
     "repository": "simai/ui-pro",
-    "revision": "a57887949f9a93ec59120c341d935cd0914b8807",
+    "revision": "d7c4cf661de08eee88ada0f292f805bdbd15aab3",
     "path": "components",
-    "tree": "6556b3196033743f70c152972e0f996365369749"
+    "tree": "0fba1931a42f144c3084d37d40a2c2f57950f862"
   },
   "builder": {
     "repository": "simai/ui-builder",
-    "revision": "ba79e739d1f9e2568d27e030606e8f95ce91b380"
+    "revision": "0ec5196b35aea0251abed7af4c60f498e1a3e411"
   },
   "smart": {
     "targetDir": "",
     "requiredFiles": [
       {
         "path": "rule.js",
-        "sha256": "2e4c92b02671776f430399974d94222de28c4df9e8cc9738be153ecf04dd687f"
+        "sha256": "868197db24b0c3a24fa295927650c1432d7405b3aaf0661bed8e9cd7f5c9aef3"
       },
       {
         "path": "admin-menu/js/admin-menu.js",
-        "sha256": "eb729bc7ca2a0795894ceefc5e1b52015565e06d39fbd314ed8847f8c24b40bd"
+        "sha256": "5903e6585d9a1934bcf87338bea0074cc853d126277218f23a46fc71e6a44611"
       },
       {
         "path": "admin-menu/css/admin-menu.css",
-        "sha256": "8f402e28eeb781b0ecfabd287ce4bea333afb3043b68d53a8e59d51ca906159e"
+        "sha256": "0dd6671007ea5c3f3d3422ffa5f8a76b426c6b613bcbec62daa1bd8bce2d0319"
       },
       {
         "path": "chat-composer/js/chat-composer.js",
@@ -32,7 +32,7 @@
       },
       {
         "path": "chat-composer/css/chat-composer.css",
-        "sha256": "ae4cfafa915528b53fbfc21f66272080ea366c9d47d3ea2c4d666a5ecd61606c"
+        "sha256": "4b338067b9aeb084baa29ffaf20881d7310c5289bfbc82d8e07eab89ca8f0c4a"
       },
       {
         "path": "chat-interlocutor/js/chat-interlocutor.js",
@@ -40,15 +40,15 @@
       },
       {
         "path": "chat-interlocutor/css/chat-interlocutor.css",
-        "sha256": "1e0f2f81161b04f3e38b4a241fd3cfbab7cec30b4929b378048c8c16ca068c68"
+        "sha256": "2031a3fbc3b5cd4a207fb33ef076e8493088d6b36586c057da0b2d766ac34c66"
       },
       {
         "path": "chat-message/js/chat-message.js",
-        "sha256": "84dd2077598cab84fe8acca00c18836fef75155b8f46e18712010320a21d878e"
+        "sha256": "00442b3ddfea57273295a876f58aefd59d36d4a64e1c67b25b1d99d6d83bc469"
       },
       {
         "path": "chat-message/css/chat-message.css",
-        "sha256": "b9dfeb662f32ce272d59e5974fd53332033780276a968f7fe03b093759d78ce5"
+        "sha256": "4c8fde924504f2fa050b9c7f920cc7e2a9a4026c1896d9e2a4d9b98d83edfb24"
       },
       {
         "path": "chat-threads/js/chat-threads.js",
@@ -56,31 +56,31 @@
       },
       {
         "path": "chat-threads/css/chat-threads.css",
-        "sha256": "ad23de962e88ac88be65dfad3bc2f0eb08f504c84fa2308f7f7ead1c13ff70d4"
+        "sha256": "9502c354a06565710313a166980a5699f68add5cec9df52c14377de3043ec612"
       },
       {
         "path": "chat-window/js/chat-window.js",
-        "sha256": "d1ced9af0ceb17d84e251d58e94545974c6944a3674cafc68a45257e27023880"
+        "sha256": "ee9dddc6fc3397fbe4c36d9de39a24b433bd88a28e0cd01936d0dda3a01ee82e"
       },
       {
         "path": "chat-window/css/chat-window.css",
-        "sha256": "a453324305d843d28231732e458be63d77cbe77806b6a56f6d76bd393757161a"
+        "sha256": "3a517cd03c2c30b77a8c13fc1f06e3b98c16a47ce9255cbbb7ef920ab078ff7d"
       },
       {
         "path": "editor/js/editor.js",
-        "sha256": "a4b077c2c2ec9c5663861f2cd485f706bf4c1436e1af7df5640892fce9f473eb"
+        "sha256": "6f5c7d8d1a5c8d94e06a5f3ca20bc809a0f2f95864c1edf05c5b58b0fb16994b"
       },
       {
         "path": "editor/css/editor.css",
-        "sha256": "5776f5e1192c007e4f00daa03dc75bde0ae757819a43999ba447ed1538ec513a"
+        "sha256": "e82ca0416a91af663deca2f6e767c5a18e9b7bd9ccbe7e016f44bdd6581aff0a"
       },
       {
         "path": "editor-content/js/editor-content.js",
-        "sha256": "f02399b6950dd5633cdb09eab18fb2e6d956da4363317b737d5ba8b221cf84ed"
+        "sha256": "360dd957780872250585029a2733f2e18cf5266074d9ce67fe4303c3dd702628"
       },
       {
         "path": "editor-content/css/editor-content.css",
-        "sha256": "ed63bc684977051ca293124fd1d1ee120b761c47a74dea8404b4976c7f6865ed"
+        "sha256": "35fdb2a135a223c11edc1a4b3220dc5df59a6a6da0675f9da3aff9c6b191318c"
       },
       {
         "path": "mail-canvas/js/mail-canvas.js",
@@ -92,15 +92,15 @@
       },
       {
         "path": "mail-inspector/js/mail-inspector.js",
-        "sha256": "6513759bd7c298ae9f2639f76843a3c87dcf663dfb11c6ae26f90e0cc3efedf1"
+        "sha256": "f25c787e6e642634b22b042437b101dcdc2b0d5bc54fe30cd1917e0d2c7e9a88"
       },
       {
         "path": "mail-inspector/css/mail-inspector.css",
-        "sha256": "76290c02bfde76920e41d957f6b4ed5ab65c8d197bc6691e50837e0adf58f149"
+        "sha256": "2a1e50102d3827599034affe1158e4519c920ea81ec600723b2821a50aa74e63"
       },
       {
         "path": "mail-letters/js/mail-letters.js",
-        "sha256": "e175d8fef0a0a642216af3419abe6e13ff50a3b7eae46896af4b6c5adbd94a41"
+        "sha256": "2d1f24c96d3312c71f05d80738536fc62ef78ccecb2835f6feafb3e231f82a2f"
       },
       {
         "path": "mail-letters/css/mail-letters.css",
@@ -108,11 +108,11 @@
       },
       {
         "path": "mail-library/js/mail-library.js",
-        "sha256": "43aa1d170f3701cec36f7c836b5995a9a820e053e43c553068d7d98b0cbc1ccc"
+        "sha256": "ecabcd69538a640a14f27948d7e18f754ebed77465f42a42ec7dfc999a877595"
       },
       {
         "path": "mail-library/css/mail-library.css",
-        "sha256": "cccdb642cc8ba7c787514bdc7119f2d43a2bb47f066102d77f6fd353d6d7dcb6"
+        "sha256": "460bb8d9eafeb06b03af6556af38551a00705e5b579f3ba7064422e7cf86f619"
       },
       {
         "path": "mail-structure/js/mail-structure.js",
@@ -120,7 +120,7 @@
       },
       {
         "path": "mail-structure/css/mail-structure.css",
-        "sha256": "4428e4c28760991bcb19de3eff3952f3de2cbffe3b413e38ba8817b80bac3da7"
+        "sha256": "8d71e2d7dadfa63dfa9fe1461d998b4075f4ee4accf670a8ea4c2ed8a331803a"
       },
       {
         "path": "message-log/js/message-log.js",
@@ -136,30 +136,30 @@
       },
       {
         "path": "view/css/view.css",
-        "sha256": "0c4e61e50093611b448d6f05c71de0175a178da5196f83cc11f10aaba2861c26"
+        "sha256": "67306b5c0c25c6ee3035ffc2e0a2478c5cb4fe91eb184656180d0f1b3c27a60f"
       },
       {
         "path": "view-properties/js/view-properties.js",
-        "sha256": "889ce7f25179436a2b983f39113566d4db1e47edf39a9c82d0bdba7f8cf58080"
+        "sha256": "147b89e03c254c628ae6cc95f7eecabf35c5f5169000c513ccff72b5fca77f60"
       },
       {
         "path": "view-properties/css/view-properties.css",
-        "sha256": "63ef01d7843ec529db60c47f91b79e1724c89bae0c1e07673aa94e96338bc806"
+        "sha256": "c1aab10c9bb54ece3bbc1134acdde078526ef961bc258734a4e1db7833c99bb5"
       },
       {
         "path": "view-table/js/view-table.js",
-        "sha256": "9c5c94c6a5ea6e9b0866e93359058f85e61ff83e9d4febdd68db96a1dc88cfed"
+        "sha256": "43e76b412d2d09a071cebdcea2fc05b653786a7150019719294804fdb5ab5134"
       },
       {
         "path": "view-table/css/view-table.css",
-        "sha256": "8c85cebaaaf61808445c71eb7dcf0a2545496b1e24f93ac2dd2dc1ace2885f6f"
+        "sha256": "22aae5caf1b51a814391bcaefeab3960a09f1017b0dfdb15a53816cb94905fcf"
       }
     ]
   },
-  "compatibilityId": "pro-a57887949f9a",
+  "compatibilityId": "pro-d7c4cf661de0",
   "requires": {
-    "framework": "ui-dc9fc39aeb26"
+    "framework": "ui-b654460cad2a"
   },
-  "archiveSha256": "7dcf56e071fbf01069ced1c54501598f2ce7b86384cbc9ec0006a7b7b0cc72f5",
-  "distributionIdentitySha256": "c81a995495fe05ff8647b713903bba160bfed332024f0157b5537b40a37948cf"
+  "archiveSha256": "a38f24d54d0d3b8c1677ff55ba4a1a676dcfc4c6d79ff6e7d36e6871537ef585",
+  "distributionIdentitySha256": "81842b157dabea3357340809648d6866b52efc0ceaa460acf5c2b0ffe8f12e69"
 }

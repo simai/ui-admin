@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.input-choice",
-  "version": "1.6.5",
+  "version": "1.11.0",
   "title": "Choice",
   "summary": "A form field that picks one option, or several, from cards in three layouts: list (one frame of rows, delivery and payment), tile (plans, modules) and picture (templates with an image). Each card has a name, a badge, a description, a price and term, and the real radio or checkbox on its name line. One option is a radio group the arrow keys move through; several are checkboxes. A chosen card has a 2 px primary edge over the lowest primary fill; invalid cards an error edge and a message under them.",
   "kind": "smart",
@@ -38,8 +38,11 @@
       "component.checkbox",
       "component.icons",
       "component.radio",
+      "smart.avatar",
       "smart.badge",
-      "smart.help-mark"
+      "smart.button",
+      "smart.help-mark",
+      "smart.input"
     ],
     "public_parts": []
   },
@@ -60,6 +63,34 @@
         "type": "string",
         "default": "",
         "description": "Inline style declarations set on the root element the component draws, custom properties included."
+      },
+      "searchable": {
+        "type": "boolean",
+        "default": false,
+        "description": "appearance list: a search field over the options. Without a provider it searches the options in hand by name and description, case and accents folded; with one, the provider is asked with the query. The search box's own input and change stay inside. With a search or a provider the options chosen when the list opened stand first; what is chosen while it is open moves nothing (FO4-5)."
+      },
+      "option-look": {
+        "type": "string",
+        "default": "",
+        "description": "How an option's color is drawn (FO4-2; C302: the field template's parameter): badge -- the name itself as a tonal badge in that colour, as a table cell draws it; dot -- a colour circle before the name. Unset: an option's former key says it (scheme a badge, swatch a circle), else the badge, the look every template and place draws an option's colour with (owner decision C308 FO-4: dropdown, buttons, checklist, view, cell).",
+        "enum": [
+          "badge",
+          "dot"
+        ]
+      },
+      "control-position": {
+        "type": "string",
+        "default": "start",
+        "description": "Where a row's checkbox or radio button stands under appearance list (owner decision C308 FO-5, design d03, C106 (2)): start -- before the name, as built; end -- at the end of the row, the row as wide as the list (the single-field filter window). The document keeps the box first either way.",
+        "enum": [
+          "start",
+          "end"
+        ]
+      },
+      "panel": {
+        "type": "boolean",
+        "default": false,
+        "description": "appearance list as a dropping panel's content (owner decisions C313 (3), C312 (1); the filter field window): the search is the panel's header, as in sf-dropdown's open list -- a row of the step and the panel's inset above and below (48, 44 on a phone), across the whole list with its hairline, its icon over the rows' pictures or at its end over rows without one, its text over the names; the rows stand at the panel's inset, their picture at the row's padding from the name. While a search is typed in a multiple list, «Select found (N)» is the first row and chooses the N rows found and not chosen."
       },
       "multiple": {
         "type": "boolean",
@@ -159,7 +190,7 @@
       "items": {
         "type": "array",
         "default": [],
-        "description": "The options, [{value, label, caption?, icon?, badge?, price?, term?, image?, disabled?}]: each a card with its name (label, or title), a description under it (caption), an icon on the name line, a short badge (sf-badge) beside the name, a price and its term (list: a column at the end of the name line; tile and picture: the foot of the card, after a divider) and an image (picture: to the card's edges, over the caption). A property, the JSON island or the attribute as JSON. An option without a value or repeating one is left out.",
+        "description": "The options, [{value, label, caption?, icon?, badge?, price?, term?, image?, disabled?}]: each a card with its name (label, or title; text, sf-dropdown's first spelling, is read until 2027-01-01 and noted in SF.deprecations), a description under it (caption), an icon on the name line, a short badge (sf-badge) beside the name, a price and its term (list: a column at the end of the name line; tile and picture: the foot of the card, after a divider) and an image (picture: to the card's edges, over the caption). A property, the JSON island or the attribute as JSON. An option without a value or repeating one is left out. Three visuals draw in every appearance (FO-4, FO4-1, FO4-3): avatar, an address or {image, text}, a picture before the name (sf-avatar on the row's line); icon before the name; color, a badge scheme, a palette hue or a hex colour, drawn by option-look. swatch (a circle) and scheme (a badge) are former names of color with their look, read until 2027-01-01 (FO4-2).",
         "examples": [
           [
             {
@@ -179,6 +210,11 @@
             }
           ]
         ]
+      },
+      "provider": {
+        "type": "object",
+        "default": null,
+        "description": "appearance list: the options come from the host a page at a time (FO-4): async function (query, {cursor, limit, signal}) answering {items, nextCursor?}, as sf-input-lookup's provider. Asked for the first page when given, again after a search (200 ms after the last key) and with nextCursor when the list is scrolled to its end, «Show more» staying the last row for the keyboard (FO4-4); a thrown error or a rejected promise is the error line with «Retry». The previous call is aborted through signal and an answer for an older call is dropped. The options in hand (items) stay first, so a chosen option the pages have not reached keeps its row. A property only."
       }
     },
     "additionalProperties": false
@@ -347,27 +383,27 @@
     "source_artifacts": [
       {
         "path": "src/smart/input-choice/index.js",
-        "sha256": "1cccab71922dfe2456772bd875984e40e38b1927f6cac79718c10d01f28b2e9b"
+        "sha256": "bbbc22fc972d72710d51afb8cec40907388ebcea81b1325a97b11581b385894a"
       },
       {
         "path": "src/smart/input-choice/js/templates/default.js",
-        "sha256": "6f7ba1e37505074ca2932039817dcb77e37e2ec8f96f360a807c44c871731a0b"
+        "sha256": "31c213a093998fce649a996eb0a205cd1877f5df1eff726145fdfff4ad99f504"
       },
       {
         "path": "src/smart/input-choice/js/choice-model.mjs",
-        "sha256": "7abf240b6297e650ef03382b82c043b60b8233f65d9c898e08cf9fcb8aa1e848"
+        "sha256": "b0c3d4d222e9fef5b3982657b20ed2bffd3834adfae79b0608907c916dc343a2"
       },
       {
         "path": "src/smart/input-choice/scss/_smart__choice.scss",
-        "sha256": "c6fe53b8d683d8cbe70eaa8986d5378fa14de65eec4c1415f48f07b5d0bbd686"
+        "sha256": "fb4ddf6a370251d6a713411a65ade795da9dba9515386d8c4b6dc51dee069b84"
       },
       {
         "path": "src/smart/input-choice/rule.js",
-        "sha256": "7d56822070344939d33f26c4907f9633dcbc8d39c35b0c5fe37e6c94f437f143"
+        "sha256": "42039a95b2ea2ad6ae7af60cbb6f81445398c83d49e4e03582c90fb41dde5c59"
       },
       {
         "path": "src/smart/input-choice/docs.md",
-        "sha256": "9e1bb8689e945cffb7943f4125fef7d817ac7da1f09b7f244c721b21d6984a71"
+        "sha256": "a4b6c1510d6add9aac7a4fbb6e0e467c7c324f07c746023ced38f7a9aec6f8a3"
       }
     ],
     "generated_runtime": []

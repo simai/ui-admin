@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
   "id": "smart.button",
-  "version": "1.16.8",
+  "version": "1.18.1",
   "title": "Buttons",
-  "summary": "A native button with Framework presentation: size, appearance, colour role or status, optional start and end icons, height and radius. loading sets aria-busy and disables it against repeated activation.",
+  "summary": "A native button with Framework presentation: size, appearance, colour role or status, optional start and end icons, height and radius. loading sets aria-busy and disables it against repeated activation. Attributes it does not own go to the inner control; a `data-*` is moved there, not copied (the host is display: contents and has no box): select the inner button by it (`[data-action]`, `closest('sf-button')` for the host), and read what was written on the host with `element.dataAttributes`.",
   "kind": "smart",
   "reuse_mode": "whole",
   "lifecycle": "experimental",
@@ -23,8 +23,10 @@
   "composition": {
     "uses": [
       "component.buttons",
+      "component.icon-buttons",
       "component.kbd",
       "component.spinner",
+      "component.tooltip",
       "smart.button-icon",
       "smart.icon",
       "smart.menu-context"
@@ -54,6 +56,8 @@
         "spacing",
         "radius",
         "full-width",
+        "overflow",
+        "max-width",
         "loading",
         "disabled",
         "native-type",
@@ -65,6 +69,7 @@
         "rel",
         "shortcut",
         "shortcut-listen",
+        "shrink",
         "expanded",
         "pressed",
         "text-pressed",
@@ -133,12 +138,13 @@
       "appearance": {
         "type": "string",
         "default": "default",
-        "description": "How the button looks: default (filled), tonal, outline or ghost (no fill or edge until hovered; rule C15). link is ghost's former name; a link is made by href, not by the look. surface is a former name until 2027-01-01 (rule C116): it draws as the soft grey button, tonal with the on-surface scheme (C113), and warns once per page. A danger button is default, outline or ghost: tonal and surface with status danger draw as outline until 2027-01-01.",
+        "description": "How the button looks: default (filled), tonal, outline or ghost (no fill or edge until hovered; rule C15), or plain (no fill or edge in any state, the box is its content: a quiet text tool next to text or fields; its label takes ghost's ink and a line under the label on hover, press, an open menu and keyboard focus, as a link in a menu or a navigation, C186; the plain look of an icon button, C201). link is ghost's former name; a link is made by href, not by the look. surface is a former name until 2027-01-01 (rule C116): it draws as the soft grey button, tonal with the on-surface scheme (C113), and warns once per page. A danger button is default, outline or ghost: tonal and surface with status danger draw as outline until 2027-01-01.",
         "enum": [
           "default",
           "tonal",
           "outline",
-          "ghost"
+          "ghost",
+          "plain"
         ]
       },
       "scheme": {
@@ -262,6 +268,20 @@
         "default": false,
         "description": "The control fills its container, as sf-segmented's full-width does, and its content stays in the middle; without it the button is as wide as its content (owner decision C36). The height does not change."
       },
+      "overflow": {
+        "type": "string",
+        "default": "wrap",
+        "description": "What a label longer than the button may be does (owner decision C301 (2); the values of sf-list-description's overflow): wrap (the default) keeps the label whole as before; truncate keeps it on one line and cuts it with an ellipsis at max-width, or at the width the container gives, whichever is less, the icons, the menu arrow and the keys keeping their size. While the label is cut, hover and keyboard focus show the whole label (the host's title when the page wrote one) in the Framework's tooltip, and the browser's own title tooltip is not drawn over it; the accessible name stays the whole label. A label that fits draws no tooltip.",
+        "enum": [
+          "wrap",
+          "truncate"
+        ]
+      },
+      "max-width": {
+        "type": "string",
+        "default": "",
+        "description": "With overflow=\"truncate\": the widest the button grows before its label is cut, a CSS length (rem, vw, a min() of them, or var(--sf-...)); it wins over the public variable --sf-button-max-width, which a page may set on the button or an ancestor instead. Empty: that variable, else the container's width. A value with ; { } < > \" or \\ is ignored."
+      },
       "loading": {
         "type": "boolean",
         "default": false,
@@ -322,6 +342,15 @@
         "default": false,
         "description": "The button listens to its shortcut on the page and is pressed by it, as by a click. A combination without mod, ctrl, alt or meta is not heard while focus is in an editable field"
       },
+      "shrink": {
+        "type": "string",
+        "default": "none",
+        "description": "How the button gives way when the bar it stands in asks it to (owner decision C370): icon, its glyph only -- a square of its height, ghost -- keeping its name (its text, unless aria-label names it), its aria-keyshortcuts and the Framework's tooltip with its text and keys («Поиск ⌘K», C160); none, never. sf-header-site collapse auto asks first, before its nav gives way (C372), by the host state data-shrunk; a button needs an icon to give way to",
+        "enum": [
+          "none",
+          "icon"
+        ]
+      },
       "expanded": {
         "type": "boolean",
         "default": false,
@@ -330,7 +359,7 @@
       "pressed": {
         "type": "boolean",
         "default": false,
-        "description": "Whether this toggle button is on: aria-pressed on the inner button and the pressed look -- the primary container fill, its ink, no visible edge and the icon filled (rule C12), on a toggle only: outline or ghost in the neutral scheme (owner decision C211 (1)); another look keeps its own with aria-pressed and the console says once that it is no toggle; one choice among several is sf-segmented. pressed=\"false\" says off; absent, the button is not a toggle and nothing is said"
+        "description": "Whether this toggle button is on: aria-pressed on the inner button and the pressed look -- the primary container fill, its ink, no visible edge and the icon filled (rule C12), on a toggle: outline or ghost in the neutral scheme (owner decision C211 (1)), and a filled (default) button of any scheme at its scheme's pressed step, its own ink and the icon filled (owner decision C309 (2)); another look keeps its own with aria-pressed and the console says once that it is no toggle; one choice among several is sf-segmented. pressed=\"false\" says off; absent, the button is not a toggle and nothing is said"
       },
       "text-pressed": {
         "type": "string",
@@ -360,7 +389,8 @@
           "default",
           "tonal",
           "outline",
-          "ghost"
+          "ghost",
+          "plain"
         ]
       },
       "icon-left": {
@@ -736,7 +766,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/button/index.js",
-        "sha256": "3355e00809fb59a46d55a61daeb036eb5b9d17ff894f57b4155d38367f8aae95"
+        "sha256": "5daa3febee36b5424029942294bef9b91dc522c9f3ac9d0a5cb3077b4102abde"
       }
     ],
     "generated_runtime": [

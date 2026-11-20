@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.segmented",
-  "version": "1.6.7",
+  "version": "1.8.1",
   "title": "Segmented control",
   "summary": "A controlled single-selection group built from SF5 buttons.",
   "kind": "smart",
@@ -28,6 +28,7 @@
     "uses": [
       "component.button-group",
       "component.spinner",
+      "smart.badge",
       "smart.button",
       "smart.dropdown",
       "smart.icon"
@@ -174,6 +175,16 @@
         "type": "boolean",
         "default": false,
         "description": "Disables the whole group."
+      },
+      "invalid": {
+        "type": "boolean",
+        "default": false,
+        "description": "The shown invalid state: the group's edge in the error role (the track's outline, or the buttons' frame) and aria-invalid on the radio group."
+      },
+      "error-message": {
+        "type": "string",
+        "default": "",
+        "description": "The text shown under the control while it is invalid, in the error colour: what is wrong, as every field of the family says it (sf-input, sf-input-choice); the native control is described by it. Nothing is drawn without invalid."
       },
       "value": {
         "type": "string",
@@ -496,7 +507,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/segmented/index.js",
-        "sha256": "b918dc690da535ed88e910eee25be5233388697c01dd813189184afddbb7ca54"
+        "sha256": "928d037a658d4a6cec4d2249061bbb60d7d72b5fa7c65c859d7ba3507cd01e46"
       }
     ],
     "generated_runtime": []

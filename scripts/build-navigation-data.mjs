@@ -225,7 +225,9 @@ const NOTIFICATIONS = [
 ];
 
 const navigation = {
-  schema: 'ui-admin.navigation.v1',
+  // Names carry no version (decided 2026-11-20); the edition is a field.
+  schema: 'ui-admin.navigation',
+  schema_version: 1,
   summary: 'The admin menu\'s data as a host knows it: sites, the tree per site, profiles with layouts, the person and notifications. Answers simai.admin-navigation-port through src/ports/navigation-host.mjs.',
   roots: ROOTS,
   rows: {

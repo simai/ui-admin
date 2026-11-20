@@ -1,5 +1,6 @@
 {
-  "schema": "ui-admin.navigation.v1",
+  "schema": "ui-admin.navigation",
+  "schema_version": 1,
   "summary": "The admin menu's data as a host knows it: sites, the tree per site, profiles with layouts, the person and notifications. Answers simai.admin-navigation-port through src/ports/navigation-host.mjs.",
   "roots": [
     {

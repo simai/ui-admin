@@ -150,6 +150,14 @@ export const createPolygonHost = ({
       personal: { revision: 'personal-1', columns: {} },
     },
     views: [
+      // Port 1.16.0 (C298): the product's own view, level system. It ships
+      // with the polygon and is never written through the port: a person's
+      // change to it is saved as a new view of their own.
+      {
+        key: 'view-all', label: 'Все решения', revision: 'v1', level: 'system',
+        query: { filters: {}, search: '', sort: [] },
+        roles: {}, layout: { columns: [] }, settings: { filter_fields: structure.list.filter_fields },
+      },
       {
         key: 'view-active', label: 'В работе', revision: 'v1', level: 'shared',
         query: { filters: { status: { operator: 'in', values: ['active', 'review'] } }, search: '', sort: [{ key: 'released', direction: 'desc' }] },
@@ -163,6 +171,11 @@ export const createPolygonHost = ({
     ],
     sequence: 0,
     lastAnswered: 0,
+    // Port 1.16.0, capability personal-preferences: this person's own view
+    // state (page size, the view zone, the view opened last), one layer with
+    // its revision, sent with the first answer to query.change.
+    preferences: { revision: 'p1' },
+    preferencesSent: false,
   };
 
   const wait = () => (latencyMs > 0 ? new Promise((resolve) => setTimeout(resolve, latencyMs)) : null);
@@ -287,6 +300,7 @@ export const createPolygonHost = ({
             : state.settings.personal.revision, key: extra.savedView ?? null },
         },
         ...(capabilities.includes('saved-views') ? { saved_views: copy(state.views) } : {}),
+        ...(extra.preferences ? { preferences: copy(state.preferences) } : {}),
       },
     };
   };
@@ -340,7 +354,33 @@ export const createPolygonHost = ({
         // it redraws the list with the previous filter.
         if (sequence < state.lastAnswered) return { answer: 'applied', sequence, dropped: true };
         state.lastAnswered = sequence;
-        return answerQuery(payload.query ?? {}, sequence);
+        const preferences = capabilities.includes('personal-preferences') && !state.preferencesSent;
+        if (preferences) state.preferencesSent = true;
+        return answerQuery(payload.query ?? {}, sequence, { preferences });
+      }
+
+      // Port 1.16.0: the person's own view state, merged against its revision
+      // (a field sent as null is removed); never asked without the capability.
+      if (intent === 'preferences.save') {
+        if (!capabilities.includes('personal-preferences')) {
+          return { answer: 'unavailable', reason: 'capability-not-provided' };
+        }
+        const changed = payload.preferences;
+        if (!changed || typeof changed !== 'object' || !Object.keys(changed).length) {
+          return { answer: 'refused', reason: 'invalid-payload' };
+        }
+        if (String(payload.base_revision ?? '') !== String(state.preferences.revision)) {
+          return { answer: 'conflict', reason: 'stale-revision', current_revision: state.preferences.revision };
+        }
+        const next = { ...state.preferences };
+        for (const [key, value] of Object.entries(changed)) {
+          if (!['page_size', 'view_zone', 'view'].includes(key)) continue;
+          if (value === null) delete next[key];
+          else next[key] = value;
+        }
+        next.revision = `p${Number(String(state.preferences.revision).slice(1)) + 1}`;
+        state.preferences = next;
+        return { answer: 'applied', data: { preferences: copy(next) } };
       }
 
       if (intent === 'query.count') {
@@ -584,6 +624,11 @@ export const createPolygonHost = ({
         }
         const key = String(payload.key ?? payload.saved_view_id ?? '');
         const existing = state.views.find((item) => item.key === key);
+        // A system view ships with the product and is not written through the
+        // port (1.16.0): the view saves the change as a new view instead.
+        if (existing && (existing.level === 'system' || existing.level === 'package')) {
+          return { answer: 'refused', reason: 'forbidden', message: 'Системный вид не меняется: сохраните изменения как новый вид' };
+        }
         const base = payload.base_revision ?? payload.revision;
         if (existing && base && String(base) !== String(existing.revision)) {
           return { answer: 'conflict', reason: 'stale-revision', current_revision: existing.revision, view: copy(existing) };

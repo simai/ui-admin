@@ -157,6 +157,20 @@ const listReaches = [
   ['view.save', 'applied', ALL_LIST, 'default', { key: 'view-active', base_revision: 'v1', label: 'В работе' }],
   ['view.save', 'conflict', ALL_LIST, 'default', { key: 'view-active', revision: 'v9' }],
   ['view.save', 'unavailable', [], 'default', { key: 'view-active' }],
+  // Port 1.16.0: the polygon's own system view is not written through the
+  // port, and the person's view state with personal-preferences: sent with
+  // the first answer, merged against its revision, a conflict on an old one,
+  // and never asked without the capability.
+  ['view.save', 'refused', ALL_LIST, 'default', { key: 'view-all', label: 'Все решения', revision: 'v1', query: { filters: { status: { operator: 'in', values: ['active'] } } } },
+    undefined, 'system-view-is-not-written'],
+  ['query.change', 'applied', [...ALL_LIST, 'personal-preferences'], 'default', { sequence: 1, query: { page: 1, per_page: 20 } },
+    undefined, 'preferences-come-with-the-first-answer'],
+  ['preferences.save', 'applied', [...ALL_LIST, 'personal-preferences'], 'default', { preferences: { view_zone: 'closed' }, base_revision: 'p1' },
+    undefined, 'preferences-save-merges-the-changed-fields'],
+  ['preferences.save', 'conflict', [...ALL_LIST, 'personal-preferences'], 'default', { preferences: { page_size: 100 }, base_revision: 'p0' },
+    undefined, 'preferences-save-conflict'],
+  ['preferences.save', 'unavailable', ALL_LIST, 'default', { preferences: { page_size: 20 }, base_revision: 'p1' },
+    undefined, 'preferences-without-the-capability-stay-in-the-browser'],
   ['view.save_shared', 'applied', ALL_LIST, 'default', { key: 'view-active', revision: 'v1', target: 'shared' }],
   ['view.save_shared', 'unavailable', ['saved-views'], 'default', { key: 'view-active', target: 'shared' }],
   ['view.delete', 'applied', ALL_LIST, 'default', { key: 'view-mine' }],
@@ -431,6 +445,30 @@ const deleteAsksFirst = await (async () => {
   return null;
 })();
 if (deleteAsksFirst) failures.push({ intent: 'record.mutate', action: 'delete', ...deleteAsksFirst });
+
+// ─── 5: the person's view state (dataview-port 1.16.0) ───────────────────────
+//
+// The values, not only the answers: the first answer to query.change carries
+// the layer and the next one does not, a save merges only what it names (null
+// removes), and a conflict names the current revision.
+const preferencesHold = await (async () => {
+  if (!listKit?.required.has('preferences.save|applied')) return null;
+  const host = createPolygonHost({ dataset, capabilities: [...ALL_LIST, 'personal-preferences'], scenario: 'default' });
+  const first = await host.raise('query.change', { sequence: 1, query: { page: 1 } });
+  if (first?.data?.preferences?.revision !== 'p1') return { said: 'the first answer carries no preferences at revision p1', first: first?.data?.preferences };
+  const second = await host.raise('query.change', { sequence: 2, query: { page: 1 } });
+  if (second?.data && 'preferences' in second.data) return { said: 'a later answer carries the preferences again' };
+  const sized = await host.raise('preferences.save', { preferences: { page_size: 50, view_zone: 'open' }, base_revision: 'p1' });
+  const closed = await host.raise('preferences.save', { preferences: { view_zone: null }, base_revision: sized?.data?.preferences?.revision });
+  const layer = closed?.data?.preferences ?? {};
+  if (layer.page_size !== 50 || 'view_zone' in layer || layer.revision !== 'p3') {
+    return { said: 'a save does not merge what it names (null removes) against the revision', layer };
+  }
+  const stale = await host.raise('preferences.save', { preferences: { page_size: 100 }, base_revision: 'p1' });
+  if (stale?.answer !== 'conflict' || stale?.current_revision !== 'p3') return { said: 'a stale save is not a conflict naming p3', stale };
+  return null;
+})();
+if (preferencesHold) failures.push({ port: 'simai.dataview-port', intent: 'preferences.save', ...preferencesHold });
 
 process.stdout.write(`${JSON.stringify({
   schema: 'ui-admin.polygon.v1',

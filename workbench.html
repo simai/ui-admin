@@ -268,11 +268,12 @@
     </main>
 
     <!-- The record panel. It is portalled out of here when it opens, so where
-         the element stands matters only for who owns it. -->
+         the element stands matters only for who owns it. Its width is the
+         component's own: the drawer's ladder step plus the column of sections
+         (no exact panel-width, off the drawer's ladder). -->
     <sf-view-properties
       id="record"
       panel
-      panel-width="40rem"
       collection="admin.solutions"
       collection-label="Решения"
       collection-icon="inventory_2"

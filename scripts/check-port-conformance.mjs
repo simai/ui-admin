@@ -55,10 +55,15 @@ for (const id of manifest.cases) {
   const path = join(kitRoot, 'cases', `${id}.json`);
   if (!existsSync(path)) continue;
   const testCase = JSON.parse(readFileSync(path, 'utf8'));
-  const key = `${testCase.when.intent}|${testCase.then.answer}`;
-  const cases = required.get(key) ?? [];
-  cases.push({ case: id, keys: new Set(testCase.then.answer_must_include ?? []) });
-  required.set(key, cases);
+  // Since port 1.22.1 a case may allow more than one answer (a save over a
+  // moved revision is refused or conflict): the case is listed under each, and
+  // a host reaching any one of them reaches the case.
+  for (const answer of [testCase.then.answer].flat()) {
+    const key = `${testCase.when.intent}|${answer}`;
+    const cases = required.get(key) ?? [];
+    cases.push({ case: id, keys: new Set(testCase.then.answer_must_include ?? []) });
+    required.set(key, cases);
+  }
 }
 
 // How this reference reaches each answer. One row per (intent, answer) the kit
@@ -207,13 +212,18 @@ if (required.has('group.load|applied')) {
   failures.push(...groupFailures);
 }
 
+const unreached = new Map();
 for (const [key, cases] of required) {
   for (const entry of cases) {
-    if (!reached.has(entry.case)) {
-      const [intent, answer] = key.split('|');
-      failures.push({ intent, answer, said: 'the kit declares this answer and the reference reaches no case for it', case: entry.case });
-    }
+    if (reached.has(entry.case)) continue;
+    const [intent, answer] = key.split('|');
+    const gap = unreached.get(entry.case) ?? { intent, answers: [] };
+    gap.answers.push(answer);
+    unreached.set(entry.case, gap);
   }
+}
+for (const [name, { intent, answers }] of unreached) {
+  failures.push({ intent, answer: answers.join(','), said: 'the kit declares this answer and the reference reaches no case for it', case: name });
 }
 
 // Every property type the fixture record declares has to be one the Framework
@@ -248,7 +258,7 @@ const report = {
   schema: 'ui-admin.port_conformance.v1',
   port: manifest.port,
   version,
-  declared: [...required.values()].reduce((sum, cases) => sum + cases.length, 0),
+  declared: new Set([...required.values()].flat().map((entry) => entry.case)).size,
   reached: reached.size,
   status: failures.length ? 'fail' : 'pass',
   failures,

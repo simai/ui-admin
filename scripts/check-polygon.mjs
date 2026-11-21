@@ -97,10 +97,15 @@ const kitFor = (portId) => {
     const path = join(kitRoot, 'cases', `${id}.json`);
     if (!existsSync(path)) continue;
     const testCase = JSON.parse(readFileSync(path, 'utf8'));
-    const key = `${testCase.when.intent}|${testCase.then.answer}`;
-    const cases = required.get(key) ?? [];
-    cases.push({ case: id, keys: new Set(testCase.then.answer_must_include ?? []) });
-    required.set(key, cases);
+    // Since property-view-port 1.22.1 a case may allow more than one answer
+    // (a save over a moved revision is refused or conflict): it is listed
+    // under each, and reaching any one of them reaches the case.
+    for (const answer of [testCase.then.answer].flat()) {
+      const key = `${testCase.when.intent}|${answer}`;
+      const cases = required.get(key) ?? [];
+      cases.push({ case: id, keys: new Set(testCase.then.answer_must_include ?? []) });
+      required.set(key, cases);
+    }
   }
   return { version, manifest, required };
 };
@@ -300,17 +305,22 @@ const drive = async (label, kit, reaches, build) => {
       }
     }
   }
-  let declared = 0;
+  const declared = new Set();
+  const unreached = new Map();
   for (const [key, cases] of kit.required) {
     for (const entry of cases) {
-      declared += 1;
-      if (!reached.has(entry.case)) {
-        const [intent, answer] = key.split('|');
-        failures.push({ port: label, intent, answer, said: 'the kit declares this answer and the polygon reaches no case for it', case: entry.case });
-      }
+      declared.add(entry.case);
+      if (reached.has(entry.case)) continue;
+      const [intent, answer] = key.split('|');
+      const gap = unreached.get(entry.case) ?? { intent, answers: [] };
+      gap.answers.push(answer);
+      unreached.set(entry.case, gap);
     }
   }
-  return { reached: reached.size, declared };
+  for (const [name, { intent, answers }] of unreached) {
+    failures.push({ port: label, intent, answer: answers.join(','), said: 'the kit declares this answer and the polygon reaches no case for it', case: name });
+  }
+  return { reached: reached.size, declared: declared.size };
 };
 
 const ALL_NAV = ['favourites', 'menu-profiles', 'notifications', 'preferences', 'search', 'sign-out', 'site-switch'];

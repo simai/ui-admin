@@ -49,17 +49,19 @@
     block-size: var(--sf-ui-1\/2--control-height);
     padding-inline: var(--sf-space-1\/2);
     border-radius: var(--sf-radius--ui);
-    background-color: var(--sf-surface-card);
+    background-color: var(--sf-elevation-2--surface);
     color: var(--sf-primary);
-    box-shadow: var(--sf-ui-shadow-1);
+    box-shadow: var(--sf-elevation-2--shadow);
     font-size: var(--sf-text-size-1\/2);
     line-height: var(--sf-text-height-1\/2);
     transform: translateY(-200%);
   }
   .sf-admin-shell__skip:focus {
     transform: none;
-    outline: var(--sf-a2) solid var(--sf-focus--color);
-    outline-offset: var(--sf-a2);
+  }
+  .sf-admin-shell__skip:focus-visible {
+    outline: var(--sf-focus--width) var(--sf-focus--style) var(--sf-focus--color);
+    outline-offset: var(--sf-focus--offset);
   }
 
   /* The bar over everything (C338): it stays when the document scrolls. */

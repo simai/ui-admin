@@ -454,7 +454,7 @@
       ]
     },
     "accessibility": {
-      "accessible_name": "host",
+      "accessible_name": "recommended",
       "focus": "Links and buttons in reading order; «Ещё N по …» keeps the focus; after «Прочитать все» the focus goes to the count (role status)."
     },
     "compatibility": {

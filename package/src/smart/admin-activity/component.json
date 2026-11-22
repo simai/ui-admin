@@ -371,7 +371,7 @@
       ]
     },
     "accessibility": {
-      "accessible_name": "element",
+      "accessible_name": "internal",
       "focus": "The trigger in reading order; the list is sf-popover's, the focus returns to the trigger when it closes."
     },
     "compatibility": {

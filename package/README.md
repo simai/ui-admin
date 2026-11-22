@@ -9,6 +9,15 @@ repository is the admin demo site; the set does not depend on it.
 | Folder | Element | Former tag (until 2027-01-01) | What it is |
 |:---|:---|:---|:---|
 | `src/smart/admin-menu` | `sf-admin-menu` | none | the admin menu: a site's navigation over a host's navigation port (`simai.admin-navigation-port`): the rail, the section column, search, the object menu, favourites, notifications and the setting mode |
+| `src/smart/admin-shell` | `sf-admin-shell` | none | preview: the admin page frame (C420): the bar, the menu, the head and the content on document scroll; the menu's room held before its first paint; the skip link; width list or read; the phone's sticky top line and full-screen menu |
+| `src/smart/admin-notifications` | `sf-admin-notifications` | none | preview: the notifications list (C421): by day, repeats of one object folded under «Ещё N по …», «Прочитать все», panel or history page; over the menu's port or as items |
+| `src/smart/admin-activity` | `sf-admin-activity` | none | preview: the background-activity indicator (C421): «Идёт N», the failure mark until the list is opened, «Не удалось N»; runs in sf-popover; a run's end told by SF.notify and a notification |
+
+The three preview components carry fallbacks until SIMAI Framework parts
+AS-2 and AS-4 arrive in a pair (marked `Fallback until AS-n` in their
+sources): the crumbs row's end place of sf-header-page (AS-2) is laid out by
+the shell's `.sf-admin-shell-path`, and «Повторить» of a failed sf-progress-run
+row (AS-4) is an sf-button under it. They drop at the repin that carries them.
 
 The component came from `simai/ui-pro` `components/src/smart/admin-menu` at
 `2ba35fa` byte for byte (sf-admin-menu 1.11.2), was carried to ui-pro's
@@ -72,7 +81,7 @@ node <ui-builder>/scripts/verify-package-reproducibility.cjs \
 python3 <ui-builder>/scripts/write-package-receipt.py --report <workspace>/report.json --ui <ui>
 ```
 
-The output is `set.json`, `smart/admin-menu/…` and `smart/rule.js`, one
+The output is `set.json`, `smart/admin-menu/…` (and the other folders) and `smart/rule.js`, one
 `SF.RuleLoader.registerPackage("admin", {rules})` call, and a receipt that
 names the ui-source revision and the free release it was built over. The
 release route (ui-builder `publish-package-release.sh`) lays it into

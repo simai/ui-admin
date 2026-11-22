@@ -287,7 +287,7 @@
       },
       {
         "path": "src/smart/admin-shell/js/templates/default.css",
-        "sha256": "34e2fab993bfb7ce775fea644c3a1837d82120262564819c2a5f7ec549d4c16e"
+        "sha256": "826c5e083c8c44d6f30811f83f77c3667e664c5d9921bb73b5d972668644e982"
       },
       {
         "path": "src/smart/admin-shell/component.json",
@@ -301,7 +301,8 @@
         "path": "src/smart/admin-shell/lang/ru.json",
         "sha256": "a568500db0abe1a80f0d2cfc56498a7740156a70386c79e16ed4fb6500b6368e"
       }
-    ]
+    ],
+    "generated_runtime": []
   },
   "ai_guidance": {
     "use_when": "Use sf-admin-shell once per admin screen around sf-alert-bar (slot bar), sf-admin-menu (slot menu), sf-header-page (slot head) and the content.",

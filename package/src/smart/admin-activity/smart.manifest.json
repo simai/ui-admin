@@ -234,7 +234,7 @@
   },
   "accessibility": {
     "role": "group",
-    "accessible_name": "element",
+    "accessible_name": "internal",
     "keyboard": [
       "Tab",
       "Enter",
@@ -307,11 +307,11 @@
       },
       {
         "path": "src/smart/admin-activity/js/templates/default.css",
-        "sha256": "c7be9f788a0f03696dfb407fb7fa1aacafcdbcbaa853a6c8428482ac318e1b0d"
+        "sha256": "888390f592168a805e6e0033ad0c947b0aa4902e636fad2bcf359f99fe2a2370"
       },
       {
         "path": "src/smart/admin-activity/component.json",
-        "sha256": "a791f58e9d959515b3fce0a4fa075cc1dd47440670d0f2c63867bf2f4b7a4b91"
+        "sha256": "3140bfdbabc25a0a07af3b255e9b815dff3ced2822aa450aab01954a5b2ffb3e"
       },
       {
         "path": "src/smart/admin-activity/lang/en.json",
@@ -321,7 +321,8 @@
         "path": "src/smart/admin-activity/lang/ru.json",
         "sha256": "8b19b48c857ad7c5b493b347cc67c6e66dbe5e85182cb158afd9338676b64828"
       }
-    ]
+    ],
+    "generated_runtime": []
   },
   "ai_guidance": {
     "use_when": "Use sf-admin-activity at the end of the crumbs row of an admin page and in the phone top line of sf-admin-shell (slot top-end), with the host's runs.",

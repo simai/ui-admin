@@ -11,8 +11,8 @@
      The --sf-admin-activity--* names are the internal layer they feed. */
   .sf-admin-activity {
     --sf-admin-activity--gap: var(--sf-admin-activity-gap, var(--sf-space-1\/4));
-    --sf-admin-activity--list-width: var(--sf-admin-activity-list-width, min(22rem, 80vw));
-    --sf-admin-activity--list-height: var(--sf-admin-activity-list-max-height, 60dvh);
+    --sf-admin-activity--list-width: var(--sf-admin-activity-list-width, var(--sf-g1));
+    --sf-admin-activity--list-height: var(--sf-admin-activity-list-max-height, var(--sf-g6));
     --sf-admin-activity--failed: var(--sf-admin-activity-failed-color, var(--sf-error));
     --sf-admin-activity--inset: var(--sf-admin-activity-trigger-padding-inline, var(--sf-space-1\/4));
 
@@ -47,8 +47,8 @@
     background-color: var(--sf-surface-state-select);
   }
   .sf-admin-activity__trigger:focus-visible {
-    outline: var(--sf-a2) solid var(--sf-focus--color);
-    outline-offset: var(--sf-a2);
+    outline: var(--sf-focus--width) var(--sf-focus--style) var(--sf-focus--color);
+    outline-offset: var(--sf-focus--offset);
   }
   .sf-admin-activity__mark {
     color: var(--sf-admin-activity--failed);
@@ -88,8 +88,8 @@
     color: var(--sf-primary);
   }
   .sf-admin-activity__foot a:focus-visible {
-    outline: var(--sf-a2) solid var(--sf-focus--color);
-    outline-offset: var(--sf-a2);
+    outline: var(--sf-focus--width) var(--sf-focus--style) var(--sf-focus--color);
+    outline-offset: var(--sf-focus--offset);
     border-radius: var(--sf-radius--ui);
   }
 }

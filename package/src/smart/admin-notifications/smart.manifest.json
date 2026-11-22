@@ -320,7 +320,7 @@
   },
   "accessibility": {
     "role": "region",
-    "accessible_name": "host",
+    "accessible_name": "recommended",
     "keyboard": [
       "Tab",
       "Enter",
@@ -392,11 +392,11 @@
       },
       {
         "path": "src/smart/admin-notifications/js/templates/default.css",
-        "sha256": "1d6a9aacfe03a37405e622644dbfb86b2576ac2b7ac39282331f7ef13cb41ec0"
+        "sha256": "bf34c7dd35ab448ba81eed7bd90d894df6da94a8e7be14863245abf8b06f1a1d"
       },
       {
         "path": "src/smart/admin-notifications/component.json",
-        "sha256": "3c81916266bce5812bb0ba6799423c80158f6dc0b000bbf0962b416c261c7645"
+        "sha256": "68f932e0043c8cdb99cc5627842f892dafa2e84893f8082b1059d54d1f6b00b8"
       },
       {
         "path": "src/smart/admin-notifications/lang/en.json",
@@ -406,7 +406,8 @@
         "path": "src/smart/admin-notifications/lang/ru.json",
         "sha256": "9feba5860b91b0481df876465a1fe8f083a034467b454e98eaefc32d0d061e7f"
       }
-    ]
+    ],
+    "generated_runtime": []
   },
   "ai_guidance": {
     "use_when": "Use sf-admin-notifications inside the notifications panel (sf-drawer size 2 on the right) and on the history page (look page) of an admin.",

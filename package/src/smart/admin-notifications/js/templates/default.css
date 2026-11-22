@@ -39,8 +39,8 @@
     outline: none;
   }
   .sf-admin-notifications__count:focus-visible {
-    outline: var(--sf-a2) solid var(--sf-focus--color);
-    outline-offset: var(--sf-a2);
+    outline: var(--sf-focus--width) var(--sf-focus--style) var(--sf-focus--color);
+    outline-offset: var(--sf-focus--offset);
     border-radius: var(--sf-radius--ui);
   }
 
@@ -97,8 +97,8 @@
   a.sf-admin-notifications__title:focus-visible,
   .sf-admin-notifications__fold:focus-visible,
   .sf-admin-notifications__foot a:focus-visible {
-    outline: var(--sf-a2) solid var(--sf-focus--color);
-    outline-offset: var(--sf-a2);
+    outline: var(--sf-focus--width) var(--sf-focus--style) var(--sf-focus--color);
+    outline-offset: var(--sf-focus--offset);
     border-radius: var(--sf-radius--ui);
   }
   .sf-admin-notifications__item[data-unread] .sf-admin-notifications__title {

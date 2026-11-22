@@ -1,5 +1,34 @@
 # Changelog of the set `admin` (@simai-studio/admin)
 
+## 1.1.0 (candidate, 2026-11-22)
+
+Three components join the menu as `preview` (owner decisions C420 and C421 of
+2026-11-22, with C415–C419 and C320–C342; study ui-control
+`control/research/2026-11-22-admin-shell-study`):
+
+- `sf-admin-shell` 1.0.0: the admin page frame on document scroll. Slots
+  `bar`, `menu`, `head`, `top-end`, the content unslotted; settings `width`
+  (list|read), `menu-reserve` (rail-column|rail|none), `product`,
+  `skip-label`, `menu-open`; actions `open-menu`, `close-menu`,
+  `focus-content`; events `menu-open`, `menu-close` {reason}. Writes
+  `--sf-admin-shell-stick` (what sticks at the top) for a page's sticky parts.
+- `sf-admin-notifications` 1.0.0: the notifications list. Settings `look`
+  (panel|page), `group-by` (day|object), `fold`, `unread-only`,
+  `history-href`, `settings-href`, `heading-level`, `items`; actions
+  `refresh`, `read-all`, `read {keys}`, `add {item}`, `load-more`; events
+  `open`, `read`, `read-all`, `load-more`, `failed`. Data over
+  `simai.admin-navigation-port` 1.1.0 (`notifications.load`,
+  `notifications.read`) or `items`.
+- `sf-admin-activity` 1.0.0: the background-activity indicator. Settings
+  `runs`, `history-href`, `size`, `placement`, `notify`; actions `refresh`,
+  `show`, `close`; events `open`, `close`, `retry`, `cancel`, `finished`.
+
+Fallbacks until SIMAI Framework AS-2 (the crumbs row's end place in
+sf-header-page) and AS-4 («Повторить» on a failed notice row of
+sf-progress-run); AS-1 and AS-3 need none. Port gap: the navigation port's
+notification has no `object`, `level`, `resolved` and the port no activity;
+a port 1.2.0 is asked of SIMAI Framework.
+
 ## 1.0.0 (candidate, 2026-11-22)
 
 The first release of the set: the admin menu `sf-admin-menu` 1.15.0, the

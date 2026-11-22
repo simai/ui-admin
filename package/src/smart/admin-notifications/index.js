@@ -19,6 +19,7 @@
 import SfBaseElement from "../../core/js/smart-base";
 import {applied, elementFromManifest, refused} from "../../core/js/element-manifest";
 import {renderAdminNotificationsTemplate} from "./js/templates/default.js";
+import {entryOf, readsExtendedFields} from "./js/port.js";
 import manifest from "./component.json";
 import en from "./lang/en.json";
 import ru from "./lang/ru.json";
@@ -29,35 +30,17 @@ const NotificationsElement = elementFromManifest(manifest, {
     source: "ru",
 });
 
-const LEVELS = new Set(["error", "warning", "info", "success"]);
 const copy = (value) => JSON.parse(JSON.stringify(value ?? null));
 const text = (value) => (value === null || value === undefined ? "" : String(value));
 
-// One notification as the list draws it. The port's fields (key, title, body,
-// when, unread, icon, href) and three the list reads when a host sends them:
-// object (what it is about: a server, a site), level and resolved («снова
-// отвечает с 09:11») -- see the port note in docs.md.
-function entryOf(item) {
-    if (!item || typeof item !== "object" || item.key === undefined || item.key === null) return null;
-    return {
-        key: text(item.key),
-        title: text(item.title ?? item.label),
-        body: item.body ? text(item.body) : "",
-        when: text(item.when),
-        unread: item.unread === true,
-        icon: item.icon ? text(item.icon) : "",
-        href: item.href ? text(item.href) : "",
-        object: item.object ? text(item.object) : "",
-        level: LEVELS.has(item.level) ? item.level : "",
-        // resolved: true (settled) or the words of how it was settled.
-        resolved: Boolean(item.resolved),
-        resolvedText: typeof item.resolved === "string" ? item.resolved : "",
-    };
-}
+// One notification as the list draws it: js/port.js entryOf. The port's
+// object, level and resolved are read from a host of port 1.2.0 or later; a
+// 1.1.0 host's notifications are drawn as in 1.1.0 (see the port note in
+// docs.md). The setting items may carry all three.
 
 // The port's groups ({key, label, items}) or the setting's flat list (each
 // item with group and group-label, in order) as one shape.
-function groupsOf(value, flat = false) {
+function groupsOf(value, flat = false, extended = true) {
     const groups = [];
     if (flat) {
         const byKey = new Map();
@@ -76,7 +59,7 @@ function groupsOf(value, flat = false) {
     }
     for (const group of Array.isArray(value) ? value : []) {
         if (!group || typeof group !== "object") continue;
-        const items = (Array.isArray(group.items) ? group.items : []).map(entryOf).filter(Boolean);
+        const items = (Array.isArray(group.items) ? group.items : []).map((item) => entryOf(item, extended)).filter(Boolean);
         groups.push({key: text(group.key), label: text(group.label), items});
     }
     return groups;
@@ -245,7 +228,7 @@ class SfAdminNotifications extends NotificationsElement {
             this.fail(answer.reason || answer.message || "");
             return refused(answer.answer === "refused" ? "refused" : "unavailable", answer.reason);
         }
-        const groups = groupsOf(answer.groups);
+        const groups = groupsOf(answer.groups, false, readsExtendedFields(this.port));
         this._groups = more ? mergeGroups(this._groups, groups) : groups;
         this._unread = Number.isInteger(answer.unread) ? answer.unread : this.countUnread();
         this._cursor = answer.next_cursor ?? null;

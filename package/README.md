@@ -19,13 +19,22 @@ sources): the crumbs row's end place of sf-header-page (AS-2) is laid out by
 the shell's `.sf-admin-shell-path`, and «Повторить» of a failed sf-progress-run
 row (AS-4) is an sf-button under it. They drop at the repin that carries them.
 
+Port editions: every component of the set that speaks
+`simai.admin-navigation-port` declares the editions it takes in its
+`component.json` `x-port.supports` (the pair's port edition gate reads it):
+the menu 1.0.0, 1.1.0 and 1.2.0, the notifications list and the activity
+indicator 1.1.0 and 1.2.0. The list reads a notification's `object`, `level`
+and `resolved`, and the indicator asks `activity.load/retry/cancel`, only of a
+host that declares 1.2.0; a 1.1.0 host is drawn as in 1.1.0.
+
 The component came from `simai/ui-pro` `components/src/smart/admin-menu` at
 `2ba35fa` byte for byte (sf-admin-menu 1.11.2), was carried to ui-pro's
 1.14.2 and is 1.15.0 here: the navigation menu as the owner approved it on
 the showcase (decision C384 of 2026-11-19, order AM-1..AM-61); 1.15.1 opens
 the set's sf-admin-notifications panel from the bell when the page holds one
 (an sf-admin-notifications in an sf-drawer; docs.md «Колокол и список
-уведомлений набора») and reads with the port's `{keys, all}`. Its history
+уведомлений набора») and reads with the port's `{keys, all}`. 1.16.0 accepts
+`simai.admin-navigation-port` 1.2.0 beside 1.0.0 and 1.1.0. Its history
 before the move is in ui-pro. Its dated event aliases (`aliases.json`, until
 2026-12-01) move with it; the tag itself has no former name.
 

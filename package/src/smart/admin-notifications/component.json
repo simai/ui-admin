@@ -331,10 +331,17 @@
     "loading",
     "other-object"
   ],
+  "x-port": {
+    "sha256": "6280add7a969ea06ff92183b95bc845f2d3ffc0d959f742ca81b96e22623a324",
+    "supports": [
+      "1.1.0",
+      "1.2.0"
+    ]
+  },
   "x-decisions": [
     "shape: a leaf. Glyphs are sf-icon, the buttons sf-button, the failure sf-alert; the panel around it is the page's or the menu's sf-drawer (C340), not the list's.",
     "data (C421): the admin menu's port, so the bell's number and the list read one host. The list takes a port handed to it, asks for one (sf-host-port-request, owner admin-notifications), or takes the sf-admin-menu's own when the menu has one. After a read it asks the menu to read its navigation again, so the bell follows.",
-    "port 1.1.0 gap: the port's notification has key, title, body, when, unread, icon, href and no object, level or resolved, which the folding, the level glyph and «→ решено» need. The list reads them when a host sends them; a port 1.2.0 that declares them is asked of the SIMAI Framework (port contracts live in ui-source).",
+    "port editions (AN-2): the list takes simai.admin-navigation-port 1.1.0 and 1.2.0 (x-port.supports; js/port.js SUPPORTED_NAVIGATION_VERSIONS). From a host that declares 1.2.0 or later (major 1) it reads a notification's object, level and resolved (true or words), which the folding, the level glyph and «→ решено» need; a 1.1.0 host's notification has none of them (its item schema is closed), so the list draws it exactly as in 1.1.0: no folding, no level mark, no «→ решено». The setting items, for a page without a port, may carry all three.",
     "folding (C421): within a day, the entries of one object after its first fold under «Ещё N по <object>», a quiet link button at the start of the entry's text, the 1/3 rung's height; it keeps the focus when it opens.",
     "events: open {key, href} (vocabulary, cancelable: not cancelled, the link is followed), read {keys}, read-all, load-more {cursor}, failed {reason}."
   ],

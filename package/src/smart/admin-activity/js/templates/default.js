@@ -36,11 +36,13 @@ function renderRun(context, run) {
     if (run.state === "failed") {
         return html`<div class="sf-admin-activity__run" data-run=${run.id} data-state="failed">
             <sf-progress-run look="notice" size="1/2" label=${run.label} run-state="failed" result-text=${run.text}
-                retryable
+                ?retryable=${run.retryable}
                 @sf-progress-run-retry=${() => context.onRetry(run)}
                 @sf-progress-run-expand=${() => context.onExpand(run)}></sf-progress-run>
-            <sf-button class="sf-admin-activity__retry" size="1/2" appearance="outline" text=${word("retry")}
-                @click=${() => context.onRetry(run)}></sf-button>
+            ${run.retryable
+                ? html`<sf-button class="sf-admin-activity__retry" size="1/2" appearance="outline" text=${word("retry")}
+                    @click=${() => context.onRetry(run)}></sf-button>`
+                : nothing}
         </div>`;
     }
     return html`<div class="sf-admin-activity__run" data-run=${run.id} data-state="running">

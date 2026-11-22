@@ -38,7 +38,7 @@ export const NAVIGATION_PORT = "simai.admin-navigation-port";
 
 // Every port version this shell accepts, in one place, the way sf-view and
 // sf-view-properties keep theirs.
-export const SUPPORTED_NAVIGATION_VERSIONS = ["1.0.0", "1.1.0"];
+export const SUPPORTED_NAVIGATION_VERSIONS = ["1.0.0", "1.1.0", "1.2.0"];
 
 // The width at which the rail and its column become one full screen menu
 // (C322): the SIMAI Framework ladder's md step, 44rem (core/js/breakpoints.js,

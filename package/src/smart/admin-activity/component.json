@@ -43,10 +43,14 @@
         "cancelable": {
           "type": "boolean",
           "optional": true
+        },
+        "retryable": {
+          "type": "boolean",
+          "optional": true
         }
       },
       "x-markup": "the attribute takes the same list as JSON; the property wins",
-      "summary": "The host's runs, set anew on every change: each {id, label, state (running|failed|done|cancelled), value, total, unit, text, href, object, cancelable}. A run that leaves running, first appears already done or failed, or is dropped while running, ended: the element tells it once. The first list it is given tells nothing."
+      "summary": "The host's runs, set anew on every change: each {id, label, state (running|failed|done|cancelled), value, total, unit, text, href, object, cancelable, retryable}. A run that leaves running, first appears already done or failed, or is dropped while running, ended: the element tells it once. The first list it is given tells nothing."
     },
     "history-href": {
       "type": "string",
@@ -161,6 +165,11 @@
       "Escape": "close"
     }
   },
+  "port": {
+    "id": "simai.admin-navigation-port",
+    "version": "1.1.0",
+    "contract": "src/core/contracts/ports/simai.admin-navigation-port/1.1.0/port.json"
+  },
   "relations": [
     {
       "name": "icons"
@@ -196,6 +205,12 @@
     "default": {
       "file": "js/templates/default.js",
       "$comment": "The Lit template in JavaScript (§5.2)."
+    }
+  },
+  "presentation": {
+    "skeleton": {
+      "$comment": "No late data, no skeleton: the runs are the page's state when it is printed (the setting runs) or the host's answer to activity.load (port 1.2.0), and an indicator with nothing to show draws nothing (C421), so there is no box to hold before they come. Declared because the element names the navigation port, which would otherwise make its list setting late (standard 1.3.8 §5.4).",
+      "late": []
     }
   },
   "styles": "js/templates/default.css",
@@ -258,12 +273,19 @@
     "now",
     "today"
   ],
+  "x-port": {
+    "sha256": "6280add7a969ea06ff92183b95bc845f2d3ffc0d959f742ca81b96e22623a324",
+    "supports": [
+      "1.1.0",
+      "1.2.0"
+    ]
+  },
   "x-decisions": [
     "shape: a leaf over Framework parts: the trigger a native quiet button with sf-badge, the list sf-popover of sf-progress-run rows in the notice look (C342).",
     "what shows (C421): «Идёт N» while something runs; a failure meanwhile is an icon-only red mark beside it until the list was opened; when nothing runs, «Не удалось N» in words; nothing running or failed, the element draws nothing.",
     "ends (C339, C332): done → SF.notify success, which goes by itself; failed → SF.notify error, which stays until closed, and a notification added to every sf-admin-notifications of the page. Told once per run's end for the page (two indicators, the crumbs row's and the phone top line's, share it on a global: every bundle carries its own module copy).",
     "fallback until AS-4: sf-progress-run's notice look draws no «Повторить» on a failed row; the element draws an sf-button under it, which drops at the repin that carries AS-4.",
-    "port: the admin navigation port 1.1.0 has no activity; a host whose port lists the capability activity answers activity.load {runs}, activity.retry {id}, activity.cancel {id}. A port 1.2.0 that declares it is asked of the SIMAI Framework; until then the setting runs is the way."
+    "port editions (AN-2): the indicator takes simai.admin-navigation-port 1.1.0 and 1.2.0 (x-port.supports; js/port.js). A host that declares 1.2.0 or later (major 1) and lists the capability activity is asked activity.load when the port connects and on refresh; Retry asks activity.retry {id}, Cancel activity.cancel {id}, and the runs of the answer (activity_page) are taken as they are after it, or read again when the answer carries none. A run's retryable false (1.2.0, or the setting runs) offers no Retry. A 1.1.0 host has no activity: it is asked nothing, and the setting runs is the way."
   ],
   "x-registry": {
     "capabilities": [

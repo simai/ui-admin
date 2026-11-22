@@ -14,6 +14,9 @@
      ?f=overview | settings | history   the screen (default overview)
      ?theme=dark                        the dark theme
      ?runs=play | still | none          the background runs: a short story, a still frame, nothing
+   The demo host speaks simai.admin-navigation-port 1.2.0: notifications with object, level and
+   resolved, and the capability activity (activity.load, activity.retry, activity.cancel), which
+   the indicators read. window.__activityAsked lists what they asked.
    Page code is demo glue only: the host, the phone top line's bell and the runs' story. The
    menu's bell opens the set's panel by itself (sf-admin-menu 1.15.1): the page holds
    sf-admin-notifications in an sf-drawer, and the menu opens that drawer. */
@@ -98,8 +101,9 @@ document.getElementById('page-root').innerHTML = `<sf-admin-shell id="page-shell
   <div slot="content"><sf-admin-notifications id="page-panel" look="panel" aria-label="Уведомления" history-href="?f=history"></sf-admin-notifications></div>
 </sf-drawer>`;
 
-// ── The host: the repository's admin demo, its notifications told with object,
-//    level and how they were settled (what a port 1.2.0 would carry; the list reads them).
+// ── The host: the repository's admin demo (src/ports/navigation-host.mjs), its notifications
+//    told with object, level and how they were settled, and the background runs, as a host of
+//    port 1.2.0 tells them (the list and the indicators read them from a 1.2.0 host only).
 const here = new URL('../../', import.meta.url);
 const {createNavigationHost} = await import(new URL('src/ports/navigation-host.mjs', here).href);
 const data = await (await fetch(new URL('data/navigation.json', here))).json();
@@ -123,11 +127,44 @@ data.notifications = [
   {key: 'n6', group: 'yesterday', level: 'error', object: 'srv2.larena.cloud', title: 'Сервер не отвечал', resolved: 'снова отвечает с 09:11, перерыв 9 минут', when: '09:02', unread: false, href: '#/srv.overview'},
   {key: 'n7', group: 'yesterday', level: 'info', object: 'Пользователи', title: 'Вход с нового устройства: Chrome, macOS', when: '18:20', unread: false, href: '#/profile.sessions'},
 ];
-const host = createNavigationHost({data, current: S.current});
+const base = createNavigationHost({data, current: S.current});
+// The runs as the host keeps them; activity.load answers them, retry and cancel change one.
+const runsOf = {
+  start: [{id: 'r1', label: 'Копия srv1.larena.cloud', state: 'running', value: 12, total: 100, unit: '%', href: '#/srv.backups', cancelable: true},
+          {id: 'r2', label: 'Обновление PHP на stage', state: 'running', href: '#/srv.software', object: 'stage.larena.cloud'}],
+};
+const failedR2 = {...runsOf.start[1], state: 'failed', text: 'Хранилище пакетов не ответило.', retryable: true};
+let runs = RUNS === 'none' ? [] : RUNS === 'still' ? [{...runsOf.start[0], value: 42}, failedR2] : runsOf.start.map((run) => ({...run}));
+window.__activityAsked = [];
+const activity = {
+  'activity.load': () => ({answer: 'applied', runs: structuredClone(runs), history_href: '#/panel.activity'}),
+  'activity.retry': ({id}) => {
+    const run = runs.find((one) => one.id === id);
+    if (!run || run.state !== 'failed') return {answer: 'refused', reason: 'Этот запуск нельзя повторить.'};
+    runs = runs.map((one) => (one.id === id ? {...one, state: 'running', text: null, retryable: null} : one));
+    return {answer: 'applied', runs: structuredClone(runs)};
+  },
+  'activity.cancel': ({id}) => {
+    const run = runs.find((one) => one.id === id);
+    if (!run || run.state !== 'running') return {answer: 'refused', reason: 'Этот запуск уже закончился.'};
+    runs = runs.map((one) => (one.id === id ? {...one, state: 'cancelled'} : one));
+    return {answer: 'applied', runs: structuredClone(runs)};
+  },
+};
+const host = {
+  ...base,
+  version: '1.2.0',
+  capabilities: [...base.capabilities, 'activity'].sort(),
+  async raise(intent, payload = {}) {
+    if (!activity[intent]) return base.raise(intent, payload);
+    window.__activityAsked.push([intent, structuredClone(payload)]);
+    return activity[intent](payload);
+  },
+};
 addEventListener('sf-host-port-request', (event) => {
   const detail = event.detail;
   if (!detail?.component) return;
-  if (detail.context?.owner === 'admin-menu' || detail.context?.owner === 'admin-notifications') (detail.component.connectPort ?? detail.component.setHostPort)?.call(detail.component, host);
+  if (['admin-menu', 'admin-notifications', 'admin-activity'].includes(detail.context?.owner)) (detail.component.connectPort ?? detail.component.setHostPort)?.call(detail.component, host);
 });
 await customElements.whenDefined('sf-admin-menu');
 const menu = document.getElementById('m');
@@ -140,29 +177,19 @@ for (const list of document.querySelectorAll('sf-admin-notifications')) list.con
 const drawer = document.getElementById('page-notices');
 document.getElementById('page-bell').addEventListener('click', () => customElements.whenDefined('sf-drawer').then(() => drawer.open?.()));
 
-// ── The background runs: the host's list, set anew on every change.
-const runsOf = {
-  start: [{id: 'r1', label: 'Копия srv1.larena.cloud', state: 'running', value: 12, total: 100, unit: '%', href: '#/srv.backups'},
-          {id: 'r2', label: 'Обновление PHP на stage', state: 'running', href: '#/srv.software', object: 'stage.larena.cloud'}],
-};
-const setRuns = (runs) => { for (const one of document.querySelectorAll('sf-admin-activity')) one.runs = runs; };
+// ── The background runs over the port: every indicator connects the host and reads
+//    activity.load; when the host's runs change, the page asks them to read again (refresh).
 await customElements.whenDefined('sf-admin-activity');
-if (RUNS === 'still') {
-  // A still frame: the state as the page found it (the first list tells nothing).
-  setRuns([{...runsOf.start[0], value: 42}, {...runsOf.start[1], state: 'failed', text: 'Хранилище пакетов не ответило.'}]);
-} else if (RUNS === 'play') {
+const indicators = () => [...document.querySelectorAll('sf-admin-activity')];
+for (const one of indicators()) one.connectPort?.({port: host});
+if (RUNS === 'play') {
   let value = 12;
-  setRuns(runsOf.start);
-  const failed = {...runsOf.start[1], state: 'failed', text: 'Хранилище пакетов не ответило.'};
   const tick = setInterval(() => {
     value = Math.min(100, value + 8);
-    const second = value >= 44 ? failed : runsOf.start[1];
-    if (value >= 100) {
-      clearInterval(tick);
-      setRuns([{...runsOf.start[0], value: 100, state: 'done'}, failed]);
-      return;
-    }
-    setRuns([{...runsOf.start[0], value}, second]);
+    const second = value >= 44 ? failedR2 : runs.find((run) => run.id === 'r2');
+    runs = value >= 100 ? [{...runsOf.start[0], value: 100, state: 'done'}, second] : [{...runsOf.start[0], value}, second];
+    if (value >= 100) clearInterval(tick);
+    for (const one of indicators()) one.refresh?.();
   }, 700);
 }
 </script>

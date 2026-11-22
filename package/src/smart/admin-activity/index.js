@@ -15,10 +15,13 @@
 // - a reader hears one sentence per change of the counts, not each percent.
 //
 // The runs are the host's: the setting runs (a property the host sets anew),
-// or the port's activity.load when the host's port offers activity.
+// or the port's activity.load when the host declares simai.admin-navigation-port
+// 1.2.0 and offers the capability activity (js/port.js); a 1.1.0 host is asked
+// nothing.
 import SfBaseElement from "../../core/js/smart-base";
 import {applied, elementFromManifest, refused} from "../../core/js/element-manifest";
 import {renderAdminActivityTemplate} from "./js/templates/default.js";
+import {offersActivity, runOf, runsOfAnswer} from "./js/port.js";
 import manifest from "./component.json";
 import en from "./lang/en.json";
 import ru from "./lang/ru.json";
@@ -29,8 +32,6 @@ const ActivityElement = elementFromManifest(manifest, {
     source: "ru",
 });
 
-const STATES = new Set(["running", "failed", "done", "cancelled"]);
-const text = (value) => (value === null || value === undefined ? "" : String(value));
 const copy = (value) => JSON.parse(JSON.stringify(value ?? null));
 
 // What has been told, shared by every indicator of the page (the crumbs row's
@@ -51,24 +52,6 @@ function toldOnce(key) {
 // the page: the mark goes in both when the list was opened in one.
 const SEEN = Symbol.for("sf-admin-activity.seen");
 const seen = () => (globalThis[SEEN] ??= new Set());
-
-function runOf(item) {
-    if (!item || typeof item !== "object" || item.id === undefined || item.id === null) return null;
-    const state = STATES.has(item.state) ? item.state : "running";
-    const number = (value) => (Number.isFinite(Number(value)) && value !== null && value !== "" ? Number(value) : undefined);
-    return {
-        id: text(item.id),
-        label: text(item.label),
-        state,
-        value: number(item.value),
-        total: number(item.total),
-        unit: item.unit ? text(item.unit) : "",
-        text: item.text ? text(item.text) : "",
-        href: item.href ? text(item.href) : "",
-        object: item.object ? text(item.object) : "",
-        cancelable: item.cancelable === true,
-    };
-}
 
 class SfAdminActivity extends ActivityElement {
     constructor() {
@@ -175,8 +158,7 @@ class SfAdminActivity extends ActivityElement {
     }
 
     offers() {
-        const capabilities = this.port?.capabilities;
-        return Array.isArray(capabilities) && capabilities.includes("activity");
+        return offersActivity(this.port);
     }
 
     onPortConnected() {
@@ -198,7 +180,7 @@ class SfAdminActivity extends ActivityElement {
         if (!this.port || !this.offers()) return refused("no-port");
         const answer = await this.raise("activity.load", {});
         if (answer.answer !== "applied") return refused(answer.answer === "refused" ? "refused" : "unavailable", answer.reason);
-        this.runs = Array.isArray(answer.runs) ? answer.runs : [];
+        this.runs = runsOfAnswer(answer) ?? [];
         return applied();
     }
 
@@ -230,14 +212,24 @@ class SfAdminActivity extends ActivityElement {
         this.requestComponentUpdate("closed");
     }
 
+    // A person's request about one run: the host answers with the runs as
+    // they are after it (activity_page); an answer without runs reads again.
+    async ask(intent, run) {
+        const answer = await this.raise(intent, {id: run.id});
+        const runs = answer.answer === "applied" ? runsOfAnswer(answer) : null;
+        if (runs) this.runs = runs;
+        else await this.refresh();
+        return answer;
+    }
+
     onRetry(run) {
         this.sfEmit("retry", {id: run.id});
-        if (this.offers()) this.raise("activity.retry", {id: run.id}).then(() => this.refresh());
+        if (this.offers()) this.ask("activity.retry", run);
     }
 
     onCancel(run) {
         this.sfEmit("cancel", {id: run.id});
-        if (this.offers()) this.raise("activity.cancel", {id: run.id}).then(() => this.refresh());
+        if (this.offers()) this.ask("activity.cancel", run);
     }
 
     // «Развернуть» of a row: the run's own page.

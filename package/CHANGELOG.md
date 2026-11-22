@@ -38,11 +38,26 @@ Three components join the menu as `preview` (owner decisions C420 and C421 of
   list into its portal (the click listener sat on the drawer element). The
   event `sf-admin-menu-read` keeps its vocabulary field `ids`.
 
+`sf-admin-menu` 1.16.0 and the port editions (SIMAI Framework AN-2,
+`simai.admin-navigation-port` 1.2.0, additive):
+
+- Every implementer of the port in the set declares the editions it takes in
+  `component.json` `x-port.supports`, which the pair's port edition gate
+  reads: `sf-admin-menu` 1.0.0, 1.1.0, 1.2.0 (its declared edition stays
+  1.1.0); `sf-admin-notifications` and `sf-admin-activity` 1.1.0, 1.2.0.
+- `sf-admin-notifications` reads a notification's `object`, `level` and
+  `resolved` from a host that declares 1.2.0 or later; a 1.1.0 host's
+  notifications are drawn as in 1.1.0. The setting `items` keeps all three.
+- `sf-admin-activity` asks `activity.load`, `activity.retry {id}` and
+  `activity.cancel {id}` of a host that declares 1.2.0 or later and offers
+  `activity`, takes the runs of the answer, and offers no Retry for a run with
+  `retryable: false` (new optional field of the setting `runs`). A 1.1.0 host
+  is asked nothing.
+
 Fallbacks until SIMAI Framework AS-2 (the crumbs row's end place in
 sf-header-page) and AS-4 («Повторить» on a failed notice row of
-sf-progress-run); AS-1 and AS-3 need none. Port gap: the navigation port's
-notification has no `object`, `level`, `resolved` and the port no activity;
-a port 1.2.0 is asked of SIMAI Framework.
+sf-progress-run); AS-1 and AS-3 need none. Port 1.2.0 carries what the
+1.1.0 gap lacked (see above).
 
 ## 1.0.0 (candidate, 2026-11-22)
 

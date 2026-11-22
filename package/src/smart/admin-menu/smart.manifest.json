@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.admin-menu",
-  "version": "1.16.0",
+  "version": "1.16.1",
   "title": "Admin menu",
   "summary": "Admin navigation over the host's navigation port: the rail, the section column, search, favourites, notifications and the setting mode.",
   "kind": "composite",
@@ -314,7 +314,7 @@
       }
     },
     "sf-admin-menu-navigate": {
-      "summary": "The host answered item.open applied: the page belongs to this row now. For a host that navigates in its own router rather than through the address it answered with.",
+      "summary": "The host answered item.open applied: the page belongs to this row now. For a host that navigates in its own router rather than through the address it answered with. Cancelable (AS-6): a page that is not ready to leave (unsaved changes) calls preventDefault -- the current row, the screen and the focus stay, the menu goes nowhere and an object-menu link is not followed; the page that later agrees goes there itself and names the row by current. Not cancelled, the row becomes current.",
       "payload": {
         "type": "object",
         "required": [
@@ -909,7 +909,7 @@
       },
       {
         "path": "src/smart/admin-menu/js/navigation/controller.js",
-        "sha256": "3165980891943bc90a17972647a5566661c6dcc7a35c518e82ae54a736181c50"
+        "sha256": "03bdc7ed4afef344e405f376ec4f27ae1712891b407ec9be8c2386bb6507e3b8"
       },
       {
         "path": "src/smart/admin-menu/js/navigation/menu.js",
@@ -921,7 +921,7 @@
       },
       {
         "path": "src/smart/admin-menu/component.json",
-        "sha256": "9b31a00c900da3ed05fab0f318a95501e92464336e5e7926c0ad05dea43b373b"
+        "sha256": "4b3d044bfebb0e04c39e31b80a3ba7071578b49435bfca015949c54f52bc03a9"
       },
       {
         "path": "src/smart/admin-menu/aliases.json",

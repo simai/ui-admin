@@ -229,13 +229,24 @@ export const OBJECT_MENU = "sf:context";
 // The set's notifications panel on the page: an sf-admin-notifications in
 // its panel look (not the history page's look="page") inside an sf-drawer,
 // or null. Found by markup, so it holds before the list's code has arrived.
+// sf-drawer carries its content into a portal at the end of the body
+// ([data-sf-drawer-portal] named by the drawer's id) once it is defined, so
+// the list is the drawer's either inside the element or inside its portal.
 export function setNoticesPanel(root = globalThis.document) {
     for (const list of root?.querySelectorAll?.("sf-admin-notifications") ?? []) {
         if (list.getAttribute("look") === "page") continue;
-        const drawer = list.closest?.("sf-drawer");
+        const drawer = drawerHolding(list, root);
         if (drawer) return {list, drawer};
     }
     return null;
+}
+
+function drawerHolding(list, root) {
+    const inside = list.closest?.("sf-drawer");
+    if (inside) return inside;
+    const id = list.closest?.("[data-sf-drawer-portal]")?.getAttribute?.("data-sf-drawer-portal");
+    if (!id) return null;
+    return [...(root?.querySelectorAll?.("sf-drawer") ?? [])].find((drawer) => drawer.id === id || drawer.drawerId === id) ?? null;
 }
 
 // The page's address as the host is told it (navigation.load `page`): the
@@ -1870,9 +1881,18 @@ export class NavigationController {
             return;
         }
         this._noticesAnchor = anchor ?? null;
-        if (set) set.list.refresh?.();
-        else await this.loadNotices();
+        if (set) {
+            // The bell is the panel's switch: the drawer stands its close on
+            // the bell's axis and gives the focus back to it.
+            const id = drawer.drawerId || drawer.id;
+            if (id) anchor?.setAttribute?.("aria-controls", id);
+            drawer._openerHint = anchor ?? null;
+            set.list.refresh?.();
+        } else {
+            await this.loadNotices();
+        }
         drawer.open?.();
+        if (set) drawer._openerHint = null;
         this.update("notifications");
     }
 

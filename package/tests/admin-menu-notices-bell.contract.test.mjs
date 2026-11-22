@@ -105,9 +105,9 @@ test('the source sends no {ids} to notifications.read', () => {
 });
 
 // A document stand-in: lists with a look and the drawer that holds them.
-const list = (look, drawer) => ({
+const list = (look, drawer, portal = null) => ({
   getAttribute: (name) => (name === 'look' ? look : null),
-  closest: (selector) => (selector === 'sf-drawer' ? drawer : null),
+  closest: (selector) => (selector === 'sf-drawer' ? drawer : selector === '[data-sf-drawer-portal]' && portal ? {getAttribute: () => portal} : null),
   refreshed: 0,
   refresh() { this.refreshed += 1; },
 });
@@ -131,10 +131,17 @@ test('the set panel is an sf-admin-notifications in the panel look inside an sf-
   assert.equal(setNoticesPanel({querySelectorAll: () => [list('panel', null)]}), null, 'a list outside a drawer is not a panel');
   assert.deepEqual(setNoticesPanel({querySelectorAll: () => [history, inPanel]}), {list: inPanel, drawer: panel});
   assert.deepEqual(setNoticesPanel({querySelectorAll: () => [noLook]}), {list: noLook, drawer: panel}, 'panel is the default look');
+  // A defined sf-drawer has carried its content into its portal at the end of the body.
+  const portalled = Object.assign(drawer(), {localName: 'sf-drawer', id: '', drawerId: 'sf-drawer-1'});
+  const moved = list('panel', null, 'sf-drawer-1');
+  const root = {querySelectorAll: (selector) => (selector === 'sf-admin-notifications' ? [moved] : selector === 'sf-drawer' ? [portalled] : [])};
+  assert.deepEqual(setNoticesPanel(root), {list: moved, drawer: portalled}, 'the list in the drawer portal is that drawer\'s');
+  const stray = {querySelectorAll: (selector) => (selector === 'sf-admin-notifications' ? [list('panel', null, 'gone')] : selector === 'sf-drawer' ? [portalled] : [])};
+  assert.equal(setNoticesPanel(stray), null, 'a portal of no drawer on the page is not a panel');
 });
 
 test('the bell opens the set panel and draws no list of its own when the page holds one', async () => {
-  const panel = drawer();
+  const panel = Object.assign(drawer(), {id: 'notices'});
   const inPanel = list('panel', panel);
   const saved = {document: globalThis.document, customElements: globalThis.customElements, MutationObserver: globalThis.MutationObserver};
   const observed = [];
@@ -148,9 +155,10 @@ test('the bell opens the set panel and draws no list of its own when the page ho
       noticesDrawer: async () => { ownDrawer += 1; return null; },
       loadNotices: async () => { ownLoad += 1; },
     });
-    const bell = {setAttribute() {}, focus() {}};
+    const bell = {attributes: {}, setAttribute(name, value) { this.attributes[name] = value; }, focus() {}};
     await controller.toggleNotifications(bell);
     assert.equal(panel.opened, 1, 'the set panel opened');
+    assert.equal(bell.attributes['aria-controls'], 'notices', 'the bell names the panel it opens');
     assert.equal(inPanel.refreshed, 1, 'the list reads the port again as it opens');
     assert.equal(ownDrawer, 0, 'no own drawer');
     assert.equal(ownLoad, 0, 'no own notifications.load');

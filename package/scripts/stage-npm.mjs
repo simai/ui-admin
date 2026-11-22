@@ -9,7 +9,7 @@
 //   dist/                 package/dist as the release route laid it: set.json,
 //                         smart/ (rule.js and the three folders) and the
 //                         package receipt
-//   package.json, README.md, LICENSE.md
+//   package.json, README.md, CHANGELOG.md, LICENSE.md
 //
 // It refuses a build whose passport is not set.json (the set changed and was
 // not rebuilt). --check stages into a temporary folder and runs
@@ -56,6 +56,7 @@ rmSync(out, {recursive: true, force: true});
 mkdirSync(out, {recursive: true});
 copyTree(dist, join(out, 'dist'));
 copy(join(PACKAGE, 'README.md'), join(out, 'README.md'));
+copy(join(PACKAGE, 'CHANGELOG.md'), join(out, 'CHANGELOG.md'));
 copy(join(ROOT, 'LICENSE.md'), join(out, 'LICENSE.md'));
 // The staged manifest keeps the scripts out: they run in this repository only.
 const {scripts, ...published} = manifest;
@@ -64,7 +65,7 @@ writeFileSync(join(out, 'package.json'), `${JSON.stringify(published, null, 2)}\
 if (check) {
   const packed = JSON.parse(execFileSync('npm', ['pack', '--dry-run', '--json'], {cwd: out, encoding: 'utf8'}))[0];
   const names = new Set(packed.files.map((file) => file.path));
-  for (const wanted of ['dist/set.json', 'dist/smart/rule.js', 'package.json', 'LICENSE.md']) {
+  for (const wanted of ['dist/set.json', 'dist/smart/rule.js', 'package.json', 'CHANGELOG.md', 'LICENSE.md']) {
     if (!names.has(wanted)) fail(`npm pack leaves out ${wanted}`);
   }
   console.log(JSON.stringify({package: `${packed.name}@${packed.version}`, files: packed.entryCount, size: packed.size, release: release?.id ?? null}));

@@ -42,9 +42,9 @@ The component imports the free SIMAI Framework by relative path
 never a working tree), with this folder's `src/`, `tests/` and `docs/` laid
 over it. A file here may not replace a ui-source file.
 
-The pin is `1dd18375cbc2`, the source of the released pair
-`ui-dc9fc39aeb26` (npm `@simai-studio/ui@5.20261118.1205`), with the Pro
-release `pro-a57887949f9a` beside it on the admin pages. The passport names
+The pin is `e7ea89e07a3a`, the source of the released pair
+`ui-9ceecc24c988` (npm `@simai-studio/ui@5.20261121.928`), with the Pro
+release `pro-f6c43828e5f2` beside it on the admin pages. The passport names
 the same commit.
 
 ```bash
@@ -56,7 +56,7 @@ node scripts/run-first-paint.mjs check|gate <free> <set build>
 ```
 
 `<free>` is the `distr` of the released pair (`git -C <ui> archive
-dc9fc39aeb26 distr`), `<set build>` the build output holding `smart/`
+9ceecc24c988 distr`), `<set build>` the build output holding `smart/`
 (`wave-1/output/package/admin` of the build below). `scripts/gates.sh` runs
 the whole chain: two builds, the receipt, the suite, the probes and the first
 paint.
@@ -81,7 +81,7 @@ release route (ui-builder `publish-package-release.sh`) lays it into
 ## Connecting it
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@simai-studio/ui@5.20261118.1205/distr/core/js/core.min.js" data-sf-sets="admin"></script>
+<script src="https://cdn.jsdelivr.net/npm/@simai-studio/ui@5.20261121.928/distr/core/js/core.min.js" data-sf-sets="admin"></script>
 ```
 
 or, from a base the page serves itself:
@@ -107,7 +107,7 @@ build. A set is built and tested against exactly one revision.
 `simai/ui-admin`; копия в `simai/ui-pro` заморожена и уйдёт из пакета `pro`
 в первом выпуске Pro после выпуска набора. Набор собирается и проверяется
 ровно против одной ревизии SIMAI Framework — сейчас это пара
-`ui-dc9fc39aeb26`.
+`ui-9ceecc24c988`.
 
 С 1.15.0 у меню один путь — навигация над портом хоста: старое меню из
 дочерних элементов-пунктов с его окном настроек, панелью поиска и

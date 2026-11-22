@@ -16,7 +16,7 @@
       "type": "enum",
       "values": ["rail", "rail-column", "none"],
       "default": "rail-column",
-      "summary": "The room held for the menu before it has drawn, so the work area does not move when it comes (AM-18): rail -- the rail (56); rail-column -- the rail and the section column (56 + 256), the rail alone when the person hid the column (the menu's own preference); none -- nothing. The server knows whether the page's section has a column."
+      "summary": "The room held for the menu before it has drawn, so the work area does not move when it comes (AM-18): rail -- the rail (56); rail-column -- the rail and the section column (56 + 256), the rail alone when the menu says expected-columns="1" (the page's row has no open root) or the person hid the column (the menu's own preference); none -- nothing. The server knows whether the page's section has a column."
     },
     "product": {
       "type": "string",

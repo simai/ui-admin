@@ -159,6 +159,9 @@ class SfAdminShell extends ShellElement {
     get shownReserve() {
         const asked = this.getProp("menuReserve");
         if (asked !== "rail-column") return asked === "none" ? "none" : "rail";
+        // The menu's own word for its first paint: expected-columns="1" where
+        // the page's row has no open root (a dashboard) -- the rail alone.
+        if (this.nodesOf("menu")[0]?.getAttribute?.("expected-columns") === "1") return "rail";
         try {
             return globalThis.SF?.Preferences?.read?.(MENU_PREFERENCE)?.second === false ? "rail" : "rail-column";
         } catch {

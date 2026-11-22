@@ -12,7 +12,10 @@ test('catalog switches between canonical whole-component contracts', async () =>
   const materializer = await readFile(new URL('scripts/materialize-smart-contracts.mjs', root), 'utf8');
   assert.match(html, /data-contract-controls/);
   assert.match(html, /data-event-log/);
-  assert.match(html, /persistence-mode="external"/);
+  // The admin menu over the navigation port, no rows in the markup (AM-7).
+  assert.match(html, /<sf-admin-menu id="catalog-menu"[^>]*><\/sf-admin-menu>/);
+  assert.doesNotMatch(html, /<sf-admin-menu-[a-z]/);
+  assert.match(source, /createNavigationHost\(/);
   assert.match(html, /data-contract-select/);
   assert.match(html, /data-contract-fixture="smart\.view-table"/);
   assert.match(html, /id="catalog-data-view"/);

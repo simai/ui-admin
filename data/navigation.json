@@ -6057,6 +6057,21 @@
         "english": "English"
       },
       {
+        "code": "zh",
+        "native": "中文",
+        "english": "Chinese"
+      },
+      {
+        "code": "es",
+        "native": "Español",
+        "english": "Spanish"
+      },
+      {
+        "code": "pt",
+        "native": "Português",
+        "english": "Portuguese"
+      },
+      {
         "code": "de",
         "native": "Deutsch",
         "english": "German"
@@ -6067,109 +6082,9 @@
         "english": "French"
       },
       {
-        "code": "es",
-        "native": "Español",
-        "english": "Spanish"
-      },
-      {
         "code": "it",
         "native": "Italiano",
         "english": "Italian"
-      },
-      {
-        "code": "pt",
-        "native": "Português",
-        "english": "Portuguese"
-      },
-      {
-        "code": "pl",
-        "native": "Polski",
-        "english": "Polish"
-      },
-      {
-        "code": "uk",
-        "native": "Українська",
-        "english": "Ukrainian"
-      },
-      {
-        "code": "be",
-        "native": "Беларуская",
-        "english": "Belarusian"
-      },
-      {
-        "code": "kk",
-        "native": "Қазақ тілі",
-        "english": "Kazakh"
-      },
-      {
-        "code": "uz",
-        "native": "Oʻzbekcha",
-        "english": "Uzbek"
-      },
-      {
-        "code": "az",
-        "native": "Azərbaycan dili",
-        "english": "Azerbaijani"
-      },
-      {
-        "code": "hy",
-        "native": "Հայերեն",
-        "english": "Armenian"
-      },
-      {
-        "code": "ka",
-        "native": "ქართული",
-        "english": "Georgian"
-      },
-      {
-        "code": "tr",
-        "native": "Türkçe",
-        "english": "Turkish"
-      },
-      {
-        "code": "nl",
-        "native": "Nederlands",
-        "english": "Dutch"
-      },
-      {
-        "code": "sv",
-        "native": "Svenska",
-        "english": "Swedish"
-      },
-      {
-        "code": "fi",
-        "native": "Suomi",
-        "english": "Finnish"
-      },
-      {
-        "code": "cs",
-        "native": "Čeština",
-        "english": "Czech"
-      },
-      {
-        "code": "el",
-        "native": "Ελληνικά",
-        "english": "Greek"
-      },
-      {
-        "code": "ar",
-        "native": "العربية",
-        "english": "Arabic"
-      },
-      {
-        "code": "he",
-        "native": "עברית",
-        "english": "Hebrew"
-      },
-      {
-        "code": "hi",
-        "native": "हिन्दी",
-        "english": "Hindi"
-      },
-      {
-        "code": "zh",
-        "native": "中文",
-        "english": "Chinese"
       },
       {
         "code": "ja",
@@ -6180,6 +6095,11 @@
         "code": "ko",
         "native": "한국어",
         "english": "Korean"
+      },
+      {
+        "code": "ar",
+        "native": "العربية",
+        "english": "Arabic"
       }
     ]
   },

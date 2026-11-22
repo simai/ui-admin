@@ -70,10 +70,6 @@
         <article class="catalog-card catalog-preview-card">
           <div class="catalog-card-head">
             <div><span class="catalog-kicker">Live playground</span><h2>Полный composite</h2></div>
-            <div class="catalog-segment" data-persistence-controls role="group" aria-label="Persistence mode">
-              <button type="button" data-mode="local">local</button>
-              <button type="button" class="is-active" data-mode="external">external</button>
-            </div>
             <div class="catalog-segment" data-data-view-states role="group" aria-label="Data View state" hidden>
               <button type="button" class="is-active" data-data-state="populated">data</button>
               <button type="button" data-data-state="loading">loading</button>
@@ -83,20 +79,9 @@
           </div>
           <div class="catalog-viewport" data-catalog-viewport="desktop">
             <div data-contract-fixture="smart.admin-menu">
-              <sf-admin-menu id="catalog-menu" searchable settings collapsible logo="/logo.svg" persistence-mode="external" aria-label="Catalog admin menu">
-                <sf-admin-menu-item item-id="catalog.dashboard" left-icon="home" active>Дашборд</sf-admin-menu-item>
-                <sf-admin-menu-item item-id="catalog.development" left-icon="code">Разработка
-                  <sf-admin-menu-item item-id="catalog.development.components" left-icon="palette" badge="lab">Компоненты</sf-admin-menu-item>
-                  <sf-admin-menu-item item-id="catalog.development.layouts" left-icon="menu_book" badge="12">Макеты</sf-admin-menu-item>
-                </sf-admin-menu-item>
-                <sf-admin-menu-item item-id="catalog.orders" left-icon="location_on" badge="99+">Заказы</sf-admin-menu-item>
-                <sf-admin-menu-item item-id="catalog.divider.primary" type="divider"></sf-admin-menu-item>
-                <sf-admin-menu-item item-id="catalog.audit" left-icon="fact_check">Журнал аудита</sf-admin-menu-item>
-                <sf-admin-menu-item item-id="catalog.storage" left-icon="database" badge="new">Хранилище</sf-admin-menu-item>
-                <sf-admin-menu-item item-id="catalog.divider.system" type="divider"></sf-admin-menu-item>
-                <sf-admin-menu-item item-id="catalog.users" left-icon="group" badge="128">Пользователи</sf-admin-menu-item>
-                <sf-admin-menu-item item-id="catalog.settings" left-icon="settings" slot="bottom">Настройки</sf-admin-menu-item>
-              </sf-admin-menu>
+              <!-- Over the navigation port (src/ports/navigation-host.mjs over
+                   data/navigation.json): the rows are the host's. -->
+              <sf-admin-menu id="catalog-menu" class="h-full" aria-label="Catalog admin menu" data-sf-skeleton="menu"></sf-admin-menu>
             </div>
             <section class="data-view-demo" data-contract-fixture="smart.view-table" aria-label="Проекты" hidden>
               <header class="data-view-demo__header"><div><span>Content collection</span><h3>Проекты <b data-data-view-count>24</b></h3></div></header>

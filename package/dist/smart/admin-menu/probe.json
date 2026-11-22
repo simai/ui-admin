@@ -1,0 +1,312 @@
+{
+  "component": "sf-admin-menu",
+  "probe": "sf-admin-menu against component.json (standard simai.smart-component 1.3.8 §12, gate 20)",
+  "format": "stands/15-scenarios (A4 modal: a page, probes in steps); the runner is ui-source tests/browser/manifest-probes.browser.mjs, run for the package by scripts/run-manifest-probes.mjs",
+  "page": {
+    "lang": "ru",
+    "body": [
+      "<main style=\"display: flex; gap: 24px; block-size: 640px\">",
+      "  <sf-admin-menu id=\"m\" aria-label=\"Меню\"></sf-admin-menu>",
+      "  <sf-admin-menu id=\"s\" aria-label=\"Меню без порта\"></sf-admin-menu>",
+      "</main>",
+      "<script>window.__port = {port: 'simai.admin-navigation-port', version: '1.0.0', capabilities: [], asked: [], async raise(intent, payload) { this.asked.push(intent); if (intent === 'navigation.load') return structuredClone({\"answer\": \"applied\", \"revision\": \"1\", \"current\": \"cms\", \"items\": [{\"key\": \"home\", \"kind\": \"page\", \"level\": \"site\", \"label\": \"Главная\", \"icon\": \"home\", \"href\": \"#home\"}, {\"key\": \"data\", \"kind\": \"root\", \"level\": \"site\", \"label\": \"Данные\", \"icon\": \"database\", \"children\": [{\"key\": \"cms\", \"kind\": \"page\", \"level\": \"site\", \"label\": \"Минимальная CMS\", \"icon\": \"table\", \"href\": \"#cms\"}, {\"key\": \"files\", \"kind\": \"page\", \"level\": \"site\", \"label\": \"Файлы\", \"icon\": \"folder\", \"href\": \"#files\"}]}], \"person\": {\"name\": \"Administrator\", \"language\": \"ru\", \"languages\": [{\"code\": \"ru\", \"native\": \"Русский\", \"english\": \"Russian\"}]}, \"site\": {\"current\": {\"key\": \"main\", \"label\": \"Main site\"}, \"count\": 1}}); if (intent === 'item.open') return {answer: 'applied', href: payload.href}; if (intent === 'favourite.toggle') return {answer: 'applied', favourites: payload.on ? [payload.key] : []}; return {answer: 'applied'}; } };customElements.whenDefined('sf-admin-menu').then(() => document.querySelector('#m').connectPort({port: window.__port}));</script>"
+    ]
+  },
+  "probes": [
+    {
+      "id": "p1-refresh-per-verb",
+      "title": "the port's navigation.load is told as sf-admin-menu-refresh {kind: navigation}; sf-admin-menu-intent {intent, payload} follows it once, noted with its dates",
+      "covers": "events.refresh, aliases sf-admin-menu-intent (split), actions.refresh",
+      "steps": [
+        {
+          "script": "(async () => { for (let i = 0; i < 80 && ![...document.querySelector('#m').querySelectorAll('.sf-admin-nav-row')].find((one) => one.querySelector('.sf-admin-nav-row-label')?.textContent.trim() === 'Файлы'); i += 1) await new Promise((done) => setTimeout(done, 100)); return Boolean([...document.querySelector('#m').querySelectorAll('.sf-admin-nav-row')].find((one) => one.querySelector('.sf-admin-nav-row-label')?.textContent.trim() === 'Файлы')); })()",
+          "wait": 60,
+          "expect": {
+            "returns": true
+          },
+          "check": "window.__port.asked[0] === 'navigation.load' && document.querySelector('#m').getAttribute('aria-label') === 'Меню'"
+        },
+        {
+          "script": "document.querySelector('#m').refresh().then(() => 'done')",
+          "expect": {
+            "returns": "done",
+            "events": [
+              {
+                "name": "sf-admin-menu-refresh",
+                "count": 1,
+                "detail": {
+                  "kind": "navigation",
+                  "intent": "navigation.load",
+                  "reason": "requested"
+                }
+              },
+              {
+                "name": "sf-admin-menu-intent",
+                "count": 1,
+                "detail": {
+                  "intent": "navigation.load",
+                  "payload": {
+                    "reason": "requested"
+                  }
+                }
+              }
+            ],
+            "journal": [
+              {
+                "from": "sf-admin-menu-intent",
+                "to": "sf-admin-menu-refresh",
+                "since": "2026-10-27",
+                "remove_after": "2026-12-01"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "p2-enter-opens-item",
+      "title": "Enter on a page row asks item.open: sf-admin-menu-open {kind: item, id}, the old intent once, and sf-admin-menu-navigate {id, key, href} when the host applied; Enter on a root row opens or closes its column and asks the host nothing",
+      "covers": "keyboard.host Enter select, events.open, events.navigate, aliases sf-admin-menu-intent",
+      "steps": [
+        {
+          "script": "(async () => { for (let i = 0; i < 80 && ![...document.querySelector('#m').querySelectorAll('.sf-admin-nav-row')].find((one) => one.querySelector('.sf-admin-nav-row-label')?.textContent.trim() === 'Файлы'); i += 1) await new Promise((done) => setTimeout(done, 100)); return Boolean([...document.querySelector('#m').querySelectorAll('.sf-admin-nav-row')].find((one) => one.querySelector('.sf-admin-nav-row-label')?.textContent.trim() === 'Файлы')); })()",
+          "wait": 60,
+          "expect": {
+            "returns": true
+          }
+        },
+        {
+          "script": "([...document.querySelector('#m').querySelectorAll('.sf-admin-nav-row')].find((one) => one.querySelector('.sf-admin-nav-row-label')?.textContent.trim() === 'Файлы').focus(), true)",
+          "wait": 60
+        },
+        {
+          "user": "keyboard:Enter",
+          "wait": 400,
+          "expect": {
+            "events": [
+              {
+                "name": "sf-admin-menu-open",
+                "count": 1,
+                "detail": {
+                  "kind": "item",
+                  "id": "files",
+                  "href": "#files",
+                  "intent": "item.open"
+                }
+              },
+              {
+                "name": "sf-admin-menu-intent",
+                "count": 1,
+                "detail": {
+                  "intent": "item.open"
+                }
+              },
+              {
+                "name": "sf-admin-menu-navigate",
+                "count": 1,
+                "detail": {
+                  "id": "files",
+                  "key": "files",
+                  "href": "#files"
+                }
+              }
+            ],
+            "journal": [
+              {
+                "from": "sf-admin-menu-intent",
+                "to": "sf-admin-menu-open",
+                "since": "2026-10-27",
+                "remove_after": "2026-12-01"
+              }
+            ]
+          }
+        },
+        {
+          "script": "(window.__expanded = document.querySelector('#m .sf-admin-nav-row--first[data-key=\"data\"]').getAttribute('aria-expanded'), document.querySelector('#m .sf-admin-nav-row--first[data-key=\"data\"]').focus(), true)",
+          "wait": 60
+        },
+        {
+          "user": "keyboard:Enter",
+          "wait": 300,
+          "expect": {
+            "events": [
+              {
+                "name": "sf-admin-menu-open",
+                "count": 0
+              },
+              {
+                "name": "sf-admin-menu-intent",
+                "count": 0
+              }
+            ]
+          },
+          "check": "document.querySelector('#m .sf-admin-nav-row--first[data-key=\"data\"]').getAttribute('aria-expanded') !== window.__expanded"
+        }
+      ]
+    },
+    {
+      "id": "p3-toggle-and-save",
+      "title": "favourite.toggle is sf-admin-menu-toggle {kind: favourite, id, on}; a theme preference is sf-admin-menu-save {kind: preference, values}",
+      "covers": "events.toggle, events.save",
+      "steps": [
+        {
+          "script": "(async () => { for (let i = 0; i < 80 && ![...document.querySelector('#m').querySelectorAll('.sf-admin-nav-row')].find((one) => one.querySelector('.sf-admin-nav-row-label')?.textContent.trim() === 'Файлы'); i += 1) await new Promise((done) => setTimeout(done, 100)); return Boolean([...document.querySelector('#m').querySelectorAll('.sf-admin-nav-row')].find((one) => one.querySelector('.sf-admin-nav-row-label')?.textContent.trim() === 'Файлы')); })()",
+          "wait": 60,
+          "expect": {
+            "returns": true
+          }
+        },
+        {
+          "script": "document.querySelector('#m')._navigation.raise('favourite.toggle', {key: 'files', on: true}).then((one) => one.answer)",
+          "expect": {
+            "returns": "applied",
+            "events": [
+              {
+                "name": "sf-admin-menu-toggle",
+                "count": 1,
+                "detail": {
+                  "kind": "favourite",
+                  "id": "files",
+                  "on": true
+                }
+              },
+              {
+                "name": "sf-admin-menu-intent",
+                "count": 1,
+                "detail": {
+                  "intent": "favourite.toggle"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "script": "document.querySelector('#m')._navigation.raise('preference.theme', {theme: 'dark'}).then((one) => one.answer)",
+          "expect": {
+            "returns": "applied",
+            "events": [
+              {
+                "name": "sf-admin-menu-save",
+                "count": 1,
+                "detail": {
+                  "kind": "preference",
+                  "values": {
+                    "theme": "dark"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "p4-view-reset",
+      "title": "view.reset is the vocabulary's reset {kind: view, id}; sf-admin-menu-intent follows it once",
+      "covers": "events.reset, aliases sf-admin-menu-intent (split)",
+      "steps": [
+        {
+          "script": "(async () => { for (let i = 0; i < 80 && ![...document.querySelector('#m').querySelectorAll('.sf-admin-nav-row')].find((one) => one.querySelector('.sf-admin-nav-row-label')?.textContent.trim() === 'Файлы'); i += 1) await new Promise((done) => setTimeout(done, 100)); return Boolean([...document.querySelector('#m').querySelectorAll('.sf-admin-nav-row')].find((one) => one.querySelector('.sf-admin-nav-row-label')?.textContent.trim() === 'Файлы')); })()",
+          "wait": 60,
+          "expect": {
+            "returns": true
+          }
+        },
+        {
+          "script": "document.querySelector('#m')._navigation.raise('view.reset', {profile: 'p1'}).then((one) => one.answer)",
+          "expect": {
+            "returns": "applied",
+            "events": [
+              {
+                "name": "sf-admin-menu-reset",
+                "count": 1,
+                "detail": {
+                  "kind": "view",
+                  "id": "p1",
+                  "intent": "view.reset"
+                }
+              },
+              {
+                "name": "sf-admin-menu-intent",
+                "count": 1,
+                "detail": {
+                  "intent": "view.reset"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "p5-search-query",
+      "title": "the admin search asks search.query: sf-admin-menu-query {kind: search, query}; sf-admin-menu-intent follows it once",
+      "covers": "events.query, aliases sf-admin-menu-intent (split)",
+      "steps": [
+        {
+          "script": "(async () => { for (let i = 0; i < 80 && ![...document.querySelector('#m').querySelectorAll('.sf-admin-nav-row')].find((one) => one.querySelector('.sf-admin-nav-row-label')?.textContent.trim() === 'Файлы'); i += 1) await new Promise((done) => setTimeout(done, 100)); return Boolean([...document.querySelector('#m').querySelectorAll('.sf-admin-nav-row')].find((one) => one.querySelector('.sf-admin-nav-row-label')?.textContent.trim() === 'Файлы')); })()",
+          "wait": 60,
+          "expect": {
+            "returns": true
+          }
+        },
+        {
+          "script": "document.querySelector('#m')._navigation.raise('search.query', {query: 'файл'}).then((one) => one.answer)",
+          "expect": {
+            "returns": "applied",
+            "events": [
+              {
+                "name": "sf-admin-menu-query",
+                "count": 1,
+                "detail": {
+                  "kind": "search",
+                  "query": "файл",
+                  "intent": "search.query"
+                }
+              },
+              {
+                "name": "sf-admin-menu-intent",
+                "count": 1,
+                "detail": {
+                  "intent": "search.query"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "p6-connect-port",
+      "title": "a menu without a port keeps its skeleton; connect-port refuses another port and a version the menu does not take",
+      "covers": "base action connect-port, settings.expected-columns",
+      "steps": [
+        {
+          "script": "(async () => { await customElements.whenDefined('sf-admin-menu'); for (let i = 0; i < 40 && !document.querySelector('#s .sf-admin-nav--skeleton'); i += 1) await new Promise((done) => setTimeout(done, 50)); return Boolean(document.querySelector('#s .sf-admin-nav--skeleton[aria-busy=\"true\"]')); })()",
+          "wait": 200,
+          "expect": {
+            "returns": true
+          }
+        },
+        {
+          "script": "document.querySelector('#s').connectPort({port: {port: 'simai.other-port', version: '1.0.0', raise() {}}})",
+          "expect": {
+            "returns": {
+              "outcome": "refused",
+              "reason": "other-port"
+            }
+          }
+        },
+        {
+          "script": "document.querySelector('#s').connectPort({port: {port: 'simai.admin-navigation-port', version: '9.0.0', raise() {}}})",
+          "expect": {
+            "returns": {
+              "outcome": "refused",
+              "reason": "port-unsupported"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

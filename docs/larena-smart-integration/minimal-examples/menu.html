@@ -5,14 +5,31 @@
     <title>sf-admin-menu P0 runtime probe</title>
   </head>
   <body>
-    <!-- Run only after loading the exact Core/Smart pair from provenance.json. -->
-    <sf-admin-menu searchable collapsible aria-label="Larena probe menu">
-      <sf-admin-menu-item left-icon="home" href="/" active>Главная</sf-admin-menu-item>
-      <sf-admin-menu-item left-icon="settings">
-        Настройки
-        <sf-admin-menu-item href="/profile">Профиль</sf-admin-menu-item>
-      </sf-admin-menu-item>
-      <sf-admin-menu-item type="divider"></sf-admin-menu-item>
-    </sf-admin-menu>
+    <!-- Run only after loading the exact Core/Smart pair from provenance.json.
+         The menu has no rows of its own: the host answers them over
+         simai.admin-navigation-port (sf-admin-menu 1.15.0, AM-7). Larena's
+         port is AdminMenuPortController; this page stands one up inline. -->
+    <sf-admin-menu aria-label="Larena probe menu" expected-columns="2"></sf-admin-menu>
+    <script>
+      const answer = {
+        answer: 'applied', revision: '1', current: 'home',
+        items: [
+          {key: 'home', kind: 'page', level: 'site', label: 'Главная', icon: 'home', href: '/'},
+          {key: 'settings', kind: 'root', level: 'site', label: 'Настройки', icon: 'settings', children: [
+            {key: 'settings.profile', kind: 'page', level: 'site', label: 'Профиль', icon: 'person', href: '/profile'},
+          ]},
+        ],
+        site: {current: {key: 'main', label: 'Основной сайт'}, count: 1},
+        person: {name: 'Администратор', language: 'ru', languages: [{code: 'ru', native: 'Русский', english: 'Russian'}]},
+      };
+      customElements.whenDefined('sf-admin-menu').then(() => {
+        document.querySelector('sf-admin-menu').connectPort({port: {
+          port: 'simai.admin-navigation-port', version: '1.1.0', capabilities: [],
+          async raise(intent) {
+            return intent === 'navigation.load' ? structuredClone(answer) : {answer: 'applied'};
+          },
+        }});
+      });
+    </script>
   </body>
 </html>

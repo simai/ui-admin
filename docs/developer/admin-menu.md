@@ -1,63 +1,54 @@
 # Административное меню
 
-`sf-admin-menu` — компонент пакета `pro`, исходник в
-`components/src/smart/admin-menu/` репозитория
-[`simai/ui-pro`](https://github.com/simai/ui-pro), его документация —
-`docs/docs.md` там же и
-[ui.simai.io](https://ui.simai.io/ru/smart-components/composite/admin-menu/).
+`sf-admin-menu` — компонент набора `admin`, исходник и владелец — папка
+[`package/`](../../package/README.md) этого репозитория
+(`package/src/smart/admin-menu/`, документация — `docs/docs.md` там же).
+Копия в пакете `pro` (`simai/ui-pro`, `components/src/smart/admin-menu/`)
+заморожена и уйдёт из него в первом выпуске Pro после выпуска набора; до тех
+пор страницы этого сайта берут меню из закреплённого пакета `pro`.
 Базовый presentation-компонент `component/admin-menu` — во Framework
 (`ui-source`).
 
-Меню работает в двух режимах: строки приходят от хоста через порт навигации
-или задаются разметкой. В Larena используется первый.
+У меню один режим: строки приходят от хоста через порт навигации. Меню из
+дочерних элементов в разметке убрано в 1.15.0 (AM-7), и на всех страницах
+сайта меню одно и то же.
 
-## Через порт навигации (главная страница)
+## Через порт навигации (все страницы)
 
-На `/` в разметке только пустой элемент:
+В разметке только пустой элемент:
 
 ```html
-<sf-admin-menu class="h-full" aria-label="Разделы админки" data-sf-skeleton="menu"></sf-admin-menu>
+<aside class="admin-navigation h-full">
+  <sf-admin-menu class="h-full" aria-label="Разделы админки" data-sf-skeleton="menu"></sf-admin-menu>
+</aside>
 ```
 
 При подключении меню поднимает `sf-host-port-request` с
 `context.owner = 'admin-menu'`; `src/navigation.ts` отвечает
-`setHostPort(host)`. Хост — [`src/ports/navigation-host.mjs`](../../src/ports/navigation-host.mjs)
+`setHostPort(host)` (в 1.15.0 — базовое действие `connectPort({port})`,
+`setHostPort` — его прежнее имя). Хост —
+[`src/ports/navigation-host.mjs`](../../src/ports/navigation-host.mjs)
 над `data/navigation.json` (240 сайтов, генератор `scripts/build-navigation-data.mjs`),
-порт `simai.admin-navigation-port` 1.0.0.
+порт `simai.admin-navigation-port`. Строка страницы — `data-page` на `<body>`
+(по умолчанию `data.catalog`). Страница подключает хост одной строкой:
+`import './navigation';` в своём модуле.
 
 Хост отвечает на `navigation.load` и `item.open`, а по заявленным
 возможностям — на переключение сайта, поиск, избранное, профили меню
-(`view.*`), настройки темы, языка и компактного вида (`preference.*`),
-уведомления и выход. Возможность, которую хост не заявил, меню не
-предлагает. Маршруты и права остаются у хоста.
+(`view.*`), настройки темы и языка (`preference.*`), уведомления и выход.
+Возможность, которую хост не заявил, меню не предлагает. Маршруты и права
+остаются у хоста.
 
-## Разметкой (`/navigation-menu-reference.html`)
+`/navigation-menu-reference.html` — то же меню отдельно, без страницы рядом;
+`/smart-component-catalog.html` — меню рядом с его машинным контрактом.
 
-```html
-<sf-admin-menu searchable settings logo="/logo.svg" persistence-mode="local">
-  <sf-admin-menu-item item-id="demo.dashboard" left-icon="home" href="/" active>
-    Дашборд
-    <sf-admin-menu-item item-id="demo.dashboard.orders" badge="99+" href="/">Заказы</sf-admin-menu-item>
-  </sf-admin-menu-item>
-  <sf-admin-menu-item type="divider"></sf-admin-menu-item>
-</sf-admin-menu>
-```
-
-`sf-admin-menu-item` поддерживает текст узла или `label`, `left-icon`,
-`right-icon`, `href`, `target`, `rel`, `badge`, `value`, `order`, `slot` или
-`position`, состояния `active`, `current`, `disabled`, `hidden`;
-`type="divider"` или `divider` — разделитель. Вложенные пункты становятся
-дочерним уровнем; порядок — по `order`, иначе по разметке.
-
-С `persistence-mode="local"` пользовательские настройки (порядок, скрытые
-пункты) хранятся в `localStorage`; с `external` их сохраняет хост. Разметка —
-исходная структура, локальное состояние меняет её после загрузки.
+Сервер, у которого ответ уже есть, может напечатать первый ответ
+`navigation.load` в островке `data-sf-settings` (настройка `first-answer`), и
+меню нарисуется сразу, без заготовки; порт ответит за ним.
 
 ## Что не делать
 
-- Не править DOM, который меню отрисовало: он перерисовывается из state.
-- Поведение меню меняется в `components/src/smart/admin-menu/` репозитория
-  `simai/ui-pro`, а не в страницах. Такая правка — изменение пакета: коммит в
-  `ui-pro`, затем перезакрепление здесь
-  ([Framework runtime](framework-runtime.md)).
-- Панель меню рассчитана на 320px; колонка хоста уже этого её обрежет.
+- Не править DOM, который меню отрисовало: он перерисовывается из состояния.
+- Не задавать строки разметкой: элемент их не читает.
+- Поведение меню меняется в `package/src/smart/admin-menu/`, а не в
+  страницах ([README набора](../../package/README.md)).

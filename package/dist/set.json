@@ -1,0 +1,49 @@
+{
+  "schema": "simai.framework.component-set",
+  "schema_version": 1,
+  "standard": {
+    "id": "simai.component-set",
+    "version": "1.0.0"
+  },
+  "id": "admin",
+  "title": "SIMAI Admin",
+  "summary": "The administration shell for SIMAI Framework pages: the admin menu sf-admin-menu (the site's navigation over a host's navigation port, search, the object menu, edit mode and settings).",
+  "repository": "simai/ui-admin",
+  "licence": {
+    "class": "simai-pro",
+    "spdx": "PolyForm-Small-Business-1.0.0 OR PolyForm-Noncommercial-1.0.0 OR LicenseRef-SIMAI-Commercial"
+  },
+  "framework": {
+    "core_runtime": ">=1.61.0",
+    "source_revision": "e7ea89e07a3a6494cd2e6d4b4dd2dfa3a4d560cf"
+  },
+  "requires_sets": [],
+  "families": [
+    "admin"
+  ],
+  "docs": "https://admin.simai.io/",
+  "components": [
+    {
+      "element": "sf-admin-menu",
+      "rule": "cl-admin-menu",
+      "folder": "admin-menu",
+      "status": "released",
+      "requires": [
+        "cl-badge",
+        "cl-button",
+        "cl-button-icon",
+        "cl-drawer",
+        "cl-dropdown",
+        "cl-empty-state",
+        "cl-icon",
+        "cl-input",
+        "cl-menu-context",
+        "cl-profile-picker",
+        "cl-search",
+        "cl-segmented",
+        "cl-sortable",
+        "cl-tooltip"
+      ]
+    }
+  ]
+}

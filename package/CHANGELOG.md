@@ -34,8 +34,9 @@ Three components join the menu as `preview` (owner decisions C420 and C421 of
   No new event or setting.
 - `notifications.read` carries the port's payload `{keys, all}`
   (`simai.admin-navigation-port` 1.1.0): a notice opened from the menu's own
-  list was read with `{ids}`. The event `sf-admin-menu-read` keeps its
-  vocabulary field `ids`.
+  list was read with `{ids}`, and not at all once sf-drawer had carried the
+  list into its portal (the click listener sat on the drawer element). The
+  event `sf-admin-menu-read` keeps its vocabulary field `ids`.
 
 Fallbacks until SIMAI Framework AS-2 (the crumbs row's end place in
 sf-header-page) and AS-4 («Повторить» on a failed notice row of

@@ -1934,7 +1934,11 @@ export class NavigationController {
             const body = document.createElement("div");
             body.className = "sf-admin-nav-notices-body";
             drawer.append(body);
-            drawer.addEventListener("click", (event) => this.onNoticesClick(event));
+            // On the body, not the drawer: sf-drawer carries its content into
+            // its portal at the end of the body, where a click does not reach
+            // the drawer element (up to 1.15.0 a notice opened here was never
+            // read and the panel stayed open).
+            body.addEventListener("click", (event) => this.onNoticesClick(event));
             this.watchNoticesDrawer(drawer);
             document.body.append(drawer);
             this._notices = drawer;

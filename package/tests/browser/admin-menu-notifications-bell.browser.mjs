@@ -135,10 +135,11 @@ try {
     await page.waitForFunction(() => document.querySelector('#m[data-column]'), null, {timeout: 15000});
     await page.waitForTimeout(300);
     await bellOf(page).click();
-    await page.waitForFunction(() => document.querySelector('[data-sf-admin-nav-notices][open] a[data-notice]'), null, {timeout: 8000}).catch(() => {});
+    // sf-drawer draws its content in its portal at the end of the body.
+    await page.waitForFunction(() => document.querySelector('[data-sf-admin-nav-notices][open]') && document.querySelector('[data-sf-drawer-portal] .sf-admin-nav-notices-body a[data-notice]'), null, {timeout: 8000}).catch(() => {});
     const own = await facts(page);
     if (!own.ownOpen || own.expanded !== 'true') say(`the bell does not open the own list: ${JSON.stringify(own)}`);
-    await page.locator('[data-sf-admin-nav-notices] a[data-notice="n1"]').click();
+    await page.locator('[data-sf-drawer-portal] .sf-admin-nav-notices-body a[data-notice="n1"]').click();
     await page.waitForTimeout(500);
     const read = await facts(page);
     if (JSON.stringify(read.reads) !== JSON.stringify([{keys: ['n1'], all: false}])) say(`own list read: ${JSON.stringify(read.reads)}`);

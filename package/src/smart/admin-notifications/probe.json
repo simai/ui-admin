@@ -92,9 +92,22 @@
     },
     {
       "id": "p4-read-port",
-      "title": "read {keys} asks notifications.read {keys, all: false}, says sf-admin-notifications-read and takes the host's unread",
-      "covers": "actions.read, events.read, port notifications.read",
+      "title": "after a refresh over the port, read {keys} asks notifications.read {keys, all: false}, says sf-admin-notifications-read and takes the host's unread",
+      "covers": "actions.refresh, actions.read, events.read, port notifications.read",
       "steps": [
+        {
+          "action": {
+            "name": "refresh"
+          },
+          "target": "#p",
+          "wait": 300,
+          "expect": {
+            "returns": {
+              "outcome": "applied"
+            }
+          },
+          "check": "document.querySelector('#p [data-status=\"ready\"]') !== null"
+        },
         {
           "action": {
             "name": "read",

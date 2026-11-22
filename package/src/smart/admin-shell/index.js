@@ -298,8 +298,11 @@ class SfAdminShell extends ShellElement {
 
     onKeydown(event) {
         if (event.key !== "Escape" || event.defaultPrevented || !this.menuOpen || !narrow()) return;
-        // A window or a popup of the menu takes its own Escape first.
-        if (document.querySelector("dialog[open], [role='dialog'][aria-modal='true']")) return;
+        // A window or a popup on screen takes its own Escape first; a closed
+        // drawer stays in the document with its dialog role, so only one
+        // that is shown counts.
+        const shown = (node) => (node.checkVisibility ? node.checkVisibility() : node.getClientRects().length > 0);
+        if ([...document.querySelectorAll("dialog[open], [role='dialog'][aria-modal='true'], [aria-modal='true']")].some(shown)) return;
         event.preventDefault();
         this.closeMenu({reason: "escape"});
     }

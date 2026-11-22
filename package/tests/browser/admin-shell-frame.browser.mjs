@@ -10,7 +10,8 @@
 //         draws, held back 1.5 s: the content's x never moves;
 //   390:  the slim top line sticks under the bar; the menu button opens the
 //         menu over the page and moves the focus into it, Escape closes it and
-//         the focus returns to the button;
+//         the focus returns to the button, a closed sf-drawer on the page
+//         (a dialog in the document, not on screen) taking nothing from it;
 //   both: no sideways scroll, no console error or warning.
 import {lab, finish} from './admin-set-lab.mjs';
 
@@ -39,6 +40,7 @@ const pageOf = (answer, columns) => `<sf-admin-shell id="s" product="Larena Pane
   <a slot="top-end" id="bell" href="#/notifications">Уведомления</a>
   <div id="content" style="block-size: 3000px"><a id="first-link" href="#/a">Первая ссылка содержимого</a></div>
 </sf-admin-shell>
+<sf-drawer id="closed-drawer" placement="right" heading="Уведомления"><div slot="content">Закрытая панель</div></sf-drawer>
 <script>customElements.whenDefined('sf-admin-menu').then(() => document.getElementById('m').setHostPort({
   port: 'simai.admin-navigation-port', version: '1.1.0', capabilities: [],
   async raise(intent) { return intent === 'navigation.load' ? structuredClone(${JSON.stringify(answer)}) : {answer: 'applied'}; },

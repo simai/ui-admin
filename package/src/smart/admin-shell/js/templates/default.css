@@ -205,6 +205,9 @@
     align-items: center;
     gap: var(--sf-space-1\/2);
     min-inline-size: 0;
+    /* As tall as the indicator's trigger before it draws: the row keeps its
+       height when the indicator arrives. */
+    min-block-size: var(--sf-ui-1\/2--control-height);
   }
   .sf-admin-shell-path > sf-breadcrumbs {
     flex: 1 1 auto;

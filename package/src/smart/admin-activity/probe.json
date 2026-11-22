@@ -8,8 +8,7 @@
       "<main style=\"display: flex; justify-content: flex-end; gap: 24px; padding: 24px\">",
       "  <sf-admin-activity id=\"a\" history-href=\"#/activity\" runs='[{\"id\": \"r1\", \"label\": \"Копия srv1.larena.cloud\", \"state\": \"running\", \"value\": 42, \"total\": 100, \"unit\": \"%\", \"href\": \"#/srv.backups\"}, {\"id\": \"r2\", \"label\": \"Обновление PHP на stage\", \"state\": \"running\", \"href\": \"#/srv.software\"}]'></sf-admin-activity>",
       "  <sf-admin-activity id=\"z\" runs='[]'></sf-admin-activity>",
-      "</main>",
-      "<script>window.__told = []; const wrap = () => { const sf = window.SF || (window.SF = {}); if (sf.__wrapped) return; sf.notify = (options) => { window.__told.push(options); }; sf.__wrapped = true; }; wrap(); customElements.whenDefined('sf-admin-activity').then(wrap);</script>"
+      "</main>"
     ]
   },
   "probes": [
@@ -45,7 +44,7 @@
     },
     {
       "id": "p3-failure-mark",
-      "title": "a run fails while another runs: SF.notify error, a red mark beside «Идёт 1»; opening the list says open and the mark goes",
+      "title": "a run fails while another runs: SF.notify error (its toast on the page), a red mark beside «Идёт 1»; opening the list says open and the mark goes",
       "covers": "events.finished, events.open, actions.show, side-effects notify",
       "steps": [
         {
@@ -54,7 +53,7 @@
           "expect": {
             "returns": true
           },
-          "check": "Boolean(document.querySelector('#a .sf-admin-activity__mark')) && document.querySelector('#a sf-badge[activity=\"running\"]').getAttribute('text') === 'Идёт 1' && window.__told.some((told) => told.status === 'error' && told.title === 'Перевыпуск сертификата simai.ru: не удалось')"
+          "check": "Boolean(document.querySelector('#a .sf-admin-activity__mark')) && document.querySelector('#a sf-badge[activity=\"running\"]').getAttribute('text') === 'Идёт 1' && document.body.innerText.includes('Перевыпуск сертификата simai.ru: не удалось')"
         },
         {
           "action": {
@@ -79,7 +78,7 @@
     },
     {
       "id": "p4-done",
-      "title": "the last running run ends: SF.notify success, and «Не удалось 1» stays in words",
+      "title": "the last running run ends: SF.notify success (its toast on the page), and «Не удалось 1» stays in words",
       "covers": "events.finished done",
       "steps": [
         {
@@ -100,7 +99,7 @@
           "expect": {
             "returns": true
           },
-          "check": "window.__told.some((told) => told.status === 'success' && told.title === 'Копия srv1.larena.cloud: готово') && document.querySelector('#a sf-badge[activity=\"failed\"]').getAttribute('text') === 'Не удалось 1' && !document.querySelector('#a sf-badge[activity=\"running\"]')"
+          "check": "document.body.innerText.includes('Копия srv1.larena.cloud: готово') && document.querySelector('#a sf-badge[activity=\"failed\"]').getAttribute('text') === 'Не удалось 1' && !document.querySelector('#a sf-badge[activity=\"running\"]')"
         }
       ]
     }

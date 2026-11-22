@@ -7,7 +7,7 @@
 <title>SIMAI Admin: каркас, уведомления, действия</title>
 <script>
 /* The set's demo: sf-admin-shell, sf-admin-notifications and sf-admin-activity over the released
-   sf-admin-menu, on the Larena Panel demo host of this repository (src/ports/navigation-host.mjs,
+   sf-admin-menu, on the admin demo host of this repository (src/ports/navigation-host.mjs,
    data/navigation.json). SIMAI Framework from the pinned pair (npm @simai-studio/ui@5.20261121.928,
    ui-source e7ea89e07a3a); the set from ?set=<base> (default ../dist/smart, the released output; a
    candidate's wave-1/output/package/admin/smart when served beside it).
@@ -32,7 +32,7 @@
   window.sfPath = base; window.sfSmartPath = base.slice(0, -1);
   window.SF_BOOT_CONFIG = {theme: false, smart: {base: true}, minified: true, preloader: {enabled: false}, packages: {admin: {base: set, version: '1.1.0'}}};
   document.write('<link rel="stylesheet" href="' + base + 'core/css/core.css">');
-  document.write('<script src="' + base + 'core/lang/ru.js"><\/script>');
+  document.write('<script defer src="' + base + 'core/lang/ru.js"><\/script>');
   document.write('<script defer src="' + base + 'core/js/smart-base.js"><\/script><script defer src="' + base + 'core/js/core.js"><\/script>');
 })();
 </script>
@@ -57,9 +57,10 @@ const F = ['overview', 'settings', 'history'].includes(q.get('f')) ? q.get('f') 
 const RUNS = ['play', 'still', 'none'].includes(q.get('runs')) ? q.get('runs') : 'still';
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 const S = {
-  overview: {current: 'srv.overview', path: [{label: 'Сервер', href: '#/server'}], title: 'Обзор', width: 'list', bar: true},
-  settings: {current: 'panel.general', path: [{label: 'Настройки панели', href: '#/panel'}], title: 'Общие', width: 'read'},
-  history: {current: 'srv.overview', path: [{label: 'Профиль', href: '#/profile'}], title: 'Уведомления', width: 'read'},
+  // columns: the menu's first paint (expected-columns): 1 where the page's row has no open root.
+  overview: {current: 'home', columns: 1, path: [{label: 'simai.ru', href: '#/admin'}], title: 'Главная', width: 'list', bar: true},
+  settings: {current: 'site.settings', columns: 2, path: [{label: 'Сайт', href: '#/admin/site'}], title: 'Настройки сайта', width: 'read'},
+  history: {current: 'home', columns: 1, path: [{label: 'Профиль', href: '#/admin/profile'}], title: 'Уведомления', width: 'read'},
 }[F];
 const bar = `<sf-alert-bar slot="bar" size="1/2"><script type="application/json" data-sf-settings>${JSON.stringify({items: [{id: 'lic', level: 'warning', text: 'Лицензия кончается 30 ноября: после этого панель будет только показывать.', source: 'Лицензия', action: {label: 'Продлить', href: '#/panel.license'}}]})}<\/script></sf-alert-bar>`;
 // The crumbs row with the activity at its end. Fallback until AS-2: the shell lays out
@@ -85,9 +86,9 @@ const body = {
     <div class="page-save"><sf-button text="Сохранить"></sf-button><span class="page-small">Сохранено в 14:35</span></div>`,
   history: `<sf-admin-notifications id="page-history" look="page" aria-label="Все уведомления" settings-href="#/settings/notifications"></sf-admin-notifications>`,
 }[F];
-document.getElementById('page-root').innerHTML = `<sf-admin-shell id="page-shell" product="Larena Panel" width="${S.width}">
+document.getElementById('page-root').innerHTML = `<sf-admin-shell id="page-shell" product="SIMAI Admin" width="${S.width}">
   ${S.bar ? bar : ''}
-  <sf-admin-menu slot="menu" id="m" aria-label="Меню" expected-columns="2" current="${S.current}"></sf-admin-menu>
+  <sf-admin-menu slot="menu" id="m" aria-label="Меню" expected-columns="${S.columns}" current="${S.current}"></sf-admin-menu>
   ${head}
   <span slot="top-end" class="page-top-end"><sf-admin-activity class="page-activity" size="1" history-href="#/panel.activity"></sf-admin-activity>
     <sf-button-icon id="page-bell" icon="notifications" appearance="ghost" aria-label="Уведомления"></sf-button-icon></span>
@@ -97,11 +98,21 @@ document.getElementById('page-root').innerHTML = `<sf-admin-shell id="page-shell
   <div slot="content"><sf-admin-notifications id="page-panel" look="panel" aria-label="Уведомления" history-href="?f=history"></sf-admin-notifications></div>
 </sf-drawer>`;
 
-// ── The host: the repository's Larena Panel demo, its notifications told with object,
+// ── The host: the repository's admin demo, its notifications told with object,
 //    level and how they were settled (what a port 1.2.0 would carry; the list reads them).
 const here = new URL('../../', import.meta.url);
 const {createNavigationHost} = await import(new URL('src/ports/navigation-host.mjs', here).href);
 const data = await (await fetch(new URL('data/navigation.json', here))).json();
+// The demo stays on this page: the host's /admin/... addresses become fragments.
+const local = (value) => {
+  if (Array.isArray(value)) return value.forEach(local);
+  if (!value || typeof value !== 'object') return;
+  for (const [key, one] of Object.entries(value)) {
+    if (key.endsWith('href') && typeof one === 'string' && one.startsWith('/')) value[key] = `#${one}`;
+    else local(one);
+  }
+};
+local(data);
 data.notification_groups = [{key: 'today', label: 'Сегодня'}, {key: 'yesterday', label: 'Вчера'}];
 data.notifications = [
   {key: 'n1', group: 'today', level: 'warning', object: 'srv1.larena.cloud', title: 'Сертификат истекает через 7 дней', body: 'Продлите в «Безопасность».', when: '10:42', unread: true, href: '#/srv.security'},

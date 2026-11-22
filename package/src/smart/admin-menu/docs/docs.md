@@ -43,7 +43,7 @@ Smart-компонент административного меню над по
 | `sf-admin-menu-read` | `notifications.read` | `notifications` `{ids}` — прочитанные ключи (пусто, если «Прочитать все»); `payload` порта — `{keys, all}` |
 | `sf-admin-menu-reset` | `view.reset` | `view` `{id}` |
 | `sf-admin-menu-sign-out` | `session.sign-out` | `session` |
-| `sf-admin-menu-navigate` | — | хост ответил `applied` на открытие: `{id, key, href, region}` |
+| `sf-admin-menu-navigate` | — | хост ответил `applied` на открытие: `{id, key, href, region}`; отменяемое — `preventDefault()` оставляет текущий пункт и фокус, меню никуда не переходит |
 | `sf-admin-menu-column-change` | — | колонка раздела показана или скрыта: `{open}` |
 
 Старое имя `sf-admin-menu-intent` `{intent, payload}` следует за каждым событием,
@@ -202,6 +202,27 @@ Smart-компонент административного меню над по
 других полей нет): одно уведомление — `{keys: [ключ], all: false}`, «Прочитать
 все» — `{all: true}`. До 1.15.1 уведомление из своего списка меню читалось как
 `{ids}`.
+
+### Уход со страницы можно отменить (1.16.1)
+
+`sf-admin-menu-navigate` отменяемое и приходит до того, как меню что-то
+отметит. Страница с несохранёнными изменениями вызывает `preventDefault()` —
+текущим остаётся прежний пункт, фокус и экран телефона не меняются, меню
+никуда не переходит, ссылка меню объекта не открывается. Если человек потом
+согласился уйти, страница переходит сама и называет пункт атрибутом
+`current`. Без отмены пункт становится текущим, как раньше.
+
+```js
+menu.addEventListener('sf-admin-menu-navigate', (event) => {
+  if (!form.dirty) return;
+  event.preventDefault();
+  askLeave(event.detail.href).then((go) => {
+    if (!go) return;
+    menu.setAttribute('current', event.detail.key);
+    router.go(event.detail.href);
+  });
+});
+```
 
 ### CSS variables
 

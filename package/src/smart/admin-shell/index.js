@@ -19,10 +19,13 @@
 //   Escape, the button or a chosen page closes it, and focus comes back.
 //
 // The page's nodes are its own: the shell moves each into its place once,
-// when it draws (and later ones when the page writes them), never copies them.
+// when it draws (and later ones when the page writes them), never copies them,
+// and never puts back one the page has taken out (AS-5): it places only what
+// is in it now.
 import SfBaseElement from "../../core/js/smart-base";
 import {applied, elementFromManifest, refused} from "../../core/js/element-manifest";
 import {isLateContent, watchLateChildren} from "../helpers/late-children.js";
+import {heldNodes} from "./js/nodes.js";
 import {renderAdminShellTemplate} from "./js/templates/default.js";
 import manifest from "./component.json";
 import en from "./lang/en.json";
@@ -63,6 +66,8 @@ class SfAdminShell extends ShellElement {
         this._late = null;
         this._observers = [];
         this._heights = {bar: -1, top: -1};
+        // The nodes this shell has placed once (AS-5, js/nodes.js).
+        this._placed = new WeakSet();
     }
 
     // ── the page's nodes ─────────────────────────────────────────────────────
@@ -117,9 +122,21 @@ class SfAdminShell extends ShellElement {
         this.requestComponentUpdate("content");
     }
 
+    // A node the page has taken out of the shell (removed, or moved elsewhere)
+    // is the page's decision: it is forgotten, never put back (AS-5: a page
+    // that swapped its body without a reload got the old form back on the next
+    // placing, after the phone menu closed -- two forms at 390).
+    // The rule itself is js/nodes.js.
     nodesOf(area) {
-        if (area === "content") return this._content ?? [];
-        return [].concat(this._liveSlotNodes.get(area) ?? []).filter((node) => node && node.nodeType);
+        const inside = (node) => this.contains(node);
+        if (area === "content") {
+            if (this._content) this._content = heldNodes(this._content, inside, this._placed);
+            return this._content ?? [];
+        }
+        const list = this._liveSlotNodes.get(area);
+        const kept = heldNodes(list, inside, this._placed);
+        if (Array.isArray(list) && kept.length !== list.length) this._liveSlotNodes.set(area, kept);
+        return kept;
     }
 
     // Each node into its area, once; a node already there is left alone, so a
@@ -130,7 +147,10 @@ class SfAdminShell extends ShellElement {
         for (const area of [...AREAS, "content"]) {
             const box = frame.querySelector(`[data-area="${area}"]`);
             if (!box) continue;
-            for (const node of this.nodesOf(area)) if (node.parentNode !== box) box.append(node);
+            for (const node of this.nodesOf(area)) {
+                if (node.parentNode !== box) box.append(node);
+                this._placed.add(node);
+            }
         }
         this.toggleAttribute("data-bar", this.nodesOf("bar").length > 0);
     }
@@ -344,8 +364,13 @@ class SfAdminShell extends ShellElement {
         if (!this._menuBound) {
             this._menuBound = true;
             // A page chosen in the phone menu closes it; the page itself moves.
-            this.addEventListener("sf-admin-menu-navigate", () => {
-                if (this.menuOpen) this.closeMenu({focus: false, reason: "navigate"});
+            // The event is cancelable (sf-admin-menu 1.16.1, AS-6) and the page
+            // listens above the shell, so the shell decides once every listener
+            // has had it: a page that refused to leave keeps the menu open.
+            this.addEventListener("sf-admin-menu-navigate", (event) => {
+                queueMicrotask(() => {
+                    if (!event.defaultPrevented && this.menuOpen) this.closeMenu({focus: false, reason: "navigate"});
+                });
             }, {signal: this.sfScope});
         }
     }

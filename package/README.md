@@ -34,7 +34,9 @@ the showcase (decision C384 of 2026-11-19, order AM-1..AM-61); 1.15.1 opens
 the set's sf-admin-notifications panel from the bell when the page holds one
 (an sf-admin-notifications in an sf-drawer; docs.md «Колокол и список
 уведомлений набора») and reads with the port's `{keys, all}`. 1.16.0 accepts
-`simai.admin-navigation-port` 1.2.0 beside 1.0.0 and 1.1.0. Its history
+`simai.admin-navigation-port` 1.2.0 beside 1.0.0 and 1.1.0; in 1.16.1
+`sf-admin-menu-navigate` is cancelable (a page with unsaved changes keeps the
+current row). Its history
 before the move is in ui-pro. Its dated event aliases (`aliases.json`, until
 2026-12-01) move with it; the tag itself has no former name.
 

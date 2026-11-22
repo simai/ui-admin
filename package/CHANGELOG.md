@@ -54,6 +54,21 @@ Three components join the menu as `preview` (owner decisions C420 and C421 of
   `retryable: false` (new optional field of the setting `runs`). A 1.1.0 host
   is asked nothing.
 
+Two defects the admin settings study found (ui-control
+`control/research/2026-11-22-admin-settings-study`):
+
+- `sf-admin-menu` 1.16.1 (AS-6): `sf-admin-menu-navigate` is cancelable and
+  is sent before the menu marks anything. A page with unsaved changes calls
+  `preventDefault()`: the current row, the phone screen and the focus stay,
+  the menu goes nowhere and an object-menu link is not followed; the page
+  that later agrees goes there itself and sets `current`. Before, the menu
+  marked the pressed row first and offered no way to refuse. `sf-admin-shell`
+  closes its phone menu on the event only when no listener refused it.
+- `sf-admin-shell` 1.0.0 (AS-5, before its first release): the shell places
+  only what is in it now. A node it placed and the page then took out is
+  forgotten, never put back (a page that swapped its body without a reload
+  got the old form back when the phone menu closed: two forms at 390).
+
 Over the SIMAI Framework candidate ui-source `245f2ac65ed2`
 (`feat/admin-shell-parts`, group build 17; branch `admin/over-gb17-parts`):
 the two fallbacks are gone. The activity indicator goes in sf-header-page's

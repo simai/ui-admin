@@ -936,18 +936,27 @@ export class NavigationController {
         }
         const answer = await this.raise("item.open", {key: row.key, href: row.href ?? null});
         if (answer.answer === "applied") {
-            this.navigation = {...this.navigation, current: row.key};
-            this.pageOpened();
-            if (!this.wide) this.screen = "first";
-            this.update("open");
             const href = answer.href ?? row.href ?? null;
             // With region navigation on, the menu goes there itself and says so:
             // `region: true` tells a host listener the page is already on its
             // way, so it does not load it a second time.
             const region = Boolean(href && globalThis.SF?.RegionNavigation?.enabled);
-            this.element.sfEmit("navigate", {id: row.key, key: row.key, href, region});
+            // The page may refuse to leave (AS-6: unsaved changes): navigate is
+            // cancelable and asked first; refused, the current row, the screen
+            // and the focus stay as they are and the menu goes nowhere. The page
+            // that later agrees goes there itself and names the row (current).
+            if (!this.mayLeave({id: row.key, key: row.key, href, region})) return;
+            this.navigation = {...this.navigation, current: row.key};
+            this.pageOpened();
+            if (!this.wide) this.screen = "first";
+            this.update("open");
             if (region) globalThis.SF.RegionNavigation.navigate(new URL(href, globalThis.location.href).href);
         }
+    }
+
+    // sf-admin-menu-navigate, cancelable (AS-6): false when a listener refused.
+    mayLeave(detail) {
+        return this.element.sfEmit("navigate", detail, {cancelable: true}) !== false;
     }
 
     // A row of the object menu, or its «back»: an ordinary link, the page's
@@ -960,13 +969,17 @@ export class NavigationController {
         const href = item?.href ?? null;
         if (!href) return;
         const region = Boolean(globalThis.SF?.RegionNavigation?.enabled);
+        const key = back ? "sf:context-back" : item.key;
+        // Refused (AS-6): the link is not followed and nothing is marked.
+        if (!this.mayLeave({id: key, key, href, region})) {
+            event?.preventDefault?.();
+            return;
+        }
         if (!back && this.navigation?.context) {
             this.navigation = {...this.navigation, context: {...this.navigation.context, current: item.key}};
             if (!this.wide) this.screen = "second";
             this.update("open");
         }
-        const key = back ? "sf:context-back" : item.key;
-        this.element.sfEmit("navigate", {id: key, key, href, region});
         if (region) {
             event?.preventDefault?.();
             globalThis.SF.RegionNavigation.navigate(new URL(href, globalThis.location.href).href);
@@ -1114,7 +1127,7 @@ export class NavigationController {
     async signOut() {
         const answer = await this.raise("session.sign-out", {});
         if (answer.answer !== "applied") return;
-        this.element.sfEmit("navigate", {id: "session.sign-out", key: "session.sign-out", href: answer.href ?? null});
+        this.mayLeave({id: "session.sign-out", key: "session.sign-out", href: answer.href ?? null});
     }
 
     // ─── the edit mode ───────────────────────────────────────────────────────
@@ -1841,11 +1854,11 @@ export class NavigationController {
         const answer = await this.raise("search.choose", {group: chosen.group, key: chosen.item.key});
         if (answer.answer !== "applied") return;
         const href = answer.href ?? chosen.item.href ?? null;
+        if (!this.mayLeave({id: chosen.item.key, key: chosen.item.key, href})) return;
         if (chosen.item.kind !== "action" && this.navigation) {
             this.navigation = {...this.navigation, current: chosen.item.key};
             this.update("open");
         }
-        this.element.sfEmit("navigate", {id: chosen.item.key, key: chosen.item.key, href});
     }
 
     // The palette's key: the port's search_shortcut, else the element's

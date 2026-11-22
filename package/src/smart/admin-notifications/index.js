@@ -197,6 +197,16 @@ class SfAdminNotifications extends NotificationsElement {
         if (!this.givenItems) this.load();
     }
 
+    // A printed skeleton stays until the list is there (§5.4, §7.3 phase 3):
+    // the items given, or the host's answer -- or its failure, which is news
+    // too. The data comes by the port, so the base's late-settings rule is
+    // not enough.
+    sfAwaitingData() {
+        if (this.getAttribute("data-sf-first-paint") !== "skeleton") return false;
+        if (this.givenItems) return false;
+        return this._status !== "ready" && this._status !== "failed";
+    }
+
     offers() {
         const capabilities = this.port?.capabilities;
         return !Array.isArray(capabilities) || capabilities.includes("notifications");
@@ -384,6 +394,17 @@ class SfAdminNotifications extends NotificationsElement {
             return {...group, rows};
         });
         return groups;
+    }
+
+    // The attribute items given or changed after the element connected (a
+    // skeleton's late list arriving): the list takes it before it draws.
+    beforeRender(changed) {
+        super.beforeRender?.(changed);
+        if (this._items !== null || !this.hasAttribute("items")) return;
+        const given = this.getAttribute("items");
+        if (given === this._itemsGiven && this._status === "ready") return;
+        this._itemsGiven = given;
+        this.takeItems();
     }
 
     template() {

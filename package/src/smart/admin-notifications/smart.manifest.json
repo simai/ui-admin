@@ -384,7 +384,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/admin-notifications/index.js",
-        "sha256": "03095f60eb5d83cb8fd558ae22aee545add73410a5197e0381490f1406ad7059"
+        "sha256": "a6220077d9c52431aaab6f0c67b484e2a08bf2339f70eaa84d7c07256a97a0c8"
       },
       {
         "path": "src/smart/admin-notifications/js/templates/default.js",
@@ -392,7 +392,7 @@
       },
       {
         "path": "src/smart/admin-notifications/js/templates/default.css",
-        "sha256": "bf34c7dd35ab448ba81eed7bd90d894df6da94a8e7be14863245abf8b06f1a1d"
+        "sha256": "08c9b086086aa5447e55a6ab25c1d5335f6f9d74fb6f48d2288805069f3b8495"
       },
       {
         "path": "src/smart/admin-notifications/component.json",

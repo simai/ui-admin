@@ -194,7 +194,8 @@
       "expect": {
         "name": "Уведомления"
       },
-      "parent": "<div style=\"inline-size: 30rem; max-inline-size: 100%\"></div>"
+      "parent": "<div class=\"flex flex-col\" style=\"inline-size: 30rem; max-inline-size: 100%; block-size: 32rem\"></div>",
+      "x-first-paint": "The panel's region, as the notifications drawer gives it: the list fills it while the host has not answered and after, and its entries scroll inside."
     },
     {
       "name": "empty",

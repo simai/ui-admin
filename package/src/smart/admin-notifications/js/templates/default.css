@@ -26,6 +26,16 @@
     line-height: var(--sf-text-height-1\/2);
   }
 
+  /* In a region (the notifications drawer, a column of a page) the panel
+     look fills it, loading or loaded, and its entries scroll inside: the box
+     does not change when the host answers. In plain flow it is as tall as
+     its entries. */
+  .sf-admin-notifications[data-look="panel"] {
+    flex: 1 1 auto;
+    min-block-size: 0;
+    overflow-y: auto;
+  }
+
   .sf-admin-notifications__head {
     display: flex;
     align-items: center;

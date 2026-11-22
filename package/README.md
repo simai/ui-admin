@@ -22,7 +22,10 @@ row (AS-4) is an sf-button under it. They drop at the repin that carries them.
 The component came from `simai/ui-pro` `components/src/smart/admin-menu` at
 `2ba35fa` byte for byte (sf-admin-menu 1.11.2), was carried to ui-pro's
 1.14.2 and is 1.15.0 here: the navigation menu as the owner approved it on
-the showcase (decision C384 of 2026-11-19, order AM-1..AM-61). Its history
+the showcase (decision C384 of 2026-11-19, order AM-1..AM-61); 1.15.1 opens
+the set's sf-admin-notifications panel from the bell when the page holds one
+(an sf-admin-notifications in an sf-drawer; docs.md «Колокол и список
+уведомлений набора») and reads with the port's `{keys, all}`. Its history
 before the move is in ui-pro. Its dated event aliases (`aliases.json`, until
 2026-12-01) move with it; the tag itself has no former name.
 
@@ -111,7 +114,7 @@ build. A set is built and tested against exactly one revision.
 ## Кратко по-русски
 
 Здесь исходник набора компонентов `admin`: меню администратора
-`sf-admin-menu` 1.15.0 — то самое меню, которое владелец утвердил на витрине
+`sf-admin-menu` 1.15.1 — то самое меню, которое владелец утвердил на витрине
 (решение C384, пункты AM-1..AM-61). Владелец меню — этот репозиторий
 `simai/ui-admin`; копия в `simai/ui-pro` заморожена и уйдёт из пакета `pro`
 в первом выпуске Pro после выпуска набора. Набор собирается и проверяется

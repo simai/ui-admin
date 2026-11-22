@@ -14,9 +14,9 @@
      ?f=overview | settings | history   the screen (default overview)
      ?theme=dark                        the dark theme
      ?runs=play | still | none          the background runs: a short story, a still frame, nothing
-   Page code is demo glue only: the host, the notifications panel (sf-drawer) and the runs' story.
-   The menu's own bell opens its own list (sf-admin-menu 1.15.0); the page opens the set's list
-   instead -- the menu follow-up is to draw sf-admin-notifications itself. */
+   Page code is demo glue only: the host, the phone top line's bell and the runs' story. The
+   menu's bell opens the set's panel by itself (sf-admin-menu 1.15.1): the page holds
+   sf-admin-notifications in an sf-drawer, and the menu opens that drawer. */
 (function () {
   var q = new URLSearchParams(location.search);
   var dark = q.get('theme') === 'dark';
@@ -135,12 +135,10 @@ if (!menu._navigation) (menu.connectPort ?? menu.setHostPort)?.call(menu, host);
 await customElements.whenDefined('sf-admin-notifications');
 for (const list of document.querySelectorAll('sf-admin-notifications')) list.connectPort?.({port: host});
 
-// ── The notifications panel: the phone bell and, glue until the menu draws the set's list,
-//    the menu's bell.
+// ── The notifications panel: the menu's bell opens it itself (sf-admin-menu 1.15.1); the phone
+//    top line's bell is the page's own button.
 const drawer = document.getElementById('page-notices');
-const openPanel = (event) => { event?.preventDefault(); event?.stopPropagation(); customElements.whenDefined('sf-drawer').then(() => drawer.open?.()); };
-document.getElementById('page-bell').addEventListener('click', openPanel);
-addEventListener('click', (event) => { if (event.target.closest?.('.sf-admin-nav-bell')) openPanel(event); }, true);
+document.getElementById('page-bell').addEventListener('click', () => customElements.whenDefined('sf-drawer').then(() => drawer.open?.()));
 
 // ── The background runs: the host's list, set anew on every change.
 const runsOf = {

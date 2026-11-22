@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.admin-menu",
-  "version": "1.15.0",
+  "version": "1.15.1",
   "title": "Admin menu",
   "summary": "Admin navigation over the host's navigation port: the rail, the section column, search, favourites, notifications and the setting mode.",
   "kind": "composite",
@@ -549,7 +549,7 @@
       }
     },
     "sf-admin-menu-read": {
-      "summary": "notifications.read asked (vocabulary 1.1.5).",
+      "summary": "notifications.read asked (vocabulary 1.1.5): ids are the keys read (none for all); payload is the port's {keys, all}.",
       "payload": {
         "type": "object",
         "required": [
@@ -892,7 +892,7 @@
       },
       {
         "path": "src/smart/admin-menu/js/navigation/template.js",
-        "sha256": "6b08500411c9700d801740ff5aaaf9805a5458f6f308efe8f21a678c0d58fbef"
+        "sha256": "391869547319b96bd6f8debabffa0b9b2e871cc9c45cb6fc093aeba7920daa49"
       },
       {
         "path": "src/smart/admin-menu/js/navigation/palette.js",
@@ -908,7 +908,7 @@
       },
       {
         "path": "src/smart/admin-menu/js/navigation/controller.js",
-        "sha256": "e3839652f3e30e2d0fe65e3697fd850a218902fbc599d30c2789ebd835f25eff"
+        "sha256": "abbaba88b216f0fb3c0d8cb0ce9e45ca17c380a13903cfdf2ae49f22a26e16a5"
       },
       {
         "path": "src/smart/admin-menu/js/navigation/menu.js",
@@ -920,7 +920,7 @@
       },
       {
         "path": "src/smart/admin-menu/component.json",
-        "sha256": "51a9acf0c96605ae69a71c5fc661f71be8d7b9659c20a2206d739ee2484ef67e"
+        "sha256": "bc7138ee28e5a2385914b7b9635bb4617e6b63de88173bf6f442e59edaafadd2"
       },
       {
         "path": "src/smart/admin-menu/aliases.json",

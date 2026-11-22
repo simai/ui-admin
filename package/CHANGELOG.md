@@ -23,6 +23,20 @@ Three components join the menu as `preview` (owner decisions C420 and C421 of
   `runs`, `history-href`, `size`, `placement`, `notify`; actions `refresh`,
   `show`, `close`; events `open`, `close`, `retry`, `cancel`, `finished`.
 
+`sf-admin-menu` 1.15.1 (a patch, the follow-up the set build found):
+
+- The bell opens the set's notifications panel when the page holds one: an
+  `sf-admin-notifications` in its panel look (not `look="page"`) inside an
+  `sf-drawer`, found by markup. The bell opens and closes that drawer, the
+  list reads the port again as it opens, `aria-expanded` follows the drawer,
+  Escape closes it and the focus comes back to the bell. A page no longer
+  intercepts the bell. Without such a list the menu draws its own as before.
+  No new event or setting.
+- `notifications.read` carries the port's payload `{keys, all}`
+  (`simai.admin-navigation-port` 1.1.0): a notice opened from the menu's own
+  list was read with `{ids}`. The event `sf-admin-menu-read` keeps its
+  vocabulary field `ids`.
+
 Fallbacks until SIMAI Framework AS-2 (the crumbs row's end place in
 sf-header-page) and AS-4 («Повторить» on a failed notice row of
 sf-progress-run); AS-1 and AS-3 need none. Port gap: the navigation port's

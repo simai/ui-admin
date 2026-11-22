@@ -40,7 +40,7 @@ Smart-компонент административного меню над по
 | `sf-admin-menu-create` | `view.create` | `view` |
 | `sf-admin-menu-rename` | `view.rename` | `view` `{id, title}` |
 | `sf-admin-menu-delete` | `view.delete` | `view` `{ids}` |
-| `sf-admin-menu-read` | `notifications.read` | `notifications` `{ids}` |
+| `sf-admin-menu-read` | `notifications.read` | `notifications` `{ids}` — прочитанные ключи (пусто, если «Прочитать все»); `payload` порта — `{keys, all}` |
 | `sf-admin-menu-reset` | `view.reset` | `view` `{id}` |
 | `sf-admin-menu-sign-out` | `session.sign-out` | `session` |
 | `sf-admin-menu-navigate` | — | хост ответил `applied` на открытие: `{id, key, href, region}` |
@@ -170,6 +170,35 @@ Smart-компонент административного меню над по
 была окончательной. До подключения порта пункты страниц — обычные ссылки.
 Это та же настройка `first-answer` в островке `data-sf-settings`, что у
 `sf-view`.
+
+### Колокол и список уведомлений набора (1.15.1)
+
+Колокол открывает панель уведомлений справа. Если на странице есть список
+набора — `sf-admin-notifications` в виде панели (без `look` или
+`look="panel"`, не `look="page"` страницы истории) внутри `sf-drawer`, —
+колокол открывает и закрывает этот `sf-drawer`, а список заново читает порт
+(`refresh`). Так число на колоколе и список читают один порт и не расходятся.
+Список находится по разметке страницы, поэтому правило работает и до того, как
+код списка загрузился. Нового события и настройки нет: договор — разметка.
+
+```html
+<sf-drawer placement="right" size="2" heading="Уведомления">
+  <div slot="content">
+    <sf-admin-notifications look="panel" history-href="/admin/notifications"></sf-admin-notifications>
+  </div>
+</sf-drawer>
+```
+
+`aria-expanded` колокола следует за панелью; Escape закрывает панель (пока она
+открыта, Escape её, а не меню), фокус возвращается на колокол. Перехватывать
+нажатие колокола странице не нужно. Если такого списка на странице нет, меню
+рисует свой прежний список в своём `sf-drawer`.
+
+Прочитанное меню отправляет хосту как `notifications.read` `{keys, all}` —
+ровно форма порта `simai.admin-navigation-port` 1.1.0 (`all` обязателен,
+других полей нет): одно уведомление — `{keys: [ключ], all: false}`, «Прочитать
+все» — `{all: true}`. До 1.15.1 уведомление из своего списка меню читалось как
+`{ids}`.
 
 ### CSS variables
 

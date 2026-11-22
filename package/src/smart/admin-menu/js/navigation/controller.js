@@ -210,7 +210,9 @@ const INTENT_VERBS = {
     "search.choose": ["open", "search", (p) => ({id: p.key, group: p.group ?? null})],
     "session.sign-out": ["sign-out", "session", () => ({})],
     "notifications.load": ["refresh", "notifications", () => ({})],
-    "notifications.read": ["read", "notifications", (p) => ({ids: [].concat(p.ids ?? p.id ?? [])})],
+    // The port's payload is {keys, all} (simai.admin-navigation-port 1.1.0);
+    // the vocabulary's event names them ids.
+    "notifications.read": ["read", "notifications", (p) => ({ids: p.all ? [] : [].concat(p.keys ?? [])})],
 };
 
 
@@ -223,6 +225,18 @@ const FAVOURITES_ROOT = "sf:favourites";
 // The key the second column is shown under when it holds the page's object
 // menu (navigation.context) rather than a root of the tree.
 export const OBJECT_MENU = "sf:context";
+
+// The set's notifications panel on the page: an sf-admin-notifications in
+// its panel look (not the history page's look="page") inside an sf-drawer,
+// or null. Found by markup, so it holds before the list's code has arrived.
+export function setNoticesPanel(root = globalThis.document) {
+    for (const list of root?.querySelectorAll?.("sf-admin-notifications") ?? []) {
+        if (list.getAttribute("look") === "page") continue;
+        const drawer = list.closest?.("sf-drawer");
+        if (drawer) return {list, drawer};
+    }
+    return null;
+}
 
 // The page's address as the host is told it (navigation.load `page`): the
 // path and the query, without the origin.
@@ -1307,7 +1321,7 @@ export class NavigationController {
     escapeTaken(event) {
         if ([...document.querySelectorAll("sf-menu-context")].some((menu) => menu.isOpen)) return true;
         if (document.querySelector("sf-search[open], sf-modal[open], sf-confirm[open]")) return true;
-        if (this._notices?.hasAttribute?.("open")) return true;
+        if (this._notices?.hasAttribute?.("open") || this._setPanel?.hasAttribute?.("open")) return true;
         const target = event.composedPath?.()[0] ?? event.target;
         return Boolean(target?.closest?.("input, textarea, [contenteditable='true']") && this.element.contains(target));
     }
@@ -1834,23 +1848,55 @@ export class NavigationController {
 
     // ─── notifications (C340-C342, AM-19, AM-43, AM-44) ────────────────────
 
-    // The bell opens the notifications panel on the right over the page: the
+    // The bell opens the notifications panel on the right over the page.
+    //
+    // The set's panel first (1.15.1): a page that holds the set's list,
+    // sf-admin-notifications in its panel look, inside an sf-drawer, has its
+    // panel opened by the bell -- the list reads the same port, so the bell's
+    // number and the list agree. A list in the page look (the history page)
+    // is not a panel. Without such a list the menu draws its own: the
     // Framework's sf-drawer (size 2, 30rem, not modal), its list read from
     // the port (notifications.load) when it opens, «Прочитать все», «Вся
     // история» (notifications.href) and «Настройки уведомлений» (the answer's
-    // settings_href). The panel lives beside the page, as the shared menu
-    // does, so a draw of the menu does not take it away.
+    // settings_href). That panel lives beside the page, as the shared menu
+    // does, so a draw of the menu does not take it away. Either way the bell
+    // says aria-expanded, and the focus comes back to it when the panel closes.
     async toggleNotifications(anchor) {
-        const drawer = await this.noticesDrawer();
+        const set = setNoticesPanel();
+        const drawer = set ? await this.setNoticesDrawer(set.drawer) : await this.noticesDrawer();
         if (!drawer) return;
         if (drawer.hasAttribute("open")) {
             drawer.close?.();
             return;
         }
         this._noticesAnchor = anchor ?? null;
-        await this.loadNotices();
+        if (set) set.list.refresh?.();
+        else await this.loadNotices();
         drawer.open?.();
         this.update("notifications");
+    }
+
+    // The page's drawer that holds the set's list, watched once: its open
+    // state is the bell's aria-expanded.
+    async setNoticesDrawer(drawer) {
+        if (!this.offers("notifications")) return null;
+        if (!customElements.get("sf-drawer")) await globalThis.SF?.Loader?.ensure?.(["sf-drawer"]);
+        if (!customElements.get("sf-drawer")) return null;
+        if (this._setPanel !== drawer) {
+            this._setPanel = drawer;
+            this.watchNoticesDrawer(drawer);
+        }
+        return drawer;
+    }
+
+    watchNoticesDrawer(drawer) {
+        let wasOpen = drawer.hasAttribute("open");
+        new MutationObserver(() => {
+            const open = drawer.hasAttribute("open");
+            this._noticesAnchor?.setAttribute?.("aria-expanded", String(open));
+            if (!open && wasOpen) this._noticesAnchor?.focus?.({preventScroll: true});
+            wasOpen = open;
+        }).observe(drawer, {attributes: true, attributeFilter: ["open"]});
     }
 
     async noticesDrawer() {
@@ -1869,12 +1915,7 @@ export class NavigationController {
             body.className = "sf-admin-nav-notices-body";
             drawer.append(body);
             drawer.addEventListener("click", (event) => this.onNoticesClick(event));
-            new MutationObserver(() => {
-                const open = drawer.hasAttribute("open");
-                this._noticesAnchor?.setAttribute?.("aria-expanded", String(open));
-                if (!open && this._noticesOpen) this._noticesAnchor?.focus?.({preventScroll: true});
-                this._noticesOpen = open;
-            }).observe(drawer, {attributes: true, attributeFilter: ["open"]});
+            this.watchNoticesDrawer(drawer);
             document.body.append(drawer);
             this._notices = drawer;
         }
@@ -1902,7 +1943,7 @@ export class NavigationController {
         }
         const link = event.target.closest?.("a[data-notice]");
         if (!link) return;
-        await this.readNotices({ids: [link.dataset.notice]}, {reload: false});
+        await this.readNotices({keys: [link.dataset.notice], all: false}, {reload: false});
         this._notices?.close?.();
     }
 

@@ -182,8 +182,9 @@ function renderOverflow(context) {
 // «Уведомления» is a button with its panel (AM-19, C340): the bell opens the
 // notifications on the right over the page, read from the port, whether or
 // not the host names a page of their history (notifications.href is the
-// panel's «Вся история»). On the rail the bell carries the number of unread
-// (C342, AM-43).
+// panel's «Вся история»): the page's sf-admin-notifications panel when it
+// holds one (1.15.1), else the menu's own list. On the rail the bell carries
+// the number of unread (C342, AM-43).
 function renderNotifications(context, notifications) {
     const {text, compact, controller} = context;
     const counter = counterOf(notifications.unread);

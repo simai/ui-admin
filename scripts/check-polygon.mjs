@@ -97,10 +97,15 @@ const kitFor = (portId) => {
     const path = join(kitRoot, 'cases', `${id}.json`);
     if (!existsSync(path)) continue;
     const testCase = JSON.parse(readFileSync(path, 'utf8'));
-    const key = `${testCase.when.intent}|${testCase.then.answer}`;
-    const cases = required.get(key) ?? [];
-    cases.push({ case: id, keys: new Set(testCase.then.answer_must_include ?? []) });
-    required.set(key, cases);
+    // Since property-view-port 1.22.1 a case may allow more than one answer
+    // (a save over a moved revision is refused or conflict): it is listed
+    // under each, and reaching any one of them reaches the case.
+    for (const answer of [testCase.then.answer].flat()) {
+      const key = `${testCase.when.intent}|${answer}`;
+      const cases = required.get(key) ?? [];
+      cases.push({ case: id, keys: new Set(testCase.then.answer_must_include ?? []) });
+      required.set(key, cases);
+    }
   }
   return { version, manifest, required };
 };
@@ -152,6 +157,20 @@ const listReaches = [
   ['view.save', 'applied', ALL_LIST, 'default', { key: 'view-active', base_revision: 'v1', label: 'В работе' }],
   ['view.save', 'conflict', ALL_LIST, 'default', { key: 'view-active', revision: 'v9' }],
   ['view.save', 'unavailable', [], 'default', { key: 'view-active' }],
+  // Port 1.16.0: the polygon's own system view is not written through the
+  // port, and the person's view state with personal-preferences: sent with
+  // the first answer, merged against its revision, a conflict on an old one,
+  // and never asked without the capability.
+  ['view.save', 'refused', ALL_LIST, 'default', { key: 'view-all', label: 'Все решения', revision: 'v1', query: { filters: { status: { operator: 'in', values: ['active'] } } } },
+    undefined, 'system-view-is-not-written'],
+  ['query.change', 'applied', [...ALL_LIST, 'personal-preferences'], 'default', { sequence: 1, query: { page: 1, per_page: 20 } },
+    undefined, 'preferences-come-with-the-first-answer'],
+  ['preferences.save', 'applied', [...ALL_LIST, 'personal-preferences'], 'default', { preferences: { view_zone: 'closed' }, base_revision: 'p1' },
+    undefined, 'preferences-save-merges-the-changed-fields'],
+  ['preferences.save', 'conflict', [...ALL_LIST, 'personal-preferences'], 'default', { preferences: { page_size: 100 }, base_revision: 'p0' },
+    undefined, 'preferences-save-conflict'],
+  ['preferences.save', 'unavailable', ALL_LIST, 'default', { preferences: { page_size: 20 }, base_revision: 'p1' },
+    undefined, 'preferences-without-the-capability-stay-in-the-browser'],
   ['view.save_shared', 'applied', ALL_LIST, 'default', { key: 'view-active', revision: 'v1', target: 'shared' }],
   ['view.save_shared', 'unavailable', ['saved-views'], 'default', { key: 'view-active', target: 'shared' }],
   ['view.delete', 'applied', ALL_LIST, 'default', { key: 'view-mine' }],
@@ -239,6 +258,30 @@ const panelReaches = [
     undefined, 'group-save-after-group-load-stale-is-a-conflict',
     [['group.load', { record_id: editable?.record_id, collection, section: 'main', group: 'main', reason: 'started' }],
       ['group.save', { record_id: editable?.record_id, collection, section: 'main', group: 'numbers', values: { priority: 3 }, revision: editable?.revision }]]],
+  // Port 1.21.0: a host like Larena's refuses a save over a moved revision
+  // with revision_moved and the current revision, nothing written.
+  ['group.save', 'refused', ALL_PANEL, 'default', { record_id: editable?.record_id, collection, section: 'main', group: 'main', values: { title: 'Новое' }, revision: 'stale' },
+    { movedRefusal: true }, 'group-save-revision-moved-is-a-conflict'],
+  // The history a page at a time (the password always sealed, the budget by
+  // the reader's rights here), and the neighbours over the list's own query.
+  ['record.history', 'applied', [...ALL_PANEL, 'record-history'], 'default', { record_id: editable?.record_id, collection, cursor: null, kinds: null, limit: 2 },
+    undefined, 'history-is-a-page-newest-first'],
+  ['record.history', 'applied', [...ALL_PANEL, 'record-history'], 'default', { record_id: editable?.record_id, collection, cursor: null, kinds: ['update'] },
+    { sealed: ['budget'] }, 'history-names-a-sealed-field-without-values'],
+  ['record.history', 'unavailable', ALL_PANEL, 'default', { record_id: editable?.record_id, collection, cursor: null },
+    undefined, 'history-without-the-capability'],
+  ['record.neighbours', 'applied', [...ALL_PANEL, 'record-neighbours'], 'default', { record_id: editable?.record_id, collection, query: { sort: [{ key: 'title', direction: 'asc' }], include_archived: false } },
+    undefined, 'neighbours-name-the-previous-and-the-next'],
+  ['record.neighbours', 'unavailable', ALL_PANEL, 'default', { record_id: editable?.record_id, collection },
+    undefined, 'neighbours-without-the-capability'],
+  // Port 1.22.0: the personal layer published for everyone, and a lock,
+  // against the fresh panel's revisions.
+  ['view.publish', 'applied', ALL_PANEL, 'default', { record_id: null, collection, profile: 'default', personal_revision: 'personal-1', shared_revision: 'shared-1' },
+    undefined, 'view-publish-merges-personal-into-shared'],
+  ['view.publish', 'conflict', ALL_PANEL, 'default', { record_id: null, collection, profile: 'default', personal_revision: 'personal-1', shared_revision: 'shared-0' },
+    undefined, 'view-publish-against-a-newer-shared-layer-is-a-conflict'],
+  ['view.lock', 'applied', ALL_PANEL, 'default', { record_id: null, collection, profile: 'default', path: 'fields.status.hidden', locked: true, revision: 'shared-1' },
+    undefined, 'view-lock-answers-the-locked-paths'],
 ];
 
 const drive = async (label, kit, reaches, build) => {
@@ -276,17 +319,22 @@ const drive = async (label, kit, reaches, build) => {
       }
     }
   }
-  let declared = 0;
+  const declared = new Set();
+  const unreached = new Map();
   for (const [key, cases] of kit.required) {
     for (const entry of cases) {
-      declared += 1;
-      if (!reached.has(entry.case)) {
-        const [intent, answer] = key.split('|');
-        failures.push({ port: label, intent, answer, said: 'the kit declares this answer and the polygon reaches no case for it', case: entry.case });
-      }
+      declared.add(entry.case);
+      if (reached.has(entry.case)) continue;
+      const [intent, answer] = key.split('|');
+      const gap = unreached.get(entry.case) ?? { intent, answers: [] };
+      gap.answers.push(answer);
+      unreached.set(entry.case, gap);
     }
   }
-  return { reached: reached.size, declared };
+  for (const [name, { intent, answers }] of unreached) {
+    failures.push({ port: label, intent, answer: answers.join(','), said: 'the kit declares this answer and the polygon reaches no case for it', case: name });
+  }
+  return { reached: reached.size, declared: declared.size };
 };
 
 const ALL_NAV = ['favourites', 'menu-profiles', 'notifications', 'preferences', 'search', 'sign-out', 'site-switch'];
@@ -343,9 +391,11 @@ const list = await drive('simai.dataview-port', listKit, listReaches,
   ({ capabilities, scenario }) => (capabilities.includes('tree')
     ? createTreeHost({ capabilities, scenario })
     : createPolygonHost({ dataset, capabilities, scenario })));
+// A row's sixth place is the panel's starting profiles, or an object of the
+// panel's other options (sealed fields, a host that refuses revision_moved).
 const panel = await drive('simai.property-view-port', panelKit, panelReaches,
   ({ capabilities, scenario, profiles }) => createPolygonHost({ dataset, scenario })
-    .propertyView({ capabilities, profiles }));
+    .propertyView({ capabilities, ...(Array.isArray(profiles) ? { profiles } : (profiles ?? {})) }));
 const navigation = await drive('simai.admin-navigation-port', navigationKit, navigationReaches,
   ({ capabilities, scenario }) => createNavigationHost({ data: navigationData, capabilities, scenario }));
 
@@ -395,6 +445,30 @@ const deleteAsksFirst = await (async () => {
   return null;
 })();
 if (deleteAsksFirst) failures.push({ intent: 'record.mutate', action: 'delete', ...deleteAsksFirst });
+
+// ─── 5: the person's view state (dataview-port 1.16.0) ───────────────────────
+//
+// The values, not only the answers: the first answer to query.change carries
+// the layer and the next one does not, a save merges only what it names (null
+// removes), and a conflict names the current revision.
+const preferencesHold = await (async () => {
+  if (!listKit?.required.has('preferences.save|applied')) return null;
+  const host = createPolygonHost({ dataset, capabilities: [...ALL_LIST, 'personal-preferences'], scenario: 'default' });
+  const first = await host.raise('query.change', { sequence: 1, query: { page: 1 } });
+  if (first?.data?.preferences?.revision !== 'p1') return { said: 'the first answer carries no preferences at revision p1', first: first?.data?.preferences };
+  const second = await host.raise('query.change', { sequence: 2, query: { page: 1 } });
+  if (second?.data && 'preferences' in second.data) return { said: 'a later answer carries the preferences again' };
+  const sized = await host.raise('preferences.save', { preferences: { page_size: 50, view_zone: 'open' }, base_revision: 'p1' });
+  const closed = await host.raise('preferences.save', { preferences: { view_zone: null }, base_revision: sized?.data?.preferences?.revision });
+  const layer = closed?.data?.preferences ?? {};
+  if (layer.page_size !== 50 || 'view_zone' in layer || layer.revision !== 'p3') {
+    return { said: 'a save does not merge what it names (null removes) against the revision', layer };
+  }
+  const stale = await host.raise('preferences.save', { preferences: { page_size: 100 }, base_revision: 'p1' });
+  if (stale?.answer !== 'conflict' || stale?.current_revision !== 'p3') return { said: 'a stale save is not a conflict naming p3', stale };
+  return null;
+})();
+if (preferencesHold) failures.push({ port: 'simai.dataview-port', intent: 'preferences.save', ...preferencesHold });
 
 process.stdout.write(`${JSON.stringify({
   schema: 'ui-admin.polygon.v1',

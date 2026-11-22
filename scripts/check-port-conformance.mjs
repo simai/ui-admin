@@ -55,10 +55,15 @@ for (const id of manifest.cases) {
   const path = join(kitRoot, 'cases', `${id}.json`);
   if (!existsSync(path)) continue;
   const testCase = JSON.parse(readFileSync(path, 'utf8'));
-  const key = `${testCase.when.intent}|${testCase.then.answer}`;
-  const cases = required.get(key) ?? [];
-  cases.push({ case: id, keys: new Set(testCase.then.answer_must_include ?? []) });
-  required.set(key, cases);
+  // Since port 1.22.1 a case may allow more than one answer (a save over a
+  // moved revision is refused or conflict): the case is listed under each, and
+  // a host reaching any one of them reaches the case.
+  for (const answer of [testCase.then.answer].flat()) {
+    const key = `${testCase.when.intent}|${answer}`;
+    const cases = required.get(key) ?? [];
+    cases.push({ case: id, keys: new Set(testCase.then.answer_must_include ?? []) });
+    required.set(key, cases);
+  }
 }
 
 // How this reference reaches each answer. One row per (intent, answer) the kit
@@ -137,6 +142,28 @@ const reaches = [
     undefined, 'group-save-after-group-load-stale-is-a-conflict',
     [['group.load', { ...base, section: 'main', group: 'main', reason: 'started' }],
       ['group.save', { ...base, section: 'main', group: 'dates', values: { public: false }, revision: 7 }]]],
+  // Port 1.21.0: a host like Larena's refuses a save over a moved revision
+  // with revision_moved and the current revision, nothing written.
+  ['group.save', 'refused', ALL, { ...base, section: 'main', group: 'main', values: { title: 'Новое' }, revision: 1 },
+    { movedRefusal: true }, 'group-save-revision-moved-is-a-conflict'],
+  // The history a page at a time, a sealed field said without its values,
+  // and the neighbours over the view; neither is answered unannounced.
+  ['record.history', 'applied', [...ALL, 'record-history'], { ...base, cursor: null, kinds: null, limit: 2 },
+    undefined, 'history-is-a-page-newest-first'],
+  ['record.history', 'applied', [...ALL, 'record-history'], { ...base, cursor: null, kinds: ['update'] },
+    { sealed: ['summary'] }, 'history-names-a-sealed-field-without-values'],
+  ['record.history', 'unavailable', ALL, { ...base, cursor: null }, undefined, 'history-without-the-capability'],
+  ['record.neighbours', 'applied', [...ALL, 'record-neighbours'], { ...base, query: { include_archived: false } },
+    undefined, 'neighbours-name-the-previous-and-the-next'],
+  ['record.neighbours', 'unavailable', ALL, { ...base }, undefined, 'neighbours-without-the-capability'],
+  // Port 1.22.0: the personal layer published for everyone, and a lock; the
+  // revisions are the fresh host's own (v1 for both layers).
+  ['view.publish', 'applied', ALL, { record_id: null, collection: base.collection, profile: 'default', personal_revision: 'v1', shared_revision: 'v1' },
+    undefined, 'view-publish-merges-personal-into-shared'],
+  ['view.publish', 'conflict', ALL, { record_id: null, collection: base.collection, profile: 'default', personal_revision: 'v1', shared_revision: 'v-old' },
+    undefined, 'view-publish-against-a-newer-shared-layer-is-a-conflict'],
+  ['view.lock', 'applied', ALL, { record_id: null, collection: base.collection, profile: 'default', path: 'fields.status.hidden', locked: true, revision: 'v1' },
+    undefined, 'view-lock-answers-the-locked-paths'],
 ];
 
 const failures = [];
@@ -185,13 +212,18 @@ if (required.has('group.load|applied')) {
   failures.push(...groupFailures);
 }
 
+const unreached = new Map();
 for (const [key, cases] of required) {
   for (const entry of cases) {
-    if (!reached.has(entry.case)) {
-      const [intent, answer] = key.split('|');
-      failures.push({ intent, answer, said: 'the kit declares this answer and the reference reaches no case for it', case: entry.case });
-    }
+    if (reached.has(entry.case)) continue;
+    const [intent, answer] = key.split('|');
+    const gap = unreached.get(entry.case) ?? { intent, answers: [] };
+    gap.answers.push(answer);
+    unreached.set(entry.case, gap);
   }
+}
+for (const [name, { intent, answers }] of unreached) {
+  failures.push({ intent, answer: answers.join(','), said: 'the kit declares this answer and the reference reaches no case for it', case: name });
 }
 
 // Every property type the fixture record declares has to be one the Framework
@@ -226,7 +258,7 @@ const report = {
   schema: 'ui-admin.port_conformance.v1',
   port: manifest.port,
   version,
-  declared: [...required.values()].reduce((sum, cases) => sum + cases.length, 0),
+  declared: new Set([...required.values()].flat().map((entry) => entry.case)).size,
   reached: reached.size,
   status: failures.length ? 'fail' : 'pass',
   failures,

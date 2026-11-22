@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.dropdown",
-  "version": "1.9.0",
+  "version": "1.24.0",
   "title": "Dropdown",
   "summary": "Accessible single or multiple selection control with searchable options and optional portal projection.",
   "kind": "smart",
@@ -22,10 +22,13 @@
   "exported_parts": [],
   "composition": {
     "uses": [
+      "component.dot",
       "component.dropdown",
       "component.icon-buttons",
       "component.inputs",
+      "smart.badge",
       "smart.button-icon",
+      "smart.help-mark",
       "smart.icon",
       "smart.input",
       "smart.list-item"
@@ -52,11 +55,12 @@
       },
       "appearance": {
         "type": "string",
-        "default": "outlined",
-        "description": "How the dropdown looks: a filled field or an outlined one.",
+        "default": "bordered",
+        "description": "How the field looks: bordered (the default, the field look of every field, FM-9) or filled; band (owner decision C313 (1), FF-11): a grey band across its place with no frame and no radius, the height of a dropping panel's search header (48, 44 on a phone), a hairline under it, its text and chevron where the open list's rows put theirs, grey under the pointer (darker), with the list open and after a choice; --sf-dropdown-background-color tints it, --sf-dropdown-band-edge lets it reach past its place (a sheet's inset). outlined, the former name of bordered, draws the same until 2027-01-01 (a dated alias, noted in SF.deprecations and said once per page in the console).",
         "enum": [
           "filled",
-          "outlined"
+          "bordered",
+          "band"
         ]
       },
       "columns": {
@@ -82,6 +86,16 @@
         "type": "string",
         "default": ""
       },
+      "hint": {
+        "type": "string",
+        "default": "",
+        "description": "The help line under the field, as sf-input's hint (field parity): the hint's ink, a step below the value, and the trigger's description (aria-describedby); on an error the error message takes its place."
+      },
+      "help": {
+        "type": "string",
+        "default": "",
+        "description": "The explanation behind a «?» (sf-help-mark, C133's look) after the label text (C153 (8)): a step below the value as the label; the label row keeps its height. The mark is named by its subject («Подробнее: <label>»). Empty: no mark."
+      },
       "layout": {
         "type": "string",
         "default": "list",
@@ -89,6 +103,16 @@
         "enum": [
           "list",
           "grid"
+        ]
+      },
+      "list-width": {
+        "type": "string",
+        "default": "field",
+        "description": "How wide the open list is. field: at least the field and up to the list's step by its longest option (C32). list: the list's step (--sf-popup-list-max-width) whatever the field, for a list opened from a narrow button such as a filter's; never narrower than the field, never wider than the screen. trigger (FF-10): exactly the trigger's width, edges flush with it -- the field's or a trigger handed in -- for a trigger as wide as its place, such as the filter window's condition band.",
+        "enum": [
+          "field",
+          "list",
+          "trigger"
         ]
       },
       "mode": {
@@ -133,10 +157,24 @@
       "size": {
         "type": "string",
         "default": "1",
+        "description": "The step of the field ladder, as sf-input's (1/3, 1/2, 1, 2, 3): the field as tall as sf-input, sf-button and sf-button-icon of the size (28 / 32 / 40 / 48 / 56 on a desktop), the value on the size's text, the label, help and message a step below, the open list's rows a control of the size.",
         "enum": [
+          "1/3",
           "1/2",
           "1",
-          "2"
+          "2",
+          "3"
+        ]
+      },
+      "width": {
+        "type": "string",
+        "default": "",
+        "description": "How wide the field is, by the value it is made for (owner decision C396): short, 20 characters of the width ladder (--sf-field--width-short; a date, a number, a code), medium, 28 (a name, a phone), or long, 44 (a path, an e-mail, an address). The field is at most that wide and the container's width below it; the characters follow the text size, the density and the phone (160 / 224 / 352 px at text 16, 140 / 196 / 308 compact and on a phone). Empty, the default: the container's whole width.",
+        "enum": [
+          "",
+          "short",
+          "medium",
+          "long"
         ]
       },
       "value": {
@@ -150,17 +188,18 @@
       },
       "type": {
         "type": "string",
-        "default": "outlined",
+        "default": "bordered",
         "description": "Legacy name for appearance, still honoured. See contracts/public-api-axes.json.",
         "enum": [
           "filled",
-          "outlined"
+          "bordered",
+          "band"
         ]
       },
       "options": {
         "type": "array",
         "default": [],
-        "description": "Options given as data instead of as sf-list-item children: [{text, value, type?, size?, icon?, selected?, disabled?, colorClass?, avatarImageUrl?, avatarTitle?, ariaLabel?, group?}]. A string or a number is taken as both the label and the value. A parent that renders this dropdown from a template passes its options this way, because capturing child elements means removing them, and the parent can then no longer put a changed list back. Options carrying the same `group`, one after another, are drawn under one heading, so a long list says where each stretch of it comes from instead of repeating that in every row."
+        "description": "Options given as data instead of as sf-list-item children: [{value, label, type?, size?, icon?, selected?, disabled?, colorClass?, avatarImageUrl?, avatarTitle?, ariaLabel?, group?, color?, dot?}]. dot (owner decision C314 (4)) names a status colour -- primary, tertiary, info, success, warning, error or neutral -- drawn as sf-dot's 8 px disc before the name. A string or a number is taken as both the label and the value. label is the option's name, as in sf-input-choice and sf-input-lookup; text, its first spelling, is still read until 2027-01-01 and noted in SF.deprecations. A parent that renders this dropdown from a template passes its options this way, because capturing child elements means removing them, and the parent can then no longer put a changed list back. Options carrying the same `group`, one after another, are drawn under one heading, so a long list says where each stretch of it comes from instead of repeating that in every row."
       },
       "inherited-value": {
         "type": "string",
@@ -412,11 +451,13 @@
       "ArrowUp",
       "Home",
       "End",
+      "PageDown",
+      "PageUp",
       "Enter",
       "Space",
       "Escape"
     ],
-    "focus": "The toggle is the primary Tab stop. Arrow keys open and move through available options; Home and End move within the list; Enter or Space selects; Escape closes and restores the toggle; Tab closes and continues native traversal. The searchbox keeps native text-editing Home and End behavior. After a reset back to the inherited value, focus returns to the control; while the value is inherited, the control carries it as aria-description and the visible marker is aria-hidden."
+    "focus": "The toggle is the primary Tab stop. Arrow keys open and move through available options; Home and End move within the list, PageDown and PageUp by what it shows, and typed letters to the option they begin; the focused option is brought into view; Enter or Space selects; Escape closes and restores the toggle; Tab closes and continues native traversal. The searchbox keeps native text-editing Home and End behavior. After a reset back to the inherited value, focus returns to the control; while the value is inherited, the control carries it as aria-description and the visible marker is aria-hidden."
   },
   "presentation": {
     "themes": [
@@ -467,7 +508,9 @@
       "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
       "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
     },
-    "aliases": [],
+    "aliases": [
+      "appearance=outlined"
+    ],
     "deprecations": [],
     "replacement": null,
     "migrations": [
@@ -487,23 +530,23 @@
     "source_artifacts": [
       {
         "path": "src/smart/dropdown/index.js",
-        "sha256": "56c19a5d738b6aa656184a62c0fe7775cf0bc9b517fe7f60f70cb0468a617e92"
+        "sha256": "d858f48fc1ef6a2a090e7fdeb7bef58539a1b1addb77824426de7727c3ec43ed"
       },
       {
         "path": "src/smart/dropdown/rule.js",
-        "sha256": "2b4d4f6f7673b009586e9691819c8091a4228b0c2428a76d0421db55cdc7fe96"
+        "sha256": "62aac8ac3278af2775a4af20666422c795b4a4333fe1b6282e3903375e5fbba6"
       },
       {
         "path": "src/smart/dropdown/js/templates/default.js",
-        "sha256": "a1bfad263c4b2027f43cb48e6286321b4019941edd639a5b9178c9ee60da166e"
+        "sha256": "120207a32f36443a4c153e300f6ecbbe901776f141f97d6723eb2266b6ba0dcc"
       },
       {
         "path": "src/smart/helpers/inherited-value.js",
-        "sha256": "311549a390cbb399282967b2506ed5875d23e127542960f207386ba3c3191d68"
+        "sha256": "0aea0587899d9e416b5266035f71ce87b541f496bece03b0fef9a10e15381358"
       },
       {
         "path": "src/smart/helpers/inherited-value.css",
-        "sha256": "742bb92a4cd39b2882da5038aa5d3c364b0b30c2cdf10a8e211e251ff62b7d37"
+        "sha256": "1db5b90ef0022b25a865e9f792771b7d19e2704e429bffcebdc7898fcbbf9a1a"
       }
     ],
     "generated_runtime": [

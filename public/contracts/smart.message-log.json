@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.message-log",
-  "version": "2.0.2",
+  "version": "2.0.7",
   "title": "Message log",
   "summary": "Dated alias of SIMAI Framework's sf-list-feed (until 2027-01-01): the feed under its former tag, with the former names (messages, setMessages, prependMessages, renderMessage, announceMessage, sf-message-log-* events) still answered.",
   "kind": "composite",
@@ -869,7 +869,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/message-log/index.js",
-        "sha256": "10339f44a38ae15457bb7fc2360fad3cda9eb42f36314b0bac2a1205ba4dc5f1"
+        "sha256": "b3842e8cf63b6662258ec00c3bd6173631c10000f0c482ca0f19393c6a5d40bd"
       },
       {
         "path": "src/smart/message-log/js/templates/default.css",
@@ -885,7 +885,7 @@
       },
       {
         "path": "src/smart/message-log/component.json",
-        "sha256": "ea1f689aa83d327b208abb1747c149999aea7b4ceb5cd3724f094d9389cdac7c"
+        "sha256": "6bcd61f9e5fb2bbcc84620f7e1c193ef085aea8058c4cc37a5e24a480bdaf910"
       },
       {
         "path": "src/smart/message-log/aliases.json",
@@ -893,11 +893,11 @@
       },
       {
         "path": "src/smart/message-log/lang/en.json",
-        "sha256": "44f2adf27e325701d953e6d929f6b014ff05f66cad0605ea8f8d026f115eafcb"
+        "sha256": "defb2bc69c0208b5ddedf9eed8dbe414f1448b0ecb8222d1b0402e85910d8775"
       },
       {
         "path": "src/smart/message-log/lang/ru.json",
-        "sha256": "1488cbc2c62e2fc51257bd86c3b64f9482b3755809930e997287518e91d89252"
+        "sha256": "60f1f237b55480c5d6fc4a1dd6c38d453bc04e7f24b522f8acd3383c0dd5a15a"
       }
     ],
     "generated_runtime": []

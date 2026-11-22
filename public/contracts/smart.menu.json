@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.menu",
-  "version": "1.6.0",
+  "version": "1.15.0",
   "title": "Menu",
   "summary": "Site navigation built from data -- nested sections, the current page, groups that open and close -- or from a nested list of links in the markup, drawn as the class menu: a column whose branches open in place, or a row whose branches open as panels placed by SF.Position, which becomes a button opening the same links when it does not fit. The WAI-ARIA disclosure navigation pattern, not an application menu.",
   "kind": "smart",
@@ -68,12 +68,13 @@
       "appearance": {
         "type": "string",
         "default": "default",
-        "description": "The class menu's presentations: default; documentation-tree, the tree with no borders and an indent per level; compact, a rail of first-level icons whose words stay in the link's name and whose branches do not open (both columns); navigation, a site header's sections -- rows with no frame and no fill at rest, a state-layer fill under the pointer and a plate on the current page -- a row or a column as orientation says.",
+        "description": "The class menu's presentations: default, the C30 site menu -- drawn as navigation (rows with no frame, the current page filled in a column, the 2 px line in a header row; owner decisions C23, C30); documentation-tree, the tree with no borders and an indent per level; rail, a rail of first-level icons whose words stay in the link's name and whose branches do not open (both columns); navigation, a site header's sections -- rows with no frame and no fill at rest, a state-layer fill under the pointer and a plate on the current page -- a row or a column as orientation says. framed, the former default's framed rows (a 1 px frame on every row, no current mark), is a dated name until 2027-01-01 (owner decision C238: the default is the navigation look; the class sf-menu--framed it writes is noted in SF.deprecations, journal class-c238-menu-default-navigation). The old value compact is a dated alias of rail until 2027-01-01 (owner decision C134: compact means density only; noted in SF.deprecations, journal value-menu-appearance-compact-to-rail).",
         "enum": [
           "default",
           "documentation-tree",
-          "compact",
-          "navigation"
+          "rail",
+          "navigation",
+          "framed"
         ]
       },
       "current-from-location": {
@@ -95,7 +96,7 @@
       "overflow": {
         "type": "string",
         "default": "collapse",
-        "description": "What a row does when its first level does not fit (the values of sf-tabs' overflow where they mean the same): more, priority+ -- the items that do not fit leave the row from its end for a trailing «Ещё» branch (more-label), the section that holds the current page stays while it fits beside it, and with no item left «Ещё» reads «Меню» (toggle-label); collapse, the row becomes the button (collapse auto); none, the row stays whole. sf-menu-overflow says which items left.",
+        "description": "What a row does when its first level does not fit (the values of sf-tabs' overflow where they mean the same): more, priority+ -- the items that do not fit leave the row from its end for a trailing «Ещё» branch (more-label), the section that holds the current page stays while it fits beside it, and with no item left «Ещё» reads «Меню» (toggle-label); collapse (the default), the same «Ещё» above md and the «Меню» button below md, a phone (collapse auto); none, the row stays whole. sf-menu-overflow says which items left.",
         "enum": [
           "more",
           "collapse",
@@ -105,6 +106,11 @@
       "more-label": {
         "type": "string",
         "description": "The words of the «Ещё» branch of a row with overflow more; «Ещё» / «More» in the page language when not set."
+      },
+      "keep-current": {
+        "type": "boolean",
+        "default": true,
+        "description": "A row with «Ещё» (overflow more, and the default row above md): the section that holds the current page stays in the row while it fits beside «Ещё» -- it changes places with the last shown section (owner decision C371). false: it leaves the row in its turn, as any section, and «Ещё» holding it keeps the holds-current mark and says so in its name («Ещё, содержит текущую страницу»)."
       },
       "open-on": {
         "type": "string",
@@ -260,7 +266,7 @@
             },
             "open": {
               "type": "boolean",
-              "description": "A column's branch is open at first; a row's panels open only when asked."
+              "description": "A column's branch is open at first; in a row the first flagged branch of each level opens its panel at first."
             },
             "children": {
               "type": "array",
@@ -331,7 +337,7 @@
       },
       "open": {
         "type": "boolean",
-        "description": "A column's branch is open at first; a row's panels open only when asked."
+        "description": "A column's branch is open at first; in a row the first flagged branch of each level opens its panel at first."
       },
       "children": {
         "type": "array",
@@ -354,7 +360,7 @@
       },
       "group": {
         "type": "boolean",
-        "description": "A first-level item that is a group: a heading over its items, never a destination. A row and the compact rail draw the items in the group's place, without the heading."
+        "description": "A first-level item that is a group: a heading over its items, never a destination. A row and the rail draw the items in the group's place, without the heading."
       },
       "collapsible": {
         "type": "boolean",
@@ -407,7 +413,8 @@
         }
       ],
       "returns": {
-        "type": "boolean"
+        "type": "object",
+        "description": "{outcome: applied} or {outcome: refused, reason}"
       }
     },
     "close": {
@@ -429,7 +436,8 @@
         }
       ],
       "returns": {
-        "type": "boolean"
+        "type": "object",
+        "description": "{outcome: applied} or {outcome: refused, reason}"
       }
     },
     "toggle": {
@@ -451,14 +459,16 @@
         }
       ],
       "returns": {
-        "type": "boolean"
+        "type": "object",
+        "description": "{outcome: applied} or {outcome: refused, reason}"
       }
     },
     "closeAll": {
-      "summary": "Close a row's open panels and the panel of the button a collapsed menu is; a column's groups keep their state. Returns whether anything changed.",
+      "summary": "Close a row's open panels and the panel of the button a collapsed menu is; a column's groups keep their state. Answers an outcome: applied when anything closed, else refused with already.",
       "arguments": [],
       "returns": {
-        "type": "boolean"
+        "type": "object",
+        "description": "{outcome: applied} or {outcome: refused, reason}"
       }
     },
     "isOpen": {
@@ -477,7 +487,7 @@
   },
   "events": {
     "sf-menu-navigate": {
-      "summary": "navigate (vocabulary).",
+      "summary": "A link of the menu is pressed to go to its page in the same tab: id, href and item of the link. Cancel it to route the page yourself; the browser then does not go. A press that opens another tab or window does not fire it.",
       "payload": {
         "type": "object",
         "required": [
@@ -499,7 +509,7 @@
       "canonical": true
     },
     "sf-menu-toggle": {
-      "summary": "toggle (vocabulary).",
+      "summary": "A branch opened or closed: id and item of the branch (null for the panel of a collapsed menu's button), open, and source -- user for a press, a key, the pointer resting or leaving, or focus leaving the menu; method for open, close, toggle and close-all. Fires once for each branch that changed.",
       "payload": {
         "type": "object",
         "required": [
@@ -531,15 +541,19 @@
       "canonical": true
     },
     "sf-menu-overflow": {
-      "summary": "A row with overflow more changed which first-level items it shows: hidden, the ids of the items now in «Ещё», in their order (empty when all fit again).",
+      "summary": "A row with overflow more changed which first-level items it shows: hidden, the ids of the items now in «Ещё», in their order (empty when all fit again); fits, false when no item is left beside «Ещё» -- not even one section and «Ещё» fit the row, so the place it stands in can collapse (sf-header-site collapse auto does).",
       "payload": {
         "type": "object",
         "required": [
-          "hidden"
+          "hidden",
+          "fits"
         ],
         "properties": {
           "hidden": {
             "type": "array"
+          },
+          "fits": {
+            "type": "boolean"
           }
         },
         "additionalProperties": true
@@ -725,7 +739,9 @@
       "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
       "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
     },
-    "aliases": [],
+    "aliases": [
+      "appearance=compact"
+    ],
     "deprecations": [],
     "replacement": null,
     "migrations": []
@@ -736,19 +752,19 @@
     "source_artifacts": [
       {
         "path": "src/smart/menu/index.js",
-        "sha256": "4a2a948fa333b6cb677fee2c61dd54c87e93d03bd97f019b41c39a955f354fe6"
+        "sha256": "2030b7ff98150db0e8bdd116d0a5ae2052bd165ef938b4b137307b21160eb10e"
       },
       {
         "path": "src/smart/menu/items.mjs",
-        "sha256": "291327b87089fe8c2bc35090ccdc2877fe0f941cb2554154919762552a583343"
+        "sha256": "766d1f541531fca2c01d42bd644356a8db1e8166f998b42e370b6f6ff8819592"
       },
       {
         "path": "src/smart/menu/js/templates/default.js",
-        "sha256": "1c9f83cec51c7e79e8b3532e3714eafb8b269d120581e41857ad3de57a9efdc5"
+        "sha256": "f39faad4312f2409e3c5c8e32a718b9d972a494a75d4ce54e373b8d0a7994b1e"
       },
       {
         "path": "src/smart/menu/scss/_smart__menu.scss",
-        "sha256": "a611eeda93c2d73e9a391ebf5eb0bd81ea47bc5d9a9cab6fcd131f15cdc51c4c"
+        "sha256": "c09cd782c9e9f57ab27d94bd925f3c00fa78c2f23df6c828021d2af39b67ca5c"
       },
       {
         "path": "src/smart/menu/rule.js",
@@ -756,7 +772,7 @@
       },
       {
         "path": "src/smart/menu/docs.md",
-        "sha256": "647b336526fea97b91ee78ff9ebb0bcc487b7b2f556ad788ac22d236946d22bc"
+        "sha256": "47f17e05052251524b9730d0062d1eb6db63c29c745be0d0545af4dc7ccb0bd5"
       }
     ],
     "generated_runtime": []

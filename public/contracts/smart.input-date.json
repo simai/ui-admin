@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.input-date",
-  "version": "1.5.0",
+  "version": "1.18.0",
   "title": "Datepicker",
   "summary": "Accessible date, date-and-time, time and date-range picker with popup and inline presentation, calendar and time navigation and host-owned values.",
   "kind": "composite",
@@ -36,6 +36,7 @@
       "component.datepicker",
       "smart.button",
       "smart.button-icon",
+      "smart.drawer",
       "smart.icon",
       "smart.input"
     ],
@@ -142,6 +143,11 @@
         "minimum": 0,
         "maximum": 6
       },
+      "weekend": {
+        "type": "string",
+        "default": "",
+        "description": "The days drawn as days off (red, and «выходной» in the day's name). Empty: the locale's (Intl week info; Saturday and Sunday where it does not say, Friday and Saturday in ar-EG). none: no day off, for a product whose weekends are working days. Or the days, comma separated, 0 or 7 Sunday to 6 Saturday: 6,7 or 5,6."
+      },
       "locale": {
         "type": "string",
         "default": "",
@@ -149,8 +155,8 @@
       },
       "format": {
         "type": "string",
-        "default": "DD.MM.YYYY",
-        "description": "How the value is shown in the field and read when typed, e.g. DD.MM.YYYY: the whole text one value, a four-digit year from 1000 to 9999, HH hours (00-23) and mm minutes. The default follows the mode: DD.MM.YYYY, DD.MM.YYYY HH:mm, HH:mm; a date format given to datetime mode gets « HH:mm». The value stays ISO."
+        "default": "",
+        "description": "How the value is shown in the field and read when typed, e.g. DD.MM.YYYY: the whole text one value, a four-digit year from 1000 to 9999, HH hours (00-23) and mm minutes. Empty: the locale's order of day, month and year and the signs between them (Intl formatToParts: DD.MM.YYYY in ru and de, MM/DD/YYYY in en-US, YYYY-MM-DD in sv-SE); datetime adds « HH:mm», time is HH:mm. A date format given to datetime mode gets « HH:mm». The value stays ISO."
       },
       "close-on-select": {
         "type": "boolean",
@@ -167,29 +173,53 @@
         "default": true,
         "description": "Draw the panel at the end of the document so no clipping ancestor cuts it."
       },
+      "appearance": {
+        "type": "string",
+        "default": "bordered",
+        "description": "How the field looks, by the names every field uses (sf-input, sf-input-textarea, sf-dropdown, sf-input-quantity...): bordered, the default, a box with a border; filled, the container fill with no border and the bottom line. A value outside the list reads as bordered.",
+        "enum": [
+          "bordered",
+          "filled"
+        ]
+      },
       "input-type": {
         "type": "string",
         "default": "bordered",
-        "description": "The field's appearance (bordered by default), as on sf-inputs."
+        "description": "Legacy name for appearance, honoured until 2027-01-01, noted in SF.deprecations and said once per page in the console; appearance wins when both are set. See contracts/public-api-axes.json field_appearance."
       },
       "size": {
         "type": "string",
         "default": "1",
-        "description": "Form size of the field.",
+        "description": "The field ladder, as sf-input's (1/3, 1/2, 1, 2, 3): the field is an sf-input of this size.",
         "enum": [
+          "1/3",
           "1/2",
           "1",
-          "2"
+          "2",
+          "3"
+        ]
+      },
+      "width": {
+        "type": "string",
+        "default": "",
+        "description": "How wide the field is, by the value it is made for (owner decision C396): short, 20 characters of the width ladder (--sf-field--width-short; a date, a number, a code), medium, 28 (a name, a phone), or long, 44 (a path, an e-mail, an address). The field is at most that wide and the container's width below it; the characters follow the text size, the density and the phone (160 / 224 / 352 px at text 16, 140 / 196 / 308 compact and on a phone). Empty, the default: the container's whole width.",
+        "enum": [
+          "",
+          "short",
+          "medium",
+          "long"
         ]
       },
       "input-size": {
         "type": "string",
         "default": "1",
-        "description": "Legacy name for size, still honoured; size wins when both are set. See contracts/public-api-axes.json.",
+        "description": "Legacy name for size, honoured until 2027-01-01 and noted in SF.deprecations (aliases.json); size wins when both are set. See contracts/public-api-axes.json.",
         "enum": [
+          "1/3",
           "1/2",
           "1",
-          "2"
+          "2",
+          "3"
         ]
       },
       "input-name": {
@@ -200,7 +230,7 @@
       "placeholder": {
         "type": "string",
         "default": "",
-        "description": "The field's placeholder text."
+        "description": "The field's placeholder text. Empty, in a field a date is typed in: the format in the letters of the locale's names for the parts (ДД.ММ.ГГГГ in ru, MM/DD/YYYY in en-US, TT.MM.JJJJ in de); a range or a read-only field has none."
       },
       "label": {
         "type": "string",
@@ -232,15 +262,20 @@
         "default": "",
         "description": "The helper text under the field, read to the control as its description, as on sf-input. An error-message takes its place while the field is invalid and it comes back when invalid is removed."
       },
+      "help": {
+        "type": "string",
+        "default": "",
+        "description": "The explanation behind a «?» (sf-help-mark, C133's look) after the label text (C153 (8)): a step below the value as the label; the label row keeps its height. The mark is named by its subject («Подробнее: <label>»). Empty: no mark."
+      },
       "icon-start": {
         "type": "string",
-        "default": "calendar_today",
-        "description": "The icon at the start of the field; the canonical name for left-icon. Defaults to calendar_today, schedule in time mode."
+        "default": "",
+        "description": "An icon at the start of the field that says what the date is (a meaning icon, as search is for a search field); the canonical name for left-icon. None by default: the calendar (a clock in time mode) is the field's indicator at its end, after clear (owner decision C197)."
       },
       "left-icon": {
         "type": "string",
-        "default": "calendar_today",
-        "description": "Legacy name for icon-start, still honoured; icon-start wins when both are set."
+        "default": "",
+        "description": "Legacy name for icon-start, honoured until 2027-01-01 and noted in SF.deprecations (aliases.json); icon-start wins when both are set."
       },
       "hint-icon": {
         "type": "string",
@@ -259,8 +294,8 @@
       },
       "mask-pattern": {
         "type": "string",
-        "default": "00.00.0000",
-        "description": "Input mask; when not set it is derived from format, so the default format DD.MM.YYYY gives 00.00.0000."
+        "default": "",
+        "description": "Input mask; when not set it is derived from format, every letter a digit: DD.MM.YYYY gives 00.00.0000, the en-US MM/DD/YYYY 00/00/0000."
       },
       "mask-lazy": {
         "type": "boolean",
@@ -290,7 +325,7 @@
       "readonly": {
         "type": "boolean",
         "default": false,
-        "description": "Keeps the field read-only: the date is chosen on the grid only. A single date can be typed by default; a range is always chosen on the grid."
+        "description": "The value is shown and submitted but not changed: the field cannot be typed in and opens no calendar, and an inline calendar (input=false) takes no choice on its grid (owner decision C62). A single date can be typed by default; a range is always chosen on the grid, which does not make it read-only."
       },
       "value": {
         "type": [
@@ -318,6 +353,16 @@
         "type": "array",
         "default": [],
         "description": "Quick ranges, range mode only; the attribute keeps its comma list of built-in ids"
+      },
+      "holidays": {
+        "type": "array",
+        "default": [],
+        "description": "The site's special days (owner decision C198): a list of {date: 'YYYY-MM-DD', kind, name?}, the property or JSON in the attribute. holiday and day-off (a moved day off) take the day-off ink, working-day (a moved working Saturday) the weekday's; each listed day gets a dot under its number, its name joins the day's accessible name, and a line under the grid names the day under the pointer, with the focus or chosen. Empty: plain weekends, as before. The Framework ships no country calendar."
+      },
+      "day-marks": {
+        "type": "object",
+        "default": {},
+        "description": "Marks on days (CL-6): the property as a function (isoDate) -> {count?, tone?, label?} | null, asked for each day drawn, or as a map {'YYYY-MM-DD': {count?, tone?, label?}}; the attribute as JSON of the map. A count of 1 or none draws a dot under the number, 2 and more a small number (99+ over 99), in the tone's ink (primary by default); a count under 1 is no mark. The day keeps its height. The day's accessible name ends with the label, else the count in the page language («3 события»), else «есть события». A host whose function reads new data calls refresh(); a new map or attribute draws by itself. Without marks the days are drawn as before."
       }
     },
     "additionalProperties": false
@@ -491,6 +536,13 @@
     },
     "chooseCustomRange": {
       "summary": "Let go of the quick range and move focus to the grid.",
+      "arguments": [],
+      "returns": {
+        "type": "object"
+      }
+    },
+    "refresh": {
+      "summary": "Draws the day marks again (vocabulary refresh): for a day-marks function whose data changed. Answers applied.",
       "arguments": [],
       "returns": {
         "type": "object"
@@ -737,19 +789,19 @@
     "source_artifacts": [
       {
         "path": "src/smart/input-date/index.js",
-        "sha256": "cbd128775a43890029bf5c84eee76b4c3e0bcaafd6da97c03cdcf3da09ed9d18"
+        "sha256": "ae944818fa87f1b1ce7dd59581edf73d16808db9fb62b653a3b5c71a344612aa"
       },
       {
         "path": "src/smart/input-date/js/templates/default.js",
-        "sha256": "f40e63f49e5b99b68385189c2d1e0e9982571a4b5d20e7f38264c57443e7c1a6"
+        "sha256": "476a10f62dd0cf8a9a4fb211fc8833b0e91fb1bf1234d22e3cadf20a2074e786"
       },
       {
         "path": "src/smart/input-date/rule.js",
-        "sha256": "7d163d5b9a341a6055b174ea308f358858e7a92c668e6840b791e6cc5ef42bc7"
+        "sha256": "a5aad8677a5cdd5f5548e0e44d01aefcb17693275b8da55c1d161d2e5ca80b43"
       },
       {
         "path": "src/smart/input-date/docs/smart-datepicker-guide.md",
-        "sha256": "ceef3885788bf0771231bcab9e287b0ed06d6f3129da6fc312021ff691de14a6"
+        "sha256": "58bcbf0858152f6952d53a728144f565355ca28c0cef5e632031a648bf0ddc37"
       }
     ],
     "generated_runtime": [

@@ -1,5 +1,8 @@
 // The record panel's host, as the port declares one (simai.property-view-port
-// 1.15.0: it reads one group at a time when asked to, behind `group-load`).
+// 1.15.0: it reads one group at a time when asked to, behind `group-load`;
+// 1.21.0: the history and the neighbours behind `record-history` and
+// `record-neighbours`, and a save over a moved revision refused
+// `revision_moved`; 1.22.0: view.publish and view.lock).
 //
 // This is a reference, so the data is a fixture — but the ANSWERS are the port's
 // own, because that is the only part a consumer can copy. The Framework ships a
@@ -12,8 +15,9 @@
 // Plain JavaScript rather than TypeScript so the page and the conformance
 // runner can import the same module without a build step between them.
 
+import { emptyLayer, historyChange, historyPage, lockPath, neighboursIn, publishLayers, seedHistory } from './property-view-extras.mjs';
+
 const copy = (value) => JSON.parse(JSON.stringify(value));
-const emptyLayer = () => ({ schema_version: 1, sections: {}, groups: {}, fields: {} });
 
 export const RECORD = {
   record_id: 'r-1',
@@ -78,14 +82,49 @@ export const PROFILES = [
 // `confirms` names the saves this host asks to confirm first (port 1.14.0): a
 // real host does it for a save with consequences -- changing a contract's type
 // re-prices it -- and a consumer needs a host that does it to copy.
-export const createPropertyViewHost = ({ record = RECORD, capabilities = [], profiles = PROFILES, confirms = [] } = {}) => {
-  const state = { record: copy(record), views: {}, profiles: copy(profiles), profile: copy(profiles)[0]?.id ?? null, next: 4 };
+// `sealed` names the fields this reader may not see in the history (a password
+// always is), `neighbours` the ids of the view the record was opened from, in
+// order, and `movedRefusal` makes a save over a revision that moved refused
+// `revision_moved` with the current revision, as Larena answers it, instead of
+// `conflict` (port 1.21.0): the component reads both the same way.
+export const NEIGHBOURS = ['r-0', 'r-1', 'r-2'];
+export const createPropertyViewHost = ({
+  record = RECORD, capabilities = [], profiles = PROFILES, confirms = [],
+  sealed = [], neighbours = NEIGHBOURS, movedRefusal = false,
+} = {}) => {
+  const state = { record: copy(record), views: {}, profiles: copy(profiles), profile: copy(profiles)[0]?.id ?? null, next: 4, locked: [] };
+  const layer = (kind) => state.views[kind] ?? { revision: 'v1', view: emptyLayer() };
+
+  // The record's fields as the history names them, and its history so far.
+  const historyFields = () => (state.record.sections ?? []).flatMap((section) => (section.groups ?? [])
+    .flatMap((group) => (group.fields ?? []).map((field) => ({
+      key: field.key, label: field.label, value: field.value,
+      sealed: sealed.includes(field.key) || field.propertyType === 'password',
+    }))));
+  const history = seedHistory(state.record.revision, historyFields());
+  // A save that wrote something is one event of the record's revision.
+  const remember = (values) => {
+    const changes = historyFields()
+      .filter((field) => Object.prototype.hasOwnProperty.call(values, field.key))
+      .map((field) => historyChange(field, field.value, values[field.key], field.sealed));
+    return () => history.push({
+      id: String(state.record.revision), revision: state.record.revision,
+      time: new Date().toISOString(), actor: 'Вы', kind: 'update', changes,
+    });
+  };
+  // A stale save: conflict, or refused revision_moved by a host that says so.
+  const stale = () => (movedRefusal
+    ? { answer: 'refused', reason: 'revision_moved', revision: state.record.revision, message: 'Запись изменилась, обновите её' }
+    : { answer: 'conflict', reason: 'stale-revision', revision: state.record.revision, message: 'Запись изменилась, обновите её' });
 
   // The record a read answers with carries the list this host is keeping, not
   // the one the fixture was written with: the list is the host's.
   const answerRecord = () => {
     const answer = copy(state.record);
-    answer.view = { ...(answer.view ?? {}), profiles: copy(state.profiles), profile: state.profile };
+    answer.view = {
+      ...(answer.view ?? {}), profiles: copy(state.profiles), profile: state.profile,
+      ...(state.locked.length ? { locked: [...state.locked] } : {}),
+    };
     return answer;
   };
   const asRead = () => ({ answer: 'applied', record: answerRecord() });
@@ -114,7 +153,7 @@ export const createPropertyViewHost = ({ record = RECORD, capabilities = [], pro
   };
 
   return {
-    version: '1.15.0',
+    version: '1.22.0',
     capabilities,
 
     async raise(intent, payload = {}) {
@@ -157,15 +196,14 @@ export const createPropertyViewHost = ({ record = RECORD, capabilities = [], pro
 
       // The whole object as one revision, from a surface open all at once.
       if (intent === 'record.save') {
-        if (String(payload.revision ?? '') !== String(state.record.revision)) {
-          return { answer: 'conflict', reason: 'stale-revision', revision: state.record.revision, message: 'Запись изменилась, обновите её' };
-        }
+        if (String(payload.revision ?? '') !== String(state.record.revision)) return stale();
         const values = payload.values ?? {};
         if (Object.prototype.hasOwnProperty.call(values, 'title') && !String(values.title ?? '').trim()) {
           return { answer: 'refused', reason: 'validation', errors: { title: 'Название не может быть пустым' } };
         }
         const asked = askFirst(intent, payload);
         if (asked) return asked;
+        const write = remember(values);
         for (const section of state.record.sections ?? []) {
           for (const group of section.groups ?? []) {
             for (const field of group.fields ?? []) {
@@ -174,6 +212,7 @@ export const createPropertyViewHost = ({ record = RECORD, capabilities = [], pro
           }
         }
         state.record.revision += 1;
+        write();
         return asRead();
       }
 
@@ -259,15 +298,14 @@ export const createPropertyViewHost = ({ record = RECORD, capabilities = [], pro
         // applied to a stale one would lose somebody else's save without anyone
         // being told; the conflict names the current revision (port 1.15.0), so
         // the component keeps what was typed and reads the record again at it.
-        if (String(payload.revision ?? '') !== String(state.record.revision)) {
-          return { answer: 'conflict', reason: 'stale-revision', revision: state.record.revision, message: 'Запись изменилась, обновите её' };
-        }
+        if (String(payload.revision ?? '') !== String(state.record.revision)) return stale();
         const values = payload.values ?? {};
         if (Object.prototype.hasOwnProperty.call(values, 'title') && !String(values.title ?? '').trim()) {
           return { answer: 'refused', reason: 'validation', errors: { title: 'Название не может быть пустым' } };
         }
         const asked = askFirst(intent, payload);
         if (asked) return asked;
+        const write = remember(values);
         const group = state.record.sections
           .find((section) => section.key === payload.section)?.groups
           .find((item) => item.key === payload.group);
@@ -275,7 +313,27 @@ export const createPropertyViewHost = ({ record = RECORD, capabilities = [], pro
           if (Object.prototype.hasOwnProperty.call(values, field.key)) field.value = values[field.key];
         }
         state.record.revision += 1;
+        write();
         return asRead();
+      }
+
+      // The record's change history, a page at a time (port 1.21.0). Not
+      // announced, not answered; a record this person may not read is refused
+      // with record.load's reason rather than drawn as an empty history.
+      if (intent === 'record.history' || intent === 'record.neighbours') {
+        const capability = intent === 'record.history' ? 'record-history' : 'record-neighbours';
+        if (!capabilities.includes(capability)) {
+          return { answer: 'unavailable', reason: 'capability-not-provided' };
+        }
+        if (FORBIDDEN.test(recordId)) {
+          return { answer: 'refused', reason: 'access-denied', message: 'Нет доступа к записи' };
+        }
+        if (UNREACHABLE.test(recordId)) {
+          return { answer: 'unavailable', reason: 'host-down', message: 'Источник данных недоступен' };
+        }
+        // The neighbours over the view the record was opened from: this
+        // fixture's view is the `neighbours` list, archived records not in it.
+        return intent === 'record.history' ? historyPage(history, payload) : neighboursIn(neighbours, recordId);
       }
 
       if (intent === 'field.options') {
@@ -373,7 +431,7 @@ export const createPropertyViewHost = ({ record = RECORD, capabilities = [], pro
         if (target.kind === 'shared' && !capabilities.includes('shared-view-settings')) {
           return { answer: 'refused', reason: 'access-denied', message: 'Общий вид меняет администратор' };
         }
-        const stored = state.views[target.kind] ?? { revision: 'v1', view: emptyLayer() };
+        const stored = layer(target.kind);
         if (target.revision && String(target.revision) !== String(stored.revision)) {
           // The conflict carries the stored layer, not only its revision:
           // without it the component is left drawing an arrangement that is no
@@ -390,6 +448,21 @@ export const createPropertyViewHost = ({ record = RECORD, capabilities = [], pro
         }
         state.views = {};
         return { answer: 'applied', revision: 'v0', view: emptyLayer() };
+      }
+
+      // «Сохранить для всех» and «Закрыть для изменений» (port 1.22.0): both
+      // write the shared layer, so both are offered to the person who may.
+      if (intent === 'view.publish' || intent === 'view.lock') {
+        if (!capabilities.includes('view-settings')) {
+          return { answer: 'unavailable', reason: 'capability-not-provided' };
+        }
+        if (!capabilities.includes('shared-view-settings')) {
+          return { answer: 'refused', reason: 'access-denied', message: 'Общий вид меняет администратор' };
+        }
+        const views = { personal: layer('personal'), shared: layer('shared') };
+        const given = intent === 'view.publish' ? publishLayers(views, payload) : lockPath(views, state.locked, payload);
+        if (given.answer === 'applied') Object.assign(state.views, views);
+        return given;
       }
 
       return { answer: 'unavailable', reason: 'unknown-intent' };

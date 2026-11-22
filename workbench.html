@@ -135,11 +135,13 @@
     </main>
 
     <!-- The record panel. It is portalled out of here when it opens, so where
-         the element stands matters only for who owns it. -->
+         the element stands matters only for who owns it. Its width is the
+         drawer's ladder step 2 plus the column of sections (DEV decision
+         msg-9c73f1dd; no exact panel-width, off the drawer's ladder). -->
     <sf-view-properties
       id="record"
       panel
-      panel-width="40rem"
+      panel-size="2"
       collection="admin.solutions"
       collection-label="Решения"
       collection-icon="inventory_2"

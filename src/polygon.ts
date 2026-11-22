@@ -102,9 +102,15 @@ const start = async () => {
   // the page makes a new one: `panel` is read when the element connects. The
   // attributes are set before the port is bound, because binding is what
   // triggers the read; afterwards a new record-id reads the record.
+  // panel-size 2, no panel-width: the panel is the drawer's ladder step 2
+  // (DEV decision msg-9c73f1dd; sf-view-properties 1.24.0 asks sf-drawer for
+  // the step and the column of sections on top of it through aside-width, and
+  // puts tabs on top when the two would take more than 60 percent of the
+  // window). Step 1 left the fields about 330 px in the admin's compact
+  // density; an exact width would be off the drawer's ladder.
   const PANEL_ATTRIBUTES: Array<[string, string]> = [
     ['id', 'record'],
-    ['panel-width', '44rem'],
+    ['panel-size', '2'],
     ['collection', 'workbench.solutions'],
     ['collection-label', 'Решения'],
     ['collection-icon', 'inventory_2'],

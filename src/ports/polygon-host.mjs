@@ -17,6 +17,7 @@
 //
 // Plain JavaScript so the page, the conformance runner and the checks import the
 // same module with no build step between them.
+import { historyChange, historyPage, lockPath, neighboursIn, publishLayers, seedHistory } from './property-view-extras.mjs';
 
 const copy = (value) => (value === undefined ? value : JSON.parse(JSON.stringify(value)));
 
@@ -35,6 +36,11 @@ const scalar = (value) => {
   if (typeof value === 'object') return value.value ?? value.label ?? null;
   return value;
 };
+
+// A whole number: a number field with no decimals, or the former type
+// `integer` a host may still send.
+const wholeNumber = (field) => field?.property_type === 'integer'
+  || (field?.property_type === 'number' && field?.decimals === 0);
 
 const sortableValue = (field, value) => {
   const raw = scalar(value);
@@ -144,6 +150,14 @@ export const createPolygonHost = ({
       personal: { revision: 'personal-1', columns: {} },
     },
     views: [
+      // Port 1.16.0 (C298): the product's own view, level system. It ships
+      // with the polygon and is never written through the port: a person's
+      // change to it is saved as a new view of their own.
+      {
+        key: 'view-all', label: 'Все решения', revision: 'v1', level: 'system',
+        query: { filters: {}, search: '', sort: [] },
+        roles: {}, layout: { columns: [] }, settings: { filter_fields: structure.list.filter_fields },
+      },
       {
         key: 'view-active', label: 'В работе', revision: 'v1', level: 'shared',
         query: { filters: { status: { operator: 'in', values: ['active', 'review'] } }, search: '', sort: [{ key: 'released', direction: 'desc' }] },
@@ -157,6 +171,11 @@ export const createPolygonHost = ({
     ],
     sequence: 0,
     lastAnswered: 0,
+    // Port 1.16.0, capability personal-preferences: this person's own view
+    // state (page size, the view zone, the view opened last), one layer with
+    // its revision, sent with the first answer to query.change.
+    preferences: { revision: 'p1' },
+    preferencesSent: false,
   };
 
   const wait = () => (latencyMs > 0 ? new Promise((resolve) => setTimeout(resolve, latencyMs)) : null);
@@ -179,6 +198,7 @@ export const createPolygonHost = ({
       ...(column.pinned ? { sticky: 'start', role: 'title' } : {}),
       property_type: field.property_type,
       ...(field.options ? { options: field.options } : {}),
+      ...(field.template ? { template: field.template } : {}),
       ...(field.variant ? { variant: field.variant } : {}),
       ...(field.language ? { language: field.language } : {}),
       ...(field.multiple ? { multiple: field.multiple } : {}),
@@ -280,6 +300,7 @@ export const createPolygonHost = ({
             : state.settings.personal.revision, key: extra.savedView ?? null },
         },
         ...(capabilities.includes('saved-views') ? { saved_views: copy(state.views) } : {}),
+        ...(extra.preferences ? { preferences: copy(state.preferences) } : {}),
       },
     };
   };
@@ -333,7 +354,33 @@ export const createPolygonHost = ({
         // it redraws the list with the previous filter.
         if (sequence < state.lastAnswered) return { answer: 'applied', sequence, dropped: true };
         state.lastAnswered = sequence;
-        return answerQuery(payload.query ?? {}, sequence);
+        const preferences = capabilities.includes('personal-preferences') && !state.preferencesSent;
+        if (preferences) state.preferencesSent = true;
+        return answerQuery(payload.query ?? {}, sequence, { preferences });
+      }
+
+      // Port 1.16.0: the person's own view state, merged against its revision
+      // (a field sent as null is removed); never asked without the capability.
+      if (intent === 'preferences.save') {
+        if (!capabilities.includes('personal-preferences')) {
+          return { answer: 'unavailable', reason: 'capability-not-provided' };
+        }
+        const changed = payload.preferences;
+        if (!changed || typeof changed !== 'object' || !Object.keys(changed).length) {
+          return { answer: 'refused', reason: 'invalid-payload' };
+        }
+        if (String(payload.base_revision ?? '') !== String(state.preferences.revision)) {
+          return { answer: 'conflict', reason: 'stale-revision', current_revision: state.preferences.revision };
+        }
+        const next = { ...state.preferences };
+        for (const [key, value] of Object.entries(changed)) {
+          if (!['page_size', 'view_zone', 'view'].includes(key)) continue;
+          if (value === null) delete next[key];
+          else next[key] = value;
+        }
+        next.revision = `p${Number(String(state.preferences.revision).slice(1)) + 1}`;
+        state.preferences = next;
+        return { answer: 'applied', data: { preferences: copy(next) } };
       }
 
       if (intent === 'query.count') {
@@ -577,6 +624,11 @@ export const createPolygonHost = ({
         }
         const key = String(payload.key ?? payload.saved_view_id ?? '');
         const existing = state.views.find((item) => item.key === key);
+        // A system view ships with the product and is not written through the
+        // port (1.16.0): the view saves the change as a new view instead.
+        if (existing && (existing.level === 'system' || existing.level === 'package')) {
+          return { answer: 'refused', reason: 'forbidden', message: 'Системный вид не меняется: сохраните изменения как новый вид' };
+        }
         const base = payload.base_revision ?? payload.revision;
         if (existing && base && String(base) !== String(existing.revision)) {
           return { answer: 'conflict', reason: 'stale-revision', current_revision: existing.revision, view: copy(existing) };
@@ -636,6 +688,12 @@ export const createPolygonHost = ({
     // knows its own routes; Larena's are paths because it has a server, and
     // this polygon's are a query because it is static.
     recordAddress = (id) => `/?record=${encodeURIComponent(id)}`,
+    // Port 1.21.0: the fields this reader may not see in a history (a
+    // password always is), and a host that refuses a save over a moved
+    // revision `revision_moved`, as Larena does, rather than answering
+    // `conflict`; the component reads the two the same way.
+    sealed = [],
+    movedRefusal = false,
     } = {}) {
       // `profiles` is here so a caller can stand the panel up with a list of
       // its own -- one shared view, say, which is the state in which removing it
@@ -658,7 +716,41 @@ export const createPolygonHost = ({
         },
         target: 'personal',
         next: 4,
+        // Paths locked for the layers below the shared one (port 1.22.0).
+        locked: [],
+        // Each record's change history, seeded the first time it is asked for.
+        history: new Map(),
       };
+
+      // A record's fields as the history names them.
+      const historyFields = (found) => (structure.sections ?? []).flatMap((section) => (section.groups ?? [])
+        .flatMap((group) => (group.fields ?? []).map((key) => {
+          const field = fields.get(key) ?? { key };
+          return {
+            key, label: field.label ?? key, value: found.values?.[key] ?? null,
+            sealed: sealed.includes(key) || field.property_type === 'password',
+          };
+        })));
+      const historyOf = (found) => {
+        if (!panel.history.has(found.record_id)) {
+          panel.history.set(found.record_id, seedHistory(found.revision, historyFields(found)));
+        }
+        return panel.history.get(found.record_id);
+      };
+      // A save that wrote something is one event, at the revision it made.
+      const remember = (found, values) => {
+        const events = historyOf(found);
+        const changes = historyFields(found)
+          .filter((field) => Object.prototype.hasOwnProperty.call(values, field.key))
+          .map((field) => historyChange(field, field.value, values[field.key], field.sealed));
+        return () => events.push({
+          id: String(found.revision), revision: Number(found.revision),
+          time: new Date().toISOString(), actor: 'Вы', kind: 'update', changes,
+        });
+      };
+      const stale = (found) => (movedRefusal
+        ? { answer: 'refused', reason: 'revision_moved', revision: found.revision, message: 'Запись изменилась, обновите её' }
+        : { answer: 'conflict', reason: 'stale-revision', revision: found.revision, message: 'Запись изменилась, обновите её' });
 
       // The port's record: the structure's own sections and groups, each field
       // carrying the value this record holds. The arrangement is the structure's
@@ -699,10 +791,12 @@ export const createPolygonHost = ({
                 ...(field.options ? { options: field.options } : {}),
                 ...(field.source ? { source: field.source } : {}),
                 ...(field.when ? { when: copy(field.when) } : {}),
+                ...(field.template ? { template: field.template } : {}),
                 ...(field.variant ? { variant: field.variant } : {}),
                 ...(field.language ? { language: field.language } : {}),
                 ...(field.multiple ? { multiple: field.multiple } : {}),
                 ...(field.inheritedValue ? { inheritedValue: field.inheritedValue } : {}),
+                ...(Number.isInteger(field.decimals) ? { decimals: field.decimals } : {}),
                 value: copy(found.values[field.key] ?? null),
               };
             }),
@@ -738,6 +832,7 @@ export const createPolygonHost = ({
             : { shared: 'Общую раскладку меняет администратор' },
           profiles: copy(panel.profiles),
           profile: panel.profile,
+          ...(panel.locked.length ? { locked: [...panel.locked] } : {}),
         };
         return { answer: 'applied', record };
       };
@@ -753,7 +848,7 @@ export const createPolygonHost = ({
           if (field.required && (value === null || value === undefined || String(value).trim() === '')) {
             errors[field.key] = `${field.label} не может быть пустым`;
           }
-          if (given && field.property_type === 'integer' && value !== null && value !== ''
+          if (given && wholeNumber(field) && value !== null && value !== ''
               && !Number.isInteger(Number(value))) {
             errors[field.key] = 'Нужно целое число';
           }
@@ -820,19 +915,19 @@ export const createPolygonHost = ({
             if (found.editable === false) {
               return { answer: 'refused', reason: 'access-denied', message: LOCKED_RECORD };
             }
-            if (String(payload.revision ?? '') !== String(found.revision)) {
-              return { answer: 'conflict', reason: 'stale-revision', revision: found.revision, message: 'Запись изменилась, обновите её' };
-            }
+            if (String(payload.revision ?? '') !== String(found.revision)) return stale(found);
             const values = payload.values ?? {};
             const errors = validate(values);
             if (Object.keys(errors).length) return { answer: 'refused', reason: 'validation', errors };
             const asked = askFirst(found, values);
             if (asked) return asked;
+            const write = remember(found, values);
             for (const [key, value] of Object.entries(values)) {
               if (fields.has(key)) found.values[key] = copy(value);
             }
             if (Object.prototype.hasOwnProperty.call(values, 'title')) found.label = String(values.title ?? found.label);
             found.revision = Number(found.revision) + 1;
+            write();
             return answerFor(found);
           }
 
@@ -933,9 +1028,7 @@ export const createPolygonHost = ({
             // answering applied to a stale one loses somebody else's save
             // without anyone being told. The conflict names the current
             // revision (port 1.15.0) so the panel reads the record again at it.
-            if (String(payload.revision ?? '') !== String(found.revision)) {
-              return { answer: 'conflict', reason: 'stale-revision', revision: found.revision, message: 'Запись изменилась, обновите её' };
-            }
+            if (String(payload.revision ?? '') !== String(found.revision)) return stale(found);
             const values = payload.values ?? {};
             const errors = {};
             for (const field of structure.fields ?? []) {
@@ -944,7 +1037,7 @@ export const createPolygonHost = ({
               if (field.required && (value === null || value === undefined || String(value).trim() === '')) {
                 errors[field.key] = `${field.label} не может быть пустым`;
               }
-              if (field.property_type === 'integer' && value !== null && value !== ''
+              if (wholeNumber(field) && value !== null && value !== ''
                   && !Number.isInteger(Number(value))) {
                 errors[field.key] = 'Нужно целое число';
               }
@@ -953,6 +1046,7 @@ export const createPolygonHost = ({
             const asked = askFirst(found, values);
             if (asked) return asked;
 
+            const write = remember(found, values);
             for (const [key, value] of Object.entries(values)) {
               if (fields.has(key)) found.values[key] = copy(value);
             }
@@ -960,7 +1054,30 @@ export const createPolygonHost = ({
               found.label = String(values.title ?? found.label);
             }
             found.revision = Number(found.revision) + 1;
+            write();
             return answerFor(found);
+          }
+
+          // The history a page at a time and the neighbours over the view the
+          // record was opened from (port 1.21.0). Not announced, not
+          // answered; a record this actor may not read is refused with
+          // record.load's reason.
+          if (intent === 'record.history' || intent === 'record.neighbours') {
+            const capability = intent === 'record.history' ? 'record-history' : 'record-neighbours';
+            if (!panelCapabilities.includes(capability)) {
+              return { answer: 'unavailable', reason: 'capability-not-provided' };
+            }
+            const found = record(id);
+            if (!found) return { answer: 'refused', reason: 'record-unknown', message: 'Запись не найдена' };
+            if (found.editable === false && scenario === 'forbidden') {
+              return { answer: 'refused', reason: 'access-denied', message: 'Нет доступа к записи' };
+            }
+            if (intent === 'record.history') return historyPage(historyOf(found), payload);
+            // The list's own query -- filters, search, sort -- over every page
+            // of it. The polygon archives nothing, so include_archived changes
+            // nothing here.
+            const { rows } = applyQuery(payload.query ?? {});
+            return neighboursIn(rows.map((item) => item.record_id), found.record_id);
           }
 
           if (intent === 'field.options') {
@@ -1090,6 +1207,20 @@ export const createPolygonHost = ({
             const kind = String(payload.target?.kind ?? panel.target);
             panel.views[kind] = { revision: `${kind}-1`, view: emptyLayer() };
             return { answer: 'applied', revision: panel.views[kind].revision, view: emptyLayer() };
+          }
+
+          // «Сохранить для всех» and «Закрыть для изменений» (port 1.22.0):
+          // both write the shared layer, so both are the administrator's.
+          if (intent === 'view.publish' || intent === 'view.lock') {
+            if (!panelCapabilities.includes('view-settings')) {
+              return { answer: 'unavailable', reason: 'capability-not-provided' };
+            }
+            if (!panelCapabilities.includes('shared-view-settings')) {
+              return { answer: 'refused', reason: 'access-denied', message: 'Общий вид меняет администратор' };
+            }
+            return intent === 'view.publish'
+              ? publishLayers(panel.views, payload)
+              : lockPath(panel.views, panel.locked, payload);
           }
 
           return { answer: 'unavailable', reason: 'unknown-intent' };

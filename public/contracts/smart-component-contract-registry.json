@@ -14,7 +14,8 @@
         "uses": [
           "component.accordion",
           "component.icons",
-          "smart.badge"
+          "smart.badge",
+          "smart.button"
         ]
       },
       "contract_schema": {
@@ -26,13 +27,13 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/accordion/smart.manifest.json",
-      "manifest_sha256": "f1f4fabcc652122cbfd00440e61ea9cf55c4e463c67379db5efc1dbcdc0febee",
+      "manifest_sha256": "4eace2a3675d908e3cd5dd24ca4ccc951e55840b870be4df7e12265577fa238b",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
         "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
       },
-      "summary": "Sections that open and close, built from data -- a record's groups, a settings panel, an FAQ -- or from <details> in the markup, drawn as the class accordion: the same sizes on the control ladder, appearances, marker and single section. single keeps one open; the headers are buttons with the WAI-ARIA accordion keyboard.",
+      "summary": "Sections that open and close, built from data -- a record's groups, a settings panel, an FAQ, catalogue filters -- or from <details> in the markup, drawn as the class accordion: lines by default, the same sizes on the control ladder, appearances, marker and single section. The marker at the end points down and turns up when open, the section moves to its height in 200 ms; closed text is found by the browser's find-in-page; link makes a section's id its address; expand-all adds «Развернуть все». single keeps one open; the headers are buttons with the WAI-ARIA accordion keyboard.",
       "tags": [
         "accordion",
         "disclosure",
@@ -54,7 +55,7 @@
         "uses": [
           "component.alerts",
           "component.buttons",
-          "smart.button-icon",
+          "smart.button-close",
           "smart.icon"
         ]
       },
@@ -67,7 +68,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/alert/smart.manifest.json",
-      "manifest_sha256": "1c9e9cf644152ed84333f1583139df8b07fb4ee0d9a77d3ab4ab6597eff87f38",
+      "manifest_sha256": "4d6ddd3f9370ddf8ff109534bf422181d620e4477f140aab2b03e004ad55b689",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -91,7 +92,6 @@
       "composition": {
         "public_parts": [],
         "uses": [
-          "smart.badge",
           "smart.button",
           "smart.button-icon",
           "smart.icon",
@@ -107,13 +107,13 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/alert-bar/smart.manifest.json",
-      "manifest_sha256": "8356bb27a5323bd9621f27db55064ece83917b49c425b62f40315f39b781e8e8",
+      "manifest_sha256": "a642a1ca5428f3d4ff55b797f153fba350b7e21c3e7b97954491caf123b24410",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
         "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
       },
-      "summary": "A full-width bar above a page or admin header for the conditions that need action now: error, warning, info. One bar for all of them, coloured by the most serious; several are paged «‹ 1 of N ›» and listed under the bar with «All N». Warning closes for a day, info for good, error only minimizes to a strip. It stores nothing: the host keeps what was closed.",
+      "summary": "A full-width bar above a page or admin header for the conditions that need action now: error, warning, info. One bar for all of them, coloured by the most serious; it shows the most serious, and «N more» lists the others under the bar. Warning closes for a day, info for good, error only minimizes to a strip. It stores nothing: the host keeps what was closed.",
       "tags": [
         "alert",
         "alert-bar",
@@ -136,7 +136,10 @@
         "public_parts": [],
         "uses": [
           "component.avatars",
-          "component.badges"
+          "component.badges",
+          "component.dot",
+          "component.tooltip",
+          "smart.icon"
         ]
       },
       "contract_schema": {
@@ -148,13 +151,13 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/avatar/smart.manifest.json",
-      "manifest_sha256": "f8a553675f7a949affdba64f124e06a339860f90977ca11c6f21bba1dc79adf6",
+      "manifest_sha256": "636845ad3e8fbf3ed34a4733ec56271d3fe47ed503542158b613c3bc88057e0d",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
         "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
       },
-      "summary": "Shows a person or organisation as a photo or initials, with an optional availability or verification mark. The default and label templates render a native button whose aria-label names its action; the card template is static and adds a title, description and meta line.",
+      "summary": "Shows a person or organisation as a photo or initials, with an optional presence point or verification mark. By default a picture (role img with the name); a link with href, a native button as a menu's trigger; the card template is static and adds a title, description and meta line.",
       "tags": [
         "avatar"
       ],
@@ -171,7 +174,11 @@
         "public_parts": [],
         "uses": [
           "component.avatars",
-          "component.icons"
+          "component.dot",
+          "component.icons",
+          "component.tooltip",
+          "smart.icon",
+          "smart.popover"
         ]
       },
       "contract_schema": {
@@ -183,7 +190,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/avatar-group/smart.manifest.json",
-      "manifest_sha256": "38d8d8428e717eadde274cd096ac37fc0b8fd09f83b23bd8ab45254a0166e525",
+      "manifest_sha256": "01aca8e33a255225a561b827ec65cc5a4a3ce959f94305398ac50e66d0ae9f12",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -218,7 +225,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/badge/smart.manifest.json",
-      "manifest_sha256": "9172f3f55a4c89297be5e9a0d48cdae6b7d9ec903d3d26d421420a5b7d10e063",
+      "manifest_sha256": "b2e46fbd3e0c74ffb463b60816326495d692ba57ea7743a50b9c1406142ff43a",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -242,7 +249,8 @@
         "uses": [
           "component.breadcrumbs",
           "component.icons",
-          "smart.icon"
+          "smart.icon",
+          "smart.menu-context"
         ]
       },
       "contract_schema": {
@@ -254,17 +262,68 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/breadcrumbs/smart.manifest.json",
-      "manifest_sha256": "a1d6e8f5369c99d213783e6aa64ac5670cac9df71b5382456c70806d253e9f53",
+      "manifest_sha256": "4b4fde385b1692c5608c47a35d8ba4a5e4b71d9514c52ec28d5c0da7bb63c2f6",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
         "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
       },
-      "summary": "Shows the current page's place in a hierarchy as a trail of native links built from items, the items attribute or sf-breadcrumbs-item children. A long trail collapses its middle into an ellipsis button (max-items, default 4) that expands in place.",
+      "summary": "Shows where the page is in a hierarchy as a list of native links built from items, the items attribute or sf-breadcrumbs-item children. The last crumb is the page unless the items say otherwise or current is none (a trail of parents). A trail that has no room for one line folds its middle into a «…» button whose menu lists the hidden crumbs; on the phone it reads «… › parent › page». Long ancestor names are cut with an ellipsis and a tooltip; a crumb can offer its siblings as a menu (siblings).",
       "tags": [
         "breadcrumbs"
       ],
       "title": "Breadcrumbs"
+    },
+    {
+      "backend_adapters": [],
+      "capabilities": [
+        "render",
+        "interaction",
+        "keyboard",
+        "theme",
+        "i18n",
+        "responsive"
+      ],
+      "composition": {
+        "public_parts": [],
+        "uses": [
+          "smart.button",
+          "smart.button-icon",
+          "smart.confirm",
+          "smart.icon",
+          "smart.list-description",
+          "smart.modal",
+          "smart.progress-bar"
+        ]
+      },
+      "contract_schema": {
+        "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+        "version": 2
+      },
+      "custom_element": "sf-bulk-actions",
+      "id": "smart.bulk-actions",
+      "kind": "smart",
+      "lifecycle": "experimental",
+      "manifest_path": "src/smart/bulk-actions/smart.manifest.json",
+      "manifest_sha256": "e648b84623806f3acf635a29d98408e8707826eaf689afb2ef035e3c7d0bedd9",
+      "reuse_mode": "whole",
+      "runtime_pair": {
+        "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
+        "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
+      },
+      "summary": "The group actions bar of a list while items are selected: «Выбрано N» and ×, up to three labelled actions and «⋯», «Выбрать все N» after the page is selected, the question before a dangerous action, Undo in the notice of a reversible one, a short run, a fast action's result in place of the count and a long one's in a notice, failures written to «Уведомления». One bar for sf-view, sf-view-table, sf-gallery, sf-pagination and any list.",
+      "tags": [
+        "bulk",
+        "selection",
+        "actions",
+        "batch",
+        "toolbar",
+        "list",
+        "table",
+        "gallery",
+        "admin"
+      ],
+      "title": "Group actions"
     },
     {
       "backend_adapters": [],
@@ -306,6 +365,8 @@
             "spacing",
             "radius",
             "full-width",
+            "overflow",
+            "max-width",
             "loading",
             "disabled",
             "native-type",
@@ -317,10 +378,12 @@
             "rel",
             "shortcut",
             "shortcut-listen",
+            "shrink",
             "expanded",
             "pressed",
             "text-pressed",
             "theme-cycle",
+            "split",
             "aria-label"
           ],
           "renderer": {
@@ -334,9 +397,13 @@
         "public_parts": [],
         "uses": [
           "component.buttons",
+          "component.icon-buttons",
           "component.kbd",
           "component.spinner",
-          "smart.icon"
+          "component.tooltip",
+          "smart.button-icon",
+          "smart.icon",
+          "smart.menu-context"
         ]
       },
       "contract_schema": {
@@ -348,13 +415,13 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/button/smart.manifest.json",
-      "manifest_sha256": "618f02c9767d030de5f04084874b4df20bd5bd35fdd31f5a6bd2a99231f01065",
+      "manifest_sha256": "5bb9d070e66129b70fec0a89f70f8afc9b3f8a3cb9b8bbcf1724e90b8783493f",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
         "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
       },
-      "summary": "A native button with Framework presentation: size, appearance, colour role or status, optional start and end icons, height and radius. loading sets aria-busy and disables it against repeated activation.",
+      "summary": "A native button with Framework presentation: size, appearance, colour role or status, optional start and end icons, height and radius. loading sets aria-busy and disables it against repeated activation. Attributes it does not own go to the inner control; a `data-*` is moved there, not copied (the host is display: contents and has no box): select the inner button by it (`[data-action]`, `closest('sf-button')` for the host), and read what was written on the host with `element.dataAttributes`.",
       "tags": [
         "buttons"
       ],
@@ -383,7 +450,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/button-close/smart.manifest.json",
-      "manifest_sha256": "697f20afe878e746e065f7acddcb7aa69005682f2692e8a2b4b1786b0c11c96f",
+      "manifest_sha256": "eacb51e5e17d74abc0e97d4ba7c32d1421b37cbefd41a4e9516231c6d1eae41c",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -420,7 +487,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/button-copy/smart.manifest.json",
-      "manifest_sha256": "c774667280c9c31423b6fe7dd8e2d36243e9048bb8dd7cde10bb283d97bcb5c2",
+      "manifest_sha256": "bbb59c69d74ec2b0d462845354e67f2f268001bc9177485868373766efa99de7",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -445,8 +512,10 @@
         "public_parts": [],
         "uses": [
           "component.badges",
+          "component.dot",
           "component.icon-buttons",
           "component.spinner",
+          "component.tooltip",
           "smart.button-close",
           "smart.icon"
         ]
@@ -460,13 +529,13 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/button-icon/smart.manifest.json",
-      "manifest_sha256": "1d347e73c2962e28e375535fda7ff30074e701303cf89c7067477b7674532812",
+      "manifest_sha256": "79e05d076b6958c30c6f24466db73835dd347256614cc039db71dc67a5b04cfc",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
         "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
       },
-      "summary": "Native icon-only action with token geometry, accessible naming and shared loading semantics.",
+      "summary": "Native icon-only action with token geometry, accessible naming and shared loading semantics. Attributes it does not own go to the inner control; a `data-*` is moved there, not copied (the host is display: contents and has no box): select the inner button by it (`[data-action]`, `closest('sf-button-icon')` for the host), and read what was written on the host with `element.dataAttributes`.",
       "tags": [
         "icon-buttons"
       ],
@@ -496,7 +565,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/change/smart.manifest.json",
-      "manifest_sha256": "641464dda9e97fc5d00b6441b377425f2a733f1ec8e0682c3546a6033eeed936",
+      "manifest_sha256": "a01ec0c30b4f3e86dd46fd47e8b59f8eb2e9b208e86a5bd3d943901ef720db2a",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -538,7 +607,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/checkbox/smart.manifest.json",
-      "manifest_sha256": "77ef1a0c93fdc9125971c7e904e515b3ebffed95ef69c84b46754f2a3938b218",
+      "manifest_sha256": "1e96ca13ae976c314a914b21c5eda440376e244b62a47978d37d165580497911",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -574,7 +643,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/confirm/smart.manifest.json",
-      "manifest_sha256": "f049e5f42353da71ace44dc2573c8166a3c15f6f4e18b987c4b3af73bc0edd71",
+      "manifest_sha256": "97c4ccf4e1295344101d0874a3ef3b0a782b044baeb423eb88dde673aa5ba77d",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -600,7 +669,8 @@
         "uses": [
           "smart.button",
           "smart.change",
-          "smart.icon"
+          "smart.icon",
+          "smart.time"
         ]
       },
       "contract_schema": {
@@ -612,13 +682,13 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/confirm-change/smart.manifest.json",
-      "manifest_sha256": "b5030b33837a7abfdab115bcd7b87cd7174649e3a26e0e45c3a0662f31939b5a",
+      "manifest_sha256": "8514b5af4742a5e8b7d7ea8942013d0ebdd0aead7bd63a6535333dc456167d0c",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
         "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
       },
-      "summary": "A prepared change put to a person: each value as it was and as it will be, two answers of equal weight, until when it can be answered, and then only the outcome. Applies nothing; a press is an event.",
+      "summary": "A change someone else proposes (an assistant, a colleague, an import), put to a person: each value as it was and as it will be, «Подтвердить» first and filled, «Отклонить» quiet, until when it can be answered under them, and then only the outcome. Applies nothing; a press is an event.",
       "tags": [
         "confirmation",
         "change",
@@ -641,8 +711,10 @@
       "composition": {
         "public_parts": [],
         "uses": [
+          "smart.badge",
           "smart.button",
-          "smart.icon"
+          "smart.icon",
+          "smart.menu-context"
         ]
       },
       "contract_schema": {
@@ -654,13 +726,13 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/contents/smart.manifest.json",
-      "manifest_sha256": "bbff6157c253f4353b004ba14072f67383f286a0822d8473c551d7d9ca17d669",
+      "manifest_sha256": "33fff23ea47fcbff75e2874697ff50d7e234ce8cea409a637c6363789aa4b3da",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
         "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
       },
-      "summary": "The page's table of contents («Оглавление»): the sections of the page as in-page links, the current one marked while the page scrolls. Four views from one list -- a side column, a compact button with the reading progress, strokes at the edge, a sticky row of anchor tabs -- and auto, the column on a wide screen and the compact button on a narrow one. It collects the headings itself or takes the items a server printed, and works as plain links without the script.",
+      "summary": "The page's table of contents («Оглавление»): the sections of the page as in-page links, the current one marked while the page scrolls. Four views from one list -- a side column, the sheet (a button with the reading progress), strokes at the edge, a sticky row of anchor tabs -- and auto, the column on a wide screen and the sheet on a narrow one. It collects the headings itself or takes the items a server printed, and works as plain links without the script.",
       "tags": [
         "contents",
         "table-of-contents",
@@ -673,6 +745,49 @@
       "backend_adapters": [],
       "capabilities": [
         "render",
+        "interaction",
+        "keyboard",
+        "theme",
+        "i18n",
+        "responsive"
+      ],
+      "composition": {
+        "public_parts": [],
+        "uses": [
+          "smart.button"
+        ]
+      },
+      "contract_schema": {
+        "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+        "version": 2
+      },
+      "custom_element": "sf-display-settings",
+      "id": "smart.display-settings",
+      "kind": "smart",
+      "lifecycle": "experimental",
+      "manifest_path": "src/smart/display-settings/smart.manifest.json",
+      "manifest_sha256": "f7fc1d2470b3145aa00d27e7782958a2430854c87a65221882b8e1bbbfb4b828",
+      "reuse_mode": "whole",
+      "runtime_pair": {
+        "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
+        "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
+      },
+      "summary": "How a person wants the site shown -- text 100–200 %, a colour scheme, wider spacing, images in colour, grey or hidden with their text, motion stopped, «Обычная версия» -- kept in this browser only and applied by core on every page. Replaces the legacy low-vision version (.sf-special). Promises no conformance.",
+      "tags": [
+        "accessibility",
+        "display",
+        "low-vision",
+        "contrast",
+        "text-size",
+        "settings",
+        "preferences"
+      ],
+      "title": "Display settings"
+    },
+    {
+      "backend_adapters": [],
+      "capabilities": [
+        "render",
         "theme",
         "responsive"
       ],
@@ -680,7 +795,9 @@
         "public_parts": [],
         "uses": [
           "component.close",
-          "component.icon-buttons"
+          "component.icon-buttons",
+          "smart.button-close",
+          "smart.button-icon"
         ]
       },
       "contract_schema": {
@@ -692,13 +809,13 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/drawer/smart.manifest.json",
-      "manifest_sha256": "e2d1b5011afff034c8d7ce1d2655330f39093e4e9642f8c83250756b94664368",
+      "manifest_sha256": "235303b86d7d4c86485667dc4caac35c2c1cde3966d51518efd1f1136966861b",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
         "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
       },
-      "summary": "Workspace side panel that keeps the page usable: docked column or modeless panel. Modal side panels belong to sf-modal; the modal Drawer mode is deprecated.",
+      "summary": "Everything that opens from an edge (owner decision C157 (1)): a panel over the page with the one scrim (modal, the default), a modeless panel, a docked column of the page, the bottom sheet. sf-modal position=\"inline-*|bottom\" is the old name of a side panel or a sheet until 2027-01-01.",
       "tags": [
         "drawer"
       ],
@@ -714,10 +831,13 @@
       "composition": {
         "public_parts": [],
         "uses": [
+          "component.dot",
           "component.dropdown",
           "component.icon-buttons",
           "component.inputs",
+          "smart.badge",
           "smart.button-icon",
+          "smart.help-mark",
           "smart.icon",
           "smart.input",
           "smart.list-item"
@@ -732,7 +852,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/dropdown/smart.manifest.json",
-      "manifest_sha256": "15fb9c8de470ddf38b85a94387a39797144e91e27e9f09653dbe6936a813eee2",
+      "manifest_sha256": "ff1ba1bbdf97663928a9f031c299b104cd0a76fc06cdb90be7cd098a29dcb467",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -753,7 +873,13 @@
       ],
       "composition": {
         "public_parts": [],
-        "uses": []
+        "uses": [
+          "component.icon-buttons",
+          "component.icons",
+          "smart.button",
+          "smart.input",
+          "smart.menu-context"
+        ]
       },
       "contract_schema": {
         "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
@@ -764,7 +890,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/editor-inline/smart.manifest.json",
-      "manifest_sha256": "ef6504e54bcc3066684f6c13c17757939fff8fc15f46167a526f3832f0457a44",
+      "manifest_sha256": "1430245c93cf745a039d4b7a16d6dadfb80de7f9fe4bb5ee471e5a8dd8b7181f",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -791,6 +917,7 @@
         "public_parts": [],
         "uses": [
           "smart.button-icon",
+          "smart.menu-context",
           "smart.sortable",
           "smart.tooltip"
         ]
@@ -804,7 +931,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/editor-overlay/smart.manifest.json",
-      "manifest_sha256": "051df5bff2c601bc7d3636cb9c2f3e2c4404c3196f6a0a7578857c484ec84f5f",
+      "manifest_sha256": "e4d31846fe9c82bbb8bc7be24a99a2a1a63785c532273440df4db17281036a5b",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -829,8 +956,11 @@
         "public_parts": [],
         "uses": [
           "component.featured-icon",
+          "component.placeholder",
           "smart.button",
-          "smart.icon"
+          "smart.icon",
+          "smart.progress-ring",
+          "smart.spinner"
         ]
       },
       "contract_schema": {
@@ -842,13 +972,13 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/empty-state/smart.manifest.json",
-      "manifest_sha256": "f1b247c505ff5cc1188c23ea2d75f8a86e26c6c7496cf2ba68a60364d84afb10",
+      "manifest_sha256": "da8af3264e8ee1e45decc978981a9cabab6954160e4e4368c244d36fdda2a069",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
         "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
       },
-      "summary": "What a list, a panel or a page says when it has nothing to show: no data, nothing found, no access or an error, with an icon, a real heading, a sentence and actions.",
+      "summary": "What a list, a panel or a page says when it has nothing to show: no data, the first time, nothing found, no access, an error, no connection or work being prepared, with an icon, a real heading, a sentence and actions.",
       "tags": [
         "empty-state",
         "feedback",
@@ -868,8 +998,11 @@
         "uses": [
           "component.download-file",
           "component.icons",
+          "component.progress-ring",
           "component.spinner",
-          "smart.alert",
+          "component.tooltip",
+          "smart.button",
+          "smart.button-icon",
           "smart.icon"
         ]
       },
@@ -882,7 +1015,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/file-download/smart.manifest.json",
-      "manifest_sha256": "a15446cd6c3d1db5d4031a210cf1e641754ea5fc476000ce388760f6610a4f52",
+      "manifest_sha256": "39611b3198417518562b3d90f8ae98212acdfd0d9e6c62c44f681fa06117356d",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -907,7 +1040,12 @@
         "uses": [
           "component.file-preview",
           "component.icon-buttons",
-          "component.icons"
+          "component.icons",
+          "component.tooltip",
+          "smart.button",
+          "smart.confirm",
+          "smart.gallery",
+          "smart.progress-bar"
         ]
       },
       "contract_schema": {
@@ -919,7 +1057,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/file-preview/smart.manifest.json",
-      "manifest_sha256": "1fd92bcb5a61e9f9d731fdac7f2e8e0f5e76dc4837c16613e2ed453d8b7803bf",
+      "manifest_sha256": "42eb98fdf6de6f53cc23c5112498ed6b32fda41b82d4b5aee26a53815051eeb4",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -944,7 +1082,8 @@
           "component.featured-icon",
           "component.file-upload",
           "component.icon-buttons",
-          "smart.progress-bar"
+          "smart.file-preview",
+          "smart.help-mark"
         ]
       },
       "contract_schema": {
@@ -956,7 +1095,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/file-upload/smart.manifest.json",
-      "manifest_sha256": "af94eed78ad584615deb0e9b02bc603415da4f5c54b1235836b00e0daf4ef52a",
+      "manifest_sha256": "6c1b28a8ab84793a9d6da12af7f6fe8fd5a7cee640c431195ac2f508e8e6f0d6",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -972,14 +1111,61 @@
       "backend_adapters": [],
       "capabilities": [
         "render",
+        "interaction",
+        "keyboard",
+        "theme",
+        "i18n",
+        "responsive"
+      ],
+      "composition": {
+        "public_parts": [],
+        "uses": [
+          "smart.button",
+          "smart.help-mark",
+          "smart.icon"
+        ]
+      },
+      "contract_schema": {
+        "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+        "version": 2
+      },
+      "custom_element": "sf-form",
+      "id": "smart.form",
+      "kind": "smart",
+      "lifecycle": "experimental",
+      "manifest_path": "src/smart/form/smart.manifest.json",
+      "manifest_sha256": "586b300ad44510f24ac026b246ef0d96cec928e147bc4de1d7f4e32990f7732d",
+      "reuse_mode": "whole",
+      "runtime_pair": {
+        "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
+        "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
+      },
+      "summary": "A form drawn from field descriptions: the label row, «*», «?», hint and error around each control the Framework's field renderers draw, groups, one column that pairs fields from 44rem, an errors summary with links from two errors, the buttons under the fields with the main one first, a view mode with «Изменить», and apply submit, instant or answer (a questionnaire answered once, read-only with «Отправлено» after it) in one component.",
+      "tags": [
+        "form",
+        "fields",
+        "properties",
+        "settings",
+        "edit",
+        "validation",
+        "errors"
+      ],
+      "title": "Form"
+    },
+    {
+      "backend_adapters": [],
+      "capabilities": [
+        "render",
         "theme",
         "responsive"
       ],
       "composition": {
         "public_parts": [],
         "uses": [
-          "smart.modal",
-          "smart.slider"
+          "component.checkbox",
+          "component.figure",
+          "smart.button-close",
+          "smart.button-icon"
         ]
       },
       "contract_schema": {
@@ -991,13 +1177,13 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/gallery/smart.manifest.json",
-      "manifest_sha256": "24dc89e9ea33b32f722873568022c9629eeae6cdec9ae57f8dedcb27ba00b8f1",
+      "manifest_sha256": "e7102cee914811a879fa2706cd72340c9ea52f47c49aff3198fced8f21e8ebac",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
         "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
       },
-      "summary": "An ordered media collection shown in an inline Slider, with an optional Modal lightbox holding a second Slider. The gallery owns the one-based current slide and keeps both views on it.",
+      "summary": "A set of pictures: a grid of picture tiles (or masonry, or the main picture with thumbnails) that opens the page's full-screen viewer, with an optional choice of tiles for a media library. The viewer is SF.Gallery.view(items, options), shared with sf-file-preview.",
       "tags": [
         "gallery"
       ],
@@ -1016,7 +1202,8 @@
         "uses": [
           "smart.badge",
           "smart.button-icon",
-          "smart.icon"
+          "smart.icon",
+          "smart.menu-context"
         ]
       },
       "contract_schema": {
@@ -1028,13 +1215,13 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/header-page/smart.manifest.json",
-      "manifest_sha256": "335c846319b107bef0ebfaa5c5c427510cbf6fe912e2bc3477e3e2732fd25583",
+      "manifest_sha256": "57402a6db9c95589adda9679241e994c34e3d782f3949aa4f42656dbdd094a45",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
         "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
       },
-      "summary": "The head of an admin page: path, heading, count, favourite star, install mark and main action. Replaces the admin top bar together with sf-admin-menu.",
+      "summary": "The head of a work page of an app: path, heading, favourite star, install mark, actions (the main one last) and views (tabs); sticky on request. An app with a side menu has no top bar, so this is the page's head (C161).",
       "tags": [
         "page-header",
         "admin",
@@ -1056,6 +1243,7 @@
       "composition": {
         "public_parts": [],
         "uses": [
+          "smart.button-close",
           "smart.button-icon",
           "smart.icon"
         ]
@@ -1069,7 +1257,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/header-site/smart.manifest.json",
-      "manifest_sha256": "fc6d78eef94963aa4a2e61ec2092772294975ed32b3d541d461645cb6b2651ee",
+      "manifest_sha256": "eb749872da6ce0e4fa9ff8e5238704d19bc4bebf24b8225fe5496963ba5b6695",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -1107,7 +1295,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/help-mark/smart.manifest.json",
-      "manifest_sha256": "c9e148d1a53a732e520feeadce5b951848f4b20041a13f74041cc25f302e13d6",
+      "manifest_sha256": "23afca219923d1b6c77728707556fdd969f272c81e50e4c0ce185d043b2241b0",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -1136,6 +1324,7 @@
         "public_parts": [],
         "uses": [
           "component.badges",
+          "component.dot",
           "component.icons"
         ]
       },
@@ -1148,7 +1337,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/icon/smart.manifest.json",
-      "manifest_sha256": "7108f8c26d96d6cd4260958b50777a3b7005feed06819c62d983cfa72b92ed17",
+      "manifest_sha256": "bfe4179620bf33b64056fc18c9d7e26094e491d2e6167d5971cd6ac0e0b5a9d8",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -1185,7 +1374,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/include/smart.manifest.json",
-      "manifest_sha256": "362e0477b932f69993f1e3ab5f8467d3d96650228e5ef719a980f370524f7f09",
+      "manifest_sha256": "033304755d6038145e408a1770f87dcfdf7b9b805196cf806d79f827839e74d5",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -1222,6 +1411,7 @@
           "component.icon-buttons",
           "component.inputs",
           "component.kbd",
+          "smart.help-mark",
           "smart.icon"
         ]
       },
@@ -1234,7 +1424,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/input/smart.manifest.json",
-      "manifest_sha256": "ce310c2250787d993758898b381402cac850354e18f82fcd5253894305ff34ef",
+      "manifest_sha256": "233c4803733626da83aa48a5fb23d513c5560fa81dfa18d064acbb13154fb01a",
       "reuse_mode": "both",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -1265,7 +1455,11 @@
           "component.checkbox",
           "component.icons",
           "component.radio",
-          "smart.badge"
+          "smart.avatar",
+          "smart.badge",
+          "smart.button",
+          "smart.help-mark",
+          "smart.input"
         ]
       },
       "contract_schema": {
@@ -1277,7 +1471,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/input-choice/smart.manifest.json",
-      "manifest_sha256": "21149dfca25d944857b725f648ca3b86dd1fb3674b7628150b9288c915eb51d0",
+      "manifest_sha256": "0791819be4dd4306dc6b1a666c94a95000a1e000194b44baecfd89e034429fe0",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -1308,7 +1502,8 @@
       "composition": {
         "public_parts": [],
         "uses": [
-          "component.verification"
+          "component.verification",
+          "smart.help-mark"
         ]
       },
       "contract_schema": {
@@ -1320,7 +1515,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/input-code/smart.manifest.json",
-      "manifest_sha256": "4069c458b8fbf8aa94310c4e6fe687784a09fc8975851efe4b9be81186099406",
+      "manifest_sha256": "2d6cdc272f9b9a961b4d340f379cabbdfda5a02c8e832ab2835445a6546c8f84",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -1345,15 +1540,33 @@
       ],
       "composition": {
         "public_parts": [
-          "swatch",
+          "field",
+          "trigger",
           "chip",
           "text",
-          "swatches",
-          "preset"
+          "window",
+          "views",
+          "palette",
+          "options",
+          "option",
+          "recent",
+          "own",
+          "area",
+          "strip",
+          "code-row",
+          "copy",
+          "apply",
+          "dot"
         ],
         "uses": [
           "component.icons",
-          "smart.button-icon"
+          "component.inputs",
+          "smart.button",
+          "smart.button-copy",
+          "smart.button-icon",
+          "smart.help-mark",
+          "smart.icon",
+          "smart.segmented"
         ]
       },
       "contract_schema": {
@@ -1365,13 +1578,13 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/input-color/smart.manifest.json",
-      "manifest_sha256": "b0956be6d17e60c81be86d229528b918d2d32a9e1679f19d08da786b0add2337",
+      "manifest_sha256": "bf5f4f0af7ccdd0b3387d8df436ec5f4d28a945e16ee9e2703d4493e9965d5bc",
       "reuse_mode": "both",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
         "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
       },
-      "summary": "A colour control: a swatch that opens the platform picker, the colours a product already has as presets, and a way back to an inherited colour. Built as a general part because a colour is set in a theme, in a site look, on a label and on a chart series, not only on a record.",
+      "summary": "A colour field: a swatch, the value and a chevron that open the Framework's own compact window -- the static palette first, the product's own colours, recent own colours and «Своё» (shade area, eyedropper, hue and alpha strips, a hex code with «Применить») -- and a way back to an inherited colour. The value is a palette name or a code. Built as a general part because a colour is set in a theme, in a site look, on a label and on a chart series, not only on a record.",
       "tags": [
         "input",
         "color",
@@ -1389,7 +1602,8 @@
       "composition": {
         "public_parts": [],
         "uses": [
-          "component.country-code"
+          "component.country-code",
+          "smart.help-mark"
         ]
       },
       "contract_schema": {
@@ -1401,7 +1615,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/input-country/smart.manifest.json",
-      "manifest_sha256": "0a06d1b33d1a57ecbef1be9d935374aa0bfcc05642ccbc4ff07826f7d960e30c",
+      "manifest_sha256": "9bc4447162f0c88ea78accf1b426949538876419055eb8cb13fcb43b39bd9a0b",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -1431,6 +1645,7 @@
           "component.datepicker",
           "smart.button",
           "smart.button-icon",
+          "smart.drawer",
           "smart.icon",
           "smart.input"
         ]
@@ -1444,7 +1659,7 @@
       "kind": "composite",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/input-date/smart.manifest.json",
-      "manifest_sha256": "1afa38eeff30afd32110525882515424b32a2bcd8c0249e462b828f5bcfe4074",
+      "manifest_sha256": "94a923da16f6b8ca8f19bd27af080d957d93450568248f1bc21072a214267db1",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -1475,7 +1690,14 @@
         "public_parts": [],
         "uses": [
           "smart.button",
-          "smart.icon"
+          "smart.button-icon",
+          "smart.help-mark",
+          "smart.icon",
+          "smart.input",
+          "smart.menu-context",
+          "smart.modal",
+          "smart.progress-ring",
+          "smart.switch"
         ]
       },
       "contract_schema": {
@@ -1487,13 +1709,13 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/input-image/smart.manifest.json",
-      "manifest_sha256": "d2ef1f97f30c4f080c1af1b8aff2437f2b479e30ed8313abce5b6a775c14593e",
+      "manifest_sha256": "21c6e7611f1cdb3278a45f9570534021d0d1cffb77614d4d8139c4ec7b5fba62",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
         "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
       },
-      "summary": "A form field for one image: a thumbnail with the file name and size, «Заменить…» and «Убрать», a file dropped anywhere on it replaces the image; label, help, error, required, disabled and read-only as every field has them. It raises the chosen File; the host uploads it.",
+      "summary": "A form field for one image: a row (thumbnail, name and size, the buttons) or a preview (the picture in its frame, the row under it); a file chosen, dropped or pasted, or a picture from the page's library or an address; the upload core's checks with the reason under the field; the description and «Декоративная» inside the field, the frame and the focal point in a window over the page; label, help, error, required, disabled and read-only as every field has them. It raises the chosen File, or sends it through the page's uploader.",
       "tags": [
         "image",
         "file",
@@ -1524,7 +1746,9 @@
           "component.avatars",
           "component.icons",
           "smart.button",
-          "smart.button-close",
+          "smart.button-icon",
+          "smart.help-mark",
+          "smart.icon",
           "smart.spinner",
           "smart.tag"
         ]
@@ -1538,7 +1762,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/input-lookup/smart.manifest.json",
-      "manifest_sha256": "e301f8ca2d2eb5a35f78ba82b104ed290206279302c12f773c70449c11e2ac14",
+      "manifest_sha256": "02bbddb95cdaa4df347521f3e47ff2c822f4bb102ad0dc39659bfd41d1d3442b",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -1571,7 +1795,9 @@
         "uses": [
           "component.icon-buttons",
           "component.icons",
-          "component.quantity"
+          "component.inputs",
+          "component.quantity",
+          "smart.help-mark"
         ]
       },
       "contract_schema": {
@@ -1583,7 +1809,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/input-quantity/smart.manifest.json",
-      "manifest_sha256": "ad165ae0b23c43c301b9659c9789b88743ded0ead084ae143b5f3880b6c3e0f8",
+      "manifest_sha256": "ed1ffd3f8d8699cbef92d61904429912c398ec28bc80bc8da2f9344c3bee1ea9",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -1614,10 +1840,13 @@
       "composition": {
         "public_parts": [],
         "uses": [
+          "component.buttons",
           "component.icon-buttons",
           "component.icons",
           "smart.button",
+          "smart.help-mark",
           "smart.input",
+          "smart.menu-context",
           "smart.popover"
         ]
       },
@@ -1630,7 +1859,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/input-rich/smart.manifest.json",
-      "manifest_sha256": "07a4cd254bee1ccf7dac5c9f4ee099214458bf2774eddf6a8ae5a3c5b5821633",
+      "manifest_sha256": "11dc223d84d6edd4aac1f826ea18b5020dde3ef242433bebe04500c31d7752a1",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -1661,9 +1890,10 @@
           "hint"
         ],
         "uses": [
-          "component.icon-buttons",
           "component.icons",
-          "component.textarea"
+          "component.inputs",
+          "component.textarea",
+          "smart.help-mark"
         ]
       },
       "contract_schema": {
@@ -1675,7 +1905,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/input-textarea/smart.manifest.json",
-      "manifest_sha256": "9f3ce15238f805aa74d93d0a06b0c9a9d469b850050818a6df3b5d2bc02374fe",
+      "manifest_sha256": "c85d07ea01047f199cf18b5bc9c7e2aac9b8b1245a3571726a9bb9920d9c363d",
       "reuse_mode": "both",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -1700,7 +1930,11 @@
       "composition": {
         "public_parts": [],
         "uses": [
+          "component.link",
+          "component.tooltip",
+          "smart.button",
           "smart.button-icon",
+          "smart.dropdown",
           "smart.icon",
           "smart.menu-context",
           "smart.segmented"
@@ -1715,13 +1949,13 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/language/smart.manifest.json",
-      "manifest_sha256": "5a82709dfd3749a794eacf610e4d2c3a01fcec341ed5e00c2241f53852cdfa7c",
+      "manifest_sha256": "6661b51d41d09c10959601d20298784253d15a78dec4bfceda599ebcd98e138a",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
         "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
       },
-      "summary": "The site's language picker. Two or three languages are a segmented switch, all in sight, one press; four to seven an icon button («translate») with a menu, each row the name in itself and in English; eight and more the same menu with search by either name or the code. One language draws nothing. A choice is a cancellable change; then the element follows the language's href or applies the language to the page (SF.language.use, lang and dir on <html>).",
+      "summary": "The site's language picker. From two languages a button with the translate glyph, the current code and expand_more («RU ▾», one width whatever is chosen) opens a menu at the C32 panel width, each row the name in itself and its name in the page's language beside it; eight and more the same menu with search, on a phone a sheet at the bottom. A settings page can write mode=\"inline\" for a segmented switch (the arrows move, Enter chooses), a form mode=\"field\" for a dropdown field with its label; an app menu takes SfLanguage.menuEntry() for its «Язык» row. A language without this page stays, marked «нет перевода — откроется главная». One language draws nothing. A choice is a cancellable change; then the element follows the language's href or applies the language to the page (SF.language.use, lang and dir on <html>).",
       "tags": [
         "language",
         "locale",
@@ -1747,11 +1981,14 @@
       "composition": {
         "public_parts": [],
         "uses": [
+          "component.checkbox",
           "component.dropdown",
           "component.group-heading",
           "component.icon-buttons",
+          "component.icons",
           "smart.avatar",
           "smart.badge",
+          "smart.bulk-actions",
           "smart.button",
           "smart.empty-state",
           "smart.icon",
@@ -1769,7 +2006,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/list/smart.manifest.json",
-      "manifest_sha256": "cd5a69a4891eb7147bc4989b6a9e50fc5bf5aa6e27ee3c2423932ac691e57b76",
+      "manifest_sha256": "dbf32dbd0837750554be171bc01b4302b0f64718fe8d746e4d0f08286c6dd5ca",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -1813,7 +2050,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/list-attention/smart.manifest.json",
-      "manifest_sha256": "2fa0bbfa7822aa78c11ef1b01934c361634db86d1881deac8cf74cde253a9655",
+      "manifest_sha256": "1753d8772dcab3020bfb3556195934a4245fd71ab6e77f3da4b4f7c5e76cb22d",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -1859,7 +2096,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/list-description/smart.manifest.json",
-      "manifest_sha256": "cbda119528eb91caf3625aae2861655c44dd97eeb2a5aac464aff91564c9aead",
+      "manifest_sha256": "d79711bdc7bd466a57bb66208cd87718cb874d195ccb4752dfee9520536f401d",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -1888,8 +2125,11 @@
       "composition": {
         "public_parts": [],
         "uses": [
+          "component.group-heading",
           "smart.button",
-          "smart.button-icon"
+          "smart.button-icon",
+          "smart.empty-state",
+          "smart.time"
         ]
       },
       "contract_schema": {
@@ -1901,7 +2141,7 @@
       "kind": "composite",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/list-feed/smart.manifest.json",
-      "manifest_sha256": "98f2cb831dd295a5953cc5eb66a0a0b8d63880e9708618b459c701bc444ab72d",
+      "manifest_sha256": "4aabae254dfbc0e894b8483aa48bf6e7f3e17c272f2a59b384697454484e33e1",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -1948,7 +2188,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/list-item/smart.manifest.json",
-      "manifest_sha256": "2c8460c09d05f844f0973355f38e15d5ffe60183104ed836a996bb5b2bf03846",
+      "manifest_sha256": "15eb801f525a34c9cc2afa583493e562424cbc6520b19249439de53c9f5497ea",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -1990,13 +2230,13 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/list-timeline/smart.manifest.json",
-      "manifest_sha256": "0b2b0386ca0191f71c220aa5c68544c75c3d6cfbe7ff6f87a15c271cfdf21b9a",
+      "manifest_sha256": "51226eb042b3efbc835d42deec9e5fe915afaf2771a3c641bd1fa337ab423cd7",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
         "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
       },
-      "summary": "An activity timeline (C40): events on a vertical line, each a .sf-featured-icon marker toned by status (or a dot), the actor as sf-avatar and a bold name, the title, a field change through sf-change, one quiet line «sf-time · text», a comment in an outline; grouped by day under block list's heading, runs folded into «Ещё N», steps done/current/upcoming, a «Показать ещё» button and a quiet line when there are none. Density from the page, sizes 1/2, 1 and 2.",
+      "summary": "An activity timeline (C40): events on a vertical line, each a .sf-featured-icon marker toned by status (or a dot), the actor as sf-avatar and a bold name, the title, a field change through sf-change, one quiet line «sf-time · text», a comment in an outline; grouped by day under block list's heading, runs folded into «Ещё N», steps done/current/upcoming drawn with sf-steps' line, sub-events folded under a disclosure row, host content under an event (slot), a «Показать ещё» button and a quiet line when there are none. Density from the page, sizes 1/2, 1 and 2.",
       "tags": [
         "activity",
         "admin",
@@ -2040,7 +2280,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/menu/smart.manifest.json",
-      "manifest_sha256": "942335497c8c13696db2988a7c404ba4f04f62325bbd2b485ac7de4763eb8beb",
+      "manifest_sha256": "baac7d90d6ad08dc3ff38f1a5e73321a5e1c80500c36c6465be6d1eca77dc717",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -2066,10 +2306,13 @@
       "composition": {
         "public_parts": [],
         "uses": [
+          "component.avatars",
           "component.context-menu",
           "component.kbd",
           "smart.button",
           "smart.button-icon",
+          "smart.icon",
+          "smart.progress-bar",
           "smart.tabs"
         ]
       },
@@ -2082,7 +2325,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/menu-context/smart.manifest.json",
-      "manifest_sha256": "e584dedb6e5d746ad90e68600f2bbf6831da746e7a72b2571fede05e56cfed3e",
+      "manifest_sha256": "b479cf7078d8cd8bb8dfece7e7bb97879d3bd4024b6696196c121c43fecce3cb",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -2106,7 +2349,8 @@
         "uses": [
           "component.icon-buttons",
           "component.modal",
-          "component.spinner"
+          "component.spinner",
+          "smart.button-close"
         ]
       },
       "contract_schema": {
@@ -2118,7 +2362,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/modal/smart.manifest.json",
-      "manifest_sha256": "f099a43984d6bccb4b00ce5db2fde931c609fabebb5adbefd1f2e96fc69da37f",
+      "manifest_sha256": "02710f7744c175e487dac449668cbfbd46bf3dd005c005a0a3c6e3f681163370",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -2157,13 +2401,13 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/pager/smart.manifest.json",
-      "manifest_sha256": "a0b5b1161026e2027ddd1face362fd25fdceddecf178d52fc3991052c6c5227e",
+      "manifest_sha256": "477db0939e95696d46f773dc8856e1b7ce3f18918d445cd752118fe1b029d2df",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
         "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
       },
-      "summary": "Navigation to the neighbouring page or step by meaning: the previous and the next documentation page as two cards or one row of links, a wizard's Back and Next with its step track, a course's lesson dots and next lesson, or a record counter. Not list paging: sf-pagination keeps 1, 2, 3 ….",
+      "summary": "Navigation to the neighbouring document by meaning (decision C97): the previous and the next documentation page as two cards, the previous and the next article as one row of titles, or a record's place in its list («‹ 3 из 240 ›»). Not list paging: sf-pagination keeps 1, 2, 3 ….",
       "tags": [
         "pager",
         "navigation",
@@ -2189,12 +2433,16 @@
         "public_parts": [],
         "uses": [
           "component.pagination",
+          "smart.bulk-actions",
           "smart.button",
           "smart.button-icon",
           "smart.checkbox",
           "smart.dropdown",
+          "smart.icon",
           "smart.input",
           "smart.list-item",
+          "smart.menu-context",
+          "smart.progress-bar",
           "smart.spinner"
         ]
       },
@@ -2207,13 +2455,13 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/pagination/smart.manifest.json",
-      "manifest_sha256": "c3f41ab9c2d82205cf36f3d003057194154f8f42eb7b359841aa895861a3046b",
+      "manifest_sha256": "f9c1eb2702ab87529916b64579f5aea6d189262cd278166df3e27e933920ef08",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
         "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
       },
-      "summary": "Source-driven navigation for a collection split into numbered pages.",
+      "summary": "Page navigation for a collection split into pages, in five appearances: field (a dense table), numbers (sites, search), arrows (an unknown count), cursor (a cursor list) and more (Show more).",
       "tags": [
         "pagination"
       ],
@@ -2239,7 +2487,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/popover/smart.manifest.json",
-      "manifest_sha256": "3da978c7992a16936886abd4bb9c7950b53dcc74528d7a53ee5333acb404c8ac",
+      "manifest_sha256": "769f5fd384871734741a45c3e23e4ad54ee119847594219337e98766aca46288",
       "reuse_mode": "both",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -2265,7 +2513,11 @@
         "public_parts": [],
         "uses": [
           "smart.button",
-          "smart.icon"
+          "smart.button-icon",
+          "smart.drawer",
+          "smart.icon",
+          "smart.menu-context",
+          "smart.segmented"
         ]
       },
       "contract_schema": {
@@ -2277,19 +2529,19 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/profile-picker/smart.manifest.json",
-      "manifest_sha256": "d847bc605163b3e6a518a8f5c4599a7cbd091ae233bdac5eaee8b32e8bcc587e",
+      "manifest_sha256": "52765f5dcf0d3e3a9e41fd46ad23b1b00b96bae0976e0314f0b4718ea736bf77",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
         "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
       },
-      "summary": "One way to choose, make, rename, remove and reset a profile: a field-like button naming the profile in use, and a panel where every act happens inline. The profiles and the rights are the host's; the component says what was asked.",
+      "summary": "Settings profiles: one way to choose, make, rename, remove and reset a named set of settings -- an admin menu's rows, a record's view, a table's columns -- never an account or an organisation. The standard button names the profile in use, and a panel (a bottom sheet on a phone) is where every act happens. The profiles and the rights are the host's; the component says what was asked.",
       "tags": [
         "profiles",
         "views",
         "picker"
       ],
-      "title": "Profile picker"
+      "title": "Settings profiles"
     },
     {
       "backend_adapters": [],
@@ -2316,7 +2568,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/progress-bar/smart.manifest.json",
-      "manifest_sha256": "efc555911f615c7294435fcee9cbcc84f786f37abc1331cec8d411292c592581",
+      "manifest_sha256": "a0a5637e7942314f9f63158af5e2cfa131972e37342e2d9262b76add8b82fee1",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -2340,7 +2592,10 @@
       "composition": {
         "public_parts": [],
         "uses": [
-          "component.progress-ring"
+          "component.avatars",
+          "component.progress-ring",
+          "component.tooltip",
+          "smart.avatar"
         ]
       },
       "contract_schema": {
@@ -2352,7 +2607,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/progress-ring/smart.manifest.json",
-      "manifest_sha256": "94a447776334882933f0232721039e08ffa80d2363a86d4e349b216688fe4e8f",
+      "manifest_sha256": "b1072d32ca3f7216f047d09fec191e20428a11c213626219bb23b2a302dd2b23",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -2395,13 +2650,13 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/progress-run/smart.manifest.json",
-      "manifest_sha256": "8ef1803216371b9a51b48baddbb7634635dbaf0acf17043de826cc278373dd3d",
+      "manifest_sha256": "a5459fda65225906b68fd8ce962364652352ef51f0899b62d933ed84c0126062",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
         "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
       },
-      "summary": "A long job as a person sees it, in one of three looks (C34): full -- title and state badge, the overall bar with «N из M · %» and the time left, the counts as one line, the first errors, the steps with states, times and a log each, Pause/Continue, Cancel, Minimize, and once ended the summary with Retry and Hide; compact -- a table row's bar or badge; notice -- a corner panel's row. The host drives it; it polls nothing.",
+      "summary": "A long job as a person sees it, in one of three looks (C34): full -- title and state badge, the overall bar with «N из M · %» and the time left, the counts as one line, the first errors, the steps with states, times and a log each, Pause/Continue, Cancel, Minimize, and once ended the summary with Retry and Hide; row -- a table row's bar or badge; notice -- a corner panel's row. The host drives it; it polls nothing.",
       "tags": [
         "progress",
         "run",
@@ -2443,7 +2698,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/progress-scale/smart.manifest.json",
-      "manifest_sha256": "d80162c676e555a6a64a525839438bb27bfb8062a6d1e19b0c972444c558624a",
+      "manifest_sha256": "e423b2551f20728f030dc5b59bfa2166098daab2188ce5dd92a0bdef15bbc3a9",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -2484,7 +2739,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/radio/smart.manifest.json",
-      "manifest_sha256": "b145c81a18f8e59ddb51e03696c1b6bcd3d6ea2ab129e425b429183c23db386d",
+      "manifest_sha256": "69a08765ee12c84feeb720b1313c2479454adecc21389aeaa1152f9aacd64060",
       "reuse_mode": "both",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -2520,7 +2775,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/reference-link/smart.manifest.json",
-      "manifest_sha256": "ef1936e5b16b73dd823fed8207e1b5e321ec83de57318a55681f1b9b81d63557",
+      "manifest_sha256": "f5bfaec9eaeab4698c573e5f7250b286ef0d486c8c2bb501bec59ba7c7a9df19",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -2552,7 +2807,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/resizer/smart.manifest.json",
-      "manifest_sha256": "3c33d30a75126f461fb88aafae8f46e61d271235811caa50aff6cd07d7351f0b",
+      "manifest_sha256": "d9d0cf80676dfb0a36e47b154067ae1ce4d475915eeb60fac5d33b8cc0d7ac54",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -2583,7 +2838,15 @@
         "uses": [
           "component.icons",
           "component.kbd",
-          "smart.button-icon"
+          "smart.avatar",
+          "smart.badge",
+          "smart.button-icon",
+          "smart.empty-state",
+          "smart.icon",
+          "smart.spinner",
+          "smart.tag",
+          "smart.tag-group",
+          "smart.time"
         ]
       },
       "contract_schema": {
@@ -2595,7 +2858,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/search/smart.manifest.json",
-      "manifest_sha256": "1341042eb3f15528a876cc0ab74d9569508502c30d36bf321b22cab46722e9ec",
+      "manifest_sha256": "e833d8d0a8e031df1f16d8f23a43fd3007b5ee5cb4eb5c097a6ca914532c9830",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -2624,6 +2887,7 @@
         "uses": [
           "component.button-group",
           "component.spinner",
+          "smart.badge",
           "smart.button",
           "smart.dropdown",
           "smart.icon"
@@ -2638,7 +2902,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/segmented/smart.manifest.json",
-      "manifest_sha256": "fafb359215434d243e538c0a6307ad7322ed1045aef81491625deb57bf980603",
+      "manifest_sha256": "e9079bbfb0a0824ef498fa83f6a802f2b7379417b5997c131384713dd0043d71",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -2664,7 +2928,12 @@
       "composition": {
         "public_parts": [],
         "uses": [
-          "smart.menu-context"
+          "smart.button",
+          "smart.button-icon",
+          "smart.input-color",
+          "smart.menu-context",
+          "smart.switch",
+          "smart.tabs"
         ]
       },
       "contract_schema": {
@@ -2676,20 +2945,21 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/settings/smart.manifest.json",
-      "manifest_sha256": "af7b258fe05251c6a5d23a247de320aa250c915a9526e7323a6699f81f138419",
+      "manifest_sha256": "9ad6ba8964f27175535525900d31e8af724a7601593e46ac7fc792434278e949",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
         "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
       },
-      "summary": "Compact settings: a few settings a person changes on the spot, as data, each holding its own value, drawn by sf-menu-context in one of three looks -- drill (the value under the name, the options in the same panel), rows (the control at the row's end) or tiles (the switches used most as tiles on top). With a trigger it opens over the page; without one it stands in the page's flow. A change is asked first (cancellable), then written and reported; remember keeps the values for the person.",
+      "summary": "Compact settings: a few settings a person changes on the spot, as data, each holding its own value, drawn by sf-menu-context in one of two looks -- drill (the value under the name, the options in the same panel) or rows (the control at the row's end; a choice that does not fit beside its name drills by itself). With a trigger it opens over the page (a bottom sheet on a phone); without one it stands in the page's flow. A change is asked first (cancellable), then written and reported; remember keeps the values for the person. Where a product has a sign-in, the person's theme, language and text size are rows of the person menu (sf-menu-context, owner decision C176 (1)); sf-settings is the gear of a screen's view and of a site without a sign-in. The panel look (C106) draws a panel of its own for a list's view settings: sections or tabs, fields lists with a check, a handle, a pin and a search, applied at once or by «Применить».",
       "tags": [
         "settings",
         "preferences",
         "options",
         "quick-settings",
         "menu",
-        "switch"
+        "switch",
+        "panel"
       ],
       "title": "Settings"
     },
@@ -2718,7 +2988,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/skeleton/smart.manifest.json",
-      "manifest_sha256": "3dc11ad823295368a7bd4948cb3e92b4557856438ea53efe9c078758caf168b7",
+      "manifest_sha256": "9d3f35e6f15daa699d5d2547f56461f63c2c0d96fde65bb5e684e798bed557f6",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -2753,7 +3023,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/slider/smart.manifest.json",
-      "manifest_sha256": "0bb702989b4f7607a6a24703499a3124b015b8dea5e66f709bcd79d96e92a740",
+      "manifest_sha256": "598bd045bc7f95face5801ebefc6ca62a1f212a3cece84406d27ef5b4244d507",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -2787,13 +3057,13 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/slider-range/smart.manifest.json",
-      "manifest_sha256": "65d87984de033f099b4ec6223e62b5176a5afe8ea44da3cdeb2921ff2115d117",
+      "manifest_sha256": "f18411763bab33bc7ebfaef4069e81f7410f101e9b798d45eec589ee2dfc60dd",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
         "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
       },
-      "summary": "A slider for one number or a range of two on a track: drag, click or keys move a handle by step, the fill shows the chosen part, and the value can be shown as text or a tooltip on each handle.",
+      "summary": "A slider for one number or a range of two on a track, as a form field: a visible name above, drag, click or keys move a handle by step (PageUp/PageDown by ten), the value shown at the end of the name line, in a bubble while dragging, or in a from/to field beside the track; ticks and a scale on request; sizes 1/2, 1, 2; read-only and disabled.",
       "tags": [
         "slider-range"
       ],
@@ -2823,7 +3093,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/sortable/smart.manifest.json",
-      "manifest_sha256": "a1393f3645845d675ff1c5a7f33ee22355b7ec07af160ff2c201f3e2b21a62fc",
+      "manifest_sha256": "b0e89b7a744627ac93628213478a7a2e2a0b585e49dedc9ad1e138ba8d3e0255",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -2862,13 +3132,13 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/spinner/smart.manifest.json",
-      "manifest_sha256": "8a2c233cdb08c58d04cd7ecceaeda035fcaee6e767bf97d8a584d51652239328",
+      "manifest_sha256": "43989631c5c2afa62e9060a9ec9501f6ddd1d38e131259b582974304550ab34c",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
         "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
       },
-      "summary": "Indeterminate waiting indicator in one of four looks on the size ladder (arc, breathing, comet, dots), following the page's data-sf-spinner, with optional polite status announcement and Framework-owned motion.",
+      "summary": "Indeterminate waiting indicator, one look (the arc) on the size ladder, shown after a delay (1 s by default), in the place's quiet ink, with optional polite status announcement and Framework-owned motion.",
       "tags": [
         "spinner"
       ],
@@ -2887,7 +3157,9 @@
         "public_parts": [],
         "uses": [
           "component.icons",
-          "component.step"
+          "component.step",
+          "smart.progress-bar",
+          "smart.spinner"
         ]
       },
       "contract_schema": {
@@ -2899,13 +3171,13 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/steps/smart.manifest.json",
-      "manifest_sha256": "f12d76c659b05d9f966ea4487c332b005880b4d903718ea72642339c5737b43f",
+      "manifest_sha256": "eb1d42294c854adf72f9aa57090da77ce2332b99e3f78899965ea5524c51d3ea",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
         "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
       },
-      "summary": "A row of labelled step buttons, separated by an icon, for a multi-step process: marks the current, completed, skipped, running and error steps and moves to an enabled step when it is pressed.",
+      "summary": "Where a person is in an ordered process of their own: a list of steps, each a marker (number or dot) and a label joined by a progress line, drawn as a row, a column or a «Step N of M» line by its own width. Passive by default; navigation makes the reachable steps buttons.",
       "tags": [
         "steps"
       ],
@@ -2927,8 +3199,8 @@
           "description"
         ],
         "uses": [
-          "component.icon-buttons",
           "component.icons",
+          "component.inputs",
           "component.switch",
           "smart.help-mark"
         ]
@@ -2942,7 +3214,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/switch/smart.manifest.json",
-      "manifest_sha256": "d307c35d88cbc7385d21e2cc158448a762cfa1bc8d073f927b38af217014a15f",
+      "manifest_sha256": "fd06bb2fd808381bee617822e4797886be8c65b0a7517054b8e911d5f6328bec",
       "reuse_mode": "both",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -2966,10 +3238,13 @@
       "composition": {
         "public_parts": [],
         "uses": [
+          "component.badges",
           "component.tabs",
+          "component.tooltip",
           "smart.button",
           "smart.button-icon",
           "smart.checkbox",
+          "smart.icon",
           "smart.menu-context",
           "smart.sortable"
         ]
@@ -2983,7 +3258,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/tabs/smart.manifest.json",
-      "manifest_sha256": "3d761425c594f5663f6871d812cc238b70e9932e6d3b06f8d35553114cd8d6a3",
+      "manifest_sha256": "c5f3084dafe32c96256d47277566972752b0469fcdae24936cb972008b095f83",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -3008,9 +3283,11 @@
         "public_parts": [],
         "uses": [
           "component.avatars",
+          "component.badges",
           "component.dot",
           "component.icon-buttons",
           "component.tags",
+          "component.tooltip",
           "smart.button-close",
           "smart.icon"
         ]
@@ -3024,7 +3301,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/tag/smart.manifest.json",
-      "manifest_sha256": "139249f6bff09b5f03ea947e2841a07139778eded2607d9739505438f5e23d37",
+      "manifest_sha256": "40ae98d3742720e86df003c8352ffcb3b9d1019b24e178a5dc929eac8753e6a0",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -3035,6 +3312,49 @@
         "tags"
       ],
       "title": "Tags"
+    },
+    {
+      "backend_adapters": [],
+      "capabilities": [
+        "render",
+        "interaction",
+        "theme",
+        "i18n",
+        "responsive",
+        "accessibility"
+      ],
+      "composition": {
+        "public_parts": [],
+        "uses": [
+          "smart.popover",
+          "smart.tag"
+        ]
+      },
+      "contract_schema": {
+        "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+        "version": 2
+      },
+      "custom_element": "sf-tag-group",
+      "id": "smart.tag-group",
+      "kind": "smart",
+      "lifecycle": "experimental",
+      "manifest_path": "src/smart/tag-group/smart.manifest.json",
+      "manifest_sha256": "452cb0c77d659ea94a80e302b95ce323d90d404d6101354c03b28c4d4eb59867",
+      "reuse_mode": "whole",
+      "runtime_pair": {
+        "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
+        "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
+      },
+      "summary": "A row of tags: 4 apart, a list to a screen reader, one Tab stop with arrows and Delete, one line with «+N» that opens the hidden tags in a popover, and single or multiple choice for filter tags.",
+      "tags": [
+        "tag",
+        "tags",
+        "group",
+        "chips",
+        "filters",
+        "overflow"
+      ],
+      "title": "Tag group"
     },
     {
       "backend_adapters": [],
@@ -3063,13 +3383,13 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/theme-generator/smart.manifest.json",
-      "manifest_sha256": "20eb94986ba7dd35dee79f54f35483607f791ddac2d230014fb1510d53e97bd4",
+      "manifest_sha256": "0c1d2e570cb65ec2cbc94bddf75be88e13e8b316b9c210b43e812ead9c34fc02",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
         "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
       },
-      "summary": "A theme from one colour: the main colour, the generator's own hue and chroma, a preview of the eight palettes and a way back to SIMAI Framework's colour; it stores nothing and changes the page only with apply.",
+      "summary": "Leaving until 2027-01-01 (C84): use sf-input-color variant=\"brand\". A theme from one colour: the main colour, the generator's own hue and chroma, a preview of the four theme palettes and a way back to SIMAI Framework's colour; it stores nothing and changes the page only with apply.",
       "tags": [
         "theme",
         "color",
@@ -3104,7 +3424,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/tile-metric/smart.manifest.json",
-      "manifest_sha256": "29b5e478d3a3f930dc6d9ab296fc90b3d1a881c38b95b8a15d2a8381048f54c0",
+      "manifest_sha256": "67c863d073525ae99239c4eb07c8043066ac6c8f9e794dfd81294d9a89123d9a",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -3146,13 +3466,13 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/time/smart.manifest.json",
-      "manifest_sha256": "5e2f751e6ca034e1635b8814889b945610632ccac47cddd98ccacef518eb191b",
+      "manifest_sha256": "5e46c4610b98550928d8e0d9aea7c890abd50ff5529eb6e72e6760c8366591b1",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
         "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
       },
-      "summary": "A moment as the place needs it: today the time, yesterday «вчера, 19:40», then the date, relative within the first hour, with the full date and time in a tooltip on hover and keyboard focus, inside a time element. The words are core's SF.format; the element draws itself again while relative and at midnight.",
+      "summary": "A moment as the place needs it: today the time, yesterday «вчера, 19:40», tomorrow «завтра, 10:00», then the date, relative within the first hour («только что» under a minute), with the full date, time and zone in a tooltip on hover and keyboard focus, inside a time element; in a list or a feed no Tab stop, the moment in the row's text. The words are the platform's (Intl) in the page language; the element draws itself again when its words change, on one timer for the page.",
       "tags": [
         "time",
         "date",
@@ -3188,7 +3508,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/toast/smart.manifest.json",
-      "manifest_sha256": "ec981110bcd8d64fc45bfddddb9d537f9c82fc579eaff9317d52b4132ec341f8",
+      "manifest_sha256": "00cbb99c02fec13778ede9a8c03f8bf5ce7ba5cc2e129d31507b5b57d3a76ecf",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -3224,7 +3544,7 @@
       "kind": "smart",
       "lifecycle": "released",
       "manifest_path": "src/smart/tooltip/smart.manifest.json",
-      "manifest_sha256": "4671995ecdead18f6c51d813fe21fc1c4c634c434be3cda8d21093e3eb400075",
+      "manifest_sha256": "b37c55d5237cef1fc51c6cbf208d8ab7a96ac9fcd1bf326c35251b5ce89696ac",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -3248,8 +3568,11 @@
       "composition": {
         "public_parts": [],
         "uses": [
+          "component.checkbox",
           "component.icon-buttons",
           "component.icons",
+          "component.spinner",
+          "component.tooltip",
           "component.tree",
           "component.tree-item",
           "smart.tree-item"
@@ -3264,7 +3587,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/tree/smart.manifest.json",
-      "manifest_sha256": "f921dbefc3337e62f5db6782e6bcce8b3f0e123a0d86c6368d5b49c4963479fe",
+      "manifest_sha256": "062673a06ff1f8e88f7b380bcc83fcad67033c1c1b01d45eb640a4c496217d34",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -3302,7 +3625,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/tree-item/smart.manifest.json",
-      "manifest_sha256": "9939690917a40471f0e6aa18442bbc8e974aa8aa7b4fb4b9687127f580472b0c",
+      "manifest_sha256": "ce8267aeb13d093ad70631a6b87e8cc33db95d268b43a95b74d461b6c01f25b7",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
@@ -3330,7 +3653,7 @@
           "component.scrollbar",
           "smart.alert",
           "smart.button",
-          "smart.confirm",
+          "smart.drawer",
           "smart.icon",
           "smart.modal",
           "smart.progress-bar",
@@ -3348,13 +3671,13 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/wizard/smart.manifest.json",
-      "manifest_sha256": "34135ed5e683ead7f3826e494b6451dc793f4eff0e619888514dac22d79a40ea",
+      "manifest_sha256": "0eeaf258515aca37811bb6139ba2538086abee484504f57f09a1eb197f70abac",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
         "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
       },
-      "summary": "The universal step-by-step wizard: a frame of sf-wizard-step children with the progress on top (a row up to 7 steps, «Шаг 4 из 12» and a bar above, a column inside the frame as an option, the current step and a bar on a phone), the step's title, «why» and body, and one footer: Back, Skip, one primary action. Step types info, form, action, review, result; states not started, done, skipped, running, error; navigation linear, free or visited; places inline, modal and pages (the server's page per step, its form posting). Continue later, a question before closing with unsaved input, and one value of all answers.",
+      "summary": "The universal step-by-step wizard: a frame of sf-wizard-step children with the progress on top (a row up to 7 steps, «Шаг 4 из 12» and a bar above, a column inside the frame as an option, the current step and a bar on a phone), the step's title, «why» and body, and one footer: Back, Skip, one primary action. Step types info, form, action, review, result; states not started, done, skipped, running, error; navigation linear, free or visited; places inline, modal (36rem, wide with the column), drawer (a side panel 30rem) and pages (the server's page per step, its form posting). The wizard's name is the page's or window's title (h4), the step's title one step under it (h5); on a phone a window takes the screen with the footer at its bottom. The draft is kept by the wizard itself, closing is continue later, and one value of all answers.",
       "tags": [
         "wizard",
         "steps",
@@ -3385,7 +3708,7 @@
       "kind": "smart",
       "lifecycle": "experimental",
       "manifest_path": "src/smart/wizard-step/smart.manifest.json",
-      "manifest_sha256": "7b19a2e4c5b778e1b38f0da2a8c110bbc474493c4ab62907d985118c232e834a",
+      "manifest_sha256": "716b0bcf4e82a0a3e83c5e4a7b052c65d91083b09f7bf0cc1ea65604c693446e",
       "reuse_mode": "whole",
       "runtime_pair": {
         "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",

@@ -49,7 +49,7 @@ const BADGES = [
 const COLUMNS = [
   {key: 'title', label: 'Страница', role: 'title', visible: true},
   {key: 'slug', label: 'Адрес', visible: true},
-  {key: 'publication', label: 'Публикация', property_type: 'choices', variant: 'badges', options: BADGES, visible: true},
+  {key: 'publication', label: 'Публикация', property_type: 'choices', template: 'badges', options: BADGES, visible: true},
 ];
 // No actions column: a page has a dozen actions (each language's publication
 // among them), which belong in the row menu, not in a row of buttons.

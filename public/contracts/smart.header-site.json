@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.header-site",
-  "version": "1.8.3",
+  "version": "1.15.0",
   "title": "Site header",
   "summary": "The top bar of a SIMAI site: brand, navigation, actions and tools in one row on the container's width, collapsing below a Framework breakpoint into a menu button that opens the navigation and actions as a side panel in the shared layer stack. Every SIMAI site uses it: the effects catalogue, Docara documentation sites and the simai.io hub.",
   "kind": "smart",
@@ -29,6 +29,7 @@
   "exported_parts": [],
   "composition": {
     "uses": [
+      "smart.button-close",
       "smart.button-icon",
       "smart.icon"
     ],
@@ -55,14 +56,24 @@
       "collapse": {
         "type": "string",
         "default": "lg",
-        "description": "Below this Framework breakpoint (sm 32rem, md 44rem, lg 60rem, xl 72rem) the nav and the actions leave the bar for the side panel and the menu button appears; always: the panel at every width; none: never. A media rule, so the first paint is right without the script",
+        "description": "Below this step of the bar's own width (sm 32rem, md 44rem, lg 60rem, xl 72rem: the screen breakpoints' places on the container ladder, C181) the nav and the actions leave the bar for the side panel and the menu button appears; always: the panel at every width; none: never. A container condition of the sheet, so the first paint is right without the script, and a bar narrower than the window collapses with its nav. auto (owner decisions C371, C372): the bar measures its own row at every width and gives way in one order -- first the tools that can (sf-button shrink=\"icon\" draws its glyph only), then the nav's sf-menu (overflow more) moves its sections one by one into «Ещё», and the menu button and the panel only when not even one section and «Ещё» fit; each width change is decided before the paint, in one step. Before its code the sheet draws auto as md; with it the bar measures itself before its first paint (host state data-fitted says it has)",
         "enum": [
           "none",
           "sm",
           "md",
           "lg",
           "xl",
+          "auto",
           "always"
+        ]
+      },
+      "menu-placement": {
+        "type": "string",
+        "default": "inline-start",
+        "description": "The side of the collapsed bar's menu button and of its side panel (C104): inline-start, the button first in the bar and the panel from the start edge; inline-end, the button last, after the tools, and the panel from the end edge. The two always share a side; a right-to-left page mirrors both",
+        "enum": [
+          "inline-start",
+          "inline-end"
         ]
       },
       "sticky": {
@@ -107,7 +118,7 @@
   "contracts": {},
   "methods": {
     "open": {
-      "summary": "Opens the side panel; refused while the bar is not collapsed, or when a page cancels sf-site-header-open",
+      "summary": "Opens the side panel; refused while the bar is not collapsed, or when a page cancels sf-header-site-open",
       "arguments": [],
       "returns": {
         "type": "object",
@@ -115,7 +126,7 @@
       }
     },
     "close": {
-      "summary": "Closes the side panel; refused when it is closed already or a page cancels sf-site-header-close",
+      "summary": "Closes the side panel; refused when it is closed already or a page cancels sf-header-site-close",
       "arguments": [
         {
           "name": "args",
@@ -357,29 +368,29 @@
     "source_artifacts": [
       {
         "path": "src/smart/header-site/index.js",
-        "sha256": "df2b46f5832edce6b3e8c99f9367e7d0c7b9844529a1223ffcfdfc54a184cfe6"
+        "sha256": "4134d2880a107ac70425b2976da0c810bcdd37c9f053c808066481f3d5f1f60b"
       },
       {
         "path": "src/smart/header-site/js/templates/default.js",
-        "sha256": "99f489890f88bb5bf6de00da38e1a35ac327bdac4f710fc8d64c25216341e3ee"
+        "sha256": "ac4c7c96180e4e7dc8cc63d493b778aec6b69574d0acc2c2595e70294af199b9"
       },
       {
         "path": "src/smart/header-site/scss/_smart__site_header.scss",
-        "sha256": "04e7520163a05b603ebcce83bb732a3c66f536b4a2bde1f6e69cdf90856e33d5"
+        "sha256": "93939c8b0ab9add83d8d32368635cca28abc7f27a10f3a7c5586a0bc184812c0"
       },
       {
         "path": "src/smart/header-site/rule.js",
-        "sha256": "4a1c878751674ecb6698b52cc5f96c4bd25481ae98a75550a39f3ef2422d99db"
+        "sha256": "d9cd4f35e29ce83a01f887263bf8f51db04442a07d0a8458260a350133c25472"
       },
       {
         "path": "src/smart/header-site/docs.md",
-        "sha256": "cf81155a8e39a6e4e80c14af232d99ebc059657540be5d26f10d56959bcde439"
+        "sha256": "057a10678357e563dd49cdc2ba5394f3a0f1f90202b6f76a0e3cdb5b1c3f48b5"
       }
     ],
     "generated_runtime": []
   },
   "ai_guidance": {
-    "use_when": "Use sf-header-site as the top bar of every public SIMAI site: brand, navigation, actions and tools, with a side panel on a narrow screen.",
+    "use_when": "Use sf-header-site as the top bar of every public SIMAI site: brand, navigation, actions and tools, with a side panel on a narrow screen. An app with a side menu (admin, SIMAI Pro, mail) has no top bar: its pages use sf-header-page.",
     "do_not": [
       "Do not draw a header of your own on a SIMAI site",
       "Do not set the bar's colours, height or gutters per site; a product sets --sf-container-gutter once for the page",

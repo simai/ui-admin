@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.segmented",
-  "version": "1.6.0",
+  "version": "1.8.2",
   "title": "Segmented control",
   "summary": "A controlled single-selection group built from SF5 buttons.",
   "kind": "smart",
@@ -28,6 +28,7 @@
     "uses": [
       "component.button-group",
       "component.spinner",
+      "smart.badge",
       "smart.button",
       "smart.dropdown",
       "smart.icon"
@@ -110,7 +111,7 @@
       "scheme": {
         "type": "string",
         "default": "primary",
-        "description": "Colour scheme for the selected button of the buttons look, and for the plate on the track when plate is scheme.",
+        "description": "Colour scheme for the selected button of the buttons look, and for the plate on the track when plate is scheme. On the buttons look secondary draws as on-surface, the sf-button name for it (C116).",
         "enum": [
           "primary",
           "secondary",
@@ -174,6 +175,16 @@
         "type": "boolean",
         "default": false,
         "description": "Disables the whole group."
+      },
+      "invalid": {
+        "type": "boolean",
+        "default": false,
+        "description": "The shown invalid state: the group's edge in the error role (the track's outline, or the buttons' frame) and aria-invalid on the radio group."
+      },
+      "error-message": {
+        "type": "string",
+        "default": "",
+        "description": "The text shown under the control while it is invalid, in the error colour: what is wrong, as every field of the family says it (sf-input, sf-input-choice); the native control is described by it. Nothing is drawn without invalid."
       },
       "value": {
         "type": "string",
@@ -496,7 +507,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/segmented/index.js",
-        "sha256": "c7d6a5c42e267c68a21625121183fba2fa19144122c168058f386715b2a9903a"
+        "sha256": "31c007a77f6f5cf907c0b2bb2ccc1ee2950c472d2f60359a7f6ec960b8b375bd"
       }
     ],
     "generated_runtime": []

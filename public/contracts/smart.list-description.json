@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.list-description",
-  "version": "1.1.1",
+  "version": "1.4.0",
   "title": "Description list",
   "summary": "A description list: facts as label and value rows (a site summary, server facts, a record's card with sections, a record's header, a job's parameters, licence details). The labels stand in one column for the whole record and go over their values on a phone; a value can be monospace, figures, a link, copied with a button, a badge, carry a status, a hint and an action; a label a help mark; a section a title and an action; a long value wraps or is cut with the whole of it on demand; an empty one says «Не указан». layout grid is a summary in up to four columns.",
   "kind": "smart",
@@ -74,7 +74,7 @@
       "layout": {
         "type": "string",
         "default": "auto",
-        "description": "columns: the labels in a column of their own (as wide as the longest label, up to --sf-list-description-label-width), the values beside them; stacked: each label over its value; auto: columns, stacked in a column narrower than 24rem (a phone); grid: the summary under a record's heading -- each label over its value, as many columns as fit at 11rem each and at most columns, every value on one line with an ellipsis and its whole text as title",
+        "description": "columns: the labels in a column of their own (as wide as the longest label, up to --sf-list-description-label-width), the values beside them; stacked: each label over its value; auto: columns, stacked in a column of 20rem or narrower (a 20rem side panel) and on a phone (below md), beside from a 24rem side panel up (owner decision C180 (3)); grid: the summary under a record's heading -- each label over its value, as many columns as fit at 11rem each and at most columns, every value on one line with an ellipsis and its whole text as title",
         "enum": [
           "auto",
           "columns",
@@ -121,7 +121,7 @@
       "items": {
         "type": "array",
         "default": [],
-        "description": "The facts in order, each {label, value, id?, hint?, mono?, numeric?, copy?, href?, status?, badge?, help?, empty?, action?}, and section items {type: \"section\", label, id?, action?} that open a section of the record (decision C33). A property, or the JSON island a server prints. value is text (a number is written as it is, in figures of one width); an empty value (no text and no badge) shows empty (the item's words) or empty-text, and then no link, no copy button and no status are drawn. mono writes the value in the monospace face (a path, a hash, a key), numeric in figures of one width (a sum), copy adds a button that copies it (always shown), href makes it a link, status puts a status icon before it (success, warning, error, info; neutral or none draws nothing; none with a badge, the badge is the one mark), badge draws an sf-badge on the value's line ({text, status | scheme, icon?}), hint is a line under it, help puts a help mark (sf-help-mark) after the label, action one ghost button after the value -- an empty value's «Указать» too ({label, event?, href?}; a press asks apply, or navigate with href). A section's label is its title, a heading at heading-level, its action stands at the head's end. Every label of a record with sections shares one column. An item without a label is left out"
+        "description": "The facts in order, each {label, value, id?, hint?, mono?, numeric?, copy?, href?, status?, badge?, help?, empty?, action?, slot?}, and section items {type: \"section\", label, id?, action?} that open a section of the record (decision C33). A property, or the JSON island a server prints. value is text (a number is written as it is, in figures of one width), or set through the property a DOM node or a lit drawing (a field template's place Показ, C302) drawn in the value cell, its words what copy copies; slot names a slot of the element whose content, the host's own drawing of the value, stands in the value cell in place of the text (value stays the text copy copies and a cut value's title; a drawn value has no href link; without the slot's content the text is drawn); an empty value (no text and no badge) shows empty (the item's words) or empty-text, and then no link, no copy button and no status are drawn. mono writes the value in the monospace face (a path, a hash, a key), numeric in figures of one width (a sum), copy adds a button that copies it (always shown), href makes it a link, status puts a status icon before it (success, warning, error, info; neutral or none draws nothing; none with a badge, the badge is the one mark), badge draws an sf-badge on the value's line ({text, status | scheme, icon?}), hint is a line under it, help puts a help mark (sf-help-mark) after the label, action one ghost button after the value -- an empty value's «Указать» too ({label, event?, href?}; a press asks apply, or navigate with href). A section's label is its title, a heading at heading-level, its action stands at the head's end. Every label of a record with sections shares one column. An item without a label is left out"
       }
     },
     "additionalProperties": false
@@ -283,15 +283,15 @@
     "source_artifacts": [
       {
         "path": "src/smart/list-description/index.js",
-        "sha256": "dcb4cd355eded80b701f9d2706d8fd828d2bd1d23e6bc5421dc3cb154e26adc4"
+        "sha256": "fa4e0f838b6acf28eea58cb2c7a9d10e2759c6516d5893fe0e2071b252336fd0"
       },
       {
         "path": "src/smart/list-description/js/templates/default.js",
-        "sha256": "68b032c97ec1bc7ddb69aea2c55ec36cc1f49f8f148b451b682ba30cae49f30a"
+        "sha256": "f7d30faf15125e67f4f73d6dfe0a73c5d8f147654aee892b3c820428e9e50bda"
       },
       {
         "path": "src/smart/list-description/scss/_smart__list-description.scss",
-        "sha256": "1bb65ee1ab1458977d39f61780bb1c3a17d18af250fb292753627710395929fb"
+        "sha256": "d55d3f19043fc1028a3ab34e72346d858404604e6f4baa4cff205eae9170fbd2"
       },
       {
         "path": "src/smart/list-description/rule.js",
@@ -299,7 +299,7 @@
       },
       {
         "path": "src/smart/list-description/docs.md",
-        "sha256": "df9e2cd64714cde1012be233afc1a904a036855d504c17534f21dd3da13ebd24"
+        "sha256": "eda26676852c361a5c2c9b7d8560c41c9282d56603d4e12cf3ea26f8a84ede1d"
       }
     ],
     "generated_runtime": []

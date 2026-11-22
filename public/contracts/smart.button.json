@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
   "id": "smart.button",
-  "version": "1.13.0",
+  "version": "1.18.1",
   "title": "Buttons",
-  "summary": "A native button with Framework presentation: size, appearance, colour role or status, optional start and end icons, height and radius. loading sets aria-busy and disables it against repeated activation.",
+  "summary": "A native button with Framework presentation: size, appearance, colour role or status, optional start and end icons, height and radius. loading sets aria-busy and disables it against repeated activation. Attributes it does not own go to the inner control; a `data-*` is moved there, not copied (the host is display: contents and has no box): select the inner button by it (`[data-action]`, `closest('sf-button')` for the host), and read what was written on the host with `element.dataAttributes`.",
   "kind": "smart",
   "reuse_mode": "whole",
   "lifecycle": "experimental",
@@ -23,9 +23,13 @@
   "composition": {
     "uses": [
       "component.buttons",
+      "component.icon-buttons",
       "component.kbd",
       "component.spinner",
-      "smart.icon"
+      "component.tooltip",
+      "smart.button-icon",
+      "smart.icon",
+      "smart.menu-context"
     ],
     "public_parts": [],
     "declarative": {
@@ -52,6 +56,8 @@
         "spacing",
         "radius",
         "full-width",
+        "overflow",
+        "max-width",
         "loading",
         "disabled",
         "native-type",
@@ -63,10 +69,12 @@
         "rel",
         "shortcut",
         "shortcut-listen",
+        "shrink",
         "expanded",
         "pressed",
         "text-pressed",
         "theme-cycle",
+        "split",
         "aria-label"
       ],
       "presentation": {
@@ -130,22 +138,21 @@
       "appearance": {
         "type": "string",
         "default": "default",
-        "description": "How the button looks: default (filled), tonal, outline, ghost (no fill or edge until hovered; rule C15) or surface (a faint fill on the neutral alpha ramp and a border). link is ghost's former name; a link is made by href, not by the look.",
+        "description": "How the button looks: default (filled), tonal, outline or ghost (no fill or edge until hovered; rule C15), or plain (no fill or edge in any state, the box is its content: a quiet text tool next to text or fields; its label takes ghost's ink and a line under the label on hover, press, an open menu and keyboard focus, as a link in a menu or a navigation, C186; the plain look of an icon button, C201). link is ghost's former name; a link is made by href, not by the look. surface is a former name until 2027-01-01 (rule C116): it draws as the soft grey button, tonal with the on-surface scheme (C113), and warns once per page. A danger button is default, outline or ghost: tonal and surface with status danger draw as outline until 2027-01-01.",
         "enum": [
           "default",
           "tonal",
           "outline",
           "ghost",
-          "surface"
+          "plain"
         ]
       },
       "scheme": {
         "type": "string",
         "default": "primary",
-        "description": "Which colour family the control takes. on-surface-variant is the on-surface family one step quieter: the fill and the edge of on-surface, the label and the icons in --sf-on-surface-variant (a search trigger that reads like a field). With appearance surface on-surface-variant is retired (1.11.0, as on the icon buttons, C15): it draws as on-surface until 2027-01-01 and warns once. What the control is about is the status axis; a status set there wins over this.",
+        "description": "Which colour family the control takes. on-surface-variant is the on-surface family one step quieter: the fill and the edge of on-surface, the label and the icons in --sf-on-surface-variant (a search trigger that reads like a field). secondary is a former name until 2027-01-01 (rule C116): it draws as on-surface and warns once per page; the secondary colour stays in core for badges, tabs and segments. What the control is about is the status axis; a status set there wins over this.",
         "enum": [
           "primary",
-          "secondary",
           "on-surface",
           "on-surface-variant"
         ]
@@ -153,7 +160,7 @@
       "status": {
         "type": "string",
         "default": "",
-        "description": "What the control is about (rule C13): danger, a control that deletes, discards or cannot be undone. It paints with the error roles -- the red of an error -- and behaves exactly like a primary control. error is its former name on a control.",
+        "description": "What the control is about (rule C13): danger, a control that deletes, discards or cannot be undone. It paints with the error roles -- the red of an error -- and behaves exactly like a primary control. error is its former name on a control. danger is the only status of a button (rule C116): there are no success, warning or info buttons; another word draws no status and warns once per page.",
         "enum": [
           "",
           "danger"
@@ -261,6 +268,20 @@
         "default": false,
         "description": "The control fills its container, as sf-segmented's full-width does, and its content stays in the middle; without it the button is as wide as its content (owner decision C36). The height does not change."
       },
+      "overflow": {
+        "type": "string",
+        "default": "wrap",
+        "description": "What a label longer than the button may be does (owner decision C301 (2); the values of sf-list-description's overflow): wrap (the default) keeps the label whole as before; truncate keeps it on one line and cuts it with an ellipsis at max-width, or at the width the container gives, whichever is less, the icons, the menu arrow and the keys keeping their size. While the label is cut, hover and keyboard focus show the whole label (the host's title when the page wrote one) in the Framework's tooltip, and the browser's own title tooltip is not drawn over it; the accessible name stays the whole label. A label that fits draws no tooltip.",
+        "enum": [
+          "wrap",
+          "truncate"
+        ]
+      },
+      "max-width": {
+        "type": "string",
+        "default": "",
+        "description": "With overflow=\"truncate\": the widest the button grows before its label is cut, a CSS length (rem, vw, a min() of them, or var(--sf-...)); it wins over the public variable --sf-button-max-width, which a page may set on the button or an ancestor instead. Empty: that variable, else the container's width. A value with ; { } < > \" or \\ is ignored."
+      },
       "loading": {
         "type": "boolean",
         "default": false,
@@ -321,6 +342,15 @@
         "default": false,
         "description": "The button listens to its shortcut on the page and is pressed by it, as by a click. A combination without mod, ctrl, alt or meta is not heard while focus is in an editable field"
       },
+      "shrink": {
+        "type": "string",
+        "default": "none",
+        "description": "How the button gives way when the bar it stands in asks it to (owner decision C370): icon, its glyph only -- a square of its height, ghost -- keeping its name (its text, unless aria-label names it), its aria-keyshortcuts and the Framework's tooltip with its text and keys («Поиск ⌘K», C160); none, never. sf-header-site collapse auto asks first, before its nav gives way (C372), by the host state data-shrunk; a button needs an icon to give way to",
+        "enum": [
+          "none",
+          "icon"
+        ]
+      },
       "expanded": {
         "type": "boolean",
         "default": false,
@@ -329,7 +359,7 @@
       "pressed": {
         "type": "boolean",
         "default": false,
-        "description": "Whether this toggle button is on: aria-pressed on the inner button and the pressed look -- the primary container fill, its ink, no visible edge and the icon filled (rule C12); pressed=\"false\" says off; absent, the button is not a toggle and nothing is said"
+        "description": "Whether this toggle button is on: aria-pressed on the inner button and the pressed look -- the primary container fill, its ink, no visible edge and the icon filled (rule C12), on a toggle: outline or ghost in the neutral scheme (owner decision C211 (1)), and a filled (default) button of any scheme at its scheme's pressed step, its own ink and the icon filled (owner decision C309 (2)); another look keeps its own with aria-pressed and the console says once that it is no toggle; one choice among several is sf-segmented. pressed=\"false\" says off; absent, the button is not a toggle and nothing is said"
       },
       "text-pressed": {
         "type": "string",
@@ -340,6 +370,11 @@
         "type": "string",
         "default": "",
         "description": "A ready theme switch over SF.Loader's theme (the contract of sf-segmented's theme-switch: themePreference, setTheme, sf-theme-change). Present and empty: three values, «as the system», light and dark, in the owner's order -- first the theme opposite to the visible one, then the other, then «as the system» (rule D11d); \"light dark\": two values, every press flips the visible theme. The icons are contrast, light_mode and dark_mode; the words are the page language's («Тема: светлая. Нажмите — тёмная»). cycle is ignored beside it."
+      },
+      "split": {
+        "type": "boolean",
+        "default": false,
+        "description": "With menu: a split button (owner decision C119) -- the label part acts (press) and a square arrow part of the same height, named «Другие варианты: <label>», opens the menu end-aligned under it. Two tab stops; on the arrow Enter, Space and ArrowDown open the menu on its first row, ArrowUp on its last, Escape closes it and returns focus to the arrow. The parts are joined as a button group: inner corners square, a 1 px seam. The main look (default primary) and the regular one (outline) only; another look or a danger button draws as a menu button with one console warning. The main action is not repeated in the menu. Without menu entries split is a plain button."
       },
       "aria-label": {
         "type": "string",
@@ -355,7 +390,7 @@
           "tonal",
           "outline",
           "ghost",
-          "surface"
+          "plain"
         ]
       },
       "icon-left": {
@@ -419,6 +454,11 @@
             }
           ]
         ]
+      },
+      "menu": {
+        "type": "array",
+        "default": [],
+        "description": "The entries of the menu this button opens (owner decision C119), shaped as sf-menu-context's entries: {id, text, icon?, caption?, shortcut?, disabled?, status?} and its separators and headings. With menu alone the button is a menu button: a press opens the menu instead of sending press, the button says aria-haspopup=\"menu\" and aria-expanded, and draws expand_more at its end unless icon-end is written. A chosen row sends select {id, entry}. Left out on a link (href) and beside a cycle, with one console warning."
       }
     },
     "additionalProperties": false
@@ -587,6 +627,32 @@
         },
         "additionalProperties": true
       }
+    },
+    "sf-button-select": {
+      "summary": "A row of the menu (menu, split) was chosen; the menu has closed and focus is back on the control that opened it. Dispatched on the host, bubbles and is composed. The menu's own sf-menu-context-select stays inside.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "id",
+          "entry"
+        ],
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "entry": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "The chosen entry as given in menu."
+          }
+        },
+        "additionalProperties": true
+      }
     }
   },
   "state": {
@@ -624,7 +690,10 @@
     "keyboard": [
       "Tab",
       "Enter",
-      "Space"
+      "Space",
+      "ArrowDown",
+      "ArrowUp",
+      "Escape"
     ],
     "focus": "Keep visible focus on the active control."
   },
@@ -697,7 +766,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/button/index.js",
-        "sha256": "80695ad037d407d51e9a6f8f34829b1b6023b910b31b59ded8a925d91e32b663"
+        "sha256": "5daa3febee36b5424029942294bef9b91dc522c9f3ac9d0a5cb3077b4102abde"
       }
     ],
     "generated_runtime": [

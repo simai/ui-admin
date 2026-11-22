@@ -7,15 +7,24 @@
 // values are the polygon's own where it has one of that kind, made up where
 // it does not.
 type Entry = {type: string; label: {ru: string; en: string}; variants: Array<{id: string; label: {ru: string}}>; params: string[];
+  templates?: Array<{id: string; default?: boolean; label: {ru: string}}>;
   modes: {view: boolean; edit: boolean; cell: string; filter: string}};
-type Field = Record<string, any> & {key: string; label: string; property_type: string; variant?: string};
+type Field = Record<string, any> & {key: string; label: string; property_type: string; template?: string; variant?: string};
+// A field's template: `template` since C302, the former `variant` in data written before it.
+const templateOf = (field: Field): string => String(field.template ?? field.variant ?? '');
+// The templates a type has besides its default (C302); the former variant list
+// where a set has no templates yet.
+const otherTemplates = (entry: Entry): string[] => (entry.templates
+  ? entry.templates.filter((one) => !one.default).map((one) => one.id)
+  : entry.variants.map((one) => one.id));
 type Renderers = {
   renderViewField: (field: object, value: unknown, host: object, options?: object) => unknown;
   renderEditField: (field: object, value: unknown, host: object, options?: object) => unknown;
   renderFilterField: (field: object, host: object) => unknown;
   registry?: Entry[];
 };
-type SFGlobal = {fieldRenderers?: Renderers; html: (strings: TemplateStringsArray, ...values: unknown[]) => unknown; render: (what: unknown, where: Element) => void; nothing: unknown};
+type SFGlobal = {fieldRenderers?: Renderers; html: (strings: TemplateStringsArray, ...values: unknown[]) => unknown; render: (what: unknown, where: Element) => void; nothing: unknown;
+  whenFieldRenderers?: () => Promise<Renderers>; language?: {onChange?: (listener: () => void) => () => void}};
 
 const sf = () => (window as unknown as {SF: SFGlobal}).SF;
 const rows = document.querySelector<HTMLElement>('[data-rows]')!;
@@ -39,15 +48,15 @@ const OPTIONS: Record<string, Array<Record<string, any>>> = {
 // A value of each kind: the polygon's, or a made-up one.
 const MADE_UP: Record<string, unknown> = {
   'string': 'simai.payments.v1', 'string:phone': '+7 916 123-45-67', 'text': 'Приём платежей, возвраты и сверка с банком.',
-  'integer': 42, 'number': 1474500.5, 'number:scale': 64, 'date': '2026-10-15', 'datetime': '2026-10-15T10:30:00+03:00',
+  'integer': 42, 'number': '1474500.5', 'number:scale': 64, 'date': '2026-10-15', 'datetime': '2026-10-15T10:30:00+03:00',
   'boolean': true, 'color': '#2f6feb', 'include': '<div class="banner">Привет</div>',
 };
 const LONG: Record<string, unknown> = {
   'string': 'Очень длинное значение строки, которое не помещается в одну строку и проверяет перенос и обрезку текста в каждом режиме',
-  'text': 'Очень длинный текст. '.repeat(12), 'integer': 9876543210, 'number': 123456789012.75,
+  'text': 'Очень длинный текст. '.repeat(12), 'integer': 9876543210, 'number': '123456789012.75',
 };
 const polygonValue = (type: string, variant: string) => {
-  const field = polygonFields.find((one) => one.property_type === type && String(one.variant ?? '') === variant);
+  const field = polygonFields.find((one) => one.property_type === type && templateOf(one) === variant);
   if (!field) return undefined;
   for (const record of dataset.records) {
     const value = record.values?.[field.key];
@@ -77,11 +86,11 @@ const searches = new Map<string, string>();
 
 const fieldOf = (entry: Entry, variant: string): Field => {
   const key = variant ? `${entry.type}-${variant}` : entry.type;
-  const label = variant ? `${entry.label.ru} · ${entry.variants.find((one) => one.id === variant)?.label.ru ?? variant}` : entry.label.ru;
+  const label = variant ? `${entry.label.ru} · ${(entry.templates ?? entry.variants).find((one) => one.id === variant)?.label.ru ?? variant}` : entry.label.ru;
   const options = OPTIONS[entry.type] ?? [];
   // The polygon's own field of this kind lends its parameters: a palette, a
   // language, a unit.
-  const own = polygonFields.find((one) => one.property_type === entry.type && String(one.variant ?? '') === variant)
+  const own = polygonFields.find((one) => one.property_type === entry.type && templateOf(one) === variant)
     ?? polygonFields.find((one) => one.property_type === entry.type);
   const lent = Object.fromEntries(Object.entries(own ?? {}).filter(([name]) => entry.params.includes(name) && name !== 'options'));
   // A colour with no palette of its own gets one, so its filter is shown.
@@ -90,7 +99,7 @@ const fieldOf = (entry: Entry, variant: string): Field => {
   }
   return {
     ...lent,
-    key, label, property_type: entry.type, propertyType: entry.type, ...(variant ? {variant} : {}), options,
+    key, label, property_type: entry.type, propertyType: entry.type, ...(variant ? {template: variant} : {}), options,
     readonly: stateControl.value === 'readonly',
     ...(entry.type === 'number' && variant === 'scale' ? {constraints: {min: 0, max: 100}} : {}),
     filter: {options, defaultOperator: 'in'},
@@ -143,7 +152,7 @@ let filtersKey = '';
 function syncFilterTable(fields: Field[]): void {
   const table = filterTable();
   if (!table || typeof table.setFilterFields !== 'function') return;
-  const key = `${sizeControl.value}|${fields.map((field) => field.key).join(',')}`;
+  const key = `${sizeControl.value}|${fields.map((field) => `${field.key}:${field.label}`).join(',')}`;
   if (key === filtersKey) return;
   filtersKey = key;
   table.setAttribute('size', sizeControl.value);
@@ -164,7 +173,7 @@ function draw(): void {
   if (!fieldRenderers?.registry) return;
   const query = search.value.trim().toLowerCase();
   const size = sizeControl.value;
-  const kinds = fieldRenderers.registry.flatMap((entry) => ['', ...entry.variants.map((variant) => variant.id)].map((variant) => ({entry, variant})));
+  const kinds = fieldRenderers.registry.flatMap((entry) => ['', ...otherTemplates(entry)].map((variant) => ({entry, variant})));
   const shown = kinds.filter(({entry, variant}) => !query || `${entry.label.ru} ${entry.type} ${variant}`.toLowerCase().includes(query));
   syncFilterTable(kinds.map(({entry, variant}) => fieldOf(entry, variant)));
   render(html`${shown.map(({entry, variant}) => {
@@ -179,9 +188,9 @@ function draw(): void {
       <div class="properties-name" role="cell"><strong>${field.label}</strong>
         <code>${entry.type}${variant ? ` · ${variant}` : nothing}</code>
         <span class="properties-params">${entry.params.join(', ')}</span></div>
-      <div class="properties-cell" role="cell" data-mode="view">${view ?? none}</div>
-      <div class="properties-cell" role="cell" data-mode="edit">${edit ?? none}</div>
-      <div class="properties-cell properties-filter" role="cell" data-mode="filter" data-filter=${entry.modes.filter}>
+      <div class="properties-cell" role="cell" data-mode="view" data-caption="Просмотр">${view ?? none}</div>
+      <div class="properties-cell" role="cell" data-mode="edit" data-caption="Редактирование">${edit ?? none}</div>
+      <div class="properties-cell properties-filter" role="cell" data-mode="filter" data-caption="Фильтр" data-filter=${entry.modes.filter}>
         <sf-tag type="default" size=${size} text=${field.label} interactive
                 @click=${(event: Event) => openFilter(event, field)}></sf-tag>
         ${textFilter ? html`<span class="properties-note">Своего фильтра нет — поиск по тексту</span>` : nothing}</div>
@@ -203,6 +212,21 @@ document.querySelector('[data-theme]')?.addEventListener('click', () => {
 // for the element on the page.
 const ready = () => Boolean(sf()?.fieldRenderers && sf()?.html);
 for (let wait = 0; !ready() && wait < 200; wait += 1) await new Promise((done) => setTimeout(done, 50));
+// The property names are the registry's `label.ru`, read when a row is drawn:
+// English until the set's Russian words (core/lang/ru/field-renderers.json)
+// are on the page. The set asks for them only when the bundle publishes it,
+// so drawing as soon as SF.fieldRenderers appeared showed «Phone»,
+// «Password» on some loads and nothing drew the rows again. Wait for the set
+// with its words (SF.whenFieldRenderers, at most SF_BOOT_CONFIG.languageWait),
+// and draw again whenever the page's words change (SF.language.onChange), for
+// words that come later than that.
+if (ready()) await sf().whenFieldRenderers?.().catch(() => null);
 if (!ready()) rows.textContent = 'Рендереры полей не загрузились.';
 else if (!sf().fieldRenderers?.registry) rows.textContent = 'В этой паре Framework ещё нет реестра свойств.';
-else draw();
+else {
+  draw();
+  let again = 0;
+  sf().language?.onChange?.(() => {
+    if (!again) again = requestAnimationFrame(() => { again = 0; draw(); });
+  });
+}

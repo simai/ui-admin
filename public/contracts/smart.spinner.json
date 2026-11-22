@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
   "id": "smart.spinner",
-  "version": "1.3.0",
+  "version": "1.5.4",
   "title": "Spinner",
-  "summary": "Indeterminate waiting indicator in one of four looks on the size ladder (arc, breathing, comet, dots), following the page's data-sf-spinner, with optional polite status announcement and Framework-owned motion.",
+  "summary": "Indeterminate waiting indicator, one look (the arc) on the size ladder, shown after a delay (1 s by default), in the place's quiet ink, with optional polite status announcement and Framework-owned motion.",
   "kind": "smart",
   "reuse_mode": "whole",
   "lifecycle": "experimental",
@@ -62,29 +62,25 @@
         "type": "string",
         "description": "Empty: the text of the page's language (\"Loading…\" in English)."
       },
+      "delay": {
+        "type": "integer",
+        "default": 1000,
+        "description": "Milliseconds before the spinner shows (owner decision C130 (8); the name is final by C138): a wait shorter than that shows nothing. 0 shows at once. Written as data-delay; without the attribute the sheet's 1 s holds.",
+        "minimum": 0
+      },
+      "label-hidden": {
+        "type": "boolean",
+        "default": false,
+        "description": "The label is said and not shown (SP-07; the name is final by C138): it stays the spinner's name for a screen reader (and what announce says) while the page shows the ring alone. label=\"\" takes the words from both."
+      },
       "kind": {
         "type": "string",
         "default": "",
-        "description": "The spinner's look: arc, breathing (the arc grows and shrinks as it turns), comet (an arc with a fading tail) or dots. Empty: the page's look, data-sf-spinner on the nearest ancestor (html, body or a block), else arc.",
+        "description": "One look, the arc (owner decision C130 (5)). breathing, comet and dots are former values until 2027-01-01 and draw the arc; so does a page's data-sf-spinner.",
         "enum": [
           "",
-          "arc",
-          "breathing",
-          "comet",
-          "dots"
+          "arc"
         ]
-      },
-      "dots": {
-        "type": "integer",
-        "default": 8,
-        "minimum": 1,
-        "pattern": "^(?:[3-9]|[12][0-9]|3[0-2])$"
-      },
-      "filled": {
-        "type": "integer",
-        "default": 3,
-        "minimum": 0,
-        "pattern": "^(?:[1-9]|[12][0-9]|3[0-2])$"
       },
       "infinite": {
         "type": "boolean",
@@ -94,24 +90,13 @@
         "type": "boolean",
         "default": false
       },
-      "direction": {
-        "type": "string",
-        "default": "clockwise",
-        "enum": [
-          "clockwise",
-          "counterclockwise"
-        ]
-      },
       "variant": {
         "type": "string",
         "default": "",
         "description": "Legacy name for kind, still honoured. See contracts/public-api-axes.json.",
         "enum": [
           "",
-          "arc",
-          "breathing",
-          "comet",
-          "dots"
+          "arc"
         ]
       }
     },
@@ -232,7 +217,11 @@
       "ui_revision": "094f3d549aa7921d2d7f8773972c73711dd6a72e",
       "ui_smart_revision": "856fb5d751fad1c76104c32515f4c1869dd75b6c"
     },
-    "aliases": [],
+    "aliases": [
+      "kind=breathing",
+      "kind=comet",
+      "kind=dots"
+    ],
     "deprecations": [
       {
         "path": "width",
@@ -253,6 +242,21 @@
         "path": "dot-radius",
         "since": "1.1.0",
         "replacement": "size"
+      },
+      {
+        "path": "kind=breathing",
+        "since": "1.4.0",
+        "replacement": "kind=arc"
+      },
+      {
+        "path": "kind=comet",
+        "since": "1.4.0",
+        "replacement": "kind=arc"
+      },
+      {
+        "path": "kind=dots",
+        "since": "1.4.0",
+        "replacement": "kind=arc"
       }
     ],
     "replacement": null,
@@ -264,11 +268,11 @@
     "source_artifacts": [
       {
         "path": "src/smart/spinner/index.js",
-        "sha256": "2816127f90036cdfcd75c85aded36d0e9a2f8160a9fcf2808e96854b394415dc"
+        "sha256": "f98155e020dc92bd3ab8bb26028f168aee289271653fd6c3fcf47a1a1afe2eeb"
       },
       {
         "path": "src/smart/spinner/js/templates/default.js",
-        "sha256": "257fc75a929e584325e4605da76430a012d34712e732267754e6b5de8e03385e"
+        "sha256": "90ef93c677bede3b1df83f2eddf5c51c09e76fc2f15eb631c8a8f35105aeb734"
       },
       {
         "path": "src/smart/spinner/rule.js",
@@ -276,7 +280,7 @@
       },
       {
         "path": "src/smart/spinner/docs/docs.md",
-        "sha256": "d5652898b85b7332ad6eed4727c4e1a6c065e417181240be33a7a56142ffda96"
+        "sha256": "3650f31e4add314f72d8243c3a82b69f40978f348b74208d142ce573b8a57fa5"
       }
     ],
     "generated_runtime": [
@@ -297,7 +301,8 @@
       "Do not make Spinner focusable",
       "Do not omit the containing region's aria-busy state",
       "Do not announce an empty or non-localized label",
-      "Do not give every spinner its own kind to restyle a page: set data-sf-spinner on html (or a block) and every spinner the Framework draws follows it"
+      "Do not choose a spinner look: there is one, the arc; breathing, comet, dots and data-sf-spinner are former names until 2027-01-01",
+      "Do not set delay=\"0\" to make a short wait visible: a wait under a second shows nothing on purpose"
     ],
     "required_reads": [
       "inputs",

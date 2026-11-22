@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.view-properties",
-  "version": "1.13.3",
+  "version": "1.24.0",
   "title": "Property view",
   "summary": "One object's fields shown as sections, groups and fields, each drawn by the per-type field renderer set, behind a separate host port. A group is edited and saved as one revision by the button, and a reference field is picked from the host's own candidates a page at a time. The pair to the data view: that one is a set of records, this one is a single object.",
   "kind": "composite",
@@ -51,6 +51,7 @@
       "smart.input-color",
       "smart.input-country",
       "smart.input-date",
+      "smart.input-lookup",
       "smart.input-textarea",
       "smart.list-item",
       "smart.popover",
@@ -216,7 +217,12 @@
           "1.15.0",
           "1.16.0",
           "1.17.0",
-          "1.18.0"
+          "1.18.0",
+          "1.19.0",
+          "1.20.0",
+          "1.21.0",
+          "1.22.0",
+          "1.22.1"
         ]
       }
     }
@@ -1623,6 +1629,66 @@
         "changes": [
           "The controls the panel draws (the open-all bar, the group and section buttons, the section tabs, the profile picker, the edge controls) carry the panel's size when it has one and none when it has not (decision C22), as sf-view and sf-view-table do since view 1.6.0, so page density moves them: under compact density a panel with no size draws them at 32, size 1 keeps 40. `size` still chooses the panel's own type steps (1/2 or 1). Made in ui-pro ahead of simai/ui-view (2026-11-10); the view set releases the same change. Nothing to change for a host."
         ]
+      },
+      {
+        "from": "1.13.3",
+        "to": "1.16.2",
+        "changes": [
+          "The panel takes back the drawer's own block padding, --sf-drawer--inset (SIMAI Framework ui-994f9db407fa, sf-drawer: owner decision C105 H6, the C106 scroll-area rule): a headless drawer body is padded with the window inset alone now that it keeps no stable scrollbar gutter, and the panel still took back the old gutter plus --sf-scroll-bg-width (30 against 16), so the arranging bar hung 14px below the panel's bottom and the head stood 14px above its top. Outside a drawer the panel takes back its axis as before.",
+          "The loading skeleton's tab strip stands over the tabs' hairline as sf-tabs' underline strip does (margin-bottom minus the tabs' border width): it was 1px taller than the record's tabs (73 against 72 at size 1, 65 against 64 at 1/2), so the first group moved up by a pixel when the record came (simai/ui-pro#3).",
+          "Both as ui-pro 4059d01 (pin/pair-141822273efe), ahead of simai/ui-view; 1.14.0 to 1.16.1 are held by unreleased ui-pro and simai/ui-view branches. Nothing to change for a host.",
+          "Record, relation, user and paged lookup fields are edited with the searchable sf-dropdown again, asked of the SIMAI Framework field renderers with {picker: 'dropdown'} (owner decision C139 (1) keeps it until 2027-01-01): over ui-994f9db407fa the renderers draw sf-input-lookup, which the pair's package contract does not let this component relate, so the field held an element that never upgraded, with no picker and no chosen label. The panel returns to sf-input-lookup when the pair carries smart.input-lookup in pro.package.json."
+        ]
+      },
+      {
+        "from": "1.16.2",
+        "to": "1.16.4",
+        "changes": [
+          "A record, a relation, a user and a paged lookup field are edited in sf-input-lookup again (field-renderers 1.9.0, owner decision C139 (1)): SIMAI Framework ui-078a4b4c6f6e carries smart.input-lookup in pro.package.json (cl-view-properties requires it), so the panel no longer asks the renderers for the searchable sf-dropdown (the 1.16.2 interim is removed) and the rule relates cl-input-lookup (lazy). Focus asks the host for the first page (the quiet page asked as the group opens is reused), typing searches through loadFieldOptions, «Show more» follows the cursor, and the chosen value is written as {value, label}. A row's caption, avatar ({src} or {initials}, or avatarText) and icon reach the lookup as the host sends them in options_page.items; property-view-port 1.18.0 names only value and label, so a host that wants them needs the port to say so. A short list given whole stays sf-dropdown. As ui-pro d032639 (fix/pro-g4, 1.15.0 there); 1.16.3 is held by simai/ui-view.",
+          "A panel that fills the screen keeps the record's name clear of its edge controls again: since sf-drawer 1.16.0 (C157 (2), C14) the drawer draws them in its head's row at the end (data-sf-drawer-edge-in-head) and says their room (--sf-drawer-edge-room); the head was still padded for a strip at its start, so on a phone the name stood from 144 to 304 under the close and copy-link (250 to 330). It now starts on the panel's axis and stops a step (--sf-space-1/3) short of that room. Nothing to change for a host."
+        ]
+      },
+      {
+        "from": "1.16.4",
+        "to": "1.16.8",
+        "changes": [
+          "The first-paint pass for SIMAI Framework group build 9 (ui-source 3d55e44d7). The first-paint snapshot is retaken over the group build. Settings, values, events and actions are unchanged. The number is above 1.16.7, which simai/ui-view fix/view-set-j1 holds."
+        ]
+      },
+      {
+        "from": "1.16.8",
+        "to": "1.19.1",
+        "changes": [
+          "Accepts simai.property-view-port 1.19.0 (owner decision C294, ui-source acb9bcd77): a host that declares 1.19.0 is taken as one that declares 1.18.0 (SUPPORTED_PORT_VERSIONS, x-port.supports, host_port.supported_versions). 1.19.0 adds two optional money keys (currencies, currencyDisplay) and drops a percent's default bounds; its conformance kit is 1.18.0's 65 cases unchanged, so what the panel reads and writes does not change. The panel does not read the two money keys yet, and a percent without min and max still stops at 0..100 while typed (a host that wants a wider percent sends min and max); a value the host sends is shown and kept as it is. The contract it is checked against stays 1.18.0, the newest edition in the released pair it is built over. The number is above 1.19.0, which simai/ui-view round/view-returns holds."
+        ]
+      },
+      {
+        "from": "1.19.1",
+        "to": "1.20.1",
+        "changes": [
+          "Accepts simai.property-view-port 1.20.0, 1.21.0 and 1.22.0 (SIMAI Framework group build 13, ui-source integration/pair-next-15 89b0c3b8e): a host that declares any of them is taken as one that declares 1.18.0 (SUPPORTED_PORT_VERSIONS, x-port.supports, host_port.supported_versions). The three editions only add: field keys template, templateParams, decimals and holder and new type names (1.20.0), record.history and record.neighbours behind their own capabilities and the refusal revision_moved (1.21.0), view.publish, view.lock and the view keys head, locked and profiles[].required (1.22.0); the kit keeps 1.19.0's 65 cases unchanged (75 in 1.22.0). What the panel reads and writes does not change: it asks neither new intent, a field sent with template alone is drawn with its type's default template, a type name it does not know (phone, password, complex, url, link, ru.inn) is not offered for editing and nothing is written for it, revision_moved is shown as a refusal with nothing written, and its view.save with target.kind shared and a layer's variant are read by a 1.22.0 host until 2027-01-01. The contract it is checked against stays 1.18.0, as 1.19.0..1.22.0 only add to it; built over the released pair ui-dc9fc39aeb26 (ui-source 1dd18375c), which carries 1.19.0. The number is above 1.20.0, which simai/ui-view round/view-r4 holds."
+        ]
+      },
+      {
+        "from": "1.20.1",
+        "to": "1.23.4",
+        "changes": [
+          "The loading skeleton's strip of section tabs no longer prints an empty panel row (.sf-tabs-main-container). Since SIMAI Framework ui-97a0ebb762eb sf-tabs hides an empty panel row (hidden, data-sf-panels-empty), and the record's tabs hold no panels, so the skeleton stood 32px taller than the tabs (72 against 40 at size 1, 64 against 32 at 1/2) and the first group moved up by them when the record came (simai/ui-pro#3). skeleton.html and the two first-paint snapshots that print the skeleton follow. Built over SIMAI Framework ui-b654460cad2a (group build 14; ui-source 049a2ba3d, core.runtime 1.64.0, core.styles 1.20.0). 1.23.4 is above simai/ui-view round/view-site-docs' 1.23.3, the highest on any origin branch; the view set's own 1.20.2 to 1.23.3 are not in this copy (D31). Nothing to change for a host."
+        ]
+      },
+      {
+        "from": "1.23.4",
+        "to": "1.23.8",
+        "changes": [
+          "Accepts simai.property-view-port 1.22.1 (SIMAI Framework group build 15 (ui-source integration/pair-next-17), A8, DEV msg-d8ee9b8f): a host may answer a save over a moved revision conflict as well as refused, both with reason revision_moved and the current revision, nothing written. The card now reads a refusal revision_moved as a conflict (it showed only the refusal's message, and nothing at all on a group save), and a whole-record save (record.save, every group open) answered conflict reads the record again as a group save does: either way it says the record changed, keeps what the person typed and reads the record at its current revision. SUPPORTED_PORT_VERSIONS, x-port.supports and host_port.supported_versions gain 1.22.1; the contract it is checked against stays 1.18.0. 1.23.8 is above simai/ui-view main's 1.23.7 (view 1.10.1), the highest on any origin branch. Nothing to change for a host."
+        ]
+      },
+      {
+        "from": "1.23.8",
+        "to": "1.24.0",
+        "changes": [
+          "A minor over SIMAI Framework ui-9ceecc24c988 (group build 15; ui-source e7ea89e07). (1) The record panel is the drawer's ladder step and the column of sections on top of it (DEV decision msg-6aead3f3, A9): the panel asks sf-drawer 1.20.0 for its size step (52 characters at size 1, 64 at 2) and announces the column through aside-width (calc(var(--sf-measure-28) + the drawer gutter), the 14rem column of before as a step of the measure ladder), so the fields keep the whole step: at 1440 a panel of size 1 with four sections is 656 px, its fields 384 px wide (they had 144 px: the column was taken from the 416 px step). No free exact width is drawn for it; a consumer's own panel-width stays, off the drawer's ladder, and the column no longer goes into it either. (2) When the step and the column would take more than 60 percent of the window (1024 px and below at size 1 and 2), the sections are tabs on top and the panel is the plain step (416 or 512 px); the window's width is read again on resize. While the view is arranged the column stays: it is where sections are dragged and made. The layout says which (data-sections-layout column, tabs or none). A column of sections is sf-tree, never a folded row of tabs (VR11-1, which the view set's sf-tabs column had); a probe holds it. (3) The favourite star is the Framework's toggle where sf-button-icon has the look (appearance toggle, 1.14.0; C393, DEV msg-975e95fe): off a quiet ghost, on the soft primary plate with a 1 px primary ring inside, the glyph kept outline, pressed writes aria-pressed on the native button, one name (favourite-label); the pair's icon button warned in the console about the former ghost primary star with aria-pressed on every load. Without the toggle look the former star stays. The title keeps one line with the star right after it. Settings, values, events and the port are unchanged. 1.24.0 is above simai/ui-view round/view-r11's 1.23.9, the highest on any origin branch; the view set needs the same (its own column is sf-tabs, VR11-1)."
+        ]
       }
     ]
   },
@@ -1632,15 +1698,15 @@
     "source_artifacts": [
       {
         "path": "src/smart/view-properties/index.js",
-        "sha256": "6d5d01b4bc168dcde94091531e0d50d9df47f3e0efe1b62bb9954a09d90a1c52"
+        "sha256": "3e79d48e817aaf467f709628ee8797fadd4a6cf97a10b2c3b79555acb5e4285e"
       },
       {
         "path": "src/smart/view-properties/js/templates/default.js",
-        "sha256": "737883a29aa0d85eb2e4753248bab856e5ff390db92f4b423d8017acd888d744"
+        "sha256": "2fde9b80676d0cf0533d422f59308168207db9a7421d6b18ce4e776a8d1bbbc8"
       },
       {
         "path": "src/smart/view-properties/js/templates/default.css",
-        "sha256": "9fbc0fddf5bd614901e2e1837042eff2ba4348999301aba44e46c2a07da0fb65"
+        "sha256": "2993291d144b447e3ebd947eafff75fdbf892884d5a94299f083f2c886295fb0"
       },
       {
         "path": "src/smart/view-properties/js/conditions.js",
@@ -1676,7 +1742,7 @@
       },
       {
         "path": "src/smart/view-properties/rule.js",
-        "sha256": "d6b0ba37902b2b84b46be67ec3a4d8261110b08e0f4e5c4685ef2fd4766dbedf"
+        "sha256": "42a5bbe62b2298a139850ec114639c64ced897c556b57ba2ccd28d5600ad196c"
       },
       {
         "path": "src/core/contracts/ports/simai.property-view-port/1.4.0/port.json",
@@ -1684,7 +1750,7 @@
       },
       {
         "path": "src/smart/view-properties/docs.md",
-        "sha256": "1561c72c492262d7b9722c6fc62017e6ee676f372a54c8791c3e83862b1de10d"
+        "sha256": "374d6cfe1659f327e6fe1b113c61fb27a41154955a95ed30905edb7738ac0a39"
       }
     ],
     "generated_runtime": []

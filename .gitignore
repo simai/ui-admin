@@ -9,6 +9,8 @@ lerna-debug.log*
 
 node_modules
 dist
+# The set's release output is committed (ui-builder publish-package-release.sh)
+!/package/dist/
 dist-ssr
 .runtime*
 *.local

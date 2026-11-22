@@ -62,7 +62,7 @@
       "menu-reserve": {
         "type": "string",
         "default": "rail-column",
-        "description": "The room held for the menu before it has drawn, so the work area does not move when it comes (AM-18): rail -- the rail (56); rail-column -- the rail and the section column (56 + 256), the rail alone when the person hid the column (the menu's own preference); none -- nothing. The server knows whether the page's section has a column.",
+        "description": "The room held for the menu before it has drawn, so the work area does not move when it comes (AM-18): rail -- the rail (56); rail-column -- the rail and the section column (56 + 256), the rail alone when the menu says expected-columns 1 (the page's row has no open root) or the person hid the column (the menu's own preference); none -- nothing. The server knows whether the page's section has a column.",
         "enum": [
           "rail",
           "rail-column",
@@ -279,7 +279,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/admin-shell/index.js",
-        "sha256": "fd0c26b4d19840b62f4c72c58203542c53619cb53fee78e0866e039ec4b08dbf"
+        "sha256": "758934819334087c9b3a1396aab5453c67e9262b87af2b323e8339db57f9678c"
       },
       {
         "path": "src/smart/admin-shell/js/templates/default.js",
@@ -291,7 +291,7 @@
       },
       {
         "path": "src/smart/admin-shell/component.json",
-        "sha256": "99f833b6642db58c4fe129b1dd697238eadf623f179c247eee1b56cc3230c9a7"
+        "sha256": "b8956214143351d1098a883d6d369d8b4e59d7d14aa12db8de74dbc2cd5be9b0"
       },
       {
         "path": "src/smart/admin-shell/lang/en.json",

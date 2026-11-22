@@ -230,8 +230,8 @@
   },
   "port": {
     "id": "simai.admin-navigation-port",
-    "version": "1.1.0",
-    "contract": "src/core/contracts/ports/simai.admin-navigation-port/1.1.0/port.json"
+    "version": "1.2.0",
+    "contract": "src/core/contracts/ports/simai.admin-navigation-port/1.2.0/port.json"
   },
   "relations": [
     {
@@ -332,7 +332,7 @@
     "other-object"
   ],
   "x-port": {
-    "sha256": "6280add7a969ea06ff92183b95bc845f2d3ffc0d959f742ca81b96e22623a324",
+    "sha256": "2be207cee375858a419e5840fced7aadad945bc5423de7649840b47e713ce4cd",
     "supports": [
       "1.1.0",
       "1.2.0"

@@ -13,7 +13,5 @@ SF.RuleLoader['cl-admin-activity'] = {
     { name: 'cl-popover' },
     // A run is sf-progress-run in the notice look; drawn only when the list opens.
     { name: 'cl-progress-run', lazy: true },
-    // Fallback until AS-4: «Повторить» under a failed run.
-    { name: 'cl-button', lazy: true },
   ],
 };

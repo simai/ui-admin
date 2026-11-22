@@ -194,33 +194,10 @@
     sf-admin-shell[menu-open]:not([menu-open="false"]) .sf-admin-shell__main {
       display: none;
     }
-    /* Fallback until AS-2: on a phone the indicator stands in the top line,
-       so the crumbs row does not show it twice. */
-    sf-admin-shell:has(.sf-admin-shell__top-end sf-admin-activity) .sf-admin-shell-path .sf-admin-activity {
+    /* On a phone the indicator stands in the top line, so the head's
+       crumbs row (sf-header-page slot path-end) does not show it twice. */
+    sf-admin-shell:has(.sf-admin-shell__top-end sf-admin-activity) sf-admin-activity[slot="path-end"] .sf-admin-activity {
       display: none;
     }
-  }
-
-  /* Fallback until AS-2 (sf-header-page gets a place at the end of the crumbs
-     row): a product puts the crumbs and the activity indicator together in a
-     <div slot="path" class="sf-admin-shell-path">; the crumbs take the room,
-     the indicator stands at the end. Drops at the repin that carries AS-2. */
-  .sf-admin-shell-path {
-    display: flex;
-    /* The whole width of the head's path line, so the indicator stands at its end. */
-    flex: 1 1 auto;
-    align-items: center;
-    /* sf-breadcrumbs and sf-admin-activity are display: contents: their boxes
-       are the row's items, the crumbs at the start and the indicator at the end. */
-    justify-content: space-between;
-    gap: var(--sf-space-1\/2);
-    min-inline-size: 0;
-    /* As tall as the indicator's trigger before it draws: the row keeps its
-       height when the indicator arrives. */
-    min-block-size: var(--sf-ui-1\/2--control-height);
-  }
-  .sf-admin-shell-path > sf-breadcrumbs {
-    flex: 1 1 auto;
-    min-inline-size: 0;
   }
 }

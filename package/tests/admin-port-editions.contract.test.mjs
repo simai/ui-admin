@@ -120,6 +120,7 @@ test('activity is asked only of a 1.2.0 host that lists the capability', () => {
   assert.match(source, /if \(this\.offers\(\)\) this\.ask\("activity\.retry", run\)/u, 'Retry asks the host only over a port that offers activity');
   assert.match(source, /if \(this\.offers\(\)\) this\.ask\("activity\.cancel", run\)/u);
   assert.match(source, /raise\("activity\.load", \{\}\)/u);
+  assert.match(source, /!this\._taken && this\.givenRuns\) this\.takeRuns\(\)/u, 'an element connected with no list takes the port\'s first answer as its first list, which tells nothing');
 });
 
 test('a run of activity_page: retryable false offers no Retry, absent offers it; answers carry runs', () => {

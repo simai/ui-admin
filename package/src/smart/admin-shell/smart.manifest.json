@@ -287,7 +287,7 @@
       },
       {
         "path": "src/smart/admin-shell/js/templates/default.css",
-        "sha256": "d66397d4dddd927a0b1184d883e9bb93061d36f9d83f4170c4dd2146bc9ddb75"
+        "sha256": "85646ab921aa28e1125ea3318b2e3408e64604c2c002c0d11c0d2c0873c86f22"
       },
       {
         "path": "src/smart/admin-shell/component.json",

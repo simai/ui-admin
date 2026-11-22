@@ -8,12 +8,16 @@
 <script>
 /* The set's demo: sf-admin-shell, sf-admin-notifications and sf-admin-activity over the released
    sf-admin-menu, on the admin demo host of this repository (src/ports/navigation-host.mjs,
-   data/navigation.json). SIMAI Framework from the pinned pair (npm @simai-studio/ui@5.20261121.928,
-   ui-source e7ea89e07a3a); the set from ?set=<base> (default ../dist/smart, the released output; a
-   candidate's wave-1/output/package/admin/smart when served beside it).
+   data/navigation.json). SIMAI Framework from ?fw=<distr base> (a candidate's distr, served beside
+   it: this branch pins ui-source 245f2ac65ed2, feat/admin-shell-parts, group build 17, not yet a
+   released pair; default the last released pair, npm @simai-studio/ui@5.20261121.928, which has no
+   path-end slot and no notice Retry); the set from ?set=<base> (default ../dist/smart, the released
+   output; a candidate's wave-1/output/package/admin/smart when served beside it).
      ?f=overview | settings | history   the screen (default overview)
      ?theme=dark                        the dark theme
      ?runs=play | still | none          the background runs: a short story, a still frame, nothing
+     ?bar=info                          the bar's message at the info level (default warning)
+     ?heading=long                      a long page heading, which wraps whole (no actions)
    The demo host speaks simai.admin-navigation-port 1.2.0: notifications with object, level and
    resolved, and the capability activity (activity.load, activity.retry, activity.cancel), which
    the indicators read. window.__activityAsked lists what they asked.
@@ -25,7 +29,7 @@
   var dark = q.get('theme') === 'dark';
   document.documentElement.classList.toggle('theme-dark', dark);
   document.documentElement.classList.toggle('theme-light', !dark);
-  var base = 'https://cdn.jsdelivr.net/npm/@simai-studio/ui@5.20261121.928/distr/';
+  var base = q.get('fw') ? new URL(q.get('fw').replace(/\/?$/, '/'), location.href).href : 'https://cdn.jsdelivr.net/npm/@simai-studio/ui@5.20261121.928/distr/';
   var set = new URL(q.get('set') || '../dist/smart', location.href).href;
   window.__errs = [];
   addEventListener('error', function (e) { window.__errs.push(String(e.message || e)); });
@@ -65,12 +69,15 @@ const S = {
   settings: {current: 'site.settings', columns: 2, path: [{label: 'Сайт', href: '#/admin/site'}], title: 'Настройки сайта', width: 'read'},
   history: {current: 'home', columns: 1, path: [{label: 'Профиль', href: '#/admin/profile'}], title: 'Уведомления', width: 'read'},
 }[F];
-const bar = `<sf-alert-bar slot="bar" size="1/2"><script type="application/json" data-sf-settings>${JSON.stringify({items: [{id: 'lic', level: 'warning', text: 'Лицензия кончается 30 ноября: после этого панель будет только показывать.', source: 'Лицензия', action: {label: 'Продлить', href: '#/panel.license'}}]})}<\/script></sf-alert-bar>`;
-// The crumbs row with the activity at its end. Fallback until AS-2: the shell lays out
-// .sf-admin-shell-path (crumbs left, the indicator right) until sf-header-page has its own end place.
+if (q.get('heading') === 'long') S.title = 'Резервные копии и восстановление сайтов сервера srv1.larena.cloud за последние тридцать дней';
+const message = q.get('bar') === 'info'
+  ? {id: 'upd', level: 'info', text: 'Доступно обновление панели 2.4: новые отчёты о копиях.', source: 'Обновления', action: {label: 'Подробнее', href: '#/panel.updates'}}
+  : {id: 'lic', level: 'warning', text: 'Лицензия кончается 30 ноября: после этого панель будет только показывать.', source: 'Лицензия', action: {label: 'Продлить', href: '#/panel.license'}};
+const bar = `<sf-alert-bar slot="bar" size="1/2"><script type="application/json" data-sf-settings>${JSON.stringify({items: [message]})}<\/script></sf-alert-bar>`;
+// The crumbs row with the activity at its end: sf-header-page's slot path-end (1.12.0, AS-2).
 const head = `<sf-header-page slot="head" overflow="wrap" heading="${esc(S.title)}" star="false">
-  <div slot="path" class="sf-admin-shell-path"><sf-breadcrumbs current="none" items='${esc(JSON.stringify(S.path))}'></sf-breadcrumbs>
-  <sf-admin-activity class="page-activity" history-href="#/panel.activity"></sf-admin-activity></div></sf-header-page>`;
+  <sf-breadcrumbs slot="path" current="none" items='${esc(JSON.stringify(S.path))}'></sf-breadcrumbs>
+  <sf-admin-activity slot="path-end" class="page-activity" history-href="#/panel.activity"></sf-admin-activity></sf-header-page>`;
 const body = {
   overview: `<div class="page-tiles">
       <sf-tile-metric label="Процессор" value="23" unit="%" max="100" format="integer" warning-at="80" error-at="95"></sf-tile-metric>

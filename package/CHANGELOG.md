@@ -54,9 +54,15 @@ Three components join the menu as `preview` (owner decisions C420 and C421 of
   `retryable: false` (new optional field of the setting `runs`). A 1.1.0 host
   is asked nothing.
 
-Fallbacks until SIMAI Framework AS-2 (the crumbs row's end place in
-sf-header-page) and AS-4 («Повторить» on a failed notice row of
-sf-progress-run); AS-1 and AS-3 need none. Port 1.2.0 carries what the
+Over the SIMAI Framework candidate ui-source `245f2ac65ed2`
+(`feat/admin-shell-parts`, group build 17; branch `admin/over-gb17-parts`):
+the two fallbacks are gone. The activity indicator goes in sf-header-page's
+slot `path-end` (AS-2) instead of the shell's `.sf-admin-shell-path` row,
+which is removed; a failed run's «Повторить» is sf-progress-run's own in the
+notice look (AS-4) instead of the set's sf-button under it (the relation
+`cl-button` and the word `retry` of sf-admin-activity go with it). AS-1 and
+AS-3 needed none. sf-admin-notifications and sf-admin-activity declare port
+edition 1.2.0. Port 1.2.0 carries what the
 1.1.0 gap lacked (see above).
 
 ## 1.0.0 (candidate, 2026-11-22)

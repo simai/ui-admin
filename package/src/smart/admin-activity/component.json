@@ -167,8 +167,8 @@
   },
   "port": {
     "id": "simai.admin-navigation-port",
-    "version": "1.1.0",
-    "contract": "src/core/contracts/ports/simai.admin-navigation-port/1.1.0/port.json"
+    "version": "1.2.0",
+    "contract": "src/core/contracts/ports/simai.admin-navigation-port/1.2.0/port.json"
   },
   "relations": [
     {
@@ -191,13 +191,6 @@
       "lazy": true,
       "$comment": [
         "A run is sf-progress-run in the notice look; drawn only when the list opens."
-      ]
-    },
-    {
-      "name": "cl-button",
-      "lazy": true,
-      "$comment": [
-        "Fallback until AS-4: «Повторить» under a failed run."
       ]
     }
   ],
@@ -264,7 +257,6 @@
     "name",
     "nothing",
     "list-label",
-    "retry",
     "history",
     "done-title",
     "done-text",
@@ -274,7 +266,7 @@
     "today"
   ],
   "x-port": {
-    "sha256": "6280add7a969ea06ff92183b95bc845f2d3ffc0d959f742ca81b96e22623a324",
+    "sha256": "2be207cee375858a419e5840fced7aadad945bc5423de7649840b47e713ce4cd",
     "supports": [
       "1.1.0",
       "1.2.0"
@@ -284,7 +276,7 @@
     "shape: a leaf over Framework parts: the trigger a native quiet button with sf-badge, the list sf-popover of sf-progress-run rows in the notice look (C342).",
     "what shows (C421): «Идёт N» while something runs; a failure meanwhile is an icon-only red mark beside it until the list was opened; when nothing runs, «Не удалось N» in words; nothing running or failed, the element draws nothing.",
     "ends (C339, C332): done → SF.notify success, which goes by itself; failed → SF.notify error, which stays until closed, and a notification added to every sf-admin-notifications of the page. Told once per run's end for the page (two indicators, the crumbs row's and the phone top line's, share it on a global: every bundle carries its own module copy).",
-    "fallback until AS-4: sf-progress-run's notice look draws no «Повторить» on a failed row; the element draws an sf-button under it, which drops at the repin that carries AS-4.",
+    "Retry (AS-4, sf-progress-run 1.6.0): a failed, retryable run's notice row draws «Повторить» before «Развернуть» and sends sf-progress-run-retry, which the element turns into its retry {id} and, over a port with activity, activity.retry {id}. The set's own sf-button under the row (the fallback until AS-4) is gone with the repin onto the Framework that carries AS-4.",
     "port editions (AN-2): the indicator takes simai.admin-navigation-port 1.1.0 and 1.2.0 (x-port.supports; js/port.js). A host that declares 1.2.0 or later (major 1) and lists the capability activity is asked activity.load when the port connects and on refresh; Retry asks activity.retry {id}, Cancel activity.cancel {id}, and the runs of the answer (activity_page) are taken as they are after it, or read again when the answer carries none. A run's retryable false (1.2.0, or the setting runs) offers no Retry. A 1.1.0 host has no activity: it is asked nothing, and the setting runs is the way."
   ],
   "x-registry": {

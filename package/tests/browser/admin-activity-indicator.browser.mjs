@@ -8,8 +8,10 @@
 //   - one fails while one runs: «Идёт 1» and the red mark, SF.notify error
 //     (which stays), a notification at the top of the list;
 //   - a click on the trigger opens the list (sf-progress-run rows; the failed
-//     one with «Повторить», fallback until AS-4) and the mark goes; Escape
-//     closes it and the focus returns to the trigger;
+//     one with sf-progress-run's own «Повторить» in the notice look, AS-4, and
+//     no button of the set) and the mark goes; a click on «Повторить» sends
+//     the element's retry {id} once; Escape closes it and the focus returns to
+//     the trigger;
 //   - the last running run ends: SF.notify success, «Не удалось 1» in words;
 //   - a second indicator of the page (the phone top line's) tells nothing
 //     twice: one toast per end;
@@ -32,7 +34,7 @@ const BODY = `<main style="display: flex; flex-direction: column; gap: 24px; pad
   </div>
   <sf-admin-notifications id="n" aria-label="Уведомления" items='[{"key": "n1", "group": "today", "group-label": "Сегодня", "level": "info", "object": "simai.ru", "title": "Копия готова", "when": "03:00", "unread": false}]'></sf-admin-notifications>
 </main>
-<script>window.__told = []; customElements.whenDefined('sf-admin-activity').then(() => { const sf = window.SF; const base = sf.notify; sf.notify = function (options) { window.__told.push({status: options.status, title: options.title}); return base.call(this, options); }; });</script>`;
+<script>window.__retried = []; document.addEventListener('sf-admin-activity-retry', (event) => window.__retried.push(event.detail?.id)); window.__told = []; customElements.whenDefined('sf-admin-activity').then(() => { const sf = window.SF; const base = sf.notify; sf.notify = function (options) { window.__told.push({status: options.status, title: options.title}); return base.call(this, options); }; });</script>`;
 const set = (page, runs) => page.evaluate((list) => { for (const id of ['a', 'b']) document.getElementById(id).runs = list; }, runs);
 
 const failures = [];
@@ -68,10 +70,19 @@ try {
     const opened = await page.evaluate(() => ({
       expanded: document.querySelector('#a .sf-admin-activity__trigger').getAttribute('aria-expanded'),
       rows: document.querySelectorAll('#a sf-progress-run').length,
-      retry: Boolean(document.querySelector('#a .sf-admin-activity__retry')),
+      retry: document.querySelector('#a [data-run="r2"] sf-progress-run .sf-progress-run-retry')?.getAttribute('aria-label') ?? null,
+      own: Boolean(document.querySelector('#a .sf-admin-activity__retry')),
       mark: Boolean(document.querySelector('#a .sf-admin-activity__mark')) || Boolean(document.querySelector('#b .sf-admin-activity__mark')),
     }));
-    if (opened.expanded !== 'true' || opened.rows !== 2 || !opened.retry || opened.mark) say(`opening the list: ${JSON.stringify(opened)}`);
+    if (opened.expanded !== 'true' || opened.rows !== 2 || opened.retry !== 'Повторить' || opened.own || opened.mark) say(`opening the list: ${JSON.stringify(opened)}`);
+    await page.locator('#a [data-run="r2"] sf-progress-run .sf-progress-run-retry button').click();
+    await page.waitForTimeout(300);
+    const retried = await page.evaluate(() => window.__retried);
+    if (JSON.stringify(retried) !== '["r2"]') say(`«Повторить» sends retry once: ${JSON.stringify(retried)}`);
+    if (await page.evaluate(() => document.querySelector('#a .sf-admin-activity__trigger').getAttribute('aria-expanded')) !== 'true') {
+      await page.locator('#a .sf-admin-activity__trigger').click();
+      await page.waitForTimeout(400);
+    }
     await page.keyboard.press('Escape');
     await page.waitForTimeout(400);
     const closed = await page.evaluate(() => ({
@@ -99,4 +110,4 @@ try {
 } finally {
   await close();
 }
-finish(failures, 'admin-activity indicator: «Идёт N», the failure mark until the list opened by click, Escape returns the focus, one toast per end for two indicators, the failure in the notifications, «Не удалось N» in words, 1440 and 390');
+finish(failures, 'admin-activity indicator: «Идёт N», the failure mark until the list opened by click, sf-progress-run «Повторить» sends retry once, Escape returns the focus, one toast per end for two indicators, the failure in the notifications, «Не удалось N» in words, 1440 and 390');

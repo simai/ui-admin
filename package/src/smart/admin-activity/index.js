@@ -240,9 +240,17 @@ class SfAdminActivity extends ActivityElement {
 
     // ── drawing ──────────────────────────────────────────────────────────────
 
+    // The first list given -- the attribute, the property or the port's first
+    // answer -- tells nothing (the state as the page found it). An element
+    // connected with no list has not been given one: a port's first answer is
+    // still the first list.
+    get givenRuns() {
+        return this._runs !== null || this.hasAttribute("runs");
+    }
+
     connectedCallback() {
         super.connectedCallback();
-        if (this.isConnected && !this._taken) this.takeRuns();
+        if (this.isConnected && !this._taken && this.givenRuns) this.takeRuns();
     }
 
     template() {

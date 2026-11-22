@@ -4,11 +4,14 @@
 крошек и в верхней строке телефона.
 
 ```html
-<sf-admin-activity history-href="/panel/activity"></sf-admin-activity>
+<sf-header-page heading="Главная">
+  <sf-breadcrumbs slot="path" items='[{"label": "simai.ru", "href": "/admin"}]'></sf-breadcrumbs>
+  <sf-admin-activity slot="path-end" history-href="/panel/activity"></sf-admin-activity>
+</sf-header-page>
 ```
 
 Хозяин задаёт `runs` заново при каждом изменении: каждый
-`{id, label, state, value, total, unit, text, href, object, cancelable}`,
+`{id, label, state, value, total, unit, text, href, object, cancelable, retryable}`,
 `state` — `running`, `failed`, `done`, `cancelled`.
 
 ## Что видно
@@ -49,7 +52,8 @@
 `retryable: false` «Повторить» не предлагает. У хозяина 1.1.0 действий нет:
 его ни о чём не спрашивают, путь — настройка `runs`.
 
-## Временная замена
+## «Повторить»
 
-До AS-4 вид уведомления sf-progress-run не рисует «Повторить» у неудавшейся
-строки — элемент рисует sf-button под ней; кнопка уйдёт с парой, где есть AS-4.
+У неудавшегося запуска строка sf-progress-run в виде уведомления сама рисует
+«Повторить» перед «Развернуть» (sf-progress-run 1.6.0, AS-4); нажатие —
+событие `retry {id}` элемента и, у хозяина с `activity`, `activity.retry {id}`.

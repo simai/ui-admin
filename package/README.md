@@ -13,17 +13,17 @@ repository is the admin demo site; the set does not depend on it.
 | `src/smart/admin-notifications` | `sf-admin-notifications` | none | preview: the notifications list (C421): by day, repeats of one object folded under «Ещё N по …», «Прочитать все», panel or history page; over the menu's port or as items |
 | `src/smart/admin-activity` | `sf-admin-activity` | none | preview: the background-activity indicator (C421): «Идёт N», the failure mark until the list is opened, «Не удалось N»; runs in sf-popover; a run's end told by SF.notify and a notification |
 
-The three preview components carry fallbacks until SIMAI Framework parts
-AS-2 and AS-4 arrive in a pair (marked `Fallback until AS-n` in their
-sources): the crumbs row's end place of sf-header-page (AS-2) is laid out by
-the shell's `.sf-admin-shell-path`, and «Повторить» of a failed sf-progress-run
-row (AS-4) is an sf-button under it. They drop at the repin that carries them.
+Over the SIMAI Framework candidate this branch pins, the preview components
+use the Framework's admin shell parts and carry no fallbacks: the activity
+indicator stands at the end of the head's crumbs row in sf-header-page's slot
+`path-end` (AS-2, 1.12.0), and a failed run's «Повторить» is
+sf-progress-run's own in the notice look (AS-4, 1.6.0).
 
 Port editions: every component of the set that speaks
 `simai.admin-navigation-port` declares the editions it takes in its
 `component.json` `x-port.supports` (the pair's port edition gate reads it):
-the menu 1.0.0, 1.1.0 and 1.2.0, the notifications list and the activity
-indicator 1.1.0 and 1.2.0. The list reads a notification's `object`, `level`
+the menu 1.0.0, 1.1.0 and 1.2.0 (declared edition 1.1.0), the notifications
+list and the activity indicator 1.1.0 and 1.2.0 (declared edition 1.2.0). The list reads a notification's `object`, `level`
 and `resolved`, and the indicator asks `activity.load/retry/cancel`, only of a
 host that declares 1.2.0; a 1.1.0 host is drawn as in 1.1.0.
 
@@ -63,10 +63,13 @@ The component imports the free SIMAI Framework by relative path
 never a working tree), with this folder's `src/`, `tests/` and `docs/` laid
 over it. A file here may not replace a ui-source file.
 
-The pin is `e7ea89e07a3a`, the source of the released pair
-`ui-9ceecc24c988` (npm `@simai-studio/ui@5.20261121.928`), with the Pro
-release `pro-f6c43828e5f2` beside it on the admin pages. The passport names
-the same commit.
+On the branch `admin/over-gb17-parts` the pin is `245f2ac65ed2`, a
+SIMAI Framework candidate (ui-source `feat/admin-shell-parts`, group build
+17), not a released pair: it registers the set's names and carries the admin
+shell parts AS-1..AS-4 and `simai.admin-navigation-port` 1.2.0. The gates
+read a Framework built from it (the free side is that build's distr, the
+registry its `contracts/registry/names.json`); the pin moves to the released
+pair's source when the pair is cut. The passport names the same commit.
 
 ```bash
 node scripts/test.mjs                                   # unit and contract suite in the overlay

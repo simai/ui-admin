@@ -8,7 +8,6 @@
     "name": "Background activity: {what}",
     "nothing": "none",
     "list-label": "Background activity",
-    "retry": "Retry",
     "history": "All activity",
     "done-title": "{label}: done",
     "done-text": "The action finished.",

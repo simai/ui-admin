@@ -28,7 +28,6 @@
     "uses": [
       "component.icons",
       "smart.badge",
-      "smart.button",
       "smart.popover",
       "smart.progress-run"
     ],
@@ -299,27 +298,27 @@
     "source_artifacts": [
       {
         "path": "src/smart/admin-activity/index.js",
-        "sha256": "34abcbcb9e12426067fc32f9b63cda7786fd32014c051b952e67c32c9b584499"
+        "sha256": "d311a27f4038a9b53aedf4deb645a303ac2a5ff0f076152719adb30bff1d5151"
       },
       {
         "path": "src/smart/admin-activity/js/templates/default.js",
-        "sha256": "7e13cc4a2c24f95431e43e59bd41b7324364c64b54ac52a631b205b0ead5370f"
+        "sha256": "0de555b924c2d6d6603ce562d90eb24b5db73c63fb5ed0af14a1fa747737ab59"
       },
       {
         "path": "src/smart/admin-activity/js/templates/default.css",
-        "sha256": "8ff5aaadfe497e20f0f92a16a4712425112ba107599bf07168d68d09942eca22"
+        "sha256": "38397c791beeab6d9840491874f4954428210d78e61fa5507a0ef1eda7c83ed3"
       },
       {
         "path": "src/smart/admin-activity/component.json",
-        "sha256": "a1ce62925fda2c2ff3faed9a0d5909e91ea34b66bd1a8a92339668cd0ab84578"
+        "sha256": "aee3d4dbea3b36495ed81b8163bb9245fddba2e839fbb9a28cea617d50fa4028"
       },
       {
         "path": "src/smart/admin-activity/lang/en.json",
-        "sha256": "e64f0381ae1c2e306ed6f7300595abc043cd79a11cf9e9e687d5c61d7e12f34d"
+        "sha256": "0c640a82874ed9d92b014aa773a8e56bb411f5891b236ec081a786d93c79a488"
       },
       {
         "path": "src/smart/admin-activity/lang/ru.json",
-        "sha256": "8b19b48c857ad7c5b493b347cc67c6e66dbe5e85182cb158afd9338676b64828"
+        "sha256": "4ec1db476609f940263253c279f59b533c1484209299985e7a8aadf332fd1246"
       }
     ],
     "generated_runtime": []

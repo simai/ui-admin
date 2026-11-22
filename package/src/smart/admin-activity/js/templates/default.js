@@ -27,22 +27,15 @@ function renderBadges(context) {
     return html`${running}${failed}`;
 }
 
-// A failed row: the notice look and, beside it, «Повторить».
-// Fallback until AS-4: the notice look of sf-progress-run draws no «Повторить»
-// on a failed row (it draws only «Развернуть»); the button below drops at the
-// repin that carries AS-4.
+// A failed row: the notice look, which draws «Повторить» before «Развернуть»
+// on a retryable failed run (sf-progress-run 1.6.0, AS-4) and sends retry.
 function renderRun(context, run) {
-    const {word} = context;
     if (run.state === "failed") {
         return html`<div class="sf-admin-activity__run" data-run=${run.id} data-state="failed">
             <sf-progress-run look="notice" size="1/2" label=${run.label} run-state="failed" result-text=${run.text}
                 ?retryable=${run.retryable}
                 @sf-progress-run-retry=${() => context.onRetry(run)}
                 @sf-progress-run-expand=${() => context.onExpand(run)}></sf-progress-run>
-            ${run.retryable
-                ? html`<sf-button class="sf-admin-activity__retry" size="1/2" appearance="outline" text=${word("retry")}
-                    @click=${() => context.onRetry(run)}></sf-button>`
-                : nothing}
         </div>`;
     }
     return html`<div class="sf-admin-activity__run" data-run=${run.id} data-state="running">

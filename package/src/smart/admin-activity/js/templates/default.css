@@ -77,7 +77,8 @@
     gap: var(--sf-space-1\/3);
   }
   /* Fallback until AS-4: «Повторить» under a failed row, at its start. */
-  .sf-admin-activity__retry {
+  /* sf-button's host is display: contents; its button is the box. */
+  .sf-admin-activity__retry > button {
     align-self: flex-start;
   }
   .sf-admin-activity__foot {

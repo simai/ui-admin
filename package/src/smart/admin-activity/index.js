@@ -121,8 +121,10 @@ class SfAdminActivity extends ActivityElement {
             const before = this._known.get(id);
             // A run that fails again after a retry is news again.
             if (run.state === "failed" && before && before.state !== "failed") seen().delete(id);
-            if (first || !before) continue;
-            if (before.state === "running" && run.state !== "running") this.ended(run);
+            if (first) continue;
+            // A run that left running ended; a run first seen already ended
+            // (it started and ended between two lists of the host) ended too.
+            if ((!before || before.state === "running") && (run.state === "done" || run.state === "failed")) this.ended(run);
         }
         // A running run the host dropped ended: it is done.
         if (!first) {

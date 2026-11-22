@@ -46,7 +46,7 @@
         }
       },
       "x-markup": "the attribute takes the same list as JSON; the property wins",
-      "summary": "The host's runs, set anew on every change: each {id, label, state (running|failed|done|cancelled), value, total, unit, text, href, object, cancelable}. A run that leaves running, or is dropped while running, ended: the element tells it once."
+      "summary": "The host's runs, set anew on every change: each {id, label, state (running|failed|done|cancelled), value, total, unit, text, href, object, cancelable}. A run that leaves running, first appears already done or failed, or is dropped while running, ended: the element tells it once. The first list it is given tells nothing."
     },
     "history-href": {
       "type": "string",

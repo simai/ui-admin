@@ -185,13 +185,18 @@
     .sf-admin-shell__nav {
       display: none;
       position: static;
-      block-size: auto;
-      min-block-size: calc(100dvh - var(--sf-admin-shell-stick, 0px));
+      /* The open menu is the screen under the top line; it scrolls its own rows. */
+      block-size: calc(100dvh - var(--sf-admin-shell-stick, 0px));
     }
     sf-admin-shell[menu-open]:not([menu-open="false"]) .sf-admin-shell__nav {
       display: flex;
     }
     sf-admin-shell[menu-open]:not([menu-open="false"]) .sf-admin-shell__main {
+      display: none;
+    }
+    /* Fallback until AS-2: on a phone the indicator stands in the top line,
+       so the crumbs row does not show it twice. */
+    sf-admin-shell:has(.sf-admin-shell__top-end sf-admin-activity) .sf-admin-shell-path .sf-admin-activity {
       display: none;
     }
   }
@@ -202,6 +207,8 @@
      the indicator stands at the end. Drops at the repin that carries AS-2. */
   .sf-admin-shell-path {
     display: flex;
+    /* The whole width of the head's path line, so the indicator stands at its end. */
+    flex: 1 1 auto;
     align-items: center;
     gap: var(--sf-space-1\/2);
     min-inline-size: 0;

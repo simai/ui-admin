@@ -89,7 +89,7 @@
       "runs": {
         "type": "array",
         "default": [],
-        "description": "The host's runs, set anew on every change: each {id, label, state (running|failed|done|cancelled), value, total, unit, text, href, object, cancelable}. A run that leaves running, or is dropped while running, ended: the element tells it once."
+        "description": "The host's runs, set anew on every change: each {id, label, state (running|failed|done|cancelled), value, total, unit, text, href, object, cancelable}. A run that leaves running, first appears already done or failed, or is dropped while running, ended: the element tells it once. The first list it is given tells nothing."
       }
     },
     "additionalProperties": false
@@ -299,7 +299,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/admin-activity/index.js",
-        "sha256": "f51756102c605934bc5b49fe1b2821311ce29ee672665468bc92a814bd4cd2a8"
+        "sha256": "b501205b2525f6f0eec5c50359f00aac7f83a6b63e0cd5a52be96321ce83f5b9"
       },
       {
         "path": "src/smart/admin-activity/js/templates/default.js",
@@ -307,11 +307,11 @@
       },
       {
         "path": "src/smart/admin-activity/js/templates/default.css",
-        "sha256": "888390f592168a805e6e0033ad0c947b0aa4902e636fad2bcf359f99fe2a2370"
+        "sha256": "8ff5aaadfe497e20f0f92a16a4712425112ba107599bf07168d68d09942eca22"
       },
       {
         "path": "src/smart/admin-activity/component.json",
-        "sha256": "3140bfdbabc25a0a07af3b255e9b815dff3ced2822aa450aab01954a5b2ffb3e"
+        "sha256": "04b6d913dea530c9d25bc4469e6eb1754bc1dc7d9d09a1fdf9e4d0ff3c8554ec"
       },
       {
         "path": "src/smart/admin-activity/lang/en.json",

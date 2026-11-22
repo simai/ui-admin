@@ -12,7 +12,8 @@
 //     Docara's example frames grow to their content after they load), console errors and warnings, page
 //     errors, failed requests and HTTP errors, sideways scroll of the page and
 //     of each example frame's document; for each example frame its height,
-//     its SIMAI Framework elements still undefined and its fonts' states;
+//     its SIMAI Framework elements still undefined while they take room on
+//     screen, and its fonts' states;
 //   Docara header (8.12) and the hero, on every home load: whether the
 //     effect layer lies under the text box, the header's tools present at
 //     390, the hero's height (at least 405 px at 1440);
@@ -129,7 +130,7 @@ const measure = async (page) => {
       sideways: document.documentElement.scrollWidth - document.documentElement.clientWidth,
       observed: typeof window.__sfShift === 'number',
       height: Math.round(document.documentElement.scrollHeight),
-      undefinedElements: [...document.querySelectorAll('*')].filter((node) => node.localName.startsWith('sf-') && !customElements.get(node.localName) && node.getClientRects().length > 0).map((node) => node.localName),
+      undefinedElements: [...document.querySelectorAll('*')].filter((node) => node.localName.startsWith('sf-') && !customElements.get(node.localName) && node.getBoundingClientRect().width > 0 && node.getBoundingClientRect().height > 0).map((node) => node.localName),
       fonts: [...document.fonts].filter((font) => font.status !== 'unloaded').map((font) => `${font.family}:${font.status}`),
       fontErrors: [...document.fonts].filter((font) => font.status === 'error').map((font) => font.family),
     })).catch((error) => ({error: String(error.message).slice(0, 120)}));

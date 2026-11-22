@@ -49,7 +49,9 @@ function entryOf(item) {
         href: item.href ? text(item.href) : "",
         object: item.object ? text(item.object) : "",
         level: LEVELS.has(item.level) ? item.level : "",
-        resolved: item.resolved ? text(item.resolved) : "",
+        // resolved: true (settled) or the words of how it was settled.
+        resolved: Boolean(item.resolved),
+        resolvedText: typeof item.resolved === "string" ? item.resolved : "",
     };
 }
 

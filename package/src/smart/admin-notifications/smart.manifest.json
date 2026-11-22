@@ -384,11 +384,11 @@
     "source_artifacts": [
       {
         "path": "src/smart/admin-notifications/index.js",
-        "sha256": "50388918b58e42364b4a62683770d7519c404147995b9c70072859fa1ac80930"
+        "sha256": "03095f60eb5d83cb8fd558ae22aee545add73410a5197e0381490f1406ad7059"
       },
       {
         "path": "src/smart/admin-notifications/js/templates/default.js",
-        "sha256": "96c0a07dfe5dcf27f1c258a3b1b5fb9dd492d769e8c15cf3d52d00eb5f9b3e4d"
+        "sha256": "11ff852b6abfc71c1c36cea6fd4122cb3387091959bc92973f6f647594e66a87"
       },
       {
         "path": "src/smart/admin-notifications/js/templates/default.css",

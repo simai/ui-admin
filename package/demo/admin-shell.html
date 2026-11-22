@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="ru" class="theme-light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>SIMAI Admin: каркас, уведомления, действия</title>
+<script>
+/* The set's demo: sf-admin-shell, sf-admin-notifications and sf-admin-activity over the released
+   sf-admin-menu, on the Larena Panel demo host of this repository (src/ports/navigation-host.mjs,
+   data/navigation.json). SIMAI Framework from the pinned pair (npm @simai-studio/ui@5.20261121.928,
+   ui-source e7ea89e07a3a); the set from ?set=<base> (default ../dist/smart, the released output; a
+   candidate's wave-1/output/package/admin/smart when served beside it).
+     ?f=overview | settings | history   the screen (default overview)
+     ?theme=dark                        the dark theme
+     ?runs=play | still | none          the background runs: a short story, a still frame, nothing
+   Page code is demo glue only: the host, the notifications panel (sf-drawer) and the runs' story.
+   The menu's own bell opens its own list (sf-admin-menu 1.15.0); the page opens the set's list
+   instead -- the menu follow-up is to draw sf-admin-notifications itself. */
+(function () {
+  var q = new URLSearchParams(location.search);
+  var dark = q.get('theme') === 'dark';
+  document.documentElement.classList.toggle('theme-dark', dark);
+  document.documentElement.classList.toggle('theme-light', !dark);
+  var base = 'https://cdn.jsdelivr.net/npm/@simai-studio/ui@5.20261121.928/distr/';
+  var set = new URL(q.get('set') || '../dist/smart', location.href).href;
+  window.__errs = [];
+  addEventListener('error', function (e) { window.__errs.push(String(e.message || e)); });
+  addEventListener('unhandledrejection', function (e) { window.__errs.push('rejection: ' + String(e.reason && e.reason.message || e.reason)); });
+  window.__cls = 0;
+  try { new PerformanceObserver(function (l) { l.getEntries().forEach(function (e) { if (!e.hadRecentInput) window.__cls += e.value; }); }).observe({type: 'layout-shift', buffered: true}); } catch (e) {}
+  window.sfPath = base; window.sfSmartPath = base.slice(0, -1);
+  window.SF_BOOT_CONFIG = {theme: false, smart: {base: true}, minified: true, preloader: {enabled: false}, packages: {admin: {base: set, version: '1.1.0'}}};
+  document.write('<link rel="stylesheet" href="' + base + 'core/css/core.css">');
+  document.write('<script src="' + base + 'core/lang/ru.js"><\/script>');
+  document.write('<script defer src="' + base + 'core/js/smart-base.js"><\/script><script defer src="' + base + 'core/js/core.js"><\/script>');
+})();
+</script>
+<style>
+/* Demo page only: colours, sizes and spacing are SIMAI Framework tokens (C18); page classes start with page-. */
+html, body { background: var(--sf-surface-page); }
+body { margin: 0; color: var(--sf-on-surface); font-family: var(--sf-text--family); font-size: var(--sf-text-size-1); line-height: var(--sf-text-height-1); }
+.page-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(var(--sf-f6), 1fr)); gap: var(--sf-space-1); }
+.page-sect { display: flex; flex-direction: column; gap: var(--sf-space-1\/2); }
+.page-sect h3 { margin: 0; font-size: var(--sf-text-size-1); line-height: var(--sf-text-height-1); font-weight: var(--sf-font-weight-medium); }
+.page-fields { display: grid; gap: var(--sf-space-1\/2); }
+.page-save { display: flex; align-items: center; gap: var(--sf-space-1\/3); }
+.page-small { color: var(--sf-on-surface-variant); font-size: var(--sf-text-size-1\/2); line-height: var(--sf-text-height-1\/2); }
+.page-top-end { display: inline-flex; align-items: center; gap: var(--sf-space-1\/3); }
+</style>
+</head>
+<body>
+<div id="page-root"></div>
+<script type="module">
+const q = new URLSearchParams(location.search);
+const F = ['overview', 'settings', 'history'].includes(q.get('f')) ? q.get('f') : 'overview';
+const RUNS = ['play', 'still', 'none'].includes(q.get('runs')) ? q.get('runs') : 'still';
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+const S = {
+  overview: {current: 'srv.overview', path: [{label: 'Сервер', href: '#/server'}], title: 'Обзор', width: 'list', bar: true},
+  settings: {current: 'panel.general', path: [{label: 'Настройки панели', href: '#/panel'}], title: 'Общие', width: 'read'},
+  history: {current: 'srv.overview', path: [{label: 'Профиль', href: '#/profile'}], title: 'Уведомления', width: 'read'},
+}[F];
+const bar = `<sf-alert-bar slot="bar" size="1/2"><script type="application/json" data-sf-settings>${JSON.stringify({items: [{id: 'lic', level: 'warning', text: 'Лицензия кончается 30 ноября: после этого панель будет только показывать.', source: 'Лицензия', action: {label: 'Продлить', href: '#/panel.license'}}]})}<\/script></sf-alert-bar>`;
+// The crumbs row with the activity at its end. Fallback until AS-2: the shell lays out
+// .sf-admin-shell-path (crumbs left, the indicator right) until sf-header-page has its own end place.
+const head = `<sf-header-page slot="head" overflow="wrap" heading="${esc(S.title)}" star="false">
+  <div slot="path" class="sf-admin-shell-path"><sf-breadcrumbs current="none" items='${esc(JSON.stringify(S.path))}'></sf-breadcrumbs>
+  <sf-admin-activity class="page-activity" history-href="#/panel.activity"></sf-admin-activity></div></sf-header-page>`;
+const body = {
+  overview: `<div class="page-tiles">
+      <sf-tile-metric label="Процессор" value="23" unit="%" max="100" format="integer" warning-at="80" error-at="95"></sf-tile-metric>
+      <sf-tile-metric label="Диск" value="86" unit="%" max="100" format="integer" warning-at="80" error-at="95" limit-text="86 % из 200 ГБ" hint="Скоро понадобится место"></sf-tile-metric>
+      <sf-tile-metric label="Сайты" value="24" format="integer" previous="22" period-text="за месяц"></sf-tile-metric>
+      <sf-tile-metric label="Копии за сутки" value="23" format="integer" limit-text="из 24"></sf-tile-metric></div>
+    <sf-alert status="warning" heading="Копия stage.larena.cloud не удалась ночью." supporting-text="Хранилище не ответило. Остальные 23 копии сделаны." action-text="Открыть копии"></sf-alert>
+    <p class="page-small">Прокрутите страницу: полоса, меню и голова остаются на месте.</p>
+    <div style="block-size: var(--sf-h5)"></div>`,
+  settings: `<section class="page-sect" aria-labelledby="s1"><h3 id="s1">Адрес панели</h3><div class="page-fields">
+      <sf-input size="1" label="Адрес" default-value="panel.larena.cloud"></sf-input>
+      <sf-input size="1" label="Порт" default-value="9443" hint="Число от 1 до 65535"></sf-input></div></section>
+    <section class="page-sect" aria-labelledby="s2"><h3 id="s2">Вход</h3>
+      <sf-switch label="Двухфакторный код для всех администраторов" checked></sf-switch>
+      <sf-switch label="Предупреждать за 2 минуты до конца сессии"></sf-switch></section>
+    <div class="page-save"><sf-button text="Сохранить"></sf-button><span class="page-small">Сохранено в 14:35</span></div>`,
+  history: `<sf-admin-notifications id="page-history" look="page" aria-label="Все уведомления" settings-href="#/settings/notifications"></sf-admin-notifications>`,
+}[F];
+document.getElementById('page-root').innerHTML = `<sf-admin-shell id="page-shell" product="Larena Panel" width="${S.width}">
+  ${S.bar ? bar : ''}
+  <sf-admin-menu slot="menu" id="m" aria-label="Меню" expected-columns="2" current="${S.current}"></sf-admin-menu>
+  ${head}
+  <span slot="top-end" class="page-top-end"><sf-admin-activity class="page-activity" size="1" history-href="#/panel.activity"></sf-admin-activity>
+    <sf-button-icon id="page-bell" icon="notifications" appearance="ghost" aria-label="Уведомления"></sf-button-icon></span>
+  ${body}
+</sf-admin-shell>
+<sf-drawer id="page-notices" placement="right" size="2" heading="Уведомления">
+  <div slot="content"><sf-admin-notifications id="page-panel" look="panel" aria-label="Уведомления" history-href="?f=history"></sf-admin-notifications></div>
+</sf-drawer>`;
+
+// ── The host: the repository's Larena Panel demo, its notifications told with object,
+//    level and how they were settled (what a port 1.2.0 would carry; the list reads them).
+const here = new URL('../../', import.meta.url);
+const {createNavigationHost} = await import(new URL('src/ports/navigation-host.mjs', here).href);
+const data = await (await fetch(new URL('data/navigation.json', here))).json();
+data.notification_groups = [{key: 'today', label: 'Сегодня'}, {key: 'yesterday', label: 'Вчера'}];
+data.notifications = [
+  {key: 'n1', group: 'today', level: 'warning', object: 'srv1.larena.cloud', title: 'Сертификат истекает через 7 дней', body: 'Продлите в «Безопасность».', when: '10:42', unread: true, href: '#/srv.security'},
+  {key: 'n2', group: 'today', level: 'error', object: 'stage.larena.cloud', title: 'Копия не сделана: хранилище не ответило', when: '03:10', unread: true, href: '#/srv.backups'},
+  {key: 'n3', group: 'today', level: 'info', object: 'srv1.larena.cloud', title: 'Доступно обновление PHP 8.4', when: '09:15', unread: true, href: '#/srv.software'},
+  {key: 'n4', group: 'today', level: 'success', object: 'simai.ru', title: 'Копия готова, 1,2 ГБ', when: '03:00', unread: false, href: '#/srv.backups'},
+  {key: 'n5', group: 'today', level: 'info', object: 'srv1.larena.cloud', title: 'Служба почты перезапущена', when: '02:40', unread: false, href: '#/srv.services'},
+  {key: 'n6', group: 'yesterday', level: 'error', object: 'srv2.larena.cloud', title: 'Сервер не отвечал', resolved: 'снова отвечает с 09:11, перерыв 9 минут', when: '09:02', unread: false, href: '#/srv.overview'},
+  {key: 'n7', group: 'yesterday', level: 'info', object: 'Пользователи', title: 'Вход с нового устройства: Chrome, macOS', when: '18:20', unread: false, href: '#/profile.sessions'},
+];
+const host = createNavigationHost({data, current: S.current});
+addEventListener('sf-host-port-request', (event) => {
+  const detail = event.detail;
+  if (!detail?.component) return;
+  if (detail.context?.owner === 'admin-menu' || detail.context?.owner === 'admin-notifications') (detail.component.connectPort ?? detail.component.setHostPort)?.call(detail.component, host);
+});
+await customElements.whenDefined('sf-admin-menu');
+const menu = document.getElementById('m');
+if (!menu._navigation) (menu.connectPort ?? menu.setHostPort)?.call(menu, host);
+await customElements.whenDefined('sf-admin-notifications');
+for (const list of document.querySelectorAll('sf-admin-notifications')) list.connectPort?.({port: host});
+
+// ── The notifications panel: the phone bell and, glue until the menu draws the set's list,
+//    the menu's bell.
+const drawer = document.getElementById('page-notices');
+const openPanel = (event) => { event?.preventDefault(); event?.stopPropagation(); customElements.whenDefined('sf-drawer').then(() => drawer.open?.()); };
+document.getElementById('page-bell').addEventListener('click', openPanel);
+addEventListener('click', (event) => { if (event.target.closest?.('.sf-admin-nav-bell')) openPanel(event); }, true);
+
+// ── The background runs: the host's list, set anew on every change.
+const runsOf = {
+  start: [{id: 'r1', label: 'Копия srv1.larena.cloud', state: 'running', value: 12, total: 100, unit: '%', href: '#/srv.backups'},
+          {id: 'r2', label: 'Обновление PHP на stage', state: 'running', href: '#/srv.software', object: 'stage.larena.cloud'}],
+};
+const setRuns = (runs) => { for (const one of document.querySelectorAll('sf-admin-activity')) one.runs = runs; };
+await customElements.whenDefined('sf-admin-activity');
+if (RUNS === 'still') {
+  // A still frame: the state as the page found it (the first list tells nothing).
+  setRuns([{...runsOf.start[0], value: 42}, {...runsOf.start[1], state: 'failed', text: 'Хранилище пакетов не ответило.'}]);
+} else if (RUNS === 'play') {
+  let value = 12;
+  setRuns(runsOf.start);
+  const failed = {...runsOf.start[1], state: 'failed', text: 'Хранилище пакетов не ответило.'};
+  const tick = setInterval(() => {
+    value = Math.min(100, value + 8);
+    const second = value >= 44 ? failed : runsOf.start[1];
+    if (value >= 100) {
+      clearInterval(tick);
+      setRuns([{...runsOf.start[0], value: 100, state: 'done'}, failed]);
+      return;
+    }
+    setRuns([{...runsOf.start[0], value}, second]);
+  }, 700);
+}
+</script>
+</body>
+</html>

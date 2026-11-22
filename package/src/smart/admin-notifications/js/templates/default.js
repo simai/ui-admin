@@ -31,7 +31,7 @@ function renderItem(context, item, fold = null) {
             <span class="sf-admin-notifications__meta">
                 ${item.object ? html`<span>${item.object}</span>` : nothing}
                 ${item.when ? html`<span>${item.when}</span>` : nothing}
-                ${item.resolved ? html`<span>${item.resolved}</span>` : nothing}
+                ${item.resolvedText ? html`<span>${item.resolvedText}</span>` : nothing}
                 ${said ? html`<span class="sr-only">${said}</span>` : nothing}
             </span>
             ${fold}

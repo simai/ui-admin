@@ -22,7 +22,8 @@
 
 Без порта — настройка `items` (свойство или JSON в атрибуте): каждый
 `{key, title, when, unread, href, icon, body, object, level, resolved, group,
-group-label}`.
+group-label}`. `resolved` — `true` (проблема закрыта) или словами, как
+закрыта («снова отвечает с 09:11»).
 
 ## Как выглядит
 

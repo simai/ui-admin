@@ -1,0 +1,5 @@
+/* The phone top line of the frame, drawn here alone: the indicator of the
+   size 1 stands beside the bell. */
+.page-top-line { display: flex; align-items: center; gap: var(--sf-space-1\/3); max-inline-size: var(--sf-g1); padding: var(--sf-space-1\/4); border: 1px solid var(--sf-outline-variant); border-radius: var(--sf-radius-1); }
+.page-product { flex: 1; min-width: 0; font-weight: var(--sf-font-weight-medium); }
+.page-end { display: inline-flex; align-items: center; gap: var(--sf-space-1\/3); }

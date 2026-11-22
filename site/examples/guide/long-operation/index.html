@@ -1,0 +1,13 @@
+<div class="flex flex-col gap-2">
+  <div class="page-row">
+    <sf-breadcrumbs current="none" items='[{"label": "Сервер", "href": "#/srv"}, {"label": "Резервные копии", "href": "#/srv.backups"}]'></sf-breadcrumbs>
+    <sf-admin-activity id="activity" history-href="#/activity"></sf-admin-activity>
+  </div>
+  <div class="flex flex-wrap gap-1 items-cross-center">
+    <sf-button id="backup" text="Сделать копию" size="1/2"></sf-button>
+    <sf-button id="update" text="Обновить PHP" appearance="outline" size="1/2"></sf-button>
+  </div>
+  <div class="page-panel">
+    <sf-admin-notifications id="notices" aria-label="Уведомления" items="[]"></sf-admin-notifications>
+  </div>
+</div>

@@ -1,11 +1,43 @@
 ---
-description: x
+description: Уведомления sf-admin-notifications — по дням, повторы одного объекта свёрнуты, решённое помечено; панель у колокола и страница истории, над портом или из items.
 profile: reference
 ---
 
-# admin-notifications
+# Уведомления
 
-x
+<!-- release:badges -->
+:badge[sf-admin-notifications]{variant=main scheme=on-surface size=1} :badge[Версия 1.0.0]{variant=tonal scheme=neutral size=1} :badge[предварительный]{variant=tonal scheme=warning size=1}
+<!-- /release:badges -->
+
+Список уведомлений админки делит сообщения по дням, сворачивает повторы одного объекта под «Ещё N по …» и помечает решённые проблемы словами «→ решено». Он стоит в панели у колокола или на странице истории и берёт уведомления из порта навигации или из атрибута `items`.
+
+## Пример
+
+Уведомления из `items`. Раскройте «Ещё N по …», откройте уведомление — оно станет прочитанным; «Прочитать все» отметит весь список.
+
+:::example {id="components/admin-notifications" label="Уведомления по дням" log="sf-admin-notifications-open sf-admin-notifications-read sf-admin-notifications-read-all"}
+:::
+
+## Над портом
+
+Без `items` список читает порт навигации: `notifications.load` — список, `notifications.read {keys, all}` — отметка прочитанного.
+
+:::example {id="components/admin-notifications-port" label="Уведомления над портом" log="sf-admin-notifications-open sf-admin-notifications-read sf-admin-notifications-read-all"}
+:::
+
+## Страница истории
+
+`look="page"` — вся история на ширину страницы, по частям с «Показать ещё». `group-by="object"` группирует по объекту вместо дней.
+
+:::example {id="components/admin-notifications-page" label="Страница истории по объектам"}
+:::
+
+## Пусто
+
+Когда уведомлений нет, список так и говорит; место `empty` заменяет этот текст своим.
+
+:::example {id="components/admin-notifications-empty" label="Нет уведомлений"}
+:::
 
 ## Параметры
 
@@ -77,4 +109,6 @@ x
 
 ## См. также
 
-- x
+- [Уведомления — понятие](/ru/guide/concepts/notifications/)
+- [Рецепт «Колокол с панелью»](/ru/guide/recipes/notifications-bell/)
+- [Меню администратора](../admin-menu/)

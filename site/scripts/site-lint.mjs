@@ -4,15 +4,7 @@
 // scheme). Each check names its rule; a failure prints the file and line.
 //
 //   sections    the header navigation is exactly Руководство, Компоненты,
-//               Свойства, Рецепты (the details before the ready tasks, docs
-//               structure 2026-11-20), and content/ru holds no other section
-//               (C290 (1), (2));
-//   properties  config/properties.json lists the property types of the
-//               Framework field renderers' registry of the pair the site is
-//               built over (.framework/), in its order, and every type has a
-//               page and an example (C290 (3), (4)); a type the pair does not
-//               have yet names in `framework` the registry type it is drawn
-//               as (phone and password, C302 (1)), and goes when it has it;
+//               and content/ru holds no other section;
 //   tops        a component page's introduction does not start with the tag
 //               (D12), the overview puts words first (§11.9);
 //   versions    no release literal (a pair id, a set release id, an npm or
@@ -30,11 +22,10 @@
 //   grid        no grid of more than three items in a row (§11.13);
 //   showcase    every showcase panel is a surface-1 card with an outline
 //               (§11.11);
-//   pictures    pictures come from the D22 set (assets/illustrations/ with
-//               its manifest; examples hold byte-same copies) (C290 (6));
-//   colours     no colour literal in the examples outside the colour field's
-//               own data (SWATCHES), and a role container plate always with
-//               its on-colour (C192);
+//   pictures    no picture file in the examples and no image in the content
+//               (the set has no illustration set; pictures are diagrams);
+//   colours     no colour literal in the examples, and a role container
+//               plate always with its on-colour (C192);
 //   concepts    each concept page holds a picture (§11.14);
 //   locales     the registry's locale layout: ru and en declared, prefixed
 //               URLs, no published English page before its text is accepted;
@@ -61,7 +52,7 @@ const lineOf = (text, index) => text.slice(0, index).split('\n').length;
 const contentFiles = walk('content/ru').filter((path) => path.endsWith('.md'));
 
 // ---- sections --------------------------------------------------------------
-const SECTIONS = [['guide', 'Руководство'], ['components', 'Компоненты'], ['properties', 'Свойства'], ['recipes', 'Рецепты']];
+const SECTIONS = [['guide', 'Руководство'], ['components', 'Компоненты']];
 {
   const root = json('content/ru/section.json');
   const items = root.header_navigation?.items ?? root.navigation?.header?.items ?? [];
@@ -72,38 +63,9 @@ const SECTIONS = [['guide', 'Руководство'], ['components', 'Комп�
   if (JSON.stringify(folders) !== JSON.stringify(want)) fail('sections', 'content/ru', `sections on disk ${folders.join(', ')}, want ${want.join(', ')}`);
 }
 
-// ---- properties ------------------------------------------------------------
-{
-  const entries = json('config/properties.json').types;
-  const config = entries.map((entry) => entry.type);
-  const own = entries.filter((entry) => !entry.framework).map((entry) => entry.type);
-  const renderers = join(site, '.framework/distr/smart/field-renderers/js/field-renderers.js');
-  if (existsSync(renderers)) {
-    const source = readFileSync(renderers, 'utf8');
-    const start = source.indexOf('const PROPERTY_TYPES = Object.freeze([');
-    const end = source.indexOf('\n]);', start);
-    if (start < 0 || end < 0) fail('properties', relative(site, renderers), 'PROPERTY_TYPES not found');
-    else {
-      const registry = [...source.slice(start, end).matchAll(/^ {2}type: '([^']+)'/gmu)].map((match) => match[1]);
-      if (JSON.stringify(registry) !== JSON.stringify(own)) fail('properties', 'config/properties.json', `types ${own.join(', ')} differ from the registry ${registry.join(', ')}`);
-      for (const entry of entries.filter((one) => one.framework)) {
-        if (registry.includes(entry.type)) fail('properties', 'config/properties.json', `${entry.type} is in the registry now: drop its «framework»`);
-        if (!registry.includes(entry.framework)) fail('properties', 'config/properties.json', `${entry.type} is drawn as ${entry.framework}, which the registry does not have`);
-      }
-    }
-  } else {
-    notes.push('properties: .framework/ is not extracted (run scripts/build.sh); the registry was not compared');
-  }
-  for (const type of config) {
-    const slug = type.replace(/\./gu, '-');
-    if (!existsSync(join(site, `content/ru/properties/${slug}.md`))) fail('properties', type, `no page content/ru/properties/${slug}.md`);
-    if (!existsSync(join(site, `examples/properties/${slug}/index.js`))) fail('properties', type, `no example examples/properties/${slug}/`);
-  }
-}
-
 // ---- tops ------------------------------------------------------------------
 {
-  for (const path of contentFiles.filter((one) => /^content\/ru\/components\/[^/]+\/[^/]+\.md$/u.test(one))) {
+  for (const path of contentFiles.filter((one) => /^content\/ru\/components\/(?!index\.md)[^/]+\.md$/u.test(one))) {
     const text = read(path);
     const body = text.replace(/^---\n[\s\S]*?\n---\n/u, '');
     const paragraphs = body.split(/\n{2,}/u).map((part) => part.trim()).filter(Boolean);
@@ -117,7 +79,7 @@ const SECTIONS = [['guide', 'Руководство'], ['components', 'Комп�
 }
 
 // ---- versions --------------------------------------------------------------
-const LITERALS = /\bui-[0-9a-f]{12}\b|\bview-[0-9a-f]{12}\b|@simai-studio\/ui@\d|\bview@\d+\.\d+\.\d+|\b5\.20\d{6}\.\d{4}\b/gu;
+const LITERALS = /\bui-[0-9a-f]{12}\b|\badmin-[0-9a-f]{12}\b|@simai-studio\/(?:ui|admin)@\d|\badmin@\d+\.\d+\.\d+|\b5\.20\d{6}\.\d{4}\b/gu;
 const generatedOut = (text) => text
   .replace(/<!-- release:([a-z-]+) -->[\s\S]*?<!-- \/release:\1 -->/gu, (block) => block.replace(/[^\n]/gu, ' '))
   .replace(/\n## Параметры\n[\s\S]*?\n## См\. также\n/u, (block) => block.replace(/[^\n]/gu, ' '));
@@ -186,33 +148,20 @@ for (const path of contentFiles) {
 
 // ---- pictures --------------------------------------------------------------
 {
-  const manifest = json('assets/illustrations/manifest.json');
-  const hashes = new Map(manifest.pictures.map((picture) => [picture.file, picture.sha256]));
-  const sha = (path) => createHash('sha256').update(readFileSync(join(site, path))).digest('hex');
-  for (const [file, hash] of hashes) {
-    if (!existsSync(join(site, 'assets/illustrations', file))) fail('pictures', `assets/illustrations/${file}`, 'listed in the manifest, missing');
-    else if (sha(`assets/illustrations/${file}`) !== hash) fail('pictures', `assets/illustrations/${file}`, 'differs from the D22 file the manifest names');
-  }
-  for (const path of walk('examples').filter((one) => /\.(svg|png|jpe?g|webp|gif|avif)$/iu.test(one))) {
-    const name = path.split('/').pop();
-    if (!/\/assets\/[^/]+$/u.test(path) || !hashes.has(name)) fail('pictures', path, 'a picture not from the D22 set');
-    else if (sha(path) !== hashes.get(name)) fail('pictures', path, 'not a byte-same copy of the D22 file');
-  }
+  for (const path of walk('examples').filter((one) => /\.(svg|png|jpe?g|webp|gif|avif)$/iu.test(one))) fail('pictures', path, 'a picture file in an example');
   for (const path of [...contentFiles, ...walk('examples').filter((one) => /\.(html|js|css)$/u.test(one))]) {
     const text = read(path);
-    for (const match of text.matchAll(/!\[[^\]]*\]\(([^)\s]+)|<img\b[^>]*\bsrc="([^"]+)"|url\((['"]?)([^)'"]+\.(?:svg|png|jpe?g|webp|gif|avif))\3\)/gu)) {
-      const source = match[1] ?? match[2] ?? match[4];
+    for (const match of text.matchAll(/!\[[^\]]*\]\(([^)\s]+)|<img\b[^>]*\bsrc="([^"]+)"/gu)) {
+      const source = match[1] ?? match[2];
       if (/^data:/u.test(source)) continue;
-      const name = source.split('/').pop();
-      if (/^https?:/u.test(source) || !hashes.has(name)) fail('pictures', `${path}:${lineOf(text, match.index)}`, `picture «${source}» is not from the D22 set`);
+      fail('pictures', `${path}:${lineOf(text, match.index)}`, `picture «${source}»: the set's pictures are diagrams`);
     }
   }
 }
 
 // ---- colours ---------------------------------------------------------------
 {
-  const catalogue = read('scripts/property-catalogue.js');
-  const swatches = new Set((catalogue.match(/const SWATCHES = \[([^\]]*)\]/u)?.[1] ?? '').match(/#[0-9a-f]{3,8}\b/giu) ?? []);
+  const swatches = new Set();
   const COLOUR = /#[0-9a-f]{3,8}\b(?![-\w])|\b(?:rgba?|hsla?|oklch|oklab|lab|lch|hwb)\(/giu;
   for (const path of walk('examples').filter((one) => /\.(html|js|css)$/u.test(one))) {
     const text = read(path);
@@ -239,7 +188,7 @@ for (const path of contentFiles) {
 }
 
 // ---- concepts --------------------------------------------------------------
-for (const name of ['data', 'intents', 'layouts', 'settings', 'preferences']) {
+for (const name of ['index', 'frame', 'port', 'notifications', 'activity', 'first-paint']) {
   const path = `content/ru/guide/concepts/${name}.md`;
   const text = read(path);
   if (!/^:{3,}diagram\b/mu.test(text) && !/!\[[^\]]+\]\(/u.test(text)) fail('concepts', path, 'no picture');

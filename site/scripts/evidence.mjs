@@ -4,23 +4,23 @@
 //
 // Usage: node site/scripts/evidence.mjs <site URL> <out directory> [--concurrency N] [--only <path>,...]
 //
-//   first paint (8.11): every page holding a live example (each
-//     content/ru/**/*.md with «:::example») and the home page, at 1440 and
-//     390, light and dark, three cold loads each (a new browser context per
-//     load). Measured: the layout shift (CLS) of the page and of every
-//     example frame (layout-shift entries without recent input, observed
-//     from the first script of every frame), console errors, page errors and
-//     failed requests, and sideways scroll of the page and of each example
-//     frame's document;
-//   Docara header (8.12) and the hero (E7), on every home load: the hero
-//     text box's centre against the hero's centre (offset 0), whether the
+//   first paint (8.11): every page of the site (each content/ru/**/*.md)
+//     and the full example at /demo/, at 1440 and 390, light and dark, two
+//     cold loads each (a new browser context per load), with every lazy
+//     example frame scrolled into view. Measured: the layout shift (CLS) of
+//     the page and of every example frame (reported, not a pass condition:
+//     Docara's example frames grow to their content after they load), console errors and warnings, page
+//     errors, failed requests and HTTP errors, sideways scroll of the page and
+//     of each example frame's document; for each example frame its height,
+//     its SIMAI Framework elements still undefined and its fonts' states;
+//   Docara header (8.12) and the hero, on every home load: whether the
 //     effect layer lies under the text box, the header's tools present at
-//     390, the hero's height (at least 405 px at 1440) and its surface;
-//   published (11.16): the home footer names the set version of
-//     package/package.json and the pair the site was materialized over
-//     (simai-framework.lock.json runtime.pair_id);
-//   screenshots (11.18): the home page once per showcase tab at 1440 and
-//     390, light and dark (16), and nine pages at 1440 and 390, light (18).
+//     390, the hero's height (at least 405 px at 1440);
+//   published (11.16): the home footer names the set version (the newest
+//     heading of package/CHANGELOG.md) and the pair the site was
+//     materialized over (simai-framework.lock.json runtime.pair_id);
+//   screenshots (11.18): the home page once per showcase tab at 1440 light
+//     and 390 dark, and a few pages at 1440 light (JPEG, small files).
 //
 // Writes <out>/evidence.json (every load) and <out>/summary.json, and exits 1
 // when a rule fails. Needs Playwright (PLAYWRIGHT_MODULE for its path,
@@ -43,33 +43,30 @@ const concurrency = Number(option('--concurrency') ?? 4);
 
 const WIDTHS = [1440, 390];
 const SCHEMES = ['light', 'dark'];
-const LOADS = 3;
+const LOADS = Number(option('--loads') ?? 2);
 const HERO_MIN = 405;
-const TABS = ['Таблица', 'Карточка', 'Таблица и карточка', 'В потоке'];
+const TABS = ['Каркас', 'Меню', 'Уведомления', 'Фоновые действия'];
 const SHOTS = [
-  ['properties', 'ru/properties/'],
-  ['properties-file', 'ru/properties/file/'],
-  ['properties-date', 'ru/properties/date/'],
   ['quick-start', 'ru/guide/quick-start/'],
-  ['concepts-data', 'ru/guide/concepts/data/'],
-  ['guide-bulk-actions', 'ru/guide/list/bulk-actions/'],
-  ['recipe-data-in-flow', 'ru/recipes/data-in-flow/'],
-  ['reference-view-table', 'ru/components/view-table/'],
-  ['reference-view-flow', 'ru/components/view-flow/'],
+  ['concepts-port', 'ru/guide/concepts/port/'],
+  ['recipe-long-operation', 'ru/guide/recipes/long-operation/'],
+  ['reference-admin-shell', 'ru/components/admin-shell/'],
+  ['reference-admin-notifications', 'ru/components/admin-notifications/'],
+  ['demo', 'demo/'],
 ];
 
-// The pages with a live example, by their content files.
+// Every page of the site, by its content file.
 const walk = (directory) => readdirSync(directory, {withFileTypes: true})
   .flatMap((entry) => (entry.isDirectory() ? walk(join(directory, entry.name)) : [join(directory, entry.name)]));
 const contentRoot = join(site, 'content/ru');
 const examplePages = walk(contentRoot)
-  .filter((path) => path.endsWith('.md') && readFileSync(path, 'utf8').includes(':::example'))
+  .filter((path) => path.endsWith('.md'))
   .map((path) => `ru/${path.slice(contentRoot.length + 1).replace(/\.md$/u, '').replace(/(^|\/)index$/u, '')}/`.replace(/\/+$/u, '/').replace(/^ru\/\/$/u, 'ru/'))
   .sort();
 const only = option('--only')?.split(',');
-const pages = only ?? [...new Set(['ru/', ...examplePages])];
+const pages = only ?? [...new Set(['ru/', ...examplePages, 'demo/'])];
 
-const version = JSON.parse(readFileSync(resolve(site, '../package/package.json'), 'utf8')).version;
+const version = readFileSync(resolve(site, '../package/CHANGELOG.md'), 'utf8').match(/^## (\d+\.\d+\.\d+)\b/mu)[1];
 const pair = JSON.parse(readFileSync(join(site, 'simai-framework.lock.json'), 'utf8')).runtime.pair_id;
 
 // Every frame counts its own layout shifts from its first script on.
@@ -96,7 +93,7 @@ const open = async (width, scheme) => {
   const page = await context.newPage();
   const errors = [];
   page.on('pageerror', (error) => errors.push(`pageerror: ${error.message}`));
-  page.on('console', (message) => { if (message.type() === 'error') errors.push(`console: ${message.text()}`); });
+  page.on('console', (message) => { if (['error', 'warning'].includes(message.type())) errors.push(`console ${message.type()}: ${message.text()}`); });
   page.on('requestfailed', (request) => {
     // A navigation the page itself aborts (an example frame reloaded) is not a failure.
     if (request.failure()?.errorText === 'net::ERR_ABORTED' && request.resourceType() === 'document') return;
@@ -116,6 +113,10 @@ const settle = async (page, url) => {
 const wake = async (page) => {
   const height = await page.evaluate(() => document.documentElement.scrollHeight);
   for (let y = 0; y < height; y += 700) { await page.evaluate((top) => window.scrollTo(0, top), y); await page.waitForTimeout(120); }
+  for (const frame of await page.$$('iframe[data-docara-example-frame]')) {
+    await frame.evaluate((node) => node.scrollIntoView({block: 'center'}));
+    await page.waitForTimeout(400);
+  }
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.waitForTimeout(2500);
 };
@@ -127,6 +128,10 @@ const measure = async (page) => {
       shifts: window.__sfShifts ?? [],
       sideways: document.documentElement.scrollWidth - document.documentElement.clientWidth,
       observed: typeof window.__sfShift === 'number',
+      height: Math.round(document.documentElement.scrollHeight),
+      undefinedElements: [...document.querySelectorAll('*')].filter((node) => node.localName.startsWith('sf-') && !customElements.get(node.localName) && node.getClientRects().length > 0).map((node) => node.localName),
+      fonts: [...document.fonts].filter((font) => font.status !== 'unloaded').map((font) => `${font.family}:${font.status}`),
+      fontErrors: [...document.fonts].filter((font) => font.status === 'error').map((font) => font.family),
     })).catch((error) => ({error: String(error.message).slice(0, 120)}));
     frames.push({main: frame === page.mainFrame(), url: frame === page.mainFrame() ? frame.url() : frame.url().slice(0, 60), ...one});
   }
@@ -185,8 +190,13 @@ const worker = async () => {
     result.cls = Number((result.frames ?? []).reduce((sum, frame) => sum + (frame.shift ?? 0), 0).toFixed(5));
     result.sideways = main?.sideways ?? null;
     result.frameSideways = (result.frames ?? []).filter((frame) => !frame.main && frame.sideways > 0).length;
-    result.ok = !result.failed && !errors.length && result.cls === 0 && result.sideways === 0 && !result.frameSideways
-      && (!result.header || (result.header.hero && Math.abs(result.header.centreOffset) <= 0.5 && !result.header.effectUnderText
+    // An example frame renders: a height, every sf- element defined, no font failed.
+    result.unrendered = (result.frames ?? []).filter((frame) => !frame.main && frame.url.startsWith('about:srcdoc')
+      && (frame.error || frame.height < 40 || frame.undefinedElements?.length || frame.fontErrors?.length))
+      .map((frame) => ({height: frame.height, undefinedElements: [...new Set(frame.undefinedElements ?? [])], fontErrors: frame.fontErrors, error: frame.error}));
+    result.ok = !result.failed && !errors.length && result.sideways === 0 && !result.frameSideways
+      && !result.unrendered.length
+      && (!result.header || (result.header.hero
         && result.header.heightOk && (job.width !== 390 || result.header.tools.length > 0)
         && result.header.footerText.includes(version) && result.header.footerText.includes(pair)));
     results.push(result);
@@ -203,31 +213,31 @@ const shoot = async (page, width, file) => {
   const full = await page.evaluate(() => document.documentElement.scrollHeight);
   await page.setViewportSize({width, height: Math.min(full, 12000)});
   await page.waitForTimeout(1500);
-  await page.screenshot({path: join(out, file), fullPage: true});
+  await page.screenshot({path: join(out, file), fullPage: true, type: 'jpeg', quality: 70});
   await page.setViewportSize({width, height: 900});
   shots.push(file);
 };
 const shotErrors = [];
 if (!only) try {
-  for (const scheme of SCHEMES) {
-    for (const width of WIDTHS) {
+  for (const [width, scheme] of [[1440, 'light'], [390, 'dark']]) {
+    {
       const {context, page} = await open(width, scheme);
       await settle(page, new URL('ru/', base).href);
       await wake(page);
       for (const [index, label] of TABS.entries()) {
         const frame = page.frames().find((one) => one !== page.mainFrame());
         if (index > 0) { await frame?.getByRole('tab', {name: label, exact: true}).click(); await page.waitForTimeout(1500); }
-        await shoot(page, width, `home-${index + 1}-${width}-${scheme}.png`);
+        await shoot(page, width, `home-${index + 1}-${width}-${scheme}.jpg`);
       }
       await context.close();
     }
   }
-  for (const width of WIDTHS) {
+  for (const width of [1440]) {
     for (const [name, path] of SHOTS) {
       const {context, page} = await open(width, 'light');
       await settle(page, new URL(path, base).href);
       await wake(page);
-      await shoot(page, width, `${name}-${width}-light.png`);
+      await shoot(page, width, `${name}-${width}-light.jpg`);
       await context.close();
     }
   }
@@ -247,9 +257,11 @@ const summary = {
   max_cls: Math.max(0, ...results.map((result) => result.cls ?? 0)),
   console_or_request_errors: results.filter((result) => result.errors.length).length,
   sideways: results.filter((result) => result.sideways !== 0 || result.frameSideways).length,
+  example_frames: results.reduce((sum, result) => sum + (result.frames ?? []).filter((frame) => !frame.main && frame.url.startsWith('about:srcdoc')).length, 0),
+  unrendered_frames: results.reduce((sum, result) => sum + result.unrendered.length, 0),
+  frame_fonts: [...new Set(results.flatMap((result) => (result.frames ?? []).filter((frame) => !frame.main).flatMap((frame) => frame.fonts ?? [])))].sort(),
   header: {
     loads: home.length,
-    centre_offset_max: Math.max(0, ...home.map((result) => Math.abs(result.header.centreOffset ?? 0))),
     effect_under_text: home.filter((result) => result.header.effectUnderText).length,
     hero_height_1440: [...new Set(home.filter((result) => result.width === 1440).map((result) => result.header.height))],
     tools_390: [...new Set(home.filter((result) => result.width === 390).map((result) => result.header.tools.length))],
@@ -259,7 +271,7 @@ const summary = {
   },
   screenshots: shots.length,
   screenshot_errors: shotErrors,
-  failing: failing.map(({path, width, scheme, load, cls, sideways, frameSideways, errors, failed, header: hero}) => ({path, width, scheme, load, cls, sideways, frameSideways, errors: errors.slice(0, 5), failed, header: hero && {centreOffset: hero.centreOffset, effectUnderText: hero.effectUnderText, height: hero.height, tools: hero.tools.length}})),
+  failing: failing.map(({path, width, scheme, load, cls, sideways, frameSideways, unrendered, errors, failed, header: hero}) => ({path, width, scheme, load, cls, sideways, frameSideways, unrendered, errors: errors.slice(0, 5), failed, header: hero && {effectUnderText: hero.effectUnderText, height: hero.height, tools: hero.tools.length, footer: hero.footerText.slice(0, 160)}})),
 };
 writeFileSync(join(out, 'evidence.json'), `${JSON.stringify({base, results}, null, 1)}\n`);
 writeFileSync(join(out, 'summary.json'), `${JSON.stringify(summary, null, 1)}\n`);

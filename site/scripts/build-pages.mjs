@@ -119,13 +119,15 @@ let changed = 0;
 let filled = 0;
 for (const path of walk(join(site, 'content/ru')).filter((one) => one.endsWith('.md'))) {
   const text = readFileSync(path, 'utf8');
-  const next = text.replace(/<!-- release:([a-z-]+) -->\n[\s\S]*?<!-- \/release:\1 -->/gu, (_, name) => {
+  // A block may stand indented, inside a list item: its body takes the indent.
+  const next = text.replace(/^([ \t]*)<!-- release:([a-z-]+) -->\n[\s\S]*?^\1<!-- \/release:\2 -->/gmu, (_, indent, name) => {
     filled += 1;
     let body;
     if (name === 'badges') body = badges(path.match(/components\/([^/]+)\.md$/u)?.[1]);
     else if (blocks[name]) body = blocks[name]();
     else throw new Error(`build-pages: ${relative(site, path)}: unknown block ${name}`);
-    return `<!-- release:${name} -->\n${body}\n<!-- /release:${name} -->`;
+    const indented = body.split('\n').map((line) => (line ? `${indent}${line}` : line)).join('\n');
+    return `${indent}<!-- release:${name} -->\n${indented}\n${indent}<!-- /release:${name} -->`;
   });
   if (next !== text) {
     changed += 1;

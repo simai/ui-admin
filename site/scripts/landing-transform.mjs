@@ -39,7 +39,7 @@ const transform = (html, file) => {
     const header = need(html.indexOf('<div class="docara-example-preview__header', at), 'the example header', file);
     const open = need(html.indexOf('">', header), 'the end of the example header tag', file) + 2;
     html = `${html.slice(0, open - 1)} style="display:none">${html.slice(open)}`;
-    html = `${html.slice(0, at)}<section data-view-clean-example ${html.slice(at + '<section '.length)}`;
+    html = `${html.slice(0, at)}<section data-admin-clean-example ${html.slice(at + '<section '.length)}`;
     count += 1;
     at = html.indexOf('<section data-docara-example=', at + 1);
   }
@@ -51,15 +51,15 @@ const transform = (html, file) => {
 // first child, made at run time with its canvas; a mask fades it to a tenth
 // under the text block, from the text side, and gives it full strength only
 // in the free part beyond the text. The banner itself is not dimmed.
-// --view-hero-text-end is where the text block ends, measured from the
+// --admin-hero-text-end is where the text block ends, measured from the
 // heading's words, the subtitle and the buttons on load and on resize.
-const HERO_MASK = `<style data-view-hero-mask>
+const HERO_MASK = `<style data-admin-hero-mask>
 [data-docara-block="hero"][data-sf-effect] > div:first-child:not([data-docara-container]) {
-  -webkit-mask-image: linear-gradient(to right, rgb(0 0 0 / 0.1) 0, rgb(0 0 0 / 0.1) var(--view-hero-text-end, 100%), #000 calc(var(--view-hero-text-end, 100%) + 12rem));
-  mask-image: linear-gradient(to right, rgb(0 0 0 / 0.1) 0, rgb(0 0 0 / 0.1) var(--view-hero-text-end, 100%), #000 calc(var(--view-hero-text-end, 100%) + 12rem));
+  -webkit-mask-image: linear-gradient(to right, rgb(0 0 0 / 0.1) 0, rgb(0 0 0 / 0.1) var(--admin-hero-text-end, 100%), #000 calc(var(--admin-hero-text-end, 100%) + 12rem));
+  mask-image: linear-gradient(to right, rgb(0 0 0 / 0.1) 0, rgb(0 0 0 / 0.1) var(--admin-hero-text-end, 100%), #000 calc(var(--admin-hero-text-end, 100%) + 12rem));
 }
 </style>
-<script data-view-hero-mask>
+<script data-admin-hero-mask>
 (() => {
   const place = () => {
     const hero = document.querySelector('[data-docara-block="hero"][data-sf-effect]');
@@ -73,7 +73,7 @@ const HERO_MASK = `<style data-view-hero-mask>
       for (const box of range.getClientRects()) end = Math.max(end, box.right);
       for (const child of part.children) end = Math.max(end, child.getBoundingClientRect().right);
     }
-    hero.style.setProperty('--view-hero-text-end', \`\${Math.ceil(end - left + 16)}px\`);
+    hero.style.setProperty('--admin-hero-text-end', \`\${Math.ceil(end - left + 16)}px\`);
   };
   addEventListener('DOMContentLoaded', place);
   addEventListener('load', place);

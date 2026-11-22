@@ -1,11 +1,47 @@
 ---
-description: x
+description: Меню администратора sf-admin-menu — рейка разделов, колонка раздела, поиск ⌘K, меню объекта, избранное, колокол и профиль по ответам порта навигации.
 profile: reference
 ---
 
-# admin-menu
+# Меню администратора
 
-x
+<!-- release:badges -->
+:badge[sf-admin-menu]{variant=main scheme=on-surface size=1} :badge[Версия 1.15.1]{variant=tonal scheme=neutral size=1} :badge[выпущен]{variant=tonal scheme=success size=1}
+<!-- /release:badges -->
+
+Меню администратора рисует навигацию админки по ответам сервера: рейку разделов, колонку открытого раздела, поиск, избранное, колокол уведомлений и профиль. Что показать и что разрешить, решает сервер через порт навигации; меню только спрашивает и рисует.
+
+## Пример
+
+Нажмите раздел на рейке, откройте поиск лупой или клавишами ⌘K, отметьте строку звездой, переключите сервер, откройте профиль. Журнал показывает, что меню спросило у хоста.
+
+:::example {id="components/admin-menu" label="Меню над портом" log="sf-admin-menu-navigate sf-admin-menu-query sf-admin-menu-toggle sf-admin-menu-open sf-admin-menu-save sf-admin-menu-read sf-admin-menu-sign-out sf-admin-menu-column-change"}
+:::
+
+## Меню объекта
+
+Когда открыт объект — сервер, сайт, — сервер отвечает его меню в поле `context`, и меню показывает его во второй колонке вместо раздела.
+
+:::example {id="components/admin-menu-object" label="Меню открытого сервера"}
+:::
+
+## Первый ответ в странице
+
+Сервер может напечатать первый ответ `navigation.load` в островке `data-sf-settings`: меню нарисует разделы сразу, без заготовки. Этот пример работает вовсе без порта.
+
+:::example {id="components/admin-menu-first-answer" label="Меню из первого ответа"}
+:::
+
+## Колокол и панель
+
+Если на странице есть `sf-admin-notifications` в виде панели внутри `sf-drawer`, колокол открывает эту шторку. Без неё меню показывает свой список уведомлений.
+
+:::example {id="components/admin-menu-bell" label="Колокол открывает панель"}
+:::
+
+## Колонка раздела
+
+Колонку раздела человек прячет и показывает сам, Ctrl/Cmd+B делает то же с клавиатуры; выбор запоминается. Странице для этого служат действия `showColumn()`, `hideColumn()` и `toggleColumn()`, а событие `sf-admin-menu-column-change` говорит, что колонка открылась или закрылась — его видно в журнале первого примера.
 
 ## Параметры
 
@@ -93,4 +129,7 @@ x
 
 ## См. также
 
-- x
+- [Порт навигации](/ru/guide/concepts/port/)
+- [Первый кадр](/ru/guide/concepts/first-paint/)
+- [Каркас админки](../admin-shell/)
+- [Уведомления](../admin-notifications/)

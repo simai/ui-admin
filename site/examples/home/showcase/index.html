@@ -11,7 +11,7 @@
               <script type="application/json" data-sf-settings>{"items": [{"id": "licence", "level": "warning", "text": "Лицензия кончается 30 ноября: после этого панель будет только показывать.", "source": "Лицензия", "action": {"label": "Продлить", "href": "#/panel.license"}}]}</script>
             </sf-alert-bar>
             <sf-admin-menu slot="menu" aria-label="Меню" expected-columns="2" current="srv.overview"></sf-admin-menu>
-            <sf-header-page slot="head" heading="Обзор сервера" overflow="wrap" star="false">
+            <sf-header-page slot="head" heading="Обзор сервера" overflow="wrap">
               <div slot="path" class="sf-admin-shell-path">
                 <sf-breadcrumbs current="none" items='[{"label": "Сервер", "href": "#/srv"}]'></sf-breadcrumbs>
                 <sf-admin-activity history-href="#/activity" runs='[{"id": "r1", "label": "Копия srv1.larena.cloud", "state": "running", "value": 42, "total": 100, "unit": "%", "href": "#/srv.backups"}, {"id": "r2", "label": "Обновление PHP на stage", "state": "failed", "text": "Хранилище пакетов не ответило.", "href": "#/srv.software", "object": "stage.larena.cloud"}]'></sf-admin-activity>

@@ -17,6 +17,8 @@
 import {readFileSync} from 'node:fs';
 import {lab, finish} from './admin-set-lab.mjs';
 
+if (!process.argv[2]) throw new Error('Build output root is required');
+
 const examples = JSON.parse(readFileSync(new URL('../../src/smart/admin-notifications/examples.json', import.meta.url), 'utf8'));
 const BODY = [].concat(examples.pages[0].page.body).join('\n');
 

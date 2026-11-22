@@ -210,6 +210,9 @@
     /* The whole width of the head's path line, so the indicator stands at its end. */
     flex: 1 1 auto;
     align-items: center;
+    /* sf-breadcrumbs and sf-admin-activity are display: contents: their boxes
+       are the row's items, the crumbs at the start and the indicator at the end. */
+    justify-content: space-between;
     gap: var(--sf-space-1\/2);
     min-inline-size: 0;
     /* As tall as the indicator's trigger before it draws: the row keeps its

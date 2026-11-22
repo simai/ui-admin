@@ -279,7 +279,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/admin-shell/index.js",
-        "sha256": "cc6f1d66ffe63e41df7a0e3d936b2fc93b64a4a14d972015ea6c27d37df38477"
+        "sha256": "c57b64712483dc8718cf1ef048ce6948ddb5b53ce51281089b4d47928363276f"
       },
       {
         "path": "src/smart/admin-shell/js/templates/default.js",
@@ -287,7 +287,7 @@
       },
       {
         "path": "src/smart/admin-shell/js/templates/default.css",
-        "sha256": "d2c1460fecef8d7db59aaa4ba52f404e955ecbb23c0be4acd1ef3be741955876"
+        "sha256": "d66397d4dddd927a0b1184d883e9bb93061d36f9d83f4170c4dd2146bc9ddb75"
       },
       {
         "path": "src/smart/admin-shell/component.json",

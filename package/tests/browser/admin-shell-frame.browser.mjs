@@ -15,6 +15,8 @@
 //   both: no sideways scroll, no console error or warning.
 import {lab, finish} from './admin-set-lab.mjs';
 
+if (!process.argv[2]) throw new Error('Build output root is required');
+
 const ANSWER = {
   answer: 'applied', revision: '1', echo: {site: 'main', profile: 'regular', sequence: null},
   site: {current: {key: 'main', label: 'Larena Panel', caption: 'panel.test'}, count: 1},

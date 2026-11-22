@@ -16,6 +16,8 @@
 //   - 1440 and 390: no sideways scroll, no console error or warning.
 import {lab, finish} from './admin-set-lab.mjs';
 
+if (!process.argv[2]) throw new Error('Build output root is required');
+
 const RUNNING = [
   {id: 'r1', label: 'Копия srv1.larena.cloud', state: 'running', value: 42, total: 100, unit: '%'},
   {id: 'r2', label: 'Обновление PHP на stage', state: 'running'},

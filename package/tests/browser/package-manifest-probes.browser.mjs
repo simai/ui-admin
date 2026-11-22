@@ -33,7 +33,7 @@ const PACKAGE_BOOT = `window.SF_BOOT_CONFIG={preloader:{enabled:false},packages:
 const source = readFileSync(runner, 'utf8');
 if (!source.includes(FREE_BOOT)) throw new Error('the Framework runner no longer boots the page as this wrapper expects');
 // The set's folders (set.json components[].folder).
-const PACKAGE = ['admin-menu'];
+const PACKAGE = ['admin-menu', 'admin-shell', 'admin-notifications', 'admin-activity'];
 const asked = process.argv.slice(3);
 const folders = (asked.length ? asked : PACKAGE).filter((folder) => existsSync(join(here, '..', '..', 'src', 'smart', folder, 'probe.json')));
 if (!folders.length) throw new Error('no package component has a probe.json');

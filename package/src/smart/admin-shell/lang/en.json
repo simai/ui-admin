@@ -1,0 +1,16 @@
+{
+  "title": "Admin shell",
+  "runtime": {
+    "skip-label": "Skip to content",
+    "menu-label": "Menu",
+    "close-menu-label": "Close the menu"
+  },
+  "events": {
+    "menu-open": {
+      "label": "Menu opened"
+    },
+    "menu-close": {
+      "label": "Menu closed"
+    }
+  }
+}

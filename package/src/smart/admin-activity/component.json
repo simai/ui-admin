@@ -1,0 +1,386 @@
+{
+  "$comment": "sf-admin-activity, standard simai.smart-component 1.4 (vocabulary 1.1.5): what runs in the background of an admin, at the end of the crumbs row and in the phone top line. Owner decision C421 (with C332, C339, C342); study ui-control control/research/2026-11-22-admin-shell-study, sample prototypes/admin-shell-study/shell.mjs setupActivity. The runs are the host's: the setting runs, or activity.load when the host's port offers activity.",
+  "id": "smart.admin-activity",
+  "tag": "sf-admin-activity",
+  "version": "1.0.0",
+  "kind": "leaf",
+  "family": "progress",
+  "settings": {
+    "runs": {
+      "type": "list",
+      "default": [],
+      "of": {
+        "id": "string",
+        "label": "string",
+        "state": {
+          "type": "string",
+          "optional": true
+        },
+        "value": {
+          "type": "number",
+          "optional": true
+        },
+        "total": {
+          "type": "number",
+          "optional": true
+        },
+        "unit": {
+          "type": "string",
+          "optional": true
+        },
+        "text": {
+          "type": "string",
+          "optional": true
+        },
+        "href": {
+          "type": "string",
+          "optional": true
+        },
+        "object": {
+          "type": "string",
+          "optional": true
+        },
+        "cancelable": {
+          "type": "boolean",
+          "optional": true
+        }
+      },
+      "x-markup": "the attribute takes the same list as JSON; the property wins",
+      "summary": "The host's runs, set anew on every change: each {id, label, state (running|failed|done|cancelled), value, total, unit, text, href, object, cancelable}. A run that leaves running, or is dropped while running, ended: the element tells it once."
+    },
+    "history-href": {
+      "type": "string",
+      "default": "",
+      "summary": "The address of the activity history: «Все действия» at the list's foot, and where a failure's notification leads when the run has no href."
+    },
+    "size": {
+      "type": "enum",
+      "values": [
+        "1/2",
+        "1"
+      ],
+      "default": "1/2",
+      "summary": "The trigger's rung: 1/2 in the crumbs row, 1 in the phone top line beside the bell."
+    },
+    "placement": {
+      "type": "enum",
+      "values": [
+        "bottom-end",
+        "bottom-start",
+        "bottom"
+      ],
+      "default": "bottom-end",
+      "summary": "Where the list opens from the trigger."
+    },
+    "notify": {
+      "type": "boolean",
+      "default": true,
+      "summary": "A run's end says itself: SF.notify success (gone by itself) or error (stays until closed, C339) and a notification in the admin's list (C332). Off, only the event finished."
+    }
+  },
+  "values": {},
+  "events": {
+    "open": {
+      "carries": {},
+      "summary": "The list opened (vocabulary open): the failures in it count as seen and the mark goes."
+    },
+    "close": {
+      "carries": {},
+      "summary": "The list closed (vocabulary close)."
+    },
+    "retry": {
+      "carries": {
+        "id": "string"
+      },
+      "own-verb": true,
+      "summary": "«Повторить» on a failed run; over a port the element asks activity.retry {id} and reads again."
+    },
+    "cancel": {
+      "carries": {
+        "id": "string"
+      },
+      "own-verb": true,
+      "summary": "«Отменить» on a running run; over a port the element asks activity.cancel {id} and reads again."
+    },
+    "finished": {
+      "carries": {
+        "id": "string",
+        "state": "string"
+      },
+      "cancelable": true,
+      "own-verb": true,
+      "summary": "A run ended (state done or failed), once for the page. Cancelled, the element says nothing of it (no toast, no notification)."
+    }
+  },
+  "actions": {
+    "refresh": {
+      "x-outcomes": [
+        "applied",
+        "refused",
+        "unavailable"
+      ],
+      "summary": "Reads the runs again (activity.load) when the port offers activity.",
+      "x-returns": {
+        "type": "object",
+        "description": "{outcome: applied} or {outcome: refused, reason}"
+      }
+    },
+    "show": {
+      "x-outcomes": [
+        "applied",
+        "refused"
+      ],
+      "summary": "Opens the list; refused when there is nothing to show.",
+      "x-returns": {
+        "type": "object",
+        "description": "{outcome: applied} or {outcome: refused, reason}"
+      }
+    },
+    "close": {
+      "x-outcomes": [
+        "applied",
+        "refused"
+      ],
+      "summary": "Closes the list.",
+      "x-returns": {
+        "type": "object",
+        "description": "{outcome: applied} or {outcome: refused, reason}"
+      }
+    }
+  },
+  "slots": {},
+  "side-effects": [
+    "SF.notify when a run ends (setting notify)",
+    "sf-admin-notifications add when a run fails (setting notify)"
+  ],
+  "keyboard": {
+    "host": {
+      "Tab": "reach",
+      "Enter": "toggle",
+      "Space": "toggle",
+      "Escape": "close"
+    }
+  },
+  "relations": [
+    {
+      "name": "icons"
+    },
+    {
+      "name": "cl-badge",
+      "$comment": [
+        "«Идёт N», «Не удалось N» and the failure mark are sf-badge."
+      ]
+    },
+    {
+      "name": "cl-popover",
+      "$comment": [
+        "The list opens in sf-popover from the trigger."
+      ]
+    },
+    {
+      "name": "cl-progress-run",
+      "lazy": true,
+      "$comment": [
+        "A run is sf-progress-run in the notice look; drawn only when the list opens."
+      ]
+    },
+    {
+      "name": "cl-button",
+      "lazy": true,
+      "$comment": [
+        "Fallback until AS-4: «Повторить» under a failed run."
+      ]
+    }
+  ],
+  "templates": {
+    "default": {
+      "file": "js/templates/default.js",
+      "$comment": "The Lit template in JavaScript (§5.2)."
+    }
+  },
+  "styles": "js/templates/default.css",
+  "examples": "examples.json",
+  "docs": "docs.md",
+  "lang": "lang/",
+  "accessibility": {
+    "role": "group",
+    "name": {
+      "from": [
+        "aria-label"
+      ]
+    },
+    "keys": {
+      "Tab": "reach",
+      "Enter": "toggle",
+      "Space": "toggle",
+      "Escape": "close"
+    },
+    "x-keys": "The trigger is a native button with a name that says the counts in words («Действия в фоне: идёт 2, не удалось 1»); the badges are hidden from a reader. A polite status says the counts once per change, not each percent. The list is sf-popover's: Escape closes it and the focus returns to the trigger."
+  },
+  "host-states": {},
+  "css-variables": {
+    "--sf-admin-activity-gap": {
+      "type": "length",
+      "state": "default"
+    },
+    "--sf-admin-activity-list-width": {
+      "type": "length",
+      "state": "default"
+    },
+    "--sf-admin-activity-list-max-height": {
+      "type": "length",
+      "state": "default"
+    },
+    "--sf-admin-activity-failed-color": {
+      "type": "color",
+      "state": "default"
+    },
+    "--sf-admin-activity-trigger-padding-inline": {
+      "type": "length",
+      "state": "default"
+    }
+  },
+  "x-summary": "The admin's background activity: «Идёт N» while something runs, a red failure mark beside it until the list was opened, «Не удалось N» in words when nothing runs, no element when nothing is to show; the list of runs in sf-popover; a run's end said by SF.notify and, for a failure, a notification.",
+  "x-words": [
+    "running",
+    "failed",
+    "running-words",
+    "failed-words",
+    "name",
+    "nothing",
+    "list-label",
+    "retry",
+    "history",
+    "done-title",
+    "done-text",
+    "failed-title",
+    "failed-text",
+    "now",
+    "today"
+  ],
+  "x-decisions": [
+    "shape: a leaf over Framework parts: the trigger a native quiet button with sf-badge, the list sf-popover of sf-progress-run rows in the notice look (C342).",
+    "what shows (C421): «Идёт N» while something runs; a failure meanwhile is an icon-only red mark beside it until the list was opened; when nothing runs, «Не удалось N» in words; nothing running or failed, the element draws nothing.",
+    "ends (C339, C332): done → SF.notify success, which goes by itself; failed → SF.notify error, which stays until closed, and a notification added to every sf-admin-notifications of the page. Told once per run's end for the page (two indicators, the crumbs row's and the phone top line's, share it on a global: every bundle carries its own module copy).",
+    "fallback until AS-4: sf-progress-run's notice look draws no «Повторить» on a failed row; the element draws an sf-button under it, which drops at the repin that carries AS-4.",
+    "port: the admin navigation port 1.1.0 has no activity; a host whose port lists the capability activity answers activity.load {runs}, activity.retry {id}, activity.cancel {id}. A port 1.2.0 that declares it is asked of the SIMAI Framework; until then the setting runs is the way."
+  ],
+  "x-registry": {
+    "capabilities": [
+      "activity",
+      "host-port",
+      "live-announcement",
+      "toast"
+    ],
+    "persistence": {
+      "mode": "none",
+      "source_of_truth": "host",
+      "network_owner": "host",
+      "revision_field": null
+    },
+    "readiness": {
+      "level": "host-required",
+      "required_checks": [
+        "manifest",
+        "loader-rule",
+        "admin-activity-contract",
+        "admin-activity-browser"
+      ]
+    },
+    "tags": [
+      "admin",
+      "activity",
+      "progress",
+      "background"
+    ],
+    "contracts": {
+      "run": {
+        "const": "A run: id, label, state (running|failed|done|cancelled), value, total, unit, text, href, object, cancelable."
+      }
+    },
+    "state": {
+      "machines": {
+        "indicator": [
+          "none",
+          "running",
+          "running-with-failure",
+          "failed"
+        ]
+      },
+      "visual_states": [
+        "default",
+        "error"
+      ]
+    },
+    "artifacts": {
+      "fixtures": [],
+      "scenarios": []
+    },
+    "ownership": {
+      "source": "simai/ui-admin",
+      "data": "host",
+      "effects": "host",
+      "forbidden_client_responsibilities": [
+        "running the actions",
+        "keeping the history of runs"
+      ]
+    },
+    "security": {
+      "permissions_owner": "host",
+      "untrusted_inputs": [
+        "labels and texts (drawn as text)",
+        "hrefs (links)"
+      ],
+      "network_policy": "deny"
+    },
+    "presentation": {
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "locales": [
+        "en",
+        "ru"
+      ],
+      "responsive": [
+        "desktop",
+        "mobile"
+      ],
+      "skeleton": {
+        "shape": "none",
+        "while_loading": "none"
+      }
+    },
+    "ai_guidance": {
+      "use_when": "Use sf-admin-activity at the end of the crumbs row of an admin page and in the phone top line of sf-admin-shell (slot top-end), with the host's runs.",
+      "do_not": [
+        "Do not run the actions in the element; the host runs them",
+        "Do not send percents as separate toasts: set runs anew and the element tells only the end",
+        "Do not draw it when nothing runs: it draws nothing by itself"
+      ],
+      "required_reads": [
+        "inputs",
+        "contracts",
+        "events",
+        "accessibility"
+      ],
+      "minimal_example": "<sf-admin-activity history-href=\"/panel/activity\"></sf-admin-activity>",
+      "owner_commands": [
+        "node scripts/test.mjs",
+        "node scripts/run-browser-probes.mjs <free> <set build>"
+      ]
+    },
+    "accessibility": {
+      "accessible_name": "element",
+      "focus": "The trigger in reading order; the list is sf-popover's, the focus returns to the trigger when it closes."
+    },
+    "compatibility": {
+      "migrations": []
+    },
+    "inputs": {
+      "template": {
+        "const": "default"
+      }
+    }
+  }
+}

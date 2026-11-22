@@ -1,0 +1,345 @@
+{
+  "schema_version": 2,
+  "id": "smart.admin-activity",
+  "version": "1.0.0",
+  "title": "Background activity",
+  "summary": "The admin's background activity: «Идёт N» while something runs, a red failure mark beside it until the list was opened, «Не удалось N» in words when nothing runs, no element when nothing is to show; the list of runs in sf-popover; a run's end said by SF.notify and, for a failure, a notification.",
+  "kind": "smart",
+  "reuse_mode": "whole",
+  "lifecycle": "experimental",
+  "tags": [
+    "admin",
+    "activity",
+    "progress",
+    "background"
+  ],
+  "capabilities": [
+    "activity",
+    "host-port",
+    "live-announcement",
+    "toast"
+  ],
+  "custom_element": "sf-admin-activity",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [
+      "component.icons",
+      "smart.badge",
+      "smart.button",
+      "smart.popover",
+      "smart.progress-run"
+    ],
+    "public_parts": []
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "template": {
+        "type": "string",
+        "default": "default",
+        "description": "Template variant name for SfBaseElement external templates.",
+        "const": "default"
+      },
+      "root-class": {
+        "type": "string",
+        "default": "",
+        "description": "Classes added to the root element the component draws."
+      },
+      "root-style": {
+        "type": "string",
+        "default": "",
+        "description": "Inline style declarations set on the root element the component draws, custom properties included."
+      },
+      "history-href": {
+        "type": "string",
+        "default": "",
+        "description": "The address of the activity history: «Все действия» at the list's foot, and where a failure's notification leads when the run has no href."
+      },
+      "size": {
+        "type": "string",
+        "default": "1/2",
+        "description": "The trigger's rung: 1/2 in the crumbs row, 1 in the phone top line beside the bell.",
+        "enum": [
+          "1/2",
+          "1"
+        ]
+      },
+      "placement": {
+        "type": "string",
+        "default": "bottom-end",
+        "description": "Where the list opens from the trigger.",
+        "enum": [
+          "bottom-end",
+          "bottom-start",
+          "bottom"
+        ]
+      },
+      "notify": {
+        "type": "boolean",
+        "default": true,
+        "description": "A run's end says itself: SF.notify success (gone by itself) or error (stays until closed, C339) and a notification in the admin's list (C332). Off, only the event finished."
+      },
+      "aria-label": {
+        "type": "string",
+        "default": ""
+      },
+      "runs": {
+        "type": "array",
+        "default": [],
+        "description": "The host's runs, set anew on every change: each {id, label, state (running|failed|done|cancelled), value, total, unit, text, href, object, cancelable}. A run that leaves running, or is dropped while running, ended: the element tells it once."
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {},
+  "contracts": {
+    "run": {
+      "const": "A run: id, label, state (running|failed|done|cancelled), value, total, unit, text, href, object, cancelable."
+    }
+  },
+  "methods": {
+    "refresh": {
+      "summary": "Reads the runs again (activity.load) when the port offers activity.",
+      "arguments": [],
+      "returns": {
+        "type": "object",
+        "description": "{outcome: applied} or {outcome: refused, reason}"
+      }
+    },
+    "show": {
+      "summary": "Opens the list; refused when there is nothing to show.",
+      "arguments": [],
+      "returns": {
+        "type": "object",
+        "description": "{outcome: applied} or {outcome: refused, reason}"
+      }
+    },
+    "close": {
+      "summary": "Closes the list.",
+      "arguments": [],
+      "returns": {
+        "type": "object",
+        "description": "{outcome: applied} or {outcome: refused, reason}"
+      }
+    }
+  },
+  "events": {
+    "sf-admin-activity-open": {
+      "summary": "The list opened (vocabulary open): the failures in it count as seen and the mark goes.",
+      "payload": {
+        "type": "object",
+        "required": [],
+        "properties": {},
+        "additionalProperties": true
+      }
+    },
+    "sf-admin-activity-close": {
+      "summary": "The list closed (vocabulary close).",
+      "payload": {
+        "type": "object",
+        "required": [],
+        "properties": {},
+        "additionalProperties": true
+      }
+    },
+    "sf-admin-activity-retry": {
+      "summary": "«Повторить» on a failed run; over a port the element asks activity.retry {id} and reads again.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-admin-activity-cancel": {
+      "summary": "«Отменить» on a running run; over a port the element asks activity.cancel {id} and reads again.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-admin-activity-finished": {
+      "summary": "A run ended (state done or failed), once for the page. Cancelled, the element says nothing of it (no toast, no notification).",
+      "payload": {
+        "type": "object",
+        "required": [
+          "id",
+          "state"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "state": {
+    "machines": {
+      "indicator": [
+        "none",
+        "running",
+        "running-with-failure",
+        "failed"
+      ]
+    },
+    "visual_states": [
+      "default",
+      "error"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "host",
+    "network_owner": "host",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-admin",
+    "data": "host",
+    "effects": "host",
+    "forbidden_client_responsibilities": [
+      "running the actions",
+      "keeping the history of runs"
+    ]
+  },
+  "security": {
+    "permissions_owner": "host",
+    "untrusted_inputs": [
+      "labels and texts (drawn as text)",
+      "hrefs (links)"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": "group",
+    "accessible_name": "element",
+    "keyboard": [
+      "Tab",
+      "Enter",
+      "Space",
+      "Escape"
+    ],
+    "focus": "The trigger in reading order; the list is sf-popover's, the focus returns to the trigger when it closes."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "en",
+      "ru"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile"
+    ],
+    "skeleton": {
+      "shape": "none",
+      "while_loading": "none"
+    }
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [],
+    "scenarios": []
+  },
+  "readiness": {
+    "level": "host-required",
+    "required_checks": [
+      "manifest",
+      "loader-rule",
+      "admin-activity-contract",
+      "admin-activity-browser"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "89834691fb9dce692be5353f3214df7aee3a7e27",
+      "ui_smart_revision": "89834691fb9dce692be5353f3214df7aee3a7e27"
+    },
+    "aliases": [],
+    "deprecations": [],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-admin",
+    "source_revision": "0a1b6a3a2cad560220cb1ec19d689d3e3d22e5d5",
+    "source_artifacts": [
+      {
+        "path": "src/smart/admin-activity/index.js",
+        "sha256": "f51756102c605934bc5b49fe1b2821311ce29ee672665468bc92a814bd4cd2a8"
+      },
+      {
+        "path": "src/smart/admin-activity/js/templates/default.js",
+        "sha256": "1f2c7b3648f6814d24548fe58be245b1e24783abedd1a4b9213a02b9637882b4"
+      },
+      {
+        "path": "src/smart/admin-activity/js/templates/default.css",
+        "sha256": "c7be9f788a0f03696dfb407fb7fa1aacafcdbcbaa853a6c8428482ac318e1b0d"
+      },
+      {
+        "path": "src/smart/admin-activity/component.json",
+        "sha256": "a791f58e9d959515b3fce0a4fa075cc1dd47440670d0f2c63867bf2f4b7a4b91"
+      },
+      {
+        "path": "src/smart/admin-activity/lang/en.json",
+        "sha256": "e64f0381ae1c2e306ed6f7300595abc043cd79a11cf9e9e687d5c61d7e12f34d"
+      },
+      {
+        "path": "src/smart/admin-activity/lang/ru.json",
+        "sha256": "8b19b48c857ad7c5b493b347cc67c6e66dbe5e85182cb158afd9338676b64828"
+      }
+    ]
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-admin-activity at the end of the crumbs row of an admin page and in the phone top line of sf-admin-shell (slot top-end), with the host's runs.",
+    "do_not": [
+      "Do not run the actions in the element; the host runs them",
+      "Do not send percents as separate toasts: set runs anew and the element tells only the end",
+      "Do not draw it when nothing runs: it draws nothing by itself"
+    ],
+    "required_reads": [
+      "inputs",
+      "contracts",
+      "events",
+      "accessibility"
+    ],
+    "minimal_example": "<sf-admin-activity history-href=\"/panel/activity\"></sf-admin-activity>",
+    "owner_commands": [
+      "node scripts/test.mjs",
+      "node scripts/run-browser-probes.mjs <free> <set build>"
+    ]
+  }
+}

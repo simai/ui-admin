@@ -16,7 +16,7 @@ const smart = join(root, 'src', 'smart');
 // The set's folders (set.json components[].folder). Narrowed to the set admin
 // from simai/ui-pro (2ba35fa): the view, chat, mail and editor checks left with
 // their sets.
-const PACKAGE = ['admin-menu'];
+const PACKAGE = ['admin-menu', 'admin-shell', 'admin-notifications', 'admin-activity'];
 const inner = (html, tag) => html.replace(/<!--[\s\S]*?-->\n?/gu, '').trim()
   .replace(new RegExp(`^<${tag}[^>]*>`, 'u'), '').replace(new RegExp(`</${tag}>$`, 'u'), '')
   .replace(/>\s+</gu, '><').trim();

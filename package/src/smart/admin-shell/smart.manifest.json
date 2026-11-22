@@ -1,0 +1,325 @@
+{
+  "schema_version": 2,
+  "id": "smart.admin-shell",
+  "version": "1.0.0",
+  "title": "Admin shell",
+  "summary": "The frame of an admin screen: the alert bar over everything, the admin menu's column, the page head and the content; the document scrolls, the bar, the menu and on a phone a slim top line stay; the skip link first, the menu's room held before it draws, list or reading width.",
+  "kind": "smart",
+  "reuse_mode": "whole",
+  "lifecycle": "experimental",
+  "tags": [
+    "admin",
+    "shell",
+    "layout",
+    "frame"
+  ],
+  "capabilities": [
+    "layout",
+    "responsive",
+    "skip-link",
+    "sticky-offsets"
+  ],
+  "custom_element": "sf-admin-shell",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [
+      "component.icons",
+      "smart.button-icon"
+    ],
+    "public_parts": []
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "template": {
+        "type": "string",
+        "default": "default",
+        "description": "Template variant name for SfBaseElement external templates.",
+        "const": "default"
+      },
+      "root-class": {
+        "type": "string",
+        "default": "",
+        "description": "Classes added to the root element the component draws."
+      },
+      "root-style": {
+        "type": "string",
+        "default": "",
+        "description": "Inline style declarations set on the root element the component draws, custom properties included."
+      },
+      "width": {
+        "type": "string",
+        "default": "list",
+        "description": "The content's width (C329): list -- the whole work area; read -- the reading width (--sf-container-1--size-max, 960) at the start, for forms and text.",
+        "enum": [
+          "list",
+          "read"
+        ]
+      },
+      "menu-reserve": {
+        "type": "string",
+        "default": "rail-column",
+        "description": "The room held for the menu before it has drawn, so the work area does not move when it comes (AM-18): rail -- the rail (56); rail-column -- the rail and the section column (56 + 256), the rail alone when the person hid the column (the menu's own preference); none -- nothing. The server knows whether the page's section has a column.",
+        "enum": [
+          "rail",
+          "rail-column",
+          "none"
+        ]
+      },
+      "product": {
+        "type": "string",
+        "default": "",
+        "description": "The product's name in the phone top line («Larena Panel»)."
+      },
+      "skip-label": {
+        "type": "string",
+        "description": "The skip link's text; empty is «Перейти к содержимому» in the page's language."
+      },
+      "menu-open": {
+        "type": "boolean",
+        "default": false,
+        "description": "Whether the phone menu is open (C322): the menu takes the work area's place below 44rem. Written by the menu button, Escape, a page chosen in the menu, or the page; on a wide screen it changes nothing."
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {},
+  "contracts": {
+    "slots": {
+      "type": "object",
+      "properties": {
+        "bar": {
+          "type": "string",
+          "description": "sf-alert-bar: over everything (C338)."
+        },
+        "menu": {
+          "type": "string",
+          "description": "sf-admin-menu."
+        },
+        "head": {
+          "type": "string",
+          "description": "sf-header-page with its crumbs."
+        },
+        "top-end": {
+          "type": "string",
+          "description": "The phone top line's end: the activity indicator and the bell (C342)."
+        }
+      }
+    }
+  },
+  "methods": {
+    "openMenu": {
+      "summary": "Opens the phone menu (menu-open); focus goes to the menu's first control. Refused no-menu when the shell holds no menu.",
+      "arguments": [],
+      "returns": {
+        "type": "object",
+        "description": "{outcome: applied} or {outcome: refused, reason}"
+      }
+    },
+    "closeMenu": {
+      "summary": "Closes the phone menu; focus goes back to the menu button.",
+      "arguments": [],
+      "returns": {
+        "type": "object",
+        "description": "{outcome: applied}"
+      }
+    },
+    "focusContent": {
+      "summary": "Moves the focus to the work area (the main landmark) and scrolls it to the top: the skip link does it, and a product after it changed the page without a reload.",
+      "arguments": [],
+      "returns": {
+        "type": "object",
+        "description": "{outcome: applied} or {outcome: refused, reason}"
+      }
+    }
+  },
+  "events": {
+    "sf-admin-shell-menu-open": {
+      "summary": "The phone menu opened: by its button or by the action open-menu.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "reason"
+        ],
+        "properties": {
+          "reason": {
+            "enum": [
+              "button",
+              "api"
+            ]
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-admin-shell-menu-close": {
+      "summary": "The phone menu closed: its button, Escape, a page chosen in the menu (sf-admin-menu-navigate), the window grown past the phone width, the work area focused, or the action close-menu.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "reason"
+        ],
+        "properties": {
+          "reason": {
+            "enum": [
+              "button",
+              "escape",
+              "navigate",
+              "resize",
+              "content",
+              "api"
+            ]
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "state": {
+    "machines": {
+      "menu": [
+        "closed",
+        "open"
+      ]
+    },
+    "visual_states": [
+      "default"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "host",
+    "network_owner": "host",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-admin",
+    "data": "host",
+    "effects": "host",
+    "forbidden_client_responsibilities": [
+      "routing",
+      "drawing the page head or the menu",
+      "access decisions"
+    ]
+  },
+  "security": {
+    "permissions_owner": "host",
+    "untrusted_inputs": [
+      "product (drawn as text)"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": "none",
+    "accessible_name": "internal",
+    "keyboard": [
+      "Tab",
+      "Enter",
+      "Space",
+      "Escape"
+    ],
+    "focus": "The skip link first; it focuses the work area (main, tabindex -1, named by the h1). The phone menu button holds aria-expanded and aria-controls; opening moves the focus into the menu, closing back to the button."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "en",
+      "ru"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile"
+    ],
+    "skeleton": {
+      "shape": "none",
+      "while_loading": "none"
+    }
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [],
+    "scenarios": []
+  },
+  "readiness": {
+    "level": "host-required",
+    "required_checks": [
+      "manifest",
+      "loader-rule",
+      "admin-shell-contract",
+      "admin-shell-browser"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "89834691fb9dce692be5353f3214df7aee3a7e27",
+      "ui_smart_revision": "89834691fb9dce692be5353f3214df7aee3a7e27"
+    },
+    "aliases": [],
+    "deprecations": [],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-admin",
+    "source_revision": "0a1b6a3a2cad560220cb1ec19d689d3e3d22e5d5",
+    "source_artifacts": [
+      {
+        "path": "src/smart/admin-shell/index.js",
+        "sha256": "fd0c26b4d19840b62f4c72c58203542c53619cb53fee78e0866e039ec4b08dbf"
+      },
+      {
+        "path": "src/smart/admin-shell/js/templates/default.js",
+        "sha256": "11e7d58acfce077c2c2f54c229e8f33aed0e539eccba77446f243f3b34ae5ac8"
+      },
+      {
+        "path": "src/smart/admin-shell/js/templates/default.css",
+        "sha256": "34e2fab993bfb7ce775fea644c3a1837d82120262564819c2a5f7ec549d4c16e"
+      },
+      {
+        "path": "src/smart/admin-shell/component.json",
+        "sha256": "99f833b6642db58c4fe129b1dd697238eadf623f179c247eee1b56cc3230c9a7"
+      },
+      {
+        "path": "src/smart/admin-shell/lang/en.json",
+        "sha256": "2a17f84c63aadee5a018ce9934aa45d0d8d6b617c1817c9c629e4ad231f77893"
+      },
+      {
+        "path": "src/smart/admin-shell/lang/ru.json",
+        "sha256": "a568500db0abe1a80f0d2cfc56498a7740156a70386c79e16ed4fb6500b6368e"
+      }
+    ]
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-admin-shell once per admin screen around sf-alert-bar (slot bar), sf-admin-menu (slot menu), sf-header-page (slot head) and the content.",
+    "do_not": [
+      "Do not give the work area its own scroll box: the document scrolls",
+      "Do not draw a second skip link or a second main landmark",
+      "Do not put the bell or the activity indicator in the content: on a phone they go to slot top-end"
+    ],
+    "required_reads": [
+      "inputs",
+      "contracts",
+      "events",
+      "accessibility"
+    ],
+    "minimal_example": "<sf-admin-shell product=\"Larena Panel\"><sf-admin-menu slot=\"menu\"></sf-admin-menu><sf-header-page slot=\"head\" heading=\"DNS-зоны\"></sf-header-page><p>…</p></sf-admin-shell>",
+    "owner_commands": [
+      "node scripts/test.mjs",
+      "node scripts/run-browser-probes.mjs <free> <set build>"
+    ]
+  }
+}

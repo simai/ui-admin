@@ -1,0 +1,439 @@
+{
+  "examples": [
+    {
+      "name": "reference",
+      "title": "Уведомления за день со свёрнутыми повторами",
+      "settings": {
+        "items": [
+          {
+            "key": "n1",
+            "group": "today",
+            "group-label": "Сегодня",
+            "level": "warning",
+            "object": "srv1.larena.cloud",
+            "title": "Сертификат истекает через 7 дней",
+            "when": "10:42",
+            "unread": true,
+            "href": "#/srv.security"
+          },
+          {
+            "key": "n2",
+            "group": "today",
+            "group-label": "Сегодня",
+            "level": "error",
+            "object": "stage.larena.cloud",
+            "title": "Копия не сделана: хранилище не ответило",
+            "when": "03:10",
+            "unread": true,
+            "href": "#/srv.backups"
+          },
+          {
+            "key": "n3",
+            "group": "today",
+            "group-label": "Сегодня",
+            "level": "info",
+            "object": "srv1.larena.cloud",
+            "title": "Доступно обновление PHP 8.4",
+            "when": "09:15",
+            "unread": true,
+            "href": "#/srv.software"
+          },
+          {
+            "key": "n4",
+            "group": "today",
+            "group-label": "Сегодня",
+            "level": "success",
+            "object": "simai.ru",
+            "title": "Копия готова, 1,2 ГБ",
+            "when": "03:00",
+            "unread": false,
+            "href": "#/srv.backups"
+          },
+          {
+            "key": "n5",
+            "group": "today",
+            "group-label": "Сегодня",
+            "level": "info",
+            "object": "srv1.larena.cloud",
+            "title": "Служба почты перезапущена",
+            "when": "02:40",
+            "unread": false,
+            "href": "#/srv.services"
+          },
+          {
+            "key": "n6",
+            "group": "yesterday",
+            "group-label": "Вчера",
+            "level": "error",
+            "object": "srv2.larena.cloud",
+            "title": "Сервер не отвечал",
+            "resolved": "снова отвечает с 09:11, перерыв 9 минут",
+            "when": "09:02",
+            "unread": false,
+            "href": "#/srv.overview"
+          },
+          {
+            "key": "n7",
+            "group": "yesterday",
+            "group-label": "Вчера",
+            "level": "info",
+            "object": "Пользователи",
+            "title": "Вход с нового устройства: Chrome, macOS",
+            "when": "18:20",
+            "unread": false,
+            "href": "#/profile.sessions"
+          }
+        ],
+        "history-href": "#/notifications",
+        "settings-href": "#/settings/notifications"
+      },
+      "host": {
+        "aria-label": "Уведомления"
+      },
+      "expect": {
+        "name": "Уведомления"
+      },
+      "parent": "<div style=\"inline-size: 30rem; max-inline-size: 100%\"></div>",
+      "x-first-paint": "The panel's width (sf-drawer size 2): the list as the panel shows it."
+    },
+    {
+      "name": "port",
+      "title": "Из порта меню",
+      "host": {
+        "aria-label": "Уведомления"
+      },
+      "port": {
+        "id": "simai.admin-navigation-port",
+        "version": "1.1.0",
+        "answers": {
+          "notifications.load": {
+            "answer": "applied",
+            "groups": [
+              {
+                "key": "today",
+                "label": "Сегодня",
+                "items": [
+                  {
+                    "key": "n1",
+                    "title": "Сертификат истекает через 7 дней",
+                    "when": "10:42",
+                    "unread": true,
+                    "href": "#/srv.security",
+                    "icon": null,
+                    "body": null
+                  },
+                  {
+                    "key": "n2",
+                    "title": "Копия не сделана: хранилище не ответило",
+                    "when": "03:10",
+                    "unread": true,
+                    "href": "#/srv.backups",
+                    "icon": null,
+                    "body": null
+                  },
+                  {
+                    "key": "n3",
+                    "title": "Доступно обновление PHP 8.4",
+                    "when": "09:15",
+                    "unread": true,
+                    "href": "#/srv.software",
+                    "icon": null,
+                    "body": null
+                  },
+                  {
+                    "key": "n4",
+                    "title": "Копия готова, 1,2 ГБ",
+                    "when": "03:00",
+                    "unread": false,
+                    "href": "#/srv.backups",
+                    "icon": null,
+                    "body": null
+                  },
+                  {
+                    "key": "n5",
+                    "title": "Служба почты перезапущена",
+                    "when": "02:40",
+                    "unread": false,
+                    "href": "#/srv.services",
+                    "icon": null,
+                    "body": null
+                  }
+                ]
+              },
+              {
+                "key": "yesterday",
+                "label": "Вчера",
+                "items": [
+                  {
+                    "key": "n6",
+                    "title": "Сервер не отвечал",
+                    "when": "09:02",
+                    "unread": false,
+                    "href": "#/srv.overview",
+                    "icon": null,
+                    "body": null
+                  },
+                  {
+                    "key": "n7",
+                    "title": "Вход с нового устройства: Chrome, macOS",
+                    "when": "18:20",
+                    "unread": false,
+                    "href": "#/profile.sessions",
+                    "icon": null,
+                    "body": null
+                  }
+                ]
+              }
+            ],
+            "unread": 3,
+            "settings_href": "#/settings/notifications",
+            "next_cursor": null
+          }
+        }
+      },
+      "expect": {
+        "name": "Уведомления"
+      },
+      "parent": "<div style=\"inline-size: 30rem; max-inline-size: 100%\"></div>"
+    },
+    {
+      "name": "empty",
+      "title": "Пусто",
+      "settings": {
+        "items": []
+      },
+      "host": {
+        "aria-label": "Уведомления"
+      },
+      "expect": {
+        "name": "Уведомления"
+      },
+      "parent": "<div style=\"inline-size: 30rem; max-inline-size: 100%\"></div>"
+    },
+    {
+      "name": "page",
+      "title": "Страница «Вся история»",
+      "settings": {
+        "look": "page",
+        "items": [
+          {
+            "key": "n1",
+            "group": "today",
+            "group-label": "Сегодня",
+            "level": "warning",
+            "object": "srv1.larena.cloud",
+            "title": "Сертификат истекает через 7 дней",
+            "when": "10:42",
+            "unread": true,
+            "href": "#/srv.security"
+          },
+          {
+            "key": "n2",
+            "group": "today",
+            "group-label": "Сегодня",
+            "level": "error",
+            "object": "stage.larena.cloud",
+            "title": "Копия не сделана: хранилище не ответило",
+            "when": "03:10",
+            "unread": true,
+            "href": "#/srv.backups"
+          },
+          {
+            "key": "n3",
+            "group": "today",
+            "group-label": "Сегодня",
+            "level": "info",
+            "object": "srv1.larena.cloud",
+            "title": "Доступно обновление PHP 8.4",
+            "when": "09:15",
+            "unread": true,
+            "href": "#/srv.software"
+          },
+          {
+            "key": "n4",
+            "group": "today",
+            "group-label": "Сегодня",
+            "level": "success",
+            "object": "simai.ru",
+            "title": "Копия готова, 1,2 ГБ",
+            "when": "03:00",
+            "unread": false,
+            "href": "#/srv.backups"
+          },
+          {
+            "key": "n5",
+            "group": "today",
+            "group-label": "Сегодня",
+            "level": "info",
+            "object": "srv1.larena.cloud",
+            "title": "Служба почты перезапущена",
+            "when": "02:40",
+            "unread": false,
+            "href": "#/srv.services"
+          },
+          {
+            "key": "n6",
+            "group": "yesterday",
+            "group-label": "Вчера",
+            "level": "error",
+            "object": "srv2.larena.cloud",
+            "title": "Сервер не отвечал",
+            "resolved": "снова отвечает с 09:11, перерыв 9 минут",
+            "when": "09:02",
+            "unread": false,
+            "href": "#/srv.overview"
+          },
+          {
+            "key": "n7",
+            "group": "yesterday",
+            "group-label": "Вчера",
+            "level": "info",
+            "object": "Пользователи",
+            "title": "Вход с нового устройства: Chrome, macOS",
+            "when": "18:20",
+            "unread": false,
+            "href": "#/profile.sessions"
+          }
+        ]
+      },
+      "host": {
+        "aria-label": "Уведомления"
+      },
+      "expect": {
+        "name": "Уведомления"
+      }
+    }
+  ],
+  "pages": [
+    {
+      "name": "conformance",
+      "title": "sf-admin-notifications against component.json (standard simai.smart-component 1.4 §12, gate 20)",
+      "format": "stands/15-scenarios (A4 modal: a page, probes in steps); the runner is ui-source tests/browser/manifest-probes.browser.mjs, run for the package by scripts/run-manifest-probes.mjs",
+      "page": {
+        "lang": "ru",
+        "body": [
+          "<main style=\"display: flex; gap: 24px\">",
+          "  <sf-admin-notifications id=\"i\" aria-label=\"Уведомления\" items='[{\"key\": \"n1\", \"group\": \"today\", \"group-label\": \"Сегодня\", \"level\": \"warning\", \"object\": \"srv1.larena.cloud\", \"title\": \"Сертификат истекает через 7 дней\", \"when\": \"10:42\", \"unread\": true, \"href\": \"#/srv.security\"}, {\"key\": \"n2\", \"group\": \"today\", \"group-label\": \"Сегодня\", \"level\": \"error\", \"object\": \"stage.larena.cloud\", \"title\": \"Копия не сделана: хранилище не ответило\", \"when\": \"03:10\", \"unread\": true, \"href\": \"#/srv.backups\"}, {\"key\": \"n3\", \"group\": \"today\", \"group-label\": \"Сегодня\", \"level\": \"info\", \"object\": \"srv1.larena.cloud\", \"title\": \"Доступно обновление PHP 8.4\", \"when\": \"09:15\", \"unread\": true, \"href\": \"#/srv.software\"}, {\"key\": \"n4\", \"group\": \"today\", \"group-label\": \"Сегодня\", \"level\": \"success\", \"object\": \"simai.ru\", \"title\": \"Копия готова, 1,2 ГБ\", \"when\": \"03:00\", \"unread\": false, \"href\": \"#/srv.backups\"}, {\"key\": \"n5\", \"group\": \"today\", \"group-label\": \"Сегодня\", \"level\": \"info\", \"object\": \"srv1.larena.cloud\", \"title\": \"Служба почты перезапущена\", \"when\": \"02:40\", \"unread\": false, \"href\": \"#/srv.services\"}, {\"key\": \"n6\", \"group\": \"yesterday\", \"group-label\": \"Вчера\", \"level\": \"error\", \"object\": \"srv2.larena.cloud\", \"title\": \"Сервер не отвечал\", \"resolved\": \"снова отвечает с 09:11, перерыв 9 минут\", \"when\": \"09:02\", \"unread\": false, \"href\": \"#/srv.overview\"}, {\"key\": \"n7\", \"group\": \"yesterday\", \"group-label\": \"Вчера\", \"level\": \"info\", \"object\": \"Пользователи\", \"title\": \"Вход с нового устройства: Chrome, macOS\", \"when\": \"18:20\", \"unread\": false, \"href\": \"#/profile.sessions\"}]'></sf-admin-notifications>",
+          "  <sf-admin-notifications id=\"p\" aria-label=\"Уведомления порта\"></sf-admin-notifications>",
+          "</main>",
+          "<script>window.__asked = []; window.__port = {port: 'simai.admin-navigation-port', version: '1.1.0', capabilities: ['notifications'], fail: false, unread: 3, async raise(intent, payload) { window.__asked.push([intent, payload]); if (intent === 'notifications.load') { if (this.fail) { this.fail = false; return {answer: 'unavailable', reason: 'Сервер уведомлений не ответил.'}; } return structuredClone({\"answer\": \"applied\", \"groups\": [{\"key\": \"today\", \"label\": \"Сегодня\", \"items\": [{\"key\": \"n1\", \"title\": \"Сертификат истекает через 7 дней\", \"when\": \"10:42\", \"unread\": true, \"href\": \"#/srv.security\", \"icon\": null, \"body\": null}, {\"key\": \"n2\", \"title\": \"Копия не сделана: хранилище не ответило\", \"when\": \"03:10\", \"unread\": true, \"href\": \"#/srv.backups\", \"icon\": null, \"body\": null}, {\"key\": \"n3\", \"title\": \"Доступно обновление PHP 8.4\", \"when\": \"09:15\", \"unread\": true, \"href\": \"#/srv.software\", \"icon\": null, \"body\": null}, {\"key\": \"n4\", \"title\": \"Копия готова, 1,2 ГБ\", \"when\": \"03:00\", \"unread\": false, \"href\": \"#/srv.backups\", \"icon\": null, \"body\": null}, {\"key\": \"n5\", \"title\": \"Служба почты перезапущена\", \"when\": \"02:40\", \"unread\": false, \"href\": \"#/srv.services\", \"icon\": null, \"body\": null}]}, {\"key\": \"yesterday\", \"label\": \"Вчера\", \"items\": [{\"key\": \"n6\", \"title\": \"Сервер не отвечал\", \"when\": \"09:02\", \"unread\": false, \"href\": \"#/srv.overview\", \"icon\": null, \"body\": null}, {\"key\": \"n7\", \"title\": \"Вход с нового устройства: Chrome, macOS\", \"when\": \"18:20\", \"unread\": false, \"href\": \"#/profile.sessions\", \"icon\": null, \"body\": null}]}], \"unread\": 3, \"settings_href\": \"#/settings/notifications\", \"next_cursor\": null}); } if (intent === 'notifications.read') { this.unread = payload.all ? 0 : Math.max(0, this.unread - (payload.keys || []).length); return {answer: 'applied', unread: this.unread}; } return {answer: 'applied'}; } };customElements.whenDefined('sf-admin-notifications').then(() => { window.__port.fail = true; document.querySelector('#p').connectPort({port: window.__port}); });</script>"
+        ]
+      },
+      "checks": [
+        {
+          "id": "p1-fold",
+          "title": "within a day the repeats of one object fold under «Ещё 2 по srv1.larena.cloud»; a press unfolds them and keeps the focus on the button",
+          "covers": "settings.fold, settings.items, accessibility fold aria-expanded",
+          "steps": [
+            {
+              "script": "(async () => { for (let i = 0; i < 80 && !(document.querySelector('#i [data-fold]')); i += 1) await new Promise((done) => setTimeout(done, 100)); return Boolean(document.querySelector('#i [data-fold]')); })()",
+              "wait": 60,
+              "expect": {
+                "returns": true
+              },
+              "check": "document.querySelector('#i [data-fold]').textContent.trim() === 'Ещё 2 по srv1.larena.cloud' && document.querySelectorAll('#i .sf-admin-notifications__item').length === 5"
+            },
+            {
+              "script": "(document.querySelector('#i [data-fold]').click(), true)",
+              "wait": 200,
+              "expect": {
+                "returns": true
+              },
+              "check": "document.querySelectorAll('#i .sf-admin-notifications__item').length === 7 && document.querySelector('#i [data-fold]').getAttribute('aria-expanded') === 'true' && document.activeElement === document.querySelector('#i [data-fold]')"
+            }
+          ]
+        },
+        {
+          "id": "p2-read-all-items",
+          "title": "read-all over items marks every one read and says sf-admin-notifications-read-all; the count reads «Нового нет»",
+          "covers": "actions.read-all, events.read-all, values.unread",
+          "steps": [
+            {
+              "action": {
+                "name": "read-all"
+              },
+              "target": "#i",
+              "wait": 150,
+              "expect": {
+                "returns": {
+                  "outcome": "applied"
+                },
+                "events": [
+                  {
+                    "name": "sf-admin-notifications-read-all",
+                    "count": 1
+                  }
+                ]
+              },
+              "check": "document.querySelector('#i').unread === 0 && document.querySelector('#i .sf-admin-notifications__count').textContent.trim() === 'Нового нет' && !document.querySelector('#i [data-unread]')"
+            }
+          ]
+        },
+        {
+          "id": "p3-failed-then-retry",
+          "title": "a port that does not answer: sf-alert «Уведомления не загрузились» and «Повторить»; the retry loads «Новых: 3»",
+          "covers": "events.failed, actions.refresh, port notifications.load",
+          "steps": [
+            {
+              "script": "(async () => { for (let i = 0; i < 80 && !(document.querySelector('#p sf-alert')); i += 1) await new Promise((done) => setTimeout(done, 100)); return Boolean(document.querySelector('#p sf-alert')); })()",
+              "wait": 60,
+              "expect": {
+                "returns": true
+              },
+              "check": "window.__asked[0][0] === 'notifications.load' && document.querySelector('#p [data-status=failed]') !== null"
+            },
+            {
+              "action": {
+                "name": "refresh"
+              },
+              "target": "#p",
+              "wait": 200,
+              "expect": {
+                "returns": {
+                  "outcome": "applied"
+                }
+              },
+              "check": "document.querySelector('#p .sf-admin-notifications__count').textContent.trim() === 'Новых: 3' && document.querySelector('#p').unread === 3"
+            }
+          ]
+        },
+        {
+          "id": "p4-read-port",
+          "title": "read {keys} asks notifications.read {keys, all: false}, says sf-admin-notifications-read and takes the host's unread",
+          "covers": "actions.read, events.read, port notifications.read",
+          "steps": [
+            {
+              "action": {
+                "name": "read",
+                "with": {
+                  "keys": [
+                    "n1"
+                  ]
+                }
+              },
+              "target": "#p",
+              "wait": 200,
+              "expect": {
+                "returns": {
+                  "outcome": "applied"
+                },
+                "events": [
+                  {
+                    "name": "sf-admin-notifications-read",
+                    "count": 1,
+                    "detail": {
+                      "keys": [
+                        "n1"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "check": "JSON.stringify(window.__asked.at(-1)) === JSON.stringify(['notifications.read', {keys: ['n1'], all: false}]) && document.querySelector('#p').unread === 2"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

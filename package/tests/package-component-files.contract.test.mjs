@@ -21,7 +21,7 @@ const root = resolve(import.meta.dirname, '..');
 // The package folders in the 1.4 form: every generated file is byte for byte
 // what the generator writes.
 // The set's folders (set.json components[].folder).
-const PHASE_A = ['admin-menu'];
+const PHASE_A = ['admin-menu', 'admin-shell', 'admin-notifications', 'admin-activity'];
 
 // The package folders still in the 1.3 form: the five files the generator
 // already gives back (rule.js, aliases.json, the fixture, the scenario,

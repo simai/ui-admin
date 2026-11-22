@@ -1,0 +1,36 @@
+{
+  "title": "Notifications",
+  "runtime": {
+    "new-count": "New: {count}",
+    "none-new": "Nothing new",
+    "read-all": "Mark all read",
+    "more-by": "{count} more for {object}",
+    "fold": "Show less",
+    "resolved": "→ resolved",
+    "unread": "unread",
+    "level-error": "Error",
+    "level-warning": "Warning",
+    "level-info": "Information",
+    "level-success": "Done",
+    "history": "All history",
+    "settings": "Notification settings",
+    "load-more": "Show more",
+    "empty-text": "Messages that need your attention will appear here.",
+    "failed-heading": "The notifications did not load",
+    "failed-text": "The server did not answer.",
+    "retry": "Retry",
+    "loading": "Loading the notifications…",
+    "other-object": "Other"
+  },
+  "events": {
+    "failed": {
+      "label": "Did not load"
+    },
+    "read-all": {
+      "label": "All read"
+    },
+    "load-more": {
+      "label": "Load more"
+    }
+  }
+}

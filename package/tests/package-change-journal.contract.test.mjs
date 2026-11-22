@@ -36,7 +36,7 @@ const PENDING = {
 // holds src/, tests/ and docs/ of this repository, not its scripts).
 // The renamed ones (rename plan R2, 2026-11-03) have their earlier former
 // names recorded with their tag record (tag-sf-table-to-sf-view-table, ...).
-const packageFolders = ['admin-menu'];
+const packageFolders = ['admin-menu', 'admin-shell', 'admin-notifications', 'admin-activity'];
 
 const DATE = /^\d{4}-\d{2}-\d{2}$/u;
 

@@ -1,0 +1,31 @@
+{
+  "title": "Background activity",
+  "runtime": {
+    "running": "{count} running",
+    "failed": "{count} failed",
+    "running-words": "{count} running",
+    "failed-words": "{count} failed",
+    "name": "Background activity: {what}",
+    "nothing": "none",
+    "list-label": "Background activity",
+    "retry": "Retry",
+    "history": "All activity",
+    "done-title": "{label}: done",
+    "done-text": "The action finished.",
+    "failed-title": "{label}: failed",
+    "failed-text": "Details are in Notifications.",
+    "now": "now",
+    "today": "Today"
+  },
+  "events": {
+    "retry": {
+      "label": "Retry"
+    },
+    "cancel": {
+      "label": "Cancel"
+    },
+    "finished": {
+      "label": "Finished"
+    }
+  }
+}

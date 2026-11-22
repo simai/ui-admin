@@ -21,7 +21,7 @@ const source = (folder) => readFileSync(resolve(packageRoot, 'src/smart', folder
 // (tests/package-component-files.contract.test.mjs, PHASE_A less the frozen
 // ones). The 1.3 folders (editor-content and the mail folders) keep their
 // converted manifests until they move to the 1.4 form.
-const folders = ['admin-menu'];
+const folders = ['admin-menu', 'admin-shell', 'admin-notifications', 'admin-activity'];
 
 test('every action with parameters is one args object in an editable folder\'s manifest', () => {
   let objects = 0;

@@ -1,0 +1,430 @@
+{
+  "schema_version": 2,
+  "id": "smart.admin-notifications",
+  "version": "1.0.0",
+  "title": "Notifications",
+  "summary": "The admin's notifications: grouped by day with the repeats of one object folded under «Ещё N по …», one problem one entry ending «→ решено», «Прочитать все», the panel's latest or the history page in parts; over the admin menu's port or as items.",
+  "kind": "smart",
+  "reuse_mode": "whole",
+  "lifecycle": "experimental",
+  "tags": [
+    "admin",
+    "notifications",
+    "list",
+    "inbox"
+  ],
+  "capabilities": [
+    "notifications",
+    "host-port",
+    "live-announcement"
+  ],
+  "custom_element": "sf-admin-notifications",
+  "templates": [
+    "default"
+  ],
+  "exported_parts": [],
+  "composition": {
+    "uses": [
+      "component.icons",
+      "smart.alert",
+      "smart.button",
+      "smart.icon"
+    ],
+    "public_parts": []
+  },
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "template": {
+        "type": "string",
+        "default": "default",
+        "description": "Template variant name for SfBaseElement external templates.",
+        "const": "default"
+      },
+      "root-class": {
+        "type": "string",
+        "default": "",
+        "description": "Classes added to the root element the component draws."
+      },
+      "root-style": {
+        "type": "string",
+        "default": "",
+        "description": "Inline style declarations set on the root element the component draws, custom properties included."
+      },
+      "look": {
+        "type": "string",
+        "default": "panel",
+        "description": "panel: the latest, in the notifications panel (sf-drawer on the right, C340), with «Вся история» and «Настройки уведомлений» at the foot. page: the history page, the whole width, in parts with «Показать ещё».",
+        "enum": [
+          "panel",
+          "page"
+        ]
+      },
+      "group-by": {
+        "type": "string",
+        "default": "day",
+        "description": "day: the host's days («Сегодня», «Вчера») with the repeats of one object folded (C421). object: one group per object (a server, a site), in the host's order, nothing folded.",
+        "enum": [
+          "day",
+          "object"
+        ]
+      },
+      "fold": {
+        "type": "boolean",
+        "default": true,
+        "description": "Within a day, the notifications of one object after its first fold under «Ещё N по …», a quiet link row at the start of the first one's text."
+      },
+      "unread-only": {
+        "type": "boolean",
+        "default": false,
+        "description": "Shows only the unread ones."
+      },
+      "history-href": {
+        "type": "string",
+        "default": "",
+        "description": "The address of the history page: «Вся история» at the panel's foot."
+      },
+      "settings-href": {
+        "type": "string",
+        "default": "",
+        "description": "The address of the notification settings; empty takes the port answer's settings_href."
+      },
+      "heading-level": {
+        "type": "string",
+        "default": "3",
+        "description": "The level of a day's heading where the list is placed.",
+        "enum": [
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ]
+      },
+      "aria-label": {
+        "type": "string",
+        "default": ""
+      },
+      "items": {
+        "type": "array",
+        "default": [],
+        "description": "The notifications given by the page, for a host without a port: each {key, title, when, unread, href, icon, body, object, level, resolved, group, group-label}, grouped by group in order. Given, the list reads no port."
+      }
+    },
+    "additionalProperties": false
+  },
+  "item_contract": {},
+  "contracts": {
+    "item": {
+      "const": "A notification: key, title, when, unread, href, icon, body (the port's), and object, level (error|warning|info|success), resolved when the host sends them."
+    },
+    "slots": {
+      "type": "object",
+      "properties": {
+        "empty": {
+          "type": "string",
+          "description": "What an empty list says instead of the default sentence."
+        }
+      }
+    }
+  },
+  "methods": {
+    "refresh": {
+      "summary": "Reads the list again (notifications.load); with items, draws them again.",
+      "arguments": [],
+      "returns": {
+        "type": "object",
+        "description": "{outcome: applied} or {outcome: refused, reason}"
+      }
+    },
+    "readAll": {
+      "summary": "Marks every notification read (notifications.read {all: true}) and moves the focus to the count.",
+      "arguments": [],
+      "returns": {
+        "type": "object",
+        "description": "{outcome: applied} or {outcome: refused, reason}"
+      }
+    },
+    "read": {
+      "summary": "Marks the named notifications read (notifications.read {keys, all: false}).",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "keys": {
+                "type": "array"
+              }
+            },
+            "required": [
+              "keys"
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "type": "object",
+        "description": "{outcome: applied} or {outcome: refused, reason}"
+      }
+    },
+    "add": {
+      "summary": "A notification the page adds at the top (a run that failed): with items it joins them; over the port the host has it already, and the list reads again.",
+      "arguments": [
+        {
+          "name": "args",
+          "type": "object",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "item": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "item"
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "type": "object",
+        "description": "{outcome: applied} or {outcome: refused, reason}"
+      }
+    },
+    "loadMore": {
+      "summary": "The next part of the history (look page): notifications.load {cursor}.",
+      "arguments": [],
+      "returns": {
+        "type": "object",
+        "description": "{outcome: applied} or {outcome: refused, reason}"
+      }
+    }
+  },
+  "events": {
+    "sf-admin-notifications-open": {
+      "summary": "A notification's link was pressed (vocabulary open): the list marks it read; not cancelled, the browser follows the link.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "key",
+          "href"
+        ],
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-admin-notifications-read": {
+      "summary": "Notifications were marked read (vocabulary read): the ones opened.",
+      "payload": {
+        "type": "object",
+        "required": [
+          "keys"
+        ],
+        "properties": {
+          "keys": {
+            "type": "array"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-admin-notifications-read-all": {
+      "summary": "«Прочитать все» marked every notification read, not only the ones shown.",
+      "payload": {
+        "type": "object",
+        "required": [],
+        "properties": {},
+        "additionalProperties": true
+      }
+    },
+    "sf-admin-notifications-load-more": {
+      "summary": "«Показать ещё» asked the host for the next part (look page).",
+      "payload": {
+        "type": "object",
+        "required": [
+          "cursor"
+        ],
+        "properties": {
+          "cursor": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sf-admin-notifications-failed": {
+      "summary": "The host did not answer notifications.load, or the port has no notifications; the list says so and offers «Повторить».",
+      "payload": {
+        "type": "object",
+        "required": [
+          "reason"
+        ],
+        "properties": {
+          "reason": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "state": {
+    "machines": {
+      "load": [
+        "idle",
+        "loading",
+        "ready",
+        "failed"
+      ]
+    },
+    "visual_states": [
+      "default",
+      "loading",
+      "error"
+    ]
+  },
+  "persistence": {
+    "mode": "none",
+    "source_of_truth": "host",
+    "network_owner": "host",
+    "revision_field": null
+  },
+  "ownership": {
+    "source": "simai/ui-admin",
+    "data": "host",
+    "effects": "host",
+    "forbidden_client_responsibilities": [
+      "keeping notifications",
+      "grouping by the person's day",
+      "joining repeats beyond one day"
+    ]
+  },
+  "security": {
+    "permissions_owner": "host",
+    "untrusted_inputs": [
+      "titles, bodies and objects (drawn as text)",
+      "hrefs (links)"
+    ],
+    "network_policy": "deny"
+  },
+  "accessibility": {
+    "role": "region",
+    "accessible_name": "host",
+    "keyboard": [
+      "Tab",
+      "Enter",
+      "Space"
+    ],
+    "focus": "Links and buttons in reading order; «Ещё N по …» keeps the focus; after «Прочитать все» the focus goes to the count (role status)."
+  },
+  "presentation": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "en",
+      "ru"
+    ],
+    "responsive": [
+      "desktop",
+      "mobile"
+    ],
+    "skeleton": {
+      "shape": "none",
+      "while_loading": "none"
+    }
+  },
+  "adapter": {
+    "kind": "generic",
+    "protocol": "simai.smart-studio-adapter.v1",
+    "module": null
+  },
+  "artifacts": {
+    "fixtures": [],
+    "scenarios": []
+  },
+  "readiness": {
+    "level": "host-required",
+    "required_checks": [
+      "manifest",
+      "loader-rule",
+      "admin-notifications-contract",
+      "admin-notifications-browser"
+    ]
+  },
+  "compatibility": {
+    "contract_schema": {
+      "id": "https://simai.io/contracts/smart-component-manifest.v2.schema.json",
+      "version": 2
+    },
+    "runtime_pair": {
+      "ui_revision": "89834691fb9dce692be5353f3214df7aee3a7e27",
+      "ui_smart_revision": "89834691fb9dce692be5353f3214df7aee3a7e27"
+    },
+    "aliases": [],
+    "deprecations": [],
+    "replacement": null,
+    "migrations": []
+  },
+  "provenance": {
+    "source_repository": "simai/ui-admin",
+    "source_revision": "0a1b6a3a2cad560220cb1ec19d689d3e3d22e5d5",
+    "source_artifacts": [
+      {
+        "path": "src/smart/admin-notifications/index.js",
+        "sha256": "50388918b58e42364b4a62683770d7519c404147995b9c70072859fa1ac80930"
+      },
+      {
+        "path": "src/smart/admin-notifications/js/templates/default.js",
+        "sha256": "96c0a07dfe5dcf27f1c258a3b1b5fb9dd492d769e8c15cf3d52d00eb5f9b3e4d"
+      },
+      {
+        "path": "src/smart/admin-notifications/js/templates/default.css",
+        "sha256": "1d6a9aacfe03a37405e622644dbfb86b2576ac2b7ac39282331f7ef13cb41ec0"
+      },
+      {
+        "path": "src/smart/admin-notifications/component.json",
+        "sha256": "3c81916266bce5812bb0ba6799423c80158f6dc0b000bbf0962b416c261c7645"
+      },
+      {
+        "path": "src/smart/admin-notifications/lang/en.json",
+        "sha256": "cfe313b4b79fed1dd7c1dd1f2234afcdcc6e34c9ae5b10a4d4056c3799ffd0cf"
+      },
+      {
+        "path": "src/smart/admin-notifications/lang/ru.json",
+        "sha256": "9feba5860b91b0481df876465a1fe8f083a034467b454e98eaefc32d0d061e7f"
+      }
+    ]
+  },
+  "ai_guidance": {
+    "use_when": "Use sf-admin-notifications inside the notifications panel (sf-drawer size 2 on the right) and on the history page (look page) of an admin.",
+    "do_not": [
+      "Do not keep notifications in the element; the host keeps them",
+      "Do not count unread in the page: the host answers unread",
+      "Do not send markup in titles"
+    ],
+    "required_reads": [
+      "inputs",
+      "contracts",
+      "events",
+      "accessibility"
+    ],
+    "minimal_example": "<sf-admin-notifications history-href=\"/panel/notifications\"></sf-admin-notifications>",
+    "owner_commands": [
+      "node scripts/test.mjs",
+      "node scripts/run-browser-probes.mjs <free> <set build>"
+    ]
+  }
+}

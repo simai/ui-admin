@@ -1,0 +1,72 @@
+{
+  "schema": "docara.site.v1",
+  "title": "SIMAI Admin",
+  "preset": "docs",
+  "content_root": "content/ru",
+  "framework_lock": "simai-framework.lock.json",
+  "default_locale": "ru",
+  "locales": {
+    "missing_page_policy": "skip",
+    "ru": {
+      "label": "Русский",
+      "direction": "ltr",
+      "content_root": "content/ru",
+      "public_prefix": "ru",
+      "fallbacks": []
+    },
+    "en": {
+      "label": "English",
+      "direction": "ltr",
+      "content_root": "content/en",
+      "public_prefix": "en",
+      "fallbacks": []
+    }
+  },
+  "locale_routing": {
+    "strategy": "prefixed",
+    "root": "redirect",
+    "detect_browser_language": false
+  },
+  "base_url": "/",
+  "branding": {
+    "title": "SIMAI Admin",
+    "mode": "compact",
+    "size": "large",
+    "logo": "assets/docara-mark.svg",
+    "favicon": "assets/favicon.ico"
+  },
+  "layout": {
+    "key": "docara.docs",
+    "container": {
+      "max": 7
+    },
+    "scrollbar": {
+      "preset": "overlay"
+    }
+  },
+  "settings": {
+    "theme": "system",
+    "modal_blur": "none",
+    "ui_radius": "default"
+  },
+  "search": {
+    "enabled": true,
+    "indexed": true
+  },
+  "reading": {
+    "breadcrumbs": true,
+    "toc": true,
+    "mobile_toc": "auto",
+    "toc_depth": 3,
+    "previous_next": true
+  },
+  "effects": {
+    "catalogue": "https://cdn.jsdelivr.net/npm/@simai-studio/effects@1.1.0/"
+  },
+  "translation_tracking": {
+    "enabled": true,
+    "source_locale": "ru",
+    "mode": "report",
+    "lock_file": "translations.lock.json"
+  }
+}

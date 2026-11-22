@@ -1,0 +1,79 @@
+<script src="assets/admin-demo.js"></script>
+<div class="flex flex-col gap-3">
+  <sf-tabs type="pills" scheme="link" overflow="wrap" aria-label="Примеры SIMAI Admin" items="Каркас|Меню|Уведомления|Фоновые действия">
+    <section slot="panel-0" class="flex flex-col gap-2 p-top-2" aria-label="Каркас">
+      <p class="m-0 color-on-surface-variant">Экран админки целиком: полоса сообщений, меню, голова страницы с путём и индикатором действий, содержимое. Прокрутите — полоса и меню остаются. Колокол в меню открывает панель уведомлений. Сузьте пример до телефона — меню уйдёт за кнопку в верхней строке.</p>
+      <figure class="showcase-card m-0">
+        <figcaption class="showcase-head"><a href="/ru/components/admin-shell/" target="_top">Каркас админки</a><span aria-hidden="true">·</span><a href="/ru/components/admin-menu/" target="_top">Меню администратора</a><span aria-hidden="true">·</span><a href="/ru/components/admin-activity/" target="_top">Фоновые действия</a></figcaption>
+        <div class="page-screen">
+          <sf-admin-shell product="Larena Panel">
+            <sf-alert-bar slot="bar" size="1/2">
+              <script type="application/json" data-sf-settings>{"items": [{"id": "licence", "level": "warning", "text": "Лицензия кончается 30 ноября: после этого панель будет только показывать.", "source": "Лицензия", "action": {"label": "Продлить", "href": "#/panel.license"}}]}</script>
+            </sf-alert-bar>
+            <sf-admin-menu slot="menu" aria-label="Меню" expected-columns="2" current="srv.overview"></sf-admin-menu>
+            <sf-header-page slot="head" heading="Обзор сервера" overflow="wrap" star="false">
+              <div slot="path" class="sf-admin-shell-path">
+                <sf-breadcrumbs current="none" items='[{"label": "Сервер", "href": "#/srv"}]'></sf-breadcrumbs>
+                <sf-admin-activity history-href="#/activity" runs='[{"id": "r1", "label": "Копия srv1.larena.cloud", "state": "running", "value": 42, "total": 100, "unit": "%", "href": "#/srv.backups"}, {"id": "r2", "label": "Обновление PHP на stage", "state": "failed", "text": "Хранилище пакетов не ответило.", "href": "#/srv.software", "object": "stage.larena.cloud"}]'></sf-admin-activity>
+              </div>
+            </sf-header-page>
+            <sf-admin-activity slot="top-end" size="1" history-href="#/activity" runs='[{"id": "r1", "label": "Копия srv1.larena.cloud", "state": "running", "value": 42, "total": 100, "unit": "%", "href": "#/srv.backups"}, {"id": "r2", "label": "Обновление PHP на stage", "state": "failed", "text": "Хранилище пакетов не ответило.", "href": "#/srv.software", "object": "stage.larena.cloud"}]'></sf-admin-activity>
+            <div class="page-tiles">
+              <sf-tile-metric label="Процессор" value="23" unit="%" max="100" format="integer" warning-at="80" error-at="95"></sf-tile-metric>
+              <sf-tile-metric label="Диск" value="86" unit="%" max="100" format="integer" warning-at="80" error-at="95" limit-text="86 % из 200 ГБ"></sf-tile-metric>
+              <sf-tile-metric label="Сайты" value="24" format="integer" previous="22" period-text="за месяц"></sf-tile-metric>
+              <sf-tile-metric label="Копии за сутки" value="23" format="integer" limit-text="из 24"></sf-tile-metric>
+            </div>
+            <sf-alert status="warning" heading="Копия stage.larena.cloud не удалась ночью." supporting-text="Хранилище не ответило. Остальные 23 копии сделаны."></sf-alert>
+            <p class="m-0 color-on-surface-variant">Ниже — место для данных страницы: таблицы, формы, графики.</p>
+            <div class="page-filler" aria-hidden="true"></div>
+          </sf-admin-shell>
+          <sf-drawer placement="right" size="2" heading="Уведомления">
+            <div slot="content"><sf-admin-notifications look="panel" aria-label="Уведомления" history-href="#/notifications"></sf-admin-notifications></div>
+          </sf-drawer>
+        </div>
+      </figure>
+    </section>
+
+    <section slot="panel-1" class="flex flex-col gap-2 p-top-2" aria-label="Меню">
+      <p class="m-0 color-on-surface-variant">Меню над портом навигации: слева рейка разделов, рядом — меню того сервера, который открыт на странице. Нажмите «Сервер» или «Настройки панели» на рейке, найдите раздел через поиск, отметьте страницу звездой, откройте профиль внизу рейки.</p>
+      <figure class="showcase-card m-0">
+        <figcaption class="showcase-head"><a href="/ru/components/admin-menu/" target="_top">Меню администратора</a></figcaption>
+        <div class="page-menu">
+          <sf-admin-menu id="object-menu" aria-label="Меню сервера" expected-columns="2" search-shortcut=""></sf-admin-menu>
+          <div class="page-menu-content">
+            <p class="page-title">srv1.larena.cloud</p>
+            <p class="m-0 color-on-surface-variant">Вторая колонка меню — о том месте, где человек сейчас: меню открытого сервера, а без него — раздел, в котором лежит страница.</p>
+            <p class="m-0 color-on-surface-variant" role="status" data-log></p>
+          </div>
+        </div>
+      </figure>
+    </section>
+
+    <section slot="panel-2" class="flex flex-col gap-2 p-top-2" aria-label="Уведомления">
+      <p class="m-0 color-on-surface-variant">Уведомления по дням. Повторы одного сервера за день свёрнуты под «Ещё N по …», закрытая проблема помечена «→ решено». «Прочитать все» снимает отметки и переводит фокус на счёт.</p>
+      <figure class="showcase-card m-0">
+        <figcaption class="showcase-head"><a href="/ru/components/admin-notifications/" target="_top">Уведомления</a></figcaption>
+        <div class="page-notices">
+          <sf-admin-notifications id="notices" look="panel" aria-label="Уведомления" history-href="#/notifications"></sf-admin-notifications>
+        </div>
+      </figure>
+    </section>
+
+    <section slot="panel-3" class="flex flex-col gap-2 p-top-2" aria-label="Фоновые действия">
+      <p class="m-0 color-on-surface-variant">Что идёт в фоне: копия сервера и обновление PHP. Нажмите «Запустить» — копия дойдёт до конца, обновление не удастся: появится красная метка и сообщение, а неудача встанет в список уведомлений. Откройте индикатор — метка уйдёт.</p>
+      <figure class="showcase-card m-0">
+        <figcaption class="showcase-head"><a href="/ru/components/admin-activity/" target="_top">Фоновые действия</a></figcaption>
+        <div class="page-activity-row">
+          <sf-breadcrumbs current="none" items='[{"label": "Сервер", "href": "#/srv"}, {"label": "Резервные копии", "href": "#/srv.backups"}]'></sf-breadcrumbs>
+          <sf-admin-activity id="activity" history-href="#/activity" runs='[{"id": "r1", "label": "Копия srv1.larena.cloud", "state": "running", "value": 10, "total": 100, "unit": "%", "href": "#/srv.backups"}, {"id": "r2", "label": "Обновление PHP на stage", "state": "running", "href": "#/srv.software", "object": "stage.larena.cloud"}]'></sf-admin-activity>
+        </div>
+        <div class="flex flex-wrap gap-1 items-cross-center">
+          <sf-button id="play" text="Запустить" size="1/2"></sf-button>
+          <sf-button id="reset" text="Сначала" appearance="outline" size="1/2"></sf-button>
+        </div>
+        <p class="m-0 color-on-surface-variant" role="status" data-log></p>
+      </figure>
+    </section>
+  </sf-tabs>
+</div>

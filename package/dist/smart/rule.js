@@ -33,13 +33,7 @@ SF.RuleLoader.registerPackage("admin", {
       "mode": "smart",
       "relation": [
         {
-          "name": "admin-menu"
-        },
-        {
           "name": "icons"
-        },
-        {
-          "name": "inputs"
         },
         {
           "name": "badges"
@@ -51,6 +45,7 @@ SF.RuleLoader.registerPackage("admin", {
           "name": "avatars"
         },
         {
+          "lazy": true,
           "name": "cl-button"
         },
         {
@@ -71,6 +66,7 @@ SF.RuleLoader.registerPackage("admin", {
           "name": "cl-button-icon"
         },
         {
+          "lazy": true,
           "name": "cl-input"
         },
         {

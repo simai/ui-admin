@@ -1272,6 +1272,8 @@ function openAccountMenu(context, anchor) {
   });
 
   if (canEdit) {
+    // «Настроить меню» is a press away: its parts come now (1.17.0).
+    if (!editing) controller.prefetchEdit?.();
     entries.push(editing ? {
       id: "finish-configure",
       text: text("finishConfigure"),
@@ -1808,9 +1810,12 @@ class NavigationController {
     this._paletteSequence = 0;
     this._paletteChoices = new Map();
 
-    this.paletteProvider = (query, options) => this.askPalette(query, options); // The edit mode: on or off, what is being renamed or added, the row whose
-    // ⋯ is open, the profile list in the banner, and what the last save said.
+    this.paletteProvider = (query, options) => this.askPalette(query, options); // Not drawn until it is first wanted (paletteElement).
 
+
+    this.paletteWanted = false;
+    this._paletteCode = null; // The edit mode: on or off, what is being renamed or added, the row whose
+    // ⋯ is open, the profile list in the banner, and what the last save said.
 
     this.edit = {
       on: false,
@@ -1834,7 +1839,16 @@ class NavigationController {
 
     this._onSortableIntent = event => this.onSortableIntent(event);
 
-    element.addEventListener("sf-sortable-intent", this._onSortableIntent); // The rail's «…» follows the window's height (AM-27): measured again
+    element.addEventListener("sf-sortable-intent", this._onSortableIntent); // What a control opens is fetched when a pointer comes over it or the
+    // focus reaches it (1.17.0): a closed menu fetches none of it, and the
+    // first press finds the code there (prefetchFor).
+
+    this._prefetched = new Set();
+
+    this._onPrefetch = event => this.prefetchFor(event.target);
+
+    element.addEventListener("pointerover", this._onPrefetch);
+    element.addEventListener("focusin", this._onPrefetch); // The rail's «…» follows the window's height (AM-27): measured again
     // after every draw and when the window changes size.
 
     this._onWindowResize = () => {
@@ -1856,11 +1870,14 @@ class NavigationController {
     this.wideMedia?.addEventListener?.("change", this._onWideChange);
 
     this._onKeyDown = event => {
-      // ⌘K / Ctrl+K opens the palette from anywhere on the page, in every
+      // Ctrl or ⌘ alone is most often the first half of ⌘K: the window's
+      // code is fetched now, so the key finds it there (1.17.0).
+      if ((event.key === "Control" || event.key === "Meta") && this.offers("search")) this.preparePalette(); // ⌘K / Ctrl+K opens the palette from anywhere on the page, in every
       // arrangement of the menu -- the rail and the phone included, which
       // is the reason it is a palette over the page rather than a column.
       // The menu is the key's one owner on the page (AM-1): its own
       // sf-search hears no key of its own (palette.js shortcut="").
+
       if ((0,_component_kbd_js_shortcut__WEBPACK_IMPORTED_MODULE_6__.matchesShortcut)(event, (0,_component_kbd_js_shortcut__WEBPACK_IMPORTED_MODULE_6__.parseShortcut)(this.paletteShortcut())) && this.offers("search")) {
         // The key is the menu's: the open window's field does not hear
         // it after the window has closed under it.
@@ -2071,6 +2088,8 @@ class NavigationController {
     this._notices = null;
     this.closePalette();
     this.element.removeEventListener("sf-sortable-intent", this._onSortableIntent);
+    this.element.removeEventListener("pointerover", this._onPrefetch);
+    this.element.removeEventListener("focusin", this._onPrefetch);
     globalThis.removeEventListener?.("resize", this._onWindowResize);
     cancelAnimationFrame(this._fitFrame);
     this.wideMedia?.removeEventListener?.("change", this._onWideChange);
@@ -3636,12 +3655,67 @@ class NavigationController {
   // focus back. The element is drawn with the menu (palette.js) and fetched
   // by the Loader when it first appears; the menu hands it the provider and
   // opens it.
+  //
+  // A closed menu draws no window (1.17.0): it is drawn when it is first
+  // wanted, the Loader fetching sf-search and its parts at that moment, and
+  // stays drawn. A pointer over the search row or the focus on it fetches
+  // the code ahead (preparePalette), so the first open is not a wait.
+  // The parts a control opens, by the control: the bell its panel, the
+  // person, a rail root (its row menu) and the site switcher the standard
+  // menu, the search row the window. The setting mode's parts are fetched
+  // when the person menu opens with «Настроить меню» in it. Each is asked
+  // of the Loader once; a tag already defined costs nothing.
 
+
+  prefetchFor(target) {
+    const control = target?.closest?.(".sf-admin-nav-bell, .sf-admin-nav-person, .sf-admin-nav-site-trigger, .sf-admin-nav-first .sf-admin-nav-row");
+    if (!control) return;
+    if (control.matches(".sf-admin-nav-bell")) return this.prefetch(["sf-drawer"]);
+    if (control.matches("[aria-haspopup=\"dialog\"]")) return this.preparePalette();
+    return this.prefetch(["sf-menu-context"]);
+  }
+
+  prefetch(tags) {
+    const wanted = tags.filter(tag => !this._prefetched.has(tag) && !customElements.get(tag));
+    if (!wanted.length) return null;
+    wanted.forEach(tag => this._prefetched.add(tag));
+    return globalThis.SF?.Loader?.ensure?.(wanted) ?? null;
+  } // The setting mode draws text buttons, fields, the levels, the profile
+  // picker, the glyph dropdown and the sortable rows.
+
+
+  prefetchEdit() {
+    if (this.canEdit()) this.prefetch(["sf-button", "sf-input", "sf-segmented", "sf-profile-picker", "sf-dropdown", "sf-sortable"]);
+  }
+
+  preparePalette() {
+    if (!this.offers("search") || customElements.get("sf-search")) return null;
+    this._paletteCode ??= globalThis.SF?.Loader?.ensure?.(["sf-search"], {
+      timeout: _menu__WEBPACK_IMPORTED_MODULE_0__.PRESS_WAIT
+    })?.then(answer => {
+      // Not there in time: the next want asks again.
+      if (!customElements.get("sf-search")) this._paletteCode = null;
+      return answer;
+    }) ?? null;
+    return this._paletteCode;
+  }
 
   async paletteElement() {
     if (!this.offers("search")) return null;
-    if (!customElements.get("sf-search")) await globalThis.SF?.Loader?.ensure?.(["sf-search"]);
-    const search = this.element.querySelector("sf-search.sf-admin-nav-search");
+    const code = this.preparePalette();
+    let search = this.element.querySelector("sf-search.sf-admin-nav-search");
+
+    if (!search) {
+      this.paletteWanted = true;
+      const drawn = this.element.whenRendered?.(null, {
+        next: true
+      });
+      this.update("palette");
+      await Promise.race([drawn, new Promise(settle => setTimeout(settle, 1000))]);
+      search = this.element.querySelector("sf-search.sf-admin-nav-search");
+    }
+
+    if (code) await code;
     if (!search || typeof search.open !== "function") return null;
     if (search.provider !== this.paletteProvider) search.provider = this.paletteProvider;
     return search;
@@ -3826,7 +3900,9 @@ class NavigationController {
 
   async setNoticesDrawer(drawer) {
     if (!this.offers("notifications")) return null;
-    if (!customElements.get("sf-drawer")) await globalThis.SF?.Loader?.ensure?.(["sf-drawer"]);
+    if (!customElements.get("sf-drawer")) await globalThis.SF?.Loader?.ensure?.(["sf-drawer"], {
+      timeout: _menu__WEBPACK_IMPORTED_MODULE_0__.PRESS_WAIT
+    });
     if (!customElements.get("sf-drawer")) return null;
 
     if (this._setPanel !== drawer) {
@@ -3854,7 +3930,9 @@ class NavigationController {
 
   async noticesDrawer() {
     if (!this.offers("notifications")) return null;
-    if (!customElements.get("sf-drawer")) await globalThis.SF?.Loader?.ensure?.(["sf-drawer"]);
+    if (!customElements.get("sf-drawer")) await globalThis.SF?.Loader?.ensure?.(["sf-drawer"], {
+      timeout: _menu__WEBPACK_IMPORTED_MODULE_0__.PRESS_WAIT
+    });
     if (!customElements.get("sf-drawer")) return null;
     let drawer = this._notices;
 
@@ -4039,13 +4117,17 @@ class NavigationController {
       });
     }
 
-    if (this.canEdit()) entries.push({
-      type: "separator"
-    }, {
-      id: "configure",
-      text: `${this.text("configureMenu")}…`,
-      icon: "tune"
-    });
+    if (this.canEdit()) {
+      entries.push({
+        type: "separator"
+      }, {
+        id: "configure",
+        text: `${this.text("configureMenu")}…`,
+        icon: "tune"
+      });
+      this.prefetchEdit();
+    }
+
     if (entries.length < 2) return null;
     return (0,_menu__WEBPACK_IMPORTED_MODULE_0__.openMenu)(this, anchor, {
       label: row.label,
@@ -4661,6 +4743,7 @@ __webpack_async_result__();
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   PRESS_WAIT: () => (/* binding */ PRESS_WAIT),
 /* harmony export */   closeMenu: () => (/* binding */ closeMenu),
 /* harmony export */   menuOpenFor: () => (/* binding */ menuOpenFor),
 /* harmony export */   menuOpened: () => (/* binding */ menuOpened),
@@ -4675,8 +4758,15 @@ __webpack_require__.r(__webpack_exports__);
 // not take an open menu away.
 // The standard menu is a lazy relation: fetched after the page is ready, so a
 // press that comes before it has arrived asks the Loader for it and waits.
+// A press waits for the part it opens as long as a slow network needs (the
+// Loader's ensure gives up after 3 s by default; on a slow 3G line the
+// standard menu and its parts take longer, and the press then did nothing).
+const PRESS_WAIT = 30000;
+
 async function standardMenuDefined() {
-  await globalThis.SF?.Loader?.ensure?.(["sf-menu-context"]);
+  await globalThis.SF?.Loader?.ensure?.(["sf-menu-context"], {
+    timeout: PRESS_WAIT
+  });
   return Boolean(customElements.get("sf-menu-context"));
 } // The navigation's widths, in the Framework's kinds (decision C32): "trigger"
 // (the site switcher) is "list", at least the switcher, up to the list step;
@@ -4948,6 +5038,9 @@ const icon = name => name ? (0,lit__WEBPACK_IMPORTED_MODULE_0__.html)`<sf-icon r
 // (shortcut=""): mod+k stays the menu's, heard through the kbd unit, so the
 // rail and the phone open the same window and the key toggles it. Popular
 // queries are not drawn: the navigation port has none.
+// The window is drawn when it is first wanted (controller.paletteElement),
+// not with the menu: a closed menu fetches no sf-search, nor the parts the
+// window is drawn with; once drawn it stays, so it opens again at once.
 
 
 function renderPalette(context) {
@@ -4955,7 +5048,7 @@ function renderPalette(context) {
     controller,
     text
   } = context;
-  if (!controller.offers("search")) return lit__WEBPACK_IMPORTED_MODULE_0__.nothing;
+  if (!controller.offers("search") || !controller.paletteWanted) return lit__WEBPACK_IMPORTED_MODULE_0__.nothing;
   return (0,lit__WEBPACK_IMPORTED_MODULE_0__.html)`<sf-search class="sf-admin-nav-search" shortcut="" recent-key="admin-menu" popular="false"
         label=${text("search")} placeholder=${text("paletteHint")}
         @sf-search-navigate=${event => controller.onPaletteNavigate(event)}></sf-search>`;
@@ -4976,6 +5069,8 @@ function renderSearchRow(context) {
         aria-keyshortcuts=${(0,_component_kbd_js_shortcut__WEBPACK_IMPORTED_MODULE_2__.ariaKeyShortcuts)((0,_component_kbd_js_shortcut__WEBPACK_IMPORTED_MODULE_2__.parseShortcut)(shortcut)) || lit__WEBPACK_IMPORTED_MODULE_0__.nothing}
         data-tooltip=${(0,_tips_js__WEBPACK_IMPORTED_MODULE_1__.tip)(context, "search", text("search"), shortcut)}
         aria-label=${compact ? text("search") : lit__WEBPACK_IMPORTED_MODULE_0__.nothing}
+        @pointerenter=${() => controller.preparePalette()}
+        @focus=${() => controller.preparePalette()}
         @click=${event => {
     event.preventDefault();
     controller.openPalette();
@@ -7263,7 +7358,7 @@ module.exports = /*#__PURE__*/JSON.parse('{"$comment":"Dated aliases of sf-admin
 /***/ "827a6156cb91"
 (module) {
 
-module.exports = /*#__PURE__*/JSON.parse('{"id":"smart.admin-menu","tag":"sf-admin-menu","version":"1.16.1","kind":"leaf","settings":{"search-shortcut":{"type":"string","default":"mod+k"},"current":{"type":"string","default":""},"expected-columns":{"type":"number","default":2,"integer":true,"min":1,"max":2},"first-answer":{"type":"object","optional":true},"open":{"type":"boolean","optional":true}},"values":{"favourite":{"type":"boolean"}},"events":{"query":{"carries":{"kind":{"type":"enum","values":["site","search"]},"query":"string","request-id":{"type":"string","optional":true},"intent":{"type":"string","optional":true},"payload":{"type":"object","optional":true}}},"reset":{"carries":{"kind":{"type":"enum","values":["view"]},"id":{"type":"id","optional":true},"intent":{"type":"string","optional":true},"payload":{"type":"object","optional":true}}},"navigate":{"carries":{"id":"id","key":"string","href":{"type":"string","nullable":true},"region":{"type":"boolean","optional":true}},"cancelable":true},"refresh":{"carries":{"kind":"string","intent":"string","payload":"object","reason":{"type":"string","nullable":true,"optional":true},"site":{"type":"id","nullable":true,"optional":true}}},"open":{"carries":{"kind":"string","intent":"string","payload":"object","id":"id","href":{"type":"string","nullable":true,"optional":true},"group":{"type":"string","nullable":true,"optional":true}}},"toggle":{"carries":{"kind":"string","intent":"string","payload":"object","id":"id","on":"boolean"}},"save":{"carries":{"kind":"string","intent":"string","payload":"object","values":{"type":"object","optional":true},"id":{"type":"id","nullable":true,"optional":true},"revision":{"type":"number","nullable":true,"optional":true}}},"create":{"carries":{"kind":"string","intent":"string","payload":"object"}},"rename":{"carries":{"kind":"string","intent":"string","payload":"object","id":"id","title":"string"}},"delete":{"carries":{"kind":"string","intent":"string","payload":"object","ids":"list"}},"read":{"carries":{"kind":"string","intent":"string","payload":"object","ids":"list"}},"sign-out":{"carries":{"kind":"string","intent":"string","payload":"object"},"own-verb":true},"column-change":{"carries":{"open":"boolean"}}},"actions":{"refresh":{"concurrency":"latest"},"toggle":{"with":{"id":"id","on":"boolean"},"waits":true},"show-column":{},"hide-column":{},"toggle-column":{}},"port":{"id":"simai.admin-navigation-port","version":"1.1.0","contract":"src/core/contracts/ports/simai.admin-navigation-port/1.1.0/port.json"},"host-states":{},"css-variables":{"--sf-admin-menu-color":{"type":"color","state":"default"},"--sf-admin-menu-first-background-color":{"type":"color","state":"default"},"--sf-admin-menu-second-background-color":{"type":"color","state":"default"},"--sf-admin-menu-border-color":{"type":"color","state":"default"},"--sf-admin-menu-padding":{"type":"length","state":"default"},"--sf-admin-menu-one-column-inline-size":{"type":"length","state":"default"},"--sf-admin-menu-two-columns-inline-size":{"type":"length","state":"default"},"--sf-admin-menu-compact-one-column-inline-size":{"type":"length","state":"default"},"--sf-admin-menu-compact-two-columns-inline-size":{"type":"length","state":"default"}}}');
+module.exports = /*#__PURE__*/JSON.parse('{"id":"smart.admin-menu","tag":"sf-admin-menu","version":"1.17.0","kind":"leaf","settings":{"search-shortcut":{"type":"string","default":"mod+k"},"current":{"type":"string","default":""},"expected-columns":{"type":"number","default":2,"integer":true,"min":1,"max":2},"first-answer":{"type":"object","optional":true},"open":{"type":"boolean","optional":true}},"values":{"favourite":{"type":"boolean"}},"events":{"query":{"carries":{"kind":{"type":"enum","values":["site","search"]},"query":"string","request-id":{"type":"string","optional":true},"intent":{"type":"string","optional":true},"payload":{"type":"object","optional":true}}},"reset":{"carries":{"kind":{"type":"enum","values":["view"]},"id":{"type":"id","optional":true},"intent":{"type":"string","optional":true},"payload":{"type":"object","optional":true}}},"navigate":{"carries":{"id":"id","key":"string","href":{"type":"string","nullable":true},"region":{"type":"boolean","optional":true}},"cancelable":true},"refresh":{"carries":{"kind":"string","intent":"string","payload":"object","reason":{"type":"string","nullable":true,"optional":true},"site":{"type":"id","nullable":true,"optional":true}}},"open":{"carries":{"kind":"string","intent":"string","payload":"object","id":"id","href":{"type":"string","nullable":true,"optional":true},"group":{"type":"string","nullable":true,"optional":true}}},"toggle":{"carries":{"kind":"string","intent":"string","payload":"object","id":"id","on":"boolean"}},"save":{"carries":{"kind":"string","intent":"string","payload":"object","values":{"type":"object","optional":true},"id":{"type":"id","nullable":true,"optional":true},"revision":{"type":"number","nullable":true,"optional":true}}},"create":{"carries":{"kind":"string","intent":"string","payload":"object"}},"rename":{"carries":{"kind":"string","intent":"string","payload":"object","id":"id","title":"string"}},"delete":{"carries":{"kind":"string","intent":"string","payload":"object","ids":"list"}},"read":{"carries":{"kind":"string","intent":"string","payload":"object","ids":"list"}},"sign-out":{"carries":{"kind":"string","intent":"string","payload":"object"},"own-verb":true},"column-change":{"carries":{"open":"boolean"}}},"actions":{"refresh":{"concurrency":"latest"},"toggle":{"with":{"id":"id","on":"boolean"},"waits":true},"show-column":{},"hide-column":{},"toggle-column":{}},"port":{"id":"simai.admin-navigation-port","version":"1.1.0","contract":"src/core/contracts/ports/simai.admin-navigation-port/1.1.0/port.json"},"host-states":{},"css-variables":{"--sf-admin-menu-color":{"type":"color","state":"default"},"--sf-admin-menu-first-background-color":{"type":"color","state":"default"},"--sf-admin-menu-second-background-color":{"type":"color","state":"default"},"--sf-admin-menu-border-color":{"type":"color","state":"default"},"--sf-admin-menu-padding":{"type":"length","state":"default"},"--sf-admin-menu-one-column-inline-size":{"type":"length","state":"default"},"--sf-admin-menu-two-columns-inline-size":{"type":"length","state":"default"},"--sf-admin-menu-compact-one-column-inline-size":{"type":"length","state":"default"},"--sf-admin-menu-compact-two-columns-inline-size":{"type":"length","state":"default"}}}');
 
 /***/ },
 

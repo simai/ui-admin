@@ -9,16 +9,18 @@ __webpack_require__.a(module, async (__webpack_handle_async_dependencies__, __we
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _core_js_smart_base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("deb1a4d61565");
 /* harmony import */ var _core_js_element_manifest__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("5b7d7695b41b");
-/* harmony import */ var _helpers_late_children_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("769e1a2f7462");
-/* harmony import */ var _js_nodes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("4f2635e5ee49");
-/* harmony import */ var _js_templates_default_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("c3b3229a2743");
-/* harmony import */ var _component_json__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("04a513cb1f29");
-/* harmony import */ var _lang_en_json__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("cf98b1f52540");
-/* harmony import */ var _lang_ru_json__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__("905d4bb569c1");
-var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_core_js_smart_base__WEBPACK_IMPORTED_MODULE_0__, _core_js_element_manifest__WEBPACK_IMPORTED_MODULE_1__, _js_templates_default_js__WEBPACK_IMPORTED_MODULE_4__]);
-([_core_js_smart_base__WEBPACK_IMPORTED_MODULE_0__, _core_js_element_manifest__WEBPACK_IMPORTED_MODULE_1__, _js_templates_default_js__WEBPACK_IMPORTED_MODULE_4__] = __webpack_async_dependencies__.then ? (await __webpack_async_dependencies__)() : __webpack_async_dependencies__);
+/* harmony import */ var _core_js_layer_stack__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("18003344cff0");
+/* harmony import */ var _helpers_late_children_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("769e1a2f7462");
+/* harmony import */ var _js_nodes_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("4f2635e5ee49");
+/* harmony import */ var _js_templates_default_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("c3b3229a2743");
+/* harmony import */ var _component_json__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("04a513cb1f29");
+/* harmony import */ var _lang_en_json__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__("cf98b1f52540");
+/* harmony import */ var _lang_ru_json__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__("905d4bb569c1");
+var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_core_js_smart_base__WEBPACK_IMPORTED_MODULE_0__, _core_js_element_manifest__WEBPACK_IMPORTED_MODULE_1__, _core_js_layer_stack__WEBPACK_IMPORTED_MODULE_2__, _js_templates_default_js__WEBPACK_IMPORTED_MODULE_5__]);
+([_core_js_smart_base__WEBPACK_IMPORTED_MODULE_0__, _core_js_element_manifest__WEBPACK_IMPORTED_MODULE_1__, _core_js_layer_stack__WEBPACK_IMPORTED_MODULE_2__, _js_templates_default_js__WEBPACK_IMPORTED_MODULE_5__] = __webpack_async_dependencies__.then ? (await __webpack_async_dependencies__)() : __webpack_async_dependencies__);
 /* harmony import */ var _core_js_smart_base__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_core_js_smart_base__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _core_js_element_manifest__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_core_js_element_manifest__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _core_js_layer_stack__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_core_js_layer_stack__WEBPACK_IMPORTED_MODULE_2__);
 // sf-admin-shell: the frame of every admin screen (owner decisions C416, C420;
 // study ui-control control/research/2026-11-22-admin-shell-study, sample
 // prototypes/admin-shell-study/shell.mjs). A product puts its ready parts into
@@ -51,11 +53,12 @@ var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_cor
 
 
 
-const ShellElement = (0,_core_js_element_manifest__WEBPACK_IMPORTED_MODULE_1__.elementFromManifest)(_component_json__WEBPACK_IMPORTED_MODULE_5__, {
+
+const ShellElement = (0,_core_js_element_manifest__WEBPACK_IMPORTED_MODULE_1__.elementFromManifest)(_component_json__WEBPACK_IMPORTED_MODULE_6__, {
   base: (_core_js_smart_base__WEBPACK_IMPORTED_MODULE_0___default()),
   lang: {
-    en: _lang_en_json__WEBPACK_IMPORTED_MODULE_6__,
-    ru: _lang_ru_json__WEBPACK_IMPORTED_MODULE_7__
+    en: _lang_en_json__WEBPACK_IMPORTED_MODULE_7__,
+    ru: _lang_ru_json__WEBPACK_IMPORTED_MODULE_8__
   },
   source: "ru"
 }); // The named places of the frame; everything else the page writes is content.
@@ -103,12 +106,12 @@ class SfAdminShell extends ShellElement {
     // Content is every child the page wrote that names no slot: not the
     // printed picture of the frame (§5.4), not a settings island, not white space.
     if (!this._content) {
-      this._content = Array.from(this.childNodes).filter(node => (0,_helpers_late_children_js__WEBPACK_IMPORTED_MODULE_2__.isLateContent)(node) && !slotOf(node) && !own(node));
+      this._content = Array.from(this.childNodes).filter(node => (0,_helpers_late_children_js__WEBPACK_IMPORTED_MODULE_3__.isLateContent)(node) && !slotOf(node) && !own(node));
     }
 
     super.connectedCallback();
     if (!this.isConnected) return;
-    if (!this._late) this._late = (0,_helpers_late_children_js__WEBPACK_IMPORTED_MODULE_2__.watchLateChildren)(this, nodes => this.takeLateChildren(nodes));
+    if (!this._late) this._late = (0,_helpers_late_children_js__WEBPACK_IMPORTED_MODULE_3__.watchLateChildren)(this, nodes => this.takeLateChildren(nodes));
     const signal = this.sfScope;
     globalThis.addEventListener?.("keydown", event => this.onKeydown(event), {
       signal
@@ -174,13 +177,13 @@ class SfAdminShell extends ShellElement {
     const inside = node => this.contains(node);
 
     if (area === "content") {
-      if (this._content) this._content = (0,_js_nodes_js__WEBPACK_IMPORTED_MODULE_3__.heldNodes)(this._content, inside, this._placed);
+      if (this._content) this._content = (0,_js_nodes_js__WEBPACK_IMPORTED_MODULE_4__.heldNodes)(this._content, inside, this._placed);
       return this._content ?? [];
     }
 
     const list = this._liveSlotNodes.get(area);
 
-    const kept = (0,_js_nodes_js__WEBPACK_IMPORTED_MODULE_3__.heldNodes)(list, inside, this._placed);
+    const kept = (0,_js_nodes_js__WEBPACK_IMPORTED_MODULE_4__.heldNodes)(list, inside, this._placed);
     if (Array.isArray(list) && kept.length !== list.length) this._liveSlotNodes.set(area, kept);
     return kept;
   } // Each node into its area, once; a node already there is left alone, so a
@@ -402,7 +405,13 @@ class SfAdminShell extends ShellElement {
     // shown, off screen), so what counts is where the key was pressed.
 
     const target = event.composedPath?.()[0] ?? event.target;
-    if (target?.closest?.("dialog, [role='dialog'], [aria-modal='true'], [role='menu'], [role='listbox']")) return;
+    if (target?.closest?.("dialog, [role='dialog'], [aria-modal='true'], [role='menu'], [role='listbox']")) return; // A layer of the document's layer stack opened over the menu takes it
+    // too, wherever the focus is (1.0.1, LM-R1): the bell's panel is a
+    // drawer that leaves the focus on the bell, so the first Escape closed
+    // the menu under the open panel. The stack closes its top layer and
+    // gives the focus back to its opener; the next Escape is the menu's.
+
+    if ((0,_core_js_layer_stack__WEBPACK_IMPORTED_MODULE_2__.topLayer)()) return;
     event.preventDefault();
     this.closeMenu({
       reason: "escape"
@@ -424,7 +433,7 @@ class SfAdminShell extends ShellElement {
 
 
   template() {
-    return (0,_js_templates_default_js__WEBPACK_IMPORTED_MODULE_4__.renderAdminShellTemplate)({
+    return (0,_js_templates_default_js__WEBPACK_IMPORTED_MODULE_5__.renderAdminShellTemplate)({
       id: this._shellId,
       width: this.getProp("width") === "read" ? "read" : "list",
       reserve: this.shownReserve,
@@ -628,6 +637,13 @@ module.exports = (globalThis.SF && globalThis.SF.runtimeModule ? globalThis.SF.r
 
 /***/ },
 
+/***/ "18003344cff0"
+(module) {
+
+module.exports = (globalThis.SF && globalThis.SF.runtimeModule ? globalThis.SF.runtimeModule("layer-stack", 1) : new Promise((resolve, reject) => globalThis.addEventListener("sf-runtime-ready", () => globalThis.SF.runtimeModule("layer-stack", 1).then(resolve, reject), { once: true })));
+
+/***/ },
+
 /***/ "2a080a730149"
 (module) {
 
@@ -645,7 +661,7 @@ module.exports = (globalThis.SF && globalThis.SF.runtimeModule ? globalThis.SF.r
 /***/ "04a513cb1f29"
 (module) {
 
-module.exports = /*#__PURE__*/JSON.parse('{"id":"smart.admin-shell","tag":"sf-admin-shell","version":"1.0.0","kind":"leaf","settings":{"width":{"type":"enum","values":["list","read"],"default":"list"},"menu-reserve":{"type":"enum","values":["rail","rail-column","none"],"default":"rail-column"},"product":{"type":"string","default":""},"skip-label":{"type":"string","default-from":"runtime.skip-label"},"menu-open":{"type":"boolean","default":false}},"values":{},"events":{"menu-open":{"carries":{"reason":{"type":"enum","values":["button","api"]}},"own-verb":true},"menu-close":{"carries":{"reason":{"type":"enum","values":["button","escape","navigate","resize","content","api"]}},"own-verb":true}},"actions":{"open-menu":{},"close-menu":{},"focus-content":{}},"layer":{"kind":"surface","locks-page":false,"traps-focus":false},"host-states":{"menu-open":"boolean","data-bar":"boolean"},"css-variables":{"--sf-admin-shell-background-color":{"type":"color","state":"default"},"--sf-admin-shell-content-padding-inline":{"type":"length","state":"default"},"--sf-admin-shell-content-padding-block":{"type":"length","state":"default"},"--sf-admin-shell-read-width":{"type":"length","state":"default"},"--sf-admin-shell-menu-reserve":{"type":"length","state":"default"},"--sf-admin-shell-top-padding":{"type":"length","state":"default"},"--sf-admin-shell-divider-color":{"type":"color","state":"default"},"--sf-admin-shell-z-index":{"type":"number","state":"default"},"--sf-admin-shell-stick":{"type":"length","state":"default","x-direction":"out"}}}');
+module.exports = /*#__PURE__*/JSON.parse('{"id":"smart.admin-shell","tag":"sf-admin-shell","version":"1.0.1","kind":"leaf","settings":{"width":{"type":"enum","values":["list","read"],"default":"list"},"menu-reserve":{"type":"enum","values":["rail","rail-column","none"],"default":"rail-column"},"product":{"type":"string","default":""},"skip-label":{"type":"string","default-from":"runtime.skip-label"},"menu-open":{"type":"boolean","default":false}},"values":{},"events":{"menu-open":{"carries":{"reason":{"type":"enum","values":["button","api"]}},"own-verb":true},"menu-close":{"carries":{"reason":{"type":"enum","values":["button","escape","navigate","resize","content","api"]}},"own-verb":true}},"actions":{"open-menu":{},"close-menu":{},"focus-content":{}},"layer":{"kind":"surface","locks-page":false,"traps-focus":false},"host-states":{"menu-open":"boolean","data-bar":"boolean"},"css-variables":{"--sf-admin-shell-background-color":{"type":"color","state":"default"},"--sf-admin-shell-content-padding-inline":{"type":"length","state":"default"},"--sf-admin-shell-content-padding-block":{"type":"length","state":"default"},"--sf-admin-shell-read-width":{"type":"length","state":"default"},"--sf-admin-shell-menu-reserve":{"type":"length","state":"default"},"--sf-admin-shell-top-padding":{"type":"length","state":"default"},"--sf-admin-shell-divider-color":{"type":"color","state":"default"},"--sf-admin-shell-z-index":{"type":"number","state":"default"},"--sf-admin-shell-stick":{"type":"length","state":"default","x-direction":"out"}}}');
 
 /***/ },
 

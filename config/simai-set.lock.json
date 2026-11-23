@@ -2,24 +2,24 @@
   "schemaVersion": 1,
   "kind": "set",
   "package": "admin",
-  "compatibilityId": "admin-25245d70cde8",
-  "version": "1.1.0",
-  "npm": "@simai-studio/admin@1.1.0",
-  "release": "contracts/releases/admin-25245d70cde8.lock.json",
+  "compatibilityId": "admin-ebc242e8fa56",
+  "version": "1.2.0",
+  "npm": "@simai-studio/admin@1.2.0",
+  "release": "contracts/releases/admin-ebc242e8fa56.lock.json",
   "requires": {
     "framework": "ui-b4f79e1c58b7"
   },
   "build": {
-    "revision": "426f9c0ff664a60b3f2b9c5d4377e68fd9dee9f9",
+    "revision": "fe46d63edd27c54b2ed2697898988b6a9ff1cfb3",
     "path": "package/dist",
-    "tree": "2f539d049c572bc1a54fa9209ea0a220a7fef420"
+    "tree": "3b138eab8dcae8a86e635af89891facf7e64d115"
   },
   "smart": {
     "targetDir": "",
     "requiredFiles": [
       {
         "path": "rule.js",
-        "sha256": "e350fed590bdc617659fe0f4021283ebef5ff0d0072e41b7ae37206a89249299"
+        "sha256": "4a2517d762322245291eb9a2edf4332c434dce1f68108583e66ed53de9445662"
       },
       {
         "path": "admin-activity/js/admin-activity.js",
@@ -31,11 +31,11 @@
       },
       {
         "path": "admin-menu/js/admin-menu.js",
-        "sha256": "69e39be20d5dd6c987dc5f502424cca9cb1e5660724dc17d506a8b932120bd38"
+        "sha256": "60954db7e5272bdb7fb55dcfb83201d7b70d9784a24aa56cbff5da2391343ab7"
       },
       {
         "path": "admin-menu/css/admin-menu.css",
-        "sha256": "2cdfcf9c7ab18fd79a4c106e9f81493a7f48550ea4798e5eeef245432cd6d622"
+        "sha256": "86d049c4e5bde82e81ccc10bc1eb2095098c0cae8d38474ba4298b057a3e0386"
       },
       {
         "path": "admin-notifications/js/admin-notifications.js",
@@ -47,7 +47,7 @@
       },
       {
         "path": "admin-shell/js/admin-shell.js",
-        "sha256": "8b122e5ecc269e650f6d1b8f294eeb46843b8ef5f064732956b1c0f9dcf6e36d"
+        "sha256": "5b4a49a8e2913396cb1941515a035aedbaf3648e6f648733183cdcaed54da051"
       },
       {
         "path": "admin-shell/css/admin-shell.css",

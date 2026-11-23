@@ -465,7 +465,9 @@ export function createNavigationHost({ data, capabilities = ALL_CAPABILITIES, sc
 
   return {
     port: 'simai.admin-navigation-port',
-    version: '1.0.0',
+    // 1.2.0: activity.load/retry/cancel above; `page` (1.1.0) is accepted and
+    // ignored, as the port allows a host without object menus.
+    version: '1.2.0',
     capabilities: [...offered].sort(),
     /** What the component would read on connect. */
     navigation: () => navigation(),

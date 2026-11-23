@@ -9,9 +9,8 @@
 /* The set's demo: sf-admin-shell, sf-admin-notifications and sf-admin-activity over the released
    sf-admin-menu, on the admin demo host of this repository (src/ports/navigation-host.mjs,
    data/navigation.json). SIMAI Framework from ?fw=<distr base> (a candidate's distr, served beside
-   it: this branch pins ui-source 4c39ecc20310, integration/pair-next-19, group build 17, not yet a
-   released pair; default the last released pair, npm @simai-studio/ui@5.20261121.928, which has no
-   path-end slot and no notice Retry); the set from ?set=<base> (default ../dist/smart, the released
+   it; default the pair the set is built against, ui-b4f79e1c58b7, npm @simai-studio/ui@5.20261123.1101,
+   ui-source e59dbad1c108, group build 17); the set from ?set=<base> (default ../dist/smart, the released
    output; a candidate's wave-1/output/package/admin/smart when served beside it).
      ?f=overview | settings | history   the screen (default overview)
      ?theme=dark                        the dark theme
@@ -29,7 +28,7 @@
   var dark = q.get('theme') === 'dark';
   document.documentElement.classList.toggle('theme-dark', dark);
   document.documentElement.classList.toggle('theme-light', !dark);
-  var base = q.get('fw') ? new URL(q.get('fw').replace(/\/?$/, '/'), location.href).href : 'https://cdn.jsdelivr.net/npm/@simai-studio/ui@5.20261121.928/distr/';
+  var base = q.get('fw') ? new URL(q.get('fw').replace(/\/?$/, '/'), location.href).href : 'https://cdn.jsdelivr.net/npm/@simai-studio/ui@5.20261123.1101/distr/';
   var set = new URL(q.get('set') || '../dist/smart', location.href).href;
   window.__errs = [];
   addEventListener('error', function (e) { window.__errs.push(String(e.message || e)); });

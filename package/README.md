@@ -13,7 +13,7 @@ repository is the admin demo site; the set does not depend on it.
 | `src/smart/admin-notifications` | `sf-admin-notifications` | none | preview: the notifications list (C421): by day, repeats of one object folded under «Ещё N по …», «Прочитать все», panel or history page; over the menu's port or as items |
 | `src/smart/admin-activity` | `sf-admin-activity` | none | preview: the background-activity indicator (C421): «Идёт N», the failure mark until the list is opened, «Не удалось N»; runs in sf-popover; a run's end told by SF.notify and a notification |
 
-Over the SIMAI Framework candidate this branch pins, the preview components
+Over the SIMAI Framework pair the set pins (ui-b4f79e1c58b7), the preview components
 use the Framework's admin shell parts and carry no fallbacks: the activity
 indicator stands at the end of the head's crumbs row in sf-header-page's slot
 `path-end` (AS-2, 1.12.0), and a failed run's «Повторить» is
@@ -65,13 +65,10 @@ The component imports the free SIMAI Framework by relative path
 never a working tree), with this folder's `src/`, `tests/` and `docs/` laid
 over it. A file here may not replace a ui-source file.
 
-On the branch `admin/over-gb17` the pin is `4c39ecc20310`, a
-SIMAI Framework candidate (ui-source `integration/pair-next-19`, group
-build 17), not a released pair: it registers the set's names and carries the admin
-shell parts AS-1..AS-4 and `simai.admin-navigation-port` 1.2.0. The gates
-read a Framework built from it (the free side is that build's distr, the
-registry its `contracts/registry/names.json`); the pin moves to the released
-pair's source when the pair is cut. The passport names the same commit.
+The pin is `e59dbad1c108`, the source of the released pair
+`ui-b4f79e1c58b7` (group build 17): it registers the set's names and carries
+the admin shell parts AS-1..AS-4 and `simai.admin-navigation-port` 1.2.0. The
+passport names the same commit.
 
 ```bash
 node scripts/test.mjs                                   # unit and contract suite in the overlay
@@ -82,7 +79,7 @@ node scripts/run-first-paint.mjs check|gate <free> <set build>
 ```
 
 `<free>` is the `distr` of the released pair (`git -C <ui> archive
-9ceecc24c988 distr`), `<set build>` the build output holding `smart/`
+b4f79e1c58b7 distr`), `<set build>` the build output holding `smart/`
 (`wave-1/output/package/admin` of the build below). `scripts/gates.sh` runs
 the whole chain: two builds, the receipt, the suite, the probes and the first
 paint.
@@ -107,13 +104,13 @@ release route (ui-builder `publish-package-release.sh`) lays it into
 ## Connecting it
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@simai-studio/ui@5.20261121.928/distr/core/js/core.min.js" data-sf-sets="admin"></script>
+<script src="https://cdn.jsdelivr.net/npm/@simai-studio/ui@5.20261123.1101/distr/core/js/core.min.js" data-sf-sets="admin"></script>
 ```
 
 or, from a base the page serves itself:
 
 ```js
-window.SF_BOOT_CONFIG = {packages: {admin: {base: '/assets/ui-admin/smart', version: '1.0.0'}}};
+window.SF_BOOT_CONFIG = {packages: {admin: {base: '/assets/ui-admin/smart', version: '1.1.0'}}};
 ```
 
 An admin page that also shows data views declares both sets:
@@ -133,7 +130,7 @@ build. A set is built and tested against exactly one revision.
 `simai/ui-admin`; копия в `simai/ui-pro` заморожена и уйдёт из пакета `pro`
 в первом выпуске Pro после выпуска набора. Набор собирается и проверяется
 ровно против одной ревизии SIMAI Framework — сейчас это пара
-`ui-9ceecc24c988`.
+`ui-b4f79e1c58b7`.
 
 С 1.15.0 у меню один путь — навигация над портом хоста: старое меню из
 дочерних элементов-пунктов с его окном настроек, панелью поиска и

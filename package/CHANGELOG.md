@@ -1,6 +1,11 @@
 # Changelog of the set `admin` (@simai-studio/admin)
 
-## 1.1.0 (candidate, 2026-11-23)
+## 1.1.0 (2026-11-23)
+
+Built against ui-b4f79e1c58b7 (SIMAI Framework pair of group build 17,
+npm `@simai-studio/ui@5.20261123.1101`, ui-source `e59dbad1c108`).
+Requires Core runtime `>=1.67.0` (the `path-end` slot of sf-header-page and
+sf-progress-run's notice Retry and Cancel) and no other set.
 
 Three components join the menu as `preview` (owner decisions C420 and C421 of
 2026-11-22, with C415–C419 and C320–C342; study ui-control
@@ -69,17 +74,19 @@ Two defects the admin settings study found (ui-control
   forgotten, never put back (a page that swapped its body without a reload
   got the old form back when the phone menu closed: two forms at 390).
 
-Over the SIMAI Framework candidate ui-source `4c39ecc20310`
-(`integration/pair-next-19`, group build 17, which took in
-`feat/admin-shell-parts`; branch `admin/over-gb17`):
-the two fallbacks are gone. The activity indicator goes in sf-header-page's
+Over the SIMAI Framework group build 17 (ui-source `e59dbad1c108`, which took
+in `feat/admin-shell-parts`): the two fallbacks are gone. The activity indicator goes in sf-header-page's
 slot `path-end` (AS-2) instead of the shell's `.sf-admin-shell-path` row,
 which is removed; a failed run's «Повторить» is sf-progress-run's own in the
 notice look (AS-4) instead of the set's sf-button under it (the relation
 `cl-button` and the word `retry` of sf-admin-activity go with it). AS-1 and
 AS-3 needed none. sf-admin-notifications and sf-admin-activity declare port
 edition 1.2.0. Port 1.2.0 carries what the
-1.1.0 gap lacked (see above).
+1.1.0 gap lacked (see above). A running cancelable run's notice row offers
+sf-progress-run's own «Отменить» (ASR-1): one click asks the host
+`activity.cancel {id}` and sends `sf-admin-activity-cancel`. `activity.load`,
+`activity.retry` and `activity.cancel` carry no `event` (ASR-2); the
+`x-port.sha256` of the indicator and the list name the 1.2.0 bytes of the pair.
 
 ## 1.0.0 (candidate, 2026-11-22)
 

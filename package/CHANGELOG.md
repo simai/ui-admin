@@ -26,6 +26,14 @@ a closed menu fetches only what it draws.
   is drawn only when the host announces the `notifications` capability
   (since 1.15.0).
 
+`sf-admin-shell` 1.0.1 (a patch; DEV acceptance LM-R1): on a phone with the
+menu open, Escape goes first to a layer opened over the menu. The bell's
+notifications panel is a non-modal `sf-drawer` that leaves the focus on the
+bell, so the shell's Escape closed the menu under the open panel, the panel
+stayed and the focus went to the hidden menu button. Now the first Escape
+closes the panel and the focus comes back to the bell; the next one closes
+the menu. Browser probe `admin-shell-phone-escape` (390, light and dark).
+
 ## 1.1.0 (2026-11-23)
 
 Built against ui-b4f79e1c58b7 (SIMAI Framework pair of group build 17,

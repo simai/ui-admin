@@ -31,17 +31,18 @@
       window.sfSmartPath = '/distr/';
     </script>
     <script>
-      // The four components this reference is built on -- sf-view-table,
-      // sf-view, sf-view-properties and sf-admin-menu -- are SIMAI Pro's, the
-      // component package pro, and reach the page through the Loader:
-      // it fetches <base>/rule.js before its first scan and loads them from
-      // that base. Their rules are gone from the free core, so a page that does
+      // The components this reference is built on reach the page through the
+      // Loader from two packages: sf-view-table, sf-view and sf-view-properties
+      // are SIMAI Pro's (package pro), and sf-admin-menu is the Admin set's
+      // (package admin, this repository's own release; Pro dropped its copy in
+      // pro-53cd26ab57cd). The Loader fetches each <base>/rule.js before its
+      // first scan and loads the components from that base. Their rules are gone from the free core, so a page that does
       // not declare this renders nothing. The base is a placeholder here and the
       // build stamps the package's id into it, so a new package build lands on a
       // path no cache can answer with the previous build's bytes.
       window.SF_BOOT_CONFIG = {
         ...window.SF_BOOT_CONFIG,
-        packages: { pro: { base: '/distr-pro/' } },
+        packages: { pro: { base: '/distr-pro/' }, admin: { base: '/distr-admin/' } },
       };
     </script>
     <script src="/distr/core/js/core.min.js" data-sf-script="/distr/core/js/core.min.js"></script>

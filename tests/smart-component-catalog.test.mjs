@@ -45,7 +45,9 @@ test('materialized catalog is traceable to the canonical registry and schema', a
   assert.equal(materialization.registry_schema_sha256, hash(schemaContent));
   const fromPackage = ({source}) => typeof source === 'string' && source.startsWith('package:');
   assert.equal(materialization.contracts.filter((contract) => !fromPackage(contract)).length, registry.entries.length);
-  assert.ok(materialization.contracts.some(({id, source}) => id === 'smart.admin-menu' && fromPackage({source})));
+  // Since pro-53cd26ab57cd the admin menu is the Admin set's (package admin), not Pro's.
+  assert.ok(materialization.contracts.some(({id, source}) => id === 'smart.admin-menu' && source === 'package:admin'));
+  assert.ok(materialization.contracts.some(({id, source}) => id === 'smart.view-table' && source === 'package:pro'));
   assert.ok(materialization.contracts.some(({id, source}) => id === 'smart.view-table' && fromPackage({source})));
   assert.ok(!materialization.contracts.some(({id}) => id === 'smart.data-view'));
   assert.ok(materialization.contracts.some(({id}) => id === 'smart.button'));

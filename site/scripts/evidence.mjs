@@ -3,6 +3,7 @@
 // §11.18).
 //
 // Usage: node site/scripts/evidence.mjs <site URL> <out directory> [--concurrency N] [--only <path>,...]
+//            [--loads N] [--widths 1440,768,390]
 //
 //   first paint (8.11): every page of the site (each content/ru/**/*.md)
 //     and the full example at /demo/, at 1440 and 390, light and dark, two
@@ -42,7 +43,7 @@ mkdirSync(out, {recursive: true});
 const site = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const concurrency = Number(option('--concurrency') ?? 4);
 
-const WIDTHS = [1440, 390];
+const WIDTHS = (option('--widths') ?? '1440,390').split(',').map(Number);
 const SCHEMES = ['light', 'dark'];
 const LOADS = Number(option('--loads') ?? 2);
 const HERO_MIN = 405;

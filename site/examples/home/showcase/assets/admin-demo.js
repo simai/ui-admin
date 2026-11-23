@@ -16,6 +16,13 @@
 //   editor       -- may keep a personal profile, may not touch shared ones;
 //   unavailable  -- the host does not answer at all;
 //   one-shared   -- only one shared profile exists, so it cannot be removed.
+//
+// Background activity (port 1.2.0, capability `activity`: activity.load,
+// activity.retry, activity.cancel) is answered from data.activity.runs when a
+// host is stood up with that capability, as scripts/check-polygon.mjs does.
+// The default capabilities leave it out and the host still states 1.0.0 to the
+// menu on the polygon's pages: those pages draw no activity indicator, so the
+// menu is met by the same host it was accepted with.
 
 const ALL_CAPABILITIES = [
   'favourites', 'menu-profiles', 'notifications', 'preferences', 'search', 'sign-out', 'site-switch',
@@ -64,6 +71,7 @@ function createNavigationHost({ data, capabilities = ALL_CAPABILITIES, scenario 
     language: data.person.language,
     compact: data.person.compact,
     read: new Set(data.notifications.filter((item) => !item.unread).map((item) => item.key)),
+    runs: copy(data.activity?.runs ?? []),
     nextProfile: 1,
     // The row the page on screen belongs to; the host knows which page it is.
     current,
@@ -184,6 +192,11 @@ function createNavigationHost({ data, capabilities = ALL_CAPABILITIES, scenario 
       notifications: offered.has('notifications') ? { unread: unread() } : null,
     };
   };
+
+  const activityPage = () => copy([
+    ...state.runs.filter((run) => run.state === 'running'),
+    ...state.runs.filter((run) => run.state !== 'running'),
+  ]);
 
   const sharedCount = () => profiles.filter((profile) => profile.kind === 'shared').length;
   const profileList = () => profiles.map((profile) => ({
@@ -414,6 +427,30 @@ function createNavigationHost({ data, capabilities = ALL_CAPABILITIES, scenario 
     },
 
     'session.sign-out': () => ({ answer: 'applied', href: '/admin/login' }),
+
+    // What runs in the background: running ones first, each with its state.
+    'activity.load': () => ({ answer: 'applied', runs: activityPage() }),
+
+    // Retry is the person's request on a run that failed or was cancelled; the
+    // host starts it again from the beginning.
+    'activity.retry': ({ id }) => {
+      const run = state.runs.find((item) => item.id === id);
+      if (!run) return refused(`No run «${id}».`);
+      if (!['failed', 'cancelled'].includes(run.state) || !run.retryable) {
+        return refused(`«${run.label}» cannot be started again now.`);
+      }
+      Object.assign(run, { state: 'running', value: run.total ? 0 : null, text: null });
+      return { answer: 'applied', runs: activityPage() };
+    },
+
+    // Cancel is the person's request on a running run; the host stops it.
+    'activity.cancel': ({ id }) => {
+      const run = state.runs.find((item) => item.id === id);
+      if (!run) return refused(`No run «${id}».`);
+      if (run.state !== 'running' || !run.cancelable) return refused(`«${run.label}» cannot be stopped now.`);
+      Object.assign(run, { state: 'cancelled', text: null });
+      return { answer: 'applied', runs: activityPage() };
+    },
   };
 
   // Which capability each intent belongs to; an intent outside every capability
@@ -427,6 +464,7 @@ function createNavigationHost({ data, capabilities = ALL_CAPABILITIES, scenario 
     'preference.theme': 'preferences', 'preference.language': 'preferences', 'preference.compact': 'preferences',
     'notifications.load': 'notifications', 'notifications.read': 'notifications',
     'session.sign-out': 'sign-out',
+    'activity.load': 'activity', 'activity.retry': 'activity', 'activity.cancel': 'activity',
   };
 
   return {

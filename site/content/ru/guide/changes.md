@@ -8,7 +8,7 @@ profile: article
 <!-- release:versions -->
 | Набор | Выпуск | Собран над SIMAI Framework | Нужен Core |
 |:---|:---|:---|:---|
-| 1.1.0 | кандидат, эта сборка сайта | `ui-9ceecc24c988` | `core.runtime` 1.61.0 или новее |
+| 1.1.0 | `admin-25245d70cde8`, 23 ноября 2026 года | `ui-b4f79e1c58b7` | `core.runtime` 1.67.0 или новее |
 | 1.0.0 | `admin-8cff3084cfaf`, 22 ноября 2026 года | `ui-9ceecc24c988` | `core.runtime` 1.61.0 или новее |
 <!-- /release:versions -->
 

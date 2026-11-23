@@ -6,7 +6,7 @@ profile: reference
 # Меню администратора
 
 <!-- release:badges -->
-:badge[sf-admin-menu]{variant=main scheme=on-surface size=1} :badge[Версия 1.15.1]{variant=tonal scheme=neutral size=1} :badge[выпущен]{variant=tonal scheme=success size=1}
+:badge[sf-admin-menu]{variant=main scheme=on-surface size=1} :badge[Версия 1.16.1]{variant=tonal scheme=neutral size=1} :badge[выпущен]{variant=tonal scheme=success size=1}
 <!-- /release:badges -->
 
 Меню администратора рисует навигацию админки по ответам сервера: рейку разделов, колонку открытого раздела, поиск, избранное, колокол уведомлений и профиль. Что показать и что разрешить, решает сервер через порт навигации; меню только спрашивает и рисует.
@@ -45,15 +45,15 @@ profile: reference
 
 ## Параметры
 
-Справочник собран из манифеста компонента в сборке-кандидате набора (`simai/ui-admin@81eb44e4662d`) и обновляется вместе с ней. Каждому атрибуту соответствует свойство элемента с тем же именем в camelCase: `history-href` — `historyHref`.
+Справочник собран из манифеста компонента в выпуске набора `admin-25245d70cde8` (версия 1.1.0) и обновляется вместе с выпуском. Каждому атрибуту соответствует свойство элемента с тем же именем в camelCase: `history-href` — `historyHref`.
 
 | | |
 |:---|:---|
 | Тег | `<sf-admin-menu>` |
 | Назначение | Навигация админки над портом навигации хоста: рейка разделов, колонка раздела, поиск, избранное, уведомления и режим настройки. |
-| Контракт | `smart.admin-menu`, версия `1.15.1` |
+| Контракт | `smart.admin-menu`, версия `1.16.1` |
 | Жизненный цикл | экспериментальный: API может меняться между выпусками |
-| Порт | `simai.admin-navigation-port`, версии с `1.0.0` по `1.1.0` |
+| Порт | `simai.admin-navigation-port`, версии с `1.0.0` по `1.2.0` |
 
 ### Атрибуты
 
@@ -73,7 +73,7 @@ profile: reference
 
 - `sf-admin-menu-query` — `detail`: `{ kind, query: string, requestId?: string, intent?: string, payload?: object }`. Запрос к хосту: `kind` — `site` или `search`.
 - `sf-admin-menu-reset` — `detail`: `{ kind, id?, intent?: string, payload?: object }`. `kind` — `view`.
-- `sf-admin-menu-navigate` — `detail`: `{ id, key: string, href: string|null, region?: boolean }`. Хост ответил `applied` на `item.open`: страница теперь принадлежит этой строке. Для хоста, который переходит своим маршрутизатором, а не по адресу из ответа.
+- `sf-admin-menu-navigate` — `detail`: `{ id, key: string, href: string|null, region?: boolean }`. Хост ответил `applied` на `item.open`: страница теперь принадлежит этой строке. Для хоста, который переходит своим маршрутизатором, а не по адресу из ответа. Событие можно отменить (AS-6): страница, которая не готова уйти (есть несохранённые изменения), вызывает `preventDefault` — текущая строка, экран и фокус остаются на месте, меню никуда не переходит, а ссылка из меню объекта не открывается; когда человек согласится, страница переходит сама и называет строку через `current`. Если событие не отменено, строка становится текущей.
 - `sf-admin-menu-refresh` — `detail`: `{ kind: string, intent: string, payload: object, reason?: string|null, site? }`. Хоста спросили `navigation.load` или `notifications.load`.
 - `sf-admin-menu-open` — `detail`: `{ kind: string, intent: string, payload: object, id, href?: string|null, group?: string|null }`. Спросили `item.open`, `site.switch`, `view.profile` или `search.choose`.
 - `sf-admin-menu-toggle` — `detail`: `{ kind: string, intent: string, payload: object, id, on: boolean }`. Спросили `favourite.toggle`.
@@ -125,7 +125,7 @@ profile: reference
 
 ## Источник
 
-- `simai/ui-admin@81eb44e4662d:package/src/smart/admin-menu`
+- `simai/ui-admin@25245d70cde8:package/src/smart/admin-menu`
 
 ## См. также
 

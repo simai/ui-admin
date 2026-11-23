@@ -1,7 +1,7 @@
 #!/bin/sh
-# Usage: sh site/scripts/build.sh <set build workspace> [--ui DIR]
+# Usage: sh site/scripts/build.sh [<set build workspace> | --released] [--ui DIR]
 #
-# Builds the set site locally over the set's own build:
+# Builds the set site over the set's own build:
 #   1. lays the SIMAI Framework release and the set into the installed Docara
 #      copy (scripts/materialize-framework-runtime.php; vendor/ is ignored);
 #   2. extracts the release's distr from ui's git objects into .framework/
@@ -15,28 +15,41 @@
 #      full example publish-local.sh lays beside the build, allowed), then the site lint
 #      (scripts/site-lint.mjs) over the content and the built pages.
 # <set build workspace> is the one package/scripts/gates.sh wrote (it holds
-# build/package-receipt.json and build/wave-1/output/package/admin). Serve the
-# result with node scripts/serve.mjs.
+# build/package-receipt.json and build/wave-1/output/package/admin): a
+# candidate. --released (or no argument) builds over the set's committed
+# release output, package/dist, which holds the same files and the receipt
+# beside them: what the deploy builds (deploy/simai-server/assemble-site.sh).
+# Serve the result with node scripts/serve.mjs.
 set -eu
 site=$(cd "$(dirname "$0")/.." && pwd)
-workspace=$(cd "${1:?usage: build.sh <set build workspace> [--ui DIR]}" && pwd)
-shift
+if [ $# -eq 0 ] || [ "$1" = "--released" ] || [ "$1" = "--ui" ]; then
+  [ "${1:-}" = "--released" ] && shift
+  receipt="$site/../package/dist/package-receipt.json"
+  from="$site/../package/dist"
+else
+  workspace=$(cd "$1" && pwd)
+  shift
+  receipt="$workspace/build/package-receipt.json"
+  from="$workspace/build/wave-1/output/package/admin"
+fi
+receipt=$(cd "$(dirname "$receipt")" && pwd)/$(basename "$receipt")
+from=$(cd "$from" && pwd)
 ui="$site/../../ui"
 [ "${1:-}" = "--ui" ] && ui=$2
 ui=$(cd "$ui" && pwd)
 cd "$site"
 [ -d vendor/simai/docara ] || composer install --no-interaction
 php -d memory_limit=2G scripts/materialize-framework-runtime.php "$ui" \
-  --receipt="$workspace/build/package-receipt.json" --from="$workspace/build/wave-1/output/package/admin" > /dev/null
+  --receipt="$receipt" --from="$from" > /dev/null
 commit=$(php -r '$l=json_decode(file_get_contents("simai-framework.lock.json"),true); echo $l["runtime"]["ui"]["commit"];')
 if [ "$(cat .framework/COMMIT 2>/dev/null || true)" != "$commit" ]; then
   rm -rf .framework && mkdir -p .framework
   git -C "$ui" archive --format=tar "$commit" distr | tar -x -C .framework
   echo "$commit" > .framework/COMMIT
 fi
-node scripts/build-pages.mjs --check --receipt "$workspace/build/package-receipt.json"
+node scripts/build-pages.mjs --check --receipt "$receipt"
 node scripts/build-examples.mjs --check
-node scripts/build-reference.mjs --check --receipt "$workspace/build/package-receipt.json"
+node scripts/build-reference.mjs --check --receipt "$receipt"
 DOCARA_SIMAI_UI_ROOT="$site/.framework" php -d memory_limit=2G vendor/bin/docara build production
 # verify-static checks the Docara build alone. The full example at /demo/ is
 # not a Docara page: publish-local.sh lays it beside the build, so a link to

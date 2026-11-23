@@ -65,9 +65,9 @@ The component imports the free SIMAI Framework by relative path
 never a working tree), with this folder's `src/`, `tests/` and `docs/` laid
 over it. A file here may not replace a ui-source file.
 
-On the branch `admin/over-gb17-parts` the pin is `245f2ac65ed2`, a
-SIMAI Framework candidate (ui-source `feat/admin-shell-parts`, group build
-17), not a released pair: it registers the set's names and carries the admin
+On the branch `admin/over-gb17` the pin is `4c39ecc20310`, a
+SIMAI Framework candidate (ui-source `integration/pair-next-19`, group
+build 17), not a released pair: it registers the set's names and carries the admin
 shell parts AS-1..AS-4 and `simai.admin-navigation-port` 1.2.0. The gates
 read a Framework built from it (the free side is that build's distr, the
 registry its `contracts/registry/names.json`); the pin moves to the released

@@ -1,6 +1,6 @@
 # Changelog of the set `admin` (@simai-studio/admin)
 
-## 1.1.0 (candidate, 2026-11-22)
+## 1.1.0 (candidate, 2026-11-23)
 
 Three components join the menu as `preview` (owner decisions C420 and C421 of
 2026-11-22, with C415–C419 and C320–C342; study ui-control
@@ -69,8 +69,9 @@ Two defects the admin settings study found (ui-control
   forgotten, never put back (a page that swapped its body without a reload
   got the old form back when the phone menu closed: two forms at 390).
 
-Over the SIMAI Framework candidate ui-source `245f2ac65ed2`
-(`feat/admin-shell-parts`, group build 17; branch `admin/over-gb17-parts`):
+Over the SIMAI Framework candidate ui-source `4c39ecc20310`
+(`integration/pair-next-19`, group build 17, which took in
+`feat/admin-shell-parts`; branch `admin/over-gb17`):
 the two fallbacks are gone. The activity indicator goes in sf-header-page's
 slot `path-end` (AS-2) instead of the shell's `.sf-admin-shell-path` row,
 which is removed; a failed run's «Повторить» is sf-progress-run's own in the

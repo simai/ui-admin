@@ -1,10 +1,10 @@
 {
   "schema": "simai.framework.product-package-source-lock",
   "schema_version": 1,
-  "summary": "The ui-source revision the set admin is built and tested against: the overlay is ui-source at this revision with this folder's src/, tests/ and docs/ laid over it, and ui-builder's package build builds the same (standards simai.component-set 1.0.0 and simai.component-package 1.1.1). It is a candidate, not yet a released pair: simai/ui-source feat/admin-shell-parts 245f2ac65 (SIMAI Framework admin shell parts AS-1..AS-4, AN-1, AN-2; rides group build 17), which registers the set's names and carries simai.admin-navigation-port 1.2.0. The same commit is framework.source_revision in set.json; the pin moves to the released pair's source when that pair is cut.",
+  "summary": "The ui-source revision the set admin is built and tested against: the overlay is ui-source at this revision with this folder's src/, tests/ and docs/ laid over it, and ui-builder's package build builds the same (standards simai.component-set 1.0.0 and simai.component-package 1.1.1). It is a candidate, not yet a released pair: simai/ui-source integration/pair-next-19 4c39ecc20 (SIMAI Framework group build 17, with the admin shell parts AS-1..AS-4, AN-1, AN-2, ASR-1, ASR-2), which registers the set's names and carries simai.admin-navigation-port 1.2.0. The same commit is framework.source_revision in set.json; the pin moves to the released pair's source when that pair is cut.",
   "package": "admin",
   "source": {
     "repository": "simai/ui-source",
-    "revision": "245f2ac65ed24c3524824f64d360b946a32b278e"
+    "revision": "4c39ecc2031edd3008620a99a34a59ed53397a47"
   }
 }

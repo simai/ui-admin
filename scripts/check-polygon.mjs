@@ -381,6 +381,11 @@ const navigationReaches = [
   ['notifications.load', 'unavailable', without('notifications'), 'default', { cursor: null }],
   ['notifications.read', 'applied', ALL_NAV, 'default', { all: true }],
   ['session.sign-out', 'applied', ALL_NAV, 'default', {}],
+  // Port 1.2.0: background activity, offered by a host stood up with it.
+  ['activity.load', 'applied', [...ALL_NAV, 'activity'], 'default', {}],
+  ['activity.retry', 'applied', [...ALL_NAV, 'activity'], 'default', { id: 'r2' }],
+  ['activity.cancel', 'applied', [...ALL_NAV, 'activity'], 'default', { id: 'r1' }],
+  ['activity.load', 'unavailable', ALL_NAV, 'default', {}],
 ];
 
 const listKit = kitFor('simai.dataview-port');

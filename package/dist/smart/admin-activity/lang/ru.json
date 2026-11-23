@@ -1,0 +1,30 @@
+{
+  "title": "Действия в фоне",
+  "runtime": {
+    "running": "Идёт {count}",
+    "failed": "Не удалось {count}",
+    "running-words": "идёт {count}",
+    "failed-words": "не удалось {count}",
+    "name": "Действия в фоне: {what}",
+    "nothing": "нет",
+    "list-label": "Действия в фоне",
+    "history": "Все действия",
+    "done-title": "{label}: готово",
+    "done-text": "Действие закончилось.",
+    "failed-title": "{label}: не удалось",
+    "failed-text": "Подробности — в «Уведомлениях».",
+    "now": "сейчас",
+    "today": "Сегодня"
+  },
+  "events": {
+    "retry": {
+      "label": "Повторить"
+    },
+    "cancel": {
+      "label": "Отменить"
+    },
+    "finished": {
+      "label": "Закончилось"
+    }
+  }
+}

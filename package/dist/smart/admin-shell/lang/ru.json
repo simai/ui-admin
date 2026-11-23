@@ -1,0 +1,16 @@
+{
+  "title": "Каркас админки",
+  "runtime": {
+    "skip-label": "Перейти к содержимому",
+    "menu-label": "Меню",
+    "close-menu-label": "Закрыть меню"
+  },
+  "events": {
+    "menu-open": {
+      "label": "Меню открыто"
+    },
+    "menu-close": {
+      "label": "Меню закрыто"
+    }
+  }
+}

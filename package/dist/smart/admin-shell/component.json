@@ -1,0 +1,247 @@
+{
+  "$comment": "sf-admin-shell, standard simai.smart-component 1.4 (vocabulary 1.1.5): the frame of an admin screen. Owner decisions C416, C420 (with C322, C328, C329, C338, C342); study ui-control control/research/2026-11-22-admin-shell-study, sample prototypes/admin-shell-study/shell.mjs. The page's parts (sf-alert-bar, sf-admin-menu, sf-header-page, the content) are placed, never drawn by the shell.",
+  "id": "smart.admin-shell",
+  "tag": "sf-admin-shell",
+  "version": "1.0.0",
+  "kind": "leaf",
+  "family": "shell",
+  "settings": {
+    "width": {
+      "type": "enum",
+      "values": ["list", "read"],
+      "default": "list",
+      "summary": "The content's width (C329): list -- the whole work area; read -- the reading width (--sf-container-1--size-max, 960) at the start, for forms and text."
+    },
+    "menu-reserve": {
+      "type": "enum",
+      "values": ["rail", "rail-column", "none"],
+      "default": "rail-column",
+      "summary": "The room held for the menu before it has drawn, so the work area does not move when it comes (AM-18): rail -- the rail (56); rail-column -- the rail and the section column (56 + 256), the rail alone when the menu says expected-columns 1 (the page's row has no open root) or the person hid the column (the menu's own preference); none -- nothing. The server knows whether the page's section has a column."
+    },
+    "product": {
+      "type": "string",
+      "default": "",
+      "summary": "The product's name in the phone top line («Larena Panel»)."
+    },
+    "skip-label": {
+      "type": "string",
+      "default-from": "runtime.skip-label",
+      "summary": "The skip link's text; empty is «Перейти к содержимому» in the page's language."
+    },
+    "menu-open": {
+      "type": "boolean",
+      "default": false,
+      "summary": "Whether the phone menu is open (C322): the menu takes the work area's place below 44rem. Written by the menu button, Escape, a page chosen in the menu, or the page; on a wide screen it changes nothing."
+    }
+  },
+  "values": {},
+  "events": {
+    "menu-open": {
+      "carries": {
+        "reason": {
+          "type": "enum",
+          "values": ["button", "api"]
+        }
+      },
+      "own-verb": true,
+      "summary": "The phone menu opened: by its button or by the action open-menu."
+    },
+    "menu-close": {
+      "carries": {
+        "reason": {
+          "type": "enum",
+          "values": ["button", "escape", "navigate", "resize", "content", "api"]
+        }
+      },
+      "own-verb": true,
+      "summary": "The phone menu closed: its button, Escape, a page chosen in the menu (sf-admin-menu-navigate), the window grown past the phone width, the work area focused, or the action close-menu."
+    }
+  },
+  "actions": {
+    "open-menu": {
+      "x-outcomes": ["applied", "refused"],
+      "summary": "Opens the phone menu (menu-open); focus goes to the menu's first control. Refused no-menu when the shell holds no menu.",
+      "x-returns": {
+        "type": "object",
+        "description": "{outcome: applied} or {outcome: refused, reason}"
+      }
+    },
+    "close-menu": {
+      "x-outcomes": ["applied"],
+      "summary": "Closes the phone menu; focus goes back to the menu button.",
+      "x-returns": {
+        "type": "object",
+        "description": "{outcome: applied}"
+      }
+    },
+    "focus-content": {
+      "x-outcomes": ["applied", "refused"],
+      "summary": "Moves the focus to the work area (the main landmark) and scrolls it to the top: the skip link does it, and a product after it changed the page without a reload.",
+      "x-returns": {
+        "type": "object",
+        "description": "{outcome: applied} or {outcome: refused, reason}"
+      }
+    }
+  },
+  "slots": {
+    "bar": {},
+    "menu": {},
+    "head": {},
+    "top-end": {}
+  },
+  "layer": {
+    "kind": "surface",
+    "locks-page": false,
+    "traps-focus": false
+  },
+  "side-effects": [],
+  "keyboard": {
+    "host": {
+      "Tab": "reach",
+      "Enter": "select",
+      "Space": "select",
+      "Escape": "close"
+    }
+  },
+  "relations": [
+    {
+      "name": "icons"
+    },
+    {
+      "name": "cl-button-icon",
+      "$comment": [
+        "The phone top line's menu button is sf-button-icon, ghost, the 1 rung;",
+        "a tag the shell renders is a tag it fetches. The page's own parts",
+        "(the bar, the menu, the head, the content) are found by the Loader where",
+        "the page wrote them."
+      ]
+    }
+  ],
+  "templates": {
+    "default": {
+      "file": "js/templates/default.js",
+      "$comment": "The Lit template in JavaScript (§5.2): the frame with empty areas the element moves the page's nodes into."
+    }
+  },
+  "styles": "js/templates/default.css",
+  "examples": "examples.json",
+  "docs": "docs.md",
+  "lang": "lang/",
+  "accessibility": {
+    "role": "none",
+    "name": {
+      "from": []
+    },
+    "keys": {
+      "Tab": "reach",
+      "Enter": "select",
+      "Space": "select",
+      "Escape": "close"
+    },
+    "x-keys": "The skip link is the first stop of Tab; Enter on it focuses the work area. On a phone the menu button opens and closes the menu (Enter, Space); Escape closes it and the focus goes back to the button. The work area is the main landmark, named by the page head's h1."
+  },
+  "host-states": {
+    "menu-open": "boolean",
+    "data-bar": "boolean"
+  },
+  "css-variables": {
+    "--sf-admin-shell-background-color": {"type": "color", "state": "default"},
+    "--sf-admin-shell-content-padding-inline": {"type": "length", "state": "default"},
+    "--sf-admin-shell-content-padding-block": {"type": "length", "state": "default"},
+    "--sf-admin-shell-read-width": {"type": "length", "state": "default"},
+    "--sf-admin-shell-menu-reserve": {"type": "length", "state": "default"},
+    "--sf-admin-shell-top-padding": {"type": "length", "state": "default"},
+    "--sf-admin-shell-divider-color": {"type": "color", "state": "default"},
+    "--sf-admin-shell-z-index": {"type": "number", "state": "default"},
+    "--sf-admin-shell-stick": {"type": "length", "state": "default", "x-direction": "out", "x-summary": "written by the shell on its frame: the height of what stands at the top (the bar and, on a phone, the top line); a data head sticks at inset-block-start: var(--sf-admin-shell-stick)"}
+  },
+  "x-summary": "The frame of an admin screen: the alert bar over everything, the admin menu's column, the page head and the content; the document scrolls, the bar, the menu and on a phone a slim top line stay; the skip link first, the menu's room held before it draws, list or reading width.",
+  "x-words": ["skip-label", "menu-label", "close-menu-label"],
+  "x-decisions": [
+    "shape: a leaf that places the page's own parts. It draws the frame (the skip link, the areas, the phone top line with sf-button-icon) and moves each slotted node into its area once; it never draws or copies the bar, the menu, the head or the content.",
+    "scroll (C420): the document scrolls; the bar is sticky at the top, the menu's column sticky under it at the window's height less the bar's, the phone top line sticky under the bar. --sf-admin-shell-stick (written by the shell) is the height that stands at the top, so a data head sticks under it with plain position: sticky.",
+    "phone (C322, C342, C420): below 44rem -- the admin menu's own fold -- a slim top line: the menu button, the product, slot top-end (the activity indicator and the bell). The sample folded at 48rem; 44rem is the released menu's threshold, so the two never disagree between 704 and 768.",
+    "first paint (AM-18): menu-reserve holds the menu's room until the menu marks data-column; rail-column falls back to the rail when SF.Preferences sf-admin-menu/main says second false, the menu's own store.",
+    "the page's nodes (AS-5, admin settings study 2026-11-22): the shell places only what is in it now. A node it placed and the page then took out (removed, replaced, moved elsewhere) is forgotten, never put back on a later placing (a page that swapped its body without a reload got the old form back when the phone menu closed: two forms at 390); a node not placed yet stays while it is out of the document only because the base released it for the drawing (js/nodes.js).",
+    "leave (AS-6): sf-admin-menu-navigate is cancelable from sf-admin-menu 1.16.1. The phone menu closes on it only when no listener refused it; the shell reads defaultPrevented after the dispatch (a page listens above the shell), so a page with unsaved changes keeps the menu open and the focus on the pressed row.",
+    "names: --sf-admin-shell-background-color and --sf-admin-shell-divider-color take the colour suffix of the public-variable rule (the study wrote --sf-admin-shell-background, -divider-color)."
+  ],
+  "x-registry": {
+    "capabilities": ["layout", "responsive", "skip-link", "sticky-offsets"],
+    "persistence": {
+      "mode": "none",
+      "source_of_truth": "host",
+      "network_owner": "host",
+      "revision_field": null
+    },
+    "readiness": {
+      "level": "host-required",
+      "required_checks": ["manifest", "loader-rule", "admin-shell-contract", "admin-shell-browser"]
+    },
+    "tags": ["admin", "shell", "layout", "frame"],
+    "contracts": {
+      "slots": {
+        "type": "object",
+        "properties": {
+          "bar": {"type": "string", "description": "sf-alert-bar: over everything (C338)."},
+          "menu": {"type": "string", "description": "sf-admin-menu."},
+          "head": {"type": "string", "description": "sf-header-page with its crumbs."},
+          "top-end": {"type": "string", "description": "The phone top line's end: the activity indicator and the bell (C342)."}
+        }
+      }
+    },
+    "state": {
+      "machines": {
+        "menu": ["closed", "open"]
+      },
+      "visual_states": ["default"]
+    },
+    "artifacts": {
+      "fixtures": [],
+      "scenarios": []
+    },
+    "ownership": {
+      "source": "simai/ui-admin",
+      "data": "host",
+      "effects": "host",
+      "forbidden_client_responsibilities": ["routing", "drawing the page head or the menu", "access decisions"]
+    },
+    "security": {
+      "permissions_owner": "host",
+      "untrusted_inputs": ["product (drawn as text)"],
+      "network_policy": "deny"
+    },
+    "presentation": {
+      "themes": ["light", "dark"],
+      "locales": ["en", "ru"],
+      "responsive": ["desktop", "mobile"],
+      "skeleton": {
+        "shape": "none",
+        "while_loading": "none"
+      }
+    },
+    "ai_guidance": {
+      "use_when": "Use sf-admin-shell once per admin screen around sf-alert-bar (slot bar), sf-admin-menu (slot menu), sf-header-page (slot head) and the content.",
+      "do_not": [
+        "Do not give the work area its own scroll box: the document scrolls",
+        "Do not draw a second skip link or a second main landmark",
+        "Do not put the bell or the activity indicator in the content: on a phone they go to slot top-end"
+      ],
+      "required_reads": ["inputs", "contracts", "events", "accessibility"],
+      "minimal_example": "<sf-admin-shell product=\"Larena Panel\"><sf-admin-menu slot=\"menu\"></sf-admin-menu><sf-header-page slot=\"head\" heading=\"DNS-зоны\"></sf-header-page><p>…</p></sf-admin-shell>",
+      "owner_commands": ["node scripts/test.mjs", "node scripts/run-browser-probes.mjs <free> <set build>"]
+    },
+    "accessibility": {
+      "accessible_name": "internal",
+      "focus": "The skip link first; it focuses the work area (main, tabindex -1, named by the h1). The phone menu button holds aria-expanded and aria-controls; opening moves the focus into the menu, closing back to the button."
+    },
+    "compatibility": {
+      "migrations": []
+    },
+    "inputs": {
+      "template": {
+        "const": "default"
+      }
+    }
+  }
+}

@@ -1,0 +1,92 @@
+@layer sf.reset, sf.tokens, sf.base, sf.paint, sf.utilities, sf.components, sf.overrides, sf.states;
+@layer sf.components {
+  /* sf-admin-activity (owner decisions C421, C332, C339, C342). The host is
+     display: contents; .sf-admin-activity holds the trigger and the popover.
+     Every value is a Framework token. The public variables (component.json
+     css-variables) are read here and never set:
+       --sf-admin-activity-gap                between the badges on the trigger
+       --sf-admin-activity-list-width         the list's least width
+       --sf-admin-activity-list-max-height    the list's greatest height
+       --sf-admin-activity-failed-color       the failure mark
+       --sf-admin-activity-trigger-padding-inline  the trigger's side inset
+     The --sf-admin-activity--* names are the internal layer they feed. */
+  .sf-admin-activity {
+    --sf-admin-activity--gap: var(--sf-admin-activity-gap, var(--sf-space-1\/4));
+    --sf-admin-activity--list-width: var(--sf-admin-activity-list-width, var(--sf-g1));
+    --sf-admin-activity--list-height: var(--sf-admin-activity-list-max-height, var(--sf-g6));
+    --sf-admin-activity--failed: var(--sf-admin-activity-failed-color, var(--sf-error));
+    --sf-admin-activity--inset: var(--sf-admin-activity-trigger-padding-inline, var(--sf-space-1\/4));
+
+    display: inline-flex;
+    align-items: center;
+    flex: none;
+  }
+
+  /* The trigger: a quiet button as tall as the size's control rung. */
+  .sf-admin-activity__trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sf-admin-activity--gap);
+    min-block-size: var(--sf-ui-1\/2--control-height);
+    margin: 0;
+    padding-block: 0;
+    padding-inline: var(--sf-admin-activity--inset);
+    border: 0;
+    border-radius: var(--sf-radius--ui);
+    background-color: transparent;
+    color: var(--sf-on-surface);
+    font: inherit;
+    cursor: pointer;
+  }
+  .sf-admin-activity__trigger[data-size="1"] {
+    min-block-size: var(--sf-ui-1--control-height);
+  }
+  .sf-admin-activity__trigger:hover {
+    background-color: var(--sf-surface-state-hover);
+  }
+  .sf-admin-activity__trigger[aria-expanded="true"] {
+    background-color: var(--sf-surface-state-select);
+  }
+  .sf-admin-activity__trigger:focus-visible {
+    outline: var(--sf-focus--width) var(--sf-focus--style) var(--sf-focus--color);
+    outline-offset: var(--sf-focus--offset);
+  }
+  .sf-admin-activity__mark {
+    color: var(--sf-admin-activity--failed);
+  }
+
+  /* The list. */
+  .sf-admin-activity__surface {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sf-space-1\/2);
+    min-inline-size: var(--sf-admin-activity--list-width);
+    max-block-size: var(--sf-admin-activity--list-height);
+    overflow-y: auto;
+    padding: var(--sf-space-1\/2);
+    font-size: var(--sf-text-size-1\/2);
+    line-height: var(--sf-text-height-1\/2);
+  }
+  .sf-admin-activity__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sf-space-1\/2);
+  }
+  .sf-admin-activity__run {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sf-space-1\/3);
+  }
+  .sf-admin-activity__foot {
+    padding-block-start: var(--sf-space-1\/3);
+    border-block-start: var(--sf-px) solid var(--sf-outline-variant);
+  }
+  .sf-admin-activity__foot a {
+    color: var(--sf-primary);
+  }
+  .sf-admin-activity__foot a:focus-visible {
+    outline: var(--sf-focus--width) var(--sf-focus--style) var(--sf-focus--color);
+    outline-offset: var(--sf-focus--offset);
+    border-radius: var(--sf-radius--ui);
+  }
+}

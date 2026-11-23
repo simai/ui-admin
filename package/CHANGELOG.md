@@ -12,6 +12,9 @@ a closed menu fetches only what it draws.
   reaches it: the bell's panel (`sf-drawer`), the person, rail root and site
   menus (`sf-menu-context`); the setting mode's parts when a menu with
   «Настроить меню» opens.
+- A press waits up to 30 s for the part it opens: the Loader's `ensure`
+  gives up after 3 s by default, and on a slow line the first press of the
+  person menu, the bell or ⌘K did nothing.
 - Relations: `cl-button` and `cl-input` are lazy; `inputs` (brought by
   `cl-input`) and the free `admin-menu` component (the former items menu's
   class enhancer and sheet, `.sf-admin-menu-*`, which the element does not

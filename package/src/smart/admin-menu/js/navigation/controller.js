@@ -25,7 +25,7 @@
 // column is shown until a page is opened; then the column follows the page
 // again. Whether the column is open at all is the person's one choice, kept
 // across pages (owner, 2026-10-13: the menu must not jump open or closed).
-import {closeMenu, openMenu, removeMenu, updateMenu} from "./menu";
+import {PRESS_WAIT, closeMenu, openMenu, removeMenu, updateMenu} from "./menu";
 import {renderNotices} from "./notices.js";
 import {getInitials} from "../../../helpers/text";
 import {pageText} from "../../../../core/js/page-language";
@@ -1819,7 +1819,12 @@ export class NavigationController {
 
     preparePalette() {
         if (!this.offers("search") || customElements.get("sf-search")) return null;
-        this._paletteCode ??= globalThis.SF?.Loader?.ensure?.(["sf-search"]) ?? null;
+        this._paletteCode ??= globalThis.SF?.Loader?.ensure?.(["sf-search"], {timeout: PRESS_WAIT})
+            ?.then((answer) => {
+                // Not there in time: the next want asks again.
+                if (!customElements.get("sf-search")) this._paletteCode = null;
+                return answer;
+            }) ?? null;
         return this._paletteCode;
     }
 
@@ -1973,7 +1978,7 @@ export class NavigationController {
     // state is the bell's aria-expanded.
     async setNoticesDrawer(drawer) {
         if (!this.offers("notifications")) return null;
-        if (!customElements.get("sf-drawer")) await globalThis.SF?.Loader?.ensure?.(["sf-drawer"]);
+        if (!customElements.get("sf-drawer")) await globalThis.SF?.Loader?.ensure?.(["sf-drawer"], {timeout: PRESS_WAIT});
         if (!customElements.get("sf-drawer")) return null;
         if (this._setPanel !== drawer) {
             this._setPanel = drawer;
@@ -1994,7 +1999,7 @@ export class NavigationController {
 
     async noticesDrawer() {
         if (!this.offers("notifications")) return null;
-        if (!customElements.get("sf-drawer")) await globalThis.SF?.Loader?.ensure?.(["sf-drawer"]);
+        if (!customElements.get("sf-drawer")) await globalThis.SF?.Loader?.ensure?.(["sf-drawer"], {timeout: PRESS_WAIT});
         if (!customElements.get("sf-drawer")) return null;
         let drawer = this._notices;
         if (!drawer?.isConnected) {

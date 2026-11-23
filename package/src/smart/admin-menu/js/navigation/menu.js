@@ -6,8 +6,13 @@
 
 // The standard menu is a lazy relation: fetched after the page is ready, so a
 // press that comes before it has arrived asks the Loader for it and waits.
+// A press waits for the part it opens as long as a slow network needs (the
+// Loader's ensure gives up after 3 s by default; on a slow 3G line the
+// standard menu and its parts take longer, and the press then did nothing).
+export const PRESS_WAIT = 30000;
+
 async function standardMenuDefined() {
-    await globalThis.SF?.Loader?.ensure?.(["sf-menu-context"]);
+    await globalThis.SF?.Loader?.ensure?.(["sf-menu-context"], {timeout: PRESS_WAIT});
     return Boolean(customElements.get("sf-menu-context"));
 }
 

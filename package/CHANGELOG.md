@@ -1,5 +1,28 @@
 # Changelog of the set `admin` (@simai-studio/admin)
 
+## Unreleased
+
+`sf-admin-menu` 1.17.0 (a minor; DEV msg-25d02219, Larena msg-bc572080):
+a closed menu fetches only what it draws.
+
+- The ⌘K window (`sf-search` and the parts it is drawn with) is drawn on its
+  first open, not with the menu, and stays drawn. Its code is fetched ahead
+  when a pointer or the focus is on the search row, or Ctrl/⌘ is pressed.
+- A control's part is fetched when a pointer comes over it or the focus
+  reaches it: the bell's panel (`sf-drawer`), the person, rail root and site
+  menus (`sf-menu-context`); the setting mode's parts when a menu with
+  «Настроить меню» opens.
+- Relations: `cl-button` and `cl-input` are lazy; `inputs` (brought by
+  `cl-input`) and the free `admin-menu` component (the former items menu's
+  class enhancer and sheet, `.sf-admin-menu-*`, which the element does not
+  use) are no longer relations. The find row holds a rung-1 control's height
+  until its field is defined.
+- On a Larena-like page (sets pro, chart and admin declared) with the menu
+  closed: 88 files before, 49 after; the menu alone: 83 before, 42 after.
+- Unchanged: settings, values, events, actions, words, the port. «Уведомления»
+  is drawn only when the host announces the `notifications` capability
+  (since 1.15.0).
+
 ## 1.1.0 (2026-11-23)
 
 Built against ui-b4f79e1c58b7 (SIMAI Framework pair of group build 17,

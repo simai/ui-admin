@@ -106,6 +106,8 @@ export function openAccountMenu(context, anchor) {
     const hasProfiles = controller.offers("menu-profiles") && profiles?.list?.length;
     if (canEdit || hasProfiles) entries.push({type: "separator"});
     if (canEdit) {
+        // «Настроить меню» is a press away: its parts come now (1.17.0).
+        if (!editing) controller.prefetchEdit?.();
         entries.push(editing
             ? {id: "finish-configure", text: text("finishConfigure"), icon: "check"}
             : {id: "configure-menu", text: text("configureMenu"), icon: "edit"});

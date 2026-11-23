@@ -36,9 +36,12 @@ const icon = (name) => (name
 // (shortcut=""): mod+k stays the menu's, heard through the kbd unit, so the
 // rail and the phone open the same window and the key toggles it. Popular
 // queries are not drawn: the navigation port has none.
+// The window is drawn when it is first wanted (controller.paletteElement),
+// not with the menu: a closed menu fetches no sf-search, nor the parts the
+// window is drawn with; once drawn it stays, so it opens again at once.
 export function renderPalette(context) {
     const {controller, text} = context;
-    if (!controller.offers("search")) return nothing;
+    if (!controller.offers("search") || !controller.paletteWanted) return nothing;
     return html`<sf-search class="sf-admin-nav-search" shortcut="" recent-key="admin-menu" popular="false"
         label=${text("search")} placeholder=${text("paletteHint")}
         @sf-search-navigate=${(event) => controller.onPaletteNavigate(event)}></sf-search>`;
@@ -54,6 +57,8 @@ export function renderSearchRow(context) {
         aria-keyshortcuts=${ariaKeyShortcuts(parseShortcut(shortcut)) || nothing}
         data-tooltip=${tip(context, "search", text("search"), shortcut)}
         aria-label=${compact ? text("search") : nothing}
+        @pointerenter=${() => controller.preparePalette()}
+        @focus=${() => controller.preparePalette()}
         @click=${(event) => { event.preventDefault(); controller.openPalette(); }}>
         ${icon("search")}
         ${compact ? nothing : html`<span class="sf-admin-nav-row-label">${text("search")}</span>

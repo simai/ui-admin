@@ -1,0 +1,447 @@
+{
+ "schema": "ui-admin.navigation.v1",
+ "summary": "Demo data of the site examples: a server panel with three servers, as the admin menu showcase the owner approved draws it. Not a product contract; a real page answers from its own server.",
+ "roots": [
+  {
+   "key": "sites",
+   "kind": "page",
+   "label": "Сайты",
+   "icon": "language",
+   "href": "#/sites",
+   "level": "site"
+  },
+  {
+   "key": "db",
+   "kind": "page",
+   "label": "Базы данных",
+   "icon": "database",
+   "href": "#/db",
+   "level": "site"
+  },
+  {
+   "key": "history",
+   "kind": "page",
+   "label": "История",
+   "icon": "history",
+   "href": "#/history",
+   "level": "site"
+  },
+  {
+   "key": "users",
+   "kind": "page",
+   "label": "Пользователи",
+   "icon": "group",
+   "href": "#/users",
+   "level": "install"
+  },
+  {
+   "key": "server",
+   "kind": "root",
+   "level": "install",
+   "label": "Сервер",
+   "icon": "dns",
+   "rows": "server_rows"
+  },
+  {
+   "key": "panel",
+   "kind": "root",
+   "level": "install",
+   "label": "Настройки панели",
+   "icon": "settings",
+   "rows": "panel_rows"
+  }
+ ],
+ "rows": {
+  "server_rows": [
+   {
+    "key": "srv.overview",
+    "kind": "page",
+    "label": "Обзор",
+    "icon": "monitoring",
+    "href": "#/srv.overview"
+   },
+   {
+    "key": "srv.dns",
+    "kind": "page",
+    "label": "DNS-зоны",
+    "icon": "lan",
+    "href": "#/srv.dns"
+   },
+   {
+    "key": "srv.security",
+    "kind": "page",
+    "label": "Безопасность",
+    "icon": "shield",
+    "href": "#/srv.security"
+   },
+   {
+    "key": "srv.services",
+    "kind": "page",
+    "label": "Службы",
+    "icon": "settings_applications",
+    "href": "#/srv.services"
+   },
+   {
+    "key": "srv.firewall",
+    "kind": "page",
+    "label": "Файрвол",
+    "icon": "local_fire_department",
+    "href": "#/srv.firewall"
+   },
+   {
+    "key": "srv.software",
+    "kind": "page",
+    "label": "Программы и обновления",
+    "icon": "system_update",
+    "href": "#/srv.software",
+    "attention": {
+     "tone": "info",
+     "label": "3"
+    }
+   },
+   {
+    "key": "srv.backups",
+    "kind": "page",
+    "label": "Хранилища копий",
+    "icon": "backup",
+    "href": "#/srv.backups"
+   },
+   {
+    "key": "srv.php",
+    "kind": "page",
+    "label": "PHP",
+    "icon": "code",
+    "href": "#/srv.php"
+   }
+  ],
+  "panel_rows": [
+   {
+    "key": "panel.general",
+    "kind": "page",
+    "label": "Общие",
+    "icon": "tune",
+    "href": "#/panel.general"
+   },
+   {
+    "key": "panel.access",
+    "kind": "page",
+    "label": "Доступ",
+    "icon": "key",
+    "href": "#/panel.access"
+   },
+   {
+    "key": "panel.notify",
+    "kind": "page",
+    "label": "Уведомления",
+    "icon": "notifications",
+    "href": "#/panel.notify"
+   },
+   {
+    "key": "panel.license",
+    "kind": "page",
+    "label": "Лицензия",
+    "icon": "verified",
+    "href": "#/panel.license"
+   }
+  ]
+ },
+ "sites": [
+  {
+   "key": "srv1.larena.cloud",
+   "label": "srv1.larena.cloud",
+   "caption": "Сервер · Москва",
+   "mark": "L",
+   "storages": [],
+   "favourites": []
+  },
+  {
+   "key": "srv2.larena.cloud",
+   "label": "srv2.larena.cloud",
+   "caption": "Сервер · Франкфурт",
+   "mark": "F",
+   "storages": [],
+   "favourites": []
+  },
+  {
+   "key": "stage.larena.cloud",
+   "label": "stage.larena.cloud",
+   "caption": "Тестовый сервер",
+   "mark": null,
+   "storages": [],
+   "favourites": []
+  }
+ ],
+ "current_site": "srv1.larena.cloud",
+ "manage_sites_href": "#/servers",
+ "install_favourites": [
+  "srv.firewall",
+  "panel.notify"
+ ],
+ "profiles": [
+  {
+   "key": "everyone",
+   "label": "Для всех",
+   "kind": "shared"
+  },
+  {
+   "key": "ops",
+   "label": "Операторы",
+   "kind": "shared"
+  },
+  {
+   "key": "personal",
+   "label": "Лично",
+   "kind": "personal"
+  }
+ ],
+ "current_profile": "personal",
+ "layouts": {
+  "everyone": {
+   "schema_version": 1,
+   "items": {},
+   "own": []
+  },
+  "ops": {
+   "schema_version": 1,
+   "items": {
+    "history": {
+     "parent": null,
+     "order": 2,
+     "hidden": true,
+     "label": null,
+     "icon": null
+    }
+   },
+   "own": []
+  },
+  "personal": {
+   "schema_version": 1,
+   "items": {},
+   "own": []
+  }
+ },
+ "person": {
+  "name": "Super User",
+  "email": "admin@example.com",
+  "role": "Администратор",
+  "avatar": null,
+  "links": [
+   {
+    "key": "profile",
+    "label": "Профиль",
+    "icon": "badge",
+    "href": "#/profile.profile"
+   },
+   {
+    "key": "security",
+    "label": "Безопасность входа",
+    "icon": "shield_lock",
+    "href": "#/profile.security"
+   },
+   {
+    "key": "sessions",
+    "label": "Активные сеансы",
+    "icon": "devices",
+    "href": "#/profile.sessions"
+   },
+   {
+    "key": "shortcuts",
+    "label": "Горячие клавиши",
+    "icon": "keyboard",
+    "href": "#/profile.shortcuts"
+   },
+   {
+    "key": "help",
+    "label": "Справка",
+    "icon": "help",
+    "href": "https://docs.simai.ru/"
+   }
+  ],
+  "theme": "system",
+  "language": "ru",
+  "compact": true,
+  "languages": [
+   {
+    "code": "ru",
+    "native": "Русский",
+    "english": "Russian"
+   },
+   {
+    "code": "en",
+    "native": "English",
+    "english": "English"
+   },
+   {
+    "code": "zh",
+    "native": "中文",
+    "english": "Chinese"
+   },
+   {
+    "code": "es",
+    "native": "Español",
+    "english": "Spanish"
+   },
+   {
+    "code": "pt",
+    "native": "Português",
+    "english": "Portuguese"
+   },
+   {
+    "code": "de",
+    "native": "Deutsch",
+    "english": "German"
+   },
+   {
+    "code": "fr",
+    "native": "Français",
+    "english": "French"
+   },
+   {
+    "code": "it",
+    "native": "Italiano",
+    "english": "Italian"
+   },
+   {
+    "code": "ja",
+    "native": "日本語",
+    "english": "Japanese"
+   },
+   {
+    "code": "ko",
+    "native": "한국어",
+    "english": "Korean"
+   },
+   {
+    "code": "ar",
+    "native": "العربية",
+    "english": "Arabic"
+   }
+  ]
+ },
+ "notification_groups": [
+  {
+   "key": "today",
+   "label": "Сегодня"
+  },
+  {
+   "key": "yesterday",
+   "label": "Вчера"
+  }
+ ],
+ "notifications": [
+  {
+   "key": "n1",
+   "group": "today",
+   "level": "warning",
+   "object": "srv1.larena.cloud",
+   "title": "Сертификат истекает через 7 дней",
+   "body": "Продлите в «Безопасность».",
+   "when": "10:42",
+   "unread": true,
+   "icon": "verified_user",
+   "href": "#/srv.security"
+  },
+  {
+   "key": "n2",
+   "group": "today",
+   "level": "error",
+   "object": "stage.larena.cloud",
+   "title": "Копия не сделана: хранилище не ответило",
+   "body": null,
+   "when": "03:10",
+   "unread": true,
+   "icon": "backup",
+   "href": "#/srv.backups"
+  },
+  {
+   "key": "n3",
+   "group": "today",
+   "level": "info",
+   "object": "srv1.larena.cloud",
+   "title": "Доступно обновление PHP 8.4",
+   "body": null,
+   "when": "09:15",
+   "unread": true,
+   "icon": "system_update",
+   "href": "#/srv.software"
+  },
+  {
+   "key": "n4",
+   "group": "today",
+   "level": "success",
+   "object": "simai.ru",
+   "title": "Копия готова, 1,2 ГБ",
+   "body": null,
+   "when": "03:00",
+   "unread": false,
+   "icon": "backup",
+   "href": "#/srv.backups"
+  },
+  {
+   "key": "n5",
+   "group": "today",
+   "level": "info",
+   "object": "srv1.larena.cloud",
+   "title": "Служба почты перезапущена",
+   "body": null,
+   "when": "02:40",
+   "unread": false,
+   "icon": "settings_applications",
+   "href": "#/srv.services"
+  },
+  {
+   "key": "n6",
+   "group": "yesterday",
+   "level": "error",
+   "object": "srv2.larena.cloud",
+   "title": "Сервер не отвечал",
+   "resolved": "снова отвечает с 09:11, перерыв 9 минут",
+   "body": null,
+   "when": "09:02",
+   "unread": false,
+   "icon": "dns",
+   "href": "#/srv.overview"
+  },
+  {
+   "key": "n7",
+   "group": "yesterday",
+   "level": "info",
+   "object": "Пользователи",
+   "title": "Вход с нового устройства: Chrome, macOS",
+   "body": null,
+   "when": "18:20",
+   "unread": false,
+   "icon": "shield",
+   "href": "#/profile.sessions"
+  }
+ ],
+ "notifications_settings_href": "#/panel.notify",
+ "search": {
+  "recent": [
+   "srv.services",
+   "srv.firewall",
+   "sites",
+   "db"
+  ],
+  "actions": [
+   {
+    "key": "site.create",
+    "label": "Создать сайт…",
+    "caption": "на этом сервере",
+    "icon": "add"
+   },
+   {
+    "key": "theme.toggle",
+    "label": "Сменить тему",
+    "caption": "Светлая / тёмная",
+    "icon": "dark_mode"
+   },
+   {
+    "key": "site.choose",
+    "label": "Сменить сервер…",
+    "caption": null,
+    "icon": "swap_horiz"
+   }
+  ]
+ }
+}

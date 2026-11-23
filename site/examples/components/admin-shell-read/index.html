@@ -1,0 +1,18 @@
+<script src="assets/admin-demo.js"></script>
+<div class="page-screen">
+  <sf-admin-shell product="Larena Panel" width="read">
+    <sf-admin-menu slot="menu" aria-label="Меню" expected-columns="2" current="panel.general"></sf-admin-menu>
+    <sf-header-page slot="head" heading="Общие настройки"></sf-header-page>
+    <section class="page-section" aria-labelledby="address">
+      <h2 id="address" class="page-section-title">Адрес панели</h2>
+      <sf-input size="1" label="Адрес" default-value="panel.larena.cloud"></sf-input>
+      <sf-input size="1" label="Порт" default-value="9443" hint="Число от 1 до 65535"></sf-input>
+    </section>
+    <section class="page-section" aria-labelledby="signin">
+      <h2 id="signin" class="page-section-title">Вход</h2>
+      <sf-switch label="Двухфакторный код для всех администраторов" checked></sf-switch>
+      <sf-switch label="Предупреждать за 2 минуты до конца сессии"></sf-switch>
+    </section>
+    <div class="page-save"><sf-button text="Сохранить"></sf-button></div>
+  </sf-admin-shell>
+</div>

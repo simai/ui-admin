@@ -1,0 +1,18 @@
+{
+  "schema": "docara.authoring.v1",
+  "infer_profiles": true,
+  "rules": [
+    {
+      "match": "components/**",
+      "profile": "reference"
+    },
+    {
+      "match": "guide/recipes/**",
+      "profile": "how_to"
+    },
+    {
+      "match": "guide/server/**",
+      "profile": "how_to"
+    }
+  ]
+}

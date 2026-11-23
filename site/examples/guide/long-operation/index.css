@@ -1,0 +1,2 @@
+.page-row { display: flex; align-items: center; justify-content: space-between; gap: var(--sf-space-1); padding: var(--sf-space-1); border: 1px solid var(--sf-outline-variant); border-radius: var(--sf-radius-1); }
+.page-panel { max-inline-size: var(--sf-g1); padding: var(--sf-space-1); border: 1px solid var(--sf-outline-variant); border-radius: var(--sf-radius-1); }

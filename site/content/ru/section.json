@@ -1,0 +1,23 @@
+{
+  "schema": "docara.section.v1",
+  "title": "SIMAI Admin",
+  "preset": "docs",
+  "navigation": {
+    "scope": "section"
+  },
+  "header_navigation": {
+    "enabled": true,
+    "items": [
+      {
+        "id": "guide",
+        "label": "Руководство",
+        "href": "/ru/guide/"
+      },
+      {
+        "id": "components",
+        "label": "Компоненты",
+        "href": "/ru/components/"
+      }
+    ]
+  }
+}

@@ -6,9 +6,7 @@ SF.RuleLoader['cl-admin-menu'] = {
   js: true,
   css: true,
   relation: [
-    { name: 'admin-menu' },
     { name: 'icons' },
-    { name: 'inputs' },
     { name: 'badges' },
     // A row's shortcut and the search row's keys are SIMAI Framework's kbd unit
     // (C04, KB-2, K-05): the menu writes the keys, the kbd sheet draws them.
@@ -16,15 +14,21 @@ SF.RuleLoader['cl-admin-menu'] = {
     // The person's picture is the Framework's avatar drawing beside the button's text
     // (avatar/js/picture.js, K-06): the avatars sheet draws it.
     { name: 'avatars' },
-    { name: 'cl-button' },
+    // Text buttons are drawn only in the setting mode (its header and a row's
+    // editor): a closed menu draws none, so the button comes when that mode opens.
+    { name: 'cl-button', lazy: true },
     { name: 'cl-menu-context', lazy: true },
     // The ⌘K palette is SIMAI Framework's search window in its admin command palette
-    // recipe (C162, C175; K-04); it is fetched when the menu draws it.
+    // recipe (C162, C175; K-04); the menu draws it when it is first opened (1.17.0),
+    // and fetches it ahead when a pointer or the focus is on the search row.
     { name: 'cl-search', lazy: true },
     { name: 'cl-badge' },
     { name: 'cl-icon' },
     { name: 'cl-button-icon' },
-    { name: 'cl-input' },
+    // A field is drawn only for «Найти в разделе» (a section above 12 pages) and in
+    // the setting mode; the Loader fetches it, with the inputs unit, when it is drawn.
+    // The find row keeps the field's height until then (navigation.css).
+    { name: 'cl-input', lazy: true },
     // The navigation shell's edit mode moves rows with sf-sortable; a tag the
     // menu renders is a tag it fetches.
     { name: 'cl-sortable', lazy: true },

@@ -24,6 +24,7 @@
 // is in it now.
 import SfBaseElement from "../../core/js/smart-base";
 import {applied, elementFromManifest, refused} from "../../core/js/element-manifest";
+import {topLayer} from "../../core/js/layer-stack";
 import {isLateContent, watchLateChildren} from "../helpers/late-children.js";
 import {heldNodes} from "./js/nodes.js";
 import {renderAdminShellTemplate} from "./js/templates/default.js";
@@ -323,6 +324,12 @@ class SfAdminShell extends ShellElement {
         // shown, off screen), so what counts is where the key was pressed.
         const target = event.composedPath?.()[0] ?? event.target;
         if (target?.closest?.("dialog, [role='dialog'], [aria-modal='true'], [role='menu'], [role='listbox']")) return;
+        // A layer of the document's layer stack opened over the menu takes it
+        // too, wherever the focus is (1.0.1, LM-R1): the bell's panel is a
+        // drawer that leaves the focus on the bell, so the first Escape closed
+        // the menu under the open panel. The stack closes its top layer and
+        // gives the focus back to its opener; the next Escape is the menu's.
+        if (topLayer()) return;
         event.preventDefault();
         this.closeMenu({reason: "escape"});
     }

@@ -36,7 +36,9 @@ the set's sf-admin-notifications panel from the bell when the page holds one
 уведомлений набора») and reads with the port's `{keys, all}`. 1.16.0 accepts
 `simai.admin-navigation-port` 1.2.0 beside 1.0.0 and 1.1.0; in 1.16.1
 `sf-admin-menu-navigate` is cancelable (a page with unsaved changes keeps the
-current row). Its history
+current row). 1.17.0 (set 1.2.0) fetches only what a closed menu draws: the search
+window, the panels, the menus and the setting mode's parts come through the
+Loader when first needed (docs.md «Что меню загружает»). Its history
 before the move is in ui-pro. Its dated event aliases (`aliases.json`, until
 2026-12-01) move with it; the tag itself has no former name.
 
@@ -110,7 +112,7 @@ release route (ui-builder `publish-package-release.sh`) lays it into
 or, from a base the page serves itself:
 
 ```js
-window.SF_BOOT_CONFIG = {packages: {admin: {base: '/assets/ui-admin/smart', version: '1.1.0'}}};
+window.SF_BOOT_CONFIG = {packages: {admin: {base: '/assets/ui-admin/smart', version: '1.2.0'}}};
 ```
 
 An admin page that also shows data views declares both sets:
@@ -125,7 +127,7 @@ build. A set is built and tested against exactly one revision.
 ## Кратко по-русски
 
 Здесь исходник набора компонентов `admin`: меню администратора
-`sf-admin-menu` 1.15.1 — то самое меню, которое владелец утвердил на витрине
+`sf-admin-menu` 1.17.0 — то самое меню, которое владелец утвердил на витрине
 (решение C384, пункты AM-1..AM-61). Владелец меню — этот репозиторий
 `simai/ui-admin`; копия в `simai/ui-pro` заморожена и уйдёт из пакета `pro`
 в первом выпуске Pro после выпуска набора. Набор собирается и проверяется
@@ -136,3 +138,7 @@ build. A set is built and tested against exactly one revision.
 дочерних элементов-пунктов с его окном настроек, панелью поиска и
 компактным режимом убрано до первого выпуска набора (AM-7), без псевдонимов —
 набор с ним не выпускался.
+
+С 1.17.0 закрытое меню загружает только то, что рисует (рельс и колонку);
+окно поиска, панель уведомлений, меню и режим настройки приходят через
+загрузчик при первом открытии, а заранее — при наведении.

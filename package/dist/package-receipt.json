@@ -9,9 +9,9 @@
   },
   "package_source": {
     "repository": "simai/ui-admin",
-    "revision": "25245d70cde8360fcdf795b47359220e0def72a5",
+    "revision": "ebc242e8fa56026737eb371543c9fe72c49da57c",
     "path": "package",
-    "tree": "b5553991d5332683fe002cd0f0da895ea37288b8"
+    "tree": "44e61022decb3646d0f97b68b2ad53d3f5d94494"
   },
   "licence": {
     "ref": "PolyForm-Small-Business-1.0.0 OR PolyForm-Noncommercial-1.0.0 OR LicenseRef-SIMAI-Commercial"
@@ -29,6 +29,9 @@
           "applied",
           "elementFromManifest",
           "refused"
+        ],
+        "layer-stack": [
+          "topLayer"
         ],
         "lit": [
           "html",
@@ -56,23 +59,23 @@
   },
   "builder": {
     "repository": "simai/ui-builder",
-    "revision": "ee30c8215ff5b6491447e98c3d7ab674447a67bb",
+    "revision": "524bf464a36aaac1029161c650218b3e43e88a1f",
     "clean": true
   },
   "node": "v24.21.0",
   "output": {
     "runtime_path": "smart",
     "files_count": 161,
-    "manifest_sha256": "69efa29b090b51e5b4c402e7cfc485bb903fc87b833e482f4f338997b5a93623",
+    "manifest_sha256": "274bcab783aa7ae06bb74ab8644930891f697446f187fb7b5aeda3f497ac090b",
     "archive": "package-admin.tar",
-    "archive_sha256": "6c2b67630b2dd3d7045f1d8df26173ec4dedd30cb166a68f51dccb0be2480883",
+    "archive_sha256": "a2d346aaf5738e72ce33a2356b83395a8c01b9e87e07151833ae700883362d56",
     "archive_format": "ustar; entries sorted; owner 0:0; mtime 0; modes 0755/0644"
   },
   "required_files": [
     {
       "path": "smart/rule.js",
-      "sha256": "e350fed590bdc617659fe0f4021283ebef5ff0d0072e41b7ae37206a89249299",
-      "size": 2844
+      "sha256": "4a2517d762322245291eb9a2edf4332c434dce1f68108583e66ed53de9445662",
+      "size": 2792
     },
     {
       "path": "smart/admin-activity/js/admin-activity.js",
@@ -86,13 +89,13 @@
     },
     {
       "path": "smart/admin-menu/js/admin-menu.js",
-      "sha256": "69e39be20d5dd6c987dc5f502424cca9cb1e5660724dc17d506a8b932120bd38",
-      "size": 374668
+      "sha256": "60954db7e5272bdb7fb55dcfb83201d7b70d9784a24aa56cbff5da2391343ab7",
+      "size": 379054
     },
     {
       "path": "smart/admin-menu/css/admin-menu.css",
-      "sha256": "2cdfcf9c7ab18fd79a4c106e9f81493a7f48550ea4798e5eeef245432cd6d622",
-      "size": 51527
+      "sha256": "86d049c4e5bde82e81ccc10bc1eb2095098c0cae8d38474ba4298b057a3e0386",
+      "size": 51930
     },
     {
       "path": "smart/admin-notifications/js/admin-notifications.js",
@@ -106,8 +109,8 @@
     },
     {
       "path": "smart/admin-shell/js/admin-shell.js",
-      "sha256": "8b122e5ecc269e650f6d1b8f294eeb46843b8ef5f064732956b1c0f9dcf6e36d",
-      "size": 36113
+      "sha256": "5b4a49a8e2913396cb1941515a035aedbaf3648e6f648733183cdcaed54da051",
+      "size": 37283
     },
     {
       "path": "smart/admin-shell/css/admin-shell.css",
@@ -139,9 +142,7 @@
         "js": true,
         "css": true,
         "relations": [
-          "admin-menu",
           "icons",
-          "inputs",
           "badges",
           "kbd",
           "avatars",
@@ -408,33 +409,33 @@
     },
     {
       "path": "smart/admin-menu/component.json",
-      "sha256": "4b3d044bfebb0e04c39e31b80a3ba7071578b49435bfca015949c54f52bc03a9",
-      "size": 72227
+      "sha256": "b8382669ac4d82d1f846a110d61e1f46a90d0a93d2f72e37a61f1b28a0274df2",
+      "size": 75466
     },
     {
       "path": "smart/admin-menu/component.json.gz",
-      "sha256": "390a3376b9649a188639cb47ee33361f25bd82116795c0c1f279f802fa8165bd",
-      "size": 20235
+      "sha256": "821f88d8434a5ebf27186cdaec9efa1582d4c9f98502af167895861e510c7f92",
+      "size": 21278
     },
     {
       "path": "smart/admin-menu/css/admin-menu.css",
-      "sha256": "2cdfcf9c7ab18fd79a4c106e9f81493a7f48550ea4798e5eeef245432cd6d622",
-      "size": 51527
+      "sha256": "86d049c4e5bde82e81ccc10bc1eb2095098c0cae8d38474ba4298b057a3e0386",
+      "size": 51930
     },
     {
       "path": "smart/admin-menu/css/admin-menu.css.gz",
-      "sha256": "d7045f009f8edf7e5dea864d271814aa7ba11f36d895979ea7d4f0f0fccc1612",
-      "size": 10139
+      "sha256": "50f1e4c602cec3edc8160e81a6fbc4f2fe99040ee1e1f7cffa63e8199e90b23d",
+      "size": 10279
     },
     {
       "path": "smart/admin-menu/css/admin-menu.min.css",
-      "sha256": "a6de3c02b0e11af1173199dce77f48d3ab0cb152e16558c6f5a874422715092d",
-      "size": 29264
+      "sha256": "b83a3fe66abc5f73dedefc365d4335b42ac265c57343b86ca95cd2a74d8f9d83",
+      "size": 29408
     },
     {
       "path": "smart/admin-menu/css/admin-menu.min.css.gz",
-      "sha256": "b00a0e11ab83ec2422ce778840e8e7577b60a2582deda428b6f4a04dd466d914",
-      "size": 3982
+      "sha256": "1f88fd652df6663349b724fee74bcd7521e8b71afbf1f2258af4afcb689a8d0c",
+      "size": 4008
     },
     {
       "path": "smart/admin-menu/examples.json",
@@ -448,23 +449,23 @@
     },
     {
       "path": "smart/admin-menu/js/admin-menu.js",
-      "sha256": "69e39be20d5dd6c987dc5f502424cca9cb1e5660724dc17d506a8b932120bd38",
-      "size": 374668
+      "sha256": "60954db7e5272bdb7fb55dcfb83201d7b70d9784a24aa56cbff5da2391343ab7",
+      "size": 379054
     },
     {
       "path": "smart/admin-menu/js/admin-menu.js.gz",
-      "sha256": "998452fe80fd2b6005b53930132b6479f548161f5b3723ece94d54f7ad6a5891",
-      "size": 102110
+      "sha256": "bc2de045350a7df8e739616f757dc6ddb0d6bfa75c9cb22404352433ebf9aae4",
+      "size": 103464
     },
     {
       "path": "smart/admin-menu/js/admin-menu.min.js",
-      "sha256": "9d1ca0a218a7f95b78de6329a5212d2eb4e6661f9a14e32f6ff5e983f3bfb183",
-      "size": 171969
+      "sha256": "bf67213ca551f62f70edb33d90c78d7ee6ab218a330cd44ee87e431a94bab45d",
+      "size": 173659
     },
     {
       "path": "smart/admin-menu/js/admin-menu.min.js.gz",
-      "sha256": "68af6c4eb12fc5536a4651d27797e529547d4322415faebb1a75318b75b62361",
-      "size": 52139
+      "sha256": "53c40e97159bc78889bd05f70e9469173024d58e64b037792ba67f75c053767f",
+      "size": 52603
     },
     {
       "path": "smart/admin-menu/lang/ar.json",
@@ -588,13 +589,13 @@
     },
     {
       "path": "smart/admin-menu/smart.manifest.json",
-      "sha256": "7a58f38626095be26413f419e5b5852760641e3f036ae89a739c1bffd2bb511b",
-      "size": 32215
+      "sha256": "a5e2079787a32ba9f924cfffe84a24345efc7a950f0a91980c78cbc23a377057",
+      "size": 32924
     },
     {
       "path": "smart/admin-menu/smart.manifest.json.gz",
-      "sha256": "eb33e7c657b15476919ed22ccb882460673dc3e55440babfc0b3cc1869c284ff",
-      "size": 8209
+      "sha256": "8cd1511a1da64c0a769994ef0fbe3ef1d0f72260c052107a176e5551de7a79b2",
+      "size": 8463
     },
     {
       "path": "smart/admin-menu/static/default/navigation-port.html",
@@ -848,13 +849,13 @@
     },
     {
       "path": "smart/admin-shell/component.json",
-      "sha256": "477db1524fe88f0e467144fa43dfa57c86fcbaf321105165c1ea524224977b00",
-      "size": 11771
+      "sha256": "1cc80c7bc736de14c16b990ec1ae4c899d11554d065b7a7e23a58473086a7192",
+      "size": 12743
     },
     {
       "path": "smart/admin-shell/component.json.gz",
-      "sha256": "940d6f011f94a2fbb163ce535f9932600e49a9c404cddc4823b39283e6e6d031",
-      "size": 4025
+      "sha256": "beeeeae1b763b3643e6f9322ab27465f1ab226b25018ff325d71f93016a31463",
+      "size": 4370
     },
     {
       "path": "smart/admin-shell/css/admin-shell.css",
@@ -888,23 +889,23 @@
     },
     {
       "path": "smart/admin-shell/js/admin-shell.js",
-      "sha256": "8b122e5ecc269e650f6d1b8f294eeb46843b8ef5f064732956b1c0f9dcf6e36d",
-      "size": 36113
+      "sha256": "5b4a49a8e2913396cb1941515a035aedbaf3648e6f648733183cdcaed54da051",
+      "size": 37283
     },
     {
       "path": "smart/admin-shell/js/admin-shell.js.gz",
-      "sha256": "1c7d58448990fd2a497eacbaf667c42c5ce930fbb2e4368912603078eda32adc",
-      "size": 9942
+      "sha256": "fd516559599762f51fd93bd60d2a23554dbb2d9604dcecbac9c545999e5f5a1b",
+      "size": 10152
     },
     {
       "path": "smart/admin-shell/js/admin-shell.min.js",
-      "sha256": "723c9540e8f996c4157735b557e1fa7dfea7c04028127794fdb7e7de9bc46ca3",
-      "size": 13913
+      "sha256": "bf6a6c8cd7debbe76feb281b6d7a8d0a8c7a33d91d97c2681cd3db16a3b40094",
+      "size": 14209
     },
     {
       "path": "smart/admin-shell/js/admin-shell.min.js.gz",
-      "sha256": "e3f79935683b308a5b7db2ddfb1c57287bf1d26ffe2274d8ff94c6f0f80a544b",
-      "size": 4861
+      "sha256": "d5d350dd19d19525fee23090620f9d14a9c281448a870b20e073cf16fe4d29a6",
+      "size": 4913
     },
     {
       "path": "smart/admin-shell/lang/en.json",
@@ -938,13 +939,13 @@
     },
     {
       "path": "smart/admin-shell/smart.manifest.json",
-      "sha256": "579b109a882f7132209c777f69b0061647741547b4fb15afb5d49bad659d9c13",
-      "size": 9817
+      "sha256": "f0b220e07ae3d02f0d02593388327637b443352f5c79067191e86f70a8a9a74d",
+      "size": 10124
     },
     {
       "path": "smart/admin-shell/smart.manifest.json.gz",
-      "sha256": "6de0ae1d4f09be8583ebfc7dd7cb23da78c7ec54319ef6aadccc4bc1d60d7e95",
-      "size": 3307
+      "sha256": "820964e82ff7ff56b1a5c172248bf5e92488e8fa4047c31e32382563f56391a5",
+      "size": 3427
     },
     {
       "path": "smart/admin-shell/static/default/no-menu.html",
@@ -1008,13 +1009,13 @@
     },
     {
       "path": "smart/rule.js",
-      "sha256": "e350fed590bdc617659fe0f4021283ebef5ff0d0072e41b7ae37206a89249299",
-      "size": 2844
+      "sha256": "4a2517d762322245291eb9a2edf4332c434dce1f68108583e66ed53de9445662",
+      "size": 2792
     },
     {
       "path": "smart/rule.js.gz",
-      "sha256": "c671102df0bf8af75b04e9c70b6e47390f37f2b02badb6d4a8100176522f0e7b",
-      "size": 530
+      "sha256": "754259d5baf3f098484b90a0713e51afd39988316c01e48abfd946565e0450d4",
+      "size": 523
     }
   ],
   "claims": {

@@ -2,7 +2,7 @@
   "$comment": "sf-admin-shell, standard simai.smart-component 1.4 (vocabulary 1.1.5): the frame of an admin screen. Owner decisions C416, C420 (with C322, C328, C329, C338, C342); study ui-control control/research/2026-11-22-admin-shell-study, sample prototypes/admin-shell-study/shell.mjs. The page's parts (sf-alert-bar, sf-admin-menu, sf-header-page, the content) are placed, never drawn by the shell.",
   "id": "smart.admin-shell",
   "tag": "sf-admin-shell",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "kind": "leaf",
   "family": "shell",
   "settings": {
@@ -164,7 +164,8 @@
     "first paint (AM-18): menu-reserve holds the menu's room until the menu marks data-column; rail-column falls back to the rail when SF.Preferences sf-admin-menu/main says second false, the menu's own store.",
     "the page's nodes (AS-5, admin settings study 2026-11-22): the shell places only what is in it now. A node it placed and the page then took out (removed, replaced, moved elsewhere) is forgotten, never put back on a later placing (a page that swapped its body without a reload got the old form back when the phone menu closed: two forms at 390); a node not placed yet stays while it is out of the document only because the base released it for the drawing (js/nodes.js).",
     "leave (AS-6): sf-admin-menu-navigate is cancelable from sf-admin-menu 1.16.1. The phone menu closes on it only when no listener refused it; the shell reads defaultPrevented after the dispatch (a page listens above the shell), so a page with unsaved changes keeps the menu open and the focus on the pressed row.",
-    "names: --sf-admin-shell-background-color and --sf-admin-shell-divider-color take the colour suffix of the public-variable rule (the study wrote --sf-admin-shell-background, -divider-color)."
+    "names: --sf-admin-shell-background-color and --sf-admin-shell-divider-color take the colour suffix of the public-variable rule (the study wrote --sf-admin-shell-background, -divider-color).",
+    "version 1.0.1 (2026-11-23): a patch (DEV acceptance LM-R1). On a phone with the menu open, the bell's notifications panel (a non-modal sf-drawer that leaves the focus on the bell) is a layer of the document's layer stack over the menu; the shell's Escape stood first and closed the menu under the panel, the panel stayed and the focus went to the hidden menu button. The shell now leaves Escape to any open layer of the stack (topLayer()), as it already did to a focused window or popup: the first Escape closes the panel and the focus comes back to the bell, the next closes the menu. 1.0.1 is above 1.0.0, the highest on any origin branch."
   ],
   "x-registry": {
     "capabilities": ["layout", "responsive", "skip-link", "sticky-offsets"],
@@ -236,7 +237,15 @@
       "focus": "The skip link first; it focuses the work area (main, tabindex -1, named by the h1). The phone menu button holds aria-expanded and aria-controls; opening moves the focus into the menu, closing back to the button."
     },
     "compatibility": {
-      "migrations": []
+      "migrations": [
+        {
+          "from": "1.0.0",
+          "to": "1.0.1",
+          "changes": [
+            "On a phone with the menu open, Escape goes first to a layer opened over it (the bell's panel, a menu, a window) and closes the menu only when no such layer is open. Nothing to change for a host."
+          ]
+        }
+      ]
     },
     "inputs": {
       "template": {

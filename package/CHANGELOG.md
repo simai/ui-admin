@@ -1,5 +1,43 @@
 # Changelog of the set `admin` (@simai-studio/admin)
 
+## 1.2.0 (2026-11-23)
+
+Built against ui-b4f79e1c58b7 (SIMAI Framework pair of group build 17,
+npm `@simai-studio/ui@5.20261123.1101`, ui-source `e59dbad1c108`), as 1.1.0.
+Requires Core runtime `>=1.67.0` and no other set.
+
+`sf-admin-menu` 1.17.0 (a minor; DEV msg-25d02219, Larena msg-bc572080):
+a closed menu fetches only what it draws.
+
+- The ⌘K window (`sf-search` and the parts it is drawn with) is drawn on its
+  first open, not with the menu, and stays drawn. Its code is fetched ahead
+  when a pointer or the focus is on the search row, or Ctrl/⌘ is pressed.
+- A control's part is fetched when a pointer comes over it or the focus
+  reaches it: the bell's panel (`sf-drawer`), the person, rail root and site
+  menus (`sf-menu-context`); the setting mode's parts when a menu with
+  «Настроить меню» opens.
+- A press waits up to 30 s for the part it opens: the Loader's `ensure`
+  gives up after 3 s by default, and on a slow line the first press of the
+  person menu, the bell or ⌘K did nothing.
+- Relations: `cl-button` and `cl-input` are lazy; `inputs` (brought by
+  `cl-input`) and the free `admin-menu` component (the former items menu's
+  class enhancer and sheet, `.sf-admin-menu-*`, which the element does not
+  use) are no longer relations. The find row holds a rung-1 control's height
+  until its field is defined.
+- On a Larena-like page (sets pro, chart and admin declared) with the menu
+  closed: 88 files before, 49 after; the menu alone: 83 before, 42 after.
+- Unchanged: settings, values, events, actions, words, the port. «Уведомления»
+  is drawn only when the host announces the `notifications` capability
+  (since 1.15.0).
+
+`sf-admin-shell` 1.0.1 (a patch; DEV acceptance LM-R1): on a phone with the
+menu open, Escape goes first to a layer opened over the menu. The bell's
+notifications panel is a non-modal `sf-drawer` that leaves the focus on the
+bell, so the shell's Escape closed the menu under the open panel, the panel
+stayed and the focus went to the hidden menu button. Now the first Escape
+closes the panel and the focus comes back to the bell; the next one closes
+the menu. Browser probe `admin-shell-phone-escape` (390, light and dark).
+
 ## 1.1.0 (2026-11-23)
 
 Built against ui-b4f79e1c58b7 (SIMAI Framework pair of group build 17,

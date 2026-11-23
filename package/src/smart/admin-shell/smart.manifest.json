@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.admin-shell",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "title": "Admin shell",
   "summary": "The frame of an admin screen: the alert bar over everything, the admin menu's column, the page head and the content; the document scrolls, the bar, the menu and on a phone a slim top line stay; the skip link first, the menu's room held before it draws, list or reading width.",
   "kind": "smart",
@@ -271,7 +271,15 @@
     "aliases": [],
     "deprecations": [],
     "replacement": null,
-    "migrations": []
+    "migrations": [
+      {
+        "from": "1.0.0",
+        "to": "1.0.1",
+        "changes": [
+          "On a phone with the menu open, Escape goes first to a layer opened over it (the bell's panel, a menu, a window) and closes the menu only when no such layer is open. Nothing to change for a host."
+        ]
+      }
+    ]
   },
   "provenance": {
     "source_repository": "simai/ui-admin",
@@ -279,7 +287,7 @@
     "source_artifacts": [
       {
         "path": "src/smart/admin-shell/index.js",
-        "sha256": "6630bc9197fe117e49631a5774c7ab4c3f825c4bac879080221539b5faaa0932"
+        "sha256": "61952616d4f8344c0624132c8bc13a3e770a4717b513e9165f85a3ffee16799e"
       },
       {
         "path": "src/smart/admin-shell/js/templates/default.js",
@@ -291,7 +299,7 @@
       },
       {
         "path": "src/smart/admin-shell/component.json",
-        "sha256": "477db1524fe88f0e467144fa43dfa57c86fcbaf321105165c1ea524224977b00"
+        "sha256": "1cc80c7bc736de14c16b990ec1ae4c899d11554d065b7a7e23a58473086a7192"
       },
       {
         "path": "src/smart/admin-shell/lang/en.json",

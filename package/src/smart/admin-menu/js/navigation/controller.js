@@ -25,7 +25,7 @@
 // column is shown until a page is opened; then the column follows the page
 // again. Whether the column is open at all is the person's one choice, kept
 // across pages (owner, 2026-10-13: the menu must not jump open or closed).
-import {closeMenu, openMenu, removeMenu, updateMenu} from "./menu";
+import {PRESS_WAIT, closeMenu, openMenu, removeMenu, updateMenu} from "./menu";
 import {renderNotices} from "./notices.js";
 import {getInitials} from "../../../helpers/text";
 import {pageText} from "../../../../core/js/page-language";
@@ -340,6 +340,9 @@ export class NavigationController {
         this._paletteSequence = 0;
         this._paletteChoices = new Map();
         this.paletteProvider = (query, options) => this.askPalette(query, options);
+        // Not drawn until it is first wanted (paletteElement).
+        this.paletteWanted = false;
+        this._paletteCode = null;
         // The edit mode: on or off, what is being renamed or added, the row whose
         // ⋯ is open, the profile list in the banner, and what the last save said.
         this.edit = {on: false, renaming: null, adding: null, rowMenu: null, profiles: false, naming: null, message: ""};
@@ -351,6 +354,13 @@ export class NavigationController {
         this.editOpener = null;
         this._onSortableIntent = (event) => this.onSortableIntent(event);
         element.addEventListener("sf-sortable-intent", this._onSortableIntent);
+        // What a control opens is fetched when a pointer comes over it or the
+        // focus reaches it (1.17.0): a closed menu fetches none of it, and the
+        // first press finds the code there (prefetchFor).
+        this._prefetched = new Set();
+        this._onPrefetch = (event) => this.prefetchFor(event.target);
+        element.addEventListener("pointerover", this._onPrefetch);
+        element.addEventListener("focusin", this._onPrefetch);
         // The rail's «…» follows the window's height (AM-27): measured again
         // after every draw and when the window changes size.
         this._onWindowResize = () => {
@@ -370,6 +380,9 @@ export class NavigationController {
         this.wideMedia?.addEventListener?.("change", this._onWideChange);
 
         this._onKeyDown = (event) => {
+            // Ctrl or ⌘ alone is most often the first half of ⌘K: the window's
+            // code is fetched now, so the key finds it there (1.17.0).
+            if ((event.key === "Control" || event.key === "Meta") && this.offers("search")) this.preparePalette();
             // ⌘K / Ctrl+K opens the palette from anywhere on the page, in every
             // arrangement of the menu -- the rail and the phone included, which
             // is the reason it is a palette over the page rather than a column.
@@ -555,6 +568,8 @@ export class NavigationController {
         this._notices = null;
         this.closePalette();
         this.element.removeEventListener("sf-sortable-intent", this._onSortableIntent);
+        this.element.removeEventListener("pointerover", this._onPrefetch);
+        this.element.removeEventListener("focusin", this._onPrefetch);
         globalThis.removeEventListener?.("resize", this._onWindowResize);
         cancelAnimationFrame(this._fitFrame);
         this.wideMedia?.removeEventListener?.("change", this._onWideChange);
@@ -1771,10 +1786,60 @@ export class NavigationController {
     // focus back. The element is drawn with the menu (palette.js) and fetched
     // by the Loader when it first appears; the menu hands it the provider and
     // opens it.
+    //
+    // A closed menu draws no window (1.17.0): it is drawn when it is first
+    // wanted, the Loader fetching sf-search and its parts at that moment, and
+    // stays drawn. A pointer over the search row or the focus on it fetches
+    // the code ahead (preparePalette), so the first open is not a wait.
+    // The parts a control opens, by the control: the bell its panel, the
+    // person, a rail root (its row menu) and the site switcher the standard
+    // menu, the search row the window. The setting mode's parts are fetched
+    // when the person menu opens with «Настроить меню» in it. Each is asked
+    // of the Loader once; a tag already defined costs nothing.
+    prefetchFor(target) {
+        const control = target?.closest?.(".sf-admin-nav-bell, .sf-admin-nav-person, .sf-admin-nav-site-trigger, .sf-admin-nav-first .sf-admin-nav-row");
+        if (!control) return;
+        if (control.matches(".sf-admin-nav-bell")) return this.prefetch(["sf-drawer"]);
+        if (control.matches("[aria-haspopup=\"dialog\"]")) return this.preparePalette();
+        return this.prefetch(["sf-menu-context"]);
+    }
+
+    prefetch(tags) {
+        const wanted = tags.filter((tag) => !this._prefetched.has(tag) && !customElements.get(tag));
+        if (!wanted.length) return null;
+        wanted.forEach((tag) => this._prefetched.add(tag));
+        return globalThis.SF?.Loader?.ensure?.(wanted) ?? null;
+    }
+
+    // The setting mode draws text buttons, fields, the levels, the profile
+    // picker, the glyph dropdown and the sortable rows.
+    prefetchEdit() {
+        if (this.canEdit()) this.prefetch(["sf-button", "sf-input", "sf-segmented", "sf-profile-picker", "sf-dropdown", "sf-sortable"]);
+    }
+
+    preparePalette() {
+        if (!this.offers("search") || customElements.get("sf-search")) return null;
+        this._paletteCode ??= globalThis.SF?.Loader?.ensure?.(["sf-search"], {timeout: PRESS_WAIT})
+            ?.then((answer) => {
+                // Not there in time: the next want asks again.
+                if (!customElements.get("sf-search")) this._paletteCode = null;
+                return answer;
+            }) ?? null;
+        return this._paletteCode;
+    }
+
     async paletteElement() {
         if (!this.offers("search")) return null;
-        if (!customElements.get("sf-search")) await globalThis.SF?.Loader?.ensure?.(["sf-search"]);
-        const search = this.element.querySelector("sf-search.sf-admin-nav-search");
+        const code = this.preparePalette();
+        let search = this.element.querySelector("sf-search.sf-admin-nav-search");
+        if (!search) {
+            this.paletteWanted = true;
+            const drawn = this.element.whenRendered?.(null, {next: true});
+            this.update("palette");
+            await Promise.race([drawn, new Promise((settle) => setTimeout(settle, 1000))]);
+            search = this.element.querySelector("sf-search.sf-admin-nav-search");
+        }
+        if (code) await code;
         if (!search || typeof search.open !== "function") return null;
         if (search.provider !== this.paletteProvider) search.provider = this.paletteProvider;
         return search;
@@ -1913,7 +1978,7 @@ export class NavigationController {
     // state is the bell's aria-expanded.
     async setNoticesDrawer(drawer) {
         if (!this.offers("notifications")) return null;
-        if (!customElements.get("sf-drawer")) await globalThis.SF?.Loader?.ensure?.(["sf-drawer"]);
+        if (!customElements.get("sf-drawer")) await globalThis.SF?.Loader?.ensure?.(["sf-drawer"], {timeout: PRESS_WAIT});
         if (!customElements.get("sf-drawer")) return null;
         if (this._setPanel !== drawer) {
             this._setPanel = drawer;
@@ -1934,7 +1999,7 @@ export class NavigationController {
 
     async noticesDrawer() {
         if (!this.offers("notifications")) return null;
-        if (!customElements.get("sf-drawer")) await globalThis.SF?.Loader?.ensure?.(["sf-drawer"]);
+        if (!customElements.get("sf-drawer")) await globalThis.SF?.Loader?.ensure?.(["sf-drawer"], {timeout: PRESS_WAIT});
         if (!customElements.get("sf-drawer")) return null;
         let drawer = this._notices;
         if (!drawer?.isConnected) {
@@ -2070,7 +2135,10 @@ export class NavigationController {
                 {id: "hide", text: locked ? this.text("lockedHide") : this.text("hideFromMenu"), icon: locked ? "lock" : "visibility_off", disabled: locked},
             );
         }
-        if (this.canEdit()) entries.push({type: "separator"}, {id: "configure", text: `${this.text("configureMenu")}…`, icon: "tune"});
+        if (this.canEdit()) {
+            entries.push({type: "separator"}, {id: "configure", text: `${this.text("configureMenu")}…`, icon: "tune"});
+            this.prefetchEdit();
+        }
         if (entries.length < 2) return null;
         return openMenu(this, anchor, {
             label: row.label, entries, side: "inline-end", align: "start",

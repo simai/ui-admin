@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.admin-menu",
-  "version": "1.16.1",
+  "version": "1.17.0",
   "title": "Admin menu",
   "summary": "Admin navigation over the host's navigation port: the rail, the section column, search, favourites, notifications and the setting mode.",
   "kind": "composite",
@@ -26,11 +26,9 @@
   "exported_parts": [],
   "composition": {
     "uses": [
-      "component.admin-menu",
       "component.avatars",
       "component.badges",
       "component.icons",
-      "component.inputs",
       "component.kbd",
       "smart.badge",
       "smart.button",
@@ -876,6 +874,14 @@
         "changes": [
           "The caption «Общее для всех сайтов» under a section of the install level is drawn only when the host offers the site switch (capabilities include site-switch). Nothing to change for a host."
         ]
+      },
+      {
+        "from": "1.16.1",
+        "to": "1.17.0",
+        "changes": [
+          "Loading only: a closed menu no longer fetches sf-search, sf-button, sf-input, the inputs unit, the free admin-menu component (component/admin-menu: the former items menu's class enhancer and sheet, which the element does not use) or what they are drawn with. The search window is drawn on its first open; a page that looked for sf-search.sf-admin-nav-search inside the menu before that finds none (open it with ⌘K or the search row first). Nothing to change for a host.",
+          "«Уведомления» (the bell) is drawn only when the port's capabilities include notifications; a host that wants the bell announces it (unchanged since 1.15.0)."
+        ]
       }
     ]
   },
@@ -889,7 +895,7 @@
       },
       {
         "path": "src/smart/admin-menu/js/navigation/navigation.css",
-        "sha256": "c6807938342897bd6d11acf4507dd74d905a8f8b47b730a3ebd80f6f720de102"
+        "sha256": "492bc4b78bb1b950a01d1fac46645b6e3a15097d3fbd97948129b04311e8fbb5"
       },
       {
         "path": "src/smart/admin-menu/js/navigation/template.js",
@@ -897,11 +903,11 @@
       },
       {
         "path": "src/smart/admin-menu/js/navigation/palette.js",
-        "sha256": "54c2da21d7cc7c065a8334f32317fbf59c85222cc829da103bd48f3528c6b203"
+        "sha256": "35abe110bf2d57acc9d8678b0f1e8fdd2f17e9977adefaf3c9d8268171f2d707"
       },
       {
         "path": "src/smart/admin-menu/js/navigation/account.js",
-        "sha256": "7331b15a77d75a7af4ac193d5fafa2cac8df82ffd1fa29e116dcd399bb9f85f7"
+        "sha256": "c526896b2fdbe89dd5848a6f973d383d3570b55cf9ce760a146dca27e7024064"
       },
       {
         "path": "src/smart/admin-menu/js/navigation/edit.js",
@@ -909,11 +915,11 @@
       },
       {
         "path": "src/smart/admin-menu/js/navigation/controller.js",
-        "sha256": "03bdc7ed4afef344e405f376ec4f27ae1712891b407ec9be8c2386bb6507e3b8"
+        "sha256": "964cb4898b2de830969db92372eac51f5182c39390a5002535c1fb99da300fa3"
       },
       {
         "path": "src/smart/admin-menu/js/navigation/menu.js",
-        "sha256": "f18945bbc16fb08b5eca492bdab40bc2f6793db77b78eeea998fff41af4e7301"
+        "sha256": "5817d2634fbd1e6b56e58e75242c3ce6ba89c7e06ca9f6415df5f013cc298fbd"
       },
       {
         "path": "src/component/admin-menu/scss/_css__admin_menu.scss",
@@ -921,7 +927,7 @@
       },
       {
         "path": "src/smart/admin-menu/component.json",
-        "sha256": "4b3d044bfebb0e04c39e31b80a3ba7071578b49435bfca015949c54f52bc03a9"
+        "sha256": "b8382669ac4d82d1f846a110d61e1f46a90d0a93d2f72e37a61f1b28a0274df2"
       },
       {
         "path": "src/smart/admin-menu/aliases.json",

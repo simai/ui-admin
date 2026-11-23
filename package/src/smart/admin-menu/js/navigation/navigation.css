@@ -819,6 +819,14 @@
     max-inline-size: 100%;
   }
 
+  /* The field's code comes when the field is first drawn (cl-input is a lazy
+     relation since 1.17.0): until it is defined the row holds the height of a
+     rung-1 control, so the rows under it do not move when it arrives. */
+  .sf-admin-nav-find > sf-input:not(:defined) {
+    display: block;
+    min-block-size: var(--sf-ui-1--control-height);
+  }
+
   .sf-admin-nav-children {
     display: flex;
     flex-direction: column;

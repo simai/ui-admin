@@ -7,8 +7,8 @@
   },
   "set": {
     "name": "admin",
-    "compatibility_id": "admin-25245d70cde8",
-    "version": "1.1.0"
+    "compatibility_id": "admin-ebc242e8fa56",
+    "version": "1.2.0"
   },
   "contracts": [
     {
@@ -654,9 +654,9 @@
     },
     {
       "id": "smart.admin-menu",
-      "version": "1.16.1",
+      "version": "1.17.0",
       "file": "smart.admin-menu.json",
-      "manifest_sha256": "7a58f38626095be26413f419e5b5852760641e3f036ae89a739c1bffd2bb511b",
+      "manifest_sha256": "a5e2079787a32ba9f924cfffe84a24345efc7a950f0a91980c78cbc23a377057",
       "source": "package:admin"
     },
     {
@@ -668,9 +668,9 @@
     },
     {
       "id": "smart.admin-shell",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "file": "smart.admin-shell.json",
-      "manifest_sha256": "579b109a882f7132209c777f69b0061647741547b4fb15afb5d49bad659d9c13",
+      "manifest_sha256": "f0b220e07ae3d02f0d02593388327637b443352f5c79067191e86f70a8a9a74d",
       "source": "package:admin"
     }
   ],

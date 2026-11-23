@@ -266,7 +266,7 @@
     "today"
   ],
   "x-port": {
-    "sha256": "2be207cee375858a419e5840fced7aadad945bc5423de7649840b47e713ce4cd",
+    "sha256": "009776d8a78a7d858fb37af063cb8b09d625aa6129e3797fbe1927b3227176f3",
     "supports": [
       "1.1.0",
       "1.2.0"

@@ -396,7 +396,7 @@
       },
       {
         "path": "src/smart/admin-notifications/component.json",
-        "sha256": "cb14b47fd5587ee532c4929dee7a8b45da42beffd71d8c2c005852ff3cca39de"
+        "sha256": "adbf3a12a7b9ba31cb57c264fdd2484d3d8292d1ced1fa32baa9ba3ccf30b481"
       },
       {
         "path": "src/smart/admin-notifications/lang/en.json",

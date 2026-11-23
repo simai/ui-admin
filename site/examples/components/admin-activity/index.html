@@ -1,0 +1,8 @@
+<div class="flex flex-col gap-2">
+  <sf-segmented id="state" size="1/2" aria-label="Что идёт" items="two::Идёт два|failed::Одно не удалось|done-failed::Ничего не идёт|none::Нечего показать" value="two"></sf-segmented>
+  <div class="page-row">
+    <sf-breadcrumbs current="none" items='[{"label": "Сервер", "href": "#/srv"}, {"label": "Резервные копии", "href": "#/srv.backups"}]'></sf-breadcrumbs>
+    <sf-admin-activity id="activity" history-href="#/activity" notify="false" runs='[{"id": "r1", "label": "Копия srv1.larena.cloud", "state": "running", "value": 42, "total": 100, "unit": "%", "href": "#/srv.backups"}, {"id": "r2", "label": "Обновление PHP на stage", "state": "running", "href": "#/srv.software", "object": "stage.larena.cloud"}]'></sf-admin-activity>
+  </div>
+  <p class="m-0 color-on-surface-variant" role="status" data-log></p>
+</div>

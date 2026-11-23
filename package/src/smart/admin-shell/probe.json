@@ -1,0 +1,103 @@
+{
+  "component": "sf-admin-shell",
+  "probe": "sf-admin-shell against component.json (standard simai.smart-component 1.4 §12, gate 20)",
+  "format": "stands/15-scenarios (A4 modal: a page, probes in steps); the runner is ui-source tests/browser/manifest-probes.browser.mjs, run for the package by scripts/run-manifest-probes.mjs",
+  "page": {
+    "lang": "ru",
+    "body": [
+      "<sf-admin-shell id=\"s\" product=\"Larena Panel\">",
+      "  <nav slot=\"menu\" aria-label=\"Меню\"><a id=\"m1\" href=\"#a\">Сайты</a> <a href=\"#b\">Сервер</a></nav>",
+      "  <sf-header-page slot=\"head\" heading=\"DNS-зоны\" star=\"false\"></sf-header-page>",
+      "  <p id=\"c1\">Содержимое страницы.</p>",
+      "</sf-admin-shell>"
+    ]
+  },
+  "probes": [
+    {
+      "id": "p1-frame",
+      "title": "the page's parts are placed: the skip link first, the menu in its column, the head and the content in the main landmark",
+      "covers": "slots menu head, accessibility skip link, main",
+      "steps": [
+        {
+          "script": "(async () => { for (let i = 0; i < 60 && !document.querySelector('#s .sf-admin-shell__main'); i += 1) await new Promise((done) => setTimeout(done, 100)); return Boolean(document.querySelector('#s .sf-admin-shell__main')); })()",
+          "wait": 60,
+          "expect": {
+            "returns": true
+          },
+          "check": "document.querySelector('#s .sf-admin-shell').firstElementChild.classList.contains('sf-admin-shell__skip') && document.querySelector('#s [data-area=menu] #m1') !== null && document.querySelector('#s main [data-area=content] #c1') !== null && document.querySelector('#s main [data-area=head] sf-header-page') !== null"
+        }
+      ]
+    },
+    {
+      "id": "p2-menu-open-close",
+      "title": "open-menu reflects menu-open and says sf-admin-shell-menu-open {reason: api}; close-menu says sf-admin-shell-menu-close and removes it",
+      "covers": "actions.open-menu, actions.close-menu, events.menu-open, events.menu-close, settings.menu-open",
+      "steps": [
+        {
+          "action": {
+            "name": "open-menu"
+          },
+          "target": "#s",
+          "wait": 80,
+          "expect": {
+            "returns": {
+              "outcome": "applied"
+            },
+            "events": [
+              {
+                "name": "sf-admin-shell-menu-open",
+                "count": 1,
+                "detail": {
+                  "reason": "api"
+                }
+              }
+            ]
+          },
+          "check": "document.querySelector('#s').hasAttribute('menu-open')"
+        },
+        {
+          "action": {
+            "name": "close-menu"
+          },
+          "target": "#s",
+          "wait": 80,
+          "expect": {
+            "returns": {
+              "outcome": "applied"
+            },
+            "events": [
+              {
+                "name": "sf-admin-shell-menu-close",
+                "count": 1,
+                "detail": {
+                  "reason": "api"
+                }
+              }
+            ]
+          },
+          "check": "!document.querySelector('#s').hasAttribute('menu-open')"
+        }
+      ]
+    },
+    {
+      "id": "p3-focus-content",
+      "title": "focus-content moves the focus to the main landmark",
+      "covers": "actions.focus-content",
+      "steps": [
+        {
+          "action": {
+            "name": "focus-content"
+          },
+          "target": "#s",
+          "wait": 60,
+          "expect": {
+            "returns": {
+              "outcome": "applied"
+            }
+          },
+          "check": "document.activeElement === document.querySelector('#s main')"
+        }
+      ]
+    }
+  ]
+}

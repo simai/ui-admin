@@ -1,0 +1,36 @@
+{
+  "title": "Уведомления",
+  "runtime": {
+    "new-count": "Новых: {count}",
+    "none-new": "Нового нет",
+    "read-all": "Прочитать все",
+    "more-by": "Ещё {count} по {object}",
+    "fold": "Свернуть",
+    "resolved": "→ решено",
+    "unread": "не прочитано",
+    "level-error": "Ошибка",
+    "level-warning": "Предупреждение",
+    "level-info": "Сведения",
+    "level-success": "Готово",
+    "history": "Вся история",
+    "settings": "Настройки уведомлений",
+    "load-more": "Показать ещё",
+    "empty-text": "Здесь появятся сообщения о том, что требует внимания.",
+    "failed-heading": "Уведомления не загрузились",
+    "failed-text": "Сервер не ответил.",
+    "retry": "Повторить",
+    "loading": "Загружаем уведомления…",
+    "other-object": "Прочее"
+  },
+  "events": {
+    "failed": {
+      "label": "Не загрузились"
+    },
+    "read-all": {
+      "label": "Все прочитаны"
+    },
+    "load-more": {
+      "label": "Ещё"
+    }
+  }
+}

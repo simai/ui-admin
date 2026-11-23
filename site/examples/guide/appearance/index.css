@@ -1,0 +1,5 @@
+.page-menu { display: flex; block-size: var(--sf-g4); border: 1px solid var(--sf-outline-variant); border-radius: var(--sf-radius-1); overflow: clip; }
+.page-quiet {
+  --sf-admin-menu-first-background-color: var(--sf-surface-3);
+  --sf-admin-menu-second-background-color: var(--sf-surface-1);
+}

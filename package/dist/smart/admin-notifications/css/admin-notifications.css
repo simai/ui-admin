@@ -1,0 +1,234 @@
+@charset "UTF-8";
+@layer sf.reset, sf.tokens, sf.base, sf.paint, sf.utilities, sf.components, sf.overrides, sf.states;
+@layer sf.components {
+  /* sf-admin-notifications (owner decisions C421, C340, C341). The host is
+     display: contents; .sf-admin-notifications is the list, at the 1/2 rung
+     of text. Every value is a Framework token. The public variables
+     (component.json css-variables) are read here and never set:
+       --sf-admin-notifications-unread-color    the unread dot
+       --sf-admin-notifications-resolved-color  «→ решено»
+       --sf-admin-notifications-divider-color   the line under an entry
+       --sf-admin-notifications-row-padding-block  an entry's top and bottom inset
+       --sf-admin-notifications-row-gap         between an entry's columns
+       --sf-admin-notifications-group-gap       above a day
+     The --sf-admin-notifications--* names are the internal layer they feed. */
+  .sf-admin-notifications {
+    --sf-admin-notifications--dot: var(--sf-admin-notifications-unread-color, var(--sf-primary));
+    --sf-admin-notifications--resolved: var(--sf-admin-notifications-resolved-color, var(--sf-success));
+    --sf-admin-notifications--line: var(--sf-admin-notifications-divider-color, var(--sf-outline-variant));
+    --sf-admin-notifications--row-inset: var(--sf-admin-notifications-row-padding-block, var(--sf-space-1\/3));
+    --sf-admin-notifications--row-gap: var(--sf-admin-notifications-row-gap, var(--sf-space-1\/3));
+    --sf-admin-notifications--group-gap: var(--sf-admin-notifications-group-gap, var(--sf-space-1\/2));
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-inline-size: 0;
+    color: var(--sf-on-surface);
+    font-size: var(--sf-text-size-1\/2);
+    line-height: var(--sf-text-height-1\/2);
+  }
+  /* In a region (the notifications drawer, a column of a page) the panel
+     look fills it, loading or loaded, and its entries scroll inside: the box
+     does not change when the host answers. In plain flow it is as tall as
+     its entries. */
+  .sf-admin-notifications[data-look=panel] {
+    flex: 1 1 auto;
+    min-height: 0;
+    min-block-size: 0;
+    overflow-y: auto;
+  }
+  .sf-admin-notifications__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sf-gap--actions);
+    min-height: var(--sf-ui-1\/2--control-height);
+    min-block-size: var(--sf-ui-1\/2--control-height);
+    padding-bottom: var(--sf-space-1\/3);
+    -webkit-padding-after: var(--sf-space-1\/3);
+            padding-block-end: var(--sf-space-1\/3);
+  }
+  .sf-admin-notifications__count {
+    font-weight: var(--sf-font-weight-medium);
+    outline: none;
+  }
+  .sf-admin-notifications__count.focus-visible {
+    outline: var(--sf-focus--width) var(--sf-focus--style) var(--sf-focus--color);
+    outline-offset: var(--sf-focus--offset);
+    border-radius: var(--sf-radius--ui);
+  }
+  .sf-admin-notifications__count:focus-visible {
+    outline: var(--sf-focus--width) var(--sf-focus--style) var(--sf-focus--color);
+    outline-offset: var(--sf-focus--offset);
+    border-radius: var(--sf-radius--ui);
+  }
+  .sf-admin-notifications__day {
+    margin-top: var(--sf-admin-notifications--group-gap);
+    -webkit-margin-before: var(--sf-admin-notifications--group-gap);
+            margin-block-start: var(--sf-admin-notifications--group-gap);
+    padding-top: var(--sf-space-1\/4);
+    padding-bottom: var(--sf-space-1\/4);
+    padding-block: var(--sf-space-1\/4);
+    color: var(--sf-on-surface-variant);
+    font-size: var(--sf-text-size-1\/3);
+    line-height: var(--sf-text-height-1\/3);
+    font-weight: var(--sf-font-weight-medium);
+  }
+  .sf-admin-notifications__list {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  /* An entry: the glyph, what happened, the dot. */
+  .sf-admin-notifications__item {
+    display: grid;
+    grid-template-columns: var(--sf-icon-size-1\/2) minmax(0, 1fr) auto;
+    grid-gap: var(--sf-admin-notifications--row-gap);
+    gap: var(--sf-admin-notifications--row-gap);
+    padding: var(--sf-admin-notifications--row-inset) var(--sf-space-1\/4);
+    border-bottom: var(--sf-px) solid var(--sf-admin-notifications--line);
+    -webkit-border-after: var(--sf-px) solid var(--sf-admin-notifications--line);
+            border-block-end: var(--sf-px) solid var(--sf-admin-notifications--line);
+  }
+  .sf-admin-notifications__item:hover {
+    background-color: var(--sf-surface-state-hover);
+  }
+  .sf-admin-notifications__glyph {
+    margin-top: var(--sf-a2);
+    -webkit-margin-before: var(--sf-a2);
+            margin-block-start: var(--sf-a2);
+  }
+  .sf-admin-notifications__glyph[data-level=error] {
+    color: var(--sf-error);
+  }
+  .sf-admin-notifications__glyph[data-level=warning] {
+    color: var(--sf-warning);
+  }
+  .sf-admin-notifications__glyph[data-level=info] {
+    color: var(--sf-info);
+  }
+  .sf-admin-notifications__glyph[data-level=success] {
+    color: var(--sf-success);
+  }
+  .sf-admin-notifications__glyph:not([data-level]) {
+    color: var(--sf-on-surface-icon);
+  }
+  .sf-admin-notifications__what {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sf-a2);
+    min-width: 0;
+    min-inline-size: 0;
+    word-wrap: anywhere;
+  }
+  .sf-admin-notifications__title {
+    color: var(--sf-on-surface);
+    text-decoration: none;
+  }
+  a.sf-admin-notifications__title:hover {
+    text-decoration: underline;
+  }
+  a.sf-admin-notifications__title.focus-visible,
+  .sf-admin-notifications__fold.focus-visible,
+  .sf-admin-notifications__foot a.focus-visible {
+    outline: var(--sf-focus--width) var(--sf-focus--style) var(--sf-focus--color);
+    outline-offset: var(--sf-focus--offset);
+    border-radius: var(--sf-radius--ui);
+  }
+  a.sf-admin-notifications__title:focus-visible,
+  .sf-admin-notifications__fold:focus-visible,
+  .sf-admin-notifications__foot a:focus-visible {
+    outline: var(--sf-focus--width) var(--sf-focus--style) var(--sf-focus--color);
+    outline-offset: var(--sf-focus--offset);
+    border-radius: var(--sf-radius--ui);
+  }
+  .sf-admin-notifications__item[data-unread] .sf-admin-notifications__title {
+    font-weight: var(--sf-font-weight-medium);
+  }
+  .sf-admin-notifications__resolved {
+    color: var(--sf-admin-notifications--resolved);
+  }
+  .sf-admin-notifications__body,
+  .sf-admin-notifications__meta {
+    color: var(--sf-on-surface-variant);
+  }
+  .sf-admin-notifications__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--sf-space-1\/3);
+  }
+  .sf-admin-notifications__dot {
+    width: var(--sf-a8);
+    inline-size: var(--sf-a8);
+    height: var(--sf-a8);
+    block-size: var(--sf-a8);
+    margin-top: var(--sf-a6);
+    -webkit-margin-before: var(--sf-a6);
+            margin-block-start: var(--sf-a6);
+    border-radius: var(--sf-radius-circle);
+    background-color: transparent;
+  }
+  .sf-admin-notifications__item[data-unread] .sf-admin-notifications__dot {
+    background-color: var(--sf-admin-notifications--dot);
+  }
+  /* «Ещё N по …»: a quiet link row at the start of the entry's text, under
+     the title, as tall as the 1/3 rung (C421). */
+  .sf-admin-notifications__fold:where(:dir(ltr)){
+    text-align: left;
+  }
+  .sf-admin-notifications__fold:where(:dir(rtl)){
+    text-align: right;
+  }
+  .sf-admin-notifications__fold {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--sf-ui-1\/3--control-height);
+    min-block-size: var(--sf-ui-1\/3--control-height);
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: var(--sf-radius--ui);
+    background: none;
+    color: var(--sf-primary);
+    font: inherit;
+    text-align: start;
+    cursor: pointer;
+  }
+  .sf-admin-notifications__fold:hover {
+    text-decoration: underline;
+  }
+  .sf-admin-notifications__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sf-space-1\/2);
+    padding-top: var(--sf-space-1\/2);
+    -webkit-padding-before: var(--sf-space-1\/2);
+            padding-block-start: var(--sf-space-1\/2);
+  }
+  .sf-admin-notifications__foot a {
+    color: var(--sf-primary);
+  }
+  .sf-admin-notifications[data-look=page] .sf-admin-notifications__foot {
+    justify-content: flex-start;
+  }
+  .sf-admin-notifications__empty {
+    margin: 0;
+    padding-top: var(--sf-space-2);
+    padding-bottom: var(--sf-space-2);
+    padding-block: var(--sf-space-2);
+    color: var(--sf-on-surface-variant);
+    text-align: center;
+  }
+  .sf-admin-notifications__retry {
+    display: flex;
+    gap: var(--sf-gap--actions);
+    padding-top: var(--sf-space-1\/2);
+    -webkit-padding-before: var(--sf-space-1\/2);
+            padding-block-start: var(--sf-space-1\/2);
+  }
+}

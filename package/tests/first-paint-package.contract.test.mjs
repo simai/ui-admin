@@ -16,7 +16,7 @@ const smart = join(root, 'src', 'smart');
 // The set's folders (set.json components[].folder). Narrowed to the set admin
 // from simai/ui-pro (2ba35fa): the view, chat, mail and editor checks left with
 // their sets.
-const PACKAGE = ['admin-menu'];
+const PACKAGE = ['admin-menu', 'admin-shell', 'admin-notifications', 'admin-activity'];
 const inner = (html, tag) => html.replace(/<!--[\s\S]*?-->\n?/gu, '').trim()
   .replace(new RegExp(`^<${tag}[^>]*>`, 'u'), '').replace(new RegExp(`</${tag}>$`, 'u'), '')
   .replace(/>\s+</gu, '><').trim();
@@ -43,7 +43,7 @@ test('a port-fed component holds its box: it fills its region and its data scrol
   const css = (path) => readFileSync(join(smart, path), 'utf8');
   assert.match(css('admin-menu/js/navigation/navigation.css'), /\.sf-admin-nav--skeleton \.sf-admin-nav-second \{\s*display: none;/u, 'the skeleton keeps one column on a phone');
   // Each such example puts the component in a region, as a page does.
-  for (const [folder, names] of [['admin-menu', ['navigation-port']]]) {
+  for (const [folder, names] of [['admin-menu', ['navigation-port']], ['admin-notifications', ['port']]]) {
     const component = describe(smart, folder);
     for (const name of names) assert.match(component.examples.find((one) => one.name === name).parent ?? '', /block-size: \d+rem/u, `${folder}/${name}`);
   }

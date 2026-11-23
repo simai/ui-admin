@@ -1,0 +1,211 @@
+{
+  "examples": [
+    {
+      "name": "reference",
+      "title": "Идёт два действия",
+      "settings": {
+        "runs": [
+          {
+            "id": "r1",
+            "label": "Копия srv1.larena.cloud",
+            "state": "running",
+            "value": 42,
+            "total": 100,
+            "unit": "%",
+            "href": "#/srv.backups"
+          },
+          {
+            "id": "r2",
+            "label": "Обновление PHP на stage",
+            "state": "running",
+            "href": "#/srv.software"
+          }
+        ],
+        "history-href": "#/activity"
+      },
+      "x-first-paint": "The trigger with «Идёт 2» at the 1/2 rung."
+    },
+    {
+      "name": "failure-mark",
+      "title": "Идёт одно, одно не удалось: красная метка до открытия списка",
+      "settings": {
+        "runs": [
+          {
+            "id": "r1",
+            "label": "Копия srv1.larena.cloud",
+            "state": "running",
+            "value": 42,
+            "total": 100,
+            "unit": "%",
+            "href": "#/srv.backups"
+          },
+          {
+            "id": "r3",
+            "label": "Перевыпуск сертификата simai.ru",
+            "state": "failed",
+            "text": "Центр сертификации не ответил.",
+            "object": "simai.ru",
+            "href": "#/srv.security"
+          }
+        ],
+        "history-href": "#/activity"
+      }
+    },
+    {
+      "name": "failed",
+      "title": "Ничего не идёт: «Не удалось 1» словами",
+      "settings": {
+        "runs": [
+          {
+            "id": "r3",
+            "label": "Перевыпуск сертификата simai.ru",
+            "state": "failed",
+            "text": "Центр сертификации не ответил.",
+            "object": "simai.ru",
+            "href": "#/srv.security"
+          }
+        ]
+      }
+    },
+    {
+      "name": "none",
+      "title": "Нечего показать: элемента нет",
+      "settings": {
+        "runs": []
+      }
+    },
+    {
+      "name": "top-line",
+      "title": "В верхней строке телефона: размер 1",
+      "settings": {
+        "runs": [
+          {
+            "id": "r1",
+            "label": "Копия srv1.larena.cloud",
+            "state": "running",
+            "value": 42,
+            "total": 100,
+            "unit": "%",
+            "href": "#/srv.backups"
+          },
+          {
+            "id": "r2",
+            "label": "Обновление PHP на stage",
+            "state": "running",
+            "href": "#/srv.software"
+          }
+        ],
+        "size": "1"
+      }
+    }
+  ],
+  "pages": [
+    {
+      "name": "conformance",
+      "title": "sf-admin-activity against component.json (standard simai.smart-component 1.4 §12, gate 20)",
+      "format": "stands/15-scenarios (A4 modal: a page, probes in steps); the runner is ui-source tests/browser/manifest-probes.browser.mjs, run for the package by scripts/run-manifest-probes.mjs",
+      "page": {
+        "lang": "ru",
+        "body": [
+          "<main style=\"display: flex; justify-content: flex-end; gap: 24px; padding: 24px\">",
+          "  <sf-admin-activity id=\"a\" history-href=\"#/activity\" runs='[{\"id\": \"r1\", \"label\": \"Копия srv1.larena.cloud\", \"state\": \"running\", \"value\": 42, \"total\": 100, \"unit\": \"%\", \"href\": \"#/srv.backups\"}, {\"id\": \"r2\", \"label\": \"Обновление PHP на stage\", \"state\": \"running\", \"href\": \"#/srv.software\"}]'></sf-admin-activity>",
+          "  <sf-admin-activity id=\"z\" runs='[]'></sf-admin-activity>",
+          "</main>"
+        ]
+      },
+      "checks": [
+        {
+          "id": "p1-running",
+          "title": "two runs running: the trigger shows «Идёт 2», no failure mark, and its name says it in words",
+          "covers": "settings.runs, accessibility name",
+          "steps": [
+            {
+              "script": "(async () => { for (let i = 0; i < 80 && !(document.querySelector('#a .sf-admin-activity__trigger')); i += 1) await new Promise((done) => setTimeout(done, 100)); return Boolean(document.querySelector('#a .sf-admin-activity__trigger')); })()",
+              "wait": 60,
+              "expect": {
+                "returns": true
+              },
+              "check": "document.querySelector('#a sf-badge[activity=\"running\"]').getAttribute('text') === 'Идёт 2' && !document.querySelector('#a .sf-admin-activity__mark') && document.querySelector('#a .sf-admin-activity__trigger').getAttribute('aria-label') === 'Действия в фоне: идёт 2'"
+            }
+          ]
+        },
+        {
+          "id": "p2-none",
+          "title": "nothing running or failed: the element draws nothing",
+          "covers": "settings.runs empty",
+          "steps": [
+            {
+              "script": "(async () => { await customElements.whenDefined('sf-admin-activity'); await new Promise((done) => setTimeout(done, 300)); return true; })()",
+              "wait": 60,
+              "expect": {
+                "returns": true
+              },
+              "check": "customElements.get('sf-admin-activity') && !document.querySelector('#z .sf-admin-activity')"
+            }
+          ]
+        },
+        {
+          "id": "p3-failure-mark",
+          "title": "a run fails while another runs: SF.notify error (its toast on the page), a red mark beside «Идёт 1»; opening the list says open and the mark goes",
+          "covers": "events.finished, events.open, actions.show, side-effects notify",
+          "steps": [
+            {
+              "script": "(document.querySelector('#a').runs = [{\"id\": \"r1\", \"label\": \"Копия srv1.larena.cloud\", \"state\": \"running\", \"value\": 42, \"total\": 100, \"unit\": \"%\", \"href\": \"#/srv.backups\"}, {\"id\": \"r3\", \"label\": \"Перевыпуск сертификата simai.ru\", \"state\": \"failed\", \"text\": \"Центр сертификации не ответил.\", \"object\": \"simai.ru\", \"href\": \"#/srv.security\"}], true)",
+              "wait": 300,
+              "expect": {
+                "returns": true
+              },
+              "check": "Boolean(document.querySelector('#a .sf-admin-activity__mark')) && document.querySelector('#a sf-badge[activity=\"running\"]').getAttribute('text') === 'Идёт 1' && document.body.innerText.includes('Перевыпуск сертификата simai.ru: не удалось')"
+            },
+            {
+              "action": {
+                "name": "show"
+              },
+              "target": "#a",
+              "wait": 400,
+              "expect": {
+                "returns": {
+                  "outcome": "applied"
+                },
+                "events": [
+                  {
+                    "name": "sf-admin-activity-open",
+                    "count": 1
+                  }
+                ]
+              },
+              "check": "!document.querySelector('#a .sf-admin-activity__mark')"
+            }
+          ]
+        },
+        {
+          "id": "p4-done",
+          "title": "the last running run ends: SF.notify success (its toast on the page), and «Не удалось 1» stays in words",
+          "covers": "events.finished done",
+          "steps": [
+            {
+              "action": {
+                "name": "close"
+              },
+              "target": "#a",
+              "wait": 300,
+              "expect": {
+                "returns": {
+                  "outcome": "applied"
+                }
+              }
+            },
+            {
+              "script": "(document.querySelector('#a').runs = [{\"id\": \"r1\", \"label\": \"Копия srv1.larena.cloud\", \"state\": \"done\", \"value\": 42, \"total\": 100, \"unit\": \"%\", \"href\": \"#/srv.backups\"}, {\"id\": \"r3\", \"label\": \"Перевыпуск сертификата simai.ru\", \"state\": \"failed\", \"text\": \"Центр сертификации не ответил.\", \"object\": \"simai.ru\", \"href\": \"#/srv.security\"}], true)",
+              "wait": 300,
+              "expect": {
+                "returns": true
+              },
+              "check": "document.body.innerText.includes('Копия srv1.larena.cloud: готово') && document.querySelector('#a sf-badge[activity=\"failed\"]').getAttribute('text') === 'Не удалось 1' && !document.querySelector('#a sf-badge[activity=\"running\"]')"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

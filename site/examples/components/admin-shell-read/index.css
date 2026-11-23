@@ -1,0 +1,10 @@
+/* An example frame takes the height of its content, so a part as tall as the
+   window (100dvh) would make it grow without end. In this box the box is the
+   window: the frame is as tall as the box, the menu column too. On a page of
+   your own none of this is needed. */
+.page-screen { block-size: var(--sf-g6); overflow: auto; }
+.page-screen sf-admin-shell .sf-admin-shell { min-block-size: 100%; }
+.page-screen sf-admin-shell .sf-admin-shell__nav { block-size: calc(var(--sf-g6) - var(--sf-admin-shell-stick, 0px)); }
+.page-section { display: flex; flex-direction: column; gap: var(--sf-space-1); margin-block-end: var(--sf-space-2); }
+.page-section-title { margin: 0; font-size: var(--sf-text-size-1); line-height: var(--sf-text-height-1); font-weight: var(--sf-font-weight-medium); }
+.page-save { display: flex; gap: var(--sf-space-1); }

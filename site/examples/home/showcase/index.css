@@ -1,0 +1,32 @@
+/* Each part of the set on a card of the theme's surface-1 with an outline,
+   the components it shows named on top. Page classes start with page-. */
+sf-tabs:not(:defined) > [slot] { display: none; }
+.showcase-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sf-space-2);
+  min-width: 0;
+  padding: var(--sf-space-3);
+  border: 1px solid var(--sf-outline-variant);
+  border-radius: var(--sf-radius--surface);
+  background: var(--sf-surface-1);
+}
+.showcase-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sf-space-1); color: var(--sf-on-surface-variant); }
+.showcase-head a { color: var(--sf-on-surface); font-weight: 600; text-decoration: none; }
+.showcase-head a:hover { text-decoration: underline; }
+.page-screen { block-size: var(--sf-g6); overflow: auto; border: 1px solid var(--sf-outline-variant); border-radius: var(--sf-radius-1); background: var(--sf-surface-page); }
+/* An example frame takes the height of its content, so a part as tall as
+   the window (100dvh) would make it grow without end. In this box the box is
+   the window: the frame is as tall as the box, the menu column too. */
+.page-screen sf-admin-shell .sf-admin-shell { min-block-size: 100%; }
+.page-screen sf-admin-shell .sf-admin-shell__nav { block-size: calc(var(--sf-g6) - var(--sf-admin-shell-stick, 0px)); }
+.page-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(var(--sf-f6), 1fr)); gap: var(--sf-space-1); }
+.page-filler { block-size: var(--sf-g4); }
+.page-menu { display: flex; block-size: var(--sf-g6); border: 1px solid var(--sf-outline-variant); border-radius: var(--sf-radius-1); overflow: clip; background: var(--sf-surface-page); }
+.page-menu-content { display: flex; flex-direction: column; gap: var(--sf-space-1); padding: var(--sf-space-2); min-width: 0; }
+.page-notices { max-inline-size: var(--sf-g1); border: 1px solid var(--sf-outline-variant); border-radius: var(--sf-radius-1); background: var(--sf-surface-page); padding: var(--sf-space-1); }
+.page-activity-row { display: flex; align-items: center; justify-content: space-between; gap: var(--sf-space-1); padding: var(--sf-space-1); border: 1px solid var(--sf-outline-variant); border-radius: var(--sf-radius-1); background: var(--sf-surface-page); }
+@media (max-width: 48rem) {
+  .showcase-card { padding: var(--sf-space-2); }
+}
+.page-title { margin: 0; font-size: var(--sf-text-size-2); line-height: var(--sf-text-height-2); font-weight: var(--sf-font-weight-medium); }

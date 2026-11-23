@@ -9,11 +9,34 @@ repository is the admin demo site; the set does not depend on it.
 | Folder | Element | Former tag (until 2027-01-01) | What it is |
 |:---|:---|:---|:---|
 | `src/smart/admin-menu` | `sf-admin-menu` | none | the admin menu: a site's navigation over a host's navigation port (`simai.admin-navigation-port`): the rail, the section column, search, the object menu, favourites, notifications and the setting mode |
+| `src/smart/admin-shell` | `sf-admin-shell` | none | preview: the admin page frame (C420): the bar, the menu, the head and the content on document scroll; the menu's room held before its first paint; the skip link; width list or read; the phone's sticky top line and full-screen menu |
+| `src/smart/admin-notifications` | `sf-admin-notifications` | none | preview: the notifications list (C421): by day, repeats of one object folded under «Ещё N по …», «Прочитать все», panel or history page; over the menu's port or as items |
+| `src/smart/admin-activity` | `sf-admin-activity` | none | preview: the background-activity indicator (C421): «Идёт N», the failure mark until the list is opened, «Не удалось N»; runs in sf-popover; a run's end told by SF.notify and a notification |
+
+Over the SIMAI Framework pair the set pins (ui-b4f79e1c58b7), the preview components
+use the Framework's admin shell parts and carry no fallbacks: the activity
+indicator stands at the end of the head's crumbs row in sf-header-page's slot
+`path-end` (AS-2, 1.12.0), and a failed run's «Повторить» is
+sf-progress-run's own in the notice look (AS-4, 1.6.0).
+
+Port editions: every component of the set that speaks
+`simai.admin-navigation-port` declares the editions it takes in its
+`component.json` `x-port.supports` (the pair's port edition gate reads it):
+the menu 1.0.0, 1.1.0 and 1.2.0 (declared edition 1.1.0), the notifications
+list and the activity indicator 1.1.0 and 1.2.0 (declared edition 1.2.0). The list reads a notification's `object`, `level`
+and `resolved`, and the indicator asks `activity.load/retry/cancel`, only of a
+host that declares 1.2.0; a 1.1.0 host is drawn as in 1.1.0.
 
 The component came from `simai/ui-pro` `components/src/smart/admin-menu` at
 `2ba35fa` byte for byte (sf-admin-menu 1.11.2), was carried to ui-pro's
 1.14.2 and is 1.15.0 here: the navigation menu as the owner approved it on
-the showcase (decision C384 of 2026-11-19, order AM-1..AM-61). Its history
+the showcase (decision C384 of 2026-11-19, order AM-1..AM-61); 1.15.1 opens
+the set's sf-admin-notifications panel from the bell when the page holds one
+(an sf-admin-notifications in an sf-drawer; docs.md «Колокол и список
+уведомлений набора») and reads with the port's `{keys, all}`. 1.16.0 accepts
+`simai.admin-navigation-port` 1.2.0 beside 1.0.0 and 1.1.0; in 1.16.1
+`sf-admin-menu-navigate` is cancelable (a page with unsaved changes keeps the
+current row). Its history
 before the move is in ui-pro. Its dated event aliases (`aliases.json`, until
 2026-12-01) move with it; the tag itself has no former name.
 
@@ -42,10 +65,10 @@ The component imports the free SIMAI Framework by relative path
 never a working tree), with this folder's `src/`, `tests/` and `docs/` laid
 over it. A file here may not replace a ui-source file.
 
-The pin is `e7ea89e07a3a`, the source of the released pair
-`ui-9ceecc24c988` (npm `@simai-studio/ui@5.20261121.928`), with the Pro
-release `pro-f6c43828e5f2` beside it on the admin pages. The passport names
-the same commit.
+The pin is `e59dbad1c108`, the source of the released pair
+`ui-b4f79e1c58b7` (group build 17): it registers the set's names and carries
+the admin shell parts AS-1..AS-4 and `simai.admin-navigation-port` 1.2.0. The
+passport names the same commit.
 
 ```bash
 node scripts/test.mjs                                   # unit and contract suite in the overlay
@@ -56,7 +79,7 @@ node scripts/run-first-paint.mjs check|gate <free> <set build>
 ```
 
 `<free>` is the `distr` of the released pair (`git -C <ui> archive
-9ceecc24c988 distr`), `<set build>` the build output holding `smart/`
+b4f79e1c58b7 distr`), `<set build>` the build output holding `smart/`
 (`wave-1/output/package/admin` of the build below). `scripts/gates.sh` runs
 the whole chain: two builds, the receipt, the suite, the probes and the first
 paint.
@@ -72,7 +95,7 @@ node <ui-builder>/scripts/verify-package-reproducibility.cjs \
 python3 <ui-builder>/scripts/write-package-receipt.py --report <workspace>/report.json --ui <ui>
 ```
 
-The output is `set.json`, `smart/admin-menu/…` and `smart/rule.js`, one
+The output is `set.json`, `smart/admin-menu/…` (and the other folders) and `smart/rule.js`, one
 `SF.RuleLoader.registerPackage("admin", {rules})` call, and a receipt that
 names the ui-source revision and the free release it was built over. The
 release route (ui-builder `publish-package-release.sh`) lays it into
@@ -81,13 +104,13 @@ release route (ui-builder `publish-package-release.sh`) lays it into
 ## Connecting it
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@simai-studio/ui@5.20261121.928/distr/core/js/core.min.js" data-sf-sets="admin"></script>
+<script src="https://cdn.jsdelivr.net/npm/@simai-studio/ui@5.20261123.1101/distr/core/js/core.min.js" data-sf-sets="admin"></script>
 ```
 
 or, from a base the page serves itself:
 
 ```js
-window.SF_BOOT_CONFIG = {packages: {admin: {base: '/assets/ui-admin/smart', version: '1.0.0'}}};
+window.SF_BOOT_CONFIG = {packages: {admin: {base: '/assets/ui-admin/smart', version: '1.1.0'}}};
 ```
 
 An admin page that also shows data views declares both sets:
@@ -102,12 +125,12 @@ build. A set is built and tested against exactly one revision.
 ## Кратко по-русски
 
 Здесь исходник набора компонентов `admin`: меню администратора
-`sf-admin-menu` 1.15.0 — то самое меню, которое владелец утвердил на витрине
+`sf-admin-menu` 1.15.1 — то самое меню, которое владелец утвердил на витрине
 (решение C384, пункты AM-1..AM-61). Владелец меню — этот репозиторий
 `simai/ui-admin`; копия в `simai/ui-pro` заморожена и уйдёт из пакета `pro`
 в первом выпуске Pro после выпуска набора. Набор собирается и проверяется
 ровно против одной ревизии SIMAI Framework — сейчас это пара
-`ui-9ceecc24c988`.
+`ui-b4f79e1c58b7`.
 
 С 1.15.0 у меню один путь — навигация над портом хоста: старое меню из
 дочерних элементов-пунктов с его окном настроек, панелью поиска и

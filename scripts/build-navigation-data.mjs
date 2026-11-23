@@ -248,6 +248,15 @@ const navigation = {
   notification_groups: [{ key: 'today', label: 'Сегодня' }, { key: 'earlier', label: 'Раньше' }],
   notifications: NOTIFICATIONS,
   notifications_settings_href: '/admin/profile/notifications',
+  // Background runs, answered by the host when it offers port 1.2.0's
+  // activity capability.
+  activity: {
+    runs: [
+      { id: 'r1', label: 'Копия demo.test', state: 'running', value: 4, total: 10, unit: 'файл|файла|файлов', text: null, href: null, object: 'demo.test', cancelable: true, retryable: false },
+      { id: 'r2', label: 'Обновление stage.larena.cloud', state: 'failed', value: null, total: null, unit: null, text: 'Хранилище не ответило', href: null, object: 'stage.larena.cloud', cancelable: false, retryable: true },
+      { id: 'r3', label: 'Импорт каталога', state: 'done', value: 120, total: 120, unit: 'запись|записи|записей', text: null, href: '/admin/data/catalog', object: null, cancelable: false, retryable: false },
+    ],
+  },
   search: {
     recent: ['data.catalog', 'data.requests', 'site.settings', 'install.updates'],
     actions: [

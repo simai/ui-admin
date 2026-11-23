@@ -1,24 +1,24 @@
 {
   "schemaVersion": 1,
-  "compatibilityId": "ui-9ceecc24c988",
-  "pairIdentitySha256": "e9897615a0ea5c95ffadd920871190d457ab1c925ba33bd3d97c7baf0587b8f4",
+  "compatibilityId": "ui-b4f79e1c58b7",
+  "pairIdentitySha256": "6c0cede1b4cae57d78d08c3c9ce1d1f4aa584b1db8eb8d2e966432e3ceecd90f",
   "contractSha256": "f6f01dda6a160d20a44f2ff9e739402a9395276344ce82ddae4176424a025d26",
   "core": {
     "repository": "../ui",
-    "commit": "9ceecc24c988209abc7d09e22522eeb7b73f485e",
+    "commit": "b4f79e1c58b70e4a7f6512ed19084b4bc34e6098",
     "sourceDir": "distr",
     "requiredFiles": [
       {
         "path": "core/css/core.css",
-        "sha256": "4e1710e5e398c4d4efc2e479807ca96774d1d8a4ccc225690f0da8f11b06051a"
+        "sha256": "bbece136dcd6c10e235e3aaa269cdc9b5de70fc2f261f5c47ebbd66c748f902c"
       },
       {
         "path": "core/js/core.js",
-        "sha256": "ec4f6862ce8bde567d34ad5cd9ce799d33cfc7c6c3d089bc98b64cd5b13b4b38"
+        "sha256": "7d9a0dee2a59311c46a8c5462b4fee810a6895d8f7379fd26b474da842a13487"
       },
       {
         "path": "core/js/core-loader.js",
-        "sha256": "975175f5d13b0e4e63b54eb89ed8459442cdb3ab6fe78d1d2e1bef9f0630edc3"
+        "sha256": "9fe3178ace23e49cbe2004f52a2df1eed4e84fc4bac266cd4875ca6ed5cdb2db"
       },
       {
         "path": "core/contracts/adaptive-sizing.v1.json",
@@ -26,7 +26,7 @@
       },
       {
         "path": "core/contracts/packages/larena.package.json",
-        "sha256": "16859d412e0a6f14da1ced92e687e6bc623563dd62b3d292e6b0b06159e6a724"
+        "sha256": "5bd9db075caf5494a3445f68badb2f18547c7c934d3f69ca102e54edf34cac21"
       },
       {
         "path": "component/admin-menu/js/admin-menu.js",
@@ -36,13 +36,13 @@
   },
   "smart": {
     "repository": "../ui",
-    "commit": "9ceecc24c988209abc7d09e22522eeb7b73f485e",
+    "commit": "b4f79e1c58b70e4a7f6512ed19084b4bc34e6098",
     "sourceDir": "distr/smart",
     "targetDir": "smart",
     "requiredFiles": [
       {
         "path": "button-icon/smart.manifest.json",
-        "sha256": "79e05d076b6958c30c6f24466db73835dd347256614cc039db71dc67a5b04cfc"
+        "sha256": "a0a111331e6769fa051b02d4acad46d45cd11d500f8b1bda914fa4799db5e4d7"
       },
       {
         "path": "icon-buttons/js/icon-buttons.js",
@@ -50,7 +50,7 @@
       },
       {
         "path": "field-renderers/js/field-renderers.js",
-        "sha256": "ce0e4e3149033b0ad4942b09c515cac3e1c986d64704d1e6ab714432974567fa"
+        "sha256": "b0ff13ccc2871dde2b8cfba5fc804401e4f14df1b7bf68e5b7282b1b90bf369e"
       }
     ]
   }

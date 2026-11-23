@@ -16,9 +16,14 @@ test("the set's admin menu is generated into the searchable registry beside the 
   const registry = JSON.parse(readFileSync(new URL("../contracts/generated/smart-component-contract-registry.json", import.meta.url), "utf8"));
   assert.equal(registry.schema, "simai.smart-component-contract-registry.v2");
   // The free registry's Smart components at the pinned revision (87 at
-  // e7ea89e07a3a, pair ui-9ceecc24c988) and the set's one make 88.
-  assert.equal(registry.entries.length, 88);
-  assert.ok(registry.entries.some((entry) => entry.id === "smart.admin-menu"), "smart.admin-menu");
+  // e7ea89e07a3a, pair ui-9ceecc24c988) and the set's four (the menu, the
+  // shell, the notifications, the activity) make 91.
+  assert.equal(registry.entries.length, 91);
+  for (const id of ["smart.admin-menu", "smart.admin-shell", "smart.admin-notifications", "smart.admin-activity"]) {
+    assert.ok(registry.entries.some((entry) => entry.id === id), id);
+  }
+  assert.ok(registry.entries.find(({id}) => id === "smart.admin-notifications").capabilities.includes("notifications"));
+  assert.ok(registry.entries.find(({id}) => id === "smart.admin-activity").capabilities.includes("activity"));
   assert.ok(registry.entries.find(({id}) => id === "smart.admin-menu").capabilities.includes("navigation"));
   assert.ok(registry.entries.every(({contract_schema}) => contract_schema.version === 2));
 });

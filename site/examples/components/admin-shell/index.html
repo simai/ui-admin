@@ -1,0 +1,24 @@
+<script src="assets/admin-demo.js"></script>
+<div class="page-screen">
+  <sf-admin-shell id="shell" product="Larena Panel">
+    <sf-alert-bar slot="bar" size="1/2">
+      <script type="application/json" data-sf-settings>{"items": [{"id": "licence", "level": "warning", "text": "Лицензия кончается 30 ноября.", "source": "Лицензия", "action": {"label": "Продлить", "href": "#/panel.license"}}]}</script>
+    </sf-alert-bar>
+    <sf-admin-menu slot="menu" aria-label="Меню" expected-columns="2" current="srv.dns"></sf-admin-menu>
+    <sf-header-page slot="head" heading="DNS-зоны" overflow="wrap">
+      <div slot="path" class="sf-admin-shell-path">
+        <sf-breadcrumbs current="none" items='[{"label": "Сервер", "href": "#/srv"}]'></sf-breadcrumbs>
+      </div>
+    </sf-header-page>
+    <sf-button-icon slot="top-end" icon="notifications" appearance="ghost" aria-label="Уведомления"></sf-button-icon>
+    <p class="m-0">Содержимое — всё, что стоит в каркасе без своего места. Прокрутите: полоса и меню остаются на месте.</p>
+    <div class="page-rows">
+      <p class="m-0">example.ru — 3 записи</p>
+      <p class="m-0">larena.cloud — 12 записей</p>
+      <p class="m-0">simai.ru — 8 записей</p>
+      <p class="m-0">stage.larena.cloud — 4 записи</p>
+    </div>
+    <div class="page-filler" aria-hidden="true"></div>
+    <p class="m-0 color-on-surface-variant" role="status" data-log></p>
+  </sf-admin-shell>
+</div>

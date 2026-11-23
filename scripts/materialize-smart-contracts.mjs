@@ -13,6 +13,9 @@ const target = resolve(projectRoot, 'public/contracts');
 // (sf-admin-menu, sf-view-table, ...) left the Framework registry with the Pro
 // split; their contracts travel inside the package as smart.manifest.json.
 const packageRuntime = resolve(projectRoot, process.env.SIMAI_PACKAGE_RUNTIME || '.runtime-package');
+// The Admin set's runtime (scripts/materialize-set-runtime.mjs): since
+// pro-53cd26ab57cd sf-admin-menu's contract comes from there, not from Pro.
+const setRuntime = resolve(projectRoot, process.env.SIMAI_SET_RUNTIME || '.runtime-set');
 const hash = (content) => createHash('sha256').update(content).digest('hex');
 
 const registryContent = await readFile(registrySource);
@@ -60,30 +63,39 @@ if (!existsSync(provenancePath)) {
   throw new Error(`${packageRuntime} holds no materialised package; run \`npm run prepare:runtime\` first.`);
 }
 const provenance = JSON.parse(await readFile(provenancePath, 'utf8'));
+const setProvenancePath = resolve(setRuntime, 'simai-package.provenance.json');
+if (!existsSync(setProvenancePath)) {
+  throw new Error(`${setRuntime} holds no materialised set; run \`npm run prepare:runtime\` first.`);
+}
+const setProvenance = JSON.parse(await readFile(setProvenancePath, 'utf8'));
 const frameworkIds = new Set(contracts.map(({id}) => id));
-const packageDirectories = (await readdir(packageRuntime, {withFileTypes: true}))
-  .filter((entry) => entry.isDirectory()).map(({name}) => name).sort();
-for (const directory of packageDirectories) {
-  const manifestSource = resolve(packageRuntime, directory, 'smart.manifest.json');
-  if (!existsSync(manifestSource)) continue;
-  const manifestContent = await readFile(manifestSource);
-  const manifest = JSON.parse(manifestContent.toString('utf8'));
-  if (![1, 2].includes(manifest.compatibility?.contract_schema?.version)
-      || manifest.compatibility?.contract_schema?.id !== registry.schema_id) {
-    throw new Error(`${provenance.compatibilityId} ${directory}: manifest is not on the registry's contract schema.`);
+const packageIds = new Set();
+for (const [runtime, from] of [[packageRuntime, provenance], [setRuntime, setProvenance]]) {
+  const packageDirectories = (await readdir(runtime, {withFileTypes: true}))
+    .filter((entry) => entry.isDirectory()).map(({name}) => name).sort();
+  for (const directory of packageDirectories) {
+    const manifestSource = resolve(runtime, directory, 'smart.manifest.json');
+    if (!existsSync(manifestSource)) continue;
+    const manifestContent = await readFile(manifestSource);
+    const manifest = JSON.parse(manifestContent.toString('utf8'));
+    if (![1, 2].includes(manifest.compatibility?.contract_schema?.version)
+        || manifest.compatibility?.contract_schema?.id !== registry.schema_id) {
+      throw new Error(`${from.compatibilityId} ${directory}: manifest is not on the registry's contract schema.`);
+    }
+    if (frameworkIds.has(manifest.id) || packageIds.has(manifest.id)) {
+      throw new Error(`${manifest.id} is declared twice: by ${from.compatibilityId} and the Framework registry or another package.`);
+    }
+    packageIds.add(manifest.id);
+    const file = `${manifest.id}.json`;
+    await cp(manifestSource, resolve(target, file));
+    contracts.push({
+      id: manifest.id,
+      version: manifest.version,
+      file,
+      manifest_sha256: hash(manifestContent),
+      source: `package:${from.package}`,
+    });
   }
-  if (frameworkIds.has(manifest.id)) {
-    throw new Error(`${manifest.id} is declared by both the Framework registry and ${provenance.compatibilityId}.`);
-  }
-  const file = `${manifest.id}.json`;
-  await cp(manifestSource, resolve(target, file));
-  contracts.push({
-    id: manifest.id,
-    version: manifest.version,
-    file,
-    manifest_sha256: hash(manifestContent),
-    source: `package:${provenance.package}`,
-  });
 }
 
 // The folder is this script's output, and only this script's: a contract the
@@ -97,6 +109,7 @@ for (const name of await readdir(target)) {
 await writeFile(resolve(target, 'materialization.json'), `${JSON.stringify({
   schema: 'simai.ui-admin.contract-materialization.v1',
   package: {name: provenance.package, compatibility_id: provenance.compatibilityId, archive_sha256: provenance.archiveSha256},
+  set: {name: setProvenance.package, compatibility_id: setProvenance.compatibilityId, version: setProvenance.version},
   contracts,
   registry_sha256: hash(registryContent),
   registry_schema_sha256: registry.schema_sha256,

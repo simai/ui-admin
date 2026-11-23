@@ -31,7 +31,8 @@ SF.RuleLoader['cl-admin-menu'] = {
     // The rail's controls are named by SIMAI Framework's tooltip on hover and
     // focus (C320, AM-25); the rail draws them with the page.
     { name: 'cl-tooltip' },
-    // The bell's notifications panel is sf-drawer beside the page (C340, AM-44).
+    // The bell's notifications panel is sf-drawer beside the page (C340, AM-44): the
+    // page's drawer holding sf-admin-notifications when there is one (1.15.1), else its own.
     { name: 'cl-drawer', lazy: true },
     // The setting header's levels are sf-segmented (C326 = C298, AM-41).
     { name: 'cl-segmented', lazy: true },

@@ -9,9 +9,9 @@
   },
   "package_source": {
     "repository": "simai/ui-admin",
-    "revision": "8cff3084cfafe4bc2aed94ddc6e88c145c9f016f",
+    "revision": "25245d70cde8360fcdf795b47359220e0def72a5",
     "path": "package",
-    "tree": "6c312c97b2e0a7d3d656ecf74a072a48fcab92c8"
+    "tree": "b5553991d5332683fe002cd0f0da895ea37288b8"
   },
   "licence": {
     "ref": "PolyForm-Small-Business-1.0.0 OR PolyForm-Noncommercial-1.0.0 OR LicenseRef-SIMAI-Commercial"
@@ -19,14 +19,16 @@
   "framework": {
     "source": {
       "repository": "simai/ui-source",
-      "revision": "e7ea89e07a3a6494cd2e6d4b4dd2dfa3a4d560cf"
+      "revision": "e59dbad1c10848ec4f2663f52c04aa14b7be39f6"
     },
-    "release": "ui-9ceecc24c988",
+    "release": "ui-b4f79e1c58b7",
     "runtime": {
       "abi": 1,
       "modules": {
         "element-manifest": [
-          "elementFromManifest"
+          "applied",
+          "elementFromManifest",
+          "refused"
         ],
         "lit": [
           "html",
@@ -34,6 +36,9 @@
         ],
         "lit/directives/keyed.js": [
           "keyed"
+        ],
+        "lit/directives/repeat.js": [
+          "repeat"
         ],
         "page-language": [
           "localeText",
@@ -51,39 +56,82 @@
   },
   "builder": {
     "repository": "simai/ui-builder",
-    "revision": "0ec5196b35aea0251abed7af4c60f498e1a3e411",
+    "revision": "ee30c8215ff5b6491447e98c3d7ab674447a67bb",
     "clean": true
   },
   "node": "v24.21.0",
   "output": {
     "runtime_path": "smart",
-    "files_count": 55,
-    "manifest_sha256": "a1f888f814e9b53093ff3a1f217ae8202c324dd977cfce50a5f4e951b2b0b00e",
+    "files_count": 161,
+    "manifest_sha256": "69efa29b090b51e5b4c402e7cfc485bb903fc87b833e482f4f338997b5a93623",
     "archive": "package-admin.tar",
-    "archive_sha256": "511407d05e8404a00f210717f2204498249781d3fd4c47c8ccef1f3fb426b7ef",
+    "archive_sha256": "6c2b67630b2dd3d7045f1d8df26173ec4dedd30cb166a68f51dccb0be2480883",
     "archive_format": "ustar; entries sorted; owner 0:0; mtime 0; modes 0755/0644"
   },
   "required_files": [
     {
       "path": "smart/rule.js",
-      "sha256": "22b77ca5a781fa3811318ab3f831b5c0661a97fbb01421687249b68e8d4463f6",
-      "size": 1695
+      "sha256": "e350fed590bdc617659fe0f4021283ebef5ff0d0072e41b7ae37206a89249299",
+      "size": 2844
+    },
+    {
+      "path": "smart/admin-activity/js/admin-activity.js",
+      "sha256": "71e194ccecfd8875b2cded0a503ab74b7e2653bd51077f8c0247b4baca4be611",
+      "size": 35205
+    },
+    {
+      "path": "smart/admin-activity/css/admin-activity.css",
+      "sha256": "64f85e1ae3c007f004cf6b3bd4d02d6290c8c4b8af205474df5c07b33c0088d4",
+      "size": 4500
     },
     {
       "path": "smart/admin-menu/js/admin-menu.js",
-      "sha256": "4e3dcacbad3770765089d7a3544c4a06354726b372ece5cbe3fab13aff7c4c6a",
-      "size": 370813
+      "sha256": "69e39be20d5dd6c987dc5f502424cca9cb1e5660724dc17d506a8b932120bd38",
+      "size": 374668
     },
     {
       "path": "smart/admin-menu/css/admin-menu.css",
       "sha256": "2cdfcf9c7ab18fd79a4c106e9f81493a7f48550ea4798e5eeef245432cd6d622",
       "size": 51527
+    },
+    {
+      "path": "smart/admin-notifications/js/admin-notifications.js",
+      "sha256": "ac4993cf98cc9c62ee572acd0ff2e78d73051fd8f61283754874cd128edf1fa2",
+      "size": 44908
+    },
+    {
+      "path": "smart/admin-notifications/css/admin-notifications.css",
+      "sha256": "cdcff887ad3c82d9f10cd25b6802ae63f206936450632656d26dd4b66dc8c45c",
+      "size": 8773
+    },
+    {
+      "path": "smart/admin-shell/js/admin-shell.js",
+      "sha256": "8b122e5ecc269e650f6d1b8f294eeb46843b8ef5f064732956b1c0f9dcf6e36d",
+      "size": 36113
+    },
+    {
+      "path": "smart/admin-shell/css/admin-shell.css",
+      "sha256": "96200485d7452eb43253c2be2ce1331cd194f557862a90cb1690cd4e2646d580",
+      "size": 9256
     }
   ],
   "inventory": {
-    "components": 1,
-    "rules": 1,
+    "components": 4,
+    "rules": 4,
     "elements": [
+      {
+        "element": "sf-admin-activity",
+        "rule_name": "cl-admin-activity",
+        "folder": "admin-activity",
+        "js": true,
+        "css": true,
+        "relations": [
+          "icons",
+          "cl-badge",
+          "cl-popover",
+          "cl-progress-run"
+        ]
+      },
       {
         "element": "sf-admin-menu",
         "rule_name": "cl-admin-menu",
@@ -112,37 +160,241 @@
           "cl-dropdown",
           "cl-empty-state"
         ]
+      },
+      {
+        "element": "sf-admin-notifications",
+        "rule_name": "cl-admin-notifications",
+        "folder": "admin-notifications",
+        "js": true,
+        "css": true,
+        "relations": [
+          "icons",
+          "cl-icon",
+          "cl-button",
+          "cl-alert"
+        ]
+      },
+      {
+        "element": "sf-admin-shell",
+        "rule_name": "cl-admin-shell",
+        "folder": "admin-shell",
+        "js": true,
+        "css": true,
+        "relations": [
+          "icons",
+          "cl-button-icon"
+        ]
       }
     ]
   },
   "package_reference": {
     "path": "distr/core/contracts/packages/admin.package.json",
-    "release": "ui-9ceecc24c988",
+    "release": "ui-b4f79e1c58b7",
     "status": "set-passport"
   },
   "set": {
     "id": "admin",
     "passport": "set.json",
-    "sha256": "7463add2a9652a36bbf0fe7cc06c0dd2a28fd8dbbc8a96e8814525d4a7fb11ae",
+    "sha256": "79d7ee7005370e10a3fd9509bcc2ccb7e4c6021a48903618bbce8c90e2213ff2",
     "api": null,
     "families": [
       "admin"
     ],
     "framework": {
-      "core_runtime": ">=1.61.0",
-      "source_revision": "e7ea89e07a3a6494cd2e6d4b4dd2dfa3a4d560cf"
+      "core_runtime": ">=1.67.0",
+      "source_revision": "e59dbad1c10848ec4f2663f52c04aa14b7be39f6"
     },
     "requires_sets": [],
     "registry": {
       "status": "agrees",
-      "sha256": "998128a68e2834d7f060d14ba2aae29c1a5b162eaa8dedc1f4c633e429f26a5b"
+      "sha256": "a6b708fd86c01c68fef75d71c7205cbeb3f5b5e359d677dc641f35ea2c76a3d2"
     }
   },
   "files": [
     {
       "path": "set.json",
-      "sha256": "7463add2a9652a36bbf0fe7cc06c0dd2a28fd8dbbc8a96e8814525d4a7fb11ae",
-      "size": 1299
+      "sha256": "79d7ee7005370e10a3fd9509bcc2ccb7e4c6021a48903618bbce8c90e2213ff2",
+      "size": 2116
+    },
+    {
+      "path": "smart/admin-activity/component.json",
+      "sha256": "6b06c667565009d322f814fa29fa2209b6613dab49f340eae65ea8e71e1e2f62",
+      "size": 13095
+    },
+    {
+      "path": "smart/admin-activity/component.json.gz",
+      "sha256": "f1fa76b0952594736eb2267cb5c7632c676515189e98d914d57feccf17ffbbd1",
+      "size": 4173
+    },
+    {
+      "path": "smart/admin-activity/css/admin-activity.css",
+      "sha256": "64f85e1ae3c007f004cf6b3bd4d02d6290c8c4b8af205474df5c07b33c0088d4",
+      "size": 4500
+    },
+    {
+      "path": "smart/admin-activity/css/admin-activity.css.gz",
+      "sha256": "f9c24cc38d752677e950cc0cf7415471102d0b96ba6b4c49e9384ceeca71c922",
+      "size": 1073
+    },
+    {
+      "path": "smart/admin-activity/css/admin-activity.min.css",
+      "sha256": "89b9ca2dd03368277d6e1567b3147869397441498ad10dfdf353838f8f1c9c91",
+      "size": 3173
+    },
+    {
+      "path": "smart/admin-activity/css/admin-activity.min.css.gz",
+      "sha256": "1e090d6b7885ff98fe5aee6ad3b5cb239e973bea8fc5d333e90d1f38df4be57f",
+      "size": 735
+    },
+    {
+      "path": "smart/admin-activity/examples.json",
+      "sha256": "99250d5f81bd202a52a47bf3341f22149a71ea6aefe4c4a6206334469f8579da",
+      "size": 8647
+    },
+    {
+      "path": "smart/admin-activity/examples.json.gz",
+      "sha256": "09cc285b2b0f53b57f2d7353e69a1888f7fd141b3c3d6d9840ae3d9b186158f0",
+      "size": 1999
+    },
+    {
+      "path": "smart/admin-activity/js/admin-activity.js",
+      "sha256": "71e194ccecfd8875b2cded0a503ab74b7e2653bd51077f8c0247b4baca4be611",
+      "size": 35205
+    },
+    {
+      "path": "smart/admin-activity/js/admin-activity.js.gz",
+      "sha256": "8eacf14671db5e525d7d6d0ffa250300675fc99baa22400dbbbea5fe57c34cbb",
+      "size": 9198
+    },
+    {
+      "path": "smart/admin-activity/js/admin-activity.min.js",
+      "sha256": "44a9d1e4d00ff6b0b33d1bfe86d91e73b3ec22a77de3b7fbb97314a507fdf0b7",
+      "size": 14316
+    },
+    {
+      "path": "smart/admin-activity/js/admin-activity.min.js.gz",
+      "sha256": "9acff9f1dd6283f94984af2997774eab3643b333b579c38e9a0d865a254f3fa4",
+      "size": 4947
+    },
+    {
+      "path": "smart/admin-activity/lang/en.json",
+      "sha256": "0c640a82874ed9d92b014aa773a8e56bb411f5891b236ec081a786d93c79a488",
+      "size": 706
+    },
+    {
+      "path": "smart/admin-activity/lang/en.json.gz",
+      "sha256": "ab591b667eed5d03ac159dd9f5b45a84378cb8e0d5ab49589b605b71a102d3a2",
+      "size": 286
+    },
+    {
+      "path": "smart/admin-activity/lang/ru.json",
+      "sha256": "4ec1db476609f940263253c279f59b533c1484209299985e7a8aadf332fd1246",
+      "size": 900
+    },
+    {
+      "path": "smart/admin-activity/lang/ru.json.gz",
+      "sha256": "c3be1cfcffc5ef7fbf3c54227704ee0f497ae439831c7f00da454636764a3b22",
+      "size": 400
+    },
+    {
+      "path": "smart/admin-activity/probe.json",
+      "sha256": "9c4f3524482fb0cbeff2dd2243478b9d92fd0710d6a14c1f061f199e7a3b0601",
+      "size": 5425
+    },
+    {
+      "path": "smart/admin-activity/probe.json.gz",
+      "sha256": "e7ff279a3fbc4a760f4da2a1e553531aeaa110f98ac3c8a995523df4dcae6617",
+      "size": 1572
+    },
+    {
+      "path": "smart/admin-activity/smart.manifest.json",
+      "sha256": "78ee7b64966d6a458556b35d1d768ddb10ded2907816d1ab0712f2e5502cdcdd",
+      "size": 9929
+    },
+    {
+      "path": "smart/admin-activity/smart.manifest.json.gz",
+      "sha256": "24206c45039502d6a48dc4384d7689ae5022049ed7974607303713c946034fc8",
+      "size": 3211
+    },
+    {
+      "path": "smart/admin-activity/static/default/failed.html",
+      "sha256": "19966a4c1c4cca54a3a79cb70c4546e8a75378a02708fae2ac2fb4363fd25296",
+      "size": 1858
+    },
+    {
+      "path": "smart/admin-activity/static/default/failed.html.gz",
+      "sha256": "7cbc939f59578fdaf62a882301a0d9d41895a4ca88fd74992f6eb3e008da9196",
+      "size": 824
+    },
+    {
+      "path": "smart/admin-activity/static/default/failure-mark.html",
+      "sha256": "f5f8903f8119a173028e759ee4f3fa342357fb403b9acc98c5a3be952d95caa6",
+      "size": 6836
+    },
+    {
+      "path": "smart/admin-activity/static/default/failure-mark.html.gz",
+      "sha256": "50cfb9890f0090efcbe88b30b10a67ab6a04fb1d9149fd220fe8aaea354c098e",
+      "size": 1547
+    },
+    {
+      "path": "smart/admin-activity/static/default/none.html",
+      "sha256": "104a2d4de4e1094c0bef594292e07c13589e9fed7684c1c8f79740ba249c301a",
+      "size": 342
+    },
+    {
+      "path": "smart/admin-activity/static/default/none.html.gz",
+      "sha256": "9115000723f2234c71e7bf6c6a061e97b72b056802bd5186bebf2d571f33ce73",
+      "size": 263
+    },
+    {
+      "path": "smart/admin-activity/static/default/reference.html",
+      "sha256": "996bc9bc01fadd3a2e062a79d553d92d180d8ac41c1daa1a756e42a29f1edda3",
+      "size": 5967
+    },
+    {
+      "path": "smart/admin-activity/static/default/reference.html.gz",
+      "sha256": "8ca1fe4d89e9377d2e1388c6a7fed268b31e0651ed9df5c4c04bbe54d141b318",
+      "size": 1375
+    },
+    {
+      "path": "smart/admin-activity/static/default/top-line.html",
+      "sha256": "272af2fbceabf9386256e2c5a5306abd71addf67d946bf6b557125f996cd482a",
+      "size": 5941
+    },
+    {
+      "path": "smart/admin-activity/static/default/top-line.html.gz",
+      "sha256": "055ce4a783db068c2eaa0667935bee824f8de1f837055000e681725ca173044b",
+      "size": 1361
+    },
+    {
+      "path": "smart/admin-activity/static/sheets.json",
+      "sha256": "db1ab23f80d2aa148d5aad07e0240cea85937e6ece1cc26151651f9ae710479b",
+      "size": 9655
+    },
+    {
+      "path": "smart/admin-activity/static/sheets.json.gz",
+      "sha256": "a71b6c694cf315bcdbddc20b7c5f604fd78bb476ff58a6e84a2b3f02169a7f33",
+      "size": 830
+    },
+    {
+      "path": "smart/admin-activity/template/default.css",
+      "sha256": "9a2cc39a0b4d152192ead575cda2e0dc721a4fd21053629391c73a6158687393",
+      "size": 3516
+    },
+    {
+      "path": "smart/admin-activity/template/default.css.gz",
+      "sha256": "33e46c514187c94038f961aa6373ca1e386ee465531612a6a45e20069126fa1a",
+      "size": 988
+    },
+    {
+      "path": "smart/admin-activity/template/default.js",
+      "sha256": "0de555b924c2d6d6603ce562d90eb24b5db73c63fb5ed0af14a1fa747737ab59",
+      "size": 3915
+    },
+    {
+      "path": "smart/admin-activity/template/default.js.gz",
+      "sha256": "c3bd25fd5ac4aa12fc389d5dbb2063c56f277311e979b855f9c42c3c1f9a051b",
+      "size": 1349
     },
     {
       "path": "smart/admin-menu/aliases.json",
@@ -156,13 +408,13 @@
     },
     {
       "path": "smart/admin-menu/component.json",
-      "sha256": "51a9acf0c96605ae69a71c5fc661f71be8d7b9659c20a2206d739ee2484ef67e",
-      "size": 68761
+      "sha256": "4b3d044bfebb0e04c39e31b80a3ba7071578b49435bfca015949c54f52bc03a9",
+      "size": 72227
     },
     {
       "path": "smart/admin-menu/component.json.gz",
-      "sha256": "6c55f8a563442873ae8f978e7d3812f643402eb3fd5748b98d357c955e519f9b",
-      "size": 18676
+      "sha256": "390a3376b9649a188639cb47ee33361f25bd82116795c0c1f279f802fa8165bd",
+      "size": 20235
     },
     {
       "path": "smart/admin-menu/css/admin-menu.css",
@@ -196,23 +448,23 @@
     },
     {
       "path": "smart/admin-menu/js/admin-menu.js",
-      "sha256": "4e3dcacbad3770765089d7a3544c4a06354726b372ece5cbe3fab13aff7c4c6a",
-      "size": 370813
+      "sha256": "69e39be20d5dd6c987dc5f502424cca9cb1e5660724dc17d506a8b932120bd38",
+      "size": 374668
     },
     {
       "path": "smart/admin-menu/js/admin-menu.js.gz",
-      "sha256": "627f3d791e9ad8a8003bec686e97d17c174caed6f41f3ef0deb95af8c744a1ef",
-      "size": 100945
+      "sha256": "998452fe80fd2b6005b53930132b6479f548161f5b3723ece94d54f7ad6a5891",
+      "size": 102110
     },
     {
       "path": "smart/admin-menu/js/admin-menu.min.js",
-      "sha256": "8afaa8e375ce6c36c92d7b16c7d1505a0ffb14cf42bed647479027477a14f61d",
-      "size": 170902
+      "sha256": "9d1ca0a218a7f95b78de6329a5212d2eb4e6661f9a14e32f6ff5e983f3bfb183",
+      "size": 171969
     },
     {
       "path": "smart/admin-menu/js/admin-menu.min.js.gz",
-      "sha256": "cddb78a50a36520f94e692c0db47c14b1abc5ecfd42f8f12c8f27819250ef636",
-      "size": 51810
+      "sha256": "68af6c4eb12fc5536a4651d27797e529547d4322415faebb1a75318b75b62361",
+      "size": 52139
     },
     {
       "path": "smart/admin-menu/lang/ar.json",
@@ -336,13 +588,13 @@
     },
     {
       "path": "smart/admin-menu/smart.manifest.json",
-      "sha256": "aa6ea16ba41cf4a48625186cfd68d24ceff4a15f22de4e8bb7e8ee9f7f983031",
-      "size": 31802
+      "sha256": "7a58f38626095be26413f419e5b5852760641e3f036ae89a739c1bffd2bb511b",
+      "size": 32215
     },
     {
       "path": "smart/admin-menu/smart.manifest.json.gz",
-      "sha256": "7a26cc9c3905f61061fda366e8a0e71e6d8a3b190cd1d0728a32ebdb8ef8df34",
-      "size": 8024
+      "sha256": "eb33e7c657b15476919ed22ccb882460673dc3e55440babfc0b3cc1869c284ff",
+      "size": 8209
     },
     {
       "path": "smart/admin-menu/static/default/navigation-port.html",
@@ -376,13 +628,13 @@
     },
     {
       "path": "smart/admin-menu/static/sheets.json",
-      "sha256": "5c35d81cf8b249dc8b539c9590102250000b43cf2214444a57e99a70f415ec2c",
-      "size": 6377
+      "sha256": "a09d50353b6bb25e3414d1efe43b186da9a272e7e9cfa0b7d61a48aca14791e5",
+      "size": 6552
     },
     {
       "path": "smart/admin-menu/static/sheets.json.gz",
-      "sha256": "69b224e27b1e1c306ee8411105ac46ece663e6af1557b6502c59b9efdefe7426",
-      "size": 825
+      "sha256": "4eb1121834927bc6b78827f63f0317b5a6a664a50c598be01ecaff13b8dea87d",
+      "size": 831
     },
     {
       "path": "smart/admin-menu/studio.fixture.json",
@@ -405,14 +657,364 @@
       "size": 204
     },
     {
+      "path": "smart/admin-notifications/component.json",
+      "sha256": "adbf3a12a7b9ba31cb57c264fdd2484d3d8292d1ced1fa32baa9ba3ccf30b481",
+      "size": 14603
+    },
+    {
+      "path": "smart/admin-notifications/component.json.gz",
+      "sha256": "3583eb197bc2ae0f06054b940a6d2fb13ca3d7631ff5ffdac0321d75445e9e14",
+      "size": 4361
+    },
+    {
+      "path": "smart/admin-notifications/css/admin-notifications.css",
+      "sha256": "cdcff887ad3c82d9f10cd25b6802ae63f206936450632656d26dd4b66dc8c45c",
+      "size": 8773
+    },
+    {
+      "path": "smart/admin-notifications/css/admin-notifications.css.gz",
+      "sha256": "17fa8ae5943ca9f1b5d0264234980e42d09c4d84ac6b88966220c599cd00cf85",
+      "size": 1886
+    },
+    {
+      "path": "smart/admin-notifications/css/admin-notifications.min.css",
+      "sha256": "010cdd2a72a950a05647f84a9bafab168b5af6b06144a2ed99bca028b92df927",
+      "size": 6368
+    },
+    {
+      "path": "smart/admin-notifications/css/admin-notifications.min.css.gz",
+      "sha256": "3ad6b3a6c23a879dd9da2e470ab524740db878bc69b0a494137b451a42ec85f0",
+      "size": 1257
+    },
+    {
+      "path": "smart/admin-notifications/examples.json",
+      "sha256": "86bbd90dcc95539dfda1138b003f84fd2fc8bf676b42fe272f0460f28b45f831",
+      "size": 20690
+    },
+    {
+      "path": "smart/admin-notifications/examples.json.gz",
+      "sha256": "cb2b4e5f9fe62d6edc732fbed2cb269f5330754b8b0cb980a37b45df9b37a632",
+      "size": 3496
+    },
+    {
+      "path": "smart/admin-notifications/js/admin-notifications.js",
+      "sha256": "ac4993cf98cc9c62ee572acd0ff2e78d73051fd8f61283754874cd128edf1fa2",
+      "size": 44908
+    },
+    {
+      "path": "smart/admin-notifications/js/admin-notifications.js.gz",
+      "sha256": "080c6368232922ffa65ee5817fb85cac55ddcc8c430b2e7ed4a2997b58fe51e4",
+      "size": 11328
+    },
+    {
+      "path": "smart/admin-notifications/js/admin-notifications.min.js",
+      "sha256": "b930d4efb9f580dac5a5b5eab6ff3405701531174f052ae0074af67e842e7105",
+      "size": 20481
+    },
+    {
+      "path": "smart/admin-notifications/js/admin-notifications.min.js.gz",
+      "sha256": "501aca8f980fcfba7ad882743382ed1425fb34c50cee065b23cef8043a867fa2",
+      "size": 6687
+    },
+    {
+      "path": "smart/admin-notifications/lang/en.json",
+      "sha256": "cfe313b4b79fed1dd7c1dd1f2234afcdcc6e34c9ae5b10a4d4056c3799ffd0cf",
+      "size": 946
+    },
+    {
+      "path": "smart/admin-notifications/lang/en.json.gz",
+      "sha256": "45dbb9e6bf2e099d252b6c63281ee2a227eac2b5a90634bd0ee63cddd0325f16",
+      "size": 427
+    },
+    {
+      "path": "smart/admin-notifications/lang/ru.json",
+      "sha256": "9feba5860b91b0481df876465a1fe8f083a034467b454e98eaefc32d0d061e7f",
+      "size": 1236
+    },
+    {
+      "path": "smart/admin-notifications/lang/ru.json.gz",
+      "sha256": "9dfa75b6f38acb4d74aa71b35e7acf3668fa82f323045290dc407cab63fa7661",
+      "size": 576
+    },
+    {
+      "path": "smart/admin-notifications/probe.json",
+      "sha256": "b3cb65d682488166352eebe6a3dcdcd36ceef93e030117544652918577843b97",
+      "size": 9907
+    },
+    {
+      "path": "smart/admin-notifications/probe.json.gz",
+      "sha256": "65b46bbe2c1a72048c56931bc496739eb26093381e52091ab4c32f9edd522783",
+      "size": 2498
+    },
+    {
+      "path": "smart/admin-notifications/smart.manifest.json",
+      "sha256": "ce9f3c05895c46e95fb7f5c489f9b5d08fef75f44566c05f8d38fecc45d40d69",
+      "size": 12465
+    },
+    {
+      "path": "smart/admin-notifications/smart.manifest.json.gz",
+      "sha256": "38900f67fa51b2392f7aa64555b592dce3a8e055821806883a436d29fd89bf0f",
+      "size": 3661
+    },
+    {
+      "path": "smart/admin-notifications/static/default/empty.html",
+      "sha256": "1401d7f635a3df532349117dd2fbd7e932accf307cd1717d3f75d186f6338d94",
+      "size": 749
+    },
+    {
+      "path": "smart/admin-notifications/static/default/empty.html.gz",
+      "sha256": "815d51d56b5949f76217c787e077b630d0f7a480e9b5c4b2c64af724223315f8",
+      "size": 464
+    },
+    {
+      "path": "smart/admin-notifications/static/default/page.html",
+      "sha256": "26a5ff3958010ce8f03bbe6061fdd782bae6f398342cf4b02d195cfc7e898b1e",
+      "size": 7009
+    },
+    {
+      "path": "smart/admin-notifications/static/default/page.html.gz",
+      "sha256": "426d068855911569718073ac59c76c739cc97c1a477f7d76d203f9ed100014a7",
+      "size": 1626
+    },
+    {
+      "path": "smart/admin-notifications/static/default/page.skeleton.html",
+      "sha256": "3ea03fbbba8e95a10c633b8b2928fe5c2dab7ebbd916b55e325c118bfda1bb2c",
+      "size": 7006
+    },
+    {
+      "path": "smart/admin-notifications/static/default/page.skeleton.html.gz",
+      "sha256": "2a1bb109bbf251a88bbc73b9b3c25bccf619b6ab8ed273b92ecd0ff550a55744",
+      "size": 1354
+    },
+    {
+      "path": "smart/admin-notifications/static/default/port.html",
+      "sha256": "6fd132ce69658aab610afe1a0a028c575609eda8709fcb18c5aa4bfc7d3d81a6",
+      "size": 493
+    },
+    {
+      "path": "smart/admin-notifications/static/default/port.html.gz",
+      "sha256": "dc5408aec8be6389ae184287559355a4882b065084aea4419adfbc92cde106bc",
+      "size": 342
+    },
+    {
+      "path": "smart/admin-notifications/static/default/reference.html",
+      "sha256": "e49646f334aa98f7f3f3134a794a061a22c72737e46c61fc5e67f290fabd7cf2",
+      "size": 7254
+    },
+    {
+      "path": "smart/admin-notifications/static/default/reference.html.gz",
+      "sha256": "9a84ab356f38289e481dab7adfba860009893225b8ca879bb98aca03c6fb9415",
+      "size": 1702
+    },
+    {
+      "path": "smart/admin-notifications/static/default/reference.skeleton.html",
+      "sha256": "482f4a7d3bdf365b68d13779ca5bc95fd322d06a1a892a3201ce471b628cfe73",
+      "size": 7369
+    },
+    {
+      "path": "smart/admin-notifications/static/default/reference.skeleton.html.gz",
+      "sha256": "69e95b0370315c1f4e052cecf6b946f945fb1836d105c9c2bab95e138bac005e",
+      "size": 1434
+    },
+    {
+      "path": "smart/admin-notifications/static/sheets.json",
+      "sha256": "a3297edb6cd28922bb44fded2e941b9b736c384546eab4d9ad43b71e0d9d9268",
+      "size": 4009
+    },
+    {
+      "path": "smart/admin-notifications/static/sheets.json.gz",
+      "sha256": "8fb1aa590a674a01bdc697aebd1821f46eb021b37f5702e118ce67c0d5e00262",
+      "size": 556
+    },
+    {
+      "path": "smart/admin-notifications/template/default.css",
+      "sha256": "5699fd0c95ab212a3d05891b83bbaaa3e013bd535f0bb2eadb1e7755edca384c",
+      "size": 6887
+    },
+    {
+      "path": "smart/admin-notifications/template/default.css.gz",
+      "sha256": "5698d3be93374e10cb649d4a04ab815187da885d4913fc0eef9395522aec3ae9",
+      "size": 1693
+    },
+    {
+      "path": "smart/admin-notifications/template/default.js",
+      "sha256": "11ff852b6abfc71c1c36cea6fd4122cb3387091959bc92973f6f647594e66a87",
+      "size": 6393
+    },
+    {
+      "path": "smart/admin-notifications/template/default.js.gz",
+      "sha256": "97c4f4970aaa44b96ca0e5c135d92d1ae8d47a90e0b2c71f0c8af69aa9568b69",
+      "size": 2022
+    },
+    {
+      "path": "smart/admin-shell/component.json",
+      "sha256": "477db1524fe88f0e467144fa43dfa57c86fcbaf321105165c1ea524224977b00",
+      "size": 11771
+    },
+    {
+      "path": "smart/admin-shell/component.json.gz",
+      "sha256": "940d6f011f94a2fbb163ce535f9932600e49a9c404cddc4823b39283e6e6d031",
+      "size": 4025
+    },
+    {
+      "path": "smart/admin-shell/css/admin-shell.css",
+      "sha256": "96200485d7452eb43253c2be2ce1331cd194f557862a90cb1690cd4e2646d580",
+      "size": 9256
+    },
+    {
+      "path": "smart/admin-shell/css/admin-shell.css.gz",
+      "sha256": "81fe0e5b3281a84c81cba0d098afc335d43f47f03a47551a573a4d9ecb61e074",
+      "size": 2352
+    },
+    {
+      "path": "smart/admin-shell/css/admin-shell.min.css",
+      "sha256": "bab5e258af58f5a5bdb39d6c8e30636cf4ce0d11165439d5d5fc647640df0b4b",
+      "size": 5621
+    },
+    {
+      "path": "smart/admin-shell/css/admin-shell.min.css.gz",
+      "sha256": "408e0281f840ed68b02c8d94dd4d6a475f3101418eda2ec077af92835826b428",
+      "size": 1286
+    },
+    {
+      "path": "smart/admin-shell/examples.json",
+      "sha256": "3946bbc5e5dd4409b1babc4174274faa8c53900376d3aef6851878f1270bcc9b",
+      "size": 5734
+    },
+    {
+      "path": "smart/admin-shell/examples.json.gz",
+      "sha256": "0c86fe3c95c564454b3598f2889ef18438239a66a85e6708b0cabdd3b30a58e1",
+      "size": 1703
+    },
+    {
+      "path": "smart/admin-shell/js/admin-shell.js",
+      "sha256": "8b122e5ecc269e650f6d1b8f294eeb46843b8ef5f064732956b1c0f9dcf6e36d",
+      "size": 36113
+    },
+    {
+      "path": "smart/admin-shell/js/admin-shell.js.gz",
+      "sha256": "1c7d58448990fd2a497eacbaf667c42c5ce930fbb2e4368912603078eda32adc",
+      "size": 9942
+    },
+    {
+      "path": "smart/admin-shell/js/admin-shell.min.js",
+      "sha256": "723c9540e8f996c4157735b557e1fa7dfea7c04028127794fdb7e7de9bc46ca3",
+      "size": 13913
+    },
+    {
+      "path": "smart/admin-shell/js/admin-shell.min.js.gz",
+      "sha256": "e3f79935683b308a5b7db2ddfb1c57287bf1d26ffe2274d8ff94c6f0f80a544b",
+      "size": 4861
+    },
+    {
+      "path": "smart/admin-shell/lang/en.json",
+      "sha256": "2a17f84c63aadee5a018ce9934aa45d0d8d6b617c1817c9c629e4ad231f77893",
+      "size": 282
+    },
+    {
+      "path": "smart/admin-shell/lang/en.json.gz",
+      "sha256": "a84204e1245cab76ba34e84b49293cc4545e57e462dd05cbe42247c4d6fb1d8a",
+      "size": 159
+    },
+    {
+      "path": "smart/admin-shell/lang/ru.json",
+      "sha256": "a568500db0abe1a80f0d2cfc56498a7740156a70386c79e16ed4fb6500b6368e",
+      "size": 360
+    },
+    {
+      "path": "smart/admin-shell/lang/ru.json.gz",
+      "sha256": "141606393cf8a62c6abeb90da2c870e9548ac0f4bf439fc1c3817896cab9c435",
+      "size": 214
+    },
+    {
+      "path": "smart/admin-shell/probe.json",
+      "sha256": "ef50c4198c72b57c0678b4454ce3f1bd1b75fb7e4ec58df46882dc703c9e3118",
+      "size": 3703
+    },
+    {
+      "path": "smart/admin-shell/probe.json.gz",
+      "sha256": "767321e43efea68e2a151e8efdefa6dd5a46f81607871acdef71791b98ee7f5b",
+      "size": 1190
+    },
+    {
+      "path": "smart/admin-shell/smart.manifest.json",
+      "sha256": "579b109a882f7132209c777f69b0061647741547b4fb15afb5d49bad659d9c13",
+      "size": 9817
+    },
+    {
+      "path": "smart/admin-shell/smart.manifest.json.gz",
+      "sha256": "6de0ae1d4f09be8583ebfc7dd7cb23da78c7ec54319ef6aadccc4bc1d60d7e95",
+      "size": 3307
+    },
+    {
+      "path": "smart/admin-shell/static/default/no-menu.html",
+      "sha256": "f514f95297c218f304a765aff1723ee20a5133d442f28d6eb206c6c2bc959b82",
+      "size": 1362
+    },
+    {
+      "path": "smart/admin-shell/static/default/no-menu.html.gz",
+      "sha256": "829c81576478d67c9e3e3402d8143ecdcde4032ae2a3ac46245b99153d6f4de7",
+      "size": 592
+    },
+    {
+      "path": "smart/admin-shell/static/default/read.html",
+      "sha256": "5388cac7741ab12cfa4421ea13452fcf823359a0cfb0190bdfd6f436482dc8ec",
+      "size": 3990
+    },
+    {
+      "path": "smart/admin-shell/static/default/read.html.gz",
+      "sha256": "7021d0c6cb880d0548d0505ed6ec8c8087539e5ffa9463f3630f58e1b9518c10",
+      "size": 1038
+    },
+    {
+      "path": "smart/admin-shell/static/default/reference.html",
+      "sha256": "8f519777d179d539a920f2bf9f8890a2d3f08af08ef375772c269e075079ca73",
+      "size": 3968
+    },
+    {
+      "path": "smart/admin-shell/static/default/reference.html.gz",
+      "sha256": "2734a152ec8ab11f39f72fb01f250f6585aa410892ff3280152806c34763cbaa",
+      "size": 1020
+    },
+    {
+      "path": "smart/admin-shell/static/sheets.json",
+      "sha256": "0c44742e9220cf79f3b5de432c077c40e0d8be979d264d87e5572ede904af070",
+      "size": 4883
+    },
+    {
+      "path": "smart/admin-shell/static/sheets.json.gz",
+      "sha256": "e602f76fbe53a685bf6041a50259ef8f87f7a1758df01a6b19a8d17cb4647c47",
+      "size": 668
+    },
+    {
+      "path": "smart/admin-shell/template/default.css",
+      "sha256": "90ca8c3161dc1832d762fa3e4483fa38a03a32aafaa8186ef1a9d1a9c18928f4",
+      "size": 8002
+    },
+    {
+      "path": "smart/admin-shell/template/default.css.gz",
+      "sha256": "204888e630af654cab896659eec87f12a1fc63f24bb8220daba792b4e61f0231",
+      "size": 2204
+    },
+    {
+      "path": "smart/admin-shell/template/default.js",
+      "sha256": "11e7d58acfce077c2c2f54c229e8f33aed0e539eccba77446f243f3b34ae5ac8",
+      "size": 2292
+    },
+    {
+      "path": "smart/admin-shell/template/default.js.gz",
+      "sha256": "e31c77adc4aec92d4c71f84841e7658e4e2361d36136a25d0ced31fd33f114b1",
+      "size": 909
+    },
+    {
       "path": "smart/rule.js",
-      "sha256": "22b77ca5a781fa3811318ab3f831b5c0661a97fbb01421687249b68e8d4463f6",
-      "size": 1695
+      "sha256": "e350fed590bdc617659fe0f4021283ebef5ff0d0072e41b7ae37206a89249299",
+      "size": 2844
     },
     {
       "path": "smart/rule.js.gz",
-      "sha256": "dbca9cb32d6541d0713b7cb738219b45afb02aedbeef88954dbcc4ac44546e94",
-      "size": 446
+      "sha256": "c671102df0bf8af75b04e9c70b6e47390f37f2b02badb6d4a8100176522f0e7b",
+      "size": 530
     }
   ],
   "claims": {

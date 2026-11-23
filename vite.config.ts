@@ -11,6 +11,7 @@ type Distribution = {
   placeholder: string
   directory: string
   base: string
+  kind?: string
 }
 
 const projectRoot = resolve()
@@ -182,11 +183,14 @@ export default defineConfig(({ mode }) => {
   const previewDistrRoot = resolve(
     env.SIMAI_PREVIEW_RUNTIME_ROOT || `dist/distr/${runtimePairDirectory}`,
   )
+  // The Admin set's runtime in dev, materialised there by prepare:runtime
+  // from this repository's committed release output (scripts/set-runtime.mjs).
+  const setRoot = resolve(env.SIMAI_SET_RUNTIME_ROOT || '.runtime-set')
   const developmentRoots = new Map<string, string>([
     ['framework', distrRoot],
     ...served
       .filter((one) => one.name !== 'framework')
-      .map((one) => [one.name, packageRoot] as [string, string]),
+      .map((one) => [one.name, one.kind === 'set' ? setRoot : packageRoot] as [string, string]),
   ])
   const previewRoots = new Map<string, string>([
     ['framework', previewDistrRoot],
@@ -229,7 +233,7 @@ export default defineConfig(({ mode }) => {
         '/api': apiProxyTarget,
       },
       fs: {
-        allow: [projectRoot, distrRoot, packageRoot],
+        allow: [projectRoot, distrRoot, packageRoot, setRoot],
       },
     },
     preview: {

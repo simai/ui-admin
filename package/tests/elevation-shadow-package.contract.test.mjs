@@ -11,7 +11,7 @@ import {resolve} from 'node:path';
 const root = resolve(import.meta.dirname, '..');
 const read = (path) => readFileSync(resolve(root, path), 'utf8');
 // The set's folders (set.json components[].folder).
-const PACKAGE = ['admin-menu'];
+const PACKAGE = ['admin-menu', 'admin-shell', 'admin-notifications', 'admin-activity'];
 const exemptions = [
 ];
 

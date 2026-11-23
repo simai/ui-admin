@@ -1,0 +1,11 @@
+<div class="page-panel">
+  <sf-admin-notifications id="list" aria-label="Уведомления" history-href="#/notifications" settings-href="#/settings/notifications" items='[
+    {"key": "n1", "group": "today", "group-label": "Сегодня", "level": "warning", "object": "srv1.larena.cloud", "title": "Сертификат истекает через 7 дней", "body": "Продлите в «Безопасность».", "when": "10:42", "unread": true, "href": "#/srv.security"},
+    {"key": "n2", "group": "today", "group-label": "Сегодня", "level": "error", "object": "stage.larena.cloud", "title": "Копия не сделана: хранилище не ответило", "when": "03:10", "unread": true, "href": "#/srv.backups"},
+    {"key": "n3", "group": "today", "group-label": "Сегодня", "level": "info", "object": "srv1.larena.cloud", "title": "Доступно обновление PHP 8.4", "when": "09:15", "unread": true, "href": "#/srv.software"},
+    {"key": "n4", "group": "today", "group-label": "Сегодня", "level": "success", "object": "simai.ru", "title": "Копия готова, 1,2 ГБ", "when": "03:00", "href": "#/srv.backups"},
+    {"key": "n5", "group": "today", "group-label": "Сегодня", "level": "info", "object": "srv1.larena.cloud", "title": "Служба почты перезапущена", "when": "02:40", "href": "#/srv.services"},
+    {"key": "n6", "group": "yesterday", "group-label": "Вчера", "level": "error", "object": "srv2.larena.cloud", "title": "Сервер не отвечал", "resolved": "снова отвечает с 09:11, перерыв 9 минут", "when": "09:02", "href": "#/srv.overview"}
+  ]'></sf-admin-notifications>
+</div>
+<p class="m-0 color-on-surface-variant" role="status" data-log></p>

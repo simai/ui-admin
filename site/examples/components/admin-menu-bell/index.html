@@ -1,0 +1,13 @@
+<script src="assets/admin-demo.js"></script>
+<div class="page-menu">
+  <sf-admin-menu id="menu" aria-label="Меню" expected-columns="1" current="sites"></sf-admin-menu>
+  <div class="page-content">
+    <p class="page-title">Сайты</p>
+    <p class="m-0 color-on-surface-variant">Нажмите колокол внизу рейки: откроется панель со списком уведомлений набора. Escape закрывает её и возвращает фокус на колокол.</p>
+  </div>
+</div>
+<sf-drawer placement="right" size="2" heading="Уведомления">
+  <div slot="content">
+    <sf-admin-notifications look="panel" aria-label="Уведомления" history-href="#/notifications"></sf-admin-notifications>
+  </div>
+</sf-drawer>

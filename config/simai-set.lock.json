@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "kind": "set",
+  "package": "admin",
+  "compatibilityId": "admin-25245d70cde8",
+  "version": "1.1.0",
+  "npm": "@simai-studio/admin@1.1.0",
+  "release": "contracts/releases/admin-25245d70cde8.lock.json",
+  "requires": {
+    "framework": "ui-b4f79e1c58b7"
+  },
+  "build": {
+    "revision": "426f9c0ff664a60b3f2b9c5d4377e68fd9dee9f9",
+    "path": "package/dist",
+    "tree": "2f539d049c572bc1a54fa9209ea0a220a7fef420"
+  },
+  "smart": {
+    "targetDir": "",
+    "requiredFiles": [
+      {
+        "path": "rule.js",
+        "sha256": "e350fed590bdc617659fe0f4021283ebef5ff0d0072e41b7ae37206a89249299"
+      },
+      {
+        "path": "admin-activity/js/admin-activity.js",
+        "sha256": "71e194ccecfd8875b2cded0a503ab74b7e2653bd51077f8c0247b4baca4be611"
+      },
+      {
+        "path": "admin-activity/css/admin-activity.css",
+        "sha256": "64f85e1ae3c007f004cf6b3bd4d02d6290c8c4b8af205474df5c07b33c0088d4"
+      },
+      {
+        "path": "admin-menu/js/admin-menu.js",
+        "sha256": "69e39be20d5dd6c987dc5f502424cca9cb1e5660724dc17d506a8b932120bd38"
+      },
+      {
+        "path": "admin-menu/css/admin-menu.css",
+        "sha256": "2cdfcf9c7ab18fd79a4c106e9f81493a7f48550ea4798e5eeef245432cd6d622"
+      },
+      {
+        "path": "admin-notifications/js/admin-notifications.js",
+        "sha256": "ac4993cf98cc9c62ee572acd0ff2e78d73051fd8f61283754874cd128edf1fa2"
+      },
+      {
+        "path": "admin-notifications/css/admin-notifications.css",
+        "sha256": "cdcff887ad3c82d9f10cd25b6802ae63f206936450632656d26dd4b66dc8c45c"
+      },
+      {
+        "path": "admin-shell/js/admin-shell.js",
+        "sha256": "8b122e5ecc269e650f6d1b8f294eeb46843b8ef5f064732956b1c0f9dcf6e36d"
+      },
+      {
+        "path": "admin-shell/css/admin-shell.css",
+        "sha256": "96200485d7452eb43253c2be2ce1331cd194f557862a90cb1690cd4e2646d580"
+      }
+    ]
+  }
+}

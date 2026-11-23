@@ -40,10 +40,10 @@ Smart-компонент административного меню над по
 | `sf-admin-menu-create` | `view.create` | `view` |
 | `sf-admin-menu-rename` | `view.rename` | `view` `{id, title}` |
 | `sf-admin-menu-delete` | `view.delete` | `view` `{ids}` |
-| `sf-admin-menu-read` | `notifications.read` | `notifications` `{ids}` |
+| `sf-admin-menu-read` | `notifications.read` | `notifications` `{ids}` — прочитанные ключи (пусто, если «Прочитать все»); `payload` порта — `{keys, all}` |
 | `sf-admin-menu-reset` | `view.reset` | `view` `{id}` |
 | `sf-admin-menu-sign-out` | `session.sign-out` | `session` |
-| `sf-admin-menu-navigate` | — | хост ответил `applied` на открытие: `{id, key, href, region}` |
+| `sf-admin-menu-navigate` | — | хост ответил `applied` на открытие: `{id, key, href, region}`; отменяемое — `preventDefault()` оставляет текущий пункт и фокус, меню никуда не переходит |
 | `sf-admin-menu-column-change` | — | колонка раздела показана или скрыта: `{open}` |
 
 Старое имя `sf-admin-menu-intent` `{intent, payload}` следует за каждым событием,
@@ -170,6 +170,59 @@ Smart-компонент административного меню над по
 была окончательной. До подключения порта пункты страниц — обычные ссылки.
 Это та же настройка `first-answer` в островке `data-sf-settings`, что у
 `sf-view`.
+
+### Колокол и список уведомлений набора (1.15.1)
+
+Колокол открывает панель уведомлений справа. Если на странице есть список
+набора — `sf-admin-notifications` в виде панели (без `look` или
+`look="panel"`, не `look="page"` страницы истории) внутри `sf-drawer`, —
+колокол открывает и закрывает этот `sf-drawer`, а список заново читает порт
+(`refresh`). Так число на колоколе и список читают один порт и не расходятся.
+Список находится по разметке страницы, поэтому правило работает и до того, как
+код списка загрузился. Нового события и настройки нет: договор — разметка.
+
+```html
+<sf-drawer placement="right" size="2" heading="Уведомления">
+  <div slot="content">
+    <sf-admin-notifications look="panel" history-href="/admin/notifications"></sf-admin-notifications>
+  </div>
+</sf-drawer>
+```
+
+Колокол называет панель в `aria-controls` (он её переключатель: крестик
+панели встаёт на его оси), `aria-expanded` следует за панелью; Escape
+закрывает панель (пока она открыта, Escape её, а не меню), фокус возвращается
+на колокол. Когда `sf-drawer` определён, он переносит содержимое в свой portal
+в конце `body`; меню находит список и там. Перехватывать
+нажатие колокола странице не нужно. Если такого списка на странице нет, меню
+рисует свой прежний список в своём `sf-drawer`.
+
+Прочитанное меню отправляет хосту как `notifications.read` `{keys, all}` —
+ровно форма порта `simai.admin-navigation-port` 1.1.0 (`all` обязателен,
+других полей нет): одно уведомление — `{keys: [ключ], all: false}`, «Прочитать
+все» — `{all: true}`. До 1.15.1 уведомление из своего списка меню читалось как
+`{ids}`.
+
+### Уход со страницы можно отменить (1.16.1)
+
+`sf-admin-menu-navigate` отменяемое и приходит до того, как меню что-то
+отметит. Страница с несохранёнными изменениями вызывает `preventDefault()` —
+текущим остаётся прежний пункт, фокус и экран телефона не меняются, меню
+никуда не переходит, ссылка меню объекта не открывается. Если человек потом
+согласился уйти, страница переходит сама и называет пункт атрибутом
+`current`. Без отмены пункт становится текущим, как раньше.
+
+```js
+menu.addEventListener('sf-admin-menu-navigate', (event) => {
+  if (!form.dirty) return;
+  event.preventDefault();
+  askLeave(event.detail.href).then((go) => {
+    if (!go) return;
+    menu.setAttribute('current', event.detail.key);
+    router.go(event.detail.href);
+  });
+});
+```
 
 ### CSS variables
 

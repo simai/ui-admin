@@ -1,0 +1,38 @@
+<div class="page-menu">
+  <sf-admin-menu aria-label="Меню">
+    <script type="application/json" data-sf-settings>
+      {"first-answer": {
+        "revision": "1",
+        "current": "sites",
+        "items": [
+          {"key": "sites", "kind": "page", "level": "site", "label": "Сайты", "icon": "language", "href": "#/sites"},
+          {"key": "server", "kind": "root", "level": "site", "label": "Сервер", "icon": "dns", "children": [
+            {"key": "server.services", "kind": "page", "level": "site", "label": "Службы", "icon": "settings_applications", "href": "#/server/services"}
+          ]}
+        ],
+        "context": {
+          "title": "example.ru",
+          "subtitle": "PHP 8.3",
+          "status": {"text": "Работает", "status": "success"},
+          "back": {"label": "Все сайты", "href": "#/sites"},
+          "groups": [
+            {"label": null, "items": [
+              {"key": "site.overview", "label": "Обзор", "href": "#/sites/example", "icon": "dashboard"},
+              {"key": "site.files", "label": "Файлы", "href": "#/sites/example/files", "icon": "folder"},
+              {"key": "site.backups", "label": "Резервные копии", "href": "#/sites/example/backups", "icon": "backup", "badge": {"text": "1", "status": "error"}}
+            ]},
+            {"label": "Дополнительно", "items": [
+              {"key": "site.php", "label": "PHP и веб-сервер", "href": "#/sites/example/php", "icon": "code"}
+            ]}
+          ],
+          "current": "site.overview"
+        },
+        "person": {"name": "Анна Белова", "language": "ru", "languages": [{"code": "ru", "native": "Русский", "english": "Russian"}]}
+      }}
+    </script>
+  </sf-admin-menu>
+  <div class="page-content">
+    <p class="page-title">example.ru</p>
+    <p class="m-0 color-on-surface-variant">Меню нарисовано из ответа, который сервер напечатал в странице: без заготовки и без порта.</p>
+  </div>
+</div>

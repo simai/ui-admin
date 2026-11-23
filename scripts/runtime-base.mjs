@@ -23,6 +23,9 @@ export const packagePlaceholder = (name) => `/distr-${name}/`;
 
 export const FRAMEWORK_LOCK = 'config/simai-assets.lock.json';
 export const PACKAGE_LOCK = 'config/simai-package.lock.json';
+// The set lock's path, repeated here rather than imported: set-runtime.mjs
+// reads this module.
+const SET_LOCK_PATH = 'config/simai-set.lock.json';
 
 export const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -91,6 +94,25 @@ export const distributions = () => {
       const placeholder = packagePlaceholder(pinned.package);
       found.push({
         name: pinned.package,
+        placeholder,
+        lock: pinned,
+        directory: runtimeDirectory(pinned),
+        base: `${placeholder}${runtimeDirectory(pinned)}/`,
+      });
+    }
+  }
+
+  // The Admin set, this repository's own release (scripts/set-runtime.mjs):
+  // since pro-53cd26ab57cd the admin menu, frame, notifications and activity
+  // indicator ship only there, served under /distr-admin/<release>/.
+  const setPath = resolve(projectRoot, SET_LOCK_PATH);
+  if (existsSync(setPath)) {
+    const pinned = readLock(SET_LOCK_PATH);
+    if (pinned.compatibilityId) {
+      const placeholder = packagePlaceholder(pinned.package);
+      found.push({
+        name: pinned.package,
+        kind: 'set',
         placeholder,
         lock: pinned,
         directory: runtimeDirectory(pinned),

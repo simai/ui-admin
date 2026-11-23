@@ -1,10 +1,20 @@
 # SIMAI Admin
 
-The reference application for the SIMAI Pro components, with the polygon they
-are built and tried on.
+The Admin set of SIMAI Framework, its documentation site and the reference
+application with the polygon the admin components are built and tried on.
+https://admin.simai.io/ serves the documentation at the root and the polygon
+at `/demo/` (owner, 2026-11-23).
 
-- **The components** — `sf-table`, `sf-data-view`, `sf-property-view` and
-  `sf-admin-menu` — live in [`simai/ui-pro`](https://github.com/simai/ui-pro)
+- **The Admin set** (`package/`, npm `@simai-studio/admin`) — `sf-admin-menu`,
+  `sf-admin-shell`, `sf-admin-notifications` and `sf-admin-activity`. Its
+  release output is committed (`package/dist`) and the site serves it from
+  there under `/distr-admin/<release>/`, pinned in
+  `config/simai-set.lock.json` (`npm run pin:set`). Pro dropped its copy of
+  the admin menu with `pro-53cd26ab57cd`, so every page with the menu declares
+  the `admin` package beside `pro`.
+- **The documentation** (`site/`) — a Docara site; see `site/README.md`.
+- **The Pro components** — `sf-table`, `sf-data-view` and `sf-property-view` —
+  live in [`simai/ui-pro`](https://github.com/simai/ui-pro)
   (owner, 2026-10-23; before that in this repository, and before that in
   `simai/larena-ui`). They are published as the component package `pro`
   (the id Larena loads them by; named `larena` until 2026-11-02). This site builds that package from the
@@ -13,7 +23,7 @@ are built and tried on.
 - **The reference host** — a Vite site that runs those components the way an
   admin does: a records list and record panel, the admin menu, filters,
   field editing and user settings.
-- **The polygon** (`/`, the index page) — 120 seeded records using every property
+- **The polygon** (`index.html`, served at `/demo/` on the site) — 120 seeded records using every property
   type, answered by a mock host that does the work a backend does. See
   [`docs/POLYGON.md`](docs/POLYGON.md).
 - **`server.js`** — the mock API the host talks to in development.
@@ -61,6 +71,8 @@ instead, without the sibling checkouts.
 npm run build          # data check, pins, runtime, contracts, polygon check, Vite build
 npm run pin            # pin the SIMAI Framework pair
 npm run pin:package    # build ../ui-pro/components and pin the package
+npm run pin:set        # pin the Admin set release package/dist holds
+npm run publish        # build the polygon and the docs, publish to ui-admin.test
 npm run test:runtime
 npm run test:api
 npm run test:browser

@@ -49,18 +49,38 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           persist-credentials: false
-          # No history is read from this checkout any more: the package source
-          # is simai/ui-pro, which clone-inputs.sh clones in full.
+          # Full history: the documentation build reads the set's source
+          # commit named by its receipt and the dates of its release locks
+          # (site/scripts/build-pages.mjs, materialize-framework-runtime.php).
+          fetch-depth: 0
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           # The node the pinned package receipt was built with.
           node-version: "24.21.0"
+      # The Admin set's documentation is a Docara site (site/), built with PHP
+      # and the Docara release site/composer.lock pins; the same setup as
+      # simai/ui-doc's CI.
+      - uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240
+        with:
+          php-version: "8.3"
+          coverage: none
+          ini-values: memory_limit=2G
+          tools: composer
       - name: Read the pins
         run: node deploy/simai-server/pins.mjs | tee -a "$GITHUB_ENV"
       - name: Clone the sibling repositories at the pins
         run: deploy/simai-server/clone-inputs.sh "$(dirname "$GITHUB_WORKSPACE")"
       - run: npm ci --no-audit --no-fund
       - run: npm run build
+      # The documentation over the set's committed release output
+      # (package/dist), with the Framework pair read from the ui clone beside
+      # this checkout; owner C423: it is the root of admin.simai.io and the
+      # polygon moves to /demo/.
+      - name: Build the documentation
+        run: |
+          composer --working-dir=site validate --no-check-publish
+          composer --working-dir=site install --no-interaction --prefer-source
+          sh site/scripts/build.sh --released
       - name: Assemble the artifact
         run: deploy/simai-server/assemble.sh "$RUNNER_TEMP/site"
       - name: Smoke the artifact's server

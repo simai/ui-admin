@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.admin-menu",
-  "version": "1.15.0",
+  "version": "1.16.1",
   "title": "Admin menu",
   "summary": "Admin navigation over the host's navigation port: the rail, the section column, search, favourites, notifications and the setting mode.",
   "kind": "composite",
@@ -105,7 +105,8 @@
         "sha256": "6280add7a969ea06ff92183b95bc845f2d3ffc0d959f742ca81b96e22623a324",
         "supported_versions": [
           "1.0.0",
-          "1.1.0"
+          "1.1.0",
+          "1.2.0"
         ]
       }
     }
@@ -313,7 +314,7 @@
       }
     },
     "sf-admin-menu-navigate": {
-      "summary": "The host answered item.open applied: the page belongs to this row now. For a host that navigates in its own router rather than through the address it answered with.",
+      "summary": "The host answered item.open applied: the page belongs to this row now. For a host that navigates in its own router rather than through the address it answered with. Cancelable (AS-6): a page that is not ready to leave (unsaved changes) calls preventDefault -- the current row, the screen and the focus stay, the menu goes nowhere and an object-menu link is not followed; the page that later agrees goes there itself and names the row by current. Not cancelled, the row becomes current.",
       "payload": {
         "type": "object",
         "required": [
@@ -549,7 +550,7 @@
       }
     },
     "sf-admin-menu-read": {
-      "summary": "notifications.read asked (vocabulary 1.1.5).",
+      "summary": "notifications.read asked (vocabulary 1.1.5): ids are the keys read (none for all); payload is the port's {keys, all}.",
       "payload": {
         "type": "object",
         "required": [
@@ -892,7 +893,7 @@
       },
       {
         "path": "src/smart/admin-menu/js/navigation/template.js",
-        "sha256": "6b08500411c9700d801740ff5aaaf9805a5458f6f308efe8f21a678c0d58fbef"
+        "sha256": "391869547319b96bd6f8debabffa0b9b2e871cc9c45cb6fc093aeba7920daa49"
       },
       {
         "path": "src/smart/admin-menu/js/navigation/palette.js",
@@ -908,7 +909,7 @@
       },
       {
         "path": "src/smart/admin-menu/js/navigation/controller.js",
-        "sha256": "e3839652f3e30e2d0fe65e3697fd850a218902fbc599d30c2789ebd835f25eff"
+        "sha256": "03bdc7ed4afef344e405f376ec4f27ae1712891b407ec9be8c2386bb6507e3b8"
       },
       {
         "path": "src/smart/admin-menu/js/navigation/menu.js",
@@ -920,7 +921,7 @@
       },
       {
         "path": "src/smart/admin-menu/component.json",
-        "sha256": "51a9acf0c96605ae69a71c5fc661f71be8d7b9659c20a2206d739ee2484ef67e"
+        "sha256": "4b3d044bfebb0e04c39e31b80a3ba7071578b49435bfca015949c54f52bc03a9"
       },
       {
         "path": "src/smart/admin-menu/aliases.json",

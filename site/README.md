@@ -31,6 +31,7 @@ site»); the site of the set view (`simai/ui-view`, `site/`) is its reference.
 ```bash
 sh package/scripts/gates.sh <workspace>                  # build and check the set
 sh site/scripts/build.sh <workspace> [--ui DIR]          # build the site over that build (every --check, verify-static, the lint)
+sh site/scripts/build.sh --released [--ui DIR]          # the same over the committed release output package/dist (the deploy)
 node site/scripts/build-pages.mjs [--receipt FILE]       # release blocks and badges
 node site/scripts/build-examples.mjs                     # the examples' demo host (assets/admin-demo.js)
 node site/scripts/build-reference.mjs [--receipt FILE]   # the generated reference
@@ -82,31 +83,25 @@ docs: its `index.html` becomes `/demo/index.html` and its links home point to
 Docara build does not use. `build.sh` allows `/demo/` as the one reference
 outside the Docara build.
 
-## Publishing (proposal; the owner decides)
+## Publishing
 
-Today the site is local only: `publish-local.sh` writes a new release folder
-under `~/Sites/.ui-admin-releases/`, moves the `~/Sites/ui-admin.test`
-symlink to it and keeps every earlier folder. Nothing deploys it, and
-`.github/workflows/deploy-server.yml` is unchanged: a push to `main`
-deploys the polygon alone to admin.simai.io.
+admin.simai.io serves this site at the root and the polygon at `/demo/`
+(owner decision C423, 2026-11-23: it replaces the polygon-only demo).
 
-A public site would take the same shape as the local one:
-
-1. CI builds the set (`package/scripts/gates.sh`), the polygon
-   (`npm run build`) and the site (`site/scripts/build.sh`) at one commit.
-2. The release folder is assembled like `publish-local.sh` does — the docs at
-   the root, the polygon under `/demo/` — with two differences: the example
-   frames keep Docara's `sandbox="allow-scripts"` (a public host is not
-   blocked by Local Network Access), so the Framework and set files the
-   examples load (scripts, styles, fonts, JSON) must be served with
-   `Access-Control-Allow-Origin: *`; and `landing-transform.mjs` runs after
-   `verify-static`, as here.
-3. The deploy job of `deploy-server.yml` uploads that folder instead of the
-   polygon's `dist/` and switches the server's release link, keeping the
-   previous release for a rollback.
-
-Which host (admin.simai.io itself, with the polygon moving to `/demo/`, or a
-docs host of its own) and when are the owner's decision.
+- **The deploy** (`.github/workflows/deploy-server.yml`, on a push to `main`
+  once the repository variable allows it) builds the polygon
+  (`npm run build`) and this site over the set's committed release output
+  (`sh site/scripts/build.sh --released`, PHP and composer as in
+  simai/ui-doc's CI), and `deploy/simai-server/assemble.sh` lays them out
+  with `scripts/compose.sh`. The example frames keep Docara's
+  `sandbox="allow-scripts"`; `server.js` answers every file with
+  `Access-Control-Allow-Origin: *`, so the frames load the Framework and the
+  set. An unknown page under `/ru/` or `/en/` gets the site's 404 page.
+- **The local review host** (`npm run publish` at the repository root, or
+  `scripts/publish-local.sh --polygon <dist>`) composes the same way with
+  `--open-frames`: Chromium's Local Network Access blocks sandboxed frames on
+  a local host. Every publish is a new folder under `~/Sites/.ui-admin-releases/`;
+  the `~/Sites/ui-admin.test` link moves to it and every earlier folder stays.
 
 ## Languages
 

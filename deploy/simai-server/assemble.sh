@@ -2,10 +2,16 @@
 # Usage: deploy/simai-server/assemble.sh <empty output directory>
 #
 # Lays out the artifact the simai-env server deploys, from a checkout where
-# `npm run build` has already written dist/. This file is the one place the
-# layout is decided (to be confirmed with the SIMAI ENV session):
+# `npm run build` has already written dist/ (the polygon) and
+# `site/scripts/build.sh --released` has written site/build_production (the
+# Admin set's documentation). This file is the one place the layout is decided
+# (to be confirmed with the SIMAI ENV session):
 #
-#   dist/             the built site, served statically
+#   dist/             the site, served statically by server.js: the
+#                     documentation at the root and the polygon at /demo/
+#                     (owner C423, 2026-11-23), composed by
+#                     site/scripts/compose.sh -- the same script the local
+#                     review host ui-admin.test is published with
 #   server.js         the mock API (/api/), started with `node server.js`
 #   public/           server.js serves /assets from ./public (local use)
 #   state/            what server.js writes: data, avatars, uploads; kept
@@ -22,13 +28,14 @@ out="${1:?usage: assemble.sh <empty output directory>}"
 root="$(cd "$(dirname "$0")/../.." && pwd)"
 
 test -f "$root/dist/index.html" || { echo "no dist/index.html: run npm run build first" >&2; exit 1; }
+test -f "$root/site/build_production/index.html" || { echo "no site/build_production/index.html: run sh site/scripts/build.sh --released first" >&2; exit 1; }
 if [ -e "$out" ] && [ -n "$(ls -A "$out")" ]; then
   echo "$out is not empty" >&2
   exit 1
 fi
 mkdir -p "$out/.simai"
 
-cp -R "$root/dist" "$out/dist"
+bash "$root/site/scripts/compose.sh" --polygon "$root/dist" --docs "$root/site/build_production" --out "$out/dist"
 cp -R "$root/public" "$out/public"
 cp "$root/server.js" "$root/package.json" "$root/package-lock.json" "$out/"
 cp "$root/deploy/simai-server/app.json" "$out/.simai/app.json"

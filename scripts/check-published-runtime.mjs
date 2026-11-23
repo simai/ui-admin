@@ -82,12 +82,18 @@ const packageElements = new Map();
 const frameworkBase = served.find((found) => found.name === 'framework').base;
 for (const one of served) {
   if (one.name === 'framework') continue;
-  const url = `${origin}${frameworkBase}core/contracts/packages/${one.name}.package.json`;
+  // A set names what it provides in its own passport, served beside its
+  // rule.js (scripts/materialize-set-runtime.mjs); a package, in the package
+  // reference the Framework publishes for it.
+  const url = one.kind === 'set'
+    ? `${origin}${one.base}set.json`
+    : `${origin}${frameworkBase}core/contracts/packages/${one.name}.package.json`;
   try {
     const reference = JSON.parse(await (await fetchText(url)).text());
     packageElements.set(
       one.name,
-      (reference.provides ?? []).map((item) => item.element).filter(Boolean),
+      (one.kind === 'set' ? reference.components : reference.provides ?? [])
+        .map((item) => item.element).filter(Boolean),
     );
   } catch (error) {
     // A package the Framework publishes no reference for is a package this
@@ -125,8 +131,15 @@ const required = served.flatMap(({ name, lock, base }) => [
   })),
 ]);
 
+// Since owner decision C423 (2026-11-23) the site's root is the Admin set's
+// documentation and the polygon's index is served at /demo/
+// (site/scripts/compose.sh); a host that serves the polygon alone (vite
+// preview, dist/) still has it at /index.html.
+const composed = await fetch(`${origin}/demo/`).then((response) => response.ok, () => false);
+const addressOf = (page) => (page === 'index.html' && composed ? 'demo/' : page);
+
 for (const page of pages) {
-  const url = `${origin}/${page}`;
+  const url = `${origin}/${addressOf(page)}`;
   let html;
   try {
     const response = await fetchText(url);
@@ -221,8 +234,8 @@ for (const file of required) {
 process.stdout.write(`${JSON.stringify({
   check: 'published-runtime',
   origin,
-  distributions: served.map(({ name, base, lock }) => ({ name, base, pair: lock.compatibilityId })),
-  pages: pages.filter((page) => !skipped.some((item) => item.page === page)),
+  distributions: served.map(({ name, base, lock }) => ({ name, base, pair: lock.compatibilityId, ...(lock.version ? { version: lock.version } : {}) })),
+  pages: pages.filter((page) => !skipped.some((item) => item.page === page)).map(addressOf),
   skipped,
   // Not a failure, and not silence either: the pages whose own bytes a browser
   // may keep across a republish, and what would stop it.

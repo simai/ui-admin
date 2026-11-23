@@ -4898,7 +4898,13 @@ function tasksHandler(req, res) {
 }
 
 // A deep link into the app gets the app; the API and asset paths keep their
-// own 404s.
+// own 404s. Since owner decision C423 (2026-11-23) the root is the Admin set's
+// documentation and the app -- the polygon -- is at /demo/
+// (site/scripts/compose.sh): an unknown page of the documentation gets its 404
+// page, and any other unknown path the polygon, as the root did before.
+const POLYGON_INDEX = existsSync(`${DIST_DIR}/demo/index.html`) ? `${DIST_DIR}/demo/index.html` : `${DIST_DIR}/index.html`;
+const DOCS_NOT_FOUND = `${DIST_DIR}/404.html`;
+const DOCS_PATH = /^\/(?:ru|en|_docara)(?:\/|$)/u;
 if (SERVES_APP) {
     app.get(/^(?!\/api\/|\/assets\/).*/, (req, res, next) => {
         if (!req.accepts('html')) {
@@ -4907,7 +4913,11 @@ if (SERVES_APP) {
         }
 
         res.setHeader('Cache-Control', REVALIDATE);
-        res.sendFile(`${DIST_DIR}/index.html`, {cacheControl: false});
+        if (DOCS_PATH.test(req.path) && existsSync(DOCS_NOT_FOUND)) {
+            res.status(404).sendFile(DOCS_NOT_FOUND, {cacheControl: false});
+            return;
+        }
+        res.sendFile(POLYGON_INDEX, {cacheControl: false});
     });
 }
 

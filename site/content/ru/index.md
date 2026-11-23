@@ -56,7 +56,7 @@ profile: landing
 ::::grid {columns=3 gap=4}
 :::card {variant=plain}
 ### Версия
-SIMAI Admin 1.1.0 от 23 ноября 2026 года. [История изменений](/ru/guide/changes/)
+SIMAI Admin 1.2.0 от 23 ноября 2026 года. [История изменений](/ru/guide/changes/)
 :::
 :::card {variant=plain}
 ### Совместимость

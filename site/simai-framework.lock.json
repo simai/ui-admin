@@ -4468,15 +4468,15 @@
             "schema_version": 2,
             "package": "admin",
             "requires": "ui-b4f79e1c58b7",
-            "mount": "_docara/framework-packages/admin/25245d70cde8360fcdf795b47359220e0def72a5",
+            "mount": "_docara/framework-packages/admin/ebc242e8fa56026737eb371543c9fe72c49da57c",
             "receipt": {
                 "schema": "simai.framework.product-package-receipt",
                 "schema_version": 1,
                 "package_source": {
                     "repository": "simai/ui-admin",
-                    "revision": "25245d70cde8360fcdf795b47359220e0def72a5",
+                    "revision": "ebc242e8fa56026737eb371543c9fe72c49da57c",
                     "path": "package",
-                    "tree": "b5553991d5332683fe002cd0f0da895ea37288b8"
+                    "tree": "44e61022decb3646d0f97b68b2ad53d3f5d94494"
                 },
                 "framework_source": {
                     "repository": "simai/ui-source",
@@ -4484,10 +4484,10 @@
                 },
                 "builder": {
                     "repository": "simai/ui-builder",
-                    "revision": "ee30c8215ff5b6491447e98c3d7ab674447a67bb"
+                    "revision": "524bf464a36aaac1029161c650218b3e43e88a1f"
                 },
-                "manifest_sha256": "69efa29b090b51e5b4c402e7cfc485bb903fc87b833e482f4f338997b5a93623",
-                "archive_sha256": "6c2b67630b2dd3d7045f1d8df26173ec4dedd30cb166a68f51dccb0be2480883"
+                "manifest_sha256": "274bcab783aa7ae06bb74ab8644930891f697446f187fb7b5aeda3f497ac090b",
+                "archive_sha256": "a2d346aaf5738e72ce33a2356b83395a8c01b9e87e07151833ae700883362d56"
             },
             "files": {
                 "set.json": {
@@ -4506,16 +4506,16 @@
                     "sha256": "44a9d1e4d00ff6b0b33d1bfe86d91e73b3ec22a77de3b7fbb97314a507fdf0b7"
                 },
                 "smart/admin-menu/css/admin-menu.css": {
-                    "sha256": "2cdfcf9c7ab18fd79a4c106e9f81493a7f48550ea4798e5eeef245432cd6d622"
+                    "sha256": "86d049c4e5bde82e81ccc10bc1eb2095098c0cae8d38474ba4298b057a3e0386"
                 },
                 "smart/admin-menu/css/admin-menu.min.css": {
-                    "sha256": "a6de3c02b0e11af1173199dce77f48d3ab0cb152e16558c6f5a874422715092d"
+                    "sha256": "b83a3fe66abc5f73dedefc365d4335b42ac265c57343b86ca95cd2a74d8f9d83"
                 },
                 "smart/admin-menu/js/admin-menu.js": {
-                    "sha256": "69e39be20d5dd6c987dc5f502424cca9cb1e5660724dc17d506a8b932120bd38"
+                    "sha256": "60954db7e5272bdb7fb55dcfb83201d7b70d9784a24aa56cbff5da2391343ab7"
                 },
                 "smart/admin-menu/js/admin-menu.min.js": {
-                    "sha256": "9d1ca0a218a7f95b78de6329a5212d2eb4e6661f9a14e32f6ff5e983f3bfb183"
+                    "sha256": "bf67213ca551f62f70edb33d90c78d7ee6ab218a330cd44ee87e431a94bab45d"
                 },
                 "smart/admin-notifications/css/admin-notifications.css": {
                     "sha256": "cdcff887ad3c82d9f10cd25b6802ae63f206936450632656d26dd4b66dc8c45c"
@@ -4536,13 +4536,13 @@
                     "sha256": "bab5e258af58f5a5bdb39d6c8e30636cf4ce0d11165439d5d5fc647640df0b4b"
                 },
                 "smart/admin-shell/js/admin-shell.js": {
-                    "sha256": "8b122e5ecc269e650f6d1b8f294eeb46843b8ef5f064732956b1c0f9dcf6e36d"
+                    "sha256": "5b4a49a8e2913396cb1941515a035aedbaf3648e6f648733183cdcaed54da051"
                 },
                 "smart/admin-shell/js/admin-shell.min.js": {
-                    "sha256": "723c9540e8f996c4157735b557e1fa7dfea7c04028127794fdb7e7de9bc46ca3"
+                    "sha256": "bf6a6c8cd7debbe76feb281b6d7a8d0a8c7a33d91d97c2681cd3db16a3b40094"
                 },
                 "smart/rule.js": {
-                    "sha256": "e350fed590bdc617659fe0f4021283ebef5ff0d0072e41b7ae37206a89249299"
+                    "sha256": "4a2517d762322245291eb9a2edf4332c434dce1f68108583e66ed53de9445662"
                 }
             }
         }

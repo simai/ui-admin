@@ -36,7 +36,7 @@ the set's sf-admin-notifications panel from the bell when the page holds one
 уведомлений набора») and reads with the port's `{keys, all}`. 1.16.0 accepts
 `simai.admin-navigation-port` 1.2.0 beside 1.0.0 and 1.1.0; in 1.16.1
 `sf-admin-menu-navigate` is cancelable (a page with unsaved changes keeps the
-current row). 1.17.0 fetches only what a closed menu draws: the search
+current row). 1.17.0 (set 1.2.0) fetches only what a closed menu draws: the search
 window, the panels, the menus and the setting mode's parts come through the
 Loader when first needed (docs.md «Что меню загружает»). Its history
 before the move is in ui-pro. Its dated event aliases (`aliases.json`, until
@@ -112,7 +112,7 @@ release route (ui-builder `publish-package-release.sh`) lays it into
 or, from a base the page serves itself:
 
 ```js
-window.SF_BOOT_CONFIG = {packages: {admin: {base: '/assets/ui-admin/smart', version: '1.1.0'}}};
+window.SF_BOOT_CONFIG = {packages: {admin: {base: '/assets/ui-admin/smart', version: '1.2.0'}}};
 ```
 
 An admin page that also shows data views declares both sets:

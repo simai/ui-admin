@@ -36,7 +36,7 @@
   window.__cls = 0;
   try { new PerformanceObserver(function (l) { l.getEntries().forEach(function (e) { if (!e.hadRecentInput) window.__cls += e.value; }); }).observe({type: 'layout-shift', buffered: true}); } catch (e) {}
   window.sfPath = base; window.sfSmartPath = base.slice(0, -1);
-  window.SF_BOOT_CONFIG = {theme: false, smart: {base: true}, minified: true, preloader: {enabled: false}, packages: {admin: {base: set, version: '1.1.0'}}};
+  window.SF_BOOT_CONFIG = {theme: false, smart: {base: true}, minified: true, preloader: {enabled: false}, packages: {admin: {base: set, version: '1.2.0'}}};
   document.write('<link rel="stylesheet" href="' + base + 'core/css/core.css">');
   document.write('<script defer src="' + base + 'core/lang/ru.js"><\/script>');
   document.write('<script defer src="' + base + 'core/js/smart-base.js"><\/script><script defer src="' + base + 'core/js/core.js"><\/script>');

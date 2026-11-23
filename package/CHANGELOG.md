@@ -1,6 +1,10 @@
 # Changelog of the set `admin` (@simai-studio/admin)
 
-## Unreleased
+## 1.2.0 (2026-11-23)
+
+Built against ui-b4f79e1c58b7 (SIMAI Framework pair of group build 17,
+npm `@simai-studio/ui@5.20261123.1101`, ui-source `e59dbad1c108`), as 1.1.0.
+Requires Core runtime `>=1.67.0` and no other set.
 
 `sf-admin-menu` 1.17.0 (a minor; DEV msg-25d02219, Larena msg-bc572080):
 a closed menu fetches only what it draws.

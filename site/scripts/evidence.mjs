@@ -228,7 +228,17 @@ if (!only) try {
       await wake(page);
       for (const [index, label] of TABS.entries()) {
         const frame = page.frames().find((one) => one !== page.mainFrame());
-        if (index > 0) { await frame?.getByRole('tab', {name: label, exact: true}).click(); await page.waitForTimeout(1500); }
+        if (index > 0) {
+          // On a phone the tabs keep one row and the rest go under «Ещё (n)» (sf-tabs overflow «more»).
+          const tab = frame?.getByRole('tab', {name: label, exact: true});
+          if (await tab?.isVisible()) await tab.click();
+          else {
+            await frame?.locator('sf-tabs button:visible', {hasText: /^\s*Ещё/u}).first().click();
+            await page.waitForTimeout(400);
+            await frame?.getByRole('menuitem', {name: label}).or(frame.getByRole('option', {name: label})).first().click();
+          }
+          await page.waitForTimeout(1500);
+        }
         await shoot(page, width, `home-${index + 1}-${width}-${scheme}.jpg`);
       }
       await context.close();

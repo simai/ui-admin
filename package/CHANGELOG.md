@@ -6,15 +6,21 @@ Built against ui-3963bfe39302 (SIMAI Framework pair of group build 18,
 npm `@simai-studio/ui@5.20261124.2316`, ui-source `96234dd717fb`).
 Requires Core runtime `>=1.67.0` and no other set.
 
-The same components as 1.2.0 (sf-admin-menu 1.17.0, sf-admin-shell 1.0.1,
-sf-admin-notifications 1.0.0, sf-admin-activity 1.0.0), rebuilt over the
+The components of 1.2.0 (sf-admin-shell 1.0.1, sf-admin-notifications
+1.0.0, sf-admin-activity 1.0.0; sf-admin-menu 1.17.1), rebuilt over the
 new pair: a site serves a set only over its own exact pair, and 1.2.0 is
-built over ui-b4f79e1c58b7. What the pair forced: the four
-`smart.manifest.json` carry the release pair marker in
-`compatibility.runtime_pair` (forty zeros; ui-source 96234dd71's
-generate-component-files writes it, and its content hash reads the field as
-the marker), not the old ui revision. The marker is hash-neutral, so no
-component version moved; no other component file changed.
+built over ui-b4f79e1c58b7. No behaviour changed. What the pair forced:
+
+- `sf-admin-menu` 1.17.1 (a patch): the pair's first-paint gate rule 24d
+  now counts the sheets the Loader fetches for the printed parts after the
+  element drew. The object menu's skeleton draws skeleton rows, and its
+  example's sheet list (`static/sheets.json`) lacked
+  `component/skeleton/css/skeleton.min.css`; the list now names it.
+- The four `smart.manifest.json` carry the release pair marker in
+  `compatibility.runtime_pair` (forty zeros; ui-source 96234dd71's
+  generate-component-files writes it, and its content hash reads the field
+  as the marker), not the old ui revision. The marker is hash-neutral, so it
+  moves no component version.
 
 ## 1.2.0 (2026-11-23)
 

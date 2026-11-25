@@ -38,7 +38,8 @@ the set's sf-admin-notifications panel from the bell when the page holds one
 `sf-admin-menu-navigate` is cancelable (a page with unsaved changes keeps the
 current row). 1.17.0 (set 1.2.0) fetches only what a closed menu draws: the search
 window, the panels, the menus and the setting mode's parts come through the
-Loader when first needed (docs.md «Что меню загружает»). Its history
+Loader when first needed (docs.md «Что меню загружает»); 1.17.1 (set 1.2.1)
+lists the skeleton sheet for the object menu's first paint. Its history
 before the move is in ui-pro. Its dated event aliases (`aliases.json`, until
 2026-12-01) move with it; the tag itself has no former name.
 
@@ -127,7 +128,7 @@ build. A set is built and tested against exactly one revision.
 ## Кратко по-русски
 
 Здесь исходник набора компонентов `admin`: меню администратора
-`sf-admin-menu` 1.17.0 — то самое меню, которое владелец утвердил на витрине
+`sf-admin-menu` 1.17.1 — то самое меню, которое владелец утвердил на витрине
 (решение C384, пункты AM-1..AM-61). Владелец меню — этот репозиторий
 `simai/ui-admin`; копия в `simai/ui-pro` заморожена и уйдёт из пакета `pro`
 в первом выпуске Pro после выпуска набора. Набор собирается и проверяется

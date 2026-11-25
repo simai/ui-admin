@@ -13,7 +13,7 @@ Loader сам находит набор, загружает его правил�
 
 <!-- release:cdn -->
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@simai-studio/ui@5.20261123.1101/distr/core/js/core.min.js" data-sf-sets="admin"></script>
+<script src="https://cdn.jsdelivr.net/npm/@simai-studio/ui@5.20261124.2316/distr/core/js/core.min.js" data-sf-sets="admin"></script>
 ```
 <!-- /release:cdn -->
 
@@ -24,14 +24,14 @@ Loader сам находит набор, загружает его правил�
 набора, который подходит к подключённому Core.
 
 <!-- release:compat -->
-Эта сборка сайта показывает версию 1.2.0 (`admin-ebc242e8fa56`): она собрана над выпуском SIMAI Framework `ui-b4f79e1c58b7` (npm `@simai-studio/ui@5.20261123.1101`) и работает с `core.runtime` 1.67.0 или новее.
+Эта сборка сайта показывает версию 1.2.1 (`admin-13b82de3be68`): она собрана над выпуском SIMAI Framework `ui-3963bfe39302` (npm `@simai-studio/ui@5.20261124.2316`) и работает с `core.runtime` 1.67.0 или новее.
 <!-- /release:compat -->
 
 Ссылка на выпуск закрепляет Core и набор вместе:
 
 <!-- release:cdn-pinned -->
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@simai-studio/ui@5.20261123.1101/distr/core/js/core.min.js" data-sf-sets="admin@1.2.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/@simai-studio/ui@5.20261124.2316/distr/core/js/core.min.js" data-sf-sets="admin@1.2.1"></script>
 ```
 <!-- /release:cdn-pinned -->
 
@@ -45,7 +45,7 @@ Loader сам находит набор, загружает его правил�
 <script>
   window.SF_BOOT_CONFIG = {
     packages: {
-      admin: {base: '/assets/ui-admin/smart', version: '1.2.0'}
+      admin: {base: '/assets/ui-admin/smart', version: '1.2.1'}
     }
   };
 </script>
@@ -78,7 +78,7 @@ Loader сам находит набор, загружает его правил�
 
 <!-- release:npm -->
 ```bash
-npm install @simai-studio/admin@1.2.0 @simai-studio/ui@5.20261123.1101
+npm install @simai-studio/admin@1.2.1 @simai-studio/ui@5.20261124.2316
 ```
 <!-- /release:npm -->
 
@@ -96,6 +96,7 @@ npm install @simai-studio/admin@1.2.0 @simai-studio/ui@5.20261123.1101
 <!-- release:versions -->
 | Набор | Выпуск | Собран над SIMAI Framework | Нужен Core |
 |:---|:---|:---|:---|
+| 1.2.1 | `admin-13b82de3be68`, 25 ноября 2026 года | `ui-3963bfe39302` | `core.runtime` 1.67.0 или новее |
 | 1.2.0 | `admin-ebc242e8fa56`, 23 ноября 2026 года | `ui-b4f79e1c58b7` | `core.runtime` 1.67.0 или новее |
 | 1.1.0 | `admin-25245d70cde8`, 23 ноября 2026 года | `ui-b4f79e1c58b7` | `core.runtime` 1.67.0 или новее |
 | 1.0.0 | `admin-8cff3084cfaf`, 22 ноября 2026 года | `ui-9ceecc24c988` | `core.runtime` 1.61.0 или новее |

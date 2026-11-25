@@ -41,7 +41,7 @@ profile: reference
 
 ## Параметры
 
-Справочник собран из манифеста компонента в выпуске набора `admin-ebc242e8fa56` (версия 1.2.0) и обновляется вместе с выпуском. Каждому атрибуту соответствует свойство элемента с тем же именем в camelCase: `history-href` — `historyHref`.
+Справочник собран из манифеста компонента в выпуске набора `admin-13b82de3be68` (версия 1.2.1) и обновляется вместе с выпуском. Каждому атрибуту соответствует свойство элемента с тем же именем в camelCase: `history-href` — `historyHref`.
 
 | | |
 |:---|:---|
@@ -105,7 +105,7 @@ profile: reference
 
 ## Источник
 
-- `simai/ui-admin@ebc242e8fa56:package/src/smart/admin-notifications`
+- `simai/ui-admin@13b82de3be68:package/src/smart/admin-notifications`
 
 ## См. также
 

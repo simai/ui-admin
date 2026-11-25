@@ -64,7 +64,7 @@ const start = async () => {
 void start();
 
 // On a phone the menu is opened from a button above the page and covers it;
-// choosing a row or pressing the button again closes it.
+// choosing a row, pressing the button again or Escape closes it.
 const addPhoneToggle = () => {
   if (document.querySelector('.admin-navigation-toggle')) return;
   const bar = document.createElement('div');
@@ -95,6 +95,39 @@ const addPhoneToggle = () => {
   addEventListener('sf-admin-menu-navigate', () => {
     document.body.removeAttribute('data-menu-open');
     button.setAttribute('aria-expanded', 'false');
+  });
+  // Escape with nothing over the menu closes it and gives the focus back to
+  // the button (bus msg-513615b18308472cbb97: the menu stayed open after the
+  // Escape that had closed the bell's panel). Something over the menu -- the
+  // bell's panel, the person menu, the search window, a dialog -- takes the
+  // Escape first and closes itself, so whether anything was open is read in
+  // the capture phase on window, before any of them answers, and the menu
+  // closes in the bubble phase only when nothing was open, nobody took the
+  // key and it was not pressed in one of the menu's own fields (the same
+  // rule as sf-admin-menu's own Escape, escapeTaken).
+  let overlayOpen = false;
+  const popoverOpen = () => {
+    try { return Boolean(document.querySelector(':popover-open')); } catch { return false; }
+  };
+  // sf-search marks its open window with data-open (not open) and does not
+  // take the key with preventDefault, so it is read both ways and through
+  // isOpen, which sf-search and sf-menu-context both carry.
+  const OVERLAYS = 'sf-drawer[open], sf-search[open], sf-search[data-open], sf-modal[open], sf-confirm[open], sf-dropdown[open]';
+  const OPENABLE = 'sf-menu-context, sf-search, sf-dropdown';
+  addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+    overlayOpen = Boolean(document.querySelector(OVERLAYS))
+      || [...document.querySelectorAll(OPENABLE)].some((element) => (element as { isOpen?: boolean }).isOpen === true)
+      || popoverOpen();
+  }, true);
+  addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape' || event.defaultPrevented || overlayOpen) return;
+    if (!document.body.hasAttribute('data-menu-open')) return;
+    const target = (event.composedPath?.()[0] ?? event.target) as Element | null;
+    if (target?.closest?.('input, textarea, [contenteditable="true"]') && target.closest('sf-admin-menu')) return;
+    document.body.removeAttribute('data-menu-open');
+    button.setAttribute('aria-expanded', 'false');
+    (button.querySelector('button') ?? button).focus();
   });
 };
 if (document.body) addPhoneToggle();

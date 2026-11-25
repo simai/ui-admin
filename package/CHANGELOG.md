@@ -1,5 +1,16 @@
 # Changelog of the set `admin` (@simai-studio/admin)
 
+## 1.2.1 (2026-11-25)
+
+Built against ui-3963bfe39302 (SIMAI Framework pair of group build 18,
+npm `@simai-studio/ui@5.20261124.2316`, ui-source `96234dd717fb`).
+Requires Core runtime `>=1.67.0` and no other set.
+
+The same components as 1.2.0 (sf-admin-menu 1.17.0, sf-admin-shell 1.0.1,
+sf-admin-notifications 1.0.0, sf-admin-activity 1.0.0), rebuilt over the
+new pair: a site serves a set only over its own exact pair, and 1.2.0 is
+built over ui-b4f79e1c58b7. No component file changed.
+
 ## 1.2.0 (2026-11-23)
 
 Built against ui-b4f79e1c58b7 (SIMAI Framework pair of group build 17,

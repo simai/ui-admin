@@ -9,9 +9,9 @@
   },
   "package_source": {
     "repository": "simai/ui-admin",
-    "revision": "13b82de3be685b4e7cb8ab68d4edac0e4374e91c",
+    "revision": "45b580402884bd9d7e067d95629303b8df2a2f8a",
     "path": "package",
-    "tree": "98f5452691383ad8894eb3854365458f0004f904"
+    "tree": "9f159293c1f0a9ecb775de5a70c7ee796e000276"
   },
   "licence": {
     "ref": "PolyForm-Small-Business-1.0.0 OR PolyForm-Noncommercial-1.0.0 OR LicenseRef-SIMAI-Commercial"
@@ -19,9 +19,9 @@
   "framework": {
     "source": {
       "repository": "simai/ui-source",
-      "revision": "96234dd717fb11084d2cc0ae7897961f28228a41"
+      "revision": "5e30b946fd0e620a4d00ab771af143dc286be1b8"
     },
-    "release": "ui-3963bfe39302",
+    "release": "ui-73df5d1b4d4c",
     "runtime": {
       "abi": 1,
       "modules": {
@@ -66,9 +66,9 @@
   "output": {
     "runtime_path": "smart",
     "files_count": 161,
-    "manifest_sha256": "92382fe0a0b6fac7f26c04986083f2829199f966d2b7999012966db9c1fede33",
+    "manifest_sha256": "0bf2aba25ec404c422ce169b84f238d0ba179b6a55e71289cb6b960457717c39",
     "archive": "package-admin.tar",
-    "archive_sha256": "0a43c7f520d50b43dbd8d8873ec40c8086897d08c4d68b409b75910975292eb0",
+    "archive_sha256": "f9cafa030d548df97daedf4ed1aab52caddc50455c26d4113c82f94fb74add70",
     "archive_format": "ustar; entries sorted; owner 0:0; mtime 0; modes 0755/0644"
   },
   "required_files": [
@@ -89,8 +89,8 @@
     },
     {
       "path": "smart/admin-menu/js/admin-menu.js",
-      "sha256": "1f0ab4311e81a369e6194f732ab236d222df6aca08890b8b506e2a2e1e049bf4",
-      "size": 379054
+      "sha256": "ef87e1397120eed7507d43a5b3296fec7c5cf3802d6e86ded7c4e23a3fb1c7e7",
+      "size": 390422
     },
     {
       "path": "smart/admin-menu/css/admin-menu.css",
@@ -190,20 +190,20 @@
   },
   "package_reference": {
     "path": "distr/core/contracts/packages/admin.package.json",
-    "release": "ui-3963bfe39302",
+    "release": "ui-73df5d1b4d4c",
     "status": "set-passport"
   },
   "set": {
     "id": "admin",
     "passport": "set.json",
-    "sha256": "f7ae3422553ec33f8f093992c5b5bbc20657caead2bb9e2bab3260bacf4e251a",
+    "sha256": "c871120568f52f484cd6b4773537735c541bbe28e1992d8af3deeb33f50fa7f8",
     "api": null,
     "families": [
       "admin"
     ],
     "framework": {
       "core_runtime": ">=1.67.0",
-      "source_revision": "96234dd717fb11084d2cc0ae7897961f28228a41"
+      "source_revision": "5e30b946fd0e620a4d00ab771af143dc286be1b8"
     },
     "requires_sets": [],
     "registry": {
@@ -214,7 +214,7 @@
   "files": [
     {
       "path": "set.json",
-      "sha256": "f7ae3422553ec33f8f093992c5b5bbc20657caead2bb9e2bab3260bacf4e251a",
+      "sha256": "c871120568f52f484cd6b4773537735c541bbe28e1992d8af3deeb33f50fa7f8",
       "size": 2116
     },
     {
@@ -409,13 +409,13 @@
     },
     {
       "path": "smart/admin-menu/component.json",
-      "sha256": "5a3f3b43d1ca9ac6e7aeb90b08eed0c29fa4c386d45562c4d4d1f7e09a180783",
-      "size": 76565
+      "sha256": "2d0b3fd02b7270b873ad628f9630c4cd733a6984ddd51f4e4753115a4942b65c",
+      "size": 77648
     },
     {
       "path": "smart/admin-menu/component.json.gz",
-      "sha256": "ca132634d498e6c0b399393bb3ea742a36bd1cd32ad27a66a9176849a577b613",
-      "size": 21569
+      "sha256": "e47d812bb2175e7d07a4434c4ff8608eb40d81cb377b67a5799b9ad4877bc446",
+      "size": 21850
     },
     {
       "path": "smart/admin-menu/css/admin-menu.css",
@@ -449,23 +449,23 @@
     },
     {
       "path": "smart/admin-menu/js/admin-menu.js",
-      "sha256": "1f0ab4311e81a369e6194f732ab236d222df6aca08890b8b506e2a2e1e049bf4",
-      "size": 379054
+      "sha256": "ef87e1397120eed7507d43a5b3296fec7c5cf3802d6e86ded7c4e23a3fb1c7e7",
+      "size": 390422
     },
     {
       "path": "smart/admin-menu/js/admin-menu.js.gz",
-      "sha256": "6f17ad32f038da3bf806522c1fec8f588dc23f0dee38ff77e14342407120ecc2",
-      "size": 103465
+      "sha256": "840ccfe2e939ec83db2a80e3644b7adcb826f415a577d1affb5240b905c89555",
+      "size": 106559
     },
     {
       "path": "smart/admin-menu/js/admin-menu.min.js",
-      "sha256": "1b2aebcfa8ea2a9675d372bcd8bb26f0ae0afb1e2e85ee4593ca98f0cd626ede",
-      "size": 173659
+      "sha256": "4e80740dfd6ff8b09922d46ff3104f9aeeb954237656dde06393fb64422e26ee",
+      "size": 176590
     },
     {
       "path": "smart/admin-menu/js/admin-menu.min.js.gz",
-      "sha256": "2ba8c311559231b30ce81b89eb3a39d924c7269dc53741a5e03be1b6a3a1b68d",
-      "size": 52603
+      "sha256": "c9c9940bc90ba0e9ec4ef1050bae58da69cb94cb601b8c7b30f9d28d0e93558c",
+      "size": 53628
     },
     {
       "path": "smart/admin-menu/lang/ar.json",
@@ -589,13 +589,13 @@
     },
     {
       "path": "smart/admin-menu/smart.manifest.json",
-      "sha256": "e357991991a7196242995af47c61bb25efbd1e32afc16e7909307ac9ac31614e",
-      "size": 33266
+      "sha256": "667cf8ad51de4eefb696f6f64659c7ffbeeedafa5b16c97986e1b822dd6310ad",
+      "size": 33512
     },
     {
       "path": "smart/admin-menu/smart.manifest.json.gz",
-      "sha256": "071214637f40868d6c267e9bf0121ae74fc906cbd1f4f48a4c0d5f216bbb7c13",
-      "size": 8524
+      "sha256": "21472dec6bf648cdceba756fc296a258adbdab5da062c3d8a29a5f5311e6d4f6",
+      "size": 8593
     },
     {
       "path": "smart/admin-menu/static/default/navigation-port.html",

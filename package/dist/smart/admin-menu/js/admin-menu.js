@@ -352,6 +352,253 @@ if (typeof globalThis !== 'undefined') {
 
 /***/ },
 
+/***/ "cbcfcde04d12"
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   COARSE_QUERY: () => (/* binding */ COARSE_QUERY),
+/* harmony export */   LAYOUTS: () => (/* binding */ LAYOUTS),
+/* harmony export */   PHONE_BELOW: () => (/* binding */ PHONE_BELOW),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   devicesOf: () => (/* binding */ devicesOf),
+/* harmony export */   inLayout: () => (/* binding */ inLayout),
+/* harmony export */   itemsInLayout: () => (/* binding */ itemsInLayout),
+/* harmony export */   layoutOf: () => (/* binding */ layoutOf),
+/* harmony export */   layoutOfWidth: () => (/* binding */ layoutOfWidth),
+/* harmony export */   layoutPlace: () => (/* binding */ layoutPlace),
+/* harmony export */   markDevices: () => (/* binding */ markDevices),
+/* harmony export */   pointerKind: () => (/* binding */ pointerKind),
+/* harmony export */   watchLayout: () => (/* binding */ watchLayout),
+/* harmony export */   watchPointer: () => (/* binding */ watchPointer)
+/* harmony export */ });
+// Device scope (study S-A, decision q-7097831f9f option 2, 2026-11-24; the
+// Touch screens page, docs/foundation-touch-screens.md). Two separate facts,
+// one word each, so no component measures them in a copy of its own:
+//
+//   layout   'phone' when the component's place is narrower than
+//            PHONE_BELOW (600 px), else 'desktop'. It decides which items a
+//            component shows: an item that carries `devices` is shown only in
+//            the layouts it names, and hidden -- not disabled -- in the other.
+//   pointer  'coarse' when the page has a touch pointer and no fine one,
+//            else 'fine'. It decides gestures and what replaces hover (a
+//            check box always shown, a hit area of 44).
+//
+// A tablet with a keyboard is a coarse pointer in a desktop layout; a narrow
+// desktop window a fine pointer in a phone layout. The two words never stand
+// for each other.
+//
+// The place is the nearest size container (an ancestor with a
+// `container-type`), as a container query reads it; without one, the page.
+// 600 is the width the View layouts already switch at (sf-view-board,
+// sf-view-calendar, the view head); it is not a step of the size scale
+// (C181 (2) pending), recorded on the page as a known gap.
+//
+// Marks: an author marks any item -- a setting, a menu item, a tab, a column
+// -- with `devices: ['phone']` or `devices: ['desktop']`; a component marks
+// its own items it knows are bound to a layout (markDevices). The author's
+// mark wins: a component's mark fills only an item that has none.
+
+/** Below this width (px) of its place a component draws its phone layout. */
+const PHONE_BELOW = 600;
+/** The layouts an item may name in `devices`. */
+
+const LAYOUTS = Object.freeze(['phone', 'desktop']);
+/** The coarse-pointer media query: a touch pointer and no fine one. */
+
+const COARSE_QUERY = '(pointer: coarse) and (not (any-pointer: fine))';
+const KNOWN = new Set(LAYOUTS);
+/** The layout of a width: 'phone' below PHONE_BELOW, else 'desktop'. */
+
+function layoutOfWidth(width) {
+  return Number.isFinite(width) && width > 0 && width < PHONE_BELOW ? 'phone' : 'desktop';
+}
+/**
+ * The box whose width decides an element's layout: the element itself or its
+ * nearest ancestor that is a size container, else null (the page).
+ */
+
+function layoutPlace(element) {
+  const view = element?.ownerDocument?.defaultView ?? globalThis;
+
+  for (let node = element instanceof Element ? element : null; node; node = node.parentElement ?? node.getRootNode?.()?.host ?? null) {
+    const type = view.getComputedStyle?.(node)?.containerType ?? '';
+    if (type && type !== 'normal') return node;
+  }
+
+  return null;
+}
+
+function placeWidth(element) {
+  const place = layoutPlace(element);
+  if (place) return place.getBoundingClientRect().width;
+  const doc = element?.ownerDocument ?? globalThis.document;
+  return doc?.documentElement?.clientWidth || globalThis.innerWidth || 0;
+}
+/**
+ * The layout an element is drawn in: 'phone' or 'desktop'. A number is read
+ * as a width; a written word ('phone' | 'desktop') is taken as given, so a
+ * host that knows its own layout says it.
+ */
+
+
+function layoutOf(target) {
+  if (KNOWN.has(target)) return target;
+  if (typeof target === 'number') return layoutOfWidth(target);
+  return layoutOfWidth(placeWidth(target));
+}
+/**
+ * Follows an element's layout: calls back with the new word when it changes
+ * (not at once). Returns stop(). Without ResizeObserver it follows the page.
+ */
+
+function watchLayout(element, callback) {
+  let last = layoutOf(element);
+
+  const check = () => {
+    const now = layoutOf(element);
+    if (now === last) return;
+    last = now;
+    callback(now);
+  };
+
+  const place = layoutPlace(element);
+  const view = element?.ownerDocument?.defaultView ?? globalThis;
+
+  if (place && typeof view.ResizeObserver === 'function') {
+    const observer = new view.ResizeObserver(check);
+    observer.observe(place);
+    return () => observer.disconnect();
+  }
+
+  view.addEventListener?.('resize', check);
+  return () => view.removeEventListener?.('resize', check);
+}
+/** The page's pointer: 'coarse' (touch, no fine pointer) or 'fine'. */
+
+function pointerKind(view = globalThis) {
+  return typeof view?.matchMedia === 'function' && view.matchMedia(COARSE_QUERY).matches ? 'coarse' : 'fine';
+}
+/** Follows the page's pointer word; returns stop(). */
+
+function watchPointer(callback, view = globalThis) {
+  const media = typeof view?.matchMedia === 'function' ? view.matchMedia(COARSE_QUERY) : null;
+  if (!media) return () => {};
+
+  const listener = () => callback(media.matches ? 'coarse' : 'fine');
+
+  media.addEventListener?.('change', listener);
+  return () => media.removeEventListener?.('change', listener);
+}
+/**
+ * The layouts an item is scoped to, or null (every layout). Unknown words are
+ * dropped; a list with no known word is no scope.
+ */
+
+function devicesOf(item) {
+  const list = Array.isArray(item?.devices) ? item.devices : typeof item?.devices === 'string' ? item.devices.split(/[\s,]+/u) : null;
+  if (!list) return null;
+  const known = [...new Set(list.filter(word => KNOWN.has(word)))];
+  return known.length ? known : null;
+}
+/** Whether an item is shown in a layout: unscoped, or scoped to it. */
+
+function inLayout(item, layout) {
+  const scope = devicesOf(item);
+  return !scope || scope.includes(KNOWN.has(layout) ? layout : 'desktop');
+}
+/**
+ * The items shown in a layout, nested lists (`items`, and `options` when
+ * `options: true`) filtered the same way. The items are not copied unless a
+ * nested list changes.
+ */
+
+function itemsInLayout(items, layout, {
+  options = false
+} = {}) {
+  if (!Array.isArray(items)) return [];
+  const out = [];
+
+  for (const item of items) {
+    if (!inLayout(item, layout)) continue;
+
+    if (!item || typeof item !== 'object') {
+      out.push(item);
+      continue;
+    }
+
+    let next = item;
+
+    if (Array.isArray(item.items)) {
+      const inner = itemsInLayout(item.items, layout, {
+        options
+      });
+      if (inner.length !== item.items.length || inner.some((one, at) => one !== item.items[at])) next = { ...next,
+        items: inner
+      };
+    }
+
+    if (options && Array.isArray(item.options)) {
+      const inner = item.options.filter(option => inLayout(option, layout));
+      if (inner.length !== item.options.length) next = { ...next,
+        options: inner
+      };
+    }
+
+    out.push(next);
+  }
+
+  return out;
+}
+/**
+ * A component's own marks over an author's items: `marks` maps an item id to
+ * its layouts (['desktop'] for a table-only setting). An item that carries
+ * its own `devices` keeps it -- the author's mark wins; nested `items` are
+ * marked the same way. Returns new items; the given ones are not changed.
+ */
+
+function markDevices(items, marks = {}) {
+  if (!Array.isArray(items)) return [];
+  const table = marks instanceof Map ? marks : new Map(Object.entries(marks ?? {}));
+  return items.map(item => {
+    if (!item || typeof item !== 'object') return item;
+    let next = item;
+    const own = Object.hasOwn(item, 'devices') && item.devices !== undefined && item.devices !== null;
+    if (!own && item.id !== undefined && table.has(String(item.id))) next = { ...next,
+      devices: [...table.get(String(item.id))]
+    };
+    if (Array.isArray(item.items)) next = { ...next,
+      items: markDevices(item.items, table)
+    };
+    return next;
+  });
+}
+const Device = Object.freeze({
+  PHONE_BELOW,
+  LAYOUTS,
+  COARSE_QUERY,
+  layoutOf,
+  layoutOfWidth,
+  layoutPlace,
+  watchLayout,
+  pointer: pointerKind,
+  watchPointer,
+  devicesOf,
+  inLayout,
+  itemsInLayout,
+  markDevices
+}); // Core publishes the helper; a component bundle that carries its own copy
+// reuses an already published one instead of replacing it.
+
+if (typeof globalThis !== 'undefined') {
+  globalThis.SF = globalThis.SF || {};
+  if (!globalThis.SF.device) globalThis.SF.device = Device;
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Device);
+
+/***/ },
+
 /***/ "1b42c5117087"
 (module, __webpack_exports__, __webpack_require__) {
 
@@ -3068,12 +3315,13 @@ class NavigationController {
       preventScroll: true
     });
   } // Escape is someone else's while a menu, a window or the notifications
-  // panel is open, or a name is being typed in the menu.
+  // panel is open, or a name is being typed in the menu. sf-search marks its
+  // open window with the host state data-open, not open (1.17.2).
 
 
   escapeTaken(event) {
     if ([...document.querySelectorAll("sf-menu-context")].some(menu => menu.isOpen)) return true;
-    if (document.querySelector("sf-search[open], sf-modal[open], sf-confirm[open]")) return true;
+    if (document.querySelector("sf-search[data-open], sf-modal[open], sf-confirm[open]")) return true;
     if (this._notices?.hasAttribute?.("open") || this._setPanel?.hasAttribute?.("open")) return true;
     const target = event.composedPath?.()[0] ?? event.target;
     return Boolean(target?.closest?.("input, textarea, [contenteditable='true']") && this.element.contains(target));
@@ -6545,10 +6793,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   folded: () => (/* binding */ folded),
 /* harmony export */   holdsValue: () => (/* binding */ holdsValue),
 /* harmony export */   itemValue: () => (/* binding */ itemValue),
+/* harmony export */   itemsFor: () => (/* binding */ itemsFor),
 /* harmony export */   lookOf: () => (/* binding */ lookOf),
 /* harmony export */   matches: () => (/* binding */ matches),
 /* harmony export */   movedField: () => (/* binding */ movedField),
 /* harmony export */   optionMoves: () => (/* binding */ optionMoves),
+/* harmony export */   optionPhones: () => (/* binding */ optionPhones),
 /* harmony export */   optionPins: () => (/* binding */ optionPins),
 /* harmony export */   orderMap: () => (/* binding */ orderMap),
 /* harmony export */   orderPatch: () => (/* binding */ orderPatch),
@@ -6561,6 +6811,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   valueMap: () => (/* binding */ valueMap),
 /* harmony export */   valuePatch: () => (/* binding */ valuePatch)
 /* harmony export */ });
+/* harmony import */ var _core_js_device_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("cbcfcde04d12");
 // sf-settings' data: the items a page gives, their values, and the entries of
 // sf-menu-context they become in each look. Pure functions, no DOM, so the
 // contract test reads them without a browser.
@@ -6574,12 +6825,22 @@ __webpack_require__.r(__webpack_exports__);
 //   {type: 'heading', text}, {type: 'separator'}
 //   {type: 'group', text, items: [...]}                              a titled block
 //   {id, type: 'fields', text, options: [{id, text, checked, pinned}],
-//    sortable, pinnable}                                             a list of many
+//    sortable, pinnable, phoneSwitch}                                a list of many
+//
+// Any item, and an option of a fields list or a choice, may carry
+// `devices: ['phone']` or `devices: ['desktop']` (study S-A, q-7097831f9f):
+// it is shown only in that layout and hidden -- not disabled -- in the other;
+// its value is kept. The layout is core's word (core/js/device.js): 'phone'
+// below 600 px of the element's place. A fields list with `phoneSwitch: true`
+// draws a «На телефоне» switch on each field (option `phone`), the one column
+// list that decides both the desktop and the phone (S-A (2), VL-82); an
+// option with `phoneSwitch: false` has none (a table's system column).
 //
 // The value lives in the item and nowhere else. A fields list (the panel look,
 // owner decision C106) keeps its value in its options: their order, which are
 // checked and which are pinned; its value reads them as [{id, checked, pinned}]
 // in order, the pinned ones first.
+
 const LOOKS = ['drill', 'rows', 'panel']; // The tiles look left (owner decision C176 (5), 2026-11-14): its switches are
 // rows. tiles stays a dated former name of drill until 2027-01-01
 // (component.json aliases); a page that still writes it gets the drill look.
@@ -6641,6 +6902,22 @@ function colorOptions(item) {
 const allowsOwn = item => item?.custom !== false;
 
 const isItem = item => Boolean(item) && typeof item === 'object' && TYPES.includes(item.type);
+/**
+ * The items shown in a layout ('phone' | 'desktop'): an item, a group's item
+ * and an option of a fields list or a choice scoped by `devices` to the other
+ * layout are left out (core's itemsInLayout). Without a layout, all of them.
+ */
+
+
+function itemsFor(items, layout) {
+  if (!layout) return Array.isArray(items) ? items : [];
+  return (0,_core_js_device_js__WEBPACK_IMPORTED_MODULE_0__.itemsInLayout)(items, layout, {
+    options: true
+  });
+}
+/** Whether a fields list's option has a «На телефоне» switch: the list draws them and the option does not refuse. */
+
+const optionPhones = (item, option) => item?.type === 'fields' && Boolean(item?.phoneSwitch) && option?.phoneSwitch !== false;
 
 const optionsOf = item => Array.isArray(item?.options) ? item.options.filter(option => option && typeof option === 'object' && option.id !== undefined && option.id !== null) : [];
 /**
@@ -6682,6 +6959,7 @@ function fieldsPatch(item, value) {
     };
     if (typeof one.checked === 'boolean') option.checked = one.checked;
     if (typeof one.pinned === 'boolean') option.pinned = one.pinned;
+    if (typeof one.phone === 'boolean') option.phone = one.phone;
     return option;
   });
   return {
@@ -6689,7 +6967,20 @@ function fieldsPatch(item, value) {
       options: [...ordered, ...options.filter(option => !listed.has(option.id))]
     })
   };
-}
+} // A fields list's option as its value reads it: {id, checked, pinned}, and
+// phone when the list draws the «На телефоне» switches.
+
+
+const fieldValue = (item, option) => item?.phoneSwitch ? {
+  id: option.id,
+  checked: Boolean(option.checked),
+  pinned: Boolean(option.pinned),
+  phone: Boolean(option.phone)
+} : {
+  id: option.id,
+  checked: Boolean(option.checked),
+  pinned: Boolean(option.pinned)
+};
 /** Whether two values are the same: by identity, or for a fields list by what it holds. */
 
 
@@ -6708,11 +6999,7 @@ const holdsValue = item => isItem(item) && VALUE_TYPES.has(item.type) && typeof 
  */
 
 function itemValue(item) {
-  if (item?.type === 'fields') return fieldOptions(item).map(option => ({
-    id: option.id,
-    checked: Boolean(option.checked),
-    pinned: Boolean(option.pinned)
-  }));
+  if (item?.type === 'fields') return fieldOptions(item).map(option => fieldValue(item, option));
   if (item?.type === 'switch') return Boolean(item.value);
 
   if (item?.type === 'range') {
@@ -6969,9 +7256,10 @@ function entriesOf(items, look, word, folded = NONE) {
 
 function entriesFor(items, look = 'drill', {
   word = plainWord,
-  folded = NONE
+  folded = NONE,
+  layout = ''
 } = {}) {
-  return entriesOf(items, lookOf(look), word, folded instanceof Set ? folded : new Set(folded ?? []));
+  return entriesOf(itemsFor(items, layout), lookOf(look), word, folded instanceof Set ? folded : new Set(folded ?? []));
 } // ─── the panel look (owner decision C106) ─────────────────────────────────
 
 /**
@@ -6980,11 +7268,13 @@ function entriesFor(items, look = 'drill', {
  * separator stays in the group it stands in.
  */
 
-function panelGroups(items) {
+function panelGroups(items, {
+  layout = ''
+} = {}) {
   const groups = [];
   let loose = null;
 
-  for (const item of Array.isArray(items) ? items : []) {
+  for (const item of itemsFor(items, layout)) {
     if (!isItem(item)) continue;
 
     if (item.type === 'group') {
@@ -7018,9 +7308,12 @@ function panelGroups(items) {
  */
 
 function panelLayout(items, {
-  search = false
+  search = false,
+  layout = ''
 } = {}) {
-  const groups = panelGroups(items);
+  const groups = panelGroups(items, {
+    layout
+  });
   if (!search || groups.length < 2) return 'sections';
   return groups.some(group => group.items.some(item => item.type === 'fields')) ? 'tabs' : 'sections';
 } // A search's words: no case, ё as е.
@@ -7121,11 +7414,7 @@ function arranged(item, options) {
   return item?.type === 'choice' ? options.map(option => ({
     id: option.id,
     pinned: Boolean(option.pinned)
-  })) : options.map(option => ({
-    id: option.id,
-    checked: Boolean(option.checked),
-    pinned: Boolean(option.pinned)
-  }));
+  })) : options.map(option => fieldValue(item, option));
 } // The options again with the ones that do not move back at the places they
 // stood (`before`), the moving ones in the order `moved` gives them.
 
@@ -7183,6 +7472,7 @@ function toggledField(item, optionId, key = 'checked') {
   const option = options.find(one => one.id === optionId);
   if (!option || key === 'checked' && (option.disabled || item?.type !== 'fields')) return null;
   if (key === 'pinned' && !optionPins(item, option)) return null;
+  if (key === 'phone' && (option.disabled || !optionPhones(item, option))) return null;
   return arranged(item, options.map(one => one.id === optionId ? { ...one,
     [key]: !one[key]
   } : one));
@@ -7358,7 +7648,7 @@ module.exports = /*#__PURE__*/JSON.parse('{"$comment":"Dated aliases of sf-admin
 /***/ "827a6156cb91"
 (module) {
 
-module.exports = /*#__PURE__*/JSON.parse('{"id":"smart.admin-menu","tag":"sf-admin-menu","version":"1.17.1","kind":"leaf","settings":{"search-shortcut":{"type":"string","default":"mod+k"},"current":{"type":"string","default":""},"expected-columns":{"type":"number","default":2,"integer":true,"min":1,"max":2},"first-answer":{"type":"object","optional":true},"open":{"type":"boolean","optional":true}},"values":{"favourite":{"type":"boolean"}},"events":{"query":{"carries":{"kind":{"type":"enum","values":["site","search"]},"query":"string","request-id":{"type":"string","optional":true},"intent":{"type":"string","optional":true},"payload":{"type":"object","optional":true}}},"reset":{"carries":{"kind":{"type":"enum","values":["view"]},"id":{"type":"id","optional":true},"intent":{"type":"string","optional":true},"payload":{"type":"object","optional":true}}},"navigate":{"carries":{"id":"id","key":"string","href":{"type":"string","nullable":true},"region":{"type":"boolean","optional":true}},"cancelable":true},"refresh":{"carries":{"kind":"string","intent":"string","payload":"object","reason":{"type":"string","nullable":true,"optional":true},"site":{"type":"id","nullable":true,"optional":true}}},"open":{"carries":{"kind":"string","intent":"string","payload":"object","id":"id","href":{"type":"string","nullable":true,"optional":true},"group":{"type":"string","nullable":true,"optional":true}}},"toggle":{"carries":{"kind":"string","intent":"string","payload":"object","id":"id","on":"boolean"}},"save":{"carries":{"kind":"string","intent":"string","payload":"object","values":{"type":"object","optional":true},"id":{"type":"id","nullable":true,"optional":true},"revision":{"type":"number","nullable":true,"optional":true}}},"create":{"carries":{"kind":"string","intent":"string","payload":"object"}},"rename":{"carries":{"kind":"string","intent":"string","payload":"object","id":"id","title":"string"}},"delete":{"carries":{"kind":"string","intent":"string","payload":"object","ids":"list"}},"read":{"carries":{"kind":"string","intent":"string","payload":"object","ids":"list"}},"sign-out":{"carries":{"kind":"string","intent":"string","payload":"object"},"own-verb":true},"column-change":{"carries":{"open":"boolean"}}},"actions":{"refresh":{"concurrency":"latest"},"toggle":{"with":{"id":"id","on":"boolean"},"waits":true},"show-column":{},"hide-column":{},"toggle-column":{}},"port":{"id":"simai.admin-navigation-port","version":"1.1.0","contract":"src/core/contracts/ports/simai.admin-navigation-port/1.1.0/port.json"},"host-states":{},"css-variables":{"--sf-admin-menu-color":{"type":"color","state":"default"},"--sf-admin-menu-first-background-color":{"type":"color","state":"default"},"--sf-admin-menu-second-background-color":{"type":"color","state":"default"},"--sf-admin-menu-border-color":{"type":"color","state":"default"},"--sf-admin-menu-padding":{"type":"length","state":"default"},"--sf-admin-menu-one-column-inline-size":{"type":"length","state":"default"},"--sf-admin-menu-two-columns-inline-size":{"type":"length","state":"default"},"--sf-admin-menu-compact-one-column-inline-size":{"type":"length","state":"default"},"--sf-admin-menu-compact-two-columns-inline-size":{"type":"length","state":"default"}}}');
+module.exports = /*#__PURE__*/JSON.parse('{"id":"smart.admin-menu","tag":"sf-admin-menu","version":"1.17.2","kind":"leaf","settings":{"search-shortcut":{"type":"string","default":"mod+k"},"current":{"type":"string","default":""},"expected-columns":{"type":"number","default":2,"integer":true,"min":1,"max":2},"first-answer":{"type":"object","optional":true},"open":{"type":"boolean","optional":true}},"values":{"favourite":{"type":"boolean"}},"events":{"query":{"carries":{"kind":{"type":"enum","values":["site","search"]},"query":"string","request-id":{"type":"string","optional":true},"intent":{"type":"string","optional":true},"payload":{"type":"object","optional":true}}},"reset":{"carries":{"kind":{"type":"enum","values":["view"]},"id":{"type":"id","optional":true},"intent":{"type":"string","optional":true},"payload":{"type":"object","optional":true}}},"navigate":{"carries":{"id":"id","key":"string","href":{"type":"string","nullable":true},"region":{"type":"boolean","optional":true}},"cancelable":true},"refresh":{"carries":{"kind":"string","intent":"string","payload":"object","reason":{"type":"string","nullable":true,"optional":true},"site":{"type":"id","nullable":true,"optional":true}}},"open":{"carries":{"kind":"string","intent":"string","payload":"object","id":"id","href":{"type":"string","nullable":true,"optional":true},"group":{"type":"string","nullable":true,"optional":true}}},"toggle":{"carries":{"kind":"string","intent":"string","payload":"object","id":"id","on":"boolean"}},"save":{"carries":{"kind":"string","intent":"string","payload":"object","values":{"type":"object","optional":true},"id":{"type":"id","nullable":true,"optional":true},"revision":{"type":"number","nullable":true,"optional":true}}},"create":{"carries":{"kind":"string","intent":"string","payload":"object"}},"rename":{"carries":{"kind":"string","intent":"string","payload":"object","id":"id","title":"string"}},"delete":{"carries":{"kind":"string","intent":"string","payload":"object","ids":"list"}},"read":{"carries":{"kind":"string","intent":"string","payload":"object","ids":"list"}},"sign-out":{"carries":{"kind":"string","intent":"string","payload":"object"},"own-verb":true},"column-change":{"carries":{"open":"boolean"}}},"actions":{"refresh":{"concurrency":"latest"},"toggle":{"with":{"id":"id","on":"boolean"},"waits":true},"show-column":{},"hide-column":{},"toggle-column":{}},"port":{"id":"simai.admin-navigation-port","version":"1.1.0","contract":"src/core/contracts/ports/simai.admin-navigation-port/1.1.0/port.json"},"host-states":{},"css-variables":{"--sf-admin-menu-color":{"type":"color","state":"default"},"--sf-admin-menu-first-background-color":{"type":"color","state":"default"},"--sf-admin-menu-second-background-color":{"type":"color","state":"default"},"--sf-admin-menu-border-color":{"type":"color","state":"default"},"--sf-admin-menu-padding":{"type":"length","state":"default"},"--sf-admin-menu-one-column-inline-size":{"type":"length","state":"default"},"--sf-admin-menu-two-columns-inline-size":{"type":"length","state":"default"},"--sf-admin-menu-compact-one-column-inline-size":{"type":"length","state":"default"},"--sf-admin-menu-compact-two-columns-inline-size":{"type":"length","state":"default"}}}');
 
 /***/ },
 

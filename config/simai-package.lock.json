@@ -3,9 +3,9 @@
   "package": "pro",
   "source": {
     "repository": "simai/ui-pro",
-    "revision": "c79cd8c1abf79506c802180d93f5b4cfc3bdaade",
+    "revision": "cfaab360bb397013e3eadec139b60b9d9b9f14e4",
     "path": "components",
-    "tree": "e1187c10b0c60f8c628ec5473d928dec60454762"
+    "tree": "754208dd032bf30714bd432ddeb86bda324da7e9"
   },
   "builder": {
     "repository": "simai/ui-builder",
@@ -60,7 +60,7 @@
       },
       {
         "path": "editor-content/js/editor-content.js",
-        "sha256": "486df9cad75d63facb0b0ce5cffe996f8b1ad2482f0c1e6692a49e06bcde02f3"
+        "sha256": "25d429ab1e8d1299ca9ea0b1f53eb268b69a099c52c38e73445d6a52462659b1"
       },
       {
         "path": "editor-content/css/editor-content.css",
@@ -124,7 +124,7 @@
       },
       {
         "path": "view-properties/js/view-properties.js",
-        "sha256": "1214a828ffb7566a17cf0b58fbaa4d7b7d8707d1cd94bd2c560a04a76e2e43fe"
+        "sha256": "813f6b4d68755e0d317a738ec0f211f32f681238be53f1707d22e1860ba1ed81"
       },
       {
         "path": "view-properties/css/view-properties.css",
@@ -132,7 +132,7 @@
       },
       {
         "path": "view-table/js/view-table.js",
-        "sha256": "8e3722fa78f96a3f4d4bdaf6b8b91473042e4b1e1b9aef7b96ffe359dc46030d"
+        "sha256": "84c7b8d3ed229cb55edf07d99674026883a86031d147dbbea9b4ac192268b210"
       },
       {
         "path": "view-table/css/view-table.css",
@@ -140,10 +140,10 @@
       }
     ]
   },
-  "compatibilityId": "pro-c79cd8c1abf7",
+  "compatibilityId": "pro-cfaab360bb39",
   "requires": {
-    "framework": "ui-3963bfe39302"
+    "framework": "ui-73df5d1b4d4c"
   },
-  "archiveSha256": "2d0a0d486c81f6cef7702e36923e1acce15861105929167eedac8c302e02cf27",
-  "distributionIdentitySha256": "b32a2507b62dee5d6648659d066a70e4a39b38345c7af82538f13943dde2cf8a"
+  "archiveSha256": "f7a75b0ce411f6868052898de1549f07399475e2340dc1cc5e5ec5941a857b5e",
+  "distributionIdentitySha256": "906e2f6e11b515c3e2365a29a1fe9b8a77615311e798e9c31438a4351c66c2a9"
 }

@@ -2,17 +2,17 @@
   "schemaVersion": 1,
   "kind": "set",
   "package": "admin",
-  "compatibilityId": "admin-ebc242e8fa56",
-  "version": "1.2.0",
-  "npm": "@simai-studio/admin@1.2.0",
-  "release": "contracts/releases/admin-ebc242e8fa56.lock.json",
+  "compatibilityId": "admin-13b82de3be68",
+  "version": "1.2.1",
+  "npm": "@simai-studio/admin@1.2.1",
+  "release": "contracts/releases/admin-13b82de3be68.lock.json",
   "requires": {
-    "framework": "ui-b4f79e1c58b7"
+    "framework": "ui-3963bfe39302"
   },
   "build": {
-    "revision": "fe46d63edd27c54b2ed2697898988b6a9ff1cfb3",
+    "revision": "901471455ada63167900c5b432d00f294a7c6fa7",
     "path": "package/dist",
-    "tree": "3b138eab8dcae8a86e635af89891facf7e64d115"
+    "tree": "ddd18ad9240357bfc39ad9a50cd1aa160af5c33a"
   },
   "smart": {
     "targetDir": "",
@@ -31,7 +31,7 @@
       },
       {
         "path": "admin-menu/js/admin-menu.js",
-        "sha256": "60954db7e5272bdb7fb55dcfb83201d7b70d9784a24aa56cbff5da2391343ab7"
+        "sha256": "1f0ab4311e81a369e6194f732ab236d222df6aca08890b8b506e2a2e1e049bf4"
       },
       {
         "path": "admin-menu/css/admin-menu.css",

@@ -3,24 +3,24 @@
   "package": "pro",
   "source": {
     "repository": "simai/ui-pro",
-    "revision": "53cd26ab57cd5f27ad03546c1d05ae741c527a48",
+    "revision": "c79cd8c1abf79506c802180d93f5b4cfc3bdaade",
     "path": "components",
-    "tree": "45090b67a87d9ee65fa506b34c7ff3ae07bbda2a"
+    "tree": "e1187c10b0c60f8c628ec5473d928dec60454762"
   },
   "builder": {
     "repository": "simai/ui-builder",
-    "revision": "ee30c8215ff5b6491447e98c3d7ab674447a67bb"
+    "revision": "524bf464a36aaac1029161c650218b3e43e88a1f"
   },
   "smart": {
     "targetDir": "",
     "requiredFiles": [
       {
         "path": "rule.js",
-        "sha256": "465a1777b8dc6251f74d1869db2979c767884e34859f940770a8f5c58c2859ad"
+        "sha256": "b09f84a051d449f7843bd5db6c73dd636d459ec31d981ae20e8631a0af9625a5"
       },
       {
         "path": "chat-composer/js/chat-composer.js",
-        "sha256": "863b7b2a93fd3d391605cb8a3dbc62be9af687fec2826e07f8fbbfb4b11bf30a"
+        "sha256": "6d95068d7005a97db2fab02c243d54fd2a7c6dd3a4e662ea8df7c68512c66c5b"
       },
       {
         "path": "chat-composer/css/chat-composer.css",
@@ -28,7 +28,7 @@
       },
       {
         "path": "chat-interlocutor/js/chat-interlocutor.js",
-        "sha256": "80fbb5c30e24b88ba75f68d458d38e614d34ca03ff6317358307b995394b2dc0"
+        "sha256": "0fa2648baa8879555e34feec273340232fc66637db0d7e6a596caea15cc8032c"
       },
       {
         "path": "chat-interlocutor/css/chat-interlocutor.css",
@@ -36,7 +36,7 @@
       },
       {
         "path": "chat-message/js/chat-message.js",
-        "sha256": "365815e35505dbd76f2a04858dc3d5cfe30cda4bfbfdcc54d952d3f05f8e9047"
+        "sha256": "80623bc2fca318d7a80c5719839f6cd7e6c3f69d18f7004fa64de282d736e370"
       },
       {
         "path": "chat-message/css/chat-message.css",
@@ -44,7 +44,7 @@
       },
       {
         "path": "chat-threads/js/chat-threads.js",
-        "sha256": "55983e9f518382e3b9639d1de3817aceb9b4f19d5bc4210241b4bd8392236ebb"
+        "sha256": "7e8f86daf85bce4686e1699f87c11dbaf8120315673864bcf642760f5121c3c4"
       },
       {
         "path": "chat-threads/css/chat-threads.css",
@@ -52,19 +52,11 @@
       },
       {
         "path": "chat-window/js/chat-window.js",
-        "sha256": "30ea5cd40650f22ac5c18b3d95753359d40f4e3e12c182ee29fff87c7cd4a000"
+        "sha256": "7e32b0be7596a107e59c86879840a9ee36ca40014310d110bb61b749968173d5"
       },
       {
         "path": "chat-window/css/chat-window.css",
         "sha256": "da06508b7dc8eafe4d48c9c4ba75ecdd6d0d33d04c11b446c87fbf4d5a026f7a"
-      },
-      {
-        "path": "editor/js/editor.js",
-        "sha256": "e84dc84f1d6897da43677a8bf1e42c6253ce685e2f47180b01f86ab7c23b5c18"
-      },
-      {
-        "path": "editor/css/editor.css",
-        "sha256": "e82ca0416a91af663deca2f6e767c5a18e9b7bd9ccbe7e016f44bdd6581aff0a"
       },
       {
         "path": "editor-content/js/editor-content.js",
@@ -76,7 +68,7 @@
       },
       {
         "path": "mail-canvas/js/mail-canvas.js",
-        "sha256": "33578363f3d29fa91594f94fad114a809ff0aef35675e2d8d429af97722d504b"
+        "sha256": "80cb11a9067af31a75c0c14a082ba5b10c7f1b9ffa18e94fb04b522f33a410bd"
       },
       {
         "path": "mail-canvas/css/mail-canvas.css",
@@ -124,7 +116,7 @@
       },
       {
         "path": "view/js/view.js",
-        "sha256": "d8bc784256870122d85c5e9a2856af9c439e6f023f5d8acc459812e2af46bd01"
+        "sha256": "c3acfec21fd397c56876170d9370205f3179b33d3852c79f04eb081c4bd9ef31"
       },
       {
         "path": "view/css/view.css",
@@ -132,7 +124,7 @@
       },
       {
         "path": "view-properties/js/view-properties.js",
-        "sha256": "2ea74e0dd9443bb589086186601bc43dd31df27ac287a1f076726f896e7736bc"
+        "sha256": "1214a828ffb7566a17cf0b58fbaa4d7b7d8707d1cd94bd2c560a04a76e2e43fe"
       },
       {
         "path": "view-properties/css/view-properties.css",
@@ -140,7 +132,7 @@
       },
       {
         "path": "view-table/js/view-table.js",
-        "sha256": "39df1f554523c564e2ef1b0f3d15592367f4362864a35364d37b2847338109b3"
+        "sha256": "8e3722fa78f96a3f4d4bdaf6b8b91473042e4b1e1b9aef7b96ffe359dc46030d"
       },
       {
         "path": "view-table/css/view-table.css",
@@ -148,10 +140,10 @@
       }
     ]
   },
-  "compatibilityId": "pro-53cd26ab57cd",
+  "compatibilityId": "pro-c79cd8c1abf7",
   "requires": {
-    "framework": "ui-b4f79e1c58b7"
+    "framework": "ui-3963bfe39302"
   },
-  "archiveSha256": "19d9dde9cb3845648fb748eedaeb099a0b73895523cb0900166c4bae00011bdc",
-  "distributionIdentitySha256": "1cb2ba562f0b8b239b6866cffb5e5c05eafbbdd43709ad17f83c6ad6ea15532f"
+  "archiveSha256": "2d0a0d486c81f6cef7702e36923e1acce15861105929167eedac8c302e02cf27",
+  "distributionIdentitySha256": "b32a2507b62dee5d6648659d066a70e4a39b38345c7af82538f13943dde2cf8a"
 }

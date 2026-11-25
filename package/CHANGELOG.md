@@ -9,7 +9,12 @@ Requires Core runtime `>=1.67.0` and no other set.
 The same components as 1.2.0 (sf-admin-menu 1.17.0, sf-admin-shell 1.0.1,
 sf-admin-notifications 1.0.0, sf-admin-activity 1.0.0), rebuilt over the
 new pair: a site serves a set only over its own exact pair, and 1.2.0 is
-built over ui-b4f79e1c58b7. No component file changed.
+built over ui-b4f79e1c58b7. What the pair forced: the four
+`smart.manifest.json` carry the release pair marker in
+`compatibility.runtime_pair` (forty zeros; ui-source 96234dd71's
+generate-component-files writes it, and its content hash reads the field as
+the marker), not the old ui revision. The marker is hash-neutral, so no
+component version moved; no other component file changed.
 
 ## 1.2.0 (2026-11-23)
 

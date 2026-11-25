@@ -1,6 +1,6 @@
 {
   "name": "@simai-studio/admin",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "SIMAI Admin, the component set admin of SIMAI Framework: the admin menu sf-admin-menu, the page frame sf-admin-shell, the notifications sf-admin-notifications and the background activity sf-admin-activity.",
   "license": "PolyForm-Small-Business-1.0.0 OR PolyForm-Noncommercial-1.0.0 OR LicenseRef-SIMAI-Commercial",
   "author": "Rim Zabarov",

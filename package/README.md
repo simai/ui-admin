@@ -13,7 +13,7 @@ repository is the admin demo site; the set does not depend on it.
 | `src/smart/admin-notifications` | `sf-admin-notifications` | none | preview: the notifications list (C421): by day, repeats of one object folded under «Ещё N по …», «Прочитать все», panel or history page; over the menu's port or as items |
 | `src/smart/admin-activity` | `sf-admin-activity` | none | preview: the background-activity indicator (C421): «Идёт N», the failure mark until the list is opened, «Не удалось N»; runs in sf-popover; a run's end told by SF.notify and a notification |
 
-Over the SIMAI Framework pair the set pins (ui-b4f79e1c58b7), the preview components
+Over the SIMAI Framework pair the set pins (ui-3963bfe39302), the preview components
 use the Framework's admin shell parts and carry no fallbacks: the activity
 indicator stands at the end of the head's crumbs row in sf-header-page's slot
 `path-end` (AS-2, 1.12.0), and a failed run's «Повторить» is
@@ -38,7 +38,8 @@ the set's sf-admin-notifications panel from the bell when the page holds one
 `sf-admin-menu-navigate` is cancelable (a page with unsaved changes keeps the
 current row). 1.17.0 (set 1.2.0) fetches only what a closed menu draws: the search
 window, the panels, the menus and the setting mode's parts come through the
-Loader when first needed (docs.md «Что меню загружает»). Its history
+Loader when first needed (docs.md «Что меню загружает»); 1.17.1 (set 1.2.1)
+lists the skeleton sheet for the object menu's first paint. Its history
 before the move is in ui-pro. Its dated event aliases (`aliases.json`, until
 2026-12-01) move with it; the tag itself has no former name.
 
@@ -67,8 +68,8 @@ The component imports the free SIMAI Framework by relative path
 never a working tree), with this folder's `src/`, `tests/` and `docs/` laid
 over it. A file here may not replace a ui-source file.
 
-The pin is `e59dbad1c108`, the source of the released pair
-`ui-b4f79e1c58b7` (group build 17): it registers the set's names and carries
+The pin is `96234dd717fb`, the source of the released pair
+`ui-3963bfe39302` (group build 18): it registers the set's names and carries
 the admin shell parts AS-1..AS-4 and `simai.admin-navigation-port` 1.2.0. The
 passport names the same commit.
 
@@ -81,7 +82,7 @@ node scripts/run-first-paint.mjs check|gate <free> <set build>
 ```
 
 `<free>` is the `distr` of the released pair (`git -C <ui> archive
-b4f79e1c58b7 distr`), `<set build>` the build output holding `smart/`
+3963bfe39302 distr`), `<set build>` the build output holding `smart/`
 (`wave-1/output/package/admin` of the build below). `scripts/gates.sh` runs
 the whole chain: two builds, the receipt, the suite, the probes and the first
 paint.
@@ -106,13 +107,13 @@ release route (ui-builder `publish-package-release.sh`) lays it into
 ## Connecting it
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@simai-studio/ui@5.20261123.1101/distr/core/js/core.min.js" data-sf-sets="admin"></script>
+<script src="https://cdn.jsdelivr.net/npm/@simai-studio/ui@5.20261124.2316/distr/core/js/core.min.js" data-sf-sets="admin"></script>
 ```
 
 or, from a base the page serves itself:
 
 ```js
-window.SF_BOOT_CONFIG = {packages: {admin: {base: '/assets/ui-admin/smart', version: '1.2.0'}}};
+window.SF_BOOT_CONFIG = {packages: {admin: {base: '/assets/ui-admin/smart', version: '1.2.1'}}};
 ```
 
 An admin page that also shows data views declares both sets:
@@ -127,12 +128,12 @@ build. A set is built and tested against exactly one revision.
 ## Кратко по-русски
 
 Здесь исходник набора компонентов `admin`: меню администратора
-`sf-admin-menu` 1.17.0 — то самое меню, которое владелец утвердил на витрине
+`sf-admin-menu` 1.17.1 — то самое меню, которое владелец утвердил на витрине
 (решение C384, пункты AM-1..AM-61). Владелец меню — этот репозиторий
 `simai/ui-admin`; копия в `simai/ui-pro` заморожена и уйдёт из пакета `pro`
 в первом выпуске Pro после выпуска набора. Набор собирается и проверяется
 ровно против одной ревизии SIMAI Framework — сейчас это пара
-`ui-b4f79e1c58b7`.
+`ui-3963bfe39302`.
 
 С 1.15.0 у меню один путь — навигация над портом хоста: старое меню из
 дочерних элементов-пунктов с его окном настроек, панелью поиска и

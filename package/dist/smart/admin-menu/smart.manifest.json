@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.admin-menu",
-  "version": "1.17.0",
+  "version": "1.17.1",
   "title": "Admin menu",
   "summary": "Admin navigation over the host's navigation port: the rail, the section column, search, favourites, notifications and the setting mode.",
   "kind": "composite",
@@ -787,8 +787,8 @@
       "version": 2
     },
     "runtime_pair": {
-      "ui_revision": "89834691fb9dce692be5353f3214df7aee3a7e27",
-      "ui_smart_revision": "89834691fb9dce692be5353f3214df7aee3a7e27"
+      "ui_revision": "0000000000000000000000000000000000000000",
+      "ui_smart_revision": "0000000000000000000000000000000000000000"
     },
     "aliases": [],
     "deprecations": [],
@@ -882,6 +882,13 @@
           "Loading only: a closed menu no longer fetches sf-search, sf-button, sf-input, the inputs unit, the free admin-menu component (component/admin-menu: the former items menu's class enhancer and sheet, which the element does not use) or what they are drawn with. The search window is drawn on its first open; a page that looked for sf-search.sf-admin-nav-search inside the menu before that finds none (open it with ⌘K or the search row first). Nothing to change for a host.",
           "«Уведомления» (the bell) is drawn only when the port's capabilities include notifications; a host that wants the bell announces it (unchanged since 1.15.0)."
         ]
+      },
+      {
+        "from": "1.17.0",
+        "to": "1.17.1",
+        "changes": [
+          "The object menu example's first-paint sheet list (static/sheets.json) names component/skeleton/css/skeleton.min.css, which its skeleton draws with. Nothing to change for a host; a server that links the listed sheets links one more."
+        ]
       }
     ]
   },
@@ -927,7 +934,7 @@
       },
       {
         "path": "src/smart/admin-menu/component.json",
-        "sha256": "b8382669ac4d82d1f846a110d61e1f46a90d0a93d2f72e37a61f1b28a0274df2"
+        "sha256": "5a3f3b43d1ca9ac6e7aeb90b08eed0c29fa4c386d45562c4d4d1f7e09a180783"
       },
       {
         "path": "src/smart/admin-menu/aliases.json",

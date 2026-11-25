@@ -109,11 +109,15 @@ const addPhoneToggle = () => {
   const popoverOpen = () => {
     try { return Boolean(document.querySelector(':popover-open')); } catch { return false; }
   };
-  const OVERLAYS = 'sf-drawer[open], sf-search[open], sf-modal[open], sf-confirm[open], sf-dropdown[open]';
+  // sf-search marks its open window with data-open (not open) and does not
+  // take the key with preventDefault, so it is read both ways and through
+  // isOpen, which sf-search and sf-menu-context both carry.
+  const OVERLAYS = 'sf-drawer[open], sf-search[open], sf-search[data-open], sf-modal[open], sf-confirm[open], sf-dropdown[open]';
+  const OPENABLE = 'sf-menu-context, sf-search, sf-dropdown';
   addEventListener('keydown', (event) => {
     if (event.key !== 'Escape') return;
     overlayOpen = Boolean(document.querySelector(OVERLAYS))
-      || [...document.querySelectorAll('sf-menu-context')].some((menu) => (menu as { isOpen?: boolean }).isOpen)
+      || [...document.querySelectorAll(OPENABLE)].some((element) => (element as { isOpen?: boolean }).isOpen === true)
       || popoverOpen();
   }, true);
   addEventListener('keydown', (event) => {

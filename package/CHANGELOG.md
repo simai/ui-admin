@@ -1,5 +1,22 @@
 # Changelog of the set `admin` (@simai-studio/admin)
 
+## 1.2.2 (2026-11-26)
+
+Built against ui-73df5d1b4d4c (SIMAI Framework pair of group build 19,
+npm `@simai-studio/ui@5.20261125.1855`, ui-source `5e30b946fd0e`).
+Requires Core runtime `>=1.67.0` and no other set.
+
+The components of 1.2.1 (sf-admin-shell 1.0.1, sf-admin-notifications
+1.0.0, sf-admin-activity 1.0.0; sf-admin-menu 1.17.2), rebuilt over the
+new pair: a site serves a set only over its own exact pair, and 1.2.1 is
+built over ui-3963bfe39302.
+
+- `sf-admin-menu` 1.17.2 (a patch): in the setting mode, an Escape pressed
+  in the ⌘K window closes the window only. The menu asked whether the
+  window was open by `sf-search[open]`, but sf-search marks its open window
+  with the host state `data-open`, so the same Escape also left the setting
+  mode. The menu now reads `sf-search[data-open]`.
+
 ## 1.2.1 (2026-11-25)
 
 Built against ui-3963bfe39302 (SIMAI Framework pair of group build 18,

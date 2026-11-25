@@ -62,7 +62,7 @@ const state = (page) => page.evaluate(() => {
 try {
   for (const theme of ['light', 'dark']) {
     const say = (text) => failures.push(`1440 ${theme}: ${text}`);
-    const page = await open(BODY, {width: 1440, height: 900, theme});
+    const page = await open(BODY, {width: 1440, height: 900, theme, beforeLoad: (tab) => tab.on('response', (response) => { if (response.status() >= 400) tab.noise.push(`${response.status()} ${new URL(response.url()).pathname}`); })});
     await ready(page, ['sf-admin-shell', 'sf-admin-menu']);
     await page.waitForFunction(() => document.querySelector('#m[data-column]') && document.querySelector('#m nav.sf-admin-nav:not(.sf-admin-nav--skeleton)'), null, {timeout: 15000});
     await page.waitForTimeout(400);

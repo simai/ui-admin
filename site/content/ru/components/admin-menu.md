@@ -6,7 +6,7 @@ profile: reference
 # Меню администратора
 
 <!-- release:badges -->
-:badge[sf-admin-menu]{variant=main scheme=on-surface size=1} :badge[Версия 1.17.1]{variant=tonal scheme=neutral size=1} :badge[выпущен]{variant=tonal scheme=success size=1}
+:badge[sf-admin-menu]{variant=main scheme=on-surface size=1} :badge[Версия 1.17.2]{variant=tonal scheme=neutral size=1} :badge[выпущен]{variant=tonal scheme=success size=1}
 <!-- /release:badges -->
 
 Меню администратора рисует навигацию админки по ответам сервера: рейку разделов, колонку открытого раздела, поиск, избранное, колокол уведомлений и профиль. Что показать и что разрешить, решает сервер через порт навигации; меню только спрашивает и рисует.
@@ -49,13 +49,13 @@ profile: reference
 
 ## Параметры
 
-Справочник собран из манифеста компонента в выпуске набора `admin-13b82de3be68` (версия 1.2.1) и обновляется вместе с выпуском. Каждому атрибуту соответствует свойство элемента с тем же именем в camelCase: `history-href` — `historyHref`.
+Справочник собран из манифеста компонента в выпуске набора `admin-45b580402884` (версия 1.2.2) и обновляется вместе с выпуском. Каждому атрибуту соответствует свойство элемента с тем же именем в camelCase: `history-href` — `historyHref`.
 
 | | |
 |:---|:---|
 | Тег | `<sf-admin-menu>` |
 | Назначение | Навигация админки над портом навигации хоста: рейка разделов, колонка раздела, поиск, избранное, уведомления и режим настройки. |
-| Контракт | `smart.admin-menu`, версия `1.17.1` |
+| Контракт | `smart.admin-menu`, версия `1.17.2` |
 | Жизненный цикл | экспериментальный: API может меняться между выпусками |
 | Порт | `simai.admin-navigation-port`, версии с `1.0.0` по `1.2.0` |
 
@@ -129,7 +129,7 @@ profile: reference
 
 ## Источник
 
-- `simai/ui-admin@13b82de3be68:package/src/smart/admin-menu`
+- `simai/ui-admin@45b580402884:package/src/smart/admin-menu`
 
 ## См. также
 

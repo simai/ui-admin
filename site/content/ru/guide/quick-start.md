@@ -20,7 +20,7 @@ profile: tutorial
 
    <!-- release:cdn -->
    ```html
-   <script src="https://cdn.jsdelivr.net/npm/@simai-studio/ui@5.20261124.2316/distr/core/js/core.min.js" data-sf-sets="admin"></script>
+   <script src="https://cdn.jsdelivr.net/npm/@simai-studio/ui@5.20261125.1855/distr/core/js/core.min.js" data-sf-sets="admin"></script>
    ```
    <!-- /release:cdn -->
 

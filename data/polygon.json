@@ -231,6 +231,12 @@
         "width": "half"
       },
       {
+        "key": "email",
+        "label": "Почта поддержки",
+        "property_type": "email",
+        "width": "half"
+      },
+      {
         "key": "site",
         "label": "Сайт решения",
         "property_type": "url",
@@ -345,6 +351,7 @@
             "columns": 2,
             "fields": [
               "phone",
+              "email",
               "site",
               "docs",
               "api_password"
@@ -445,6 +452,9 @@
         },
         {
           "key": "phone"
+        },
+        {
+          "key": "email"
         },
         {
           "key": "site"
@@ -805,6 +815,7 @@
           "avatarText": "МВ"
         },
         "phone": "+79161000000",
+        "email": "support@payments.simai.ru",
         "site": "https://payments.simai.io/",
         "docs": {
           "href": "/docs/payments/",
@@ -887,6 +898,7 @@
           "avatarText": "ЕК"
         },
         "phone": "+79161007919",
+        "email": "help@notify.simai.ru",
         "site": "https://notify.simai.io/",
         "docs": null,
         "api_password": {
@@ -971,6 +983,7 @@
           "avatarText": "ИС"
         },
         "phone": "+79161015838",
+        "email": "zakaz@billing.simai.ru",
         "site": "https://billing.simai.io/",
         "docs": {
           "href": "/docs/billing/",
@@ -1057,6 +1070,7 @@
           "avatarText": "ИС"
         },
         "phone": "+79161023757",
+        "email": null,
         "site": "https://filebackup.simai.io/",
         "docs": {
           "href": "/docs/filebackup/",
@@ -1147,6 +1161,7 @@
         },
         "reviewer": null,
         "phone": "+79161031676",
+        "email": "otdel.prodazh@cart.simai.ru",
         "site": null,
         "docs": {
           "href": "/docs/cart/",
@@ -1207,6 +1222,7 @@
         "depends_on": null,
         "reviewer": null,
         "phone": "+79161039595",
+        "email": "support@catalog.simai.ru",
         "site": "https://catalog.simai.io/",
         "docs": {
           "href": "/docs/catalog/",
@@ -1283,6 +1299,7 @@
           "avatarText": "ДО"
         },
         "phone": null,
+        "email": "help@search.simai.ru",
         "site": "https://search.simai.io/",
         "docs": {
           "href": "/docs/search/",
@@ -1372,6 +1389,7 @@
           "avatarText": "МВ"
         },
         "phone": "+79161055433",
+        "email": "zakaz@forms.simai.ru",
         "site": "https://forms.simai.io/",
         "docs": null,
         "api_password": {
@@ -1456,6 +1474,7 @@
           "avatarText": "ЕК"
         },
         "phone": "+79161063352",
+        "email": "info@stock.simai.ru",
         "site": "https://stock.simai.io/",
         "docs": {
           "href": "/docs/stock/",
@@ -1544,6 +1563,7 @@
           "avatarText": "ИС"
         },
         "phone": "+79161071271",
+        "email": null,
         "site": null,
         "docs": {
           "href": "/docs/delivery/",
@@ -1624,6 +1644,7 @@
         },
         "reviewer": null,
         "phone": "+79161079190",
+        "email": "support@reports.simai.ru",
         "site": "https://reports.simai.io/",
         "docs": {
           "href": "/docs/reports/",
@@ -1720,6 +1741,7 @@
           "avatarText": "СИ"
         },
         "phone": "+79161087109",
+        "email": "help@acl.simai.ru",
         "site": "https://acl.simai.io/",
         "docs": {
           "href": "/docs/acl/",
@@ -1812,6 +1834,7 @@
           "avatarText": "МВ"
         },
         "phone": "+79161095028",
+        "email": "zakaz@import.simai.ru",
         "site": "https://import.simai.io/",
         "docs": {
           "href": "/docs/import/",
@@ -1891,6 +1914,7 @@
           "avatarText": "ИС"
         },
         "phone": null,
+        "email": "info@integrations.simai.ru",
         "site": "https://integrations.simai.io/",
         "docs": null,
         "api_password": {
@@ -1970,6 +1994,7 @@
           "avatarText": "СИ"
         },
         "phone": "+79161110866",
+        "email": "otdel.prodazh@media.simai.ru",
         "site": null,
         "docs": {
           "href": "/docs/media/",
@@ -2062,6 +2087,7 @@
           "avatarText": "МВ"
         },
         "phone": "+79161118785",
+        "email": null,
         "site": "https://payments.simai.io/",
         "docs": {
           "href": "/docs/payments/",
@@ -2124,6 +2150,7 @@
         "depends_on": null,
         "reviewer": null,
         "phone": "+79161126704",
+        "email": "help@notify.simai.ru",
         "site": "https://notify.simai.io/",
         "docs": {
           "href": "/docs/notify/",
@@ -2206,6 +2233,7 @@
           "avatarText": "ДО"
         },
         "phone": "+79161134623",
+        "email": "zakaz@billing.simai.ru",
         "site": "https://billing.simai.io/",
         "docs": {
           "href": "/docs/billing/",
@@ -2276,6 +2304,7 @@
           "avatarText": "ЕК"
         },
         "phone": "+79161142542",
+        "email": "info@filebackup.simai.ru",
         "site": "https://filebackup.simai.io/",
         "docs": {
           "href": "/docs/filebackup/",
@@ -2373,6 +2402,7 @@
           "avatarText": "ДО"
         },
         "phone": "+79161150461",
+        "email": "otdel.prodazh@cart.simai.ru",
         "site": null,
         "docs": null,
         "api_password": {
@@ -2460,6 +2490,7 @@
           "avatarText": "МВ"
         },
         "phone": null,
+        "email": "support@catalog.simai.ru",
         "site": "https://catalog.simai.io/",
         "docs": {
           "href": "/docs/catalog/",
@@ -2542,6 +2573,7 @@
           "avatarText": "ЕК"
         },
         "phone": "+79161166299",
+        "email": null,
         "site": "https://search.simai.io/",
         "docs": {
           "href": "/docs/search/",
@@ -2628,6 +2660,7 @@
         },
         "reviewer": null,
         "phone": "+79161174218",
+        "email": "zakaz@forms.simai.ru",
         "site": "https://forms.simai.io/",
         "docs": {
           "href": "/docs/forms/",
@@ -2707,6 +2740,7 @@
           "avatarText": "ДО"
         },
         "phone": "+79161182137",
+        "email": "info@stock.simai.ru",
         "site": "https://stock.simai.io/",
         "docs": {
           "href": "/docs/stock/",
@@ -2803,6 +2837,7 @@
           "avatarText": "ДО"
         },
         "phone": "+79161190056",
+        "email": "otdel.prodazh@delivery.simai.ru",
         "site": null,
         "docs": {
           "href": "/docs/delivery/",
@@ -2892,6 +2927,7 @@
           "avatarText": "ДО"
         },
         "phone": "+79161197975",
+        "email": "support@reports.simai.ru",
         "site": "https://reports.simai.io/",
         "docs": null,
         "api_password": {
@@ -2965,6 +3001,7 @@
           "avatarText": "ДО"
         },
         "phone": "+79161205894",
+        "email": "help@acl.simai.ru",
         "site": "https://acl.simai.io/",
         "docs": {
           "href": "/docs/acl/",
@@ -3027,6 +3064,7 @@
         "depends_on": null,
         "reviewer": null,
         "phone": null,
+        "email": null,
         "site": "https://import.simai.io/",
         "docs": {
           "href": "/docs/import/",
@@ -3109,6 +3147,7 @@
         },
         "reviewer": null,
         "phone": "+79161221732",
+        "email": "info@integrations.simai.ru",
         "site": "https://integrations.simai.io/",
         "docs": {
           "href": "/docs/integrations/",
@@ -3194,6 +3233,7 @@
           "avatarText": "ЕК"
         },
         "phone": "+79161229651",
+        "email": "otdel.prodazh@media.simai.ru",
         "site": null,
         "docs": {
           "href": "/docs/media/",
@@ -3270,6 +3310,7 @@
           "avatarText": "МВ"
         },
         "phone": "+79161237570",
+        "email": "support@payments.simai.ru",
         "site": "https://payments.simai.io/",
         "docs": {
           "href": "/docs/payments/",
@@ -3358,6 +3399,7 @@
           "avatarText": "ДО"
         },
         "phone": "+79161245489",
+        "email": "help@notify.simai.ru",
         "site": "https://notify.simai.io/",
         "docs": null,
         "api_password": {
@@ -3437,6 +3479,7 @@
           "avatarText": "ИС"
         },
         "phone": "+79161253408",
+        "email": "zakaz@billing.simai.ru",
         "site": "https://billing.simai.io/",
         "docs": {
           "href": "/docs/billing/",
@@ -3513,6 +3556,7 @@
           "avatarText": "ЕК"
         },
         "phone": "+79161261327",
+        "email": null,
         "site": "https://filebackup.simai.io/",
         "docs": {
           "href": "/docs/filebackup/",
@@ -3586,6 +3630,7 @@
         },
         "reviewer": null,
         "phone": null,
+        "email": "otdel.prodazh@cart.simai.ru",
         "site": null,
         "docs": {
           "href": "/docs/cart/",
@@ -3682,6 +3727,7 @@
           "avatarText": "ЕК"
         },
         "phone": "+79161277165",
+        "email": "support@catalog.simai.ru",
         "site": "https://catalog.simai.io/",
         "docs": {
           "href": "/docs/catalog/",
@@ -3777,6 +3823,7 @@
           "avatarText": "ИС"
         },
         "phone": "+79161285084",
+        "email": "help@search.simai.ru",
         "site": "https://search.simai.io/",
         "docs": {
           "href": "/docs/search/",
@@ -3870,6 +3917,7 @@
           "avatarText": "ДО"
         },
         "phone": "+79161293003",
+        "email": "zakaz@forms.simai.ru",
         "site": "https://forms.simai.io/",
         "docs": null,
         "api_password": {
@@ -3926,6 +3974,7 @@
         "depends_on": null,
         "reviewer": null,
         "phone": "+79161300922",
+        "email": "info@stock.simai.ru",
         "site": "https://stock.simai.io/",
         "docs": {
           "href": "/docs/stock/",
@@ -4021,6 +4070,7 @@
           "avatarText": "ИС"
         },
         "phone": "+79161308841",
+        "email": null,
         "site": null,
         "docs": {
           "href": "/docs/delivery/",
@@ -4105,6 +4155,7 @@
         },
         "reviewer": null,
         "phone": "+79161316760",
+        "email": "support@reports.simai.ru",
         "site": "https://reports.simai.io/",
         "docs": {
           "href": "/docs/reports/",
@@ -4186,6 +4237,7 @@
           "avatarText": "ДО"
         },
         "phone": null,
+        "email": "help@acl.simai.ru",
         "site": "https://acl.simai.io/",
         "docs": {
           "href": "/docs/acl/",
@@ -4272,6 +4324,7 @@
           "avatarText": "ДО"
         },
         "phone": "+79161332598",
+        "email": "zakaz@import.simai.ru",
         "site": "https://import.simai.io/",
         "docs": {
           "href": "/docs/import/",
@@ -4362,6 +4415,7 @@
           "avatarText": "ИС"
         },
         "phone": "+79161340517",
+        "email": "info@integrations.simai.ru",
         "site": "https://integrations.simai.io/",
         "docs": null,
         "api_password": {
@@ -4442,6 +4496,7 @@
           "avatarText": "ЕК"
         },
         "phone": "+79161348436",
+        "email": "otdel.prodazh@media.simai.ru",
         "site": null,
         "docs": {
           "href": "/docs/media/",
@@ -4519,6 +4574,7 @@
           "avatarText": "АП"
         },
         "phone": "+79161356355",
+        "email": null,
         "site": "https://payments.simai.io/",
         "docs": {
           "href": "/docs/payments/",
@@ -4590,6 +4646,7 @@
         },
         "reviewer": null,
         "phone": "+79161364274",
+        "email": "help@notify.simai.ru",
         "site": "https://notify.simai.io/",
         "docs": {
           "href": "/docs/notify/",
@@ -4688,6 +4745,7 @@
           "avatarText": "ДО"
         },
         "phone": "+79161372193",
+        "email": "zakaz@billing.simai.ru",
         "site": "https://billing.simai.io/",
         "docs": {
           "href": "/docs/billing/",
@@ -4766,6 +4824,7 @@
           "avatarText": "АП"
         },
         "phone": null,
+        "email": "info@filebackup.simai.ru",
         "site": "https://filebackup.simai.io/",
         "docs": {
           "href": "/docs/filebackup/",
@@ -4826,6 +4885,7 @@
         "depends_on": null,
         "reviewer": null,
         "phone": "+79161388031",
+        "email": "otdel.prodazh@cart.simai.ru",
         "site": null,
         "docs": null,
         "api_password": {
@@ -4900,6 +4960,7 @@
           "avatarText": "ИС"
         },
         "phone": "+79161395950",
+        "email": "support@catalog.simai.ru",
         "site": "https://catalog.simai.io/",
         "docs": {
           "href": "/docs/catalog/",
@@ -4996,6 +5057,7 @@
           "avatarText": "ДО"
         },
         "phone": "+79161403869",
+        "email": null,
         "site": "https://search.simai.io/",
         "docs": {
           "href": "/docs/search/",
@@ -5088,6 +5150,7 @@
         },
         "reviewer": null,
         "phone": "+79161411788",
+        "email": "zakaz@forms.simai.ru",
         "site": "https://forms.simai.io/",
         "docs": {
           "href": "/docs/forms/",
@@ -5166,6 +5229,7 @@
           "avatarText": "МВ"
         },
         "phone": "+79161419707",
+        "email": "info@stock.simai.ru",
         "site": "https://stock.simai.io/",
         "docs": {
           "href": "/docs/stock/",
@@ -5244,6 +5308,7 @@
           "avatarText": "ИС"
         },
         "phone": "+79161427626",
+        "email": "otdel.prodazh@delivery.simai.ru",
         "site": null,
         "docs": {
           "href": "/docs/delivery/",
@@ -5330,6 +5395,7 @@
           "avatarText": "МВ"
         },
         "phone": null,
+        "email": "support@reports.simai.ru",
         "site": "https://reports.simai.io/",
         "docs": null,
         "api_password": {
@@ -5421,6 +5487,7 @@
           "avatarText": "ИС"
         },
         "phone": "+79161443464",
+        "email": "help@acl.simai.ru",
         "site": "https://acl.simai.io/",
         "docs": {
           "href": "/docs/acl/",
@@ -5510,6 +5577,7 @@
           "avatarText": "ЕК"
         },
         "phone": "+79161451383",
+        "email": null,
         "site": "https://import.simai.io/",
         "docs": {
           "href": "/docs/import/",
@@ -5587,6 +5655,7 @@
         },
         "reviewer": null,
         "phone": "+79161459302",
+        "email": "info@integrations.simai.ru",
         "site": "https://integrations.simai.io/",
         "docs": {
           "href": "/docs/integrations/",
@@ -5678,6 +5747,7 @@
           "avatarText": "ИС"
         },
         "phone": "+79161467221",
+        "email": "otdel.prodazh@media.simai.ru",
         "site": null,
         "docs": {
           "href": "/docs/media/",
@@ -5740,6 +5810,7 @@
         "depends_on": null,
         "reviewer": null,
         "phone": "+79161475140",
+        "email": "support@payments.simai.ru",
         "site": "https://payments.simai.io/",
         "docs": {
           "href": "/docs/payments/",
@@ -5826,6 +5897,7 @@
           "avatarText": "АП"
         },
         "phone": "+79161483059",
+        "email": "help@notify.simai.ru",
         "site": "https://notify.simai.io/",
         "docs": null,
         "api_password": {
@@ -5908,6 +5980,7 @@
           "avatarText": "ИС"
         },
         "phone": null,
+        "email": "zakaz@billing.simai.ru",
         "site": "https://billing.simai.io/",
         "docs": {
           "href": "/docs/billing/",
@@ -5987,6 +6060,7 @@
           "avatarText": "МВ"
         },
         "phone": "+79161498897",
+        "email": null,
         "site": "https://filebackup.simai.io/",
         "docs": {
           "href": "/docs/filebackup/",
@@ -6077,6 +6151,7 @@
         },
         "reviewer": null,
         "phone": "+79161506816",
+        "email": "otdel.prodazh@cart.simai.ru",
         "site": null,
         "docs": {
           "href": "/docs/cart/",
@@ -6165,6 +6240,7 @@
           "avatarText": "АП"
         },
         "phone": "+79161514735",
+        "email": "support@catalog.simai.ru",
         "site": "https://catalog.simai.io/",
         "docs": {
           "href": "/docs/catalog/",
@@ -6246,6 +6322,7 @@
           "avatarText": "СИ"
         },
         "phone": "+79161522654",
+        "email": "help@search.simai.ru",
         "site": "https://search.simai.io/",
         "docs": {
           "href": "/docs/search/",
@@ -6333,6 +6410,7 @@
           "avatarText": "ИС"
         },
         "phone": "+79161530573",
+        "email": "zakaz@forms.simai.ru",
         "site": "https://forms.simai.io/",
         "docs": null,
         "api_password": {
@@ -6406,6 +6484,7 @@
           "avatarText": "ЕК"
         },
         "phone": "+79161538492",
+        "email": "info@stock.simai.ru",
         "site": "https://stock.simai.io/",
         "docs": {
           "href": "/docs/stock/",
@@ -6495,6 +6574,7 @@
           "avatarText": "МВ"
         },
         "phone": null,
+        "email": null,
         "site": null,
         "docs": {
           "href": "/docs/delivery/",
@@ -6569,6 +6649,7 @@
         },
         "reviewer": null,
         "phone": "+79161554330",
+        "email": "support@reports.simai.ru",
         "site": "https://reports.simai.io/",
         "docs": {
           "href": "/docs/reports/",
@@ -6631,6 +6712,7 @@
         "depends_on": null,
         "reviewer": null,
         "phone": "+79161562249",
+        "email": "help@acl.simai.ru",
         "site": "https://acl.simai.io/",
         "docs": {
           "href": "/docs/acl/",
@@ -6723,6 +6805,7 @@
           "avatarText": "МВ"
         },
         "phone": "+79161570168",
+        "email": "zakaz@import.simai.ru",
         "site": "https://import.simai.io/",
         "docs": {
           "href": "/docs/import/",
@@ -6799,6 +6882,7 @@
           "avatarText": "МВ"
         },
         "phone": "+79161578087",
+        "email": "info@integrations.simai.ru",
         "site": "https://integrations.simai.io/",
         "docs": null,
         "api_password": {
@@ -6885,6 +6969,7 @@
           "avatarText": "ИС"
         },
         "phone": "+79161586006",
+        "email": "otdel.prodazh@media.simai.ru",
         "site": null,
         "docs": {
           "href": "/docs/media/",
@@ -6969,6 +7054,7 @@
           "avatarText": "ЕК"
         },
         "phone": "+79161593925",
+        "email": null,
         "site": "https://payments.simai.io/",
         "docs": {
           "href": "/docs/payments/",
@@ -7059,6 +7145,7 @@
         },
         "reviewer": null,
         "phone": null,
+        "email": "help@notify.simai.ru",
         "site": "https://notify.simai.io/",
         "docs": {
           "href": "/docs/notify/",
@@ -7154,6 +7241,7 @@
           "avatarText": "АП"
         },
         "phone": "+79161609763",
+        "email": "zakaz@billing.simai.ru",
         "site": "https://billing.simai.io/",
         "docs": {
           "href": "/docs/billing/",
@@ -7250,6 +7338,7 @@
           "avatarText": "СИ"
         },
         "phone": "+79161617682",
+        "email": "info@filebackup.simai.ru",
         "site": "https://filebackup.simai.io/",
         "docs": {
           "href": "/docs/filebackup/",
@@ -7345,6 +7434,7 @@
           "avatarText": "АП"
         },
         "phone": "+79161625601",
+        "email": "otdel.prodazh@cart.simai.ru",
         "site": null,
         "docs": null,
         "api_password": {
@@ -7436,6 +7526,7 @@
           "avatarText": "ЕК"
         },
         "phone": "+79161633520",
+        "email": "support@catalog.simai.ru",
         "site": "https://catalog.simai.io/",
         "docs": {
           "href": "/docs/catalog/",
@@ -7513,6 +7604,7 @@
           "avatarText": "ИС"
         },
         "phone": "+79161641439",
+        "email": null,
         "site": "https://search.simai.io/",
         "docs": {
           "href": "/docs/search/",
@@ -7575,6 +7667,7 @@
         "depends_on": null,
         "reviewer": null,
         "phone": "+79161649358",
+        "email": "zakaz@forms.simai.ru",
         "site": "https://forms.simai.io/",
         "docs": {
           "href": "/docs/forms/",
@@ -7653,6 +7746,7 @@
           "avatarText": "ДО"
         },
         "phone": null,
+        "email": "info@stock.simai.ru",
         "site": "https://stock.simai.io/",
         "docs": {
           "href": "/docs/stock/",
@@ -7742,6 +7836,7 @@
           "avatarText": "ИС"
         },
         "phone": "+79161665196",
+        "email": "otdel.prodazh@delivery.simai.ru",
         "site": null,
         "docs": {
           "href": "/docs/delivery/",
@@ -7828,6 +7923,7 @@
           "avatarText": "ДО"
         },
         "phone": "+79161673115",
+        "email": "support@reports.simai.ru",
         "site": "https://reports.simai.io/",
         "docs": null,
         "api_password": {
@@ -7900,6 +7996,7 @@
           "avatarText": "МВ"
         },
         "phone": "+79161681034",
+        "email": "help@acl.simai.ru",
         "site": "https://acl.simai.io/",
         "docs": {
           "href": "/docs/acl/",
@@ -7981,6 +8078,7 @@
           "avatarText": "ИС"
         },
         "phone": "+79161688953",
+        "email": null,
         "site": "https://import.simai.io/",
         "docs": {
           "href": "/docs/import/",
@@ -8069,6 +8167,7 @@
         },
         "reviewer": null,
         "phone": "+79161696872",
+        "email": "info@integrations.simai.ru",
         "site": "https://integrations.simai.io/",
         "docs": {
           "href": "/docs/integrations/",
@@ -8146,6 +8245,7 @@
           "avatarText": "ЕК"
         },
         "phone": "+79161704791",
+        "email": "otdel.prodazh@media.simai.ru",
         "site": null,
         "docs": {
           "href": "/docs/media/",
@@ -8219,6 +8319,7 @@
           "avatarText": "ИС"
         },
         "phone": null,
+        "email": "support@payments.simai.ru",
         "site": "https://payments.simai.io/",
         "docs": {
           "href": "/docs/payments/",
@@ -8311,6 +8412,7 @@
           "avatarText": "ДО"
         },
         "phone": "+79161720629",
+        "email": "help@notify.simai.ru",
         "site": "https://notify.simai.io/",
         "docs": null,
         "api_password": {
@@ -8403,6 +8505,7 @@
           "avatarText": "СИ"
         },
         "phone": "+79161728548",
+        "email": "zakaz@billing.simai.ru",
         "site": "https://billing.simai.io/",
         "docs": {
           "href": "/docs/billing/",
@@ -8460,6 +8563,7 @@
         "depends_on": null,
         "reviewer": null,
         "phone": "+79161736467",
+        "email": null,
         "site": "https://filebackup.simai.io/",
         "docs": {
           "href": "/docs/filebackup/",
@@ -8529,6 +8633,7 @@
         },
         "reviewer": null,
         "phone": "+79161744386",
+        "email": "otdel.prodazh@cart.simai.ru",
         "site": null,
         "docs": {
           "href": "/docs/cart/",
@@ -8619,6 +8724,7 @@
           "avatarText": "ДО"
         },
         "phone": "+79161752305",
+        "email": "support@catalog.simai.ru",
         "site": "https://catalog.simai.io/",
         "docs": {
           "href": "/docs/catalog/",
@@ -8702,6 +8808,7 @@
           "avatarText": "АП"
         },
         "phone": "+79161760224",
+        "email": "help@search.simai.ru",
         "site": "https://search.simai.io/",
         "docs": {
           "href": "/docs/search/",
@@ -8795,6 +8902,7 @@
           "avatarText": "СИ"
         },
         "phone": null,
+        "email": "zakaz@forms.simai.ru",
         "site": "https://forms.simai.io/",
         "docs": null,
         "api_password": {
@@ -8866,6 +8974,7 @@
           "avatarText": "СИ"
         },
         "phone": "+79161776062",
+        "email": "info@stock.simai.ru",
         "site": "https://stock.simai.io/",
         "docs": {
           "href": "/docs/stock/",
@@ -8956,6 +9065,7 @@
           "avatarText": "ДО"
         },
         "phone": "+79161783981",
+        "email": null,
         "site": null,
         "docs": {
           "href": "/docs/delivery/",
@@ -9047,6 +9157,7 @@
         },
         "reviewer": null,
         "phone": "+79161791900",
+        "email": "support@reports.simai.ru",
         "site": "https://reports.simai.io/",
         "docs": {
           "href": "/docs/reports/",
@@ -9126,6 +9237,7 @@
           "avatarText": "ЕК"
         },
         "phone": "+79161799819",
+        "email": "help@acl.simai.ru",
         "site": "https://acl.simai.io/",
         "docs": {
           "href": "/docs/acl/",
@@ -9201,6 +9313,7 @@
           "avatarText": "ЕК"
         },
         "phone": "+79161807738",
+        "email": "zakaz@import.simai.ru",
         "site": "https://import.simai.io/",
         "docs": {
           "href": "/docs/import/",
@@ -9281,6 +9394,7 @@
           "avatarText": "АП"
         },
         "phone": "+79161815657",
+        "email": "info@integrations.simai.ru",
         "site": "https://integrations.simai.io/",
         "docs": null,
         "api_password": {
@@ -9340,6 +9454,7 @@
         "depends_on": null,
         "reviewer": null,
         "phone": null,
+        "email": "otdel.prodazh@media.simai.ru",
         "site": null,
         "docs": {
           "href": "/docs/media/",
@@ -9427,6 +9542,7 @@
           "avatarText": "ИС"
         },
         "phone": "+79161831495",
+        "email": null,
         "site": "https://payments.simai.io/",
         "docs": {
           "href": "/docs/payments/",
@@ -9512,6 +9628,7 @@
         },
         "reviewer": null,
         "phone": "+79161839414",
+        "email": "help@notify.simai.ru",
         "site": "https://notify.simai.io/",
         "docs": {
           "href": "/docs/notify/",
@@ -9606,6 +9723,7 @@
           "avatarText": "СИ"
         },
         "phone": "+79161847333",
+        "email": "zakaz@billing.simai.ru",
         "site": "https://billing.simai.io/",
         "docs": {
           "href": "/docs/billing/",
@@ -9690,6 +9808,7 @@
           "avatarText": "АП"
         },
         "phone": "+79161855252",
+        "email": "info@filebackup.simai.ru",
         "site": "https://filebackup.simai.io/",
         "docs": {
           "href": "/docs/filebackup/",
@@ -9782,6 +9901,7 @@
           "avatarText": "ИС"
         },
         "phone": "+79161863171",
+        "email": "otdel.prodazh@cart.simai.ru",
         "site": null,
         "docs": null,
         "api_password": {
@@ -9855,6 +9975,7 @@
           "avatarText": "ДО"
         },
         "phone": "+79161871090",
+        "email": "support@catalog.simai.ru",
         "site": "https://catalog.simai.io/",
         "docs": {
           "href": "/docs/catalog/",
@@ -9938,6 +10059,7 @@
           "avatarText": "ИС"
         },
         "phone": null,
+        "email": null,
         "site": "https://search.simai.io/",
         "docs": {
           "href": "/docs/search/",
@@ -10013,6 +10135,7 @@
         },
         "reviewer": null,
         "phone": "+79161886928",
+        "email": "zakaz@forms.simai.ru",
         "site": "https://forms.simai.io/",
         "docs": {
           "href": "/docs/forms/",
@@ -10101,6 +10224,7 @@
           "avatarText": "АП"
         },
         "phone": "+79161894847",
+        "email": "info@stock.simai.ru",
         "site": "https://stock.simai.io/",
         "docs": {
           "href": "/docs/stock/",
@@ -10176,6 +10300,7 @@
           "avatarText": "ЕК"
         },
         "phone": "+79161902766",
+        "email": "otdel.prodazh@delivery.simai.ru",
         "site": null,
         "docs": {
           "href": "/docs/delivery/",
@@ -10238,6 +10363,7 @@
         "depends_on": null,
         "reviewer": null,
         "phone": "+79161910685",
+        "email": "support@reports.simai.ru",
         "site": "https://reports.simai.io/",
         "docs": null,
         "api_password": {
@@ -10324,6 +10450,7 @@
           "avatarText": "ЕК"
         },
         "phone": "+79161918604",
+        "email": "help@acl.simai.ru",
         "site": "https://acl.simai.io/",
         "docs": {
           "href": "/docs/acl/",
@@ -10419,6 +10546,7 @@
           "avatarText": "ИС"
         },
         "phone": "+79161926523",
+        "email": null,
         "site": "https://import.simai.io/",
         "docs": {
           "href": "/docs/import/",
@@ -10487,6 +10615,7 @@
         },
         "reviewer": null,
         "phone": null,
+        "email": "info@integrations.simai.ru",
         "site": "https://integrations.simai.io/",
         "docs": {
           "href": "/docs/integrations/",
@@ -10568,6 +10697,7 @@
           "avatarText": "ЕК"
         },
         "phone": "+79161942361",
+        "email": "otdel.prodazh@media.simai.ru",
         "site": null,
         "docs": {
           "href": "/docs/media/",

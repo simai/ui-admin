@@ -176,10 +176,12 @@ const FIELDS = [
   { key: 'depends_on', label: 'Зависит от', property_type: 'relation', width: 'half' },
   { key: 'reviewer', label: 'Проверяющий', property_type: 'user', width: 'half' },
 
-  // The four text types of a type of their own (owner decision C302 (1)):
-  // a telephone stored as E.164, a password the host never sends (only
-  // whether one is set), an address, and a link with its words.
+  // The text types of a type of their own (owner decision C302 (1); email
+  // since pair ui-3963bfe39302, C422): a telephone stored as E.164, a mailbox,
+  // a password the host never sends (only whether one is set), an address,
+  // and a link with its words.
   { key: 'phone', label: 'Телефон поддержки', property_type: 'phone', width: 'half' },
+  { key: 'email', label: 'Почта поддержки', property_type: 'email', width: 'half' },
   { key: 'site', label: 'Сайт решения', property_type: 'url', width: 'half' },
   { key: 'docs', label: 'Документация', property_type: 'link', width: 'half' },
   { key: 'api_password', label: 'Пароль API', property_type: 'password', width: 'half' },
@@ -207,7 +209,7 @@ const SECTIONS_LAYOUT = [
     key: 'links', label: 'Связи',
     groups: [
       { key: 'links', label: 'Связи', columns: 2, fields: ['parent', 'depends_on', 'reviewer'] },
-      { key: 'contacts', label: 'Контакты', columns: 2, fields: ['phone', 'site', 'docs', 'api_password'] },
+      { key: 'contacts', label: 'Контакты', columns: 2, fields: ['phone', 'email', 'site', 'docs', 'api_password'] },
     ],
   },
   {
@@ -226,6 +228,8 @@ const SECTIONS_LAYOUT = [
 const BODY_HOSTILE = '<div style="color:red"><b>Важно:</b> перенесено со старого сайта.</div>'
   + '<p onclick="alert(1)">Ссылка <a href="javascript:alert(1)">без адреса</a> и <a href="https://simai.io/">simai.io</a>.</p>'
   + '<script>alert(1)</script>';
+
+const EMAIL_BOXES = ['support', 'help', 'zakaz', 'info', 'otdel.prodazh'];
 
 const LIST_COLUMNS = [
   { key: 'title', width: '18rem', sortable: true, pinned: true },
@@ -247,6 +251,7 @@ const LIST_COLUMNS = [
   { key: 'cover' },
   { key: 'depends_on' },
   { key: 'phone' },
+  { key: 'email' },
   { key: 'site' },
   { key: 'docs' },
   { key: 'api_password' },
@@ -344,6 +349,8 @@ const buildRecord = (index) => {
 
     // From the index alone, so the random sequence (and every value above) is unchanged.
     phone: index % 7 === 6 ? null : `+7916${String(1000000 + ((index * 7919) % 9000000)).padStart(7, '0')}`,
+    // A mailbox in the solution's own domain; one record in six has none.
+    email: index % 6 === 3 ? null : `${EMAIL_BOXES[index % EMAIL_BOXES.length]}@${slug}.simai.ru`,
     site: index % 5 === 4 ? null : `https://${slug}.simai.io/`,
     docs: index % 6 === 1 ? null : { href: `/docs/${slug}/`, text: `Руководство: ${subject}` },
     api_password: { set: index % 3 !== 1 },

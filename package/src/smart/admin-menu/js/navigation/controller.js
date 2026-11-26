@@ -1356,10 +1356,11 @@ export class NavigationController {
     }
 
     // Escape is someone else's while a menu, a window or the notifications
-    // panel is open, or a name is being typed in the menu.
+    // panel is open, or a name is being typed in the menu. sf-search marks its
+    // open window with the host state data-open, not open (1.17.2).
     escapeTaken(event) {
         if ([...document.querySelectorAll("sf-menu-context")].some((menu) => menu.isOpen)) return true;
-        if (document.querySelector("sf-search[open], sf-modal[open], sf-confirm[open]")) return true;
+        if (document.querySelector("sf-search[data-open], sf-modal[open], sf-confirm[open]")) return true;
         if (this._notices?.hasAttribute?.("open") || this._setPanel?.hasAttribute?.("open")) return true;
         const target = event.composedPath?.()[0] ?? event.target;
         return Boolean(target?.closest?.("input, textarea, [contenteditable='true']") && this.element.contains(target));

@@ -34,7 +34,7 @@ profile: landing
 
 <!-- release:cdn -->
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@simai-studio/ui@5.20261124.2316/distr/core/js/core.min.js" data-sf-sets="admin"></script>
+<script src="https://cdn.jsdelivr.net/npm/@simai-studio/ui@5.20261125.1855/distr/core/js/core.min.js" data-sf-sets="admin"></script>
 ```
 <!-- /release:cdn -->
 
@@ -56,11 +56,11 @@ profile: landing
 ::::grid {columns=3 gap=4}
 :::card {variant=plain}
 ### Версия
-SIMAI Admin 1.2.1 от 25 ноября 2026 года. [История изменений](/ru/guide/changes/)
+SIMAI Admin 1.2.2 от 25 ноября 2026 года. [История изменений](/ru/guide/changes/)
 :::
 :::card {variant=plain}
 ### Совместимость
-Собран и проверен над выпуском SIMAI Framework `ui-3963bfe39302`; работает с Core `core.runtime` 1.67.0 или новее. [Подключение](/ru/guide/connection/)
+Собран и проверен над выпуском SIMAI Framework `ui-73df5d1b4d4c`; работает с Core `core.runtime` 1.67.0 или новее. [Подключение](/ru/guide/connection/)
 :::
 :::card {variant=plain}
 ### Лицензия

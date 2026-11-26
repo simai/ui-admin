@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "smart.admin-menu",
-  "version": "1.17.1",
+  "version": "1.17.2",
   "title": "Admin menu",
   "summary": "Admin navigation over the host's navigation port: the rail, the section column, search, favourites, notifications and the setting mode.",
   "kind": "composite",
@@ -889,6 +889,13 @@
         "changes": [
           "The object menu example's first-paint sheet list (static/sheets.json) names component/skeleton/css/skeleton.min.css, which its skeleton draws with. Nothing to change for a host; a server that links the listed sheets links one more."
         ]
+      },
+      {
+        "from": "1.17.1",
+        "to": "1.17.2",
+        "changes": [
+          "In the setting mode an Escape in the ⌘K window closes the window only; the next Escape leaves the mode. Nothing to change for a host."
+        ]
       }
     ]
   },
@@ -922,7 +929,7 @@
       },
       {
         "path": "src/smart/admin-menu/js/navigation/controller.js",
-        "sha256": "964cb4898b2de830969db92372eac51f5182c39390a5002535c1fb99da300fa3"
+        "sha256": "3542bba4ffb6e08cfebf603664eb3c9da8f2e74e0e8473fa3ec294c93fe665b5"
       },
       {
         "path": "src/smart/admin-menu/js/navigation/menu.js",
@@ -934,7 +941,7 @@
       },
       {
         "path": "src/smart/admin-menu/component.json",
-        "sha256": "5a3f3b43d1ca9ac6e7aeb90b08eed0c29fa4c386d45562c4d4d1f7e09a180783"
+        "sha256": "2d0b3fd02b7270b873ad628f9630c4cd733a6984ddd51f4e4753115a4942b65c"
       },
       {
         "path": "src/smart/admin-menu/aliases.json",

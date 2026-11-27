@@ -9,9 +9,9 @@
   },
   "package_source": {
     "repository": "simai/ui-admin",
-    "revision": "45b580402884bd9d7e067d95629303b8df2a2f8a",
+    "revision": "dfdf718c8ae48bb95fbfb9483422225d7bedd0b1",
     "path": "package",
-    "tree": "9f159293c1f0a9ecb775de5a70c7ee796e000276"
+    "tree": "b5cd0dd6de1d154fd5d3888bb61ec9669cce4f8e"
   },
   "licence": {
     "ref": "PolyForm-Small-Business-1.0.0 OR PolyForm-Noncommercial-1.0.0 OR LicenseRef-SIMAI-Commercial"
@@ -19,9 +19,9 @@
   "framework": {
     "source": {
       "repository": "simai/ui-source",
-      "revision": "5e30b946fd0e620a4d00ab771af143dc286be1b8"
+      "revision": "1b1b9ea7561030d59727d588da0990e5f5fb51e3"
     },
-    "release": "ui-73df5d1b4d4c",
+    "release": "ui-4f5678e8c0ed",
     "runtime": {
       "abi": 1,
       "modules": {
@@ -59,16 +59,16 @@
   },
   "builder": {
     "repository": "simai/ui-builder",
-    "revision": "524bf464a36aaac1029161c650218b3e43e88a1f",
+    "revision": "58fc73027f3b40a9f6fcc82f67e89542e4f1fb05",
     "clean": true
   },
   "node": "v24.21.0",
   "output": {
     "runtime_path": "smart",
     "files_count": 161,
-    "manifest_sha256": "0bf2aba25ec404c422ce169b84f238d0ba179b6a55e71289cb6b960457717c39",
+    "manifest_sha256": "cfedeabcdd98705d0fd6a0d3ea8dda4ffc70214a72eca90a7fdb405acf2c762d",
     "archive": "package-admin.tar",
-    "archive_sha256": "f9cafa030d548df97daedf4ed1aab52caddc50455c26d4113c82f94fb74add70",
+    "archive_sha256": "f9da7f0fd02b5c4c9c0993ad402182fc06ec0b4e19982552bc4dce1e57853aac",
     "archive_format": "ustar; entries sorted; owner 0:0; mtime 0; modes 0755/0644"
   },
   "required_files": [
@@ -89,8 +89,8 @@
     },
     {
       "path": "smart/admin-menu/js/admin-menu.js",
-      "sha256": "ef87e1397120eed7507d43a5b3296fec7c5cf3802d6e86ded7c4e23a3fb1c7e7",
-      "size": 390422
+      "sha256": "dc2b29da5c484cb8f281bc131cfbbb9af6ddfede31a1e060d2cd1dea89fdf9e3",
+      "size": 391696
     },
     {
       "path": "smart/admin-menu/css/admin-menu.css",
@@ -190,20 +190,20 @@
   },
   "package_reference": {
     "path": "distr/core/contracts/packages/admin.package.json",
-    "release": "ui-73df5d1b4d4c",
+    "release": "ui-4f5678e8c0ed",
     "status": "set-passport"
   },
   "set": {
     "id": "admin",
     "passport": "set.json",
-    "sha256": "c871120568f52f484cd6b4773537735c541bbe28e1992d8af3deeb33f50fa7f8",
+    "sha256": "443f02950fe7019a3f33e6f2d0e270866e3a8ea603c0abe3b9080fb594078ecf",
     "api": null,
     "families": [
       "admin"
     ],
     "framework": {
       "core_runtime": ">=1.67.0",
-      "source_revision": "5e30b946fd0e620a4d00ab771af143dc286be1b8"
+      "source_revision": "1b1b9ea7561030d59727d588da0990e5f5fb51e3"
     },
     "requires_sets": [],
     "registry": {
@@ -214,7 +214,7 @@
   "files": [
     {
       "path": "set.json",
-      "sha256": "c871120568f52f484cd6b4773537735c541bbe28e1992d8af3deeb33f50fa7f8",
+      "sha256": "443f02950fe7019a3f33e6f2d0e270866e3a8ea603c0abe3b9080fb594078ecf",
       "size": 2116
     },
     {
@@ -449,23 +449,23 @@
     },
     {
       "path": "smart/admin-menu/js/admin-menu.js",
-      "sha256": "ef87e1397120eed7507d43a5b3296fec7c5cf3802d6e86ded7c4e23a3fb1c7e7",
-      "size": 390422
+      "sha256": "dc2b29da5c484cb8f281bc131cfbbb9af6ddfede31a1e060d2cd1dea89fdf9e3",
+      "size": 391696
     },
     {
       "path": "smart/admin-menu/js/admin-menu.js.gz",
-      "sha256": "840ccfe2e939ec83db2a80e3644b7adcb826f415a577d1affb5240b905c89555",
-      "size": 106559
+      "sha256": "0328fca65e08967364e36e0ea3b4d5fa5c53dc86e0851a14d77b7b576e0783db",
+      "size": 106990
     },
     {
       "path": "smart/admin-menu/js/admin-menu.min.js",
-      "sha256": "4e80740dfd6ff8b09922d46ff3104f9aeeb954237656dde06393fb64422e26ee",
-      "size": 176590
+      "sha256": "267a18c98a6b6789927a8496f1b1b3e23d6bc3ce3667c35798649f1b74d1ce5d",
+      "size": 176626
     },
     {
       "path": "smart/admin-menu/js/admin-menu.min.js.gz",
-      "sha256": "c9c9940bc90ba0e9ec4ef1050bae58da69cb94cb601b8c7b30f9d28d0e93558c",
-      "size": 53628
+      "sha256": "8cf82f2b4d1a2a9dbd6c8f1f302796c4fae09bfe5f416bd0c67d10bbe47add8c",
+      "size": 53645
     },
     {
       "path": "smart/admin-menu/lang/ar.json",

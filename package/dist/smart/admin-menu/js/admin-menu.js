@@ -368,6 +368,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   layoutOfWidth: () => (/* binding */ layoutOfWidth),
 /* harmony export */   layoutPlace: () => (/* binding */ layoutPlace),
 /* harmony export */   markDevices: () => (/* binding */ markDevices),
+/* harmony export */   markPageLayout: () => (/* binding */ markPageLayout),
 /* harmony export */   pointerKind: () => (/* binding */ pointerKind),
 /* harmony export */   watchLayout: () => (/* binding */ watchLayout),
 /* harmony export */   watchPointer: () => (/* binding */ watchPointer)
@@ -593,8 +594,34 @@ const Device = Object.freeze({
 if (typeof globalThis !== 'undefined') {
   globalThis.SF = globalThis.SF || {};
   if (!globalThis.SF.device) globalThis.SF.device = Device;
-}
+} // The page's layout word on <html> (data-sf-layout="phone" | "desktop"),
+// written while core boots and followed on resize (DEV answer 3 on group
+// build 20): static first-paint markup printed at one width carries its
+// items' scope (data-sf-devices), and core.styles hides the other layout's
+// items by this word until their element draws -- the signal's own width,
+// PHONE_BELOW of the page, not a width rule of the sheets. One mark per
+// page: a second copy of this module finds it and leaves it.
 
+
+const LAYOUT_MARK = Symbol.for('sf.device.page-layout');
+function markPageLayout(doc = globalThis.document) {
+  const root = doc?.documentElement;
+  const view = doc?.defaultView; // One mark per page, kept on the document under a registry symbol: every
+  // bundle carries its own copy of this module, the document is shared.
+
+  if (!root || !view || doc[LAYOUT_MARK]) return;
+  doc[LAYOUT_MARK] = true;
+
+  const write = () => {
+    const word = layoutOfWidth(root.clientWidth || view.innerWidth || 0);
+    if (root.getAttribute('data-sf-layout') !== word) root.setAttribute('data-sf-layout', word);
+  };
+
+  write();
+  view.addEventListener?.('resize', write, {
+    passive: true
+  });
+}
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Device);
 
 /***/ },

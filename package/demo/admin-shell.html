@@ -9,8 +9,8 @@
 /* The set's demo: sf-admin-shell, sf-admin-notifications and sf-admin-activity over the released
    sf-admin-menu, on the admin demo host of this repository (src/ports/navigation-host.mjs,
    data/navigation.json). SIMAI Framework from ?fw=<distr base> (a candidate's distr, served beside
-   it; default the pair the set is built against, ui-73df5d1b4d4c, npm @simai-studio/ui@5.20261125.1855,
-   ui-source 5e30b946fd0e, group build 19); the set from ?set=<base> (default ../dist/smart, the released
+   it; default the pair the set is built against, ui-4f5678e8c0ed, npm @simai-studio/ui@5.20261127.1637,
+   ui-source 1b1b9ea75610, group build 20); the set from ?set=<base> (default ../dist/smart, the released
    output; a candidate's wave-1/output/package/admin/smart when served beside it).
      ?f=overview | settings | history   the screen (default overview)
      ?theme=dark                        the dark theme
@@ -28,7 +28,7 @@
   var dark = q.get('theme') === 'dark';
   document.documentElement.classList.toggle('theme-dark', dark);
   document.documentElement.classList.toggle('theme-light', !dark);
-  var base = q.get('fw') ? new URL(q.get('fw').replace(/\/?$/, '/'), location.href).href : 'https://cdn.jsdelivr.net/npm/@simai-studio/ui@5.20261125.1855/distr/';
+  var base = q.get('fw') ? new URL(q.get('fw').replace(/\/?$/, '/'), location.href).href : 'https://cdn.jsdelivr.net/npm/@simai-studio/ui@5.20261127.1637/distr/';
   var set = new URL(q.get('set') || '../dist/smart', location.href).href;
   window.__errs = [];
   addEventListener('error', function (e) { window.__errs.push(String(e.message || e)); });
@@ -36,7 +36,7 @@
   window.__cls = 0;
   try { new PerformanceObserver(function (l) { l.getEntries().forEach(function (e) { if (!e.hadRecentInput) window.__cls += e.value; }); }).observe({type: 'layout-shift', buffered: true}); } catch (e) {}
   window.sfPath = base; window.sfSmartPath = base.slice(0, -1);
-  window.SF_BOOT_CONFIG = {theme: false, smart: {base: true}, minified: true, preloader: {enabled: false}, packages: {admin: {base: set, version: '1.2.2'}}};
+  window.SF_BOOT_CONFIG = {theme: false, smart: {base: true}, minified: true, preloader: {enabled: false}, packages: {admin: {base: set, version: '1.2.3'}}};
   document.write('<link rel="stylesheet" href="' + base + 'core/css/core.css">');
   document.write('<script defer src="' + base + 'core/lang/ru.js"><\/script>');
   document.write('<script defer src="' + base + 'core/js/smart-base.js"><\/script><script defer src="' + base + 'core/js/core.js"><\/script>');
